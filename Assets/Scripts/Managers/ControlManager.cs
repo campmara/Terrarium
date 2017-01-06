@@ -3,18 +3,74 @@ using System.Collections;
 using System.Collections.Generic;
 using InControl;
 
+public class InputCollection : PlayerActionSet
+{
+	public PlayerAction AButton;
+	public PlayerAction BButton;
+	public PlayerAction XButton;
+	public PlayerAction YButton;
+
+	public PlayerAction LeftStickLeft;
+	public PlayerAction LeftStickRight;
+	public PlayerAction LeftStickDown;
+	public PlayerAction LeftStickUp;
+
+	public PlayerAction RightStickLeft;
+	public PlayerAction RightStickRight;
+	public PlayerAction RightStickDown;
+	public PlayerAction RightStickUp;
+
+	public PlayerOneAxisAction LeftStickX;
+	public PlayerOneAxisAction LeftStickY;
+	public PlayerOneAxisAction RightStickX;
+	public PlayerOneAxisAction RightStickY;
+
+	public InputCollection()
+	{
+		AButton = CreatePlayerAction("A Button");
+		BButton = CreatePlayerAction("B Button");
+		XButton = CreatePlayerAction("X Button");
+		YButton = CreatePlayerAction("Y Button");
+
+		LeftStickLeft = CreatePlayerAction("Left Stick Left");
+		LeftStickRight = CreatePlayerAction("Left Stick Right");
+		LeftStickDown = CreatePlayerAction("Left Stick Down");
+		LeftStickUp = CreatePlayerAction("Left Stick Up");
+
+		RightStickLeft = CreatePlayerAction("Right Stick Left");
+		RightStickRight = CreatePlayerAction("Right Stick Right");
+		RightStickDown = CreatePlayerAction("Right Stick Down");
+		RightStickUp = CreatePlayerAction("Right Stick Up");
+
+		LeftStickX = CreateOneAxisPlayerAction(LeftStickLeft, LeftStickRight);
+		LeftStickY = CreateOneAxisPlayerAction(LeftStickDown, LeftStickUp);
+		RightStickX = CreateOneAxisPlayerAction(RightStickLeft, RightStickRight);
+		RightStickY = CreateOneAxisPlayerAction(RightStickDown, RightStickUp);
+
+		// ADD BINDINGS
+		AButton.AddDefaultBinding(InputControlType.Action1);
+		BButton.AddDefaultBinding(InputControlType.Action2);
+		XButton.AddDefaultBinding(InputControlType.Action3);
+		YButton.AddDefaultBinding(InputControlType.Action4);
+
+		LeftStickLeft.AddDefaultBinding(InputControlType.LeftStickLeft);
+		LeftStickRight.AddDefaultBinding(InputControlType.LeftStickRight);
+		LeftStickDown.AddDefaultBinding(InputControlType.LeftStickDown);
+		LeftStickUp.AddDefaultBinding(InputControlType.LeftStickUp);
+
+		RightStickLeft.AddDefaultBinding(InputControlType.RightStickLeft);
+		RightStickRight.AddDefaultBinding(InputControlType.RightStickRight);
+		RightStickDown.AddDefaultBinding(InputControlType.RightStickDown);
+		RightStickUp.AddDefaultBinding(InputControlType.RightStickUp);
+	}
+}
+
 public class ControlManager : SingletonBehaviour<ControlManager> 
 {
 	private HashSet<InputDevice> _devices;
 
-	public delegate Vector3 InputPositionDelegate();
-	public InputPositionDelegate _getInputPos = null;
-	public InputPositionDelegate _getInputWorldPos = null;
-
-	public delegate bool InputCheckDelegate();
-	public InputCheckDelegate _getInputDown = null;
-	public InputCheckDelegate _getInputUp = null;
-	public InputCheckDelegate _getInput = null;
+	public delegate InputCollection InputCollectionDelegate();
+	public InputCollectionDelegate getInput = null;
 
 	private float _screenHeight;
 	public float ScreenHeight { get { return _screenHeight; } }
@@ -91,20 +147,8 @@ public class ControlManager : SingletonBehaviour<ControlManager>
 	/// </summary>
 	private void AssignInputDelegates()
 	{
-		#if (UNITY_EDITOR || UNITY_STANDALONE)
-		Debug.Log("Initialized Input Delegates for EDITOR/STANDALONE");
-		_getInputPos = () => Input.mousePosition;
-		_getInputDown = () => Input.GetMouseButtonDown(0);
-		_getInputUp = () => Input.GetMouseButtonUp(0);
-		_getInput = () => Input.GetMouseButton(0);
-		#elif !(UNITY_EDITOR || UNITY_STANDALONE) && ((UNITY_IOS || UNITY_ANDROID))
-		Debug.Log("Initialized Input Delegates for IOS");
-		_getInputPos = () => TouchManager.GetTouch(0).position;        
-		_getInputDown = () => TouchManager.TouchCount > 0 && TouchManager.GetTouch(0).phase == TouchPhase.Began;
-		_getInputUp = () => TouchManager.TouchCount > 0 && TouchManager.GetTouch(0).phase == TouchPhase.Ended;
-		_getInput = () => TouchManager.TouchCount > 0;
-		#endif
-		_getInputWorldPos = () => Camera.main.ScreenToWorldPoint(this._getInputPos());
+		InputCollection input = new InputCollection();
+		getInput = () => input;
 	}
 
 	public bool PingActiveDevicesForSpecificInput(InputControlType action)
