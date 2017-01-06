@@ -4,14 +4,14 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
-  productGUID: 73e45e90b01884e18b27b5e985dc79e3
+  productGUID: 25957c80dae4e479f80169a962d00b16
   AndroidProfiler: 0
   defaultScreenOrientation: 4
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: Terrarium
+  productName: PrepCapstoneToolsTest
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13333334, g: 0.17254902, b: 0.21176471, a: 1}
@@ -282,7 +282,7 @@ PlayerSettings:
   ps4ApplicationParam4: 0
   ps4DownloadDataSize: 0
   ps4GarlicHeapSize: 2048
-  ps4Passcode: JvFZGfO47XWS2qVOw5lxuBEBNue7b9PZ
+  ps4Passcode: qmWqBlQ9wQj99nsQzldVI5ZuGXbEWRK5
   ps4UseDebugIl2cppLibs: 0
   ps4pnSessions: 1
   ps4pnPresence: 1
@@ -326,7 +326,7 @@ PlayerSettings:
   psp2LiveAreaTrialPath: 
   psp2PatchChangeInfoPath: 
   psp2PatchOriginalPackage: 
-  psp2PackagePassword: S0hoI6pgabi9UOuSpM2Tlh01vOzwvSik
+  psp2PackagePassword: RhRXdCdG5nG5azdNMK66MuCV6GXi5xr8
   psp2KeystoneFile: 
   psp2MemoryExpansionMode: 0
   psp2DRMType: 0
@@ -378,14 +378,14 @@ PlayerSettings:
   additionalIl2CppArgs: 
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: Terrarium
+  metroPackageName: PrepCapstoneToolsTest
   metroPackageVersion: 
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
   metroCertificateIssuer: 
   metroCertificateNotAfter: 0000000000000000
-  metroApplicationDescription: Terrarium
+  metroApplicationDescription: PrepCapstoneToolsTest
   wsaImages: {}
   metroTileShortName: 
   metroCommandLineArgsFile: 
@@ -452,9 +452,8 @@ PlayerSettings:
   XboxOneAllowedProductIds: []
   XboxOnePersistentLocalStorageSize: 0
   vrEditorSettings: {}
-  cloudServicesEnabled:
-    UNet: 1
-  cloudProjectId: 652b8f76-e2f3-4dff-b915-f71b87ad98e3
-  projectName: Terrarium
-  organizationId: murrayirc
+  cloudServicesEnabled: {}
+  cloudProjectId: 
+  projectName: 
+  organizationId: 
   cloudEnabled: 0
