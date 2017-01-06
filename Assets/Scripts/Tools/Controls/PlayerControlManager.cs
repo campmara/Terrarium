@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using InControl;
 
-public class PlayerControlManager : MonoBehaviour {
-
+public class PlayerControlManager : MonoBehaviour 
+{
 	private ControllerBase _activeController = null;
 
 	private InputDevice _playerInputDevice = null;
 	public InputDevice PlayerDevice { get { return _playerInputDevice; } set { _playerInputDevice = value; } }
 
-	void Awake () 
+	void Awake ()
 	{
 		// Initialize Controller being used
 		//SetActiveController<TrapJumpController>();
