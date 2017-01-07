@@ -5,10 +5,10 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class RollerController : ControllerBase 
 {
-	public const float WALK_SPEED = 0.075f;
-	public const float ROLL_SPEED = 1f;
-
 	[ReadOnly] public Rigidbody rigidbody;
+
+	public GameObject leftArmBlock;
+	public GameObject rightArmBlock;
 
 	RollerState currentState;
 	public void ChangeState(RollerState newState)
@@ -24,7 +24,7 @@ public class RollerController : ControllerBase
 
 	void Awake()
 	{
-		Debug.Log("Added Test Controller to Player Control Manager");
+		//Debug.Log("Added Test Controller to Player Control Manager");
 
 		ChangeState(RollerState.Walking);
 
@@ -33,13 +33,13 @@ public class RollerController : ControllerBase
 
 	void OnEnable()
 	{
-		Debug.Log("Enabled Test Controller on Player Control Manager");
+		//Debug.Log("Enabled Test Controller on Player Control Manager");
 	}
 
 	// Also called on Destroy
 	void OnDisable()
 	{
-		Debug.Log("Disabled Test Controller on Player Control Manager");	
+		//Debug.Log("Disabled Test Controller on Player Control Manager");	
 	}
 
 	protected override void HandleInput()

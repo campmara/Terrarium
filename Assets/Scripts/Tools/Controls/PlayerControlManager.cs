@@ -14,7 +14,7 @@ public class PlayerControlManager : MonoBehaviour
 	{
 	}
 
-	void Update () 
+	void FixedUpdate () 
 	{
 		if (_activeController != null)
 		{
@@ -26,7 +26,7 @@ public class PlayerControlManager : MonoBehaviour
 	public void Initialize()
 	{
 		// Initialize Controller being used
-		SetActiveController<InactiveController>();
+		SetActiveController<RollerController>();
 	}
 
 	/// <summary>
@@ -56,7 +56,15 @@ public class PlayerControlManager : MonoBehaviour
 		}
 		else
 		{
-			_activeController = (ControllerBase)this.gameObject.AddComponent(typeof(T));
+			if (GetComponent(typeof(T)))
+			{
+				_activeController = (ControllerBase)this.gameObject.GetComponent(typeof(T));
+			}
+			else
+			{
+				_activeController = (ControllerBase)this.gameObject.AddComponent(typeof(T));
+			}
+			
 		}
 	}
 }

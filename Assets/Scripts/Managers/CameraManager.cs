@@ -10,7 +10,7 @@ public class CameraManager : SingletonBehaviour<CameraManager> {
 		FOLLOWPLAYER_FREE,
 		FOLLOWPLAYER_LOCKED
 	}
-	CameraState _state = CameraState.FOLLOWPLAYER_FREE;
+	CameraState _state = CameraState.NONE;
 
 	[SerializeField, ReadOnlyAttribute] private Camera _mainCam = null;
 	public Camera Main { get { return _mainCam; } }
