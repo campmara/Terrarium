@@ -19,7 +19,8 @@ public class GameManager : MonoBehaviour
 	{
 		NONE = 0,
 		INIT,
-		INTRO			// Wait for player input to start match
+		INTRO,			// Wait for player input to start match
+		MAIN
 	}
 
 	[SerializeField] private GameState _state;
@@ -163,6 +164,10 @@ public class GameManager : MonoBehaviour
 
 		yield return new WaitUntil( () => ControlManager.instance.IsInitialized );
 
+		PlayerManager.instance.Initialize();
+
+		yield return new WaitUntil( () => PlayerManager.instance.IsInitialized );
+
 		AudioManager.instance.Initialize();
 
 		yield return new WaitUntil( () => AudioManager.instance.IsInitialized );
@@ -171,7 +176,7 @@ public class GameManager : MonoBehaviour
 
 		yield return new WaitUntil( () => CameraManager.instance.IsInitialized );
 
-        ChangeGameState(GameState.INTRO);
+        ChangeGameState(GameState.MAIN);
 
 	}
 

@@ -67,19 +67,19 @@ public class InputCollection : PlayerActionSet
 
 public class ControlManager : SingletonBehaviour<ControlManager> 
 {
-	private HashSet<InputDevice> _devices;
+	HashSet<InputDevice> _devices;
 
 	public delegate InputCollection InputCollectionDelegate();
 	public InputCollectionDelegate getInput = null;
 
-	private float _screenHeight;
+	float _screenHeight;
 	public float ScreenHeight { get { return _screenHeight; } }
-	private float _screenWidth;
+	float _screenWidth;
 	public float ScreenWidth { get { return _screenWidth; } }
-	private float _screenDiagonal = 0.0f;
+	float _screenDiagonal = 0.0f;
 	public float ScreenDiag { get { return _screenDiagonal; } }
 
-	private TouchManager _touchManager = null;
+	TouchManager _touchManager = null;
 
 	void Awake()
 	{
@@ -91,7 +91,7 @@ public class ControlManager : SingletonBehaviour<ControlManager>
 
 		_screenWidth = Camera.main.pixelWidth;
 		_screenHeight = Camera.main.pixelHeight;
-		_screenDiagonal = Mathf.Sqrt( ( ( _screenWidth * _screenWidth ) + ( _screenHeight + _screenHeight ) ) );
+		_screenDiagonal = Mathf.Sqrt( ( ( _screenWidth * _screenWidth ) + ( _screenHeight * _screenHeight ) ) );
 
 		this.gameObject.AddComponent<InControlManager>();
 
