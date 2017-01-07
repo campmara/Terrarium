@@ -20,6 +20,7 @@ public class TestController : ControllerBase {
 		Debug.Log("Disabled Test Controller on Player Control Manager");	
 	}
 
+	/*
 	protected override void HandleGetInput ()
 	{
 	}
@@ -31,4 +32,5 @@ public class TestController : ControllerBase {
 	protected override void HandleGetInputUp ()
 	{
 	}
+	*/
 }
