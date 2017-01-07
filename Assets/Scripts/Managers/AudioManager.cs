@@ -80,9 +80,6 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 
 	public enum AudioControllerNames
 	{
-		SFX = 0,
-		MUSIC,
-		SQUAWK
 	}
 	[SerializeField] private List<AudioController> _audioControllerList = new List<AudioController>();
 
