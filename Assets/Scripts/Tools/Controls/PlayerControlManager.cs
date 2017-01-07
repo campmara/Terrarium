@@ -13,7 +13,7 @@ public class PlayerControlManager : MonoBehaviour
 	void Awake ()
 	{
 		// Initialize Controller being used
-		//SetActiveController<TrapJumpController>();
+		SetActiveController<InactiveController>();
 	}
 
 	void Update () 
