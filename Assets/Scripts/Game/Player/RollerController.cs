@@ -10,23 +10,19 @@ public class RollerController : ControllerBase
 	public GameObject leftArmBlock;
 	public GameObject rightArmBlock;
 
+	// STATE STUFF
 	RollerState currentState;
-	public void ChangeState(RollerState newState)
+	public void ChangeState(RollerState fromState, RollerState toState)
 	{
-		if (currentState != null)
-		{
-			currentState.Exit(this);
-		}
-
-		currentState = newState;
+		fromState.Exit();
+		currentState = toState;
 		currentState.Enter(this);
 	}
 
 	void Awake()
 	{
 		//Debug.Log("Added Test Controller to Player Control Manager");
-
-		ChangeState(RollerState.Walking);
+		ChangeState(new RollerState(), RollerState.Walking);
 
 		rigidbody = GetComponent<Rigidbody>();
 	}
@@ -44,6 +40,6 @@ public class RollerController : ControllerBase
 
 	protected override void HandleInput()
 	{
-		currentState.HandleInput(this, input);
+		currentState.HandleInput(input);
 	}
 }
