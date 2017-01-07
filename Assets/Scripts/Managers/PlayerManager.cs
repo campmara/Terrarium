@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class PlayerManager : SingletonBehaviour<PlayerManager> {
 
-	[SerializeField] private Player _player = null;
+	[SerializeField] Player _player = null;
 	public Player Player { get { return _player; } }
 
 	public override void Initialize ()
 	{
+		if( _player != null)
+		{
+			_player.Initialize();
+		}
+
 		isInitialized = true;
 	}
 

@@ -5,21 +5,28 @@ using InControl;
 
 public class PlayerControlManager : MonoBehaviour 
 {
-	private ControllerBase _activeController = null;
+	ControllerBase _activeController = null;
 
-	private InputDevice _playerInputDevice = null;
+	InputDevice _playerInputDevice = null;
 	public InputDevice PlayerDevice { get { return _playerInputDevice; } set { _playerInputDevice = value; } }
 
 	void Awake ()
 	{
-		// Initialize Controller being used
-		SetActiveController<InactiveController>();
 	}
 
 	void Update () 
 	{
-		// Process Input on Active Controller
-		_activeController.UpdateController();
+		if (_activeController != null)
+		{
+			// Process Input on Active Controller
+			_activeController.UpdateController();	
+		}
+	}
+
+	public void Initialize()
+	{
+		// Initialize Controller being used
+		SetActiveController<InactiveController>();
 	}
 
 	/// <summary>

@@ -16,16 +16,18 @@ public class CameraManager : SingletonBehaviour<CameraManager> {
 	public Camera Main { get { return _mainCam; } }
 
 	public float CamPixelWidth { get { return _mainCam.pixelWidth; } }
-	private float CamPixelHeight { get { return _mainCam.pixelHeight; } }
+	public float CamPixelHeight { get { return _mainCam.pixelHeight; } }
 
 	#region Player Camera Variables
 	[Header("Player Cam Variables"), Space(5)]
 	[SerializeField, ReadOnlyAttribute]private Transform _focusTransform = null;
 
-	private Vector3 _camOffsetPosition = Vector3.zero;
-	private const float CAM_FOLLOWSPEED = 15.0f;
+	private Vector3 _camOffset = Vector3.zero;
+	const float CAM_FOLLOWSPEED = 15.0f;
 
-	private const float CAM_FOV = 90;
+	const float CAM_ROTSPEED = 25.0f;
+
+	const float CAM_FOV = 90;
 
 	#endregion
 
@@ -74,7 +76,9 @@ public class CameraManager : SingletonBehaviour<CameraManager> {
 			// Moves Camera
 			if (_focusTransform)
 			{
-				_mainCam.transform.position = Vector3.Lerp (_mainCam.transform.position, _focusTransform.transform.position + _camOffsetPosition, CAM_FOLLOWSPEED * Time.fixedDeltaTime);
+				_mainCam.transform.position = Vector3.Lerp (_mainCam.transform.position, _focusTransform.transform.position + _camOffset, CAM_FOLLOWSPEED * Time.fixedDeltaTime);
+
+				_mainCam.transform.RotateAround( _focusTransform.position, Vector3.up, CAM_ROTSPEED * ControlManager.instance.getInput().RightStickX * Time.deltaTime );
 
 				_mainCam.transform.LookAt(_focusTransform);
 			}
@@ -84,6 +88,5 @@ public class CameraManager : SingletonBehaviour<CameraManager> {
 
 	private void HandeGameStateChanged(GameManager.GameState newState, GameManager.GameState prevState)
 	{
-		
 	}
 }
