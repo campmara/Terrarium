@@ -10,12 +10,16 @@ public class RollingState : RollerState
 	const float SLOWDOWN_RATE = 10f;
 	const float X_INPUT_DEADZONE = 0.3f;
 
+	RollerController roller;
+
 	Vector3 lastInputVec = Vector3.zero;
 	float velocity = 0f;
 
-	public override void Enter(RollerController roller)
+	public override void Enter(RollerController parent)
 	{
 		Debug.Log("ENTER ROLLING STATE");
+
+		roller = parent;
 
 		Vector3 posL = roller.transform.position + -roller.transform.right + (roller.transform.up * 0.5f);
 		roller.leftArmBlock.transform.DOMove(posL, 1f);
@@ -24,21 +28,24 @@ public class RollingState : RollerState
 		roller.rightArmBlock.transform.DOMove(posR, 1f);
 	}
 
-	public override void Exit(RollerController roller)
+	public override void Exit()
 	{
 		Debug.Log("EXIT ROLLING STATE");
 	}
 
-	public override void HandleInput(RollerController roller, InputCollection input)
+	public override void HandleInput(InputCollection input)
 	{
 		if (input.AButton.WasPressed)
 		{
 
 		}
 
-		if (input.BButton.WasPressed)
+		/*
+			B BUTTON
+		*/
+		if (input.BButton.WasPressed & input.BButton.HasChanged)
 		{
-			roller.ChangeState(RollerState.Walking);
+			roller.ChangeState(RollerState.Rolling, RollerState.Walking);
 		}
 
 		// MOVEMENT HANDLING
