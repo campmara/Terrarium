@@ -306,6 +306,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mainCam: {fileID: 0}
   _focusTransform: {fileID: 0}
+  zoomXRange: {x: 4, y: 10}
+  zoomYRange: {x: 2, y: 15}
 --- !u!1 &906387521
 GameObject:
   m_ObjectHideFlags: 0
