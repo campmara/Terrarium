@@ -3,11 +3,20 @@ using System.Collections;
 
 public static class JohnTech
 {
+    /// <summary>
+    /// Returns the square of val.
+    /// </summary>
+    /// <param name="val"></param>
+    /// <returns></returns>
+    public static float Sqr(float val) 
+    {
+        return val * val;
+    }
 
-	/// <summary>
-	/// True/False Coin Flip
-	/// </summary>
-	public static bool CoinFlip()
+    /// <summary>
+    /// True/False Coin Flip
+    /// </summary>
+    public static bool CoinFlip()
 	{
 		return UnityEngine.Random.value < 0.5f;
 	}
