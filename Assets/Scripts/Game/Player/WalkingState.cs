@@ -66,6 +66,7 @@ public class WalkingState : RollerState
 
 		/*
 			LEFT STICK MOVEMENT
+            Only Moving on X & Z axis
 		*/
 		Vector3 inputVec = new Vector3
 		(
@@ -74,6 +75,10 @@ public class WalkingState : RollerState
 			input.LeftStickY
 		);
 
+        // Accounting for camera position
+        inputVec = CameraManager.instance.Main.transform.TransformDirection(inputVec);
+        inputVec.y = 0.0f;
+        
 		if (Mathf.Abs(input.LeftStickX.Value) > INPUT_DEADZONE || Mathf.Abs(input.LeftStickY.Value) > INPUT_DEADZONE)
 		{
 			velocity = WALK_SPEED;

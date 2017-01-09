@@ -25,6 +25,8 @@ public class InputCollection : PlayerActionSet
 	public PlayerOneAxisAction RightStickX;
 	public PlayerOneAxisAction RightStickY;
 
+    public PlayerAction RightStickButton;
+
 	public InputCollection()
 	{
 		AButton = CreatePlayerAction("A Button");
@@ -47,8 +49,10 @@ public class InputCollection : PlayerActionSet
 		RightStickX = CreateOneAxisPlayerAction(RightStickLeft, RightStickRight);
 		RightStickY = CreateOneAxisPlayerAction(RightStickDown, RightStickUp);
 
-		// ADD BINDINGS
-		AButton.AddDefaultBinding(InputControlType.Action1);
+        RightStickButton = CreatePlayerAction("Right Stick Button");
+
+        // ADD BINDINGS
+        AButton.AddDefaultBinding(InputControlType.Action1);
 		BButton.AddDefaultBinding(InputControlType.Action2);
 		XButton.AddDefaultBinding(InputControlType.Action3);
 		YButton.AddDefaultBinding(InputControlType.Action4);
@@ -62,6 +66,8 @@ public class InputCollection : PlayerActionSet
 		RightStickRight.AddDefaultBinding(InputControlType.RightStickRight);
 		RightStickDown.AddDefaultBinding(InputControlType.RightStickDown);
 		RightStickUp.AddDefaultBinding(InputControlType.RightStickUp);
+
+        RightStickButton.AddDefaultBinding(InputControlType.RightStickButton);
 	}
 }
 
