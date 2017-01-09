@@ -14,7 +14,7 @@ public class PlayerControlManager : MonoBehaviour
 	{
 	}
 
-	void Update () 
+	void FixedUpdate () 
 	{
 		if (_activeController != null)
 		{
