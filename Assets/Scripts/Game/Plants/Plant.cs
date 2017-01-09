@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Plant : MonoBehaviour 
+public class Plant : Pickupable
 {
 	public enum PlantType
 	{
@@ -21,25 +21,21 @@ public class Plant : MonoBehaviour
 	};
 
 	[SerializeField] List<Mesh> _plantMeshes = new List<Mesh>();
-	float _neededGrowRadius = 0.0f;
+	float _neededGrowRadius = 0.0f; // calculated from mesh you're growing into
 
-	const float _growthRate = 0.00000166f; //  this is 1/60 as standard rate
+	const float _baseGrowthRate = 1.0f;
 	const float _waterMultiplier = 3.0f;
-	float _curGrowthRate = 4.6f;
+	float [] growthTime = new float[]{ 3.0f, 3.5f, 4.0f, 5.0f, 6.0f }; // USE THIS TO TWEAK DURATION OF STAGES 
+
+	float _curGrowthRate = 0.0f;
 	float _curGrowTime = 0.0f;
-
-	float [] growthTime = new float[]{ 1.0f, 1.5f, 3.0f, 4.0f, 5.0f };
-
 
 	GrowthStage _curStage = GrowthStage.Unplanted;
 	public GrowthStage CurStage { get { return _curStage; } }
 
-
-	//Animations we can either drag and drop or just load in 
-	Animation _curAnim =  null;
-
-	void Awake()
+	protected override void Awake()
 	{
+		base.Awake();
 		InitPlant();
 	}
 
@@ -59,7 +55,7 @@ public class Plant : MonoBehaviour
 	void DetermineTreeSpaceNeeds()
 	{
 		// calculate the radius plants absolutely need to grow
-		Vector3 size = GetComponent<Collider>().bounds.size;
+		Vector3 size = GetComponentInChildren<MeshCollider>().bounds.size;
 		float largestComponent = size.x;
 
 		if( size.z > size.x )
@@ -72,15 +68,13 @@ public class Plant : MonoBehaviour
 
 	void GrowPlant()
 	{
-		ScalePlant();
-
-		//_plantObjects[0].GetComponent<Animation>().
+		TimeBasedPlanting(); // once we have animations to implement 
 	}
 
-	void ScalePlant()
+	void TimeBasedPlanting()
 	{
 		//keep moving forward at certain rate 
-		if( _curGrowTime >= growthTime[(int)_curStage])
+		if( _curGrowTime >= growthTime[ (int)_curStage ] )
 		{
 			TryTransitionStages();
 		}
@@ -92,9 +86,8 @@ public class Plant : MonoBehaviour
 
 	void ResetPlant()
 	{
-		_curGrowthRate = _growthRate;
-
-
+		_curGrowthRate = _baseGrowthRate;
+		_curGrowTime = 0.0f;
 	}
 
 	bool TryTransitionStages()
@@ -133,12 +126,22 @@ public class Plant : MonoBehaviour
 		return false;
 	}
 		
-	public bool TryDrop()
+	public override void DropSelf()
 	{
-		return TryTransitionStages();
+		base.DropSelf();
+		// if the plant can grow, let it
+		if( TryTransitionStages() )
+		{
+			SituatePlant();
+		}
 	}
 
-	public bool TryPickUp()
+	public override void OnPickup()
+	{
+		ResetPlant();
+	}
+
+	public bool CanPickup()
 	{
 		return ( _curStage == GrowthStage.Unplanted );
 	}
@@ -160,8 +163,7 @@ public class Plant : MonoBehaviour
 			_curStage += 1; // they are int enums so we can just increment
 			_curGrowTime = 0.0f;
 		}
-
-
+			
 		UpdateMeshData();
 	}
 		
@@ -179,9 +181,16 @@ public class Plant : MonoBehaviour
 
 	void UpdateMeshData()
 	{
-		GetComponent<MeshFilter>().mesh = _plantMeshes[(int)_curStage];
-		GetComponent<MeshCollider>().sharedMesh = _plantMeshes[(int)_curStage];
+		GetComponentInChildren<MeshFilter>().mesh = _plantMeshes[(int)_curStage];
+		GetComponentInChildren<MeshCollider>().sharedMesh = _plantMeshes[(int)_curStage];
 
 		DetermineTreeSpaceNeeds();
+	}
+
+	void SituatePlant()
+	{
+		_rigidbody.freezeRotation = true;
+		transform.localScale = Vector3.one * 3.0f;
+		transform.rotation = Quaternion.Euler(Vector3.zero);
 	}
 }

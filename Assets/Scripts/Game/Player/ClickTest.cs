@@ -19,14 +19,7 @@ public class ClickTest : MonoBehaviour
 			if (Physics.Raycast (ray, out hit, 100.0f))
 			{
 				Debug.Log(hit.collider.name);
-				Plant newSeed = GameObject.Instantiate( seed, hit.point, Quaternion.identity ).GetComponent<Plant>();
-				if(newSeed)
-				{
-					if( !newSeed.TryDrop() )
-					{
-						Destroy( newSeed.gameObject );
-					}
-				}
+				GameObject.Instantiate( seed, hit.point, Quaternion.identity);
 			}
 		}
 	}

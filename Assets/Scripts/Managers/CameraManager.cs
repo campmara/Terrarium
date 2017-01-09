@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraManager : SingletonBehaviour<CameraManager> {
-
+public class CameraManager : SingletonBehaviour<CameraManager> 
+{
 	public enum CameraState
 	{
 		NONE = 0,
@@ -17,17 +17,20 @@ public class CameraManager : SingletonBehaviour<CameraManager> {
 
 	public float CamPixelWidth { get { return _mainCam.pixelWidth; } }
 	public float CamPixelHeight { get { return _mainCam.pixelHeight; } }
+    private Vector2 _screenCenter = Vector2.zero;
 
 	#region Player Camera Variables
 	[Header("Player Cam Variables"), Space(5)]
 	[SerializeField, ReadOnlyAttribute] Transform _focusTransform = null;
 
 	Vector3 _camOffset = Vector3.zero;      // Direction from focus to Camera  
-    const float OFFSET_MOVESPEED = 7.5f;    // Smooths out some rotation/zoom/refocus stuff
-    Vector3 _focusCenter = Vector3.zero;    // Center of focal point following player
+    
+    Vector3 _focusPoint = Vector3.zero;    // Center of focal point following player
+    Vector3 _focusOffset = Vector3.zero;    //
     float _centerDist = 0.0f;               // Current distance of focusCenter from transform
-    const float CAM_FOLLOWSPEED = 7.5f;
-    const float CAM_FOLLOW_BOUNDARYSIZE = 2.0f; // Distance for player to move from center for cam focus to start following
+    const float CAM_FOLLOWSPEED = 3f;
+	const float CAM_CENTER_UPDATE_SPEED = 12f;
+    const float BOUNDING_RADIUS = 3.0f;         // Distance for player to move from center for cam focus to start following
 
     Vector2 _camInputVals = Vector2.zero;
 	const float CAM_ROTSPEED = 65.0f;
@@ -41,8 +44,11 @@ public class CameraManager : SingletonBehaviour<CameraManager> {
     Vector2 zoomXRange = new Vector2(4.0f, 10.0f);
 	const float ZOOM_YDELTA = 2.0f;
     Vector2 zoomYRange = new Vector2(2.0f, 15.0f);
+    const float ZOOM_DELTASPEED = 10.0f;    // Smooths out some rotation/zoom/refocus stuff
 
-	const float CAM_FOV = 90;
+	const float LOCKED_ZOOMINTERP = 0.15f;
+
+    const float CAM_FOV = 90;
 
 	#endregion
 
@@ -61,7 +67,9 @@ public class CameraManager : SingletonBehaviour<CameraManager> {
 
 		_mainCam.fieldOfView = CAM_FOV;
 
-		isInitialized = true;
+        _screenCenter = new Vector2(Screen.width / 2, Screen.height / 2);
+
+        isInitialized = true;
 	}
 
 	// Use this for initialization
@@ -88,6 +96,9 @@ public class CameraManager : SingletonBehaviour<CameraManager> {
 		case CameraState.FOLLOWPLAYER_FREE:
 			HandleFreePlayerCamera();
 			break;
+		case CameraState.FOLLOWPLAYER_LOCKED:
+			HandleLockedPlayerCamera();
+			break;
 		default:
 			break;
 		}
@@ -100,7 +111,7 @@ public class CameraManager : SingletonBehaviour<CameraManager> {
 			// Moves Camera
 			if ( _focusTransform != null )
 			{              
-                if( ControlManager.instance.getInput().RightStickButton ) 
+                if( ControlManager.instance.getInput().RightStickButton.IsPressed ) 
                 {
                     ResetCameraOffset();
                 }
@@ -116,65 +127,167 @@ public class CameraManager : SingletonBehaviour<CameraManager> {
 				}
 
 				// Calculate Camera Positioning
-				DetermineCameraZoom();
+				DetermineCameraZoom( _zoomInterp );
 
-                // move focus center
-                _focusCenter = Vector3.Lerp( _focusCenter, _focusTransform.position, CAM_FOLLOWSPEED * Time.fixedDeltaTime);
+                // Determine if player in screen bounding circle and move focus center
+                _focusPoint = UpdateFocusPoint();
 
                 // Move towards new focus center                
-                _mainCam.transform.position = _focusCenter + _camOffset;
+                _mainCam.transform.position = Vector3.Lerp(_mainCam.transform.position, _focusPoint + _camOffset, CAM_FOLLOWSPEED * Time.fixedDeltaTime);
 
                 // Rotate Around Camera around player if Right stick horizontal movement
                 //      Done After b/c cam stutters if done before position change
                 if (Mathf.Abs(_camInputVals.x) > ZOOM_X_DEADZONE)
                 {
-                    _mainCam.transform.RotateAround( _focusCenter, Vector3.up, CAM_ROTSPEED * _camInputVals.x * Time.fixedDeltaTime );
-                    _camOffset = _mainCam.transform.position - _focusCenter;
-                    //_camOffset = Vector3.Lerp( _camOffset, _mainCam.transform.position - _focusCenter, OFFSET_MOVESPEED * Time.fixedDeltaTime );
+                    _mainCam.transform.RotateAround( _focusPoint, Vector3.up, CAM_ROTSPEED * _camInputVals.x * Time.fixedDeltaTime );
+                    _camOffset = _mainCam.transform.position - _focusPoint;                   
                 }
 
-                _mainCam.transform.LookAt( _focusCenter );	
+                _mainCam.transform.LookAt( _focusPoint );	
+			}
+
+		}
+	}
+
+
+	private void HandleLockedPlayerCamera()
+	{
+		if( _mainCam != null )
+		{
+			// Moves Camera
+			if ( _focusTransform != null )
+			{              
+				PositionCameraBehindFocus();
+
+				_camInputVals.y = ControlManager.instance.getInput().RightStickY;              
+
+				// Determine New Zoom Interp level if right stick input
+				if ( Mathf.Abs(_camInputVals.y) > ZOOM_Y_DEADZONE )
+				{			
+					_zoomInterp = Mathf.Clamp01( _zoomInterp + ( ZOOM_SPEED * -_camInputVals.y * Time.fixedDeltaTime) );
+				}
+					
+				// Calculate Camera Positioning
+				DetermineCameraZoom( _zoomInterp );
+
+				// Move towards new focus center                
+				_mainCam.transform.position = Vector3.Lerp(_mainCam.transform.position, _focusPoint + _camOffset, CAM_FOLLOWSPEED * Time.fixedDeltaTime);
+
+				_mainCam.transform.LookAt( _focusPoint );	
 			}
 
 		}
 	}
 
     /// <summary>
-    /// Determines Position of Camera offset based on current direction from focus transform and the curr zoom value
+    /// Based on Murray's code from here: https://raw.githubusercontent.com/MurrayIRC/frog/master/Assets/Scripts/Actors/Player/PlayerCamera.cs
     /// </summary>
-	private void DetermineCameraZoom()
-	{
-		// Determine new x/z offset positions
-		Vector2 xOffset = new Vector2( _camOffset.x, _camOffset.z ).normalized;	// Gets flat offset direction
-		xOffset *= Mathf.Lerp( zoomXRange.x, zoomXRange.y, _zoomInterp );
+    /// <returns></returns>
+    private Vector3 UpdateFocusPoint()
+    {
+        //Vector2 focusScreenPoint = _mainCam.WorldToScreenPoint(_focusTransform.position);
+        //Vector2 distance = focusScreenPoint - _screenCenter;
 
-		// Set new offset position
-		_camOffset.x = Mathf.Lerp( _camOffset.x, xOffset.x, OFFSET_MOVESPEED * Time.fixedDeltaTime );
-		_camOffset.y = Mathf.Lerp( _camOffset.y, Mathf.Lerp( zoomYRange.x, zoomYRange.y, _zoomInterp), OFFSET_MOVESPEED * Time.fixedDeltaTime );
-		_camOffset.z = Mathf.Lerp( _camOffset.z, xOffset.y, OFFSET_MOVESPEED * Time.fixedDeltaTime );
+		// Center is focusTransform.position
+		float distance = (_focusTransform.position - _focusPoint).sqrMagnitude; 
 
+        if ( distance > JohnTech.Sqr( BOUNDING_RADIUS ) )
+        {
+            // Is outside of the circle.   
+			Vector3 desiredPos = new Vector3(_focusTransform.position.x - _focusOffset.x, _focusPoint.y, _focusTransform.position.z - _focusOffset.z);
+			Vector3 retVec = Vector3.Lerp(_focusPoint, desiredPos, CAM_CENTER_UPDATE_SPEED * Time.fixedDeltaTime);
+			return retVec;          
+        }
+        else
+        {
+            // Calculate which direction camera should move if exit bounding circle on screen
+            _focusOffset.x = _focusTransform.position.x - _focusPoint.x;
+            _focusOffset.y = _focusPoint.y;
+            _focusOffset.z = _focusTransform.position.z - _focusPoint.z;
+			return _focusPoint;
+        }
     }
 
-	private void ResetCameraOffset()
+	/// <summary>
+	/// Determines Position of Camera offset based on current direction from focus transform and the curr zoom value
+	/// </summary>
+	private void DetermineCameraZoom( float zoomInterp )
+	{
+		// Determine new x/z offset positions
+		Vector2 lateralOffset = new Vector2( _camOffset.x, _camOffset.z ).normalized;	// Gets flat offset direction
+		lateralOffset *= Mathf.Lerp( zoomXRange.x, zoomXRange.y, zoomInterp );
+
+		// Set new offset position
+		_camOffset.x = Mathf.Lerp( _camOffset.x, lateralOffset.x, ZOOM_DELTASPEED * Time.fixedDeltaTime );
+		_camOffset.y = Mathf.Lerp( _camOffset.y, Mathf.Lerp( zoomYRange.x, zoomYRange.y, zoomInterp), ZOOM_DELTASPEED * Time.fixedDeltaTime );
+		_camOffset.z = Mathf.Lerp( _camOffset.z, lateralOffset.y, ZOOM_DELTASPEED * Time.fixedDeltaTime );
+
+	}
+
+	private void PositionCameraBehindFocus()
 	{
 		// Place camera behind player
 		_mainCam.transform.position = _focusTransform.transform.position + ( -_focusTransform.forward * Mathf.Lerp(zoomXRange.x, zoomXRange.y, _zoomInterp));
-        _mainCam.transform.SetPosY( Mathf.Lerp( zoomYRange.x, zoomYRange.y, _zoomInterp ) );
-        _camOffset = _mainCam.transform.position - _focusCenter;
+		_mainCam.transform.SetPosY( Mathf.Lerp( zoomYRange.x, zoomYRange.y, _zoomInterp ) );
+
+		_focusPoint = _focusTransform.position;
+		_camOffset = _mainCam.transform.position - _focusPoint;
+
+	}
+
+	private void ResetCameraOffset()
+	{
+		PositionCameraBehindFocus();
 
 		_zoomInterp = ZOOM_RESETINTERP;
-		DetermineCameraZoom();
+		DetermineCameraZoom( _zoomInterp );
+	}
+
+	public void ChangeCameraState(CameraState newState)
+	{
+		if( newState != _state )
+		{
+			// On Disable Old State
+			switch( _state )
+			{
+			case CameraState.FOLLOWPLAYER_FREE:
+				break;
+			case CameraState.FOLLOWPLAYER_LOCKED:
+				break;
+			default:
+				break;
+			}
+
+			_state = newState;
+
+			// On Enable New State
+			switch( _state )
+			{
+			case CameraState.FOLLOWPLAYER_FREE:
+				break;
+			case CameraState.FOLLOWPLAYER_LOCKED:
+				break;
+			default:
+				break;
+			}
+		}
 
 	}
 
     private void OnDrawGizmos()
     {
-        //Gizmos.color = Color.red;
-        //Gizmos.DrawCube( _focusCenter, Vector3.one );
-        //Gizmos.DrawLine( _focusCenter, _focusTransform.position );
+        if (_focusTransform != null)
+        {
+            Gizmos.color = Color.white;
+            Gizmos.DrawWireSphere(_focusPoint, BOUNDING_RADIUS);
+            Gizmos.DrawLine(_focusPoint, _focusTransform.position);
+            Gizmos.color = Color.blue;
+            // Gizmos.DrawLine(_focusOffset, _focusTransform.position);
+        }
     }
 
     private void HandeGameStateChanged(GameManager.GameState newState, GameManager.GameState prevState)
 	{
 	}
+		
 }

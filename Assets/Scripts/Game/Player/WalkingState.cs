@@ -29,6 +29,8 @@ public class WalkingState : RollerState
 		Vector3 pos = roller.transform.position + roller.transform.forward + (roller.transform.up * 0.5f);
 		roller.leftArmBlock.transform.DOMove(pos, 1f);
 		roller.rightArmBlock.transform.DOMove(pos, 1f);
+
+		CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
 	}
 
 	public override void Exit()
@@ -41,6 +43,10 @@ public class WalkingState : RollerState
 
 	public override void HandleInput(InputCollection input)
 	{
+		// Always keep this at zero because the rigidbody's velocity is never needed and bumping into things
+		// makes the character go nuts.
+		roller.rigidbody.velocity = Vector3.zero;
+
 		/*
 			A BUTTON
 		*/
@@ -90,7 +96,7 @@ public class WalkingState : RollerState
 
 			lastInputVec = inputVec.normalized;
 		}
-		else if (velocity > 0)
+		else if (velocity > 0f)
 		{
 			// Slowdown
 			velocity -= SLOWDOWN_RATE * Time.deltaTime;
@@ -108,7 +114,12 @@ public class WalkingState : RollerState
 
 		if (Physics.Raycast(pickupRay, out hit, 1.5f))
 		{
-			PickUpObject(hit.collider.GetComponent<PickupCollider>().GetComponentInParent<Pickupable>());
+			//if the pickupable is a plant, we can only pick it up if it's still in seed stage
+			PickupCollider collider = hit.collider.GetComponent<PickupCollider>();
+			if( collider && ( collider.GetComponentInParent<Plant>() == null || collider.GetComponentInParent<Plant>().CurStage == Plant.GrowthStage.Unplanted ) )
+			{ 
+				PickUpObject( collider.GetComponentInParent<Pickupable>() );
+			}
 		}
 	}
 

@@ -4,24 +4,25 @@ using UnityEngine;
 
 public class Pickupable : MonoBehaviour 
 {
-	Rigidbody rigidbody;
+	protected Rigidbody _rigidbody;
 
-    void Awake()
+   protected virtual void Awake()
     {
-        rigidbody = GetComponent(typeof(Rigidbody)) as Rigidbody;
+        _rigidbody = GetComponent(typeof(Rigidbody)) as Rigidbody;
+
     }
 
     // This gets called when we pick up the object. Pickupable controls its own rigidbody.
-    public void OnPickup()
+    public virtual void OnPickup()
     {
-        rigidbody.useGravity = false;
-        rigidbody.isKinematic = true;
+        _rigidbody.useGravity = false;
+        _rigidbody.isKinematic = true;
     }
 
-    public void DropSelf()
+    public virtual void DropSelf()
     {
         transform.parent = null;
-        rigidbody.useGravity = true;
-        rigidbody.isKinematic = false;
+        _rigidbody.useGravity = true;
+        _rigidbody.isKinematic = false;
     }
 }
