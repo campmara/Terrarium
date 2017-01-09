@@ -68,7 +68,17 @@ public class InputCollection : PlayerActionSet
 		RightStickUp.AddDefaultBinding(InputControlType.RightStickUp);
 
         RightStickButton.AddDefaultBinding(InputControlType.RightStickButton);
-	}
+
+        LeftStickLeft.AddDefaultBinding(Key.A);
+        LeftStickRight.AddDefaultBinding(Key.D);
+        LeftStickUp.AddDefaultBinding(Key.W);
+        LeftStickDown.AddDefaultBinding(Key.S);
+
+        RightStickLeft.AddDefaultBinding(Key.LeftArrow);
+        RightStickRight.AddDefaultBinding(Key.RightArrow);
+        RightStickUp.AddDefaultBinding(Key.UpArrow);
+        RightStickDown.AddDefaultBinding(Key.DownArrow);
+    }
 }
 
 public class ControlManager : SingletonBehaviour<ControlManager> 
