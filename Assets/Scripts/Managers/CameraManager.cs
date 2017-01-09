@@ -46,6 +46,8 @@ public class CameraManager : SingletonBehaviour<CameraManager>
     Vector2 zoomYRange = new Vector2(2.0f, 15.0f);
     const float ZOOM_DELTASPEED = 10.0f;    // Smooths out some rotation/zoom/refocus stuff
 
+	const float LOCKED_ZOOMINTERP = 0.15f;
+
     const float CAM_FOV = 90;
 
 	#endregion
@@ -94,6 +96,9 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 		case CameraState.FOLLOWPLAYER_FREE:
 			HandleFreePlayerCamera();
 			break;
+		case CameraState.FOLLOWPLAYER_LOCKED:
+			HandleLockedPlayerCamera();
+			break;
 		default:
 			break;
 		}
@@ -122,7 +127,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 				}
 
 				// Calculate Camera Positioning
-				DetermineCameraZoom();
+				DetermineCameraZoom( _zoomInterp );
 
                 // Determine if player in screen bounding circle and move focus center
                 _focusPoint = UpdateFocusPoint();
@@ -139,6 +144,36 @@ public class CameraManager : SingletonBehaviour<CameraManager>
                 }
 
                 _mainCam.transform.LookAt( _focusPoint );	
+			}
+
+		}
+	}
+
+
+	private void HandleLockedPlayerCamera()
+	{
+		if( _mainCam != null )
+		{
+			// Moves Camera
+			if ( _focusTransform != null )
+			{              
+				PositionCameraBehindFocus();
+
+				_camInputVals.y = ControlManager.instance.getInput().RightStickY;              
+
+				// Determine New Zoom Interp level if right stick input
+				if ( Mathf.Abs(_camInputVals.y) > ZOOM_Y_DEADZONE )
+				{			
+					_zoomInterp = Mathf.Clamp01( _zoomInterp + ( ZOOM_SPEED * -_camInputVals.y * Time.fixedDeltaTime) );
+				}
+					
+				// Calculate Camera Positioning
+				DetermineCameraZoom( _zoomInterp );
+
+				// Move towards new focus center                
+				_mainCam.transform.position = Vector3.Lerp(_mainCam.transform.position, _focusPoint + _camOffset, CAM_FOLLOWSPEED * Time.fixedDeltaTime);
+
+				_mainCam.transform.LookAt( _focusPoint );	
 			}
 
 		}
@@ -173,31 +208,70 @@ public class CameraManager : SingletonBehaviour<CameraManager>
         }
     }
 
-    /// <summary>
-    /// Determines Position of Camera offset based on current direction from focus transform and the curr zoom value
-    /// </summary>
-	private void DetermineCameraZoom()
+	/// <summary>
+	/// Determines Position of Camera offset based on current direction from focus transform and the curr zoom value
+	/// </summary>
+	private void DetermineCameraZoom( float zoomInterp )
 	{
 		// Determine new x/z offset positions
 		Vector2 lateralOffset = new Vector2( _camOffset.x, _camOffset.z ).normalized;	// Gets flat offset direction
-		lateralOffset *= Mathf.Lerp( zoomXRange.x, zoomXRange.y, _zoomInterp );
+		lateralOffset *= Mathf.Lerp( zoomXRange.x, zoomXRange.y, zoomInterp );
 
 		// Set new offset position
 		_camOffset.x = Mathf.Lerp( _camOffset.x, lateralOffset.x, ZOOM_DELTASPEED * Time.fixedDeltaTime );
-		_camOffset.y = Mathf.Lerp( _camOffset.y, Mathf.Lerp( zoomYRange.x, zoomYRange.y, _zoomInterp), ZOOM_DELTASPEED * Time.fixedDeltaTime );
+		_camOffset.y = Mathf.Lerp( _camOffset.y, Mathf.Lerp( zoomYRange.x, zoomYRange.y, zoomInterp), ZOOM_DELTASPEED * Time.fixedDeltaTime );
 		_camOffset.z = Mathf.Lerp( _camOffset.z, lateralOffset.y, ZOOM_DELTASPEED * Time.fixedDeltaTime );
 
-    }
+	}
 
-	private void ResetCameraOffset()
+	private void PositionCameraBehindFocus()
 	{
 		// Place camera behind player
 		_mainCam.transform.position = _focusTransform.transform.position + ( -_focusTransform.forward * Mathf.Lerp(zoomXRange.x, zoomXRange.y, _zoomInterp));
-        _mainCam.transform.SetPosY( Mathf.Lerp( zoomYRange.x, zoomYRange.y, _zoomInterp ) );
-        _camOffset = _mainCam.transform.position - _focusPoint;
+		_mainCam.transform.SetPosY( Mathf.Lerp( zoomYRange.x, zoomYRange.y, _zoomInterp ) );
+
+		_focusPoint = _focusTransform.position;
+		_camOffset = _mainCam.transform.position - _focusPoint;
+
+	}
+
+	private void ResetCameraOffset()
+	{
+		PositionCameraBehindFocus();
 
 		_zoomInterp = ZOOM_RESETINTERP;
-		DetermineCameraZoom();
+		DetermineCameraZoom( _zoomInterp );
+	}
+
+	public void ChangeCameraState(CameraState newState)
+	{
+		if( newState != _state )
+		{
+			// On Disable Old State
+			switch( _state )
+			{
+			case CameraState.FOLLOWPLAYER_FREE:
+				break;
+			case CameraState.FOLLOWPLAYER_LOCKED:
+				break;
+			default:
+				break;
+			}
+
+			_state = newState;
+
+			// On Enable New State
+			switch( _state )
+			{
+			case CameraState.FOLLOWPLAYER_FREE:
+				break;
+			case CameraState.FOLLOWPLAYER_LOCKED:
+				break;
+			default:
+				break;
+			}
+		}
+
 	}
 
     private void OnDrawGizmos()
@@ -215,4 +289,5 @@ public class CameraManager : SingletonBehaviour<CameraManager>
     private void HandeGameStateChanged(GameManager.GameState newState, GameManager.GameState prevState)
 	{
 	}
+		
 }
