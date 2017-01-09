@@ -22,7 +22,10 @@ public class ClickTest : MonoBehaviour
 				Plant newSeed = GameObject.Instantiate( seed, hit.point, Quaternion.identity ).GetComponent<Plant>();
 				if(newSeed)
 				{
-					newSeed.TryDrop();
+					if( !newSeed.TryDrop() )
+					{
+						Destroy( newSeed.gameObject );
+					}
 				}
 			}
 		}

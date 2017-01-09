@@ -19,85 +19,128 @@ public class Plant : MonoBehaviour
 		Sapling = 3,
 		Final = 4
 	};
-		
-	float [] plantRadius = new float[]{ 2.0f, // sprout radius
-										6.0f, // bush radius
-										8.0f, // sapling radius
-										12.0f }; // tree radius
 
-	const float _growthRate = 0.0f;
-	const float _waterMultiplier = 0.0f;
-	float _curGrowthRate = 0.0f;
-	float _animTimeStamp = 0.0f;
+	[SerializeField] List<Mesh> _plantMeshes = new List<Mesh>();
+	float _neededGrowRadius = 0.0f;
+
+	const float _growthRate = 0.00000166f; //  this is 1/60 as standard rate
+	const float _waterMultiplier = 3.0f;
+	float _curGrowthRate = 4.6f;
+	float _curGrowTime = 0.0f;
+
+	float [] growthTime = new float[]{ 1.0f, 1.5f, 3.0f, 4.0f, 5.0f };
+
 
 	GrowthStage _curStage = GrowthStage.Unplanted;
 	public GrowthStage CurStage { get { return _curStage; } }
 
 
 	//Animations we can either drag and drop or just load in 
-	Animation [] _animations = new Animation[4];
 	Animation _curAnim =  null;
-
-	AnimationEvent _transitionEvent = new AnimationEvent();
 
 	void Awake()
 	{
-		//_transitionEvent.functionName = "TryTransitionStages";
-		//_transitionEvent.time = _curAnim.clip.length;
-		//_curAnim.clip.AddEvent( _transitionEvent );
+		InitPlant();
 	}
-		
-	void TransitionStages()
+
+	void Update()
 	{
-		SwitchToNextStage();
+		if( _curStage != GrowthStage.Unplanted  && _curStage != GrowthStage.Final )
+		{	
+			GrowPlant();
+		}
+	}
 
-		Debug.Log("SWITCHING STAGES");
-		//_curAnim = _animations[(int)_curStage-1];
-		//_curGrowthRate = 0.0f;
-		//_animTimeStamp = 0.0f;
+	void InitPlant()
+	{
+		DetermineTreeSpaceNeeds();
+	}
 
-		//_transitionEvent.time = _curAnim.clip.length;
-		//_curAnim.clip.AddEvent( _transitionEvent );
+	void DetermineTreeSpaceNeeds()
+	{
+		// calculate the radius plants absolutely need to grow
+		Vector3 size = GetComponent<Collider>().bounds.size;
+		float largestComponent = size.x;
+
+		if( size.z > size.x )
+		{
+			largestComponent = size.z;
+		}
+		
+		_neededGrowRadius = largestComponent;
+	}
+
+	void GrowPlant()
+	{
+		ScalePlant();
+
+		//_plantObjects[0].GetComponent<Animation>().
+	}
+
+	void ScalePlant()
+	{
+		//keep moving forward at certain rate 
+		if( _curGrowTime >= growthTime[(int)_curStage])
+		{
+			TryTransitionStages();
+		}
+		else
+		{
+			_curGrowTime += _curGrowthRate * Time.deltaTime;
+		}
+	}
+
+	void ResetPlant()
+	{
+		_curGrowthRate = _growthRate;
+
+
 	}
 
 	bool TryTransitionStages()
 	{
-		//if we're not on the final stage, check to see if there are other things we're in the radius of 
-		RaycastHit[] overlappingObjects = Physics.SphereCastAll( transform.position,  plantRadius[ (int)_curStage ], new Vector3(0f,0f,-1f));
+		bool canTransition = false;
+		SwitchToNextStage();
+
+		if( !IsOverlappingPlants() )
+		{
+			canTransition = true;
+		}
+		else
+		{
+			SwitchToPrevStage();
+		}
+
+
+		return canTransition;
+	}
+
+	bool IsOverlappingPlants()
+	{
+		RaycastHit[] overlappingObjects = Physics.SphereCastAll( transform.position,  _neededGrowRadius, Vector3.back );
 		if( overlappingObjects.Length != 0 )
 		{
-			foreach( RaycastHit rHit in overlappingObjects)
+			foreach( RaycastHit hitObj in overlappingObjects )
 			{
-				if(rHit.collider.gameObject.GetComponent<Plant>() && rHit.collider.gameObject != gameObject )
+				// if you're close to another plant that's not yourself, you can't stay!
+				if( hitObj.collider.gameObject.GetComponent<Plant>() && hitObj.collider.gameObject != gameObject )
 				{
-					return false;
+					return true;
 				}
 			}
-			TransitionStages();
-			return true;
 		}
 
 		return false;
 	}
-
+		
+	public bool TryDrop()
+	{
+		return TryTransitionStages();
+	}
 
 	public bool TryPickUp()
 	{
-		if( _curStage == GrowthStage.Unplanted )
-		{
-			//do whatever internal updates need to happen
-			return TryTransitionStages();
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	public bool TryDrop()
-	{
-		//if something is in the way and it won't be able to sit, don't let player drop
-		return TryTransitionStages();
+		return ( _curStage == GrowthStage.Unplanted );
 	}
 
 	public void WaterPlant()
@@ -115,6 +158,30 @@ public class Plant : MonoBehaviour
 		if( _curStage != GrowthStage.Final )
 		{
 			_curStage += 1; // they are int enums so we can just increment
+			_curGrowTime = 0.0f;
 		}
+
+
+		UpdateMeshData();
+	}
+		
+	void SwitchToPrevStage()
+	{
+		if( _curStage != GrowthStage.Unplanted )
+		{
+			_curStage -= 1; // they are int enums so we can just increment
+		}
+
+		_curGrowTime = 0.0f;
+
+		UpdateMeshData();
+	}
+
+	void UpdateMeshData()
+	{
+		GetComponent<MeshFilter>().mesh = _plantMeshes[(int)_curStage];
+		GetComponent<MeshCollider>().sharedMesh = _plantMeshes[(int)_curStage];
+
+		DetermineTreeSpaceNeeds();
 	}
 }
