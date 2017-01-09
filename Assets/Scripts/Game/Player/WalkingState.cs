@@ -43,6 +43,10 @@ public class WalkingState : RollerState
 
 	public override void HandleInput(InputCollection input)
 	{
+		// Always keep this at zero because the rigidbody's velocity is never needed and bumping into things
+		// makes the character go nuts.
+		roller.rigidbody.velocity = Vector3.zero;
+
 		/*
 			A BUTTON
 		*/
@@ -92,7 +96,7 @@ public class WalkingState : RollerState
 
 			lastInputVec = inputVec.normalized;
 		}
-		else if (velocity > 0)
+		else if (velocity > 0f)
 		{
 			// Slowdown
 			velocity -= SLOWDOWN_RATE * Time.deltaTime;

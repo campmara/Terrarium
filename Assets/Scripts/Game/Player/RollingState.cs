@@ -37,6 +37,10 @@ public class RollingState : RollerState
 
 	public override void HandleInput(InputCollection input)
 	{
+		// Always keep this at zero because the rigidbody's velocity is never needed and bumping into things
+		// makes the character go nuts.
+		roller.rigidbody.velocity = Vector3.zero;
+
 		if (input.AButton.WasPressed)
 		{
 
@@ -75,7 +79,7 @@ public class RollingState : RollerState
 			lastInputVec = inputVec.normalized;
 		}
 
-		if (velocity > 0)
+		if (velocity > 0f)
 		{
 			// Slowdown
 			velocity -= SLOWDOWN_RATE * Time.deltaTime;
