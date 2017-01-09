@@ -29,6 +29,8 @@ public class WalkingState : RollerState
 		Vector3 pos = roller.transform.position + roller.transform.forward + (roller.transform.up * 0.5f);
 		roller.leftArmBlock.transform.DOMove(pos, 1f);
 		roller.rightArmBlock.transform.DOMove(pos, 1f);
+
+		CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
 	}
 
 	public override void Exit()

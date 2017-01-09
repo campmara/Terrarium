@@ -26,6 +26,8 @@ public class RollingState : RollerState
 
 		Vector3 posR = roller.transform.position + roller.transform.right + (roller.transform.up * 0.5f);
 		roller.rightArmBlock.transform.DOMove(posR, 1f);
+
+		CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_LOCKED );
 	}
 
 	public override void Exit()
