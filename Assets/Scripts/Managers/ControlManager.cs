@@ -70,7 +70,8 @@ public class InputCollection : PlayerActionSet
         RightStickButton.AddDefaultBinding(InputControlType.RightStickButton);
 
 		// Keyboard Controls
-		BButton.AddDefaultBinding(Key.Space);
+		AButton.AddDefaultBinding(Key.X);
+		BButton.AddDefaultBinding(Key.Z);
 
         LeftStickLeft.AddDefaultBinding(Key.A);
         LeftStickRight.AddDefaultBinding(Key.D);
