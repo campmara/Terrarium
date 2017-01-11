@@ -21,11 +21,14 @@ public class RollingState : RollerState
 
 		roller = parent;
 
+		// MOVE THE HANDS, THIS WILL BE REPLACED BY ANIMATIONS
+		roller.FreezeInput();
 		Vector3 posL = roller.transform.position + -roller.transform.right + (roller.transform.up * 0.5f);
-		roller.leftArmBlock.transform.DOMove(posL, 1f);
+		roller.leftArmBlock.transform.DOMove(posL, 0.75f);
 
 		Vector3 posR = roller.transform.position + roller.transform.right + (roller.transform.up * 0.5f);
-		roller.rightArmBlock.transform.DOMove(posR, 1f);
+		roller.rightArmBlock.transform.DOMove(posR, 0.75f).OnComplete(roller.UnfreezeInput);
+		// END
 
 		CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_LOCKED );
 	}
