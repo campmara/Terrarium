@@ -9,6 +9,9 @@ public class WaterDroplet : Pickupable
     Vector3 position;
     Vector3 prevPosition;
 
+    float desiredExtrusion = 0f;
+    float currentExtrusion = 0f;
+
 	protected override void Awake()
 	{
 		base.Awake();
@@ -26,16 +29,24 @@ public class WaterDroplet : Pickupable
 
         dropletMat.SetVector("_Position", position);
         dropletMat.SetVector("_PrevPosition", prevPosition);
+
+        currentExtrusion = Mathf.Lerp(currentExtrusion, desiredExtrusion, 7f * Time.deltaTime);
+        dropletMat.SetFloat("_PushAmount", currentExtrusion);
     }
 
 	// This gets called when we pick up the object. Pickupable controls its own rigidbody.
     public override void OnPickup()
     {
         base.OnPickup();
+
+        transform.rotation = Quaternion.identity;
+        desiredExtrusion = 1f;
     }
 
     public override void DropSelf()
     {
         base.DropSelf();
+
+        desiredExtrusion = 0f;
     }
 }
