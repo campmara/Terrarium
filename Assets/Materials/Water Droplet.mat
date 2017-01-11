@@ -98,6 +98,12 @@ Material:
         name: _Mode
       second: 0
     - first:
+        name: _NoiseHeight
+      second: 1.5
+    - first:
+        name: _NoiseScale
+      second: 2.5
+    - first:
         name: _OcclusionStrength
       second: 1
     - first:
@@ -125,3 +131,9 @@ Material:
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
+    - first:
+        name: _Position
+      second: {r: 0, g: 0, b: -7, a: 0}
+    - first:
+        name: _PrevPosition
+      second: {r: 0, g: 0, b: -7, a: 0}
