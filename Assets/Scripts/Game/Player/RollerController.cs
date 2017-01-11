@@ -10,6 +10,12 @@ public class RollerController : ControllerBase
 	public GameObject leftArmBlock;
 	public GameObject rightArmBlock;
 
+	// Input Freezing
+	public void FreezeInput() { isInputFrozen = true; }
+	public void UnfreezeInput() { isInputFrozen = false; }
+	//public bool IsInputFrozen { get { return isInputFrozen; } }
+	bool isInputFrozen = false;
+
 	// STATE STUFF
 	RollerState currentState;
 	public void ChangeState(RollerState fromState, RollerState toState)
@@ -25,6 +31,7 @@ public class RollerController : ControllerBase
 		ChangeState(new RollerState(), RollerState.Walking);
 
 		rigidbody = GetComponent<Rigidbody>();
+		UnfreezeInput();
 	}
 
 	void OnEnable()
@@ -40,6 +47,9 @@ public class RollerController : ControllerBase
 
 	protected override void HandleInput()
 	{
-		currentState.HandleInput(input);
+		if (!isInputFrozen)
+		{
+			currentState.HandleInput(input);
+		}
 	}
 }

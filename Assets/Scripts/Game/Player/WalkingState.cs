@@ -26,9 +26,12 @@ public class WalkingState : RollerState
 		Debug.Log("ENTER WALKING STATE");
 		roller = parent;
 
+		// MOVE THE HANDS, THIS WILL BE REPLACED BY ANIMATIONS
 		Vector3 pos = roller.transform.position + roller.transform.forward + (roller.transform.up * 0.5f);
-		roller.leftArmBlock.transform.DOMove(pos, 1f);
-		roller.rightArmBlock.transform.DOMove(pos, 1f);
+		roller.FreezeInput();
+		roller.leftArmBlock.transform.DOMove(pos, 0.75f);
+		roller.rightArmBlock.transform.DOMove(pos, 0.75f).OnComplete(roller.UnfreezeInput);
+		// END
 
 		CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
 	}
@@ -127,7 +130,8 @@ public class WalkingState : RollerState
 			currentHeldObject.OnPickup();
 			
 			Vector3 pickupPos = roller.transform.position + (roller.transform.forward * 1f) + (roller.transform.up * 1f);
-			currentHeldObject.transform.DOMove(pickupPos, PICKUP_TIME);
+			currentHeldObject.transform.DOMove(pickupPos, PICKUP_TIME).OnComplete(roller.UnfreezeInput);
+			roller.FreezeInput();
 		}
 	}
 
