@@ -24,7 +24,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	[SerializeField, ReadOnlyAttribute] Transform _focusTransform = null;
 
 	Vector3 _camOffset = Vector3.zero;      // Direction from focus to Camera  
-    
+
     Vector3 _focusPoint = Vector3.zero;    // Center of focal point following player
     Vector3 _focusOffset = Vector3.zero;    //
     float _centerDist = 0.0f;               // Current distance of focusCenter from transform
@@ -32,13 +32,17 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	const float CAM_CENTER_UPDATE_SPEED = 12f;
     const float BOUNDING_RADIUS = 3.0f;         // Distance for player to move from center for cam focus to start following
 
+	/*
+	 * ROTATION VARIABLES
+	*/
     Vector2 _camInputVals = Vector2.zero;
-	//const float CAM_ROTSPEED = 65.0f;
 	const float CAM_ROTSPEED = 100.0f;
 
+	/*
+	 * ZOOM VARIABLES
+	 */ 
 	float _zoomInterp = ZOOM_RESETINTERP;
 	const float ZOOM_RESETINTERP = 0.25f;	// Zoom Interp value for initialization & reset of camera (right stick click)
-	//const float ZOOM_SPEED = 0.3f;
 	const float ZOOM_SPEED = 0.6f;			// How much a frame of "zooming" input increments zoom interp
 	const float ZOOM_Y_DEADZONE = 0.1f;
     const float ZOOM_X_DEADZONE = 0.1f;
