@@ -8,14 +8,28 @@ Shader "Custom/WaterDroplet"
 {
 	Properties 
 	{
-		_Color ("Color", Color) = (1,1,1,1)
 		_MainTex ("Albedo (RGB)", 2D) = "white" {}
+		_DispTex("Disp Texture", 2D) = "gray" {}
+		_MainTex2("Base (RGB) 2", 2D) = "white" {}
+		_DispTex2("Disp Texture 2", 2D) = "gray" {}
+		_TexFade("Fade Amount", Range(0,1)) = 0.5
+		_Displacement("Displacement", Range(-1,1)) = 0.5
+
+		_Color ("Color", Color) = (1,1,1,1)
 		_Glossiness ("Smoothness", Range(0,1)) = 0.5
 		_Metallic ("Metallic", Range(0,1)) = 0.0
 
-		_DepressionPosA("Depression Position A", Vector) = (-1, 0, 0, 0)
-		_DepressionPosB("Depression Position B", Vector) = (1, 0, 0, 0)
+		// WATER RIPPLE DISPLACEMENT
+		_PushPosA("Push Position A", Vector) = (-1, 0, 0, 0)
+		_PushPosB("Push Position B", Vector) = (1, 0, 0, 0)
+		_PushAmount("Push Extrusion Amount", Range(-1,1)) = 0.5
+		_PushScale("Push Scale", float) = 0.5
+		_PushDistance("Push Distance", float) = 2
+		_PushImpact("Push Impact", float) = 2
+		_PushSpeed("Push Speed", float) = 2
+		_PushDirection("Push Direction (XY)", vector) = (1,0,0)
 
+		// WATER SMEARING
 		_Position("Position", Vector) = (0, 0, 0, 0)
 		_PrevPosition("Prev Position", Vector) = (0, 0, 0, 0)
 		_SmearIntensity("Smear Intensity", Float) = 2
@@ -36,6 +50,10 @@ Shader "Custom/WaterDroplet"
 		#pragma target 3.0
 
 		sampler2D _MainTex;
+		sampler2D _DispTex;
+		sampler2D _DispTex2;
+		float _TexFade;
+		float _Displacement;
 
 		struct Input 
 		{
@@ -46,8 +64,13 @@ Shader "Custom/WaterDroplet"
 		half _Metallic;
 		fixed4 _Color;
 
-		fixed4 _DepressionPosA;
-		fixed4 _DepressionPosB;
+		fixed4 _PushPosA, _PushPosB;
+		float _PushAmount;
+		float _PushScale;
+		float _PushDistance;
+		float _PushImpact;
+		float _PushSpeed;
+		fixed4 _PushDirection;
 
 		fixed4 _PrevPosition;
 		fixed4 _Position;
@@ -95,10 +118,16 @@ Shader "Custom/WaterDroplet"
 	
 			fixed3 smearOffset = -worldOffset.xyz /* * lerp(1, noise(worldPos * _NoiseScale), step(0, _NoiseScale)) */;
 			worldPos.xyz += smearOffset * _SmearIntensity;
-			v.vertex = mul(unity_WorldToObject, worldPos);
 
-			// Vertex Depression
-			
+			float4 texOffset = float4(v.texcoord.xy + (_Time * _PushSpeed * _PushDirection),0,0);
+			float d = lerp(tex2Dlod(_DispTex, texOffset).r, tex2Dlod(_DispTex2, texOffset).r, _TexFade);
+			float dist1 = clamp(distance(worldPos.xyz, _PushPosA), 0, _PushDistance);
+			float dist2 = clamp(distance(worldPos.xyz, _PushPosB), 0, _PushDistance);
+			//v.vertex.y += _Amount * sin(abs(dist1/_Scale)-_Impact) * sin(abs(dist2/_Scale)-_Impact);
+			worldPos.xyz += v.normal * _PushAmount * sin(abs(dist1 / _PushScale) - _PushImpact) * sin(abs(dist2 / _PushScale) - _PushImpact);
+			worldPos.xyz += v.normal * d * _Displacement;
+
+			v.vertex = mul(unity_WorldToObject, worldPos);
 		}
 
 		void surf (Input IN, inout SurfaceOutputStandard o) 
