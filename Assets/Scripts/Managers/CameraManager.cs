@@ -33,11 +33,13 @@ public class CameraManager : SingletonBehaviour<CameraManager>
     const float BOUNDING_RADIUS = 3.0f;         // Distance for player to move from center for cam focus to start following
 
     Vector2 _camInputVals = Vector2.zero;
-	const float CAM_ROTSPEED = 65.0f;
+	//const float CAM_ROTSPEED = 65.0f;
+	const float CAM_ROTSPEED = 100.0f;
 
 	float _zoomInterp = ZOOM_RESETINTERP;
 	const float ZOOM_RESETINTERP = 0.25f;
-	const float ZOOM_SPEED = 0.3f;
+	//const float ZOOM_SPEED = 0.3f;
+	const float ZOOM_SPEED = 0.6f;
 	const float ZOOM_Y_DEADZONE = 0.1f;
 	const float ZOOM_XDELTA = 1.0f;
     const float ZOOM_X_DEADZONE = 0.1f;
@@ -118,7 +120,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 
                 // Storing Right Stick Input Data
                 _camInputVals.x = ControlManager.instance.getInput().RightStickX;
-                _camInputVals.y = ControlManager.instance.getInput().RightStickY;              
+                _camInputVals.y = ControlManager.instance.getInput().RightStickY;
 
 				// Determine New Zoom Interp level if right stick input
 				if ( Mathf.Abs(_camInputVals.y) > ZOOM_Y_DEADZONE )
@@ -221,7 +223,6 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 		_camOffset.x = Mathf.Lerp( _camOffset.x, lateralOffset.x, ZOOM_DELTASPEED * Time.fixedDeltaTime );
 		_camOffset.y = Mathf.Lerp( _camOffset.y, Mathf.Lerp( zoomYRange.x, zoomYRange.y, zoomInterp), ZOOM_DELTASPEED * Time.fixedDeltaTime );
 		_camOffset.z = Mathf.Lerp( _camOffset.z, lateralOffset.y, ZOOM_DELTASPEED * Time.fixedDeltaTime );
-
 	}
 
 	private void PositionCameraBehindFocus()
