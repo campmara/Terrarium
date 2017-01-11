@@ -15,29 +15,32 @@ public class WalkingState : RollerState
 	// PICKUP VALUES
 	const float PICKUP_TIME = 0.75f;
 
-	RollerController roller;
+	RollerController _roller;
 
-	float currentWalkSpeed;
-	float currentRotationSpeed;
-	Vector3 lastInputVec;
-	float velocity = 0f;
+	float _currentWalkSpeed;
+	float _currentRotationSpeed;
+	Vector3 _currInputVec = Vector3.zero;
+	Vector3 _lastInputVec = Vector3.zero;
+	float _velocity = 0f;
 
-	Pickupable currentHeldObject = null;
-	Ray pickupRay;
+	Quaternion _targetRotation = Quaternion.identity;
+
+	Pickupable _currentHeldObject = null;
+	Ray _pickupRay;
 
 	public override void Enter(RollerController parent)
 	{
 		Debug.Log("ENTER WALKING STATE");
 
-		roller = parent;
-		currentWalkSpeed = WALK_SPEED;
-		currentRotationSpeed = ROTATION_SPEED;
+		_roller = parent;
+		_currentWalkSpeed = WALK_SPEED;
+		_currentRotationSpeed = ROTATION_SPEED;
 
 		// MOVE THE HANDS, THIS WILL BE REPLACED BY ANIMATIONS
-		Vector3 pos = roller.transform.position + roller.transform.forward + (roller.transform.up * 0.5f);
-		roller.FreezeInput();
-		roller.leftArmBlock.transform.DOMove(pos, 0.75f);
-		roller.rightArmBlock.transform.DOMove(pos, 0.75f).OnComplete(roller.UnfreezeInput);
+		Vector3 pos = _roller.transform.position + _roller.transform.forward + (_roller.transform.up * 0.5f);
+		_roller.FreezeInput();
+		_roller.leftArmBlock.transform.DOMove(pos, 0.75f);
+		_roller.rightArmBlock.transform.DOMove(pos, 0.75f).OnComplete(_roller.UnfreezeInput);
 		// END
 
 		CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
@@ -55,14 +58,14 @@ public class WalkingState : RollerState
 	{
 		// Always keep this at zero because the rigidbody's velocity is never needed and bumping into things
 		// makes the character go nuts.
-		roller.rigidbody.velocity = Vector3.zero;
+		_roller.rigidbody.velocity = Vector3.zero;
 
 		/*
 			A BUTTON
 		*/
 		if (input.AButton.WasPressed)
 		{
-			if (currentHeldObject != null)
+			if (_currentHeldObject != null)
 			{
 				DropHeldObject();
 			}
@@ -77,52 +80,50 @@ public class WalkingState : RollerState
 		*/
 		if (input.BButton.WasPressed & input.BButton.HasChanged)
 		{
-			roller.ChangeState(RollerState.Walking, RollerState.Rolling);
+			_roller.ChangeState(RollerState.Walking, RollerState.Rolling);
 		}
 
 		/*
 			LEFT STICK MOVEMENT
             Only Moving on X & Z axis
 		*/
-		Vector3 inputVec = new Vector3
-		(
-			input.LeftStickX,
-			0f,
-			input.LeftStickY
-		);
+		_currInputVec.x = input.LeftStickX;
+		_currInputVec.z = input.LeftStickY;
 
         // Accounting for camera position
-        inputVec = CameraManager.instance.Main.transform.TransformDirection(inputVec);
-        inputVec.y = 0.0f;
+		_currInputVec = CameraManager.instance.Main.transform.TransformDirection(_currInputVec);
+		_currInputVec.y = 0.0f;
         
 		if (Mathf.Abs(input.LeftStickX.Value) > INPUT_DEADZONE || Mathf.Abs(input.LeftStickY.Value) > INPUT_DEADZONE)
 		{
-			velocity = currentWalkSpeed;
-			Vector3 movePos = roller.transform.position + (inputVec * velocity * Time.deltaTime);
-			roller.rigidbody.MovePosition(movePos);
+			_velocity = _currentWalkSpeed;
+			Vector3 movePos = _roller.transform.position + (_currInputVec * _velocity * Time.deltaTime);
+			_roller.rigidbody.MovePosition(movePos);
 
-			Quaternion qTo = Quaternion.LookRotation(inputVec);
-			roller.transform.rotation = Quaternion.Slerp(roller.transform.rotation, qTo, currentRotationSpeed * Time.deltaTime);
+			_targetRotation = Quaternion.LookRotation(_currInputVec);
 
-			lastInputVec = inputVec.normalized;
+			_lastInputVec = _currInputVec.normalized;
 		}
-		else if (velocity > 0f)
+		else if (_velocity > 0f)
 		{
 			// Slowdown
-			velocity -= SLOWDOWN_RATE * Time.deltaTime;
-			Vector3 slowDownPos = roller.transform.position + (lastInputVec * velocity * Time.deltaTime);
-			roller.rigidbody.MovePosition(slowDownPos);
+			_velocity -= SLOWDOWN_RATE * Time.deltaTime;
+			Vector3 slowDownPos = _roller.transform.position + (_lastInputVec * _velocity * Time.deltaTime);
+			_roller.rigidbody.MovePosition(slowDownPos);
 		}
+
+		// So player continues turning even after InputUp
+		_roller.transform.rotation = Quaternion.Slerp(_roller.transform.rotation, _targetRotation, _currentRotationSpeed * Time.deltaTime);
 	}
 
 	void CheckForPickup()
 	{
-		pickupRay = new Ray(roller.transform.position + (Vector3.up * 1f), roller.transform.forward);
-		Debug.DrawLine(pickupRay.origin, pickupRay.origin + (pickupRay.direction * 1.5f), Color.green);
+		_pickupRay = new Ray(_roller.transform.position + (Vector3.up * 1f), _roller.transform.forward);
+		Debug.DrawLine(_pickupRay.origin, _pickupRay.origin + (_pickupRay.direction * 1.5f), Color.green);
 
 		RaycastHit hit;
 
-		if (Physics.Raycast(pickupRay, out hit, 1.5f))
+		if (Physics.Raycast(_pickupRay, out hit, 1.5f))
 		{
 			PickUpObject(hit.collider.GetComponent<PickupCollider>().GetComponentInParent<Pickupable>());
 		}
@@ -132,28 +133,28 @@ public class WalkingState : RollerState
 	{
 		if (pickup != null)
 		{
-			currentHeldObject = pickup;
-			currentHeldObject.transform.parent = roller.transform;
-			currentHeldObject.OnPickup();
+			_currentHeldObject = pickup;
+			_currentHeldObject.transform.parent = _roller.transform;
+			_currentHeldObject.OnPickup();
 			
-			Vector3 pickupPos = roller.transform.position + (roller.transform.forward * 1f) + (roller.transform.up * 1f);
-			currentHeldObject.transform.DOMove(pickupPos, PICKUP_TIME).OnComplete(roller.UnfreezeInput);
-			roller.FreezeInput();
+			Vector3 pickupPos = _roller.transform.position + (_roller.transform.forward * 1f) + (_roller.transform.up * 1f);
+			_currentHeldObject.transform.DOMove(pickupPos, PICKUP_TIME).OnComplete(_roller.UnfreezeInput);
+			_roller.FreezeInput();
 
-			currentWalkSpeed = CARRYING_SPEED;
-			currentRotationSpeed = CARRYING_ROTATION_SPEED;
+			_currentWalkSpeed = CARRYING_SPEED;
+			_currentRotationSpeed = CARRYING_ROTATION_SPEED;
 		}
 	}
 
 	void DropHeldObject()
 	{
-		if (currentHeldObject != null)
+		if (_currentHeldObject != null)
 		{
-			currentHeldObject.DropSelf();
-			currentHeldObject = null;
+			_currentHeldObject.DropSelf();
+			_currentHeldObject = null;
 
-			currentWalkSpeed = WALK_SPEED;
-			currentRotationSpeed = ROTATION_SPEED;
+			_currentWalkSpeed = WALK_SPEED;
+			_currentRotationSpeed = ROTATION_SPEED;
 		}
 	}
 }
