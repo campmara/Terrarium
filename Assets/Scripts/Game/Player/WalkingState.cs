@@ -6,7 +6,9 @@ using DG.Tweening;
 public class WalkingState : RollerState 
 {
 	const float WALK_SPEED = 4f;
-	const float AUTO_ROTATION_SPEED = 7f;
+	const float CARRYING_SPEED = 3f;
+	const float ROTATION_SPEED = 9f;
+	const float CARRYING_ROTATION_SPEED = 7f;
 	const float SLOWDOWN_RATE = 15f;
 	const float INPUT_DEADZONE = 0.3f;
 
@@ -15,6 +17,8 @@ public class WalkingState : RollerState
 
 	RollerController roller;
 
+	float currentWalkSpeed;
+	float currentRotationSpeed;
 	Vector3 lastInputVec;
 	float velocity = 0f;
 
@@ -24,7 +28,10 @@ public class WalkingState : RollerState
 	public override void Enter(RollerController parent)
 	{
 		Debug.Log("ENTER WALKING STATE");
+
 		roller = parent;
+		currentWalkSpeed = WALK_SPEED;
+		currentRotationSpeed = ROTATION_SPEED;
 
 		// MOVE THE HANDS, THIS WILL BE REPLACED BY ANIMATIONS
 		Vector3 pos = roller.transform.position + roller.transform.forward + (roller.transform.up * 0.5f);
@@ -90,12 +97,12 @@ public class WalkingState : RollerState
         
 		if (Mathf.Abs(input.LeftStickX.Value) > INPUT_DEADZONE || Mathf.Abs(input.LeftStickY.Value) > INPUT_DEADZONE)
 		{
-			velocity = WALK_SPEED;
+			velocity = currentWalkSpeed;
 			Vector3 movePos = roller.transform.position + (inputVec * velocity * Time.deltaTime);
 			roller.rigidbody.MovePosition(movePos);
 
 			Quaternion qTo = Quaternion.LookRotation(inputVec);
-			roller.transform.rotation = Quaternion.Slerp(roller.transform.rotation, qTo, AUTO_ROTATION_SPEED * Time.deltaTime);
+			roller.transform.rotation = Quaternion.Slerp(roller.transform.rotation, qTo, currentRotationSpeed * Time.deltaTime);
 
 			lastInputVec = inputVec.normalized;
 		}
@@ -132,6 +139,9 @@ public class WalkingState : RollerState
 			Vector3 pickupPos = roller.transform.position + (roller.transform.forward * 1f) + (roller.transform.up * 1f);
 			currentHeldObject.transform.DOMove(pickupPos, PICKUP_TIME).OnComplete(roller.UnfreezeInput);
 			roller.FreezeInput();
+
+			currentWalkSpeed = CARRYING_SPEED;
+			currentRotationSpeed = CARRYING_ROTATION_SPEED;
 		}
 	}
 
@@ -141,6 +151,9 @@ public class WalkingState : RollerState
 		{
 			currentHeldObject.DropSelf();
 			currentHeldObject = null;
+
+			currentWalkSpeed = WALK_SPEED;
+			currentRotationSpeed = ROTATION_SPEED;
 		}
 	}
 }
