@@ -13,8 +13,12 @@ Shader "Custom/WaterDroplet"
 		_Glossiness ("Smoothness", Range(0,1)) = 0.5
 		_Metallic ("Metallic", Range(0,1)) = 0.0
 
-		_DepressionPosA("Depression Position A", Vector) = (-1, 0, 0, 0)
-		_DepressionPosB("Depression Position B", Vector) = (1, 0, 0, 0)
+		_PushPosA("Push Position A", Vector) = (-1, 0, 0, 0)
+		_PushPosB("Push Position B", Vector) = (1, 0, 0, 0)
+		_PushDistance("Push Distance", Float) = 1
+		_PushAmount("Push Amount", Float) = 1
+		_PushScale("Push Scale", Float) = 1
+		_PushImpact("Push Impact", Float) = 1
 
 		_Position("Position", Vector) = (0, 0, 0, 0)
 		_PrevPosition("Prev Position", Vector) = (0, 0, 0, 0)
@@ -46,8 +50,12 @@ Shader "Custom/WaterDroplet"
 		half _Metallic;
 		fixed4 _Color;
 
-		fixed4 _DepressionPosA;
-		fixed4 _DepressionPosB;
+		fixed4 _PushPosA;
+		fixed4 _PushPosB;
+		half _PushDistance;
+		half _PushAmount;
+		half _PushScale;
+		half _PushImpact;
 
 		fixed4 _PrevPosition;
 		fixed4 _Position;
@@ -98,7 +106,13 @@ Shader "Custom/WaterDroplet"
 			v.vertex = mul(unity_WorldToObject, worldPos);
 
 			// Vertex Depression
-			
+			/*
+			float dist1 = clamp(distance(worldPos, _PushPosA), 0, _PushDistance);
+        	float dist2 = clamp(distance(worldPos, _PushPosB), 0, _PushDistance);
+            //v.vertex.y += _Amount * sin(abs(dist1/_Scale)-_Impact) * sin(abs(dist2/_Scale)-_Impact);
+            v.vertex.xyz += v.normal * _PushAmount * sin(abs(dist1 / _PushScale) - _PushImpact) * sin(abs(dist2 / _PushScale) - _PushImpact);
+            v.vertex.xyz += v.normal;
+			*/
 		}
 
 		void surf (Input IN, inout SurfaceOutputStandard o) 
