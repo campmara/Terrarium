@@ -21,14 +21,19 @@ public class Plant : Pickupable
 	};
 
 	[SerializeField] List<Mesh> _plantMeshes = new List<Mesh>();
-	float _neededGrowRadius = 0.0f; // calculated from mesh you're growing into
+	List<float> _growthRadius = new List<float>(); // calculated from mesh you're growing into
 
+	const float _radiusMultiplier = 2.0f;
 	const float _baseGrowthRate = 1.0f;
 	const float _waterMultiplier = 3.0f;
+	const float _plantScaleFactor = 1.4f;
+	const float _minTimeSinceDrop = .33f;
 	float [] growthTime = new float[]{ 3.0f, 3.5f, 4.0f, 5.0f, 6.0f }; // USE THIS TO TWEAK DURATION OF STAGES 
 
 	float _curGrowthRate = 0.0f;
 	float _curGrowTime = 0.0f;
+	float _neededRadius = 0.0f;
+	bool _planted = false;
 
 	GrowthStage _curStage = GrowthStage.Unplanted;
 	public GrowthStage CurStage { get { return _curStage; } }
@@ -41,7 +46,7 @@ public class Plant : Pickupable
 
 	void Update()
 	{
-		if( _curStage != GrowthStage.Unplanted  && _curStage != GrowthStage.Final )
+		if( _planted && _curStage != GrowthStage.Final )
 		{	
 			GrowPlant();
 		}
@@ -50,25 +55,29 @@ public class Plant : Pickupable
 	void InitPlant()
 	{
 		DetermineTreeSpaceNeeds();
+		_neededRadius = _growthRadius[(int)_curStage+1] * transform.localScale.x * _plantScaleFactor;
 	}
 
 	void DetermineTreeSpaceNeeds()
 	{
 		// calculate the radius plants absolutely need to grow
-		Vector3 size = GetComponentInChildren<MeshCollider>().bounds.size;
-		float largestComponent = size.x;
-
-		if( size.z > size.x )
+		for( int i = 0; i < _plantMeshes.Count; i++ )
 		{
-			largestComponent = size.z;
+			Vector3 size = _plantMeshes[i].bounds.size * transform.GetChild(0).localScale.x;
+			float largestComponent = size.x;
+			
+			if( size.z > size.x )
+			{
+				largestComponent = size.z;
+			}
+
+			_growthRadius.Add( ( largestComponent / 2.0f ) * _radiusMultiplier );
 		}
-		
-		_neededGrowRadius = largestComponent;
 	}
 
 	void GrowPlant()
 	{
-		TimeBasedPlanting(); // once we have animations to implement 
+		TimeBasedPlanting(); // once we have animations to implement,let's do that
 	}
 
 	void TimeBasedPlanting()
@@ -88,37 +97,47 @@ public class Plant : Pickupable
 	{
 		_curGrowthRate = _baseGrowthRate;
 		_curGrowTime = 0.0f;
+		rigidbody.constraints = RigidbodyConstraints.None;
+		_planted = false;
 	}
 
 	bool TryTransitionStages()
 	{
 		bool canTransition = false;
-		SwitchToNextStage();
 
 		if( !IsOverlappingPlants() )
 		{
 			canTransition = true;
+			SwitchToNextStage();
 		}
-		else
-		{
-			SwitchToPrevStage();
-		}
-
 
 		return canTransition;
 	}
 
 	bool IsOverlappingPlants()
 	{
-		RaycastHit[] overlappingObjects = Physics.SphereCastAll( transform.position,  _neededGrowRadius, Vector3.back );
+		
+		RaycastHit[] overlappingObjects = Physics.SphereCastAll( transform.position,_neededRadius, Vector3.up );
 		if( overlappingObjects.Length != 0 )
 		{
 			foreach( RaycastHit hitObj in overlappingObjects )
 			{
-				// if you're close to another plant that's not yourself, you can't stay!
-				if( hitObj.collider.gameObject.GetComponent<Plant>() && hitObj.collider.gameObject != gameObject )
+				if( !hitObj.collider.isTrigger )
 				{
-					return true;
+					if( hitObj.collider.GetComponent<Plant>() && hitObj.collider.gameObject != gameObject )
+					{
+						return true;
+					}
+				}
+				else
+				{
+					if( hitObj.transform.parent && hitObj.transform.parent.GetComponent<Plant>() )
+					{
+						if( hitObj.transform.parent != transform )
+						{
+							return true;
+						}
+					}
 				}
 			}
 		}
@@ -129,42 +148,54 @@ public class Plant : Pickupable
 	public override void DropSelf()
 	{
 		base.DropSelf();
+		_planted = true;
+		SituatePlant();
 		// if the plant can grow, let it
-		if( TryTransitionStages() )
-		{
-			SituatePlant();
-		}
+		//if( TryTransitionStages() )
+		//{
+		//	SituatePlant();
+		//}
 	}
 
 	public override void OnPickup()
 	{
+		base.OnPickup();
 		ResetPlant();
 	}
 
 	public bool CanPickup()
 	{
-		return ( _curStage == GrowthStage.Unplanted );
+		return ( _curStage == GrowthStage.Unplanted && _curGrowTime > _minTimeSinceDrop);
 	}
 
 	public void WaterPlant()
 	{
 		// ups the rate if it's in a certain mode
-		if( _curStage == GrowthStage.Sprout || _curStage == GrowthStage.Bush )
+		if( _curStage == GrowthStage.Sprout || _curStage == GrowthStage.Unplanted || _curStage == GrowthStage.Bush )
 		{
 			_curGrowthRate *= _waterMultiplier;
-			//CHANGE THE SPEED
 		}
 	}
 
 	void SwitchToNextStage()
 	{
+		transform.localScale *= _plantScaleFactor;
+
 		if( _curStage != GrowthStage.Final )
 		{
 			_curStage += 1; // they are int enums so we can just increment
+
+			if( _curStage != GrowthStage.Final )
+			{
+				//we always want the next mesh we'd be growing into's radius
+				_neededRadius = _growthRadius[(int)_curStage + 1] * ( transform.localScale.x * _plantScaleFactor );
+			}
+				
 			_curGrowTime = 0.0f;
+			_curGrowthRate = _baseGrowthRate; // ;P resets every stage for fun
 		}
 			
-		UpdateMeshData();
+		UpdateColliderData();
 	}
 		
 	void SwitchToPrevStage()
@@ -176,21 +207,29 @@ public class Plant : Pickupable
 
 		_curGrowTime = 0.0f;
 
-		UpdateMeshData();
+		UpdateColliderData();
 	}
 
-	void UpdateMeshData()
+	void UpdateColliderData()
 	{
 		GetComponentInChildren<MeshFilter>().mesh = _plantMeshes[(int)_curStage];
-		GetComponentInChildren<MeshCollider>().sharedMesh = _plantMeshes[(int)_curStage];
-
-		DetermineTreeSpaceNeeds();
+		BoxCollider innerCollider = GetComponent<BoxCollider>();
+		innerCollider.size = GetComponentInChildren<MeshFilter>().mesh.bounds.size * transform.GetChild(0).localScale.x;
+		innerCollider.center = new Vector3( 0.0f, ( innerCollider.size.y ) / 2.0f, 0.0f );
 	}
 
 	void SituatePlant()
 	{
-		_rigidbody.freezeRotation = true;
-		transform.localScale = Vector3.one * 3.0f;
 		transform.rotation = Quaternion.Euler(Vector3.zero);
+
+		rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ |
+								 RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY |
+								 RigidbodyConstraints.FreezeRotationZ;
+
+	}
+
+	void OnDrawGizmos() {
+		Gizmos.color = Color.yellow;
+		Gizmos.DrawWireSphere(transform.position, _neededRadius);
 	}
 }

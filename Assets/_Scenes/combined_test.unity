@@ -536,25 +536,6 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 733166724}
   m_Script: {fileID: 11500000, guid: 6b2efcfdbe5324c7a8eae734f819e24c, type: 3}
---- !u!1 &1847819305 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1154492977967654, guid: 059d4d3df6c654fc89d3f20b6e5ee284,
-    type: 2}
-  m_PrefabInternal: {fileID: 1872525360}
---- !u!64 &1847819309
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1847819305}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Convex: 1
-  m_InflateMesh: 0
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: ec6716cccdfa5ef44b7c08e702ed6df1, type: 3}
 --- !u!1001 &1872525360
 Prefab:
   m_ObjectHideFlags: 0
@@ -568,7 +549,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4380398202608638, guid: 059d4d3df6c654fc89d3f20b6e5ee284, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.029
       objectReference: {fileID: 0}
     - target: {fileID: 4380398202608638, guid: 059d4d3df6c654fc89d3f20b6e5ee284, type: 2}
       propertyPath: m_LocalPosition.z
@@ -594,13 +575,7 @@ Prefab:
       propertyPath: m_RootOrder
       value: 8
       objectReference: {fileID: 0}
-    - target: {fileID: 65470723644549588, guid: 059d4d3df6c654fc89d3f20b6e5ee284,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 65470723644549588, guid: 059d4d3df6c654fc89d3f20b6e5ee284, type: 2}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 059d4d3df6c654fc89d3f20b6e5ee284, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1968258243
