@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(SphereCollider))]
+[RequireComponent(typeof(BoxCollider))]
 public class PickupCollider : MonoBehaviour 
 {
 	[ReadOnly] public Pickupable parentPickupable;
