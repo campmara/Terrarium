@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// Abstract interface for character control states. Movement and other allowances will be
+// interface for character control states. Movement and other allowances will be
 // different for walking / rolling, for example.
 public class RollerState : MonoBehaviour
 {
