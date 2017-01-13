@@ -125,7 +125,12 @@ public class WalkingState : RollerState
 
 		if (Physics.Raycast(_pickupRay, out hit, 1.5f))
 		{
-			PickUpObject(hit.collider.GetComponent<PickupCollider>().GetComponentInParent<Pickupable>());
+			//if the pickupable is a plant, we can only pick it up if it's still in seed stage
+			PickupCollider collider = hit.collider.GetComponent<PickupCollider>();
+			if( collider && ( collider.GetComponentInParent<Plant>() == null || collider.GetComponentInParent<Plant>().CurStage == Plant.GrowthStage.Unplanted ) )
+			{ 
+				PickUpObject( collider.GetComponentInParent<Pickupable>() );
+			}
 		}
 	}
 

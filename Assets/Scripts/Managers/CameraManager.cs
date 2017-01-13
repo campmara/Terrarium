@@ -30,7 +30,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
     float _centerDist = 0.0f;               // Current distance of focusCenter from transform
     const float CAM_FOLLOWSPEED = 3f;
 	const float CAM_CENTER_UPDATE_SPEED = 12f;
-    const float BOUNDING_RADIUS = 3.0f;         // Distance for player to move from center for cam focus to start following
+    const float BOUNDING_RADIUS = 1.7f;         // Distance for player to move from center for cam focus to start following
 
 	/*
 	 * ROTATION VARIABLES
