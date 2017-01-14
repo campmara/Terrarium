@@ -11,7 +11,7 @@
 		_ColorBot("Bot Color", Color) = (1,1,1,1)
 		_Middle("Middle", Range(0.001, 0.999)) = 0.5
 
-		_Hardness("Hardness", Range(0, 1)) = 0.5
+		_Hardness("Hardness", Range(.25, 1)) = 0.5
 
 		_ShadowColor("Shadow Color", Color) = (1,1,1,1)
 
@@ -26,12 +26,18 @@
 	half4 _ShadowColor;
 
 	half4 LightingWrapLambert(SurfaceOutput s, half3 lightDir, half atten) {
-		half NdotL = dot(s.Normal, lightDir);
-		half diff = NdotL * _Hardness + 1 - _Hardness;
-		atten = clamp((atten + diff) / 2, 0, 1);
+		s.Normal = normalize(s.Normal);
+
+		half distAtten;
+		if (_WorldSpaceLightPos0.w == 0.0)
+			distAtten = 1.0;
+		else
+			distAtten = saturate(1.0 / length(lightDir));
+
+		half diff = (max(0, dot(s.Normal, lightDir)) * atten + 1 - _Hardness) * _Hardness; ;
+
 		half4 c;
-		c.rgb = s.Albedo * _LightColor0.rgb * (diff * atten) / 1.75;
-		//c.rgb += (1 - atten)*_ShadowColor;
+		c.rgb = (s.Albedo * diff * _LightColor0) * distAtten;
 		c.a = s.Alpha;
 		return c;
 	}
