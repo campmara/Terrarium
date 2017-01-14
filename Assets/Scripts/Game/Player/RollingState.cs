@@ -40,21 +40,27 @@ public class RollingState : RollerState
 
 	void HandleRolling(InputCollection input)
 	{
-		if (Mathf.Abs(input.LeftStickY.Value) > Mathf.Epsilon)
+		if (Mathf.Abs(input.LeftStickY.Value) > INPUT_DEADZONE)
 		{
-			if (inputVec.z >= 0)
+			if (inputVec.z >= 0f)
 			{
-				Accelerate(ROLL_SPEED, ROLL_ACCELERATION, inputVec.z);
+				Accelerate(ROLL_MAX_SPEED, ROLL_ACCELERATION, inputVec.z);
 			}
 			else
 			{
-				Accelerate(REVERSE_ROLL_SPEED, ROLL_ACCELERATION, inputVec.z);
+				Accelerate(REVERSE_ROLL_SPEED, ROLL_ACCELERATION);
 			}
-
-
-			Vector3 movePos = roller.transform.position + (roller.transform.forward * velocity * Time.deltaTime);
-			roller.rigidbody.MovePosition(movePos);
 		}
+		else
+		{
+			Accelerate(ROLL_SPEED, ROLL_ACCELERATION);
+		}
+
+		Vector3 movePos = roller.transform.position + (roller.transform.forward * velocity * Time.deltaTime);
+		roller.rigidbody.MovePosition(movePos);
+
+		lastInputVec = inputVec.normalized;
+		/*
 		else if (velocity != 0f)
 		{
 			// Slowdown
@@ -62,6 +68,7 @@ public class RollingState : RollerState
 			Vector3 slowDownPos = roller.transform.position + (roller.transform.forward * velocity * Time.deltaTime);
 			roller.rigidbody.MovePosition(slowDownPos);
 		}
+		*/
 	}
 
 	void HandleTurning(InputCollection input)
