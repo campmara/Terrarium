@@ -132,7 +132,7 @@ Material:
       second: 0.02
     - first:
         name: _PushAmount
-      second: 2.0119064e-26
+      second: 3.8874204e-10
     - first:
         name: _PushDisplacement
       second: 1
@@ -184,16 +184,16 @@ Material:
       second: {r: 0, g: 0, b: 0, a: 1}
     - first:
         name: _Position
-      second: {r: -3.5771747, g: 0.53529555, b: -9.792575, a: 0}
+      second: {r: 2.8755581, g: 0.53643346, b: -5.991185, a: 0}
     - first:
         name: _PrevPosition
-      second: {r: -3.5493188, g: 0.5480922, b: -9.784057, a: 0}
+      second: {r: 2.7848313, g: 0.5847138, b: -5.9069347, a: 0}
     - first:
         name: _PushDirection
       second: {r: 1, g: 0, b: 0, a: 1}
     - first:
         name: _PushPosA
-      second: {r: 0.6, g: 0, b: 0, a: 0}
+      second: {r: 0.4780386, g: -0.16151863, b: 0.32463956, a: 0}
     - first:
         name: _PushPosB
-      second: {r: -0.6, g: 0, b: 0, a: 0}
+      second: {r: -0.4780386, g: 0.16151863, b: -0.32463956, a: 0}
