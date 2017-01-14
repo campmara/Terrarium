@@ -34,7 +34,8 @@ public class RollerState : MonoBehaviour
 	protected const float CARRY_TURN_SPEED = 7f;
 
 	// ROLL
-	protected const float ROLL_SPEED = 13f;
+	protected const float ROLL_SPEED = 10f;
+	protected const float ROLL_MAX_SPEED = 13f;
 	protected const float REVERSE_ROLL_SPEED = 6f;
 	protected const float ROLL_ACCELERATION = 1f;
 	protected const float ROLL_DECELERATION = 10f;
@@ -90,7 +91,7 @@ public class RollerState : MonoBehaviour
 		{
 			roller.lastInputVec = value;
 		}
-	}
+  	}
 	protected float velocity
 	{ 
 		get
