@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Test B
-  m_Shader: {fileID: 10755, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: 0a4c2dc3e6c043042a5f12aa874a5954, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
   m_CustomRenderQueue: -1
@@ -58,6 +58,12 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
+        name: _NormalTex
+      second:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
         name: _OcclusionMap
       second:
         m_Texture: {fileID: 0}
@@ -65,6 +71,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     - first:
         name: _ParallaxMap
+      second:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _SecondaryTex
       second:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -92,8 +104,14 @@ Material:
         name: _GlossyReflections
       second: 1
     - first:
+        name: _Hardness
+      second: 0.5
+    - first:
         name: _Metallic
       second: 0
+    - first:
+        name: _Middle
+      second: 0.5
     - first:
         name: _Mode
       second: 0
@@ -123,5 +141,17 @@ Material:
         name: _Color
       second: {r: 0.7352941, g: 0.7352941, b: 0.7352941, a: 1}
     - first:
+        name: _ColorBot
+      second: {r: 0.76643, g: 1, b: 0.6544118, a: 1}
+    - first:
+        name: _ColorMid
+      second: {r: 0.8455882, g: 0.9361055, b: 1, a: 1}
+    - first:
+        name: _ColorTop
+      second: {r: 1, g: 0.5955882, b: 0.5955882, a: 1}
+    - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
+    - first:
+        name: _ShadowColor
+      second: {r: 1, g: 1, b: 1, a: 1}
