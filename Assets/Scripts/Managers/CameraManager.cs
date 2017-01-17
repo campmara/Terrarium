@@ -8,7 +8,8 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	{
 		NONE = 0,
 		FOLLOWPLAYER_FREE,
-		FOLLOWPLAYER_LOCKED
+		FOLLOWPLAYER_LOCKED,
+		TRANSITION
 	}
 	CameraState _state = CameraState.FOLLOWPLAYER_FREE;
 
@@ -24,13 +25,15 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	[SerializeField, ReadOnlyAttribute] Transform _focusTransform = null;
 
 	Vector3 _camOffset = Vector3.zero;      // Direction from focus to Camera  
+	Vector3 _camTargetPos = Vector3.zero;
 
     Vector3 _focusPoint = Vector3.zero;    // Center of focal point following player
     Vector3 _focusOffset = Vector3.zero;    //
     float _centerDist = 0.0f;               // Current distance of focusCenter from transform
     const float CAM_FOLLOWSPEED = 3f;
-	const float CAM_CENTER_UPDATE_SPEED = 12f;
-    const float BOUNDING_RADIUS = 3.0f;         // Distance for player to move from center for cam focus to start following
+	const float CAM_CENTER_UPDATE_SPEED = 15f;
+	const float CAM_OFFSETSCALAR = 1.0f;
+    const float BOUNDING_RADIUS = 1.7f;         // Distance for player to move from center for cam focus to start following
 
 	/*
 	 * ROTATION VARIABLES
@@ -48,9 +51,12 @@ public class CameraManager : SingletonBehaviour<CameraManager>
     const float ZOOM_X_DEADZONE = 0.1f;
 	Vector2 zoomXRange = new Vector2( 4.25f, 10.0f );	// Min & Max zoom x value (x is min)
 	Vector2 zoomYRange = new Vector2( 2.5f, 15.0f );	// Min & Max zoom y values (x is min)
-    const float ZOOM_DELTASPEED = 15.0f;    // How quickly camOffset moves towards new zoom values
+    const float ZOOM_DELTASPEED = 50.0f;    // How quickly camOffset moves towards new zoom values
 
 	const float LOCKED_ZOOMINTERP = 0.15f;
+
+	Vector3 _transStartPos = Vector3.zero;
+	Vector3 _tranEndPos = Vector3.zero;
 
     const float CAM_FOV = 90;
 
@@ -103,6 +109,9 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 		case CameraState.FOLLOWPLAYER_LOCKED:
 			HandleLockedPlayerCamera();
 			break;
+		case CameraState.TRANSITION:
+			HandleTransitionMovement();
+			break;
 		default:
 			break;
 		}
@@ -114,8 +123,9 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 		{
 			// Moves Camera
 			if ( _focusTransform != null )
-			{              
-                if( ControlManager.instance.getInput().RightStickButton.IsPressed ) 
+			{           
+				// Is currently On Press it refocuses b/c Holding Down led to gross stuff
+				if( ControlManager.instance.getInput().RightStickButton.IsPressed && ControlManager.instance.getInput().RightStickButton.LastValue == 0.0f ) 
                 {
                     ResetCameraOffset();
                 }
@@ -137,7 +147,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
                 UpdateFocusPoint();
 
                 // Move towards new focus center                
-                _mainCam.transform.position = Vector3.Lerp(_mainCam.transform.position, _focusPoint + _camOffset, CAM_FOLLOWSPEED * Time.fixedDeltaTime);
+				_mainCam.transform.position = Vector3.Lerp(_mainCam.transform.position, _focusPoint + _camOffset, CAM_FOLLOWSPEED * Time.fixedDeltaTime);
 
                 // Rotate Around Camera around player if Right stick horizontal movement
                 //      Done After b/c cam stutters if done before position change
@@ -161,7 +171,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 			// Moves Camera
 			if ( _focusTransform != null )
 			{              
-				PositionCameraBehindFocus();
+				LockCamFocus();
 
 				_camInputVals.y = ControlManager.instance.getInput().RightStickY;              
 
@@ -183,6 +193,23 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 		}
 	}
 
+	/// <summary>
+	/// Sets Cam Offset behind focus transform.
+	/// </summary>
+	private void LockCamFocus()
+	{
+		_focusPoint = _focusTransform.position;	
+
+		PositionCameraBehindFocus();
+	}
+
+	/// <summary>
+	/// For when rotating camera behind player or transitioning camera to any position ideally
+	/// </summary>
+	void HandleTransitionMovement()
+	{
+	}
+
     /// <summary>
     /// Based on Murray's code from here: https://raw.githubusercontent.com/MurrayIRC/frog/master/Assets/Scripts/Actors/Player/PlayerCamera.cs
     /// </summary>
@@ -196,8 +223,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
         {
             // Is outside of the circle.   
 			Vector3 desiredPos = new Vector3(_focusTransform.position.x - _focusOffset.x, _focusPoint.y, _focusTransform.position.z - _focusOffset.z);
-			desiredPos = Vector3.Lerp(_focusPoint, desiredPos, CAM_CENTER_UPDATE_SPEED * Time.fixedDeltaTime);
-			_focusPoint = desiredPos;          
+			_focusPoint = Vector3.Lerp(_focusPoint, desiredPos, CAM_CENTER_UPDATE_SPEED * Time.fixedDeltaTime);         
         }
         else
         {
@@ -235,15 +261,12 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 
 	}
 
+	/// <summary>
+	/// Sets Cam Offset behind focus transform.
+	/// </summary>
 	private void PositionCameraBehindFocus()
 	{
-		// Place camera behind player
-		_mainCam.transform.position = _focusTransform.transform.position + ( -_focusTransform.forward * Mathf.Lerp(zoomXRange.x, zoomXRange.y, _zoomInterp));
-		_mainCam.transform.SetPosY( Mathf.Lerp( zoomYRange.x, zoomYRange.y, _zoomInterp ) );
-
-		_focusPoint = _focusTransform.position;
-		_camOffset = _mainCam.transform.position - _focusPoint;
-
+		_camOffset = ( -_focusTransform.forward * Mathf.Lerp(zoomXRange.x, zoomXRange.y, _zoomInterp) ) + ( Vector3.up * Mathf.Lerp( zoomYRange.x, zoomYRange.y, _zoomInterp ) );
 	}
 
 	private void ResetCameraOffset()
@@ -262,6 +285,10 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 			switch( _state )
 			{
 			case CameraState.FOLLOWPLAYER_FREE:
+				if( newState == CameraState.TRANSITION )
+				{
+					
+				}
 				break;
 			case CameraState.FOLLOWPLAYER_LOCKED:
 				break;
