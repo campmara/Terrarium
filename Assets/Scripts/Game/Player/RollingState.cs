@@ -5,32 +5,13 @@ using DG.Tweening;
 
 public class RollingState : RollerState 
 {
-	const float ROLL_SPEED = 8f;
-	const float TURN_SPEED = 250f;
-	const float SLOWDOWN_RATE = 10f;
-	const float X_INPUT_DEADZONE = 0.3f;
-
-	RollerController roller;
-
-	Vector3 lastInputVec = Vector3.zero;
-	float velocity = 0f;
+	float turnVelocity = 0f;
 
 	public override void Enter(RollerController parent)
 	{
 		Debug.Log("ENTER ROLLING STATE");
 
 		roller = parent;
-
-		// MOVE THE HANDS, THIS WILL BE REPLACED BY ANIMATIONS
-		roller.FreezeInput();
-		Vector3 posL = roller.transform.position + -roller.transform.right + (roller.transform.up * 0.5f);
-		roller.leftArmBlock.transform.DOMove(posL, 0.75f);
-
-		Vector3 posR = roller.transform.position + roller.transform.right + (roller.transform.up * 0.5f);
-		roller.rightArmBlock.transform.DOMove(posR, 0.75f).OnComplete(roller.UnfreezeInput);
-		// END
-
-		CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_LOCKED );
 	}
 
 	public override void Exit()
@@ -40,54 +21,87 @@ public class RollingState : RollerState
 
 	public override void HandleInput(InputCollection input)
 	{
-		// Always keep this at zero because the rigidbody's velocity is never needed and bumping into things
-		// makes the character go nuts.
-		roller.rigidbody.velocity = Vector3.zero;
-
-		if (input.AButton.WasPressed)
+		// B BUTTON
+		if ((input.BButton.WasReleased & input.BButton.HasChanged) || input.BButton.Value == 0)
 		{
-
-		}
-
-		/*
-			B BUTTON
-		*/
-		if (input.BButton.WasPressed & input.BButton.HasChanged)
-		{
-			roller.ChangeState(RollerState.Rolling, RollerState.Walking);
+			roller.ChangeState(Rolling, RollToWalk);
 		}
 
 		// MOVEMENT HANDLING
-		Vector3 inputVec = new Vector3
-		(
+		inputVec = new Vector3(
 			input.LeftStickX,
 			0f,
 			input.LeftStickY
 		);
 
-		if (Mathf.Abs(input.LeftStickY.Value) > Mathf.Epsilon)
-		{
-			velocity = ROLL_SPEED * inputVec.z;
-			Vector3 movePos = roller.transform.position + (roller.transform.forward * velocity * Time.deltaTime);
-			roller.rigidbody.MovePosition(movePos);
+		HandleRolling(input);
+		HandleTurning(input);
+	}
 
-			lastInputVec = inputVec.normalized;
+	void HandleRolling(InputCollection input)
+	{
+		if (Mathf.Abs(input.LeftStickY.Value) > INPUT_DEADZONE)
+		{
+			if (inputVec.z >= 0f)
+			{
+				Accelerate(ROLL_MAX_SPEED, ROLL_ACCELERATION, inputVec.z);
+			}
+			else
+			{
+				Accelerate(REVERSE_ROLL_SPEED, ROLL_ACCELERATION);
+			}
+		}
+		else
+		{
+			Accelerate(ROLL_SPEED, ROLL_ACCELERATION);
 		}
 
-		if (Mathf.Abs(input.LeftStickX.Value) > X_INPUT_DEADZONE)
-		{
-			Quaternion turn = Quaternion.Euler(0f, roller.transform.eulerAngles.y + (inputVec.x * TURN_SPEED * Time.deltaTime), 0f);
-			roller.rigidbody.MoveRotation(turn);
+		Vector3 movePos = roller.transform.position + (roller.transform.forward * velocity * Time.deltaTime);
+		roller.rigidbody.MovePosition(movePos);
 
-			lastInputVec = inputVec.normalized;
-		}
-
-		if (velocity > 0f)
+		lastInputVec = inputVec.normalized;
+		/*
+		else if (velocity != 0f)
 		{
 			// Slowdown
-			velocity -= SLOWDOWN_RATE * Time.deltaTime;
-			Vector3 slowDownPos = roller.transform.position + (roller.transform.forward * lastInputVec.z * velocity * Time.deltaTime);
+			velocity -= Mathf.Sign(velocity) * ROLL_DECELERATION * Time.deltaTime;
+			Vector3 slowDownPos = roller.transform.position + (roller.transform.forward * velocity * Time.deltaTime);
 			roller.rigidbody.MovePosition(slowDownPos);
+		}
+		*/
+	}
+
+	void HandleTurning(InputCollection input)
+	{
+		if (Mathf.Abs(input.LeftStickX.Value) > INPUT_DEADZONE)
+		{
+			if (inputVec.z >= -0.2f)
+			{
+				AccelerateTurn(TURN_SPEED, TURN_ACCELERATION, inputVec.x);
+			}
+			else
+			{
+				AccelerateTurn(REVERSE_TURN_SPEED, TURN_ACCELERATION, inputVec.x);
+			}
+
+			Quaternion turn = Quaternion.Euler(0f, roller.transform.eulerAngles.y + (turnVelocity * Time.deltaTime), 0f);
+			roller.rigidbody.MoveRotation(turn);
+		}
+		else if (turnVelocity != 0f)
+		{
+			// Slowdown
+			turnVelocity -= Mathf.Sign(turnVelocity) * TURN_DECELERATION * Time.deltaTime;
+			Quaternion slowTurn = Quaternion.Euler(0f, roller.transform.eulerAngles.y + (turnVelocity * Time.deltaTime), 0f);
+			roller.rigidbody.MoveRotation(slowTurn);
+		}
+	}
+
+	void AccelerateTurn(float max, float accel, float inputAffect)
+	{
+		turnVelocity += accel * inputAffect;
+		if (Mathf.Abs(turnVelocity) > max)
+		{
+			turnVelocity = Mathf.Sign(turnVelocity) * max;
 		}
 	}
 }
