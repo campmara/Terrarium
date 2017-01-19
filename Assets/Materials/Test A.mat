@@ -142,13 +142,13 @@ Material:
       second: {r: 1, g: 0.50735295, b: 0.50735295, a: 1}
     - first:
         name: _ColorBot
-      second: {r: 1, g: 1, b: 1, a: 1}
+      second: {r: 0.64705884, g: 0.27058825, b: 0.42745098, a: 1}
     - first:
         name: _ColorMid
-      second: {r: 1, g: 1, b: 1, a: 1}
+      second: {r: 0.98823535, g: 0.4901961, b: 0.3529412, a: 1}
     - first:
         name: _ColorTop
-      second: {r: 1, g: 1, b: 1, a: 1}
+      second: {r: 0.64705884, g: 0.27058825, b: 0.427451, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
