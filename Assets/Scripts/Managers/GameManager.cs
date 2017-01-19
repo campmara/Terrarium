@@ -20,7 +20,9 @@ public class GameManager : MonoBehaviour
 		NONE = 0,
 		INIT,
 		INTRO,			// Wait for player input to start match
-		MAIN
+		MAIN,
+        POND_RETURN,    // When Player transitions back to Pond
+        POND_POP       // When Player pops out of Pond (respawns)        
 	}
 
 	[SerializeField] private GameState _state;
@@ -145,8 +147,7 @@ public class GameManager : MonoBehaviour
 	}
 
 	private void RestartGame()
-	{
-		
+	{		
 	}
 
 	private void Initialize()
@@ -156,7 +157,11 @@ public class GameManager : MonoBehaviour
 
 	IEnumerator DelayedInitialize()
 	{
-		UIManager.instance.Initialize();
+        SaveManager.instance.Initialize();
+
+        yield return new WaitUntil( () => SaveManager.instance.IsInitialized );
+
+        UIManager.instance.Initialize();
 
 		yield return new WaitUntil( () => UIManager.instance.IsInitialized );
 
