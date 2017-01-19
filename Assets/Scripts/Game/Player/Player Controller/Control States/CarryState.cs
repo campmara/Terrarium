@@ -6,13 +6,18 @@ public class CarryState : RollerState
 {
 	Quaternion targetRotation = Quaternion.identity;
 
-	public override void Enter(RollerController parent)
+    void Awake()
+    {
+        _controlState = P_ControlState.CARRYING;
+    }
+
+    public override void Enter( RollerController parent, P_ControlState prevState )
 	{
 		Debug.Log("ENTER CARRY STATE");
 		roller = parent;
 	}
 
-	public override void Exit()
+	public override void Exit( P_ControlState nextState )
 	{
 		Debug.Log("EXIT CARRY STATE");
 		DropHeldObject();
@@ -27,7 +32,7 @@ public class CarryState : RollerState
 
 		if (input.BButton.WasPressed & input.BButton.HasChanged)
 		{
-			roller.ChangeState(Carrying, WalkToRoll);
+			roller.ChangeState(Carrying, Rolling);
 		}
 
 		CarryMovement(input);

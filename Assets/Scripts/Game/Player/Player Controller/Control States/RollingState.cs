@@ -6,17 +6,31 @@ using DG.Tweening;
 public class RollingState : RollerState 
 {
 	float turnVelocity = 0f;
+    void Awake()
+    {
+        _controlState = P_ControlState.ROLLING;
+    }
 
-	public override void Enter(RollerController parent)
+    public override void Enter(RollerController parent, P_ControlState prevState)
 	{
 		Debug.Log("ENTER ROLLING STATE");
+
+        // Handle Transition
+        switch ( prevState )
+        {
+            case P_ControlState.WALKING:
+                CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_LOCKED );                
+                break;
+            default:
+                break;
+        }
 
 		roller = parent;
 
         PlayerManager.instance.Player.AnimationController.PlayRollAnim();
     }
 
-	public override void Exit()
+	public override void Exit(P_ControlState nextState)
 	{
 		Debug.Log("EXIT ROLLING STATE");
 	}
@@ -26,7 +40,7 @@ public class RollingState : RollerState
 		// B BUTTON
 		if ((input.BButton.WasReleased & input.BButton.HasChanged) || input.BButton.Value == 0)
 		{
-			roller.ChangeState(Rolling, RollToWalk);
+			roller.ChangeState(Rolling, Walking);
 		}
 
 		// MOVEMENT HANDLING

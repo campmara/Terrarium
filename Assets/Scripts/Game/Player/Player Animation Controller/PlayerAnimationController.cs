@@ -8,8 +8,9 @@ public class PlayerAnimationController : MonoBehaviour {
 
     Animator _animator = null;
 
-    const string ANIM_WALK = "WalkAnim";
-    const string ANIM_ROLL = "RollAnim";
+    const string WALK_ANIM = "WalkAnim";
+    const string ROLL_ANIM = "RollAnim";
+    const string IDLE_ANIM = "IdleAnim";
 
     public void Initialize()
     {
@@ -21,18 +22,18 @@ public class PlayerAnimationController : MonoBehaviour {
         _animator = this.GetComponent<Animator>();
 	}
 	
-    public void PauseAnimator()
-    {
-        _animator.StopPlayback();        
+    public void PlayIdleAnim()
+    {     
+        _animator.Play( IDLE_ANIM );
     }
 
     public void PlayWalkAnim()
     {
-        _animator.Play( ANIM_WALK );
+        _animator.Play( WALK_ANIM );
     }
 
     public void PlayRollAnim()
     {
-        _animator.Play( ANIM_ROLL );
+        _animator.Play( ROLL_ANIM );
     }
 }

@@ -24,9 +24,9 @@ public class RollerController : ControllerBase
 
 	public void ChangeState(RollerState fromState, RollerState toState)
 	{
-		fromState.Exit();
+		fromState.Exit( toState.State );
 		currentState = toState;
-		currentState.Enter(this);
+		currentState.Enter( this, fromState.State );
 	}
 
 	void Awake()

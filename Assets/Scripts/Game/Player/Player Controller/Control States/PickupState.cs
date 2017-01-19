@@ -5,7 +5,12 @@ using DG.Tweening;
 
 public class PickupState : RollerState 
 {
-	public override void Enter(RollerController parent)
+    void Awake()
+    {
+        _controlState = P_ControlState.PICKINGUP;
+    }
+
+    public override void Enter(RollerController parent, P_ControlState prevState)
 	{
 		Debug.Log("ENTER PICKUP STATE");
 		roller = parent;
@@ -22,7 +27,7 @@ public class PickupState : RollerState
 		roller.ChangeState(Pickup, Carrying);
 	}
 
-	public override void Exit()
+	public override void Exit(P_ControlState nextState)
 	{
 		Debug.Log("EXIT PICKUP STATE");
 	}

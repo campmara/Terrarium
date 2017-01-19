@@ -105,7 +105,7 @@ Material:
       second: 1
     - first:
         name: _Hardness
-      second: 0.5
+      second: 0.449
     - first:
         name: _Metallic
       second: 0
@@ -142,16 +142,16 @@ Material:
       second: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - first:
         name: _ColorBot
-      second: {r: 0.421064, g: 0.8114157, b: 0.9705882, a: 1}
+      second: {r: 0.20588237, g: 0.7699797, b: 1, a: 1}
     - first:
         name: _ColorMid
-      second: {r: 0.41960788, g: 0.8117648, b: 0.9725491, a: 1}
+      second: {r: 0.20784315, g: 0.7686275, b: 1, a: 1}
     - first:
         name: _ColorTop
-      second: {r: 0.41960788, g: 0.8117648, b: 0.9725491, a: 1}
+      second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
     - first:
         name: _ShadowColor
-      second: {r: 1, g: 1, b: 1, a: 1}
+      second: {r: 0.08088237, g: 0.27738333, b: 1, a: 1}

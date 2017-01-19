@@ -22,9 +22,7 @@ public class RollerState : MonoBehaviour
     public P_ControlState State { get { return _controlState; } set { _controlState = value; } }
 
     public static WalkingState Walking = new WalkingState();   
-	public static RollingState Rolling = new RollingState();
-	public static WalkToRollState WalkToRoll = new WalkToRollState();
-	public static RollToWalkState RollToWalk = new RollToWalkState();
+	public static RollingState Rolling = new RollingState();	
 	public static PickupState Pickup = new PickupState();
 	public static CarryState Carrying = new CarryState();
     public static IdleState Idling = new IdleState();
@@ -43,7 +41,7 @@ public class RollerState : MonoBehaviour
 	protected const float WALK_DECELERATION = 15f;
 
 	// WALK TURNING
-	protected const float WALK_TURN_SPEED = 12f;
+	protected const float WALK_TURN_SPEED = 5f;
 	protected const float CARRY_TURN_SPEED = 7f;
 
 	// ROLL
@@ -62,8 +60,12 @@ public class RollerState : MonoBehaviour
 	// PICKUP
 	protected const float PICKUP_TIME = 0.75f;
 
-	// TRANSITIONS
-	protected const float TRANSITION_TIME = 1f;
+    // IDLE
+    protected const float IDLE_MAXMAG = 0.01f;
+    protected const float IDLE_WAITTIME = 0.1f;
+
+    // TRANSITIONS
+    protected const float TRANSITION_TIME = 1f;
 	protected const float TRANSITION_DECELERATION = 20f;
 
 	// =================
@@ -123,8 +125,8 @@ public class RollerState : MonoBehaviour
 	// V I R T U A L  M E T H O D S
 	// ============================
 
-	public virtual void Enter(RollerController parent) {}
-	public virtual void Exit() {}
+	public virtual void Enter(RollerController parent, P_ControlState prevState) {}
+	public virtual void Exit(P_ControlState nextState) {}
 
 	public virtual void HandleInput(InputCollection input) {}
 	public virtual void ProcessMovement() {}
