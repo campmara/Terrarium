@@ -9,7 +9,8 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 		NONE = 0,
 		FOLLOWPLAYER_FREE,
 		FOLLOWPLAYER_LOCKED,
-		TRANSITION
+		TRANSITION,
+        POND_RETURNPAN        
 	}
 	CameraState _state = CameraState.FOLLOWPLAYER_FREE;
 
@@ -101,7 +102,22 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	// Update is called once per frame
 	void FixedUpdate () 
 	{
-		switch( _state ) 
+
+/*#if UNITY_EDITOR
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            if (_state == CameraState.NONE)
+            {
+                _state = CameraState.FOLLOWPLAYER_FREE;
+            }
+            else
+            {
+                _state = CameraState.NONE;
+            }
+        }
+
+#endif*/
+        switch( _state ) 
 		{
 		case CameraState.FOLLOWPLAYER_FREE:
 			HandleFreePlayerCamera();
