@@ -87,9 +87,14 @@ public class WalkingState : RollerState
 		{
 			//if the pickupable is a plant, we can only pick it up if it's still in seed stage
 			PickupCollider collider = hit.collider.GetComponent<PickupCollider>();
-			if( collider && ( collider.GetComponentInParent<Plant>() == null || collider.GetComponentInParent<Plant>().CurStage == Plant.GrowthStage.Unplanted ) )
+
+			if( collider )
 			{ 
-				PickUpObject( collider.GetComponentInParent<Pickupable>() );
+				Plantable plantComponent = collider.GetComponentInParent<Plantable>();
+				if( plantComponent && plantComponent.CanPickup )
+				{
+					PickUpObject( collider.GetComponentInParent<Pickupable>() );
+				}
 			}
 		}
 	}

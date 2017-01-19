@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
 
 		switch(_state)
 		{
-		case GameState.INTRO:
+			case GameState.INTRO:
 			break;
 		}
 
@@ -175,6 +175,16 @@ public class GameManager : MonoBehaviour
 		CameraManager.instance.Initialize();
 
 		yield return new WaitUntil( () => CameraManager.instance.IsInitialized );
+
+
+		TimeManager.instance.Initialize();
+
+		yield return new WaitUntil( () => TimeManager.instance.IsInitialized );
+
+
+		PlantManager.instance.Initialize();
+
+		yield return new WaitUntil( () => PlantManager.instance.IsInitialized );
 
         ChangeGameState(GameState.MAIN);
 
