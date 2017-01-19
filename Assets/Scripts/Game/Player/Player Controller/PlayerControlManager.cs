@@ -24,7 +24,7 @@ public class PlayerControlManager : MonoBehaviour
 	}
 
 	public void Initialize()
-	{
+	{      
 		// Initialize Controller being used
 		SetActiveController<RollerController>();
 	}

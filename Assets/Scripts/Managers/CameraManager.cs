@@ -9,7 +9,8 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 		NONE = 0,
 		FOLLOWPLAYER_FREE,
 		FOLLOWPLAYER_LOCKED,
-		TRANSITION
+		TRANSITION,
+        POND_RETURNPAN        
 	}
 	CameraState _state = CameraState.FOLLOWPLAYER_FREE;
 

@@ -19,7 +19,9 @@ public class WalkToRollState : RollerState
 
 	void Transition()
 	{
-		roller.ChangeState(WalkToRoll, Rolling);
+        PlayerManager.instance.Player.AnimationController.PauseAnimator();
+
+        roller.ChangeState(WalkToRoll, Rolling);
 	}
 
 	public override void Exit()

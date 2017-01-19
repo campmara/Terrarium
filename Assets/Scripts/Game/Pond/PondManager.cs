@@ -22,4 +22,19 @@ public class PondManager : SingletonBehaviour<PondManager> {
     {
 		
 	}
+
+    public void PopPlayerFromPond()
+    {
+
+    }
+
+    public void ReturnPlayerToPond()
+    {
+        
+    }
+
+    IEnumerator DelayedReturnPlayer()
+    {
+        yield return 0;
+    }
 }

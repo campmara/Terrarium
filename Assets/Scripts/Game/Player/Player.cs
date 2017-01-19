@@ -14,22 +14,22 @@ public class Player : MonoBehaviour {
     // Use this for initialization
     void Awake () 
 	{
-		
-	}
+        _playerControlManager = this.GetComponent<PlayerControlManager>();
+        _playerAnimationController = this.GetComponent<PlayerAnimationController>();
+    }
 
 	public void Initialize()
 	{
-		if (_playerControlManager == null)
+		if ( _playerControlManager != null )
 		{
-			_playerControlManager = this.GetComponent<PlayerControlManager>();
-		}
-		_playerControlManager.Initialize();
-
-        if(_playerAnimationController == null)
-        {
-            _playerAnimationController = this.GetComponent<PlayerAnimationController>();
+            _playerControlManager.Initialize();
         }
-        _playerAnimationController.Initialize();
+		
+        if ( _playerAnimationController != null )
+        {
+            _playerAnimationController.Initialize();
+        }
+        
 
 	}
 

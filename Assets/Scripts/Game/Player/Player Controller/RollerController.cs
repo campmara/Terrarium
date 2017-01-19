@@ -5,16 +5,23 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class RollerController : ControllerBase 
 {
-	[ReadOnly] public Rigidbody rigidbody;
+    [ReadOnly]
+    Rigidbody _rigidbody = null;
+    public Rigidbody RB { get { return _rigidbody; } }
 
 	// These have accessors in the RollerState
-	[ReadOnly] public Pickupable currentHeldObject = null;
-	[ReadOnly] public Vector3 inputVec = Vector3.zero;
-	[ReadOnly] public Vector3 lastInputVec = Vector3.zero;
-	[ReadOnly] public float velocity = 0f;
+	[ReadOnly] Pickupable _currentHeldObject = null;
+    public Pickupable CurrentHeldObject { get { return _currentHeldObject; } set { _currentHeldObject = value; } }
+	[ReadOnly] Vector3 _inputVec = Vector3.zero;
+    public Vector3 InputVec { get { return _inputVec; } set { _inputVec = value; } }
+    [ReadOnly] Vector3 _lastInputVec = Vector3.zero;
+    public Vector3 LastInputVec { get { return _lastInputVec; } set { _lastInputVec = value; } }
+    [ReadOnly] float _velocity = 0f;
+    public float Velocity { get { return _velocity; } set { _velocity = value; } }
 
-	// STATE MACHINE
-	RollerState currentState;
+    // STATE MACHINE
+    RollerState currentState;
+
 	public void ChangeState(RollerState fromState, RollerState toState)
 	{
 		fromState.Exit();
@@ -27,7 +34,7 @@ public class RollerController : ControllerBase
 		//Debug.Log("Added Test Controller to Player Control Manager");
 		ChangeState(new RollerState(), RollerState.Walking);
 
-		rigidbody = GetComponent<Rigidbody>();
+        _rigidbody = GetComponent<Rigidbody>();
 	}
 
 	void OnEnable()
@@ -43,10 +50,10 @@ public class RollerController : ControllerBase
 
 	protected override void HandleInput()
 	{
-		// Always keep this at zero because the rigidbody's velocity is never needed and bumping into things
-		// makes the character go nuts.
-		rigidbody.velocity = Vector3.zero;
+        // Always keep this at zero because the rigidbody's velocity is never needed and bumping into things
+        // makes the character go nuts.
+        _rigidbody.velocity = Vector3.zero;
 
-		currentState.HandleInput(input);
+		currentState.HandleInput(_input);
 	}
 }

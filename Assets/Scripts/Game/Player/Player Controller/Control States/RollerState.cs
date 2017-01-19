@@ -5,16 +5,29 @@ using UnityEngine;
 // Interface for character control states.
 public class RollerState : MonoBehaviour
 {
-	// ===========
-	// S T A T E S
-	// ===========
+    // ===========
+    // S T A T E S
+    // ===========
 
-	public static WalkingState Walking = new WalkingState();
+    public enum P_ControlState
+    {
+        NONE = 0,
+        WALKING,
+        ROLLING,
+        PICKINGUP,
+        CARRYING,
+        IDLING
+    }
+    protected P_ControlState _controlState = P_ControlState.NONE;
+    public P_ControlState State { get { return _controlState; } set { _controlState = value; } }
+
+    public static WalkingState Walking = new WalkingState();   
 	public static RollingState Rolling = new RollingState();
 	public static WalkToRollState WalkToRoll = new WalkToRollState();
 	public static RollToWalkState RollToWalk = new RollToWalkState();
 	public static PickupState Pickup = new PickupState();
 	public static CarryState Carrying = new CarryState();
+    public static IdleState Idling = new IdleState();
 
 	// =================
 	// C O N S T A N T S
@@ -63,44 +76,44 @@ public class RollerState : MonoBehaviour
 	{ 
 		get 
 		{ 
-			return roller.currentHeldObject; 
+			return roller.CurrentHeldObject; 
 		}
 		set
 		{
-			roller.currentHeldObject = value;
+			roller.CurrentHeldObject = value;
 		}
 	}
 	protected Vector3 inputVec
 	{ 
 		get 
 		{ 
-			return roller.inputVec; 
+			return roller.InputVec; 
 		}
 		set
 		{
-			roller.inputVec = value;
+			roller.InputVec = value;
 		}
 	}
 	protected Vector3 lastInputVec
 	{ 
 		get 
 		{ 
-			return roller.lastInputVec; 
+			return roller.LastInputVec; 
 		}
 		set
 		{
-			roller.lastInputVec = value;
+			roller.LastInputVec = value;
 		}
   	}
 	protected float velocity
 	{ 
 		get
 		{
-			return roller.velocity; 
+			return roller.Velocity; 
 		}
 		set
 		{
-			roller.velocity = value;
+			roller.Velocity = value;
 		}
 	}
 
@@ -120,7 +133,7 @@ public class RollerState : MonoBehaviour
 	// H E L P E R  M E T H O D S
 	// ==========================
 
-	public void Accelerate(float max, float accel, float inputAffect = 1.0f)
+	protected void Accelerate(float max, float accel, float inputAffect = 1.0f)
 	{
 		velocity += accel * inputAffect;
 		if (Mathf.Abs(velocity) > max)

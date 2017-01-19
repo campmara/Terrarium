@@ -21,7 +21,7 @@ public class SaveManager : SingletonBehaviour<SaveManager> {
         }
         else
         {
-            // Create new Save Data
+            // TODO: Create new Save Data
         }
 
         isInitialized = true;

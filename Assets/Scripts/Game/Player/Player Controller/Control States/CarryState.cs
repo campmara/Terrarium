@@ -47,7 +47,7 @@ public class CarryState : RollerState
 		{
 			Accelerate(CARRY_SPEED, WALK_ACCELERATION);
 			Vector3 movePos = roller.transform.position + (inputVec * velocity * Time.deltaTime);
-			roller.rigidbody.MovePosition(movePos);
+			roller.RB.MovePosition(movePos);
 
 			targetRotation = Quaternion.LookRotation(inputVec);
 
@@ -58,7 +58,7 @@ public class CarryState : RollerState
 			// Slowdown
 			velocity -= WALK_DECELERATION * Time.deltaTime;
 			Vector3 slowDownPos = roller.transform.position + (lastInputVec * velocity * Time.deltaTime);
-			roller.rigidbody.MovePosition(slowDownPos);
+			roller.RB.MovePosition(slowDownPos);
 		}
 
 		// So player continues turning even after InputUp

@@ -12,6 +12,8 @@ public class WalkingState : RollerState
 		Debug.Log("ENTER WALKING STATE");
 
 		roller = parent;
+
+        PlayerManager.instance.Player.AnimationController.PlayWalkAnim();
 	}
 
 	public override void Exit()
@@ -54,7 +56,7 @@ public class WalkingState : RollerState
 		{
 			Accelerate(WALK_SPEED, WALK_ACCELERATION);
 			Vector3 movePos = roller.transform.position + (inputVec * velocity * Time.deltaTime);
-			roller.rigidbody.MovePosition(movePos);
+			roller.RB.MovePosition(movePos);
 
 			targetRotation = Quaternion.LookRotation(inputVec);
 
@@ -65,7 +67,7 @@ public class WalkingState : RollerState
 			// Slowdown
 			velocity -= WALK_DECELERATION * Time.deltaTime;
 			Vector3 slowDownPos = roller.transform.position + (lastInputVec * velocity * Time.deltaTime);
-			roller.rigidbody.MovePosition(slowDownPos);
+			roller.RB.MovePosition(slowDownPos);
 		}
 
 		// So player continues turning even after InputUp
