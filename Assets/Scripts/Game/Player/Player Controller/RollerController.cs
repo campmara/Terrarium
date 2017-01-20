@@ -2,6 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum P_ControlState
+{
+	NONE = 0,
+	WALKING,
+	ROLLING,
+	PICKINGUP,
+	CARRYING,
+	IDLING
+}
+
 [RequireComponent(typeof(Rigidbody))]
 public class RollerController : ControllerBase 
 {
@@ -19,24 +29,52 @@ public class RollerController : ControllerBase
     [ReadOnly] float _velocity = 0f;
     public float Velocity { get { return _velocity; } set { _velocity = value; } }
 
-    // STATE MACHINE
-    RollerState currentState;
+	// ===========
+	// S T A T E S
+	// ===========
 
-	public void ChangeState(RollerState fromState, RollerState toState)
-	{
-		fromState.Exit( toState.State );
-		currentState = toState;
-		currentState.Enter( this, fromState.State );
-	}
+	// STATE MACHINE
+	RollerState _currentState;
 
+	protected P_ControlState _controlState = P_ControlState.NONE;
+	public P_ControlState State { get { return _controlState; } set { _controlState = value; } }
+
+	private WalkingState _walking = null;   
+	private RollingState _rolling = null;	
+	private PickupState _pickup = null;
+	private CarryState _carrying = null;
+	private IdleState _idling = null;
 	void Awake()
 	{
 		//Debug.Log("Added Test Controller to Player Control Manager");
-		ChangeState(new RollerState(), RollerState.Walking);
-
         _rigidbody = GetComponent<Rigidbody>();
+
+		// Add State Controller, Set parent to This Script, set to inactive
+		_walking = this.gameObject.AddComponent<WalkingState>();
+		_walking.RollerParent = this;
+		_walking.enabled = false;
+
+		_rolling = this.gameObject.AddComponent<RollingState>();
+		_rolling.RollerParent = this;
+		_rolling.enabled = false;
+
+		_pickup = this.gameObject.AddComponent<PickupState>();
+		_pickup.RollerParent = this;
+		_pickup.enabled = false;
+
+		_carrying = this.gameObject.AddComponent<CarryState>();
+		_carrying.RollerParent = this;
+		_carrying.enabled = false;
+
+		_idling = this.gameObject.AddComponent<IdleState>();
+		_idling.RollerParent = this;
+		_idling.enabled = false;
+			
+		// Set state to default (walking for now)
+		ChangeState( P_ControlState.NONE, P_ControlState.WALKING );
 	}
 
+/* Can use these for if we are swapping in & out controllers from Player Control Manager
 	void OnEnable()
 	{
 		//Debug.Log("Enabled Test Controller on Player Control Manager");
@@ -47,6 +85,45 @@ public class RollerController : ControllerBase
 	{
 		//Debug.Log("Disabled Test Controller on Player Control Manager");	
 	}
+*/
+
+	public void ChangeState(P_ControlState fromState, P_ControlState toState)
+	{
+		// Exit & Deactivate current state
+		if( fromState != P_ControlState.NONE )
+		{
+			_currentState.Exit( toState );
+
+			_currentState.enabled = false;
+		}
+			
+		// Enter and Activate New State
+		switch( toState )
+		{
+		case P_ControlState.WALKING:
+			_currentState = _walking;
+			break;
+		case P_ControlState.ROLLING:
+			_currentState = _rolling;
+			break;
+		case P_ControlState.PICKINGUP:
+			_currentState = _pickup;
+			break;
+		case P_ControlState.CARRYING:
+			_currentState = _carrying;
+			break;
+		case P_ControlState.IDLING:
+			_currentState = _idling;
+			break;
+		default:
+			break;
+		}
+
+		_currentState.enabled = true;
+
+		_currentState.Enter( fromState );
+	}
+
 
 	protected override void HandleInput()
 	{
@@ -54,6 +131,6 @@ public class RollerController : ControllerBase
         // makes the character go nuts.
         _rigidbody.velocity = Vector3.zero;
 
-		currentState.HandleInput(_input);
+		_currentState.HandleInput( _input );
 	}
 }
