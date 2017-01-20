@@ -2,15 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PondTech : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
+public class PondTech : MonoBehaviour 
+{
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }
