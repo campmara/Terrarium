@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: lambert1
-  m_Shader: {fileID: 4800000, guid: 0a4c2dc3e6c043042a5f12aa874a5954, type: 3}
+  m_Name: Ring
+  m_Shader: {fileID: 4800000, guid: 3ad8fa603fab94798b858fd2fc25ea54, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
   m_CustomRenderQueue: -1
@@ -40,18 +40,6 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
-        name: _DispTex
-      second:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - first:
-        name: _DispTex2
-      second:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - first:
         name: _EmissionMap
       second:
         m_Texture: {fileID: 0}
@@ -59,12 +47,6 @@ Material:
         m_Offset: {x: 0, y: 0}
     - first:
         name: _MainTex
-      second:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - first:
-        name: _MainTex2
       second:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -110,9 +92,6 @@ Material:
         name: _DetailNormalMapScale
       second: 1
     - first:
-        name: _Displacement
-      second: 0.5
-    - first:
         name: _DstBlend
       second: 0
     - first:
@@ -126,7 +105,10 @@ Material:
       second: 1
     - first:
         name: _Hardness
-      second: 0.449
+      second: 1
+    - first:
+        name: _InnerRadius
+      second: 0.975
     - first:
         name: _Metallic
       second: 0
@@ -140,26 +122,17 @@ Material:
         name: _OcclusionStrength
       second: 1
     - first:
+        name: _OuterRadius
+      second: 1
+    - first:
         name: _Parallax
       second: 0.02
     - first:
-        name: _PushAmount
-      second: 0.5
+        name: _Radius
+      second: 1
     - first:
-        name: _PushDistance
-      second: 2
-    - first:
-        name: _PushImpact
-      second: 2
-    - first:
-        name: _PushScale
-      second: 0.5
-    - first:
-        name: _PushSpeed
-      second: 2
-    - first:
-        name: _SmearIntensity
-      second: 2
+        name: _ScaleFactor
+      second: 10
     - first:
         name: _SmoothnessTextureChannel
       second: 0
@@ -170,9 +143,6 @@ Material:
         name: _SrcBlend
       second: 1
     - first:
-        name: _TexFade
-      second: 0.5
-    - first:
         name: _UVSec
       second: 0
     - first:
@@ -180,35 +150,23 @@ Material:
       second: 1
     m_Colors:
     - first:
+        name: _Center
+      second: {r: 0, g: 0, b: 0, a: 0}
+    - first:
         name: _Color
-      second: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+      second: {r: 0.7352941, g: 0.7352941, b: 0.7352941, a: 1}
     - first:
         name: _ColorBot
-      second: {r: 0.20588237, g: 0.7699797, b: 1, a: 1}
+      second: {r: 0, g: 0, b: 0, a: 1}
     - first:
         name: _ColorMid
-      second: {r: 0.20784315, g: 0.7686275, b: 1, a: 1}
+      second: {r: 0, g: 0, b: 0, a: 1}
     - first:
         name: _ColorTop
-      second: {r: 1, g: 1, b: 1, a: 1}
+      second: {r: 0, g: 0, b: 0, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
     - first:
-        name: _Position
-      second: {r: 0, g: 0, b: 0, a: 0}
-    - first:
-        name: _PrevPosition
-      second: {r: 0, g: 0, b: 0, a: 0}
-    - first:
-        name: _PushDirection
-      second: {r: 1, g: 0, b: 0, a: 1}
-    - first:
-        name: _PushPosA
-      second: {r: -1, g: 0, b: 0, a: 0}
-    - first:
-        name: _PushPosB
-      second: {r: 1, g: 0, b: 0, a: 0}
-    - first:
         name: _ShadowColor
-      second: {r: 0.08088237, g: 0.27738333, b: 1, a: 1}
+      second: {r: 1, g: 1, b: 1, a: 1}
