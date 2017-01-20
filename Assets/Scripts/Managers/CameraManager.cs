@@ -128,6 +128,9 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 		case CameraState.TRANSITION:
 			HandleTransitionMovement();
 			break;
+		case CameraState.POND_RETURNPAN:
+			HandlePondReturnMovement();
+			break;
 		default:
 			break;
 		}
@@ -224,6 +227,15 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	/// </summary>
 	void HandleTransitionMovement()
 	{
+	}
+
+	/// <summary>
+	/// Handles the pond return movement.
+	/// </summary>
+	void HandlePondReturnMovement()
+	{
+		// Maybe we should just do a nice, bouncy tween here?
+
 	}
 
     /// <summary>
@@ -344,5 +356,4 @@ public class CameraManager : SingletonBehaviour<CameraManager>
     private void HandeGameStateChanged(GameManager.GameState newState, GameManager.GameState prevState)
 	{
 	}
-		
 }
