@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class CameraManager : SingletonBehaviour<CameraManager> 
 {
@@ -128,9 +129,6 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 		case CameraState.TRANSITION:
 			HandleTransitionMovement();
 			break;
-		case CameraState.POND_RETURNPAN:
-			HandlePondReturnMovement();
-			break;
 		default:
 			break;
 		}
@@ -230,12 +228,13 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	}
 
 	/// <summary>
-	/// Handles the pond return movement.
+	/// Handles the pond return pan.
 	/// </summary>
-	void HandlePondReturnMovement()
+	IEnumerator HandlePondReturnPan()
 	{
-		// Maybe we should just do a nice, bouncy tween here?
+		Tween tween = _mainCam.transform.DOMove(_camOffset, 2f);
 
+		yield return tween.WaitForCompletion();
 	}
 
     /// <summary>
@@ -333,6 +332,9 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 				break;
 			case CameraState.FOLLOWPLAYER_LOCKED:
 				_camInputVals.x = 0.0f;	// So _camOffset lerps in zooming quack
+				break;
+			case CameraState.POND_RETURNPAN:
+				StartCoroutine(HandlePondReturnPan());
 				break;
 			default:
 				break;
