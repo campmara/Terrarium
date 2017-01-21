@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0.2647059, g: 0.2647059, b: 0.2647059, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -316,9 +316,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scaleFactor: 3
-  grassPrefab: {fileID: 1726457201025446, guid: 8264a3809547a411a9ed037d397d9600,
+  grassPrefab: {fileID: 1098117160196650, guid: 8264a3809547a411a9ed037d397d9600,
     type: 2}
-  grassDensity: 1000
+  grassDensity: 100
 --- !u!1 &601182964
 GameObject:
   m_ObjectHideFlags: 0

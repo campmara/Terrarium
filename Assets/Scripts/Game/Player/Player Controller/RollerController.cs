@@ -9,6 +9,7 @@ public enum P_ControlState
 	ROLLING,
 	PICKINGUP,
 	CARRYING,
+	RITUAL,
 	IDLING
 }
 
@@ -43,7 +44,9 @@ public class RollerController : ControllerBase
 	private RollingState _rolling = null;	
 	private PickupState _pickup = null;
 	private CarryState _carrying = null;
+	private RitualState _ritual = null;
 	private IdleState _idling = null;
+
 	void Awake()
 	{
 		//Debug.Log("Added Test Controller to Player Control Manager");
@@ -65,6 +68,10 @@ public class RollerController : ControllerBase
 		_carrying = this.gameObject.AddComponent<CarryState>();
 		_carrying.RollerParent = this;
 		_carrying.enabled = false;
+
+		_ritual = this.gameObject.AddComponent<RitualState>();
+		_ritual.RollerParent = this;
+		_ritual.enabled = false;
 
 		_idling = this.gameObject.AddComponent<IdleState>();
 		_idling.RollerParent = this;
@@ -111,6 +118,9 @@ public class RollerController : ControllerBase
 			break;
 		case P_ControlState.CARRYING:
 			_currentState = _carrying;
+			break;
+		case P_ControlState.RITUAL:
+			_currentState = _ritual;
 			break;
 		case P_ControlState.IDLING:
 			_currentState = _idling;

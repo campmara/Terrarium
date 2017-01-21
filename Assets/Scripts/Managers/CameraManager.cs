@@ -235,6 +235,8 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 		Tween tween = _mainCam.transform.DOMove(_camOffset, 2f);
 
 		yield return tween.WaitForCompletion();
+
+		ChangeCameraState(CameraState.FOLLOWPLAYER_FREE);
 	}
 
     /// <summary>
