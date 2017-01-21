@@ -6,15 +6,9 @@ public class CarryState : RollerState
 {
 	Quaternion targetRotation = Quaternion.identity;
 
-    void Awake()
-    {
-        _controlState = P_ControlState.CARRYING;
-    }
-
-    public override void Enter( RollerController parent, P_ControlState prevState )
+    public override void Enter( P_ControlState prevState )
 	{
 		Debug.Log("ENTER CARRY STATE");
-		roller = parent;
 	}
 
 	public override void Exit( P_ControlState nextState )
@@ -27,12 +21,12 @@ public class CarryState : RollerState
 	{
 		if (input.AButton.WasPressed)
 		{
-			roller.ChangeState(Carrying, Walking);
+			_roller.ChangeState( P_ControlState.CARRYING, P_ControlState.WALKING );
 		}
 
 		if (input.BButton.WasPressed & input.BButton.HasChanged)
 		{
-			roller.ChangeState(Carrying, Rolling);
+			_roller.ChangeState( P_ControlState.CARRYING, P_ControlState.ROLLING );
 		}
 
 		CarryMovement(input);
@@ -51,8 +45,8 @@ public class CarryState : RollerState
 		if (Mathf.Abs(input.LeftStickX.Value) > INPUT_DEADZONE || Mathf.Abs(input.LeftStickY.Value) > INPUT_DEADZONE)
 		{
 			Accelerate(CARRY_SPEED, WALK_ACCELERATION);
-			Vector3 movePos = roller.transform.position + (inputVec * velocity * Time.deltaTime);
-			roller.RB.MovePosition(movePos);
+			Vector3 movePos = _roller.transform.position + (inputVec * velocity * Time.deltaTime);
+			_roller.RB.MovePosition(movePos);
 
 			targetRotation = Quaternion.LookRotation(inputVec);
 
@@ -62,12 +56,12 @@ public class CarryState : RollerState
 		{
 			// Slowdown
 			velocity -= WALK_DECELERATION * Time.deltaTime;
-			Vector3 slowDownPos = roller.transform.position + (lastInputVec * velocity * Time.deltaTime);
-			roller.RB.MovePosition(slowDownPos);
+			Vector3 slowDownPos = _roller.transform.position + (lastInputVec * velocity * Time.deltaTime);
+			_roller.RB.MovePosition(slowDownPos);
 		}
 
 		// So player continues turning even after InputUp
-		roller.transform.rotation = Quaternion.Slerp(roller.transform.rotation, targetRotation, CARRY_TURN_SPEED * Time.deltaTime);
+		_roller.transform.rotation = Quaternion.Slerp(_roller.transform.rotation, targetRotation, CARRY_TURN_SPEED * Time.deltaTime);
 	}
 
 	void DropHeldObject()
