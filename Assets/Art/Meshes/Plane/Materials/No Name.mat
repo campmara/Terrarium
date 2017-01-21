@@ -6,10 +6,10 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: GrassCover
-  m_Shader: {fileID: 4800000, guid: fdf01df3dba9e41c094d4819153ef41d, type: 3}
-  m_ShaderKeywords: _ALPHATEST_ON _EMISSION
-  m_LightmapFlags: 1
+  m_Name: No Name
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
   m_CustomRenderQueue: -1
   stringTagMap: {}
   m_SavedProperties:
@@ -48,17 +48,11 @@ Material:
     - first:
         name: _MainTex
       second:
-        m_Texture: {fileID: 2800000, guid: 18f7f8a634c06491fb606c61401abb8e, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - first:
-        name: _MetallicGlossMap
-      second:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
-        name: _NormalTex
+        name: _MetallicGlossMap
       second:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -75,16 +69,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _SecondaryTex
-      second:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     m_Floats:
-    - first:
-        name: PixelSnap
-      second: 0
     - first:
         name: _BumpScale
       second: 1
@@ -107,17 +92,11 @@ Material:
         name: _GlossyReflections
       second: 1
     - first:
-        name: _Hardness
-      second: 0.5
-    - first:
         name: _Metallic
       second: 0
     - first:
-        name: _Middle
-      second: 0.5
-    - first:
         name: _Mode
-      second: 1
+      second: 0
     - first:
         name: _OcclusionStrength
       second: 1
@@ -142,19 +121,7 @@ Material:
     m_Colors:
     - first:
         name: _Color
-      second: {r: 0.2887111, g: 0.6544118, b: 0.39413837, a: 1}
-    - first:
-        name: _ColorBot
-      second: {r: 1, g: 1, b: 1, a: 1}
-    - first:
-        name: _ColorMid
-      second: {r: 1, g: 1, b: 1, a: 1}
-    - first:
-        name: _ColorTop
       second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
-    - first:
-        name: _ShadowColor
-      second: {r: 1, g: 1, b: 1, a: 1}

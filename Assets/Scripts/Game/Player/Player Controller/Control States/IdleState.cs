@@ -45,5 +45,10 @@ public class IdleState : RollerState
 			_roller.ChangeState( P_ControlState.IDLING, P_ControlState.ROLLING );
 		}
 
+		// X BUTTON
+		if (input.XButton.WasPressed & input.XButton.HasChanged)
+		{
+			_roller.ChangeState(P_ControlState.IDLING, P_ControlState.RITUAL);
+		}
     }
 }

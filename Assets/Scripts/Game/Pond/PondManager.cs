@@ -25,7 +25,7 @@ public class PondManager : SingletonBehaviour<PondManager>
 
     public void PopPlayerFromPond()
     {
-		CameraManager.instance.ChangeCameraState(CameraManager.CameraState.FOLLOWPLAYER_FREE);
+		
     }
 
     public void ReturnPlayerToPond()
