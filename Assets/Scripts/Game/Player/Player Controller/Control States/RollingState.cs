@@ -6,28 +6,23 @@ using DG.Tweening;
 public class RollingState : RollerState 
 {
 	float turnVelocity = 0f;
-    void Awake()
-    {
-        _controlState = P_ControlState.ROLLING;
-    }
 
-    public override void Enter(RollerController parent, P_ControlState prevState)
+    public override void Enter( P_ControlState prevState ) 
 	{
 		Debug.Log("ENTER ROLLING STATE");
 
-        // Handle Transition
+        // Handle Transition from PrevState
         switch ( prevState )
         {
             case P_ControlState.WALKING:
-                CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_LOCKED );                
+			case P_ControlState.IDLING:
+                CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_LOCKED );
+				PlayerManager.instance.Player.AnimationController.PlayWalkToRollAnim();
                 break;
             default:
                 break;
         }
 
-		roller = parent;
-
-        PlayerManager.instance.Player.AnimationController.PlayRollAnim();
     }
 
 	public override void Exit(P_ControlState nextState)
@@ -40,7 +35,7 @@ public class RollingState : RollerState
 		// B BUTTON
 		if ((input.BButton.WasReleased & input.BButton.HasChanged) || input.BButton.Value == 0)
 		{
-			roller.ChangeState(Rolling, Walking);
+			_roller.ChangeState( P_ControlState.ROLLING, P_ControlState.WALKING );
 		}
 
 		// MOVEMENT HANDLING
@@ -72,8 +67,8 @@ public class RollingState : RollerState
 			Accelerate(ROLL_SPEED, ROLL_ACCELERATION);
 		}
 
-		Vector3 movePos = roller.transform.position + (roller.transform.forward * velocity * Time.deltaTime);
-		roller.RB.MovePosition(movePos);
+		Vector3 movePos = _roller.transform.position + (_roller.transform.forward * velocity * Time.deltaTime);
+		_roller.RB.MovePosition(movePos);
 
 		lastInputVec = inputVec.normalized;
 		/*
@@ -100,15 +95,15 @@ public class RollingState : RollerState
 				AccelerateTurn(REVERSE_TURN_SPEED, TURN_ACCELERATION, inputVec.x);
 			}
 
-			Quaternion turn = Quaternion.Euler(0f, roller.transform.eulerAngles.y + (turnVelocity * Time.deltaTime), 0f);
-			roller.RB.MoveRotation(turn);
+			Quaternion turn = Quaternion.Euler(0f, _roller.transform.eulerAngles.y + (turnVelocity * Time.deltaTime), 0f);
+			_roller.RB.MoveRotation(turn);
 		}
 		else if (turnVelocity != 0f)
 		{
 			// Slowdown
 			turnVelocity -= Mathf.Sign(turnVelocity) * TURN_DECELERATION * Time.deltaTime;
-			Quaternion slowTurn = Quaternion.Euler(0f, roller.transform.eulerAngles.y + (turnVelocity * Time.deltaTime), 0f);
-			roller.RB.MoveRotation(slowTurn);
+			Quaternion slowTurn = Quaternion.Euler(0f, _roller.transform.eulerAngles.y + (turnVelocity * Time.deltaTime), 0f);
+			_roller.RB.MoveRotation(slowTurn);
 		}
 	}
 

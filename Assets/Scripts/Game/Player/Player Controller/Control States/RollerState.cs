@@ -5,28 +5,6 @@ using UnityEngine;
 // Interface for character control states.
 public class RollerState : MonoBehaviour
 {
-    // ===========
-    // S T A T E S
-    // ===========
-
-    public enum P_ControlState
-    {
-        NONE = 0,
-        WALKING,
-        ROLLING,
-        PICKINGUP,
-        CARRYING,
-        IDLING
-    }
-    protected P_ControlState _controlState = P_ControlState.NONE;
-    public P_ControlState State { get { return _controlState; } set { _controlState = value; } }
-
-    public static WalkingState Walking = new WalkingState();   
-	public static RollingState Rolling = new RollingState();	
-	public static PickupState Pickup = new PickupState();
-	public static CarryState Carrying = new CarryState();
-    public static IdleState Idling = new IdleState();
-
 	// =================
 	// C O N S T A N T S
 	// =================
@@ -72,50 +50,51 @@ public class RollerState : MonoBehaviour
 	// V A R I A B L E S
 	// =================
 
-	protected RollerController roller;
+	protected RollerController _roller;
+	public RollerController RollerParent { get { return _roller; } set { _roller = value; } }
 
 	protected Pickupable currentHeldObject 
 	{ 
 		get 
 		{ 
-			return roller.CurrentHeldObject; 
+			return _roller.CurrentHeldObject; 
 		}
 		set
 		{
-			roller.CurrentHeldObject = value;
+			_roller.CurrentHeldObject = value;
 		}
 	}
 	protected Vector3 inputVec
 	{ 
 		get 
 		{ 
-			return roller.InputVec; 
+			return _roller.InputVec; 
 		}
 		set
 		{
-			roller.InputVec = value;
+			_roller.InputVec = value;
 		}
 	}
 	protected Vector3 lastInputVec
 	{ 
 		get 
 		{ 
-			return roller.LastInputVec; 
+			return _roller.LastInputVec; 
 		}
 		set
 		{
-			roller.LastInputVec = value;
+			_roller.LastInputVec = value;
 		}
   	}
 	protected float velocity
 	{ 
 		get
 		{
-			return roller.Velocity; 
+			return _roller.Velocity; 
 		}
 		set
 		{
-			roller.Velocity = value;
+			_roller.Velocity = value;
 		}
 	}
 
@@ -125,8 +104,8 @@ public class RollerState : MonoBehaviour
 	// V I R T U A L  M E T H O D S
 	// ============================
 
-	public virtual void Enter(RollerController parent, P_ControlState prevState) {}
-	public virtual void Exit(P_ControlState nextState) {}
+	public virtual void Enter( P_ControlState prevState ) {}
+	public virtual void Exit( P_ControlState nextState ) {}
 
 	public virtual void HandleInput(InputCollection input) {}
 	public virtual void ProcessMovement() {}
