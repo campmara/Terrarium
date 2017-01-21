@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class CameraManager : SingletonBehaviour<CameraManager> 
 {
@@ -226,6 +227,16 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	{
 	}
 
+	/// <summary>
+	/// Handles the pond return pan.
+	/// </summary>
+	IEnumerator HandlePondReturnPan()
+	{
+		Tween tween = _mainCam.transform.DOMove(_camOffset, 2f);
+
+		yield return tween.WaitForCompletion();
+	}
+
     /// <summary>
     /// Based on Murray's code from here: https://raw.githubusercontent.com/MurrayIRC/frog/master/Assets/Scripts/Actors/Player/PlayerCamera.cs
     /// </summary>
@@ -322,6 +333,9 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 			case CameraState.FOLLOWPLAYER_LOCKED:
 				_camInputVals.x = 0.0f;	// So _camOffset lerps in zooming quack
 				break;
+			case CameraState.POND_RETURNPAN:
+				StartCoroutine(HandlePondReturnPan());
+				break;
 			default:
 				break;
 			}
@@ -344,5 +358,4 @@ public class CameraManager : SingletonBehaviour<CameraManager>
     private void HandeGameStateChanged(GameManager.GameState newState, GameManager.GameState prevState)
 	{
 	}
-		
 }

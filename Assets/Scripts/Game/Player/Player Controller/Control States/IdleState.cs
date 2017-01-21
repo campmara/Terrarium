@@ -6,11 +6,10 @@ public class IdleState : RollerState
 {
     
     void Awake()
-    {
-        _controlState = P_ControlState.IDLING;
+    {      
     }
     	
-    public override void Enter( RollerController parent, P_ControlState prevState )
+    public override void Enter( P_ControlState prevState )
     {
         Debug.Log( "ENTER IDLE STATE" );
 
@@ -24,7 +23,6 @@ public class IdleState : RollerState
         // Set Idle Anim
         PlayerManager.instance.Player.AnimationController.PlayIdleAnim();
 
-        roller = parent;
     }
 
     public override void Exit( P_ControlState nextState )
@@ -38,8 +36,14 @@ public class IdleState : RollerState
 
         if( vec.magnitude > IDLE_MAXMAG )
         {
-            roller.ChangeState( Idling, Walking );
+			_roller.ChangeState( P_ControlState.IDLING, P_ControlState.WALKING );
         }
+
+		// B BUTTON
+		if (input.BButton.WasPressed & input.BButton.HasChanged)
+		{
+			_roller.ChangeState( P_ControlState.IDLING, P_ControlState.ROLLING );
+		}
 
     }
 }

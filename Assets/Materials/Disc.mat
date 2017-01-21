@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Test B
-  m_Shader: {fileID: 4800000, guid: 0a4c2dc3e6c043042a5f12aa874a5954, type: 3}
+  m_Name: Disc
+  m_Shader: {fileID: 4800000, guid: b6c1c8992491247cda7cbf0641e27022, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
   m_CustomRenderQueue: -1
@@ -122,6 +122,12 @@ Material:
         name: _Parallax
       second: 0.02
     - first:
+        name: _Radius
+      second: 1
+    - first:
+        name: _ScaleFactor
+      second: 3
+    - first:
         name: _SmoothnessTextureChannel
       second: 0
     - first:
@@ -138,17 +144,20 @@ Material:
       second: 1
     m_Colors:
     - first:
+        name: _Center
+      second: {r: 0, g: 0, b: 0, a: 0}
+    - first:
         name: _Color
       second: {r: 0.7352941, g: 0.7352941, b: 0.7352941, a: 1}
     - first:
         name: _ColorBot
-      second: {r: 0.3803922, g: 0.8078432, b: 0.5019608, a: 1}
+      second: {r: 0.5561743, g: 0.9338235, b: 0.6635791, a: 1}
     - first:
         name: _ColorMid
       second: {r: 0.3803922, g: 0.8078432, b: 0.5019608, a: 1}
     - first:
         name: _ColorTop
-      second: {r: 0.3803922, g: 0.8078432, b: 0.5019608, a: 1}
+      second: {r: 0.2621107, g: 0.74264705, b: 0.39877695, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}

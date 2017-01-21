@@ -40,6 +40,18 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
+        name: _DispTex
+      second:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _DispTex2
+      second:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
         name: _EmissionMap
       second:
         m_Texture: {fileID: 0}
@@ -47,6 +59,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     - first:
         name: _MainTex
+      second:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _MainTex2
       second:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -92,6 +110,9 @@ Material:
         name: _DetailNormalMapScale
       second: 1
     - first:
+        name: _Displacement
+      second: 0.5
+    - first:
         name: _DstBlend
       second: 0
     - first:
@@ -122,6 +143,24 @@ Material:
         name: _Parallax
       second: 0.02
     - first:
+        name: _PushAmount
+      second: 0.5
+    - first:
+        name: _PushDistance
+      second: 2
+    - first:
+        name: _PushImpact
+      second: 2
+    - first:
+        name: _PushScale
+      second: 0.5
+    - first:
+        name: _PushSpeed
+      second: 2
+    - first:
+        name: _SmearIntensity
+      second: 2
+    - first:
         name: _SmoothnessTextureChannel
       second: 0
     - first:
@@ -130,6 +169,9 @@ Material:
     - first:
         name: _SrcBlend
       second: 1
+    - first:
+        name: _TexFade
+      second: 0.5
     - first:
         name: _UVSec
       second: 0
@@ -152,6 +194,21 @@ Material:
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
+    - first:
+        name: _Position
+      second: {r: 0, g: 0, b: 0, a: 0}
+    - first:
+        name: _PrevPosition
+      second: {r: 0, g: 0, b: 0, a: 0}
+    - first:
+        name: _PushDirection
+      second: {r: 1, g: 0, b: 0, a: 1}
+    - first:
+        name: _PushPosA
+      second: {r: -1, g: 0, b: 0, a: 0}
+    - first:
+        name: _PushPosB
+      second: {r: 1, g: 0, b: 0, a: 0}
     - first:
         name: _ShadowColor
       second: {r: 0.08088237, g: 0.27738333, b: 1, a: 1}

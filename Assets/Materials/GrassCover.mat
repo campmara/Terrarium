@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Test C
-  m_Shader: {fileID: 4800000, guid: 0a4c2dc3e6c043042a5f12aa874a5954, type: 3}
+  m_Name: GrassCover
+  m_Shader: {fileID: 4800000, guid: fdf01df3dba9e41c094d4819153ef41d, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
   m_CustomRenderQueue: -1
@@ -48,7 +48,7 @@ Material:
     - first:
         name: _MainTex
       second:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 18f7f8a634c06491fb606c61401abb8e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
@@ -105,13 +105,13 @@ Material:
       second: 1
     - first:
         name: _Hardness
-      second: 0.584
+      second: 0.5
     - first:
         name: _Metallic
       second: 0
     - first:
         name: _Middle
-      second: 0.188
+      second: 0.5
     - first:
         name: _Mode
       second: 0
@@ -139,19 +139,19 @@ Material:
     m_Colors:
     - first:
         name: _Color
-      second: {r: 0.7516183, g: 0.9558824, b: 0.6536549, a: 1}
+      second: {r: 0.17668687, g: 0.63235295, b: 0.3220286, a: 1}
     - first:
         name: _ColorBot
-      second: {r: 0, g: 0, b: 0.8161765, a: 1}
+      second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _ColorMid
-      second: {r: 0.428, g: 0.40235728, b: 0.8015301, a: 1}
+      second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _ColorTop
-      second: {r: 0.078, g: 0.63235295, b: 1, a: 1}
+      second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
     - first:
         name: _ShadowColor
-      second: {r: 0, g: 1, b: 0, a: 1}
+      second: {r: 1, g: 1, b: 1, a: 1}

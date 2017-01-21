@@ -12,6 +12,9 @@ public class PlayerAnimationController : MonoBehaviour {
     const string ROLL_ANIM = "RollAnim";
     const string IDLE_ANIM = "IdleAnim";
 
+	const string WALKTOROLL_ANIM = "WalkToRoll";
+	const string ROLLTOWALK_ANIM = "RollToWalk";
+
     public void Initialize()
     {
     }
@@ -36,4 +39,16 @@ public class PlayerAnimationController : MonoBehaviour {
     {
         _animator.Play( ROLL_ANIM );
     }
+
+	// Transitions to WALK animation in the animation controller
+	public void PlayRollToWalkAnim()
+	{
+		_animator.Play( ROLLTOWALK_ANIM );
+	}
+
+	// No transition to a roll anim yet, just a SPHERE
+	public void PlayWalkToRollAnim()
+	{
+		_animator.Play( WALKTOROLL_ANIM );
+	}
 }
