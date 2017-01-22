@@ -9,12 +9,20 @@ public class CarryState : RollerState
     public override void Enter( P_ControlState prevState )
 	{
 		Debug.Log("ENTER CARRY STATE");
+
+		switch( prevState )
+		{
+		case P_ControlState.PICKINGUP:
+			PlayerManager.instance.Player.AnimationController.PlayWalkAnim();
+			break;
+		}
 	}
 
 	public override void Exit( P_ControlState nextState )
 	{
 		Debug.Log("EXIT CARRY STATE");
-		DropHeldObject();
+
+		HandleDropHeldObject();
 	}
 
 	public override void HandleInput(InputCollection input)
@@ -63,13 +71,5 @@ public class CarryState : RollerState
 		// So player continues turning even after InputUp
 		_roller.transform.rotation = Quaternion.Slerp(_roller.transform.rotation, targetRotation, CARRY_TURN_SPEED * Time.deltaTime);
 	}
-
-	void DropHeldObject()
-	{
-		if (currentHeldObject != null)
-		{
-			currentHeldObject.DropSelf();
-			currentHeldObject = null;
-		}
-	}
+		
 }
