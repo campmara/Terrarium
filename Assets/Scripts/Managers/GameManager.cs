@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour 
+public class GameManager : MonoBehaviour
 {
 	public static GameManager Instance = null;
 
@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
 		INTRO,			// Wait for player input to start match
 		MAIN,
         POND_RETURN,    // When Player transitions back to Pond
-        POND_POP       // When Player pops out of Pond (respawns)        
+        POND_POP       // When Player pops out of Pond (respawns)
 	}
 
 	[SerializeField] private GameState _state;
@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
 		DontDestroyOnLoad(gameObject);
 
 
-		#if !UNITY_EDITOR 
+		#if !UNITY_EDITOR
 		Cursor.visible = false;
 		#else
 		Application.targetFrameRate = 60;	// MAKES IOS VERSION CRASH
@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
 		// Have to add safeguards for when NONE isn't selected
 		if( _state == GameState.NONE )
 		{
-			ChangeGameState(GameState.INIT);	
+			ChangeGameState(GameState.INIT);
 		}
 	}
 
@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
 
 	void Start()
 	{
-		
+
 	}
 
 	void Update()
@@ -117,7 +117,7 @@ public class GameManager : MonoBehaviour
 			case GameState.INIT:			// Only for game launch
 				Initialize();
 				break;
-			case GameState.INTRO:           
+			case GameState.INTRO:
 				break;
 			default:
 				break;
@@ -147,7 +147,7 @@ public class GameManager : MonoBehaviour
 	}
 
 	private void RestartGame()
-	{		
+	{
 	}
 
 	private void Initialize()
@@ -181,8 +181,15 @@ public class GameManager : MonoBehaviour
 
 		yield return new WaitUntil( () => CameraManager.instance.IsInitialized );
 
-        ChangeGameState(GameState.MAIN);
+		TimeManager.instance.Initialize();
 
+		yield return new WaitUntil( () => TimeManager.instance.IsInitialized );
+
+		PlantManager.instance.Initialize();
+
+		yield return new WaitUntil( () => PlantManager.instance.IsInitialized );
+
+    ChangeGameState(GameState.MAIN);
 	}
 
 	IEnumerator RestartScene(int sceneNum, float waitTime)
