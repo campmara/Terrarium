@@ -3,12 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class IdleState : RollerState
-{
-    
-    void Awake()
-    {      
-    }
-    	
+{	
     public override void Enter( P_ControlState prevState )
     {
         Debug.Log( "ENTER IDLE STATE" );
@@ -27,7 +22,7 @@ public class IdleState : RollerState
 
     public override void Exit( P_ControlState nextState )
     {
-        Debug.Log( "EXITTING IDLE STATE" );
+        Debug.Log( "EXITTING CARRY IDLE STATE" );
     }
 
     public override void HandleInput( InputCollection input )
@@ -38,6 +33,12 @@ public class IdleState : RollerState
         {
 			_roller.ChangeState( P_ControlState.IDLING, P_ControlState.WALKING );
         }
+
+		// A BUTTON
+		if (input.AButton.WasPressed)
+		{
+			HandlePickup();
+		}
 
 		// B BUTTON
 		if (input.BButton.WasPressed & input.BButton.HasChanged)
@@ -51,4 +52,6 @@ public class IdleState : RollerState
 			_roller.ChangeState(P_ControlState.IDLING, P_ControlState.RITUAL);
 		}
     }
+
+
 }

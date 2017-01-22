@@ -36,6 +36,8 @@ public class RollerState : MonoBehaviour
 	protected const float TURN_DECELERATION = 700f;
 
 	// PICKUP
+	protected const float PICKUP_CHECKHEIGHT = 0.5f;
+	protected const float PICKUP_CHECKRADIUS = 1.0f;
 	protected const float PICKUP_TIME = 0.75f;
 
     // IDLE
@@ -123,6 +125,54 @@ public class RollerState : MonoBehaviour
 		if (Mathf.Abs(velocity) > max)
 		{
 			velocity = Mathf.Sign(velocity) * max;
+		}
+	}
+
+	protected void HandlePickup()
+	{
+		CheckForPickup();
+	}
+		
+	private void CheckForPickup()
+	{
+		Vector3 _pickupCenter = _roller.transform.position + (Vector3.up * 0.5f) + _roller.transform.forward;
+
+		Collider[] overlapArray = Physics.OverlapSphere( _pickupCenter, PICKUP_CHECKRADIUS );
+
+		if ( overlapArray.Length > 0 )
+		{
+			Plantable plantComponent = null;
+			//if the pickupable is a plant, we can only pick it up if it's still in seed stage
+			foreach( Collider col in overlapArray )
+			{
+				plantComponent = col.gameObject.GetComponent<Plantable>();
+				if( plantComponent && plantComponent.CanPickup )
+				{
+					PickUpObject( plantComponent.GetComponent<Pickupable>() );
+					break;
+				}
+			}
+
+		}
+	}
+
+	private void PickUpObject( Pickupable pickup )
+	{
+		currentHeldObject = pickup;
+		_roller.ChangeState( P_ControlState.WALKING, P_ControlState.PICKINGUP );
+	}
+
+	protected void HandleDropHeldObject()
+	{
+		DropHeldObject();
+	}
+
+	void DropHeldObject()
+	{
+		if (currentHeldObject != null)
+		{
+			currentHeldObject.DropSelf();
+			currentHeldObject = null;
 		}
 	}
 }
