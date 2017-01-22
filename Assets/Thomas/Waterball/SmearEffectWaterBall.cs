@@ -15,7 +15,7 @@ public class SmearEffectWaterBall : MonoBehaviour
         get
         {
             if (!_smearMat)
-                _smearMat = GetComponent<MeshRenderer>().material;
+				_smearMat = GetComponent<SkinnedMeshRenderer>().sharedMaterial;
 
             if (!_smearMat.HasProperty("_PrevPosition"))
                 _smearMat.shader = Shader.Find("Custom/Smear");
@@ -26,7 +26,7 @@ public class SmearEffectWaterBall : MonoBehaviour
 
     void LateUpdate()
     {
-        GetComponent<MeshRenderer>().material.SetVector("_NoiseOffset", new Vector3(0, 1 - Time.time, 0));
+        GetComponent<SkinnedMeshRenderer>().material.SetVector("_NoiseOffset", new Vector3(0, 1 - Time.time, 0));
         if (_recentPositions.Count > _frameLag)
             smearMat.SetVector("_PrevPosition", _recentPositions.Dequeue());
 
