@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class WalkingState : RollerState 
+public class WalkingState : RollerState
 {
 	Quaternion targetRotation = Quaternion.identity;
 	Ray pickupRay;
@@ -14,16 +14,16 @@ public class WalkingState : RollerState
     public override void Enter( P_ControlState prevState )
 	{
 		Debug.Log("ENTER WALKING STATE");
-        
+
         // Handle Transition
         switch ( prevState )
         {
         case P_ControlState.ROLLING:
-			CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );                
+			CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
 			PlayerManager.instance.Player.AnimationController.PlayRollToWalkAnim();
             break;
 		case P_ControlState.IDLING:
-			PlayerManager.instance.Player.AnimationController.PlayWalkAnim();		
+			PlayerManager.instance.Player.AnimationController.PlayWalkAnim();
 			break;
         default:
                 break;
@@ -73,7 +73,7 @@ public class WalkingState : RollerState
         {
             if( _idleWaitTween != null )
             {
-                _idleWaitTween.Kill();                
+                _idleWaitTween.Kill();
                 _idleWaitTween = null;
             }
 
@@ -108,7 +108,8 @@ public class WalkingState : RollerState
             if(_idleWaitTween == null )
             {
                 _idleTimer = 0.0f;
-                _idleWaitTween = DOTween.To( () => _idleTimer, x => _idleTimer = x, 1.0f, IDLE_WAITTIME ).OnComplete( () => _roller.ChangeState( P_ControlState.WALKING, P_ControlState.IDLING ) );              
+
+                _idleWaitTween = DOTween.To( () => _idleTimer, x => _idleTimer = x, 1.0f, IDLE_WAITTIME ).OnComplete( () => _roller.ChangeState( P_ControlState.WALKING, P_ControlState.IDLING ) );
             }
         }
 
@@ -129,9 +130,14 @@ public class WalkingState : RollerState
 		{
 			//if the pickupable is a plant, we can only pick it up if it's still in seed stage
 			PickupCollider collider = hit.collider.GetComponent<PickupCollider>();
-			if( collider && ( collider.GetComponentInParent<Plant>() == null || collider.GetComponentInParent<Plant>().CurStage == Plant.GrowthStage.Unplanted ) )
-			{ 
-				PickUpObject( collider.GetComponentInParent<Pickupable>() );
+
+			if( collider )
+			{
+				Plantable plantComponent = collider.GetComponentInParent<Plantable>();
+				if( plantComponent && plantComponent.CanPickup )
+				{
+					PickUpObject( collider.GetComponentInParent<Pickupable>() );
+				}
 			}
 		}
 	}
