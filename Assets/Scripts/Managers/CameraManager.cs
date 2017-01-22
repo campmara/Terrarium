@@ -60,7 +60,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	Vector3 _transStartPos = Vector3.zero;
 	Vector3 _tranEndPos = Vector3.zero;
 
-    const float CAM_FOV = 90;
+    const float CAM_FOV = 60f;
 
 	#endregion
 
