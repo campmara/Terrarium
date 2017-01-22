@@ -60,7 +60,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	Vector3 _transStartPos = Vector3.zero;
 	Vector3 _tranEndPos = Vector3.zero;
 
-    const float CAM_FOV = 90;
+    const float CAM_FOV = 60f;
 
 	#endregion
 
@@ -235,6 +235,8 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 		Tween tween = _mainCam.transform.DOMove(_camOffset, 2f);
 
 		yield return tween.WaitForCompletion();
+
+		ChangeCameraState(CameraState.FOLLOWPLAYER_FREE);
 	}
 
     /// <summary>

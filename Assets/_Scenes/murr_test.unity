@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0.2647059, g: 0.2647059, b: 0.2647059, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -316,7 +316,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scaleFactor: 3
-  grassPrefab: {fileID: 1726457201025446, guid: 8264a3809547a411a9ed037d397d9600,
+  grassPrefab: {fileID: 1098117160196650, guid: 8264a3809547a411a9ed037d397d9600,
     type: 2}
   grassDensity: 1000
 --- !u!1 &601182964
@@ -666,6 +666,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 1317924889755060, guid: 729a7e306b18e428280ad642238a823a, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 729a7e306b18e428280ad642238a823a, type: 2}
   m_IsPrefabParent: 0
@@ -770,6 +774,11 @@ Prefab:
     - target: {fileID: 4725748069185286, guid: 74c69d062747243769b74d21ba608471, type: 2}
       propertyPath: m_RootOrder
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902763401530236, guid: 74c69d062747243769b74d21ba608471,
+        type: 2}
+      propertyPath: _frameLag
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 74c69d062747243769b74d21ba608471, type: 2}

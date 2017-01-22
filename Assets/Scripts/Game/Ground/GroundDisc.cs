@@ -11,9 +11,14 @@ public class GroundDisc : MonoBehaviour
 
 	MeshRenderer renderer;
 
+	GameObject grassParent;
+
 	void Awake()
 	{
 		renderer = GetComponent(typeof(MeshRenderer)) as MeshRenderer;
+
+		grassParent = new GameObject();
+		grassParent.name = "Grass";
 
 		for (int i = 0; i < grassDensity; i++)
 		{
@@ -33,8 +38,8 @@ public class GroundDisc : MonoBehaviour
 		spawnPos.y = 0f;
 
 		GameObject grass = Instantiate(grassPrefab, spawnPos, Quaternion.identity);
-		grass.transform.GetChild(0).localScale = new Vector3(Random.Range(0.85f, 1.0f), Random.Range(0.85f, 1.0f), 0f);
+		//grass.transform.GetChild(0).localScale = new Vector3(Random.Range(0.85f, 1.0f), Random.Range(0.85f, 1.0f), 0f);
 
-		grass.transform.parent = this.transform;
+		grass.transform.parent = grassParent.transform;
 	}
 }

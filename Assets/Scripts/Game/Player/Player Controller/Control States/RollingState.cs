@@ -38,6 +38,12 @@ public class RollingState : RollerState
 			_roller.ChangeState( P_ControlState.ROLLING, P_ControlState.WALKING );
 		}
 
+		// X BUTTON
+		if (input.XButton.WasPressed & input.XButton.HasChanged)
+		{
+			_roller.ChangeState(P_ControlState.ROLLING, P_ControlState.RITUAL);
+		}
+
 		// MOVEMENT HANDLING
 		inputVec = new Vector3(
 			input.LeftStickX,
