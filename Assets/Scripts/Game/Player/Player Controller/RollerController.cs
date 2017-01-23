@@ -10,7 +10,8 @@ public enum P_ControlState
 	PICKINGUP,
 	CARRYING,
 	RITUAL,
-	IDLING
+	IDLING,
+	CARRYIDLING
 }
 
 [RequireComponent(typeof(Rigidbody))]
@@ -46,6 +47,7 @@ public class RollerController : ControllerBase
 	private CarryState _carrying = null;
 	private RitualState _ritual = null;
 	private IdleState _idling = null;
+	private CarryIdleState _carryIdling = null;
 
 	void Awake()
 	{
@@ -77,6 +79,10 @@ public class RollerController : ControllerBase
 		_idling.RollerParent = this;
 		_idling.enabled = false;
 			
+		_carryIdling = this.gameObject.AddComponent<CarryIdleState>();
+		_carryIdling.RollerParent = this;
+		_carryIdling.enabled = false;
+
 		// Set state to default (walking for now)
 		ChangeState( P_ControlState.NONE, P_ControlState.WALKING );
 	}

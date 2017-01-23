@@ -6,7 +6,6 @@ using DG.Tweening;
 public class WalkingState : RollerState
 {
 	Quaternion targetRotation = Quaternion.identity;
-	Ray pickupRay;
 
     Tween _idleWaitTween = null;
     float _idleTimer = 0.0f;
@@ -42,7 +41,7 @@ public class WalkingState : RollerState
 		// A BUTTON
 		if (input.AButton.WasPressed)
 		{
-			CheckForPickup();
+			HandlePickup();
 		}
 
 		// B BUTTON
@@ -113,42 +112,6 @@ public class WalkingState : RollerState
             }
         }
 
-	}
-
-	// =============
-	// P I C K U P S
-	// =============
-
-	void CheckForPickup()
-	{
-		pickupRay = new Ray(_roller.transform.position + (Vector3.up * 1f), _roller.transform.forward);
-		Debug.DrawLine(pickupRay.origin, pickupRay.origin + (pickupRay.direction * 1.5f), Color.green);
-
-		RaycastHit hit;
-
-		if (Physics.Raycast(pickupRay, out hit, 1.5f))
-		{
-			//if the pickupable is a plant, we can only pick it up if it's still in seed stage
-			PickupCollider collider = hit.collider.GetComponent<PickupCollider>();
-
-			if( collider )
-			{
-				Plantable plantComponent = collider.GetComponentInParent<Plantable>();
-				if( plantComponent && plantComponent.CanPickup )
-				{
-					PickUpObject( collider.GetComponentInParent<Pickupable>() );
-				}
-			}
-		}
-	}
-
-	void PickUpObject( Pickupable pickup )
-	{
-		if (pickup != null)
-		{
-			currentHeldObject = pickup;
-			_roller.ChangeState( P_ControlState.WALKING, P_ControlState.PICKINGUP );
-		}
 	}
 
 }

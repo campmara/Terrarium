@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider))]
 public class PickupCollider : MonoBehaviour 
 {
 	[ReadOnly] public Pickupable parentPickupable;
 
 	void Awake()
 	{
-		parentPickupable = GetComponentInParent(typeof(Pickupable)) as Pickupable;
+		parentPickupable = this.GetComponent(typeof(Pickupable)) as Pickupable;
 	}
 
 	void FixedUpdate()
