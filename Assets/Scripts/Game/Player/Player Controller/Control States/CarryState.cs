@@ -14,9 +14,9 @@ public class CarryState : RollerState
 
 		switch( prevState )
 		{
-		case P_ControlState.PICKINGUP:
-			PlayerManager.instance.Player.AnimationController.PlayWalkAnim();
-			break;
+		    case P_ControlState.PICKINGUP:
+                HandleEndIdle();
+                break;
 		}
 	}
 
@@ -68,6 +68,11 @@ public class CarryState : RollerState
                 _carryIdleWaitRoutine = null;
             }
 
+            if( _idling )
+            {
+                HandleEndIdle();
+            }
+
             // Accounting for camera position
             vec = CameraManager.instance.Main.transform.TransformDirection( vec );
             vec.y = 0f;
@@ -98,10 +103,23 @@ public class CarryState : RollerState
         {
             if ( _carryIdleWaitRoutine == null )
             {
-                _carryIdleWaitRoutine = StartCoroutine( JohnTech.WaitFunction( IDLE_WAITTIME, () => _roller.ChangeState( P_ControlState.CARRYING, P_ControlState.CARRYIDLING ) ) );
+                _carryIdleWaitRoutine = StartCoroutine( JohnTech.WaitFunction( IDLE_WAITTIME, () => HandleEndIdle() ) );
             }
         }
 
     }
 		
+    void HandleBeginIdle()
+    {
+        _idling = true;
+
+        PlayerManager.instance.Player.AnimationController.PlayCarryIdleAnim();
+    }
+
+    void HandleEndIdle()
+    {
+        _idling = false;
+
+        PlayerManager.instance.Player.AnimationController.PlayWalkAnim();
+    }
 }
