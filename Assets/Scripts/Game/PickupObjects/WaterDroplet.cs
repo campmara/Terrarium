@@ -41,7 +41,7 @@ public class WaterDroplet : Pickupable
     }
 
 	// This gets called when we pick up the object. Pickupable controls its own rigidbody.
-    public override void OnPickup()
+    public override void OnPickup( )
     {
         base.OnPickup();
 
