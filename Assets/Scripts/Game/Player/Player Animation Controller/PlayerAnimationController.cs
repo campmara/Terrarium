@@ -11,6 +11,7 @@ public class PlayerAnimationController : MonoBehaviour {
     const string WALK_ANIM = "WalkAnim";
     const string ROLL_ANIM = "RollAnim";
     const string IDLE_ANIM = "IdleAnim";
+	const string CARRYIDLE_ANIM = "IdleAnim";
 
 	const string WALKTOROLL_ANIM = "WalkToRoll";
 	const string ROLLTOWALK_ANIM = "RollToWalk";
@@ -29,6 +30,11 @@ public class PlayerAnimationController : MonoBehaviour {
     {     
         _animator.Play( IDLE_ANIM );
     }
+
+	public void PlayCarryIdleAnim()
+	{     
+		_animator.Play( CARRYIDLE_ANIM );
+	}
 
     public void PlayWalkAnim()
     {

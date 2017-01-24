@@ -6,15 +6,35 @@ public class CarryState : RollerState
 {
 	Quaternion targetRotation = Quaternion.identity;
 
+    Coroutine _carryIdleWaitRoutine = null;
+
     public override void Enter( P_ControlState prevState )
 	{
 		Debug.Log("ENTER CARRY STATE");
+
+		switch( prevState )
+		{
+		case P_ControlState.PICKINGUP:
+			PlayerManager.instance.Player.AnimationController.PlayWalkAnim();
+			break;
+		}
 	}
 
 	public override void Exit( P_ControlState nextState )
 	{
 		Debug.Log("EXIT CARRY STATE");
-		DropHeldObject();
+
+        if( _carryIdleWaitRoutine != null )
+        {
+            StopCoroutine( _carryIdleWaitRoutine );
+            _carryIdleWaitRoutine = null;
+        }
+        
+        if( nextState != P_ControlState.CARRYIDLING )
+        {
+            HandleDropHeldObject();
+        }
+
 	}
 
 	public override void HandleInput(InputCollection input)
@@ -37,39 +57,48 @@ public class CarryState : RollerState
 		// Left Stick Movement
 		Vector3 vec = new Vector3(input.LeftStickX, 0f, input.LeftStickY);
 
-		// Accounting for camera position
-		vec = CameraManager.instance.Main.transform.TransformDirection(vec);
-		vec.y = 0f;
-		inputVec = vec;
+        if (vec.magnitude > IDLE_MAXMAG)
+        {
+            if ( _carryIdleWaitRoutine != null )
+            {
+                StopCoroutine( _carryIdleWaitRoutine );
+                _carryIdleWaitRoutine = null;
+            }
 
-		if (Mathf.Abs(input.LeftStickX.Value) > INPUT_DEADZONE || Mathf.Abs(input.LeftStickY.Value) > INPUT_DEADZONE)
-		{
-			Accelerate(CARRY_SPEED, WALK_ACCELERATION);
-			Vector3 movePos = _roller.transform.position + (inputVec * velocity * Time.deltaTime);
-			_roller.RB.MovePosition(movePos);
+            // Accounting for camera position
+            vec = CameraManager.instance.Main.transform.TransformDirection( vec );
+            vec.y = 0f;
+            inputVec = vec;
 
-			targetRotation = Quaternion.LookRotation(inputVec);
+            if (Mathf.Abs( input.LeftStickX.Value ) > INPUT_DEADZONE || Mathf.Abs( input.LeftStickY.Value ) > INPUT_DEADZONE)
+            {
+                Accelerate( CARRY_SPEED, WALK_ACCELERATION );
+                Vector3 movePos = _roller.transform.position + ( inputVec * velocity * Time.deltaTime );
+                _roller.RB.MovePosition( movePos );
 
-			lastInputVec = inputVec.normalized;
-		}
-		else if (velocity > 0f)
-		{
-			// Slowdown
-			velocity -= WALK_DECELERATION * Time.deltaTime;
-			Vector3 slowDownPos = _roller.transform.position + (lastInputVec * velocity * Time.deltaTime);
-			_roller.RB.MovePosition(slowDownPos);
-		}
+                targetRotation = Quaternion.LookRotation( inputVec );
 
-		// So player continues turning even after InputUp
-		_roller.transform.rotation = Quaternion.Slerp(_roller.transform.rotation, targetRotation, CARRY_TURN_SPEED * Time.deltaTime);
-	}
+                lastInputVec = inputVec.normalized;
+            }
+            else if (velocity > 0f)
+            {
+                // Slowdown
+                velocity -= WALK_DECELERATION * Time.deltaTime;
+                Vector3 slowDownPos = _roller.transform.position + ( lastInputVec * velocity * Time.deltaTime );
+                _roller.RB.MovePosition( slowDownPos );
+            }
 
-	void DropHeldObject()
-	{
-		if (currentHeldObject != null)
-		{
-			currentHeldObject.DropSelf();
-			currentHeldObject = null;
-		}
-	}
+            // So player continues turning even after InputUp
+            _roller.transform.rotation = Quaternion.Slerp( _roller.transform.rotation, targetRotation, CARRY_TURN_SPEED * Time.deltaTime );
+        }
+        else
+        {
+            if ( _carryIdleWaitRoutine == null )
+            {
+                _carryIdleWaitRoutine = StartCoroutine( JohnTech.WaitFunction( IDLE_WAITTIME, () => _roller.ChangeState( P_ControlState.CARRYING, P_ControlState.CARRYIDLING ) ) );
+            }
+        }
+
+    }
+		
 }
