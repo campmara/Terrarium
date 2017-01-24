@@ -10,8 +10,6 @@ public enum P_ControlState
 	PICKINGUP,
 	CARRYING,
 	RITUAL,
-	IDLING,
-	CARRYIDLING,
     PLANTING
 }
 
@@ -46,9 +44,7 @@ public class RollerController : ControllerBase
 	private RollingState _rolling = null;	
 	private PickupState _pickup = null;
 	private CarryState _carrying = null;
-	private RitualState _ritual = null;
-	private IdleState _idling = null;
-	private CarryIdleState _carryIdling = null;
+	private RitualState _ritual = null;	
     private PlantingState _planting = null;
 
 	void Awake()
@@ -76,14 +72,6 @@ public class RollerController : ControllerBase
 		_ritual = this.gameObject.AddComponent<RitualState>();
 		_ritual.RollerParent = this;
 		_ritual.enabled = false;
-
-		_idling = this.gameObject.AddComponent<IdleState>();
-		_idling.RollerParent = this;
-		_idling.enabled = false;
-			
-		_carryIdling = this.gameObject.AddComponent<CarryIdleState>();
-		_carryIdling.RollerParent = this;
-		_carryIdling.enabled = false;
 
         _planting = this.gameObject.AddComponent<PlantingState>();
         _planting.RollerParent = this;
@@ -134,12 +122,6 @@ public class RollerController : ControllerBase
 		case P_ControlState.RITUAL:
 			_currentState = _ritual;
 			break;
-		case P_ControlState.IDLING:
-			_currentState = _idling;
-			break;
-        case P_ControlState.CARRYIDLING:
-            _currentState = _carryIdling;
-            break;
         case P_ControlState.PLANTING:
             _currentState = _planting;
             break;
