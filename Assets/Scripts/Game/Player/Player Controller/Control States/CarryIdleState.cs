@@ -24,10 +24,14 @@ public class CarryIdleState : RollerState
 	{
 		Debug.Log( "EXITTING IDLE STATE" );
 
-		if( nextState != P_ControlState.CARRYING )
-		{
-			HandleDropHeldObject();
-		}
+        switch( nextState )
+        {
+            case P_ControlState.WALKING:
+                HandleDropHeldObject();
+                break;
+            default:
+                break;
+        }
 	}
 
 	public override void HandleInput( InputCollection input )
@@ -42,19 +46,13 @@ public class CarryIdleState : RollerState
 		// A BUTTON
 		if (input.AButton.WasPressed)
 		{
-			HandlePickup();
-		}
+            _roller.ChangeState( P_ControlState.CARRYIDLING, P_ControlState.PLANTING );
+        }
 
 		// B BUTTON
-		if (input.BButton.WasPressed & input.BButton.HasChanged)
+		if (input.BButton.WasPressed && input.BButton.HasChanged)
 		{
-			_roller.ChangeState( P_ControlState.CARRYIDLING, P_ControlState.ROLLING );
-		}
-
-		// X BUTTON
-		if (input.XButton.WasPressed & input.XButton.HasChanged)
-		{
-			_roller.ChangeState(P_ControlState.CARRYIDLING, P_ControlState.RITUAL);
+			_roller.ChangeState( P_ControlState.CARRYIDLING, P_ControlState.WALKING );
 		}
 	}
 

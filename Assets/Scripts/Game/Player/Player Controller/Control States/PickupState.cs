@@ -13,7 +13,7 @@ public class PickupState : RollerState
 		currentHeldObject.transform.parent = _roller.transform;
 		currentHeldObject.OnPickup();
 
-		Vector3 pickupPos = _roller.transform.position + (_roller.transform.forward * 1f) + (_roller.transform.up * 1f);
+		Vector3 pickupPos = _roller.transform.position + (_roller.transform.forward * PICKUP_FORWARDSCALAR) + (_roller.transform.up * PICKUP_UPSCALAR);
 		currentHeldObject.transform.DOMove(pickupPos, PICKUP_TIME).OnComplete( Transition );
 	}
 
