@@ -39,14 +39,15 @@ public class CarryState : RollerState
 
 	public override void HandleInput(InputCollection input)
 	{
-		if (input.AButton.WasPressed)
+		if ( input.AButton.WasPressed & input.AButton.HasChanged )
 		{
-			_roller.ChangeState( P_ControlState.CARRYING, P_ControlState.WALKING );
+            // NOTE: Should only happen for seeds ?
+			_roller.ChangeState( P_ControlState.CARRYING, P_ControlState.PLANTING );
 		}
 
 		if (input.BButton.WasPressed & input.BButton.HasChanged)
 		{
-			_roller.ChangeState( P_ControlState.CARRYING, P_ControlState.ROLLING );
+			_roller.ChangeState( P_ControlState.CARRYING, P_ControlState.WALKING );
 		}
 
 		CarryMovement(input);
