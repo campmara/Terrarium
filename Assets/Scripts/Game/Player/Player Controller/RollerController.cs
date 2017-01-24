@@ -131,7 +131,10 @@ public class RollerController : ControllerBase
 		case P_ControlState.IDLING:
 			_currentState = _idling;
 			break;
-		default:
+        case P_ControlState.CARRYIDLING:
+            _currentState = _carryIdling;
+            break;
+        default:
 			break;
 		}
 

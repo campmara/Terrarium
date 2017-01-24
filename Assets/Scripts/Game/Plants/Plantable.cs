@@ -67,7 +67,7 @@ public class Plantable : Pickupable
 	protected void SituatePlant()
 	{
 		transform.rotation = Quaternion.Euler(Vector3.zero);
-		rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ |
+		_rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ |
 								RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY |
 								RigidbodyConstraints.FreezeRotationZ;
 	}
@@ -85,7 +85,7 @@ public class Plantable : Pickupable
 		_curGrowthRate = _baseGrowthRate;
 		_curGrowTime = 0.0f;
 
-		rigidbody.constraints = RigidbodyConstraints.None;
+		_rigidbody.constraints = RigidbodyConstraints.None;
 
 		PlantManager.ExecuteGrowth -= GrowPlant;
 	}
