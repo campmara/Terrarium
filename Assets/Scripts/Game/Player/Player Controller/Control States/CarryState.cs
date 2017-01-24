@@ -104,7 +104,7 @@ public class CarryState : RollerState
         {
             if ( _carryIdleWaitRoutine == null )
             {
-                _carryIdleWaitRoutine = StartCoroutine( JohnTech.WaitFunction( IDLE_WAITTIME, () => HandleEndIdle() ) );
+                _carryIdleWaitRoutine = StartCoroutine( JohnTech.WaitFunction( IDLE_WAITTIME, () => HandleBeginIdle() ) );
             }
         }
 
