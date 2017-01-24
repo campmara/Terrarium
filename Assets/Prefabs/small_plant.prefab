@@ -38,7 +38,6 @@ GameObject:
   - component: {fileID: 4604879801209232}
   - component: {fileID: 54936419928868088}
   - component: {fileID: 65691791673218632}
-  - component: {fileID: 114664957554254418}
   - component: {fileID: 114543119625497106}
   m_Layer: 0
   m_Name: small_plant
@@ -151,15 +150,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentPickupable: {fileID: 0}
---- !u!114 &114664957554254418
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1839983384230560}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9e94833b20bc431f9b60a6abc8b07f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _spawnables: []

@@ -6,21 +6,25 @@ public class Growable : Plantable
 {
 	public enum GrowthStage : int
 	{
-		Unplanted = 0,
-		Sprout = 1,
+		Sprout = 0,
+		GrowingSprout= 1,
 		Sapling = 2,
 		Final = 3
 	};
 
-	[SerializeField] protected List<Mesh> _plantMeshes = new List<Mesh>();
-	List<float> _growthRadius = new List<float>(); // calculated from mesh you're growing into
+	[SerializeField] GameObject _seedPrefab = null;
 
+	float [] stageRadii = new float[] { 2.0f, 
+										3.0f, 
+										4.0f,
+										5.0f }; // how much room each stage need to grow
+	float [] growthTime = new float[4];
+
+	const float _numGrowStages = 3;
 	const float _plantScaleFactor = 2.0f;
 	const float _minTimeSinceDrop = .33f;
-	float [] growthTime = new float[] { 3.0f, 3.5f, 4.0f, 5.0f, }; // USE THIS TO TWEAK DURATION OF STAGES 
 
-	float _neededRadius = 0.0f;
-	GrowthStage _curStage = GrowthStage.Unplanted;
+	[SerializeField] GrowthStage _curStage = GrowthStage.Sprout;
 	public GrowthStage CurStage { get { return _curStage; } }
 
 	protected override void Awake()
@@ -31,94 +35,94 @@ public class Growable : Plantable
 		
 	protected override void InitPlant()
 	{
-		DetermineTreeStagesSpaceNeeds();
-		CalculateNeededRadius();
+		_curStage = GrowthStage.Sprout;
+		base.InitPlant();
+		SetTransitionPoints();
+		AnimationSetup();
+		base.StartGrowth();
 	}
+
+	protected virtual void AnimationSetup(){}
+
+	protected virtual void SetTransitionPoints()
+	{
+		for( int i = 1; i < _numGrowStages + 1; i++ )
+		{
+			growthTime[i-1] = _animEndTime / _numGrowStages * i;
+		}
+	}
+
+	protected override void StartGrowth()
+	{
+		
+	}
+
+	protected override void StopGrowth()
+	{
+		PlantManager.ExecuteGrowth -= GrowPlant;
+		_plantAnim.Stop();
+		_plantAnim.StopPlayback();
+	}
+
 
 	public override void WaterPlant()
 	{
-		// ups the rate if it's in a certain mode
-		if( _curStage == GrowthStage.Sprout || _curStage == GrowthStage.Unplanted )
-		{
-			_curGrowthRate *= _waterMultiplier;
-		}
+		//start growing and start growing at a faster rate
+		_curGrowthRate = _wateredGrowthRate;
 	}
 		
 	public override void GrowPlant()
 	{
-		TimeBasedPlanting(); // once we have animations to implement,let's do that
-	}
-		
-	void TimeBasedPlanting()
-	{
-		//keep moving forward at certain rate 
-		if( _curGrowTime >= growthTime[ (int)_curStage ] )
+		if( _curStage != GrowthStage.Final )
 		{
-			TryTransitionStages();
-		}
-		else
-		{
-			_curGrowTime += _curGrowthRate * Time.deltaTime;
-		}
-	}
+			_curTimestamp = _plantAnim.GetCurrentAnimatorStateInfo(0).normalizedTime;// * _animEndTime;
 
-	void DetermineTreeStagesSpaceNeeds()
-	{
-		// calculate the radius plants absolutely need to grow
-		for( int i = 0; i < _plantMeshes.Count; i++ )
-		{
-			Vector3 size = _plantMeshes[i].bounds.size * transform.GetChild(0).localScale.x;
-			float largestComponent = size.x;
-
-			if( size.z > size.x )
+			if( _curTimestamp >= growthTime[ (int)_curStage ] )
 			{
-				largestComponent = size.z;
+				TryTransitionStages();
+			} 
+			else
+			{
+				CustomPlantGrowing();
 			}
-
-			_growthRadius.Add( ( largestComponent / 2.0f ) );
 		}
 	}
 
-	void CalculateNeededRadius()
-	{
-		_neededRadius = _growthRadius[ (int)_curStage + 1 ] * transform.localScale.x * _plantScaleFactor;
-		_plantMeshRadius = _neededRadius;
-	}
+	protected virtual void CustomPlantGrowing(){}
 		
-
 	bool TryTransitionStages()
 	{
 		bool canTransition = false;
 
+		SwitchToNextStage();
+
 		if( !IsOverlappingPlants() )
 		{
 			canTransition = true;
-			SwitchToNextStage();
 		}
-
+		else
+		{
+			StopGrowth();
+		}
+			
 		return canTransition;
 	}
 
 	bool IsOverlappingPlants()
 	{
-
-		RaycastHit[] overlappingObjects = Physics.SphereCastAll( transform.position, _neededRadius, Vector3.up );
+		//only check surroundings if you are over sprout phase
+		RaycastHit[] overlappingObjects = Physics.SphereCastAll( transform.position, stageRadii[ (int)_curStage ], Vector3.up );
 		if( overlappingObjects.Length != 0 )
 		{
 			foreach( RaycastHit hitObj in overlappingObjects )
 			{
 				if( !hitObj.collider.isTrigger )
 				{
-					if( hitObj.collider.GetComponent<Plantable>() && hitObj.collider.gameObject != gameObject )
+					Growable otherPlant = hitObj.collider.GetComponent<Growable>();
+					if( otherPlant && hitObj.collider.gameObject != gameObject )
 					{
-						return true;
-					}
-				}
-				else
-				{
-					if( hitObj.collider.transform.parent && hitObj.transform.GetComponent<Plantable>() )
-					{
-						if( hitObj.transform.root != transform )
+						//this thing needs to be one level higher than me ( we've yet to switch stages properly, so it's + 2)
+						if( (int)otherPlant.CurStage == ( (int)_curStage + 1 ) )
 						{
 							return true;
 						}
@@ -126,63 +130,73 @@ public class Growable : Plantable
 				}
 			}
 		}
-
-		return false;
-	}
 		
-	public virtual void DropFruit()
+		return false;
+	}   
+		
+	protected override void GetSetMeshRadius()
 	{
-		Debug.Log("DROPPING FRUIT");
+		Vector3 size = GetComponentInChildren<SkinnedMeshRenderer>().bounds.size;
+
+		if( size.x > size.z )
+		{
+			_plantMeshRadius = size.x * transform.GetChild(0).localScale.x;
+		}
+		else
+		{
+			_plantMeshRadius = size.z * transform.GetChild(0).localScale.x;
+		}
 	}
 
-	void SwitchToNextStage()
-	{
-		if( _curStage >= GrowthStage.Sprout )
-		{
-			_canPickup = false;
-		} 
+	public virtual GameObject DropFruit()
+	{   
+		GameObject newPlant = null;
 
+		//what kind of radius do i want
+		Vector2 randomPoint = Random.insideUnitCircle * _spawnRadius;
+		Vector3 spawnPoint = new Vector3( randomPoint.x, 2.0f, randomPoint.y ) + transform.position;
+		Vector3 direction = ( spawnPoint - transform.position ).normalized * ( _plantMeshRadius );
+		spawnPoint += direction;
+
+		newPlant = (GameObject)Instantiate( _seedPrefab, spawnPoint, Quaternion.identity );
+
+		PlantManager.instance.RequestDropFruit( this, _timeBetweenSpawns + Random.Range(.1f, .2f) );
+
+		if( newPlant == null )
+		{
+			Debug.Log("dropping seed plant messed up ");
+		}
+		return newPlant;
+	}   
+		
+	void SwitchToNextStage()
+	{   		
 		if( _curStage != GrowthStage.Final )
 		{
-			transform.localScale *= _plantScaleFactor;
 			_curStage += 1; // they are int enums so we can just increment
-
-			if( _curStage != GrowthStage.Final )
-			{
-				//we always want the next mesh we'd be growing into's radius
-				CalculateNeededRadius();
-			}
-			else
-			{
-				PlantManager.ExecuteGrowth -= GrowPlant;
-			}
-
-			if( _curStage == GrowthStage.Sapling )
+		
+			if( _curStage == GrowthStage.GrowingSprout )
 			{
 				PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );	
 			}
+			else if( _curStage == GrowthStage.Final )
+			{
+				PlantManager.instance.RequestDropFruit( this, _timeBetweenSpawns );
+			}
 		}
 
-		_curGrowTime = 0.0f;
-		_curGrowthRate = _baseGrowthRate; // ;P resets every stage for fun
-		UpdateMeshAndColliderData();
-	}
-
-	void SwitchToPrevStage()
-	{
-		if( _curStage != GrowthStage.Unplanted )
+		if( _curStage == GrowthStage.Final )
 		{
-			_curStage -= 1; // they are int enums so we can just increment
+			StopGrowth();
 		}
 
-		_curGrowTime = 0.0f;
-
-		UpdateMeshAndColliderData();
+		_spawnRadius = stageRadii[ (int)_curStage ];
+		_curGrowthRate = _baseGrowthRate;
+		_plantAnim.speed = _curGrowthRate;
 	}
-
+		
 	void UpdateMeshAndColliderData()
 	{
-		GetComponentInChildren<MeshFilter>().mesh = _plantMeshes[(int)_curStage];
 		BoxCollider innerCollider = GetComponent<BoxCollider>();
 		innerCollider.size = GetComponentInChildren<MeshFilter>().mesh.bounds.size * transform.GetChild(0).localScale.x;
 		innerCollider.center = new Vector3( 0.0f, ( innerCollider.size.y ) / 2.0f, 0.0f );
@@ -191,7 +205,8 @@ public class Growable : Plantable
 	void OnDrawGizmos() 
 	{
 		Gizmos.color = Color.yellow;
-		Gizmos.DrawWireSphere( transform.position, _neededRadius );
+
+		Gizmos.DrawWireSphere( transform.position, stageRadii[ (int)_curStage ] );
 	}
 }
 
