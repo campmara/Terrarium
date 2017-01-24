@@ -55,27 +55,21 @@ public class RollerController : ControllerBase
 		// Add State Controller, Set parent to This Script, set to inactive
 		_walking = this.gameObject.AddComponent<WalkingState>();
 		_walking.RollerParent = this;
-		_walking.enabled = false;
 
 		_rolling = this.gameObject.AddComponent<RollingState>();
 		_rolling.RollerParent = this;
-		_rolling.enabled = false;
 
 		_pickup = this.gameObject.AddComponent<PickupState>();
 		_pickup.RollerParent = this;
-		_pickup.enabled = false;
 
 		_carrying = this.gameObject.AddComponent<CarryState>();
 		_carrying.RollerParent = this;
-		_carrying.enabled = false;
 
 		_ritual = this.gameObject.AddComponent<RitualState>();
 		_ritual.RollerParent = this;
-		_ritual.enabled = false;
 
         _planting = this.gameObject.AddComponent<PlantingState>();
         _planting.RollerParent = this;
-        _planting.enabled = false;
 
         // Set state to default (walking for now)
         ChangeState( P_ControlState.NONE, P_ControlState.WALKING );
@@ -101,7 +95,7 @@ public class RollerController : ControllerBase
 		{
 			_currentState.Exit( toState );
 
-			_currentState.enabled = false;
+			//_currentState.enabled = false;
 		}
 			
 		// Enter and Activate New State
@@ -129,7 +123,7 @@ public class RollerController : ControllerBase
 			break;
 		}
 
-		_currentState.enabled = true;
+		//_currentState.enabled = true;
 
 		_currentState.Enter( fromState );
 	}
