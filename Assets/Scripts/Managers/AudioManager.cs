@@ -80,6 +80,7 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 
 	public enum AudioControllerNames
 	{
+        MUSIC = 0
 	}
 	[SerializeField] private List<AudioController> _audioControllerList = new List<AudioController>();
 
@@ -148,8 +149,24 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 
 	#endregion
 
-//	public AudioController GetAudioController(AudioControllerNames controllerName)
-//	{
-//		return _audioControllerList[(int) controllerName];
-//	}
+
+    public enum MusicTimeState
+    {
+        SUNRISE = 0,
+        MIDDAY,
+        SUNSET
+    }
+    MusicTimeState _musicTimeState = MusicTimeState.SUNRISE;
+
+    [SerializeField]
+    private AudioClip[] _musicAudioClips;
+
+    public MusicTimeState MusicTime { get { return _musicTimeState; } set { SetMusicTimeState(value); } }
+
+    void SetMusicTimeState( MusicTimeState newTimeState )
+    {
+        _musicTimeState = newTimeState;
+
+        SetControllerClip( AudioControllerNames.MUSIC, _musicAudioClips[(int)_musicTimeState] );
+    }
 }
