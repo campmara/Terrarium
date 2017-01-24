@@ -6,27 +6,50 @@ public class CarryState : RollerState
 {
 	Quaternion targetRotation = Quaternion.identity;
 
+    Coroutine _carryIdleWaitRoutine = null;
+
     public override void Enter( P_ControlState prevState )
 	{
 		Debug.Log("ENTER CARRY STATE");
+
+		switch( prevState )
+		{
+		    case P_ControlState.PICKINGUP:
+                HandleEndIdle();
+                break;
+		}
 	}
 
 	public override void Exit( P_ControlState nextState )
 	{
 		Debug.Log("EXIT CARRY STATE");
-		DropHeldObject();
+
+        if( _carryIdleWaitRoutine != null )
+        {
+            StopCoroutine( _carryIdleWaitRoutine );
+            _carryIdleWaitRoutine = null;
+        }
+        
+        switch( nextState )
+        {
+            case P_ControlState.WALKING:
+                HandleDropHeldObject();
+                break;
+        }
+
 	}
 
 	public override void HandleInput(InputCollection input)
 	{
-		if (input.AButton.WasPressed)
+		if ( input.AButton.WasPressed )
 		{
-			_roller.ChangeState( P_ControlState.CARRYING, P_ControlState.WALKING );
+            // NOTE: Should only happen for seeds ?
+			_roller.ChangeState( P_ControlState.CARRYING, P_ControlState.PLANTING );
 		}
 
-		if (input.BButton.WasPressed & input.BButton.HasChanged)
+		if (input.BButton.WasPressed && input.BButton.HasChanged)
 		{
-			_roller.ChangeState( P_ControlState.CARRYING, P_ControlState.ROLLING );
+			_roller.ChangeState( P_ControlState.CARRYING, P_ControlState.WALKING );
 		}
 
 		CarryMovement(input);
@@ -37,39 +60,66 @@ public class CarryState : RollerState
 		// Left Stick Movement
 		Vector3 vec = new Vector3(input.LeftStickX, 0f, input.LeftStickY);
 
-		// Accounting for camera position
-		vec = CameraManager.instance.Main.transform.TransformDirection(vec);
-		vec.y = 0f;
-		inputVec = vec;
+        if (vec.magnitude > IDLE_MAXMAG)
+        {
+            if ( _carryIdleWaitRoutine != null )
+            {
+                StopCoroutine( _carryIdleWaitRoutine );
+                _carryIdleWaitRoutine = null;
+            }
 
-		if (Mathf.Abs(input.LeftStickX.Value) > INPUT_DEADZONE || Mathf.Abs(input.LeftStickY.Value) > INPUT_DEADZONE)
-		{
-			Accelerate(CARRY_SPEED, WALK_ACCELERATION);
-			Vector3 movePos = _roller.transform.position + (inputVec * velocity * Time.deltaTime);
-			_roller.RB.MovePosition(movePos);
+            if( _idling )
+            {
+                HandleEndIdle();
+            }
 
-			targetRotation = Quaternion.LookRotation(inputVec);
+            // Accounting for camera position
+            vec = CameraManager.instance.Main.transform.TransformDirection( vec );
+            vec.y = 0f;
+            inputVec = vec;
 
-			lastInputVec = inputVec.normalized;
-		}
-		else if (velocity > 0f)
-		{
-			// Slowdown
-			velocity -= WALK_DECELERATION * Time.deltaTime;
-			Vector3 slowDownPos = _roller.transform.position + (lastInputVec * velocity * Time.deltaTime);
-			_roller.RB.MovePosition(slowDownPos);
-		}
+            if (Mathf.Abs( input.LeftStickX.Value ) > INPUT_DEADZONE || Mathf.Abs( input.LeftStickY.Value ) > INPUT_DEADZONE)
+            {
+                Accelerate( CARRY_SPEED, WALK_ACCELERATION );
+                Vector3 movePos = _roller.transform.position + ( inputVec * velocity * Time.deltaTime );
+                _roller.RB.MovePosition( movePos );
 
-		// So player continues turning even after InputUp
-		_roller.transform.rotation = Quaternion.Slerp(_roller.transform.rotation, targetRotation, CARRY_TURN_SPEED * Time.deltaTime);
-	}
+                targetRotation = Quaternion.LookRotation( inputVec );
 
-	void DropHeldObject()
-	{
-		if (currentHeldObject != null)
-		{
-			currentHeldObject.DropSelf();
-			currentHeldObject = null;
-		}
-	}
+                lastInputVec = inputVec.normalized;
+            }
+            else if (velocity > 0f)
+            {
+                // Slowdown
+                velocity -= WALK_DECELERATION * Time.deltaTime;
+                Vector3 slowDownPos = _roller.transform.position + ( lastInputVec * velocity * Time.deltaTime );
+                _roller.RB.MovePosition( slowDownPos );
+            }
+
+            // So player continues turning even after InputUp
+            _roller.transform.rotation = Quaternion.Slerp( _roller.transform.rotation, targetRotation, CARRY_TURN_SPEED * Time.deltaTime );
+        }
+        else
+        {
+            if ( _carryIdleWaitRoutine == null )
+            {
+                _carryIdleWaitRoutine = StartCoroutine( JohnTech.WaitFunction( IDLE_WAITTIME, () => HandleEndIdle() ) );
+            }
+        }
+
+    }
+		
+    void HandleBeginIdle()
+    {
+        _idling = true;
+
+        PlayerManager.instance.Player.AnimationController.PlayCarryIdleAnim();
+    }
+
+    void HandleEndIdle()
+    {
+        _idling = false;
+
+        PlayerManager.instance.Player.AnimationController.PlayWalkAnim();
+    }
 }

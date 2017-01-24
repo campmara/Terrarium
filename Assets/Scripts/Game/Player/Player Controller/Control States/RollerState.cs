@@ -36,6 +36,10 @@ public class RollerState : MonoBehaviour
 	protected const float TURN_DECELERATION = 700f;
 
 	// PICKUP
+	protected const float PICKUP_CHECKHEIGHT = 0.5f;
+	protected const float PICKUP_CHECKRADIUS = 1.0f;
+    protected const float PICKUP_FORWARDSCALAR = 1.0f;
+    protected const float PICKUP_UPSCALAR = 1.0f;
 	protected const float PICKUP_TIME = 0.75f;
 
     // IDLE
@@ -45,6 +49,13 @@ public class RollerState : MonoBehaviour
     // TRANSITIONS
     protected const float TRANSITION_TIME = 1f;
 	protected const float TRANSITION_DECELERATION = 20f;
+
+	// RITUAL DANCE
+	protected const float RITUAL_TIME = 1.5f;
+
+    // PLANTING
+    protected const float PLANTING_TIME = 0.75f;
+    protected const float PLANTING_ENDY = 0f;
 
 	// =================
 	// V A R I A B L E S
@@ -100,6 +111,8 @@ public class RollerState : MonoBehaviour
 
 	protected float transitionTimer = 0f;
 
+    protected bool _idling = false;
+
 	// ============================
 	// V I R T U A L  M E T H O D S
 	// ============================
@@ -120,6 +133,54 @@ public class RollerState : MonoBehaviour
 		if (Mathf.Abs(velocity) > max)
 		{
 			velocity = Mathf.Sign(velocity) * max;
+		}
+	}
+
+	protected void HandlePickup()
+	{
+		CheckForPickup();
+	}
+		
+	private void CheckForPickup()
+	{
+		Vector3 _pickupCenter = _roller.transform.position + ( Vector3.up * PICKUP_CHECKHEIGHT ) + _roller.transform.forward;
+
+		Collider[] overlapArray = Physics.OverlapSphere( _pickupCenter, PICKUP_CHECKRADIUS );
+
+		if ( overlapArray.Length > 0 )
+		{
+			Plantable plantComponent = null;
+			//if the pickupable is a plant, we can only pick it up if it's still in seed stage
+			foreach( Collider col in overlapArray )
+			{
+				plantComponent = col.gameObject.GetComponent<Plantable>();
+				if( plantComponent && plantComponent.CanPickup )
+				{
+					PickUpObject( plantComponent.GetComponent<Pickupable>() );
+					break;
+				}
+			}
+
+		}
+	}
+
+	private void PickUpObject( Pickupable pickup )
+	{
+		currentHeldObject = pickup;
+		_roller.ChangeState( _roller.State, P_ControlState.PICKINGUP );
+	}
+
+	protected void HandleDropHeldObject()
+	{
+		DropHeldObject();
+	}
+
+	void DropHeldObject()
+	{
+		if (currentHeldObject != null)
+		{
+			currentHeldObject.DropSelf();
+			currentHeldObject = null;
 		}
 	}
 }

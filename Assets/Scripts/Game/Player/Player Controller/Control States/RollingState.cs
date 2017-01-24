@@ -15,7 +15,6 @@ public class RollingState : RollerState
         switch ( prevState )
         {
             case P_ControlState.WALKING:
-			case P_ControlState.IDLING:
                 CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_LOCKED );
 				PlayerManager.instance.Player.AnimationController.PlayWalkToRollAnim();
                 break;
@@ -33,9 +32,15 @@ public class RollingState : RollerState
 	public override void HandleInput(InputCollection input)
 	{
 		// B BUTTON
-		if ((input.BButton.WasReleased & input.BButton.HasChanged) || input.BButton.Value == 0)
+		if ((input.BButton.WasReleased && input.BButton.HasChanged) || input.BButton.Value == 0)
 		{
 			_roller.ChangeState( P_ControlState.ROLLING, P_ControlState.WALKING );
+		}
+
+		// X BUTTON
+		if (input.XButton.WasPressed && input.XButton.HasChanged)
+		{
+			_roller.ChangeState(P_ControlState.ROLLING, P_ControlState.RITUAL);
 		}
 
 		// MOVEMENT HANDLING

@@ -9,7 +9,8 @@ public enum P_ControlState
 	ROLLING,
 	PICKINGUP,
 	CARRYING,
-	IDLING
+	RITUAL,
+    PLANTING
 }
 
 [RequireComponent(typeof(Rigidbody))]
@@ -43,7 +44,9 @@ public class RollerController : ControllerBase
 	private RollingState _rolling = null;	
 	private PickupState _pickup = null;
 	private CarryState _carrying = null;
-	private IdleState _idling = null;
+	private RitualState _ritual = null;	
+    private PlantingState _planting = null;
+
 	void Awake()
 	{
 		//Debug.Log("Added Test Controller to Player Control Manager");
@@ -66,12 +69,16 @@ public class RollerController : ControllerBase
 		_carrying.RollerParent = this;
 		_carrying.enabled = false;
 
-		_idling = this.gameObject.AddComponent<IdleState>();
-		_idling.RollerParent = this;
-		_idling.enabled = false;
-			
-		// Set state to default (walking for now)
-		ChangeState( P_ControlState.NONE, P_ControlState.WALKING );
+		_ritual = this.gameObject.AddComponent<RitualState>();
+		_ritual.RollerParent = this;
+		_ritual.enabled = false;
+
+        _planting = this.gameObject.AddComponent<PlantingState>();
+        _planting.RollerParent = this;
+        _planting.enabled = false;
+
+        // Set state to default (walking for now)
+        ChangeState( P_ControlState.NONE, P_ControlState.WALKING );
 	}
 
 /* Can use these for if we are swapping in & out controllers from Player Control Manager
@@ -112,10 +119,13 @@ public class RollerController : ControllerBase
 		case P_ControlState.CARRYING:
 			_currentState = _carrying;
 			break;
-		case P_ControlState.IDLING:
-			_currentState = _idling;
+		case P_ControlState.RITUAL:
+			_currentState = _ritual;
 			break;
-		default:
+        case P_ControlState.PLANTING:
+            _currentState = _planting;
+            break;
+        default:
 			break;
 		}
 

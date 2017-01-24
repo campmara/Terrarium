@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: CactusPack_Atlas
-  m_Shader: {fileID: 4800000, guid: 657a545cf1d761445a05b82613848221, type: 3}
+  m_Shader: {fileID: 4800000, guid: 0a4c2dc3e6c043042a5f12aa874a5954, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_CustomRenderQueue: -1
@@ -18,10 +18,28 @@ Material:
     - first:
         name: _MainTex
       second:
-        m_Texture: {fileID: 2800000, guid: 258108c7e5f66da439a8c12adbde43c3, type: 3}
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _NormalTex
+      second:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _SecondaryTex
+      second:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - first:
+        name: _Hardness
+      second: 0.364
+    - first:
+        name: _Middle
+      second: 0.385
     - first:
         name: _RimPower
       second: 3.4776123
@@ -30,5 +48,17 @@ Material:
         name: _Color
       second: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 1}
     - first:
+        name: _ColorBot
+      second: {r: 0.3529412, g: 0.3372549, b: 0.2627451, a: 1}
+    - first:
+        name: _ColorMid
+      second: {r: 0.42647058, g: 0.40901908, b: 0.32612455, a: 1}
+    - first:
+        name: _ColorTop
+      second: {r: 0.50735295, g: 0.48790273, b: 0.40662846, a: 1}
+    - first:
         name: _RimColor
       second: {r: 0.47058824, g: 0.37254837, b: 0.23437138, a: 0}
+    - first:
+        name: _ShadowColor
+      second: {r: 1, g: 1, b: 1, a: 1}

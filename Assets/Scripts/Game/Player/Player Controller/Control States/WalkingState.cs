@@ -3,28 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class WalkingState : RollerState 
+public class WalkingState : RollerState
 {
 	Quaternion targetRotation = Quaternion.identity;
-	Ray pickupRay;
 
-    Tween _idleWaitTween = null;
+    Coroutine _idleWaitRoutine = null;
     float _idleTimer = 0.0f;
 
     public override void Enter( P_ControlState prevState )
 	{
 		Debug.Log("ENTER WALKING STATE");
-        
+
         // Handle Transition
         switch ( prevState )
         {
         case P_ControlState.ROLLING:
-			CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );                
+			CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
 			PlayerManager.instance.Player.AnimationController.PlayRollToWalkAnim();
             break;
-		case P_ControlState.IDLING:
-			PlayerManager.instance.Player.AnimationController.PlayWalkAnim();		
-			break;
         default:
                 break;
         }
@@ -35,20 +31,32 @@ public class WalkingState : RollerState
 	public override void Exit(P_ControlState nextState)
 	{
 		Debug.Log("EXIT WALKING STATE");
-	}
+
+        if (_idleWaitRoutine != null)
+        {
+            StopCoroutine( _idleWaitRoutine );
+            _idleWaitRoutine = null;
+        }
+    }
 
 	public override void HandleInput(InputCollection input)
 	{
 		// A BUTTON
 		if (input.AButton.WasPressed)
 		{
-			CheckForPickup();
+			HandlePickup();
 		}
 
 		// B BUTTON
-		if (input.BButton.WasPressed & input.BButton.HasChanged)
+		if (input.BButton.WasPressed && input.BButton.HasChanged)
 		{
 			_roller.ChangeState( P_ControlState.WALKING, P_ControlState.ROLLING );
+		}
+
+		// X BUTTON
+		if (input.XButton.WasPressed && input.XButton.HasChanged)
+		{
+			_roller.ChangeState(P_ControlState.WALKING, P_ControlState.RITUAL);
 		}
 
 		WalkMovement(input);
@@ -65,10 +73,15 @@ public class WalkingState : RollerState
 
         if( vec.magnitude > IDLE_MAXMAG )
         {
-            if( _idleWaitTween != null )
+            if( _idleWaitRoutine != null )
             {
-                _idleWaitTween.Kill();                
-                _idleWaitTween = null;
+                StopCoroutine( _idleWaitRoutine );
+                _idleWaitRoutine = null;
+            }
+
+            if (_idling)
+            {
+                HandleEndIdle();
             }
 
             // Accounting for camera position
@@ -99,44 +112,25 @@ public class WalkingState : RollerState
         }
         else
         {
-            if(_idleWaitTween == null )
+            if( _idleWaitRoutine == null )
             {
-                _idleTimer = 0.0f;
-                _idleWaitTween = DOTween.To( () => _idleTimer, x => _idleTimer = x, 1.0f, IDLE_WAITTIME ).OnComplete( () => _roller.ChangeState( P_ControlState.WALKING, P_ControlState.IDLING ) );              
+                _idleWaitRoutine = StartCoroutine( JohnTech.WaitFunction( IDLE_WAITTIME, () => HandleBeginIdle() ) );
             }
         }
 
 	}
 
-	// =============
-	// P I C K U P S
-	// =============
+    void HandleBeginIdle()
+    {
+        _idling = true;
 
-	void CheckForPickup()
-	{
-		pickupRay = new Ray(_roller.transform.position + (Vector3.up * 1f), _roller.transform.forward);
-		Debug.DrawLine(pickupRay.origin, pickupRay.origin + (pickupRay.direction * 1.5f), Color.green);
+        PlayerManager.instance.Player.AnimationController.PlayIdleAnim();
+    }
 
-		RaycastHit hit;
+    void HandleEndIdle()
+    {
+        _idling = false;
 
-		if (Physics.Raycast(pickupRay, out hit, 1.5f))
-		{
-			//if the pickupable is a plant, we can only pick it up if it's still in seed stage
-			PickupCollider collider = hit.collider.GetComponent<PickupCollider>();
-			if( collider && ( collider.GetComponentInParent<Plant>() == null || collider.GetComponentInParent<Plant>().CurStage == Plant.GrowthStage.Unplanted ) )
-			{ 
-				PickUpObject( collider.GetComponentInParent<Pickupable>() );
-			}
-		}
-	}
-
-	void PickUpObject( Pickupable pickup )
-	{
-		if (pickup != null)
-		{
-			currentHeldObject = pickup;
-			_roller.ChangeState( P_ControlState.WALKING, P_ControlState.PICKINGUP );
-		}
-	}
-
+        PlayerManager.instance.Player.AnimationController.PlayWalkAnim();
+    }
 }
