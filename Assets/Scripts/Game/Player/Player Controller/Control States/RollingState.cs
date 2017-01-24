@@ -33,13 +33,13 @@ public class RollingState : RollerState
 	public override void HandleInput(InputCollection input)
 	{
 		// B BUTTON
-		if ((input.BButton.WasReleased & input.BButton.HasChanged) || input.BButton.Value == 0)
+		if ((input.BButton.WasReleased && input.BButton.HasChanged) || input.BButton.Value == 0)
 		{
 			_roller.ChangeState( P_ControlState.ROLLING, P_ControlState.WALKING );
 		}
 
 		// X BUTTON
-		if (input.XButton.WasPressed & input.XButton.HasChanged)
+		if (input.XButton.WasPressed && input.XButton.HasChanged)
 		{
 			_roller.ChangeState(P_ControlState.ROLLING, P_ControlState.RITUAL);
 		}

@@ -38,6 +38,8 @@ public class RollerState : MonoBehaviour
 	// PICKUP
 	protected const float PICKUP_CHECKHEIGHT = 0.5f;
 	protected const float PICKUP_CHECKRADIUS = 1.0f;
+    protected const float PICKUP_FORWARDSCALAR = 1.0f;
+    protected const float PICKUP_UPSCALAR = 1.0f;
 	protected const float PICKUP_TIME = 0.75f;
 
     // IDLE
@@ -50,6 +52,10 @@ public class RollerState : MonoBehaviour
 
 	// RITUAL DANCE
 	protected const float RITUAL_TIME = 3f;
+
+    // PLANTING
+    protected const float PLANTING_TIME = 0.75f;
+    protected const float PLANTING_ENDY = 0f;
 
 	// =================
 	// V A R I A B L E S
@@ -135,7 +141,7 @@ public class RollerState : MonoBehaviour
 		
 	private void CheckForPickup()
 	{
-		Vector3 _pickupCenter = _roller.transform.position + (Vector3.up * 0.5f) + _roller.transform.forward;
+		Vector3 _pickupCenter = _roller.transform.position + ( Vector3.up * PICKUP_CHECKHEIGHT ) + _roller.transform.forward;
 
 		Collider[] overlapArray = Physics.OverlapSphere( _pickupCenter, PICKUP_CHECKRADIUS );
 
@@ -159,7 +165,7 @@ public class RollerState : MonoBehaviour
 	private void PickUpObject( Pickupable pickup )
 	{
 		currentHeldObject = pickup;
-		_roller.ChangeState( P_ControlState.WALKING, P_ControlState.PICKINGUP );
+		_roller.ChangeState( _roller.State, P_ControlState.PICKINGUP );
 	}
 
 	protected void HandleDropHeldObject()

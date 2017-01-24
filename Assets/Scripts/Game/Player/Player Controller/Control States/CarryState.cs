@@ -30,23 +30,26 @@ public class CarryState : RollerState
             _carryIdleWaitRoutine = null;
         }
         
-        if( nextState != P_ControlState.CARRYIDLING )
+        switch( nextState )
         {
-            HandleDropHeldObject();
+            case P_ControlState.WALKING:
+                HandleDropHeldObject();
+                break;
         }
 
 	}
 
 	public override void HandleInput(InputCollection input)
 	{
-		if (input.AButton.WasPressed)
+		if ( input.AButton.WasPressed )
 		{
-			_roller.ChangeState( P_ControlState.CARRYING, P_ControlState.WALKING );
+            // NOTE: Should only happen for seeds ?
+			_roller.ChangeState( P_ControlState.CARRYING, P_ControlState.PLANTING );
 		}
 
-		if (input.BButton.WasPressed & input.BButton.HasChanged)
+		if (input.BButton.WasPressed && input.BButton.HasChanged)
 		{
-			_roller.ChangeState( P_ControlState.CARRYING, P_ControlState.ROLLING );
+			_roller.ChangeState( P_ControlState.CARRYING, P_ControlState.WALKING );
 		}
 
 		CarryMovement(input);

@@ -51,13 +51,13 @@ public class WalkingState : RollerState
 		}
 
 		// B BUTTON
-		if (input.BButton.WasPressed & input.BButton.HasChanged)
+		if (input.BButton.WasPressed && input.BButton.HasChanged)
 		{
 			_roller.ChangeState( P_ControlState.WALKING, P_ControlState.ROLLING );
 		}
 
 		// X BUTTON
-		if (input.XButton.WasPressed & input.XButton.HasChanged)
+		if (input.XButton.WasPressed && input.XButton.HasChanged)
 		{
 			_roller.ChangeState(P_ControlState.WALKING, P_ControlState.RITUAL);
 		}
