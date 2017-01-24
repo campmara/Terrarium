@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Water
+  m_Name: Pond Water
   m_Shader: {fileID: 4800000, guid: 0a4c2dc3e6c043042a5f12aa874a5954, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
@@ -105,7 +105,7 @@ Material:
       second: 1
     - first:
         name: _Hardness
-      second: 0.5
+      second: 0.463
     - first:
         name: _Metallic
       second: 0
@@ -142,10 +142,10 @@ Material:
       second: {r: 0.7516183, g: 0.9558824, b: 0.6536549, a: 1}
     - first:
         name: _ColorBot
-      second: {r: 0.20344941, g: 0.35036376, b: 0.52205884, a: 1}
+      second: {r: 0.47734645, g: 0.6268037, b: 0.8014706, a: 1}
     - first:
         name: _ColorMid
-      second: {r: 0.42879543, g: 0.5788772, b: 0.75735295, a: 1}
+      second: {r: 0.52454585, g: 0.61745477, b: 0.72794116, a: 1}
     - first:
         name: _ColorTop
       second: {r: 0.29411763, g: 0.620284, b: 1, a: 1}
