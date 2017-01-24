@@ -37,11 +37,14 @@ public class CarryState : RollerState
                 break;
         }
 
+        _idling = false;
 	}
 
 	public override void HandleInput(InputCollection input)
 	{
-		if ( input.AButton.WasPressed )
+        CarryMovement( input );
+
+        if ( input.AButton.WasPressed )
 		{
             // NOTE: Should only happen for seeds ?
 			_roller.ChangeState( P_ControlState.CARRYING, P_ControlState.PLANTING );
@@ -50,9 +53,7 @@ public class CarryState : RollerState
 		if (input.BButton.WasPressed && input.BButton.HasChanged)
 		{
 			_roller.ChangeState( P_ControlState.CARRYING, P_ControlState.WALKING );
-		}
-
-		CarryMovement(input);
+		}		
 	}
 
 	void CarryMovement(InputCollection input)
