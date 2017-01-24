@@ -7,7 +7,7 @@ public class WalkingState : RollerState
 {
 	Quaternion targetRotation = Quaternion.identity;
 
-    Tween _idleWaitTween = null;
+    Coroutine _idleWaitRoutine = null;
     float _idleTimer = 0.0f;
 
     public override void Enter( P_ControlState prevState )
@@ -34,7 +34,13 @@ public class WalkingState : RollerState
 	public override void Exit(P_ControlState nextState)
 	{
 		Debug.Log("EXIT WALKING STATE");
-	}
+
+        if (_idleWaitRoutine != null)
+        {
+            StopCoroutine( _idleWaitRoutine );
+            _idleWaitRoutine = null;
+        }
+    }
 
 	public override void HandleInput(InputCollection input)
 	{
@@ -70,10 +76,10 @@ public class WalkingState : RollerState
 
         if( vec.magnitude > IDLE_MAXMAG )
         {
-            if( _idleWaitTween != null )
+            if( _idleWaitRoutine != null )
             {
-                _idleWaitTween.Kill();
-                _idleWaitTween = null;
+                StopCoroutine( _idleWaitRoutine );
+                _idleWaitRoutine = null;
             }
 
             // Accounting for camera position
@@ -104,11 +110,9 @@ public class WalkingState : RollerState
         }
         else
         {
-            if(_idleWaitTween == null )
+            if( _idleWaitRoutine == null )
             {
-                _idleTimer = 0.0f;
-
-                _idleWaitTween = DOTween.To( () => _idleTimer, x => _idleTimer = x, 1.0f, IDLE_WAITTIME ).OnComplete( () => _roller.ChangeState( P_ControlState.WALKING, P_ControlState.IDLING ) );
+                _idleWaitRoutine = StartCoroutine( JohnTech.WaitFunction( IDLE_WAITTIME, () => _roller.ChangeState( P_ControlState.WALKING, P_ControlState.IDLING ) ) );
             }
         }
 

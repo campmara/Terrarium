@@ -16,7 +16,7 @@ public class CarryIdleState : RollerState
 		}
 
 		// Set Idle Anim
-		PlayerManager.instance.Player.AnimationController.PlayIdleAnim();
+		PlayerManager.instance.Player.AnimationController.PlayCarryIdleAnim();
 
 	}
 
