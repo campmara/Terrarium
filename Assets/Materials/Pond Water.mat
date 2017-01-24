@@ -145,10 +145,10 @@ Material:
       second: {r: 0.47734645, g: 0.6268037, b: 0.8014706, a: 1}
     - first:
         name: _ColorMid
-      second: {r: 0.52454585, g: 0.61745477, b: 0.72794116, a: 1}
+      second: {r: 0.45544982, g: 0.64037865, b: 0.8602941, a: 1}
     - first:
         name: _ColorTop
-      second: {r: 0.29411763, g: 0.620284, b: 1, a: 1}
+      second: {r: 0.49264705, g: 0.72707915, b: 1, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}

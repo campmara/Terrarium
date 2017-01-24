@@ -10,8 +10,6 @@
 	{
 		Tags { "RenderType"="Transparent" "Queue"="AlphaTest" }
 		LOD 200
-
-		//Blend SrcAlpha OneMinusSrcAlpha
 		
 		CGPROGRAM
 		// Physically based Standard lighting model, and enable shadows on all light types
@@ -52,5 +50,5 @@
 		}
 		ENDCG
 	}
-	FallBack "Standard"
+	FallBack "Transparent/Cutout/Diffuse"
 }
