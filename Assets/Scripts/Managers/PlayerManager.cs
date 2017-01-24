@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerManager : SingletonBehaviour<PlayerManager> {
-
+public class PlayerManager : SingletonBehaviour<PlayerManager>
+{
 	[SerializeField] Player _player = null;
 	public Player Player { get { return _player; } }
 
@@ -22,8 +22,8 @@ public class PlayerManager : SingletonBehaviour<PlayerManager> {
 	{
 		if( _player == null )
 		{
-			Debug.LogError("No Player Prefab");
-			// Should Spawn Player...	
+			Debug.Log("[PlayerManager]: No Player Prefab assigned, please set it up in the inspector when you get the chance.");
+		    _player = FindObjectOfType<Player>();
 		}
 	}
 	
