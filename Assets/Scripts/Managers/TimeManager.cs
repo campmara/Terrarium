@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class TimeManager : SingletonBehaviour<TimeManager> 
@@ -13,11 +14,17 @@ public class TimeManager : SingletonBehaviour<TimeManager>
 	TimeState _curState = TimeState.NORMAL;
 	float _curTime = 0.0f;
 
+    DateTime _realWorldTime = new DateTime();
+    public DateTime RealWorldTime { get { return _realWorldTime; } }
+    public DateTime RealWorldNow { get { return DateTime.Now; } }
+
 	SortedList<float, Event> _eventQueue = new SortedList<float, Event>();
 
 	public override void Initialize ()
 	{
-		isInitialized = true;
+        _realWorldTime = DateTime.Now;
+
+        isInitialized = true;
 	}
 
 	void Update () 
