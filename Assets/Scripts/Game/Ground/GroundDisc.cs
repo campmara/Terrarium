@@ -37,6 +37,12 @@ public class GroundDisc : MonoBehaviour
 		Vector3 spawnPos = Random.insideUnitSphere * 5f * scaleFactor;
 		spawnPos.y = 0f;
 
+	    while ((spawnPos - transform.position).magnitude < 2.5f)
+	    {
+	        spawnPos = Random.insideUnitSphere * 5f * scaleFactor;
+	        spawnPos.y = 0f;
+	    }
+
 		GameObject grass = Instantiate(grassPrefab, spawnPos, Quaternion.identity);
 		//grass.transform.GetChild(0).localScale = new Vector3(Random.Range(0.85f, 1.0f), Random.Range(0.85f, 1.0f), 0f);
 
