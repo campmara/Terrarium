@@ -50,7 +50,7 @@ public class CarryIdleState : RollerState
         }
 
 		// B BUTTON
-		if (input.BButton.WasPressed & input.BButton.HasChanged)
+		if (input.BButton.WasPressed && input.BButton.HasChanged)
 		{
 			_roller.ChangeState( P_ControlState.CARRYIDLING, P_ControlState.WALKING );
 		}

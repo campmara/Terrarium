@@ -33,7 +33,7 @@ public class PlantingState : RollerState {
                 _plantTween.Restart();
                 break;
             case P_ControlState.WALKING:
-                if( !_plantTween.IsComplete() )
+                if( _plantTween == null || !_plantTween.IsComplete() )
                 {
                     HandleDropHeldObject();
                 }                
@@ -52,14 +52,14 @@ public class PlantingState : RollerState {
     public override void HandleInput( InputCollection input )
     {
         // A BUTTON
-        if ( input.AButton.WasReleased & input.AButton.HasChanged )
+        if ( input.AButton.WasReleased )
         {
             // Return to Carry State
             _roller.ChangeState( P_ControlState.PLANTING, P_ControlState.CARRYING );
         }
 
         // B BUTTON
-        if ( input.BButton.WasPressed & input.BButton.HasChanged )
+        if ( input.BButton.WasPressed && input.BButton.HasChanged )
         {
             // Drop Seed
             _roller.ChangeState( P_ControlState.PLANTING, P_ControlState.WALKING );

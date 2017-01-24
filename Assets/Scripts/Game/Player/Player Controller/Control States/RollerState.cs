@@ -54,8 +54,8 @@ public class RollerState : MonoBehaviour
 	protected const float RITUAL_TIME = 3f;
 
     // PLANTING
-    protected const float PLANTING_TIME = 0.25f;
-    protected const float PLANTING_ENDY = -1.0f;
+    protected const float PLANTING_TIME = 0.75f;
+    protected const float PLANTING_ENDY = 0f;
 
 	// =================
 	// V A R I A B L E S
