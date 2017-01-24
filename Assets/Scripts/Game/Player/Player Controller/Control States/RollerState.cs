@@ -149,14 +149,13 @@ public class RollerState : MonoBehaviour
 
 		if ( overlapArray.Length > 0 )
 		{
-			Plantable plantComponent = null;
 			//if the pickupable is a plant, we can only pick it up if it's still in seed stage
 			foreach( Collider col in overlapArray )
 			{
-				plantComponent = col.gameObject.GetComponent<Plantable>();
-				if( plantComponent && plantComponent.CanPickup )
+				Pickupable pickup = col.gameObject.GetComponent<Pickupable>();
+				if( pickup )
 				{
-					PickUpObject( plantComponent.GetComponent<Pickupable>() );
+					PickUpObject( pickup );
 					break;
 				}
 			}
