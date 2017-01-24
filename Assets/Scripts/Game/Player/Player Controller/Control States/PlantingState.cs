@@ -14,8 +14,7 @@ public class PlantingState : RollerState {
         // Handle transition
         switch (prevState)
         {
-            case P_ControlState.CARRYING:
-            case P_ControlState.CARRYIDLING:
+            case P_ControlState.CARRYING:            
                 HandleBeginPlanting();
                 break;
         }

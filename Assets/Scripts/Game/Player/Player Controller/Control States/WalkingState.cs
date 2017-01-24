@@ -21,9 +21,6 @@ public class WalkingState : RollerState
 			CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
 			PlayerManager.instance.Player.AnimationController.PlayRollToWalkAnim();
             break;
-		case P_ControlState.IDLING:
-			PlayerManager.instance.Player.AnimationController.PlayWalkAnim();
-			break;
         default:
                 break;
         }
@@ -82,6 +79,11 @@ public class WalkingState : RollerState
                 _idleWaitRoutine = null;
             }
 
+            if (_idling)
+            {
+                HandleEndIdle();
+            }
+
             // Accounting for camera position
             vec = CameraManager.instance.Main.transform.TransformDirection( vec );
             vec.y = 0f;
@@ -112,10 +114,23 @@ public class WalkingState : RollerState
         {
             if( _idleWaitRoutine == null )
             {
-                _idleWaitRoutine = StartCoroutine( JohnTech.WaitFunction( IDLE_WAITTIME, () => _roller.ChangeState( P_ControlState.WALKING, P_ControlState.IDLING ) ) );
+                _idleWaitRoutine = StartCoroutine( JohnTech.WaitFunction( IDLE_WAITTIME, () => HandleBeginIdle() ) );
             }
         }
 
 	}
 
+    void HandleBeginIdle()
+    {
+        _idling = true;
+
+        PlayerManager.instance.Player.AnimationController.PlayIdleAnim();
+    }
+
+    void HandleEndIdle()
+    {
+        _idling = false;
+
+        PlayerManager.instance.Player.AnimationController.PlayWalkAnim();
+    }
 }

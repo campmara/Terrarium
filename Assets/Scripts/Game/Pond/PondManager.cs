@@ -51,7 +51,7 @@ public class PondManager : SingletonBehaviour<PondManager>
 
         yield return jumpTween.WaitForCompletion();
 
-        PlayerManager.instance.Player.GetComponent<RollerController>().ChangeState(P_ControlState.RITUAL, P_ControlState.IDLING);
+        PlayerManager.instance.Player.GetComponent<RollerController>().ChangeState(P_ControlState.RITUAL, P_ControlState.WALKING);
         CameraManager.instance.ChangeCameraState(CameraManager.CameraState.FOLLOWPLAYER_FREE);
     }
 

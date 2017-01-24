@@ -32,7 +32,7 @@ public class RitualState : RollerState
 
 	    if (!isComplete && (input.XButton.WasReleased && input.XButton.HasChanged))
 		{
-		    _roller.ChangeState(P_ControlState.RITUAL, P_ControlState.IDLING);
+		    _roller.ChangeState(P_ControlState.RITUAL, P_ControlState.WALKING);
 		}
 	}
 

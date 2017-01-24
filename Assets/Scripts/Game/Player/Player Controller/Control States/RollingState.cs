@@ -15,7 +15,6 @@ public class RollingState : RollerState
         switch ( prevState )
         {
             case P_ControlState.WALKING:
-			case P_ControlState.IDLING:
                 CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_LOCKED );
 				PlayerManager.instance.Player.AnimationController.PlayWalkToRollAnim();
                 break;
