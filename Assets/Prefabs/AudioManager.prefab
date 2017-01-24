@@ -55,7 +55,7 @@ MonoBehaviour:
   - _audioClip: {fileID: 0}
     _mixerGroup: {fileID: 243411483671750552, guid: 30f3aa683f5543d469208f1bb641c945,
       type: 2}
-    _volume: 0
+    _volume: 1
     _playOnAwake: 0
     _loop: 1
   _musicAudioClips:

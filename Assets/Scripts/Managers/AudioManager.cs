@@ -117,7 +117,11 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 	{
 		MakeMeAPersistentSingleton();
 
-		isInitialized = true;
+        CalculateMusicTimeState();
+
+        _audioControllerList[(int)AudioControllerNames.MUSIC].PlayAudioSource(); 
+
+        isInitialized = true;
 	}
 
 	#region Controller Accessors
@@ -167,6 +171,24 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
     {
         _musicTimeState = newTimeState;
 
-        SetControllerClip( AudioControllerNames.MUSIC, _musicAudioClips[(int)_musicTimeState] );
+        SetControllerClip( AudioControllerNames.MUSIC, _musicAudioClips[(int)_musicTimeState] );        
+    }
+
+    void CalculateMusicTimeState()
+    {
+        int realWorldHour = TimeManager.instance.RealWorldNow.TimeOfDay.Hours;
+
+        if( realWorldHour > 0 && realWorldHour < 10)
+        {
+            SetMusicTimeState( MusicTimeState.SUNRISE );
+        }
+        else if (realWorldHour > 11 && realWorldHour < 17)
+        {
+            SetMusicTimeState( MusicTimeState.MIDDAY );
+        }
+        else 
+        {
+            SetMusicTimeState( MusicTimeState.SUNSET );
+        }
     }
 }
