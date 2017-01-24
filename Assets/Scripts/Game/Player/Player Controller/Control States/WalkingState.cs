@@ -8,7 +8,6 @@ public class WalkingState : RollerState
 	Quaternion targetRotation = Quaternion.identity;
 
     Coroutine _idleWaitRoutine = null;
-    float _idleTimer = 0.0f;
 
     public override void Enter( P_ControlState prevState )
 	{
@@ -25,7 +24,7 @@ public class WalkingState : RollerState
                 break;
         }
 
-        //PlayerManager.instance.Player.AnimationController.PlayWalkAnim();
+        PlayerManager.instance.Player.AnimationController.PlayWalkAnim();
 	}
 
 	public override void Exit(P_ControlState nextState)
@@ -37,36 +36,39 @@ public class WalkingState : RollerState
             StopCoroutine( _idleWaitRoutine );
             _idleWaitRoutine = null;
         }
+
+        _idling = false;
     }
 
 	public override void HandleInput(InputCollection input)
-	{
-		// A BUTTON
-		if (input.AButton.WasPressed)
-		{
-			HandlePickup();
-		}
+	{   
+        // A BUTTON
+        if (input.AButton.WasPressed)
+        {
+            HandlePickup();
+        }
 
-		// B BUTTON
-		if (input.BButton.WasPressed && input.BButton.HasChanged)
-		{
-			_roller.ChangeState( P_ControlState.WALKING, P_ControlState.ROLLING );
-		}
+        WalkMovement( input );
 
-		// X BUTTON
-		if (input.XButton.WasPressed && input.XButton.HasChanged)
-		{
-			_roller.ChangeState(P_ControlState.WALKING, P_ControlState.RITUAL);
-		}
+        // B BUTTON
+        if (input.BButton.WasPressed && input.BButton.HasChanged)
+        {
+            _roller.ChangeState( P_ControlState.WALKING, P_ControlState.ROLLING );
+        }
 
-		WalkMovement(input);
-	}
+        // X BUTTON
+        if (input.XButton.WasPressed && input.XButton.HasChanged)
+        {
+            _roller.ChangeState( P_ControlState.WALKING, P_ControlState.RITUAL );
+        }
 
-	// ===============
-	// M O V E M E N T
-	// ===============
+    }
 
-	void WalkMovement(InputCollection input)
+    // ===============
+    // M O V E M E N T
+    // ===============
+
+    void WalkMovement(InputCollection input)
 	{
 		// Left Stick Movement
 		Vector3 vec = new Vector3(input.LeftStickX, 0f, input.LeftStickY);
