@@ -51,7 +51,7 @@ public class RollerState : MonoBehaviour
 	protected const float TRANSITION_DECELERATION = 20f;
 
 	// RITUAL DANCE
-	protected const float RITUAL_TIME = 3f;
+	protected const float RITUAL_TIME = 1.5f;
 
     // PLANTING
     protected const float PLANTING_TIME = 0.75f;

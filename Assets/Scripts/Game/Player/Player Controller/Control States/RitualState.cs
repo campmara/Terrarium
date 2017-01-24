@@ -1,34 +1,44 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
-public class RitualState : RollerState 
+public class RitualState : RollerState
 {
-	float ritualTimer = 0f;
+    private Tween _tween;
 
-	public override void Enter(P_ControlState prevState) 
+	public override void Enter(P_ControlState prevState)
 	{
 		Debug.Log("ENTER RITUAL STATE");
-		ritualTimer = 0f;
+	    _tween = transform.DOScaleY(0.1f, RITUAL_TIME).OnComplete(OnCompleteRitual);
+
+	    PlayerManager.instance.Player.AnimationController.PlayIdleAnim();
 	}
 
 	public override void Exit(P_ControlState nextState)
 	{
 		Debug.Log("EXIT RITUAL STATE");
+	    if (_tween != null)
+	    {
+	        _tween.Kill();
+	        _tween = null;
+	    }
+	    transform.localScale = Vector3.one;
 	}
 
 	public override void HandleInput(InputCollection input)
 	{
-		if ((input.XButton.WasReleased & input.XButton.HasChanged) || input.XButton.Value == 0)
-		{
-			_roller.ChangeState(P_ControlState.RITUAL, P_ControlState.IDLING);
-		}
+	    bool isComplete = _tween.IsComplete();
 
-		ritualTimer += Time.deltaTime;
-
-		if (ritualTimer >= RITUAL_TIME)
+	    if (!isComplete && (input.XButton.WasReleased && input.XButton.HasChanged))
 		{
-			PondManager.instance.ReturnPlayerToPond();
+		    _roller.ChangeState(P_ControlState.RITUAL, P_ControlState.IDLING);
 		}
 	}
+
+    private void OnCompleteRitual()
+    {
+        transform.localScale = Vector3.one;
+        PondManager.instance.ReturnPlayerToPond();
+    }
 }

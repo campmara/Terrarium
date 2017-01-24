@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class CameraManager : SingletonBehaviour<CameraManager> 
+public class CameraManager : SingletonBehaviour<CameraManager>
 {
 	public enum CameraState
 	{
@@ -11,7 +11,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 		FOLLOWPLAYER_FREE,
 		FOLLOWPLAYER_LOCKED,
 		TRANSITION,
-        POND_RETURNPAN        
+        POND_RETURNPAN
 	}
 	CameraState _state = CameraState.FOLLOWPLAYER_FREE;
 
@@ -26,7 +26,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	[Header("Player Cam Variables"), Space(5)]
 	[SerializeField, ReadOnlyAttribute] Transform _focusTransform = null;
 
-	Vector3 _camOffset = Vector3.zero;      // Direction from focus to Camera  
+	Vector3 _camOffset = Vector3.zero;      // Direction from focus to Camera
 	Vector3 _camTargetPos = Vector3.zero;
 
     Vector3 _focusPoint = Vector3.zero;    // Center of focal point following player
@@ -45,7 +45,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 
 	/*
 	 * ZOOM VARIABLES
-	 */ 
+	 */
 	float _zoomInterp = ZOOM_RESETINTERP;
 	const float ZOOM_RESETINTERP = 0.25f;	// Zoom Interp value for initialization & reset of camera (right stick click)
 	const float ZOOM_SPEED = 0.6f;			// How much a frame of "zooming" input increments zoom interp
@@ -68,7 +68,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	{
 		if( PlayerManager.instance.Player != null )
 		{
-			_focusTransform = PlayerManager.instance.Player.transform;	
+			_focusTransform = PlayerManager.instance.Player.transform;
 		}
 		else
 		{
@@ -85,7 +85,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	}
 
 	// Use this for initialization
-	void Awake () 
+	void Awake ()
 	{
 		if( _mainCam == null )
 		{
@@ -95,13 +95,13 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 			{
 				_mainCam = new GameObject().AddComponent<Camera>();
 			}
-		}	
+		}
 
 		GameManager.GameStateChanged += HandeGameStateChanged;
 	}
 
 	// Update is called once per frame
-	void FixedUpdate () 
+	void FixedUpdate ()
 	{
 
 /*#if UNITY_EDITOR
@@ -118,7 +118,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
         }
 
 #endif*/
-        switch( _state ) 
+        switch( _state )
 		{
 		case CameraState.FOLLOWPLAYER_FREE:
 			HandleFreePlayerCamera();
@@ -140,9 +140,9 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 		{
 			// Moves Camera
 			if ( _focusTransform != null )
-			{           
+			{
 				// Is currently On Press it refocuses b/c Holding Down led to gross stuff
-				if( ControlManager.instance.getInput().RightStickButton.IsPressed && ControlManager.instance.getInput().RightStickButton.LastValue == 0.0f ) 
+				if( ControlManager.instance.getInput().RightStickButton.IsPressed && ControlManager.instance.getInput().RightStickButton.LastValue == 0.0f )
                 {
                     ResetCameraOffset();
                 }
@@ -153,7 +153,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 
 				// Determine New Zoom Interp level if right stick input
 				if ( Mathf.Abs(_camInputVals.y) > ZOOM_Y_DEADZONE )
-				{			
+				{
 					_zoomInterp = Mathf.Clamp01( _zoomInterp + ( ZOOM_SPEED * -_camInputVals.y * Time.fixedDeltaTime) );
 				}
 
@@ -163,7 +163,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
                 // Determine if player in screen bounding circle and move focus center
                 UpdateFocusPoint();
 
-                // Move towards new focus center                
+                // Move towards new focus center
 				_mainCam.transform.position = Vector3.Lerp(_mainCam.transform.position, _focusPoint + _camOffset, CAM_FOLLOWSPEED * Time.fixedDeltaTime);
 
                 // Rotate Around Camera around player if Right stick horizontal movement
@@ -171,10 +171,10 @@ public class CameraManager : SingletonBehaviour<CameraManager>
                 if ( Mathf.Abs(_camInputVals.x) > ZOOM_X_DEADZONE )
                 {
                     _mainCam.transform.RotateAround( _focusPoint, Vector3.up, CAM_ROTSPEED * _camInputVals.x * Time.fixedDeltaTime );
-                    _camOffset = _mainCam.transform.position - _focusPoint;                   
+                    _camOffset = _mainCam.transform.position - _focusPoint;
                 }
-					
-                _mainCam.transform.LookAt( _focusPoint );	
+
+                _mainCam.transform.LookAt( _focusPoint );
 			}
 
 		}
@@ -187,24 +187,24 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 		{
 			// Moves Camera
 			if ( _focusTransform != null )
-			{              
+			{
 				LockCamFocus();
 
-				_camInputVals.y = ControlManager.instance.getInput().RightStickY;              
+				_camInputVals.y = ControlManager.instance.getInput().RightStickY;
 
 				// Determine New Zoom Interp level if right stick input
 				if ( Mathf.Abs(_camInputVals.y) > ZOOM_Y_DEADZONE )
-				{			
+				{
 					_zoomInterp = Mathf.Clamp01( _zoomInterp + ( ZOOM_SPEED * -_camInputVals.y * Time.fixedDeltaTime) );
 				}
-					
+
 				// Calculate Camera Positioning
 				DetermineCameraZoom( _zoomInterp );
 
-				// Move towards new focus center                
+				// Move towards new focus center
 				_mainCam.transform.position = Vector3.Lerp(_mainCam.transform.position, _focusPoint + _camOffset, CAM_FOLLOWSPEED * Time.fixedDeltaTime);
 
-				_mainCam.transform.LookAt( _focusPoint );	
+				_mainCam.transform.LookAt( _focusPoint );
 			}
 
 		}
@@ -215,7 +215,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	/// </summary>
 	private void LockCamFocus()
 	{
-		_focusPoint = _focusTransform.position;	
+		_focusPoint = _focusTransform.position;
 
 		PositionCameraBehindFocus();
 	}
@@ -223,20 +223,35 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	/// <summary>
 	/// For when rotating camera behind player or transitioning camera to any position ideally
 	/// </summary>
-	void HandleTransitionMovement()
+	private void HandleTransitionMovement()
 	{
 	}
 
 	/// <summary>
 	/// Handles the pond return pan.
 	/// </summary>
-	IEnumerator HandlePondReturnPan()
+	private IEnumerator HandlePondReturnPan()
 	{
-		Tween tween = _mainCam.transform.DOMove(_camOffset, 2f);
+	    Transform pondTransform = PondManager.instance.Pond.transform;
+	    Vector3 desiredPos = (pondTransform.forward * 15f) + (pondTransform.up * 10f);
 
-		yield return tween.WaitForCompletion();
+	    Vector3 forward = (pondTransform.position - (desiredPos - new Vector3(0f, 0f, 5f))).normalized;
+	    Quaternion desiredRot = Quaternion.LookRotation(forward, Vector3.up);
 
-		ChangeCameraState(CameraState.FOLLOWPLAYER_FREE);
+	    Tween posTween = _mainCam.transform.DOMove(desiredPos, 1f);
+	    Tween rotTween = _mainCam.transform.DORotateQuaternion(desiredRot, 1f);
+	    yield return rotTween.WaitForCompletion();
+
+	    PositionCameraInFrontOfFocus();
+
+	    _zoomInterp = 0.5f;
+	    DetermineCameraZoom( _zoomInterp );
+
+	    _focusPoint = pondTransform.forward * 5f;
+	    _focusOffset = _focusPoint;
+
+	    // This changes the cam state when it finishes.
+	    PondManager.instance.PopPlayerFromPond();
 	}
 
     /// <summary>
@@ -246,13 +261,13 @@ public class CameraManager : SingletonBehaviour<CameraManager>
     private void UpdateFocusPoint()
     {
 		// Center is focusTransform.position
-		float distance = (_focusTransform.position - _focusPoint).sqrMagnitude; 
+		float distance = (_focusTransform.position - _focusPoint).sqrMagnitude;
 
         if ( distance > JohnTech.Sqr( BOUNDING_RADIUS ) )
         {
-            // Is outside of the circle.   
+            // Is outside of the circle.
 			Vector3 desiredPos = new Vector3(_focusTransform.position.x - _focusOffset.x, _focusPoint.y, _focusTransform.position.z - _focusOffset.z);
-			_focusPoint = Vector3.Lerp(_focusPoint, desiredPos, CAM_CENTER_UPDATE_SPEED * Time.fixedDeltaTime);         
+			_focusPoint = Vector3.Lerp(_focusPoint, desiredPos, CAM_CENTER_UPDATE_SPEED * Time.fixedDeltaTime);
         }
         else
         {
@@ -297,6 +312,12 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	{
 		_camOffset = ( -_focusTransform.forward * Mathf.Lerp(zoomXRange.x, zoomXRange.y, _zoomInterp) ) + ( Vector3.up * Mathf.Lerp( zoomYRange.x, zoomYRange.y, _zoomInterp ) );
 	}
+
+    private void PositionCameraInFrontOfFocus()
+    {
+        _camOffset = (_focusTransform.forward * Mathf.Lerp(zoomXRange.x, zoomXRange.y, _zoomInterp) ) + ( Vector3.up * Mathf.Lerp( zoomYRange.x, zoomYRange.y, _zoomInterp ) );
+    }
+
 
 	private void ResetCameraOffset()
 	{
