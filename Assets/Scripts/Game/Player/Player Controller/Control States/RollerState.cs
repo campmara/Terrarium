@@ -111,6 +111,8 @@ public class RollerState : MonoBehaviour
 
 	protected float transitionTimer = 0f;
 
+    protected bool _idling = false;
+
 	// ============================
 	// V I R T U A L  M E T H O D S
 	// ============================
