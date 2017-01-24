@@ -173,21 +173,21 @@ public class GameManager : MonoBehaviour
 
 		yield return new WaitUntil( () => PlayerManager.instance.IsInitialized );
 
-		AudioManager.instance.Initialize();
+        TimeManager.instance.Initialize();
+
+        yield return new WaitUntil( () => TimeManager.instance.IsInitialized );
+
+        PlantManager.instance.Initialize();
+
+        yield return new WaitUntil( () => PlantManager.instance.IsInitialized );
+
+        AudioManager.instance.Initialize();
 
 		yield return new WaitUntil( () => AudioManager.instance.IsInitialized );
 
 		CameraManager.instance.Initialize();
 
 		yield return new WaitUntil( () => CameraManager.instance.IsInitialized );
-
-		TimeManager.instance.Initialize();
-
-		yield return new WaitUntil( () => TimeManager.instance.IsInitialized );
-
-		PlantManager.instance.Initialize();
-
-		yield return new WaitUntil( () => PlantManager.instance.IsInitialized );
 
     ChangeGameState(GameState.MAIN);
 	}

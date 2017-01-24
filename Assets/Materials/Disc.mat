@@ -126,7 +126,7 @@ Material:
       second: 1
     - first:
         name: _ScaleFactor
-      second: 3
+      second: 15
     - first:
         name: _SmoothnessTextureChannel
       second: 0
