@@ -23,7 +23,7 @@ public class PondManager : SingletonBehaviour<PondManager>
         if (_pond == null)
         {
             // Should handle instantiating this if null ?
-            Debug.LogError("No Pond Prefab Referenced");
+            _pond = FindObjectOfType<PondTech>();
         }
     }
 
