@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using DG.Tweening;
 
-public class PlantingState : RollerState {
-
+public class PlantingState : RollerState 
+{
     Tween _plantTween = null;
 
     public override void Enter( P_ControlState prevState )
@@ -37,8 +35,6 @@ public class PlantingState : RollerState {
                     HandleDropHeldObject();
                 }                
                 break;
-            default:
-                break;
         }
 
         if (_plantTween != null)
@@ -51,14 +47,14 @@ public class PlantingState : RollerState {
     public override void HandleInput( InputCollection input )
     {
         // A BUTTON
-        if ( input.AButton.WasReleased )
+        if (!input.AButton.IsPressed)
         {
             // Return to Carry State
             _roller.ChangeState( P_ControlState.PLANTING, P_ControlState.CARRYING );
         }
 
         // B BUTTON
-        if ( input.BButton.WasPressed && input.BButton.HasChanged )
+        if (input.BButton.IsPressed)
         {
             // Drop Seed
             _roller.ChangeState( P_ControlState.PLANTING, P_ControlState.WALKING );
@@ -69,9 +65,9 @@ public class PlantingState : RollerState {
     void HandleBeginPlanting()
     {
         // Right now just gonna move seed Down...
-        if (currentHeldObject != null )
+        if (_roller.CurrentHeldObject != null )
         {
-            _plantTween = currentHeldObject.transform.DOMoveY( PLANTING_ENDY, PLANTING_TIME ).OnComplete( () => HandlePlantingEnd() ).SetAutoKill( false );
+			_plantTween = _roller.CurrentHeldObject.transform.DOMoveY(RollerConstants.PLANTING_ENDY, RollerConstants.PLANTING_TIME ).OnComplete( () => HandlePlantingEnd() ).SetAutoKill( false ).SetEase(Ease.InBack);
         }        
     }
 
@@ -79,7 +75,7 @@ public class PlantingState : RollerState {
     {
         // Handle a separate function for planting the seed
 
-		Seed seed = currentHeldObject.GetComponent<Seed>();
+		Seed seed = _roller.CurrentHeldObject.GetComponent<Seed>();
 		if( seed )
 		{
 			seed.Plant();
