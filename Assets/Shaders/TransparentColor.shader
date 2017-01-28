@@ -8,7 +8,7 @@
 	}
 	SubShader 
 	{
-		Tags { "RenderType"="Opaque" }
+		Tags { "RenderType"="Transparent" "Queue"="AlphaTest" }
 		LOD 200
 		
 		CGPROGRAM
@@ -50,5 +50,5 @@
 		}
 		ENDCG
 	}
-	FallBack "Standard"
+	FallBack "Transparent/Cutout/Diffuse"
 }

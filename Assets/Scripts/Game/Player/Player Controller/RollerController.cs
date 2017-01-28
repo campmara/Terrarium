@@ -10,7 +10,8 @@ public enum P_ControlState
 	PICKINGUP,
 	CARRYING,
 	RITUAL,
-    PLANTING
+    PLANTING,
+	SING
 }
 
 [RequireComponent(typeof(Rigidbody))]
@@ -46,6 +47,7 @@ public class RollerController : ControllerBase
 	private CarryState _carrying = null;
 	private RitualState _ritual = null;	
     private PlantingState _planting = null;
+	private SingState _singing = null;
 
 	void Awake()
 	{
@@ -55,27 +57,24 @@ public class RollerController : ControllerBase
 		// Add State Controller, Set parent to This Script, set to inactive
 		_walking = this.gameObject.AddComponent<WalkingState>();
 		_walking.RollerParent = this;
-		_walking.enabled = false;
 
 		_rolling = this.gameObject.AddComponent<RollingState>();
 		_rolling.RollerParent = this;
-		_rolling.enabled = false;
 
 		_pickup = this.gameObject.AddComponent<PickupState>();
 		_pickup.RollerParent = this;
-		_pickup.enabled = false;
 
 		_carrying = this.gameObject.AddComponent<CarryState>();
 		_carrying.RollerParent = this;
-		_carrying.enabled = false;
 
 		_ritual = this.gameObject.AddComponent<RitualState>();
 		_ritual.RollerParent = this;
-		_ritual.enabled = false;
 
         _planting = this.gameObject.AddComponent<PlantingState>();
         _planting.RollerParent = this;
-        _planting.enabled = false;
+
+		_singing = this.gameObject.AddComponent<SingState>();
+		_singing.RollerParent = this;
 
         // Set state to default (walking for now)
         ChangeState( P_ControlState.NONE, P_ControlState.WALKING );
@@ -101,7 +100,7 @@ public class RollerController : ControllerBase
 		{
 			_currentState.Exit( toState );
 
-			_currentState.enabled = false;
+			//_currentState.enabled = false;
 		}
 			
 		// Enter and Activate New State
@@ -125,11 +124,14 @@ public class RollerController : ControllerBase
         case P_ControlState.PLANTING:
             _currentState = _planting;
             break;
+		case P_ControlState.SING:
+			_currentState = _singing;
+			break;
         default:
 			break;
 		}
 
-		_currentState.enabled = true;
+		//_currentState.enabled = true;
 
 		_currentState.Enter( fromState );
 	}
@@ -140,6 +142,7 @@ public class RollerController : ControllerBase
         // Always keep this at zero because the rigidbody's velocity is never needed and bumping into things
         // makes the character go nuts.
         _rigidbody.velocity = Vector3.zero;
+		_rigidbody.angularVelocity = Vector3.zero;
 
 		_currentState.HandleInput( _input );
 	}

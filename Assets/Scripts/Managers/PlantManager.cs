@@ -5,9 +5,10 @@ using System;
 
 public class PlantManager : SingletonBehaviour<PlantManager>
 {
+	List<Seed> _seeds = new List<Seed>();
 	List<GroundCover> _groundCoverPlants = new List<GroundCover>();
 	List<Plantable> _smallPlants = new List<Plantable>();
-	List<Plantable> _largePlants = new List<Plantable>();
+	List<Growable> _largePlants = new List<Growable>();
 
 	public static event Action ExecuteGrowth;
 
@@ -31,15 +32,19 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 	public void DropSeed( Growable plant )
 	{
 		//create a new seed based on plant type
-		plant.DropFruit();
+		Seed newSeed = plant.DropFruit().GetComponent<Seed>();
 
 		//add the new guy to our list
-		//DONT FORGET TO ADD THE NEW GUY TO LIST
+		_seeds.Add(newSeed);
+	}
+
+	public void AddBigPlant( Growable bigPlant )
+	{
+		_largePlants.Add( bigPlant );
 	}
 
 	public void SpawnMini( Plantable plant )
 	{
-		
 		//based on type, spawn some sort of mini
 		GameObject newPlant = plant.SpawnMiniPlant();
 		if( newPlant )

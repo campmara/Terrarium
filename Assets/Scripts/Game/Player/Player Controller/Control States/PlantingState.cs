@@ -78,8 +78,12 @@ public class PlantingState : RollerState {
     void HandlePlantingEnd()
     {
         // Handle a separate function for planting the seed
-        //Plantable plant = currentHeldObject.GetComponent<Plantable>();
-        //plant.PlantFlower();
+
+		Seed seed = currentHeldObject.GetComponent<Seed>();
+		if( seed )
+		{
+			seed.Plant();
+		}
 
         HandleDropHeldObject();
         _roller.ChangeState( P_ControlState.PLANTING, P_ControlState.WALKING );
