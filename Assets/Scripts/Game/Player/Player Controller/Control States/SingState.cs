@@ -36,11 +36,12 @@ public class SingState : RollerState
 	        _roller.ChangeState( P_ControlState.WALKING, P_ControlState.RITUAL );
 	    }
 
-
+	    float singPitch = 1.0f + _roller.InputVec.magnitude;
 
 	    // Y BUTTON
 	    if (input.YButton.IsPressed)
 	    {
+	        AudioManager.instance.PlaySing(singPitch);
 	        FaceManager.instance.SingFace();
 	        _waitToReturnTimer = 0f;
 	    }
