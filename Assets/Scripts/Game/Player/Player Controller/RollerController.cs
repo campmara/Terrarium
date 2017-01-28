@@ -10,7 +10,8 @@ public enum P_ControlState
 	PICKINGUP,
 	CARRYING,
 	RITUAL,
-    PLANTING
+    PLANTING,
+	SING
 }
 
 [RequireComponent(typeof(Rigidbody))]
@@ -46,6 +47,7 @@ public class RollerController : ControllerBase
 	private CarryState _carrying = null;
 	private RitualState _ritual = null;	
     private PlantingState _planting = null;
+	private SingState _singing = null;
 
 	void Awake()
 	{
@@ -70,6 +72,9 @@ public class RollerController : ControllerBase
 
         _planting = this.gameObject.AddComponent<PlantingState>();
         _planting.RollerParent = this;
+
+		_singing = this.gameObject.AddComponent<SingState>();
+		_singing.RollerParent = this;
 
         // Set state to default (walking for now)
         ChangeState( P_ControlState.NONE, P_ControlState.WALKING );
@@ -119,6 +124,9 @@ public class RollerController : ControllerBase
         case P_ControlState.PLANTING:
             _currentState = _planting;
             break;
+		case P_ControlState.SING:
+			_currentState = _singing;
+			break;
         default:
 			break;
 		}
@@ -134,6 +142,7 @@ public class RollerController : ControllerBase
         // Always keep this at zero because the rigidbody's velocity is never needed and bumping into things
         // makes the character go nuts.
         _rigidbody.velocity = Vector3.zero;
+		_rigidbody.angularVelocity = Vector3.zero;
 
 		_currentState.HandleInput( _input );
 	}

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 // Interface for character control states.
 public class RollerState : MonoBehaviour
@@ -15,6 +13,7 @@ public class RollerState : MonoBehaviour
 	// WALK
 	protected const float WALK_SPEED = 4f;
 	protected const float CARRY_SPEED = 3f;
+	protected const float SING_WALK_SPEED = 2f;
 	protected const float WALK_ACCELERATION = 0.25f;
 	protected const float WALK_DECELERATION = 15f;
 
@@ -56,6 +55,9 @@ public class RollerState : MonoBehaviour
     // PLANTING
     protected const float PLANTING_TIME = 0.75f;
     protected const float PLANTING_ENDY = 0f;
+
+	// SINGING
+	protected const float SINGING_RETURN_TIME = 0.6f;
 
 	// =================
 	// V A R I A B L E S
@@ -121,7 +123,6 @@ public class RollerState : MonoBehaviour
 	public virtual void Exit( P_ControlState nextState ) {}
 
 	public virtual void HandleInput(InputCollection input) {}
-	public virtual void ProcessMovement() {}
 
 	// ==========================
 	// H E L P E R  M E T H O D S
