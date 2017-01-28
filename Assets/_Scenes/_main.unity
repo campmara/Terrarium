@@ -280,7 +280,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4294966783
   m_Lightmapping: 4
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -401,7 +401,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4751149885390896, guid: 5e8fac38183e3420bb6a870b9b8d9f0a, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4751149885390896, guid: 5e8fac38183e3420bb6a870b9b8d9f0a, type: 2}
       propertyPath: m_LocalPosition.z
