@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public enum P_ControlState
 {
@@ -30,6 +28,11 @@ public class RollerController : ControllerBase
     public Vector3 LastInputVec { get { return _lastInputVec; } set { _lastInputVec = value; } }
     [ReadOnly] float _velocity = 0f;
     public float Velocity { get { return _velocity; } set { _velocity = value; } }
+	[ReadOnly] bool _idling = false;
+	public bool Idling { get { return _idling; } set { _idling = value; } }
+
+	private Quaternion targetRotation = Quaternion.identity;
+	private Coroutine _idleWaitRoutine = null;
 
 	// ===========
 	// S T A T E S
@@ -101,6 +104,14 @@ public class RollerController : ControllerBase
 			_currentState.Exit( toState );
 
 			//_currentState.enabled = false;
+
+			if (_idleWaitRoutine != null)
+			{
+				StopCoroutine( _idleWaitRoutine );
+				_idleWaitRoutine = null;
+			}
+
+
 		}
 			
 		// Enter and Activate New State
@@ -144,6 +155,88 @@ public class RollerController : ControllerBase
         _rigidbody.velocity = Vector3.zero;
 		_rigidbody.angularVelocity = Vector3.zero;
 
-		_currentState.HandleInput( _input );
+		_currentState.HandleInput(_input);
+	}
+
+	// ======================
+	// BASIC CONTROLLER STUFF
+	// ======================
+
+	public void StandardMovement(float maxMoveSpeed, float moveAcceleration, float moveDeceleration,
+								 float maxTurnSpeed)
+	{
+		// Left Stick Movement
+		Vector3 vec = new Vector3(_input.LeftStickX, 0f, _input.LeftStickY);
+
+		if(vec.magnitude > RollerConstants.IDLE_MAXMAG)
+		{
+			if(_idleWaitRoutine != null)
+			{
+				StopCoroutine(_idleWaitRoutine);
+				_idleWaitRoutine = null;
+			}
+
+			if (_idling)
+			{
+				HandleEndIdle();
+			}
+
+			// Accounting for camera position
+			vec = CameraManager.instance.Main.transform.TransformDirection(vec);
+			vec.y = 0f;
+			_inputVec = vec;
+
+			if (Mathf.Abs(_input.LeftStickX.Value) > RollerConstants.INPUT_DEADZONE || 
+				Mathf.Abs(_input.LeftStickY.Value) > RollerConstants.INPUT_DEADZONE)
+			{
+				Accelerate(maxMoveSpeed, moveAcceleration);
+				Vector3 movePos = transform.position + (_inputVec * _velocity * Time.deltaTime);
+				_rigidbody.MovePosition(movePos);
+
+				targetRotation = Quaternion.LookRotation(_inputVec);
+
+				_lastInputVec = _inputVec.normalized;
+			}
+			else if (_velocity > 0f)
+			{
+				// Slowdown
+				_velocity -= moveDeceleration * Time.deltaTime;
+				Vector3 slowDownPos = transform.position + (_lastInputVec * _velocity * Time.deltaTime );
+				_rigidbody.MovePosition( slowDownPos );
+			}
+
+			// So player continues turning even after InputUp
+			transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, maxTurnSpeed * Time.deltaTime);
+		}
+		else
+		{
+			if( _idleWaitRoutine == null )
+			{
+				_idleWaitRoutine = StartCoroutine( JohnTech.WaitFunction(RollerConstants.IDLE_WAITTIME, () => HandleBeginIdle() ) );
+			}
+		}
+	}
+
+	public void Accelerate(float max, float accel, float inputAffect = 1.0f)
+	{
+		_velocity += accel * inputAffect;
+		if (Mathf.Abs(_velocity) > max)
+		{
+			_velocity = Mathf.Sign(_velocity) * max;
+		}
+	}
+
+	public void HandleBeginIdle()
+	{
+		_idling = true;
+
+		PlayerManager.instance.Player.AnimationController.PlayIdleAnim();
+	}
+
+	public void HandleEndIdle()
+	{
+		_idling = false;
+
+		PlayerManager.instance.Player.AnimationController.PlayWalkAnim();
 	}
 }

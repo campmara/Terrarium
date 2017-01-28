@@ -142,7 +142,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 			if ( _focusTransform != null )
 			{
 				// Is currently On Press it refocuses b/c Holding Down led to gross stuff
-				if( ControlManager.instance.getInput().RightStickButton.IsPressed && ControlManager.instance.getInput().RightStickButton.LastValue == 0.0f )
+				if(ControlManager.instance.getInput().RightStickButton.IsPressed && ControlManager.instance.getInput().RightStickButton.LastValue == 0.0f)
                 {
                     ResetCameraOffset();
                 }
