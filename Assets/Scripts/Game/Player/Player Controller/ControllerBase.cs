@@ -12,5 +12,5 @@ public class ControllerBase : MonoBehaviour
 		HandleInput();
 	}
 
-	virtual protected void HandleInput() {}
+	protected virtual void HandleInput() {}
 }
