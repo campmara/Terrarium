@@ -32,6 +32,9 @@ public class AudioController
 	[SerializeField] private bool _loop = false;
 	public bool Loop { set { _loop = value; _source.loop = _loop; } }
 
+    [SerializeField] private float _pitch = 1f;
+    public float Pitch { set { _pitch = value; _source.pitch = _pitch; } }
+
 	public AudioController()
 	{
 		_audioClip = null;
@@ -39,6 +42,7 @@ public class AudioController
 		_volume = 1.0f;
 		_playOnAwake = false;
 		_loop = false;
+	    _pitch = 1.0f;
 	}
 
 	public void Initialize(AudioSource source)
@@ -49,6 +53,7 @@ public class AudioController
 		_source.volume = _volume;
 		_source.playOnAwake = _playOnAwake;
 		_source.loop = _loop;
+	    _source.pitch = _pitch;
 	}
 
 	#region AudioSource Methods
@@ -80,7 +85,8 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 
 	public enum AudioControllerNames
 	{
-        MUSIC = 0
+        MUSIC = 0,
+	    PLAYER_SING = 1
 	}
 	[SerializeField] private List<AudioController> _audioControllerList = new List<AudioController>();
 
@@ -145,13 +151,14 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 	{
 		_audioControllerList[(int) controllerName].PlayOnAwake = play;
 	}
-		
-	public void SetControllerLoop(AudioControllerNames controllerName, bool loop)
-	{
-		_audioControllerList[(int) controllerName].Loop = loop;
-	}
 
-	#endregion
+    public void SetControllerLoop(AudioControllerNames controllerName, bool loop)
+    {
+        _audioControllerList[(int) controllerName].Loop = loop;
+    }
+
+
+    #endregion
 
 
     public enum MusicTimeState
@@ -190,5 +197,12 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
         {
             SetMusicTimeState( MusicTimeState.SUNSET );
         }
+    }
+
+    // Player Sing
+    public void PlaySing(float pitch)
+    {
+        _audioControllerList[(int) AudioControllerNames.PLAYER_SING].Pitch = pitch;
+        _audioControllerList[(int) AudioControllerNames.PLAYER_SING].PlayAudioSource();
     }
 }
