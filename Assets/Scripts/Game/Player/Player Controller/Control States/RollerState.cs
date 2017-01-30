@@ -4,116 +4,11 @@
 public class RollerState : MonoBehaviour
 {
 	// =================
-	// C O N S T A N T S
-	// =================
-
-	// INPUT
-	protected const float INPUT_DEADZONE = 0.3f;
-
-	// WALK
-	protected const float WALK_SPEED = 4f;
-	protected const float CARRY_SPEED = 3f;
-	protected const float SING_WALK_SPEED = 2f;
-	protected const float WALK_ACCELERATION = 0.25f;
-	protected const float WALK_DECELERATION = 15f;
-
-	// WALK TURNING
-	protected const float WALK_TURN_SPEED = 5f;
-	protected const float CARRY_TURN_SPEED = 7f;
-
-	// ROLL
-	protected const float ROLL_SPEED = 10f;
-	protected const float ROLL_MAX_SPEED = 13f;
-	protected const float REVERSE_ROLL_SPEED = 6f;
-	protected const float ROLL_ACCELERATION = 1f;
-	protected const float ROLL_DECELERATION = 10f;
-
-	// ROLL TURNING
-	protected const float TURN_SPEED = 125f;
-	protected const float REVERSE_TURN_SPEED = 100f;
-	protected const float TURN_ACCELERATION = 15f;
-	protected const float TURN_DECELERATION = 700f;
-
-	// PICKUP
-	protected const float PICKUP_CHECKHEIGHT = 0.5f;
-	protected const float PICKUP_CHECKRADIUS = 1.0f;
-    protected const float PICKUP_FORWARDSCALAR = 1.0f;
-    protected const float PICKUP_UPSCALAR = 1.0f;
-	protected const float PICKUP_TIME = 0.75f;
-
-    // IDLE
-    protected const float IDLE_MAXMAG = 0.01f;
-    protected const float IDLE_WAITTIME = 0.1f;
-
-    // TRANSITIONS
-    protected const float TRANSITION_TIME = 1f;
-	protected const float TRANSITION_DECELERATION = 20f;
-
-	// RITUAL DANCE
-	protected const float RITUAL_TIME = 1.5f;
-
-    // PLANTING
-    protected const float PLANTING_TIME = 0.75f;
-    protected const float PLANTING_ENDY = 0f;
-
-	// SINGING
-	protected const float SINGING_RETURN_TIME = 0.6f;
-
-	// =================
 	// V A R I A B L E S
 	// =================
 
 	protected RollerController _roller;
 	public RollerController RollerParent { get { return _roller; } set { _roller = value; } }
-
-	protected Pickupable currentHeldObject 
-	{ 
-		get 
-		{ 
-			return _roller.CurrentHeldObject; 
-		}
-		set
-		{
-			_roller.CurrentHeldObject = value;
-		}
-	}
-	protected Vector3 inputVec
-	{ 
-		get 
-		{ 
-			return _roller.InputVec; 
-		}
-		set
-		{
-			_roller.InputVec = value;
-		}
-	}
-	protected Vector3 lastInputVec
-	{ 
-		get 
-		{ 
-			return _roller.LastInputVec; 
-		}
-		set
-		{
-			_roller.LastInputVec = value;
-		}
-  	}
-	protected float velocity
-	{ 
-		get
-		{
-			return _roller.Velocity; 
-		}
-		set
-		{
-			_roller.Velocity = value;
-		}
-	}
-
-	protected float transitionTimer = 0f;
-
-    protected bool _idling = false;
 
 	// ============================
 	// V I R T U A L  M E T H O D S
@@ -128,15 +23,6 @@ public class RollerState : MonoBehaviour
 	// H E L P E R  M E T H O D S
 	// ==========================
 
-	protected void Accelerate(float max, float accel, float inputAffect = 1.0f)
-	{
-		velocity += accel * inputAffect;
-		if (Mathf.Abs(velocity) > max)
-		{
-			velocity = Mathf.Sign(velocity) * max;
-		}
-	}
-
 	protected void HandlePickup()
 	{
 		CheckForPickup();
@@ -144,9 +30,9 @@ public class RollerState : MonoBehaviour
 		
 	private void CheckForPickup()
 	{
-		Vector3 _pickupCenter = _roller.transform.position + ( Vector3.up * PICKUP_CHECKHEIGHT ) + _roller.transform.forward;
+		Vector3 _pickupCenter = _roller.transform.position + ( Vector3.up * RollerConstants.PICKUP_CHECKHEIGHT ) + _roller.transform.forward;
 
-		Collider[] overlapArray = Physics.OverlapSphere( _pickupCenter, PICKUP_CHECKRADIUS );
+		Collider[] overlapArray = Physics.OverlapSphere( _pickupCenter, RollerConstants.PICKUP_CHECKRADIUS );
 
 		if ( overlapArray.Length > 0 )
 		{
@@ -160,13 +46,12 @@ public class RollerState : MonoBehaviour
 					break;
 				}
 			}
-
 		}
 	}
 
 	private void PickUpObject( Pickupable pickup )
 	{
-		currentHeldObject = pickup;
+		_roller.CurrentHeldObject = pickup;
 		_roller.ChangeState( _roller.State, P_ControlState.PICKINGUP );
 	}
 
@@ -177,10 +62,10 @@ public class RollerState : MonoBehaviour
 
 	void DropHeldObject()
 	{
-		if (currentHeldObject != null)
+		if (_roller.CurrentHeldObject != null)
 		{
-			currentHeldObject.DropSelf();
-			currentHeldObject = null;
+			_roller.CurrentHeldObject.DropSelf();
+			_roller.CurrentHeldObject = null;
 		}
 	}
 }
