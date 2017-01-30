@@ -118,7 +118,8 @@ public class GameManager : MonoBehaviour
 				Initialize();
 				break;
 			case GameState.INTRO:
-				break;
+                PondManager.instance.HandlePondReturn();
+                break;
 			default:
 				break;
 			}
@@ -189,7 +190,11 @@ public class GameManager : MonoBehaviour
 
 		yield return new WaitUntil( () => CameraManager.instance.IsInitialized );
 
-    ChangeGameState(GameState.MAIN);
+        PondManager.instance.Initialize();
+
+        yield return new WaitUntil( () => PondManager.instance.IsInitialized );
+
+        ChangeGameState( GameState.INTRO);
 	}
 
 	IEnumerator RestartScene(int sceneNum, float waitTime)

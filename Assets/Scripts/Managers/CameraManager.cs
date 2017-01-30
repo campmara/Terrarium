@@ -8,6 +8,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	public enum CameraState
 	{
 		NONE = 0,
+        INTRO,
 		FOLLOWPLAYER_FREE,
 		FOLLOWPLAYER_LOCKED,
 		TRANSITION,
@@ -22,8 +23,9 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	public float CamPixelHeight { get { return _mainCam.pixelHeight; } }
     private Vector2 _screenCenter = Vector2.zero;
 
-	#region Player Camera Variables
-	[Header("Player Cam Variables"), Space(5)]
+    #region Player Camera Variables
+
+    [Header("Player Cam Variables"), Space(5)]
 	[SerializeField, ReadOnlyAttribute] Transform _focusTransform = null;
 
 	Vector3 _camOffset = Vector3.zero;      // Direction from focus to Camera
@@ -41,15 +43,20 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	//Vector3 _inputCamOffset = Vector3.zero; 				// Offsets camera based on bounding offsets for when player is moving player
 	const float BOUNDING_RADIUS = 1.7f;         // Distance for player to move from center for cam focus to start following
 
-	/*
+    #endregion
+
+    #region Camera Rotation & Zoom Values
+
+    /*
 	 * ROTATION VARIABLES
 	*/
     Vector2 _camInputVals = Vector2.zero;
 	const float CAM_ROTSPEED = 100.0f;
 
-	/*
+    /*
 	 * ZOOM VARIABLES
 	 */
+    [SerializeField] AnimationCurve _zoomInterpCurve = null;
 	float _zoomInterp = ZOOM_RESETINTERP;
 	const float ZOOM_RESETINTERP = 0.25f;	// Zoom Interp value for initialization & reset of camera (right stick click)
 	const float ZOOM_SPEED = 0.6f;			// How much a frame of "zooming" input increments zoom interp
@@ -61,12 +68,12 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 
 	const float LOCKED_ZOOMINTERP = 0.15f;
 
-	Vector3 _transStartPos = Vector3.zero;
-	Vector3 _tranEndPos = Vector3.zero;
+    #endregion
+
 
     const float CAM_FOV = 60f;
 
-	#endregion
+
 
 	public override void Initialize ()
 	{
@@ -162,7 +169,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 				}
 
 				// Calculate Camera Positioning
-				DetermineCameraZoom( _zoomInterp );
+				DetermineCameraZoom( _zoomInterpCurve.Evaluate( _zoomInterp ) );
 
                 // Determine if player in screen bounding circle and move focus center
                 UpdateFocusPoint();
@@ -200,10 +207,10 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 				if ( Mathf.Abs(_camInputVals.y) > ZOOM_Y_DEADZONE )
 				{
 					_zoomInterp = Mathf.Clamp01( _zoomInterp + ( ZOOM_SPEED * -_camInputVals.y * Time.fixedDeltaTime) );
-				}
+                }
 
 				// Calculate Camera Positioning
-				DetermineCameraZoom( _zoomInterp );
+				DetermineCameraZoom( _zoomInterpCurve.Evaluate(_zoomInterp) );
 
 				// Move towards new focus center
 				_mainCam.transform.position = Vector3.Lerp(_mainCam.transform.position, _focusPoint + _camOffset, CAM_FOLLOWSPEED * Time.fixedDeltaTime);
