@@ -64,11 +64,11 @@ public class PondManager : SingletonBehaviour<PondManager>
     private IEnumerator PopPlayerRoutine()
     {        
         Vector3 endPos = _pond.transform.forward * 5f;
-        Tween jumpTween = PlayerManager.instance.Player.transform.DOJump(endPos, POP_HEIGHT, 1, POP_DURATION).SetEase(Ease.Linear);
+        Tween jumpTween = PlayerManager.instance.Player.transform.DOJump( endPos, POP_HEIGHT, 1, POP_DURATION ).SetEase( Ease.Linear );
 
         yield return jumpTween.WaitForCompletion();
 
-        PlayerManager.instance.Player.GetComponent<RollerController>().ChangeState(P_ControlState.RITUAL, P_ControlState.WALKING);
+        PlayerManager.instance.Player.GetComponent<RollerController>().ChangeState( P_ControlState.RITUAL, P_ControlState.WALKING );
         CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
         GameManager.Instance.ChangeGameState( GameManager.GameState.MAIN );
     }
