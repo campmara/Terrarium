@@ -6,15 +6,21 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Nose
-  m_Shader: {fileID: 4800000, guid: 0a4c2dc3e6c043042a5f12aa874a5954, type: 3}
-  m_ShaderKeywords: _EMISSION
+  m_Name: Skybox
+  m_Shader: {fileID: 104, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: _EMISSION _SUNDISK_NONE
   m_LightmapFlags: 1
   m_CustomRenderQueue: -1
   stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
     m_TexEnvs:
+    - first:
+        name: _BackTex
+      second:
+        m_Texture: {fileID: 2800000, guid: bf0afb4e8035b46419179f30b49221dd, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - first:
         name: _BumpMap
       second:
@@ -40,15 +46,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
-        name: _DispTex
+        name: _DownTex
       second:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - first:
-        name: _DispTex2
-      second:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: bf0afb4e8035b46419179f30b49221dd, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
@@ -58,25 +58,25 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
+        name: _FrontTex
+      second:
+        m_Texture: {fileID: 2800000, guid: bf0afb4e8035b46419179f30b49221dd, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _LeftTex
+      second:
+        m_Texture: {fileID: 2800000, guid: bf0afb4e8035b46419179f30b49221dd, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
         name: _MainTex
       second:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
-        name: _MainTex2
-      second:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - first:
         name: _MetallicGlossMap
-      second:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - first:
-        name: _NormalTex
       second:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -94,12 +94,21 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
-        name: _SecondaryTex
+        name: _RightTex
       second:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: bf0afb4e8035b46419179f30b49221dd, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _UpTex
+      second:
+        m_Texture: {fileID: 2800000, guid: bf0afb4e8035b46419179f30b49221dd, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - first:
+        name: _AtmosphereThickness
+      second: 1.64
     - first:
         name: _BumpScale
       second: 1
@@ -110,38 +119,26 @@ Material:
         name: _DetailNormalMapScale
       second: 1
     - first:
-        name: _Displacement
-      second: -0.1
-    - first:
         name: _DstBlend
       second: 0
+    - first:
+        name: _Exposure
+      second: 2.4
     - first:
         name: _GlossMapScale
       second: 1
     - first:
         name: _Glossiness
-      second: 0
+      second: 0.5
     - first:
         name: _GlossyReflections
       second: 1
     - first:
-        name: _Hardness
-      second: 0.4
-    - first:
         name: _Metallic
       second: 0
     - first:
-        name: _Middle
-      second: 0.5
-    - first:
         name: _Mode
       second: 0
-    - first:
-        name: _NoiseHeight
-      second: 1.3
-    - first:
-        name: _NoiseScale
-      second: 3
     - first:
         name: _OcclusionStrength
       second: 1
@@ -149,26 +146,8 @@ Material:
         name: _Parallax
       second: 0.02
     - first:
-        name: _PushAmount
-      second: 5.2744222e-17
-    - first:
-        name: _PushDisplacement
-      second: 1
-    - first:
-        name: _PushDistance
-      second: 0.25
-    - first:
-        name: _PushImpact
-      second: 2.31
-    - first:
-        name: _PushScale
-      second: 0.1
-    - first:
-        name: _PushSpeed
-      second: 2
-    - first:
-        name: _SmearIntensity
-      second: 2
+        name: _Rotation
+      second: 0
     - first:
         name: _SmoothnessTextureChannel
       second: 0
@@ -179,8 +158,11 @@ Material:
         name: _SrcBlend
       second: 1
     - first:
-        name: _TexFade
-      second: 0.226
+        name: _SunDisk
+      second: 0
+    - first:
+        name: _SunSize
+      second: 0.066
     - first:
         name: _UVSec
       second: 0
@@ -190,40 +172,16 @@ Material:
     m_Colors:
     - first:
         name: _Color
-      second: {r: 0.50735295, g: 0.59229213, b: 1, a: 0.597}
-    - first:
-        name: _ColorBot
-      second: {r: 0.8235294, g: 0.93427, b: 1, a: 1}
-    - first:
-        name: _ColorMid
-      second: {r: 0.5514706, g: 0.8700811, b: 1, a: 1}
-    - first:
-        name: _ColorTop
-      second: {r: 1, g: 0.029411793, b: 0.049493227, a: 1}
-    - first:
-        name: _DepressionPosA
-      second: {r: -1, g: 0, b: 0, a: 0}
-    - first:
-        name: _DepressionPosB
-      second: {r: 1, g: 0, b: 0, a: 0}
+      second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
     - first:
-        name: _Position
-      second: {r: 0, g: 0, b: 0, a: 0}
+        name: _GroundColor
+      second: {r: 0.8117648, g: 0.77647066, b: 0.49411768, a: 1}
     - first:
-        name: _PrevPosition
-      second: {r: 0, g: 0, b: 0, a: 0}
+        name: _SkyTint
+      second: {r: 0.026221868, g: 0.028475849, b: 0.03676468, a: 1}
     - first:
-        name: _PushDirection
-      second: {r: 1, g: 0, b: 0, a: 1}
-    - first:
-        name: _PushPosA
-      second: {r: 0, g: 0, b: 0, a: 0}
-    - first:
-        name: _PushPosB
-      second: {r: 0, g: 0, b: 0, a: 0}
-    - first:
-        name: _ShadowColor
-      second: {r: 1, g: 1, b: 1, a: 1}
+        name: _Tint
+      second: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
