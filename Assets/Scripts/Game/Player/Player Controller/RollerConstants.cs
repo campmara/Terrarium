@@ -28,9 +28,10 @@ public static class RollerConstants
 	public const float REVERSE_TURN_SPEED = 100f;
 	public const float TURN_ACCELERATION = 15f;
 	public const float TURN_DECELERATION = 700f;
+    public const float TURN_MINSPEED = 25.0f;
 
-	// PICKUP
-	public const float PICKUP_CHECKHEIGHT = 0.5f;
+    // PICKUP
+    public const float PICKUP_CHECKHEIGHT = 0.5f;
 	public const float PICKUP_CHECKRADIUS = 1.0f;
 	public const float PICKUP_FORWARDSCALAR = 1.0f;
 	public const float PICKUP_UPSCALAR = 1.0f;
