@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 
 public class RitualState : RollerState
@@ -8,7 +9,7 @@ public class RitualState : RollerState
 	public override void Enter(P_ControlState prevState)
 	{
 		Debug.Log("ENTER RITUAL STATE");
-		_tween = transform.DOScaleY(0.1f, RollerConstants.RITUAL_TIME).OnComplete(OnCompleteRitual);
+        _tween = transform.DOScaleY( 0.1f, RollerConstants.RITUAL_TIME ).OnComplete( OnCompleteRitual );
 
 	    PlayerManager.instance.Player.AnimationController.PlayIdleAnim();
 	}
@@ -36,6 +37,19 @@ public class RitualState : RollerState
 
     private void OnCompleteRitual()
     {
+        GameManager.Instance.ChangeGameState( GameManager.GameState.POND_RETURN );
+
+        transform.DOMoveY( -5.0f, 0.5f );
+
+        StartCoroutine( DelayedCompleteRitual() );        
+    }
+
+    IEnumerator DelayedCompleteRitual()
+    {       
+        yield return new WaitForSeconds( RollerConstants.RITUAL_COMPLETEWAIT );
+
+        // TODO: implement plant watering here
+
         transform.localScale = Vector3.one;
         PondManager.instance.HandlePondReturn();
     }
