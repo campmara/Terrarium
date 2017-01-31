@@ -3,60 +3,64 @@ using System.Collections;
 
 public class PanelBase : MonoBehaviour 
 {
-	// Use this for initialization
-	void Awake () 
-	{
-		//gameObject.SetActive(false);
-	}
+    [SerializeField]
+    protected bool _disableOnLoad = true;
+    public bool DisableOnLoad { get { return _disableOnLoad; } set { _disableOnLoad = false; } }
+
+    protected bool _enablePrepped = false;
+    protected bool _disablePrepped = false;
+    
 
 	void Start()
 	{
 		InitializePanel();
 	}
 
-	// Update is called once per frame
-	void Update () 
-	{
-
-	}
-
 	public void Enable()
 	{
-		EnablePanel();
+        StartCoroutine( EnablePanel() );
 	}
 
 	public void Disable()
 	{
-		DisablePanel();	
+		StartCoroutine( DisablePanel() );
 	}
 
-	protected void EnablePanel() 
+	IEnumerator EnablePanel() 
 	{
-		if(!gameObject.activeSelf)
+		if( !gameObject.activeSelf )
 		{
 			PrepareEnablePanel();
 
-			gameObject.SetActive(true);
+            yield return new WaitUntil( () => _enablePrepped );
+
+			gameObject.SetActive( true );
 
 			CompleteEnablePanel();
+
+            _enablePrepped = false;
 		}
 	}
 
-	protected virtual void DisablePanel() 
+    IEnumerator DisablePanel() 
 	{
-		if(gameObject.activeSelf)
+		if( gameObject.activeSelf )
 		{
 			PrepareDisablePanel();
 
-			gameObject.SetActive(false);
+            yield return new WaitUntil( () => _disablePrepped );
+
+			gameObject.SetActive( false );
 
 			CompleteDisablePanel();
+
+            _disablePrepped = false;
 		}
 	}
 
-	protected virtual void PrepareEnablePanel() {}
+	protected virtual void PrepareEnablePanel() { _enablePrepped = true; }
 	protected virtual void CompleteEnablePanel() {}
-	protected virtual void PrepareDisablePanel() {}
+	protected virtual void PrepareDisablePanel() { _disablePrepped = true; }
 	protected virtual void CompleteDisablePanel() {}
-	protected virtual void InitializePanel() {}
+	public virtual void InitializePanel() {}
 }

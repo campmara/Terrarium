@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using DG.Tweening;
+﻿using UnityEngine;
 
 public class RollingState : RollerState 
 {
-	float turnVelocity = 0f;
+	private float _turnVelocity = 0f;
 
     public override void Enter( P_ControlState prevState ) 
 	{
@@ -17,8 +14,6 @@ public class RollingState : RollerState
             case P_ControlState.WALKING:
                 CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_LOCKED );
 				PlayerManager.instance.Player.AnimationController.PlayWalkToRollAnim();
-                break;
-            default:
                 break;
         }
 
@@ -32,19 +27,19 @@ public class RollingState : RollerState
 	public override void HandleInput(InputCollection input)
 	{
 		// B BUTTON
-		if ((input.BButton.WasReleased && input.BButton.HasChanged) || input.BButton.Value == 0)
+		if (!input.BButton.IsPressed)
 		{
 			_roller.ChangeState( P_ControlState.ROLLING, P_ControlState.WALKING );
 		}
 
 		// X BUTTON
-		if (input.XButton.WasPressed && input.XButton.HasChanged)
+		if (input.XButton.IsPressed)
 		{
 			_roller.ChangeState(P_ControlState.ROLLING, P_ControlState.RITUAL);
 		}
 
 		// MOVEMENT HANDLING
-		inputVec = new Vector3(
+		_roller.InputVec = new Vector3(
 			input.LeftStickX,
 			0f,
 			input.LeftStickY
@@ -54,28 +49,28 @@ public class RollingState : RollerState
 		HandleTurning(input);
 	}
 
-	void HandleRolling(InputCollection input)
+	private void HandleRolling(InputCollection input)
 	{
-		if (Mathf.Abs(input.LeftStickY.Value) > INPUT_DEADZONE)
+		if (Mathf.Abs(input.LeftStickY.Value) > RollerConstants.INPUT_DEADZONE)
 		{
-			if (inputVec.z >= 0f)
+			if (_roller.InputVec.z >= 0f)
 			{
-				Accelerate(ROLL_MAX_SPEED, ROLL_ACCELERATION, inputVec.z);
+				_roller.Accelerate(RollerConstants.ROLL_MAX_SPEED, RollerConstants.ROLL_ACCELERATION, _roller.InputVec.z);
 			}
 			else
 			{
-				Accelerate(REVERSE_ROLL_SPEED, ROLL_ACCELERATION);
+				_roller.Accelerate(RollerConstants.REVERSE_ROLL_SPEED, RollerConstants.ROLL_ACCELERATION);
 			}
 		}
 		else
 		{
-			Accelerate(ROLL_SPEED, ROLL_ACCELERATION);
+			_roller.Accelerate(RollerConstants.ROLL_SPEED, RollerConstants.ROLL_ACCELERATION);
 		}
 
-		Vector3 movePos = _roller.transform.position + (_roller.transform.forward * velocity * Time.deltaTime);
+		Vector3 movePos = _roller.transform.position + (_roller.transform.forward * _roller.Velocity * Time.deltaTime);
 		_roller.RB.MovePosition(movePos);
 
-		lastInputVec = inputVec.normalized;
+		_roller.LastInputVec = _roller.InputVec.normalized;
 		/*
 		else if (velocity != 0f)
 		{
@@ -87,37 +82,47 @@ public class RollingState : RollerState
 		*/
 	}
 
-	void HandleTurning(InputCollection input)
+	private void HandleTurning(InputCollection input)
 	{
-		if (Mathf.Abs(input.LeftStickX.Value) > INPUT_DEADZONE)
+		if (Mathf.Abs(input.LeftStickX.Value) > RollerConstants.INPUT_DEADZONE)
 		{
-			if (inputVec.z >= -0.2f)
+            if (_roller.InputVec.z >= -0.2f)
 			{
-				AccelerateTurn(TURN_SPEED, TURN_ACCELERATION, inputVec.x);
+				AccelerateTurn(RollerConstants.TURN_SPEED, RollerConstants.TURN_ACCELERATION, _roller.InputVec.x);
 			}
 			else
 			{
-				AccelerateTurn(REVERSE_TURN_SPEED, TURN_ACCELERATION, inputVec.x);
+				AccelerateTurn(RollerConstants.REVERSE_TURN_SPEED, RollerConstants.TURN_ACCELERATION, _roller.InputVec.x);
 			}
 
-			Quaternion turn = Quaternion.Euler(0f, _roller.transform.eulerAngles.y + (turnVelocity * Time.deltaTime), 0f);
+			Quaternion turn = Quaternion.Euler(0f, _roller.transform.eulerAngles.y + (_turnVelocity * Time.deltaTime), 0f);
 			_roller.RB.MoveRotation(turn);
 		}
-		else if (turnVelocity != 0f)
+		else if (_turnVelocity != 0f)
 		{
-			// Slowdown
-			turnVelocity -= Mathf.Sign(turnVelocity) * TURN_DECELERATION * Time.deltaTime;
-			Quaternion slowTurn = Quaternion.Euler(0f, _roller.transform.eulerAngles.y + (turnVelocity * Time.deltaTime), 0f);
+			if( Mathf.Abs( _turnVelocity ) < RollerConstants.TURN_MINSPEED )
+            {
+                // Set turn vel to 0 when below certain threshold
+                _turnVelocity = 0.0f;
+            }
+            else
+            {
+                // Slowdown
+                _turnVelocity -= Mathf.Sign( _turnVelocity ) * RollerConstants.TURN_DECELERATION * Time.deltaTime;
+            }
+            
+			Quaternion slowTurn = Quaternion.Euler(0f, _roller.transform.eulerAngles.y + (_turnVelocity * Time.deltaTime), 0f);
 			_roller.RB.MoveRotation(slowTurn);
 		}
+
 	}
 
-	void AccelerateTurn(float max, float accel, float inputAffect)
+	private void AccelerateTurn(float max, float accel, float inputAffect)
 	{
-		turnVelocity += accel * inputAffect;
-		if (Mathf.Abs(turnVelocity) > max)
+	    _turnVelocity += accel * inputAffect;
+		if (Mathf.Abs(_turnVelocity) > max)
 		{
-			turnVelocity = Mathf.Sign(turnVelocity) * max;
+		    _turnVelocity = Mathf.Sign(_turnVelocity) * max;
 		}
 	}
 }

@@ -52,27 +52,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pond: {fileID: 0}
-  _popCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0.00000011920929
-      inSlope: 2.999999
-      outSlope: 2.999999
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 0.5
-      value: 5
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 1
-      value: 0.00000011920929
-      inSlope: -3.1363618
-      outSlope: -3.1363618
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0

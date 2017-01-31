@@ -74,10 +74,10 @@ MonoBehaviour:
       architectures:
       - target: 5
         name: Windows x86
-        enabled: 1
+        enabled: 0
       - target: 19
         name: Windows x64
-        enabled: 0
+        enabled: 1
       variants: []
       platformName: PC
       binaryNameFormat: '{0}.exe'
@@ -85,9 +85,9 @@ MonoBehaviour:
       targetGroup: 1
   _projectConfigurations:
     configSet:
-      _Buckets: 01000000ffffffffffffffffffffffff040000000200000003000000
-      _HashCodes: fc072644cc04107045cfcd621b9d631ce7bf39240000000000000000
-      _Next: ffffffffffffffffffffffffffffffff000000000000000000000000
+      _Buckets: 01000000ffffffffffffffffffffffff04000000ffffffff03000000
+      _HashCodes: fc072644cc04107005cfcd621b9d631ce7bf39240000000000000000
+      _Next: ffffffffffffffff00000000ffffffff020000000000000000000000
       _Count: 5
       _Version: 5
       _FreeList: -1
@@ -95,7 +95,7 @@ MonoBehaviour:
       _Keys:
       - Release/OSX/OSX Universal
       - Release/OSX
-      - Release/PC/Windows x86
+      - Release/PC/Windows x64
       - Release/PC
       - Release
       - 
@@ -110,7 +110,7 @@ MonoBehaviour:
         childKeys: []
       - enabled: 1
         childKeys:
-        - Release/PC/Windows x86
+        - Release/PC/Windows x64
       - enabled: 1
         childKeys:
         - Release/OSX

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using DG.Tweening;
+﻿using DG.Tweening;
 using UnityEngine;
 
 public class RitualState : RollerState
@@ -10,7 +8,7 @@ public class RitualState : RollerState
 	public override void Enter(P_ControlState prevState)
 	{
 		Debug.Log("ENTER RITUAL STATE");
-	    _tween = transform.DOScaleY(0.1f, RITUAL_TIME).OnComplete(OnCompleteRitual);
+		_tween = transform.DOScaleY(0.1f, RollerConstants.RITUAL_TIME).OnComplete(OnCompleteRitual);
 
 	    PlayerManager.instance.Player.AnimationController.PlayIdleAnim();
 	}
@@ -30,7 +28,7 @@ public class RitualState : RollerState
 	{
 	    bool isComplete = _tween.IsComplete();
 
-	    if (!isComplete && (input.XButton.WasReleased && input.XButton.HasChanged))
+	    if (!isComplete && !input.XButton.IsPressed)
 		{
 		    _roller.ChangeState(P_ControlState.RITUAL, P_ControlState.WALKING);
 		}
@@ -39,6 +37,6 @@ public class RitualState : RollerState
     private void OnCompleteRitual()
     {
         transform.localScale = Vector3.one;
-        PondManager.instance.ReturnPlayerToPond();
+        PondManager.instance.HandlePondReturn();
     }
 }

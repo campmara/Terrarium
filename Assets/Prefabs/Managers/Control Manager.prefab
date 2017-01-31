@@ -9,30 +9,30 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1917811889193210}
+  m_RootGameObject: {fileID: 1498706585307098}
   m_IsPrefabParent: 1
---- !u!1 &1917811889193210
+--- !u!1 &1498706585307098
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4078875785465806}
-  - component: {fileID: 114074402606392470}
+  - component: {fileID: 4797823802559036}
+  - component: {fileID: 114076460289528320}
   m_Layer: 0
-  m_Name: AudioManager
+  m_Name: Control Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4078875785465806
+--- !u!4 &4797823802559036
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1917811889193210}
+  m_GameObject: {fileID: 1498706585307098}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -40,25 +40,14 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114074402606392470
+--- !u!114 &114076460289528320
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1917811889193210}
+  m_GameObject: {fileID: 1498706585307098}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1be11ad8078254297b992a08b3455340, type: 3}
+  m_Script: {fileID: 11500000, guid: afbc5cdbbf01148d8bd933ee2b267929, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioControllerList:
-  - _audioClip: {fileID: 0}
-    _mixerGroup: {fileID: 243411483671750552, guid: 30f3aa683f5543d469208f1bb641c945,
-      type: 2}
-    _volume: 1
-    _playOnAwake: 0
-    _loop: 1
-  _musicAudioClips:
-  - {fileID: 8300000, guid: 52e9d624a18d71f4b96210a81ec25066, type: 3}
-  - {fileID: 8300000, guid: aae1b11547aadb04185ae788818cddb4, type: 3}
-  - {fileID: 8300000, guid: b14a529db5d2edb4a888758cc8c39551, type: 3}
