@@ -86,7 +86,7 @@ public class RollingState : RollerState
 	{
 		if (Mathf.Abs(input.LeftStickX.Value) > RollerConstants.INPUT_DEADZONE)
 		{
-			if (_roller.InputVec.z >= -0.2f)
+            if (_roller.InputVec.z >= -0.2f)
 			{
 				AccelerateTurn(RollerConstants.TURN_SPEED, RollerConstants.TURN_ACCELERATION, _roller.InputVec.x);
 			}
@@ -100,11 +100,21 @@ public class RollingState : RollerState
 		}
 		else if (_turnVelocity != 0f)
 		{
-			// Slowdown
-		    _turnVelocity -= Mathf.Sign(_turnVelocity) * RollerConstants.TURN_DECELERATION * Time.deltaTime;
+			if( Mathf.Abs( _turnVelocity ) < RollerConstants.TURN_MINSPEED )
+            {
+                // Set turn vel to 0 when below certain threshold
+                _turnVelocity = 0.0f;
+            }
+            else
+            {
+                // Slowdown
+                _turnVelocity -= Mathf.Sign( _turnVelocity ) * RollerConstants.TURN_DECELERATION * Time.deltaTime;
+            }
+            
 			Quaternion slowTurn = Quaternion.Euler(0f, _roller.transform.eulerAngles.y + (_turnVelocity * Time.deltaTime), 0f);
 			_roller.RB.MoveRotation(slowTurn);
 		}
+
 	}
 
 	private void AccelerateTurn(float max, float accel, float inputAffect)

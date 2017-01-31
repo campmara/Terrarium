@@ -37,6 +37,6 @@ public class RitualState : RollerState
     private void OnCompleteRitual()
     {
         transform.localScale = Vector3.one;
-        PondManager.instance.ReturnPlayerToPond();
+        PondManager.instance.HandlePondReturn();
     }
 }
