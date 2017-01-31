@@ -101,7 +101,6 @@ public class PlayerIKControl : MonoBehaviour
     {
         Vector3 diff = legPos - transform.parent.position;
         float dist = diff.magnitude;
-        Debug.Log("dist = " + dist);
 
         // is the leg far enough away from the player position?
         bool test1 = dist > _legMaxDistance;
