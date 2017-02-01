@@ -47,6 +47,8 @@ MonoBehaviour:
   encrypt: 0
   encryptionPassword: 66325759503335646a76785032706452
   encryptionType: 0
+  deletePrefabsOnLoad: 0
+  convertPrefabsToSceneObjectsOnImport: 1
   sceneObjects: []
   globalManager: {fileID: 11466620, guid: b526f529a8c9147ff9f63024e8ef2144, type: 2}
 --- !u!1001 &100100000
