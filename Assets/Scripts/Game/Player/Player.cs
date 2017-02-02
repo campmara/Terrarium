@@ -11,6 +11,10 @@ public class Player : MonoBehaviour {
     PlayerAnimationController _playerAnimationController = null;
     public PlayerAnimationController AnimationController { get { return _playerAnimationController; } }
 
+    // TODO: Add face stuff to Player
+    FaceManager _faceManager = null;
+    public FaceManager Face { get { return _faceManager; } }
+
     // Use this for initialization
     void Awake () 
 	{

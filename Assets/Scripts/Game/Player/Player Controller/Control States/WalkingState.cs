@@ -9,9 +9,9 @@ public class WalkingState : RollerState
         // Handle Transition
         switch ( prevState )
         {
-        case P_ControlState.ROLLING:
-			CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
-			PlayerManager.instance.Player.AnimationController.PlayRollToWalkAnim();
+        case P_ControlState.ROLLING:            
+            CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
+            PlayerManager.instance.Player.AnimationController.PlayRollToWalkAnim();                            
             break;
         }
 
@@ -41,7 +41,10 @@ public class WalkingState : RollerState
         // B BUTTON
         if (input.BButton.IsPressed)
         {
-            _roller.ChangeState( P_ControlState.WALKING, P_ControlState.ROLLING );
+            if ( GameManager.Instance.State == GameManager.GameState.MAIN )
+            {
+                _roller.ChangeState( P_ControlState.WALKING, P_ControlState.ROLLING );
+            }
         }
 
         // X BUTTON
