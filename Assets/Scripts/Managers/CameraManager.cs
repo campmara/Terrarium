@@ -268,7 +268,6 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 		// Center is focusTransform.position
 		Vector3 focusDir = _focusTransform.position - _focusPoint;
 		float distance = focusDir.sqrMagnitude;
-
 		if ( /*distance > JohnTech.Sqr( BOUNDING_RADIUS ) ||*/ Mathf.Abs( focusDir.x ) > BOUNDING_LATERALOFFSET || Mathf.Abs( focusDir.z ) > BOUNDING_VERTICALOFFSET )
         {
             // Is outside of the circle.

@@ -25,8 +25,8 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 
 	public void RequestDropFruit( Growable plant, float timeUntil )
 	{
-		Event dropEvent = new DropFruitEvent( plant, timeUntil );
-		TimeManager.instance.AddEvent( dropEvent );
+	    DropFruitEvent dropGameEvent = new DropFruitEvent( plant, timeUntil );
+		TimeManager.instance.AddEvent( dropGameEvent );
 	}
 
 	public void DropSeed( Growable plant )
@@ -36,6 +36,12 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 
 		//add the new guy to our list
 		_seeds.Add(newSeed);
+	}
+
+	public void DestroySeed( Seed oldSeed )
+	{
+		_seeds.Remove( oldSeed );
+		Destroy( oldSeed.gameObject );
 	}
 
 	public void AddBigPlant( Growable bigPlant )
