@@ -34,7 +34,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1957489743728246}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.400809, y: 2.9750895e-18, z: -2.0097919}
+  m_LocalPosition: {x: 4.6040335, y: 4.7697463e-18, z: -3.222154}
   m_LocalScale: {x: 3.5, y: 3.5, z: 3.5}
   m_Children: []
   m_Father: {fileID: 0}
@@ -53,7 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spawnables:
   - {fileID: 1858957961874388, guid: 7f7cf89e0464249b59a2c548ec42dd9b, type: 2}
-  _baseGrowthRate: 0.8
+  _baseGrowthRate: 0.6
   _scaleRange: {x: 2, y: 6}
   _leaf: {fileID: 1846552769908484, guid: f41ebbb9e478fec449e2f8c287072170, type: 2}
   _fruit: {fileID: 1331700218982416, guid: b029e295a6ac1af4da86ad0fdafacebc, type: 2}
