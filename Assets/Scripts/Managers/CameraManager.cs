@@ -36,9 +36,12 @@ public class CameraManager : SingletonBehaviour<CameraManager>
     float _centerDist = 0.0f;               // Current distance of focusCenter from transform
     const float CAM_FOLLOWSPEED = 3f;
 	const float CAM_CENTER_UPDATE_SPEED = 15f;
-	const float CAMLOOK_VERTICALOFFSET = 1.0f;	// How far up/down the cam looks relative to the actually cam focus point
+    float _lookVertOffset;
+    const float CAMLOOK_VERTICALOFFSET_MIN = 1.0f;	// How far up/down the cam looks relative to the actually cam focus point
+    const float CAMLOOK_VERTICALOFFSET_MAX = 3.0f;  // CHANGES IN REVERSE: gets closer to max as you zoom in closer
+    [SerializeField] AnimationCurve _lookVertOffsetCurve = null;
 
-	const float BOUNDING_VERTICALOFFSET = 0.75f;	// How much the bounding radius for camera movement is offset vertically from camera
+    const float BOUNDING_VERTICALOFFSET = 0.75f;	// How much the bounding radius for camera movement is offset vertically from camera
 	const float BOUNDING_LATERALOFFSET = 1.7f;		// How much the bounding radius for camera movement is offset horizontally from camera
 	//Vector3 _inputCamOffset = Vector3.zero; 				// Offsets camera based on bounding offsets for when player is moving player
 	const float BOUNDING_RADIUS = 1.7f;         // Distance for player to move from center for cam focus to start following
@@ -62,8 +65,8 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	const float ZOOM_SPEED = 0.6f;			// How much a frame of "zooming" input increments zoom interp
 	const float ZOOM_Y_DEADZONE = 0.1f;		// Zoom Input Deadzone for Y 
 	const float ZOOM_X_DEADZONE = 0.1f;		// Zoom Input Deadzone for X 
-	Vector2 zoomXRange = new Vector2( 3.25f, 10.0f );	// Min & Max zoom x value (x is min)
-	Vector2 zoomYRange = new Vector2( 2.5f, 15.0f );	// Min & Max zoom y values (x is min)
+	Vector2 zoomXRange = new Vector2( 4.25f, 10.0f );	// Min & Max zoom x value (x is min)
+	Vector2 zoomYRange = new Vector2( 1.5f, 15.0f );	// Min & Max zoom y values (x is min)
     const float ZOOM_DELTASPEED = 50.0f;    // How quickly camOffset moves towards new zoom values
 
 	const float LOCKED_ZOOMINTERP = 0.15f;
@@ -95,7 +98,8 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 
 		ResetCameraOffset();
 
-		_mainCam.fieldOfView = CAM_FOV;
+		_mainCam.fieldOfView = Mathf.Lerp( CAM_FOV_MIN, CAM_FOV_MAX, ZOOM_RESETINTERP );
+        _lookVertOffset = Mathf.Lerp( CAMLOOK_VERTICALOFFSET_MIN, CAMLOOK_VERTICALOFFSET_MAX, ZOOM_RESETINTERP );
 
         _screenCenter = new Vector2(Screen.width / 2, Screen.height / 2);
 
@@ -268,7 +272,6 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 		// Center is focusTransform.position
 		Vector3 focusDir = _focusTransform.position - _focusPoint;
 		float distance = focusDir.sqrMagnitude;
-
 		if ( /*distance > JohnTech.Sqr( BOUNDING_RADIUS ) ||*/ Mathf.Abs( focusDir.x ) > BOUNDING_LATERALOFFSET || Mathf.Abs( focusDir.z ) > BOUNDING_VERTICALOFFSET )
         {
             // Is outside of the circle.
@@ -309,7 +312,12 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 			_camOffset.z = Mathf.Lerp( _camOffset.z, lateralOffset.y, ZOOM_DELTASPEED * Time.fixedDeltaTime );
 		}
 
-	}
+        // NOT CURRENTLY: Evaluating animation curve for FOV/Look height changes
+        _fov = Mathf.Lerp( _fov, Mathf.Lerp( CAM_FOV_MAX, CAM_FOV_MIN, _fovCurve.Evaluate( zoomInterp ) ), ZOOM_DELTASPEED * Time.fixedDeltaTime );
+        _mainCam.fieldOfView = _fov;
+
+        _lookVertOffset = Mathf.Lerp( _lookVertOffset, Mathf.Lerp( CAMLOOK_VERTICALOFFSET_MAX, CAMLOOK_VERTICALOFFSET_MIN, _lookVertOffsetCurve.Evaluate( zoomInterp ) ), ZOOM_DELTASPEED * Time.fixedDeltaTime ); ;
+    }
 
 	/// <summary>
 	/// Sets Cam Offset behind focus transform.
@@ -330,7 +338,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	/// </summary>
 	private void CameraLookAtFocusPoint()
 	{
-		_mainCam.transform.LookAt( _focusPoint + ( Vector3.up * CAMLOOK_VERTICALOFFSET ) );
+		_mainCam.transform.LookAt( _focusPoint + ( Vector3.up * _lookVertOffset ) );
 	}
 
 	private void ResetCameraOffset()
@@ -395,3 +403,18 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	{
 	}
 }
+
+
+    const float PONDRETURN_FORWARD = 15f;
+    const float PONDRETURN_UP = 10f;    
+    const float PONDRETURN_TRANSITIONTIME = 1f;
+
+    const float PLAYERPOP_FORWARDPOS = 5.0f;
+
+
+    float _fov;
+    const float CAM_FOV_MIN = 60.0f;    // CHANGES IN REVERSE: the lower closer it is zoomed in the closer the fov is to its max val
+    const float CAM_FOV_MAX = 90.0f;
+    [SerializeField] AnimationCurve _fovCurve = null;
+
+    public override void Initialize ()
