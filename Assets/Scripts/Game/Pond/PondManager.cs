@@ -14,7 +14,7 @@ public class PondManager : SingletonBehaviour<PondManager>
     private const float POP_DURATION = 1f;
 
     private Transform _playerTrans;
-    private const float PLAYER_MAXDISTANCE = 75.0f;
+    private const float PLAYER_MAXDISTANCE = 32.5f;
 
     // Use this for initialization
     private void Awake()
