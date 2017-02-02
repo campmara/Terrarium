@@ -19,21 +19,21 @@ Shader "Custom/Waterball"
 
 		// Rim Lighting
 		_RimColor ("Rim Color", Color) = (0.26,0.19,0.16,0.0)
-      	_RimPower ("Rim Power", Range(0.5,8.0)) = 3.0
+      	_RimPower ("Rim Power", Range(0.5,8.0)) = 0.9
 		
 		//distortion
-		_DistAmt("Distortion", range(0,128)) = 10
-		_ColorFog("Fogginess", range(0, 1)) = 0.5
+		_DistAmt("Distortion", range(0,128)) = 13
+		_ColorFog("Fogginess", range(0, 1)) = 0.78
 
 		//delay stuff
 		_Position("Position", Vector) = (0, 0, 0, 0)
 		_PrevPosition("Prev Position", Vector) = (0, 0, 0, 0)
-		_SmearNoiseScale("Smear Noise Scale", Float) = 15
+		_SmearNoiseScale("Smear Noise Scale", Float) = 1
 		_SmearNoiseHeight("Smear Noise Height", Float) = 1.3
 
 		//general noise stuff
-		_MainNoiseScale("Main Noise Scale", Float) = 15
-		_MainNoiseHeight("Main Noise Height", Float) = 1.3
+		_MainNoiseScale("Main Noise Scale", Float) = 1
+		_MainNoiseHeight("Main Noise Height", Float) = 0
 		_NoiseOffset("Noise Offset", Vector) = (0,0,0,0)
 	}
 
