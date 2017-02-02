@@ -83,12 +83,9 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 
     #endregion
 
-    float _fov;
-    const float CAM_FOV_MIN = 60.0f;    // CHANGES IN REVERSE: the lower closer it is zoomed in the closer the fov is to its max val
-    const float CAM_FOV_MAX = 90.0f;
-    [SerializeField] AnimationCurve _fovCurve = null;
+    const float CAM_FOV = 60f;
 
-    public override void Initialize ()
+	public override void Initialize ()
 	{
 		if( PlayerManager.instance.Player != null )
 		{
@@ -275,7 +272,6 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 		// Center is focusTransform.position
 		Vector3 focusDir = _focusTransform.position - _focusPoint;
 		float distance = focusDir.sqrMagnitude;
-
 		if ( /*distance > JohnTech.Sqr( BOUNDING_RADIUS ) ||*/ Mathf.Abs( focusDir.x ) > BOUNDING_LATERALOFFSET || Mathf.Abs( focusDir.z ) > BOUNDING_VERTICALOFFSET )
         {
             // Is outside of the circle.
@@ -407,3 +403,18 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	{
 	}
 }
+
+
+    const float PONDRETURN_FORWARD = 15f;
+    const float PONDRETURN_UP = 10f;    
+    const float PONDRETURN_TRANSITIONTIME = 1f;
+
+    const float PLAYERPOP_FORWARDPOS = 5.0f;
+
+
+    float _fov;
+    const float CAM_FOV_MIN = 60.0f;    // CHANGES IN REVERSE: the lower closer it is zoomed in the closer the fov is to its max val
+    const float CAM_FOV_MAX = 90.0f;
+    [SerializeField] AnimationCurve _fovCurve = null;
+
+    public override void Initialize ()
