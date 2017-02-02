@@ -14,7 +14,7 @@ public class PondManager : SingletonBehaviour<PondManager>
     private const float POP_DURATION = 1f;
 
     private Transform _playerTrans;
-    private const float PLAYER_MAXDISTANCE = 75.0f;
+    private const float PLAYER_MAXDISTANCE = 32.5f;
 
     // Use this for initialization
     private void Awake()
@@ -57,8 +57,7 @@ public class PondManager : SingletonBehaviour<PondManager>
         // Transport player to pond pop point.
         // Tell the Camera to pan back to the pond.      
         PlayerManager.instance.ReturnPlayerToPond();  
-        CameraManager.instance.ChangeCameraState( CameraManager.CameraState.POND_RETURNPAN );
-        GameManager.Instance.ChangeGameState( GameManager.GameState.POND_RETURN );
+        CameraManager.instance.ChangeCameraState( CameraManager.CameraState.POND_RETURNPAN );       
     }
 
     private IEnumerator PopPlayerRoutine()
@@ -67,9 +66,10 @@ public class PondManager : SingletonBehaviour<PondManager>
         Tween jumpTween = PlayerManager.instance.Player.transform.DOJump( endPos, POP_HEIGHT, 1, POP_DURATION ).SetEase( Ease.Linear );
 
         yield return jumpTween.WaitForCompletion();
-
-        PlayerManager.instance.Player.GetComponent<RollerController>().ChangeState( P_ControlState.RITUAL, P_ControlState.WALKING );
+        
         CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
         GameManager.Instance.ChangeGameState( GameManager.GameState.MAIN );
+
+        PlayerManager.instance.Player.GetComponent<RollerController>().ChangeState( P_ControlState.RITUAL, P_ControlState.WALKING );
     }
 }
