@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 using UnityEngine;
 
 public class TimeManager : SingletonBehaviour<TimeManager> 
@@ -18,13 +19,13 @@ public class TimeManager : SingletonBehaviour<TimeManager>
     public DateTime RealWorldTime { get { return _realWorldTime; } }
     public DateTime RealWorldNow { get { return DateTime.Now; } }
 
-	SortedList<float, Event> _eventQueue = new SortedList<float, Event>();
+	List<GameEvent> _eventQueue;
 
 	public override void Initialize ()
 	{
         _realWorldTime = DateTime.Now;
-
-        isInitialized = true;
+        _eventQueue = new List<GameEvent>();
+	    isInitialized = true;
 	}
 
 	void Update () 
@@ -40,26 +41,35 @@ public class TimeManager : SingletonBehaviour<TimeManager>
 
 	void ProcessQueue()
 	{
-		Event curEvent = _eventQueue.Values.Count == 0 ? null : _eventQueue.Values[0];
-		float eventTime = _eventQueue.Values.Count == 0 ? 0.0f : _eventQueue.Keys[0];
+	    GameEvent curEvent = null;
+	    float eventTime = 0.0f;
 
-		while( curEvent != null && _eventQueue.Count != 0 &&  eventTime <= _curTime )
+	    if( _eventQueue.Count != 0 )
+	    {
+	        curEvent = _eventQueue[0];
+	        eventTime = _eventQueue[0].GameTimeExecution;
+	    }
+
+		while( _eventQueue.Count != 0  &&  eventTime <= _curTime )
 		{
-			curEvent = _eventQueue.Values[0];
-			eventTime = _eventQueue.Keys[0];
-			_eventQueue.Remove( eventTime );
+		    curEvent = _eventQueue[0];
+		    eventTime = _eventQueue[0].GameTimeExecution;
+
+		    _eventQueue.Remove( curEvent );
 			curEvent.Execute();
 		}
 	}
 		
-	public void AddEvent(Event gameEvent )
+	public void AddEvent( GameEvent gameEvent )
 	{
-		//WARNING THIS IS BAD AND NEEDS FIXED!!
-		if( !_eventQueue.ContainsKey( _curTime + gameEvent.TimeUntilExecution )  )
-		{
-			_eventQueue.Add( _curTime + gameEvent.TimeUntilExecution, gameEvent );
+	    if (_eventQueue.Contains(gameEvent) == false)
+	    {
+			gameEvent.SetInGameExecutionTime( _curTime + gameEvent.TimeUntilExecution );
+	     	_eventQueue.Add( (GameEvent) gameEvent );
+			_eventQueue = _eventQueue.OrderBy( e => e.GameTimeExecution ).ToList();
 		}
 	}
+
 
 	public void ChangeState( TimeState newState )
 	{

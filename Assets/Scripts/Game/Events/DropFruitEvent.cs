@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DropFruitEvent : Event
+public class DropFruitEvent : GameEvent
 {
 	Growable _tree;
 

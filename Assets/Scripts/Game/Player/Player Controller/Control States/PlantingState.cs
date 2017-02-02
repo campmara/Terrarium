@@ -78,7 +78,7 @@ public class PlantingState : RollerState
 		Seed seed = _roller.CurrentHeldObject.GetComponent<Seed>();
 		if( seed )
 		{
-			seed.Plant();
+			seed.TryPlanting();
 		}
 
         HandleDropHeldObject();
