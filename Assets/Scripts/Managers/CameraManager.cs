@@ -83,7 +83,10 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 
     #endregion
 
-    const float CAM_FOV = 60f;
+	float _fov;
+	const float CAM_FOV_MIN = 60.0f;    // CHANGES IN REVERSE: the lower closer it is zoomed in the closer the fov is to its max val
+	const float CAM_FOV_MAX = 90.0f;
+	[SerializeField] AnimationCurve _fovCurve = null;
 
 	public override void Initialize ()
 	{
@@ -403,18 +406,4 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	{
 	}
 }
-
-
-    const float PONDRETURN_FORWARD = 15f;
-    const float PONDRETURN_UP = 10f;    
-    const float PONDRETURN_TRANSITIONTIME = 1f;
-
-    const float PLAYERPOP_FORWARDPOS = 5.0f;
-
-
-    float _fov;
-    const float CAM_FOV_MIN = 60.0f;    // CHANGES IN REVERSE: the lower closer it is zoomed in the closer the fov is to its max val
-    const float CAM_FOV_MAX = 90.0f;
-    [SerializeField] AnimationCurve _fovCurve = null;
-
-    public override void Initialize ()
+	
