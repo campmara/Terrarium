@@ -18,10 +18,10 @@ public class PlayerIKControl : MonoBehaviour
     [SerializeField] private float _legMoveTimeMax = 0.2f;
 
     [Header("Limb IK References")]
-    [SerializeField] private LimbIK _leftArm;
-    [SerializeField] private LimbIK _leftLeg;
-    [SerializeField] private LimbIK _rightArm;
-    [SerializeField] private LimbIK _rightLeg;
+    [SerializeField] private CCDIK _leftArm;
+    [SerializeField] private CCDIK _leftLeg;
+    [SerializeField] private CCDIK _rightArm;
+    [SerializeField] private CCDIK _rightLeg;
 
     public enum WalkState
     {
@@ -149,7 +149,7 @@ public class PlayerIKControl : MonoBehaviour
         return test1 && test2;
     }
 
-    private IEnumerator TakeStep(LimbIK leg)
+    private IEnumerator TakeStep(CCDIK leg)
     {
         // Move The Leg
         float timer = 0f;
@@ -205,7 +205,7 @@ public class PlayerIKControl : MonoBehaviour
         }
     }
 
-    private IEnumerator StepToIdle(LimbIK leg)
+    private IEnumerator StepToIdle(CCDIK leg)
     {
         yield return new WaitForSeconds(Random.Range(0f, 0.5f));
 
