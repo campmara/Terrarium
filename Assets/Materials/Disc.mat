@@ -126,7 +126,7 @@ Material:
       second: 1
     - first:
         name: _ScaleFactor
-      second: 15
+      second: 7.5
     - first:
         name: _SmoothnessTextureChannel
       second: 0
@@ -151,13 +151,13 @@ Material:
       second: {r: 0.7352941, g: 0.7352941, b: 0.7352941, a: 1}
     - first:
         name: _ColorBot
-      second: {r: 0.67058825, g: 0.62352943, b: 0.3803922, a: 1}
+      second: {r: 0.3372549, g: 0.6117647, b: 0.40784317, a: 1}
     - first:
         name: _ColorMid
-      second: {r: 0.67058825, g: 0.62352943, b: 0.3803922, a: 1}
+      second: {r: 0.3372549, g: 0.6117647, b: 0.40784317, a: 1}
     - first:
         name: _ColorTop
-      second: {r: 0.67058825, g: 0.62352943, b: 0.3803922, a: 1}
+      second: {r: 0.33655924, g: 0.6102941, b: 0.4064088, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}

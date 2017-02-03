@@ -52,6 +52,7 @@ public class RollerState : MonoBehaviour
 	private void PickUpObject( Pickupable pickup )
 	{
 		_roller.CurrentHeldObject = pickup;
+	    _roller.CurrentHeldObject.gameObject.layer = LayerMask.NameToLayer("HeldObject");
 		_roller.ChangeState( _roller.State, P_ControlState.PICKINGUP );
 	}
 
@@ -64,7 +65,8 @@ public class RollerState : MonoBehaviour
 	{
 		if (_roller.CurrentHeldObject != null)
 		{
-			_roller.CurrentHeldObject.DropSelf();
+		    _roller.CurrentHeldObject.gameObject.layer = LayerMask.NameToLayer("Default");
+		    _roller.CurrentHeldObject.DropSelf();
 			_roller.CurrentHeldObject = null;
 		}
 	}

@@ -21,6 +21,7 @@ public class Pickupable : MonoBehaviour
         _carried = true;
         _rigidbody.useGravity = false;
         _rigidbody.isKinematic = true;
+
     }
 
     public virtual void DropSelf()
