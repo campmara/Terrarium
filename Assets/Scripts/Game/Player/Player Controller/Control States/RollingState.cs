@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
+using DG.Tweening;
 
 public class RollingState : RollerState 
 {
 	private float _turnVelocity = 0f;
+
+	private Tween _tween;
 
     public override void Enter( P_ControlState prevState ) 
 	{
@@ -13,7 +16,12 @@ public class RollingState : RollerState
         {
             case P_ControlState.WALKING:
                 CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_LOCKED );
-				PlayerManager.instance.Player.AnimationController.PlayWalkToRollAnim();
+				//PlayerManager.instance.Player.AnimationController.PlayWalkToRollAnim();
+				BecomeBall();
+				_tween = _roller.RollSphere.transform.DOMoveY(0.375f, 0.5f)
+					.SetEase(Ease.OutBounce);
+
+				
                 break;
         }
 
@@ -22,6 +30,11 @@ public class RollingState : RollerState
 	public override void Exit(P_ControlState nextState)
 	{
 		Debug.Log("EXIT ROLLING STATE");
+		if (_tween != null)
+	    {
+	        _tween.Kill();
+	        _tween = null;
+	    }
 	}
 
 	public override void HandleInput(InputCollection input)

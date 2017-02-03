@@ -126,6 +126,7 @@ namespace InControl
 			"InControl.NativeProfile.XboxOneWindows10AENativeProfile",
 			"InControl.NativeProfile.XboxOneWindows10NativeProfile",
 			"InControl.NativeProfile.XboxOneWindowsNativeProfile",
+			"InControl.NativeProfile.XboxOneWirelessAdapterWindowsNativeProfile",
 		};
 	}
 }
