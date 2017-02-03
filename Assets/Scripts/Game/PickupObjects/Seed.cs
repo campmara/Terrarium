@@ -27,12 +27,7 @@ public class Seed : Pickupable
 		}
 	}
 
-	void Awake()
-	{
-		base.Awake();
-	}
-
-	public override void OnPickup()
+    public override void OnPickup()
 	{
 		base.OnPickup();
 		_isPickedUp = true;

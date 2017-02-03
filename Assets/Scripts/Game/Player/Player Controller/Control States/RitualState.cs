@@ -11,7 +11,7 @@ public class RitualState : RollerState
 		Debug.Log("ENTER RITUAL STATE");
         _tween = transform.DOScaleY( 0.1f, RollerConstants.RITUAL_TIME ).OnComplete( OnCompleteRitual );
 
-	    PlayerManager.instance.Player.AnimationController.PlayIdleAnim();
+	    //PlayerManager.instance.Player.AnimationController.PlayIdleAnim();
 	}
 
 	public override void Exit(P_ControlState nextState)

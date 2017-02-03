@@ -4,10 +4,13 @@ public class SingState : RollerState
 {
 	private float _waitToReturnTimer;
 
+    private float _singPitch;
+
 	public override void Enter (P_ControlState prevState)
 	{
 		Debug.Log("ENTER SING STATE");
 	    _waitToReturnTimer = 0f;
+	    _singPitch = 1f;
 	}
 
 	public override void Exit (P_ControlState nextState)
@@ -36,18 +39,20 @@ public class SingState : RollerState
 	        _roller.ChangeState( P_ControlState.WALKING, P_ControlState.RITUAL );
 	    }
 
-	    float singPitch = 1.0f + _roller.InputVec.magnitude;
+	    //float desiredPitch = 1.0f + _roller.InputVec.magnitude;
+	    float desiredPitch = AudioManager.instance.GetCurrentMusicPitch();
+	    _singPitch = Mathf.Lerp(_singPitch, desiredPitch, RollerConstants.PITCH_LERP_SPEED * Time.deltaTime);
 
 	    // Y BUTTON
 	    if (input.YButton.IsPressed)
 	    {
-	        AudioManager.instance.PlaySing(singPitch);
-	        FaceManager.instance.SingFace();
+	        AudioManager.instance.PlaySing(_singPitch);
+	        _roller.Face.SingFace();
 	        _waitToReturnTimer = 0f;
 	    }
 		else
 		{
-		    FaceManager.instance.NormalFace();
+		    _roller.Face.NormalFace();
 		    _waitToReturnTimer += Time.deltaTime;
 		}
 

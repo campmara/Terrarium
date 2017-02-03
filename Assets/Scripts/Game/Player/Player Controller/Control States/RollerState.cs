@@ -70,4 +70,22 @@ public class RollerState : MonoBehaviour
 			_roller.CurrentHeldObject = null;
 		}
 	}
+
+	protected void BecomeBall()
+	{
+		_roller.Face.gameObject.SetActive(false);
+		_roller.Mesh.SetActive(false);
+		_roller.Rig.SetActive(false);
+		_roller.RollSphere.SetActive(true);
+	}
+
+	protected void BecomeWalker()
+	{
+		_roller.Face.gameObject.SetActive(true);
+		_roller.Mesh.SetActive(true);
+		_roller.Rig.SetActive(true);
+		_roller.RollSphere.SetActive(false);
+
+		_roller.IK.ResetLegs();
+	}
 }

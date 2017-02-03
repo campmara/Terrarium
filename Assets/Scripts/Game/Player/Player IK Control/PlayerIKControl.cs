@@ -281,7 +281,7 @@ public class PlayerIKControl : MonoBehaviour
 
     }
 
-    private void ResetLegs()
+    public void ResetLegs()
     {
         _leftLeg.solver.IKPosition = transform.parent.position - (transform.parent.right * 0.25f);
         _rightLeg.solver.IKPosition = transform.parent.position + (transform.parent.right * 0.25f);

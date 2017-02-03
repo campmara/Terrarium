@@ -151,10 +151,10 @@ Material:
       second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _ColorBot
-      second: {r: 0.35878775, g: 0.45588237, b: 0.3553201, a: 1}
+      second: {r: 0.40603742, g: 0.60294116, b: 0.39900517, a: 1}
     - first:
         name: _ColorMid
-      second: {r: 0.69399536, g: 0.6985294, b: 0.3698097, a: 1}
+      second: {r: 0.82456225, g: 0.8308824, b: 0.37267518, a: 1}
     - first:
         name: _ColorTop
       second: {r: 0.81501013, g: 1, b: 0.16176468, a: 1}

@@ -257,19 +257,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 4394169453956620, guid: 8b267ddc143bf01438d42af723945864, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 7.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4394169453956620, guid: 8b267ddc143bf01438d42af723945864, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 7.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114005576607767822, guid: 8b267ddc143bf01438d42af723945864,
-        type: 2}
-      propertyPath: scaleFactor
-      value: 7.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8b267ddc143bf01438d42af723945864, type: 2}
   m_IsPrefabParent: 0
@@ -743,27 +730,6 @@ Prefab:
     - target: {fileID: 4971339816888290, guid: 729a7e306b18e428280ad642238a823a, type: 2}
       propertyPath: m_RootOrder
       value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4971339816888290, guid: 729a7e306b18e428280ad642238a823a, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4971339816888290, guid: 729a7e306b18e428280ad642238a823a, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4971339816888290, guid: 729a7e306b18e428280ad642238a823a, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 23560483984052148, guid: 729a7e306b18e428280ad642238a823a,
-        type: 2}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 1939096cc04614353abfe08bb3618d2a, type: 2}
-    - target: {fileID: 1733748789730548, guid: 729a7e306b18e428280ad642238a823a, type: 2}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 729a7e306b18e428280ad642238a823a, type: 2}

@@ -174,7 +174,13 @@ namespace InControl
 
 
 		string[] analogAxisNameForId;
-		void AnalogAxisNameForId( uint analogId )
+		string AnalogAxisNameForId( uint analogId )
+		{
+			return analogAxisNameForId[analogId];
+		}
+
+
+		void CacheAnalogAxisNameForId( uint analogId )
 		{
 			analogAxisNameForId[analogId] = "joystick " + JoystickId + " analog " + analogId;
 		}
