@@ -4,6 +4,11 @@
 	[AutoDiscover]
 	public class AppleTVControllerProfile : UnityInputDeviceProfile
 	{
+		// Also take note of these docs:
+		// https://docs.unity3d.com/Manual/iphone-joystick.html
+		// https://docs.unity3d.com/Manual/tvOS.html
+		// Specifically, the UnityEngine.Apple.TV.Remote.allowExitToHome flag.
+		//
 		public AppleTVControllerProfile()
 		{
 			Name = "Apple TV Controller";
@@ -17,7 +22,9 @@
 			};
 
 			JoystickRegex = new[] {
-				"Controller"
+				"controller",
+				"basic",
+				"extended"
 			};
 
 			LowerDeadZone = 0.05f;
