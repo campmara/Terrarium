@@ -1,51 +1,48 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GroundDisc : MonoBehaviour 
 {
-	public float scaleFactor = 3f;
+	public float ScaleFactor = 3f;
 
-	[SerializeField] GameObject grassPrefab;
-	[SerializeField] int grassDensity = 100;
+	[SerializeField] private GameObject _grassPrefab;
+	[SerializeField] private int _grassDensity = 100;
 
-	MeshRenderer renderer;
+	private MeshRenderer _mesh;
 
-	GameObject grassParent;
+	private GameObject _grassParent;
 
-	void Awake()
+	private void Awake()
 	{
-		renderer = GetComponent(typeof(MeshRenderer)) as MeshRenderer;
+		_mesh = GetComponent(typeof(MeshRenderer)) as MeshRenderer;
 
-		grassParent = new GameObject();
-		grassParent.name = "Grass";
+	    _grassParent = new GameObject {name = "Grass"};
 
-		for (int i = 0; i < grassDensity; i++)
+	    for (int i = 0; i < _grassDensity; i++)
 		{
 			SpawnRandomCover();
 		}
 	}
 
-	void Update()
+	private void Update()
 	{
-		transform.localScale = new Vector3(scaleFactor, 1f, scaleFactor);
-		renderer.sharedMaterial.SetFloat("_ScaleFactor", scaleFactor);
+		transform.localScale = new Vector3(ScaleFactor, 1f, ScaleFactor);
+		_mesh.sharedMaterial.SetFloat("_ScaleFactor", ScaleFactor);
 	}
 
-	void SpawnRandomCover()
+	private void SpawnRandomCover()
 	{
-		Vector3 spawnPos = Random.insideUnitSphere * 5f * scaleFactor;
+		Vector3 spawnPos = Random.insideUnitSphere * 5f * ScaleFactor;
 		spawnPos.y = 0f;
 
 	    while ((spawnPos - transform.position).magnitude < 2.5f)
 	    {
-	        spawnPos = Random.insideUnitSphere * 5f * scaleFactor;
+	        spawnPos = Random.insideUnitSphere * 5f * ScaleFactor;
 	        spawnPos.y = 0f;
 	    }
 
-		GameObject grass = Instantiate(grassPrefab, spawnPos, Quaternion.identity);
+		GameObject grass = Instantiate(_grassPrefab, spawnPos, Quaternion.identity);
 		//grass.transform.GetChild(0).localScale = new Vector3(Random.Range(0.85f, 1.0f), Random.Range(0.85f, 1.0f), 0f);
 
-		grass.transform.parent = grassParent.transform;
+		grass.transform.parent = _grassParent.transform;
 	}
 }

@@ -86,12 +86,12 @@ namespace InControl
 				DPadDownMapping( Analog5 ),
 
 				new InputControlMapping {
-					Handle = "Left Trigger",
+					Handle = "L2",
 					Target = InputControlType.LeftTrigger,
 					Source = Analog12
 				},
 				new InputControlMapping {
-					Handle = "Right Trigger",
+					Handle = "R2",
 					Target = InputControlType.RightTrigger,
 					Source = Analog11
 				}
