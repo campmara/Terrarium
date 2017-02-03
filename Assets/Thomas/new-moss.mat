@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Disc
-  m_Shader: {fileID: 4800000, guid: b6c1c8992491247cda7cbf0641e27022, type: 3}
+  m_Name: new-moss
+  m_Shader: {fileID: 4800000, guid: fdf01df3dba9e41c094d4819153ef41d, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
   m_CustomRenderQueue: -1
@@ -48,17 +48,11 @@ Material:
     - first:
         name: _MainTex
       second:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: a7fc57378e4199f4ea008a53218c48c7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
         name: _MetallicGlossMap
-      second:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - first:
-        name: _NormalTex
       second:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -75,19 +69,13 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _SecondaryTex
-      second:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     m_Floats:
     - first:
         name: _BumpScale
       second: 1
     - first:
         name: _Cutoff
-      second: 0.5
+      second: 0.406
     - first:
         name: _DetailNormalMapScale
       second: 1
@@ -104,14 +92,8 @@ Material:
         name: _GlossyReflections
       second: 1
     - first:
-        name: _Hardness
-      second: 1
-    - first:
         name: _Metallic
       second: 0
-    - first:
-        name: _Middle
-      second: 0.5
     - first:
         name: _Mode
       second: 0
@@ -121,16 +103,6 @@ Material:
     - first:
         name: _Parallax
       second: 0.02
-    - first:
-        name: _Radius
-      second: 1
-    - first:
-        name: _ScaleFactor
-<<<<<<< HEAD
-      second: 15
-=======
-      second: 3
->>>>>>> refs/remotes/origin/master
     - first:
         name: _SmoothnessTextureChannel
       second: 0
@@ -148,23 +120,11 @@ Material:
       second: 1
     m_Colors:
     - first:
-        name: _Center
-      second: {r: 0, g: 0, b: 0, a: 0}
-    - first:
         name: _Color
-      second: {r: 0.7352941, g: 0.7352941, b: 0.7352941, a: 1}
-    - first:
-        name: _ColorBot
-      second: {r: 0.3372549, g: 0.6117647, b: 0.40784317, a: 1}
-    - first:
-        name: _ColorMid
-      second: {r: 0.3372549, g: 0.6117647, b: 0.40784317, a: 1}
-    - first:
-        name: _ColorTop
       second: {r: 0.33655924, g: 0.6102941, b: 0.4064088, a: 1}
+    - first:
+        name: _Color2
+      second: {r: 0.6090607, g: 0.6838235, b: 0.43744594, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
-    - first:
-        name: _ShadowColor
-      second: {r: 1, g: 1, b: 1, a: 1}
