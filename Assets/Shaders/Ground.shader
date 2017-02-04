@@ -14,6 +14,7 @@
 		// Color Samples
 		_GroundColor("Ground Color", Color) = (1, 1, 1, 1)
 		_GrassColor("Grass Color", Color) = (1, 1, 1, 1)
+		_PaintDistortion("Paint Distortion", Range(0, 1)) = 0.25
 
 		// Wrap Lambert Lighting
 		_Hardness("Hardness", Range(.25, 1)) = 0.5
@@ -65,17 +66,14 @@
 
 		fixed4 _GroundColor;
 		fixed4 _GrassColor;
+		float _PaintDistortion;
 
 		void surf(Input IN, inout SurfaceOutput o) 
 		{
-			fixed4 tex = tex2D(_MainTex, IN.uv_MainTex);
-			fixed3 lerpCol = lerp(_GrassColor, _GroundColor, tex.a);
+			fixed3 worldNoise = cnoise(IN.worldPos * 10);
 
-			fixed3 worldNoise = cnoise(IN.worldPos);
-
-			fixed3 c = lerpCol;
-			//c *= worldNoise;
-
+			fixed4 tex = tex2D(_MainTex, lerp(IN.uv_MainTex, worldNoise, _PaintDistortion));
+			fixed3 c = lerp(_GrassColor, _GroundColor, tex.a);
 			o.Albedo = c;
 
 			o.Normal = UnpackNormal(tex2D(_NormalTex, IN.uv_NormalTex));
