@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Disc
+  m_Name: Ground
   m_Shader: {fileID: 4800000, guid: b6c1c8992491247cda7cbf0641e27022, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
@@ -161,6 +161,12 @@ Material:
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
+    - first:
+        name: _GrassColor
+      second: {r: 0.31313342, g: 0.6397059, b: 0.24459344, a: 1}
+    - first:
+        name: _GroundColor
+      second: {r: 0.39725155, g: 0.71323526, b: 0.33039576, a: 1}
     - first:
         name: _ShadowColor
       second: {r: 1, g: 1, b: 1, a: 1}
