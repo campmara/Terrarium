@@ -16,7 +16,7 @@ public class WalkingState : RollerState
             CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
             //PlayerManager.instance.Player.AnimationController.PlayRollToWalkAnim();
             _tween = _roller.RollSphere.transform.DOMoveY(1.5f, 0.5f)
-                .SetEase(Ease.OutBack)
+                .SetEase(Ease.OutQuint)
                 .OnComplete(BecomeWalker);
 
 
