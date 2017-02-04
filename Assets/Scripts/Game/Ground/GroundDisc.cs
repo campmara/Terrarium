@@ -17,12 +17,15 @@ public class GroundDisc : MonoBehaviour
 	private GameObject _grassParent;
 
 	private Texture2D _splatTex;
+	private Color32[] colors;
 
 	private void Awake()
 	{
 		_mesh = GetComponent(typeof(MeshRenderer)) as MeshRenderer;
-
 	    _grassParent = new GameObject {name = "Grass"};
+
+		transform.localScale = new Vector3(ScaleFactor + 1f, 1f, ScaleFactor + 1f);
+		_mesh.sharedMaterial.SetFloat("_ScaleFactor", ScaleFactor);
 
 	    for (int i = 0; i < _grassDensity; i++)
 		{
@@ -34,8 +37,7 @@ public class GroundDisc : MonoBehaviour
 
 	private void Update()
 	{
-		transform.localScale = new Vector3(ScaleFactor + 1f, 1f, ScaleFactor + 1f);
-		_mesh.sharedMaterial.SetFloat("_ScaleFactor", ScaleFactor);
+		UpdateTexture();
 	}
 
 	private void SpawnRandomCover()
@@ -50,7 +52,7 @@ public class GroundDisc : MonoBehaviour
 	    }
 
 		GameObject grass = Instantiate(_grassPrefab, spawnPos, Quaternion.identity);
-		grass.transform.GetChild(0).localScale = new Vector3(Random.Range(0.5f, 1.25f), Random.Range(0.5f, 1.25f), 0f);
+		//grass.transform.GetChild(0).localScale = new Vector3(Random.Range(0.8f, 1.1f), Random.Range(0.8f, 1.1f), 0f);
 
 		grass.transform.parent = _grassParent.transform;
 	}
@@ -78,11 +80,15 @@ public class GroundDisc : MonoBehaviour
 	private void DrawCircle(int cx, int cy, int radius)
 	{
 		int x, y, px, nx, py, ny, d;
-		Color32[] colors = _splatTex.GetPixels32();
+		int width = _splatTex.width;
 
 		for (x = 0; x <= radius; x++)
 		{
 			d = (int)Mathf.Ceil(Mathf.Sqrt(radius * radius - x * x));
+
+			byte val = (byte)(d * width);
+			Color32 col = new Color32(0, 0, 0, val);
+
 			for (y = 0; y <= d; y++)
 			{
 				px = cx + x;
@@ -90,24 +96,20 @@ public class GroundDisc : MonoBehaviour
 				py = cy + y;
 				ny = cy - y;
 
-				//byte val = (byte)(d * _splatTex.width);
-				byte val = 0;
-
-				colors[py * _splatTex.width + px] = new Color32(0, 0, 0, val);
-				colors[py * _splatTex.width + nx] = new Color32(0, 0, 0, val);
-				colors[ny * _splatTex.width + px] = new Color32(0, 0, 0, val);
-				colors[ny * _splatTex.width + nx] = new Color32(0, 0, 0, val);
+				colors[py * width + px] = col;
+				colors[py * width + nx] = col;
+				colors[ny * width + px] = col;
+				colors[ny * width + nx] = col;
 			}
-		}    
-		_splatTex.SetPixels32(colors);
-		_splatTex.Apply();
+		}
 	}
 
 	private void CreateSplatTexture()
 	{
-		_splatTex = new Texture2D(256, 256, TextureFormat.Alpha8, true, true);
+		_splatTex = new Texture2D(512, 512, TextureFormat.Alpha8, true, true);
 		_splatTex.filterMode = FilterMode.Point;
 		TEXELS_PER_WORLD_UNIT = (float)_splatTex.width / ((ScaleFactor + 1f) * 10f);
+		colors = new Color32[_splatTex.width * _splatTex.height];
 
 		// Send to the shader.
 		_mesh.sharedMaterial.SetTexture("_MainTex", _splatTex);
@@ -116,9 +118,14 @@ public class GroundDisc : MonoBehaviour
 		ResetTexture();
 	}
 
+	private void UpdateTexture()
+	{
+		_splatTex.SetPixels32(colors);
+		_splatTex.Apply();
+	}
+
 	private void ResetTexture()
 	{
-		Color32[] colors = _splatTex.GetPixels32();
 		for (int i = 0; i < _splatTex.width * _splatTex.height; i++)
 		{
 			colors[i] = new Color32(0, 0, 0, 255);
