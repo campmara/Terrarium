@@ -97,6 +97,8 @@ public class Growable : Plantable
 			{
 				CustomPlantGrowing();
 			}
+
+			GroundManager.instance.Ground.DrawOnPosition(transform.position, (_curTimestamp / _animEndTime) * 60f);
 		}
 	}
 
