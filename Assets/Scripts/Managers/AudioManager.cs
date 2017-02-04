@@ -16,6 +16,7 @@ using UnityEngine.Audio;
 public class AudioController
 {
 	private AudioSource _source = null;
+    public AudioSource Source { get { return _source; } }
 
 	[SerializeField] private AudioClip _audioClip;
 	public AudioClip Clip { set { _audioClip = value; _source.clip = _audioClip; } }
@@ -204,5 +205,30 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
     {
         _audioControllerList[(int) AudioControllerNames.PLAYER_SING].Pitch = pitch;
         _audioControllerList[(int) AudioControllerNames.PLAYER_SING].PlayAudioSource();
+    }
+
+    public float GetCurrentMusicPitch()
+    {
+        float[] data = new float[1024];
+        _audioControllerList[(int) AudioControllerNames.MUSIC].Source.GetSpectrumData(data, 0, FFTWindow.Rectangular);
+
+        float maxV = 0f;
+        int maxN = 0;
+        for (int i = 0; i < 1024; i++)
+        {
+            if (!(data[i] > maxV) || !(data[i] > 0.02f))
+                continue;
+
+            maxV = data[i];
+            maxN = i;
+        }
+        float freqN = (float) maxN;
+        if (maxN > 0 && maxN < 1024 - 1)
+        {
+            float dL = data[maxN - 1] / data[maxN];
+            float dR = data[maxN + 1] / data[maxN];
+            freqN += 0.5f * (dR * dR - dL * dL);
+        }
+        return freqN * ((float)AudioSettings.outputSampleRate / 2f) / 1024;
     }
 }

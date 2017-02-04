@@ -22,7 +22,10 @@ namespace InControl.NativeProfile
 				new NativeInputDeviceMatcher {
 					VendorID = 0x45e,
 					ProductID = 0x2d1,
-					// VersionNumber = 0x0;
+				},
+				new NativeInputDeviceMatcher {
+					VendorID = 0x45e,
+					ProductID = 0x2ea,
 				},
 			};
 

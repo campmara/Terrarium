@@ -58,6 +58,7 @@ public static class RollerConstants
 
 	// SINGING
 	public const float SINGING_RETURN_TIME = 0.6f;
+    public const float PITCH_LERP_SPEED = 7f;
 }
 
 
