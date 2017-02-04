@@ -90,7 +90,8 @@ public class GroundDisc : MonoBehaviour
 				py = cy + y;
 				ny = cy - y;
 
-				byte val = (byte)(d * _splatTex.width);
+				//byte val = (byte)(d * _splatTex.width);
+				byte val = 0;
 
 				colors[py * _splatTex.width + px] = new Color32(0, 0, 0, val);
 				colors[py * _splatTex.width + nx] = new Color32(0, 0, 0, val);
@@ -105,7 +106,7 @@ public class GroundDisc : MonoBehaviour
 	private void CreateSplatTexture()
 	{
 		_splatTex = new Texture2D(256, 256, TextureFormat.Alpha8, true, true);
-		_splatTex.filterMode = FilterMode.Bilinear;
+		_splatTex.filterMode = FilterMode.Point;
 		TEXELS_PER_WORLD_UNIT = (float)_splatTex.width / ((ScaleFactor + 1f) * 10f);
 
 		// Send to the shader.

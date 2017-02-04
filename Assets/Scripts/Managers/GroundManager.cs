@@ -19,9 +19,4 @@ public class GroundManager : SingletonBehaviour<GroundManager>
 			Debug.LogError("Please attach the ground to the GroundManager");
 		}
 	}
-
-	void Update()
-	{
-		Ground.DrawOnPosition(PlayerManager.instance.Player.transform.position, 1.5f);
-	}
 }

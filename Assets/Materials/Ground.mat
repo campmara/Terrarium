@@ -119,6 +119,9 @@ Material:
         name: _OcclusionStrength
       second: 1
     - first:
+        name: _PaintDistortion
+      second: 500
+    - first:
         name: _Parallax
       second: 0.02
     - first:
@@ -166,7 +169,7 @@ Material:
       second: {r: 0.31313342, g: 0.6397059, b: 0.24459344, a: 1}
     - first:
         name: _GroundColor
-      second: {r: 0.39725155, g: 0.71323526, b: 0.33039576, a: 1}
+      second: {r: 0.3518197, g: 0.6838235, b: 0.28157437, a: 1}
     - first:
         name: _ShadowColor
       second: {r: 1, g: 1, b: 1, a: 1}
