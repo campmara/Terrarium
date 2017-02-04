@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Disc
+  m_Name: Ground
   m_Shader: {fileID: 4800000, guid: b6c1c8992491247cda7cbf0641e27022, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
@@ -119,6 +119,9 @@ Material:
         name: _OcclusionStrength
       second: 1
     - first:
+        name: _PaintDistortion
+      second: 500
+    - first:
         name: _Parallax
       second: 0.02
     - first:
@@ -126,11 +129,7 @@ Material:
       second: 1
     - first:
         name: _ScaleFactor
-<<<<<<< HEAD
-      second: 15
-=======
       second: 3
->>>>>>> refs/remotes/origin/master
     - first:
         name: _SmoothnessTextureChannel
       second: 0
@@ -165,6 +164,12 @@ Material:
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
+    - first:
+        name: _GrassColor
+      second: {r: 0.31313342, g: 0.6397059, b: 0.24459344, a: 1}
+    - first:
+        name: _GroundColor
+      second: {r: 0.3518197, g: 0.6838235, b: 0.28157437, a: 1}
     - first:
         name: _ShadowColor
       second: {r: 1, g: 1, b: 1, a: 1}
