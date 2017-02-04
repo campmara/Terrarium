@@ -36,8 +36,8 @@ public static class RollerConstants
     // PICKUP
     public const float PICKUP_CHECKHEIGHT = 0.5f;
 	public const float PICKUP_CHECKRADIUS = 1.0f;
-	public const float PICKUP_FORWARDSCALAR = 1.0f;
-	public const float PICKUP_UPSCALAR = 1.0f;
+	public const float PICKUP_FORWARDSCALAR = 0.8f;
+	public const float PICKUP_UPSCALAR = 0.65f;
 	public const float PICKUP_TIME = 0.75f;
 
 	// IDLE

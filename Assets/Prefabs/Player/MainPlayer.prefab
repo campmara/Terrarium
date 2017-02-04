@@ -441,6 +441,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4712991684121134}
+  - component: {fileID: 114445579061263290}
   m_Layer: 9
   m_Name: body
   m_TagString: Untagged
@@ -1363,7 +1364,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8005c4bb27f704ce1b89772faa9a5569, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _lookAtTarget: {fileID: 0}
+  _lookSpeed: 10
   _armTarget: {fileID: 0}
+  armMoveSpeed: 13
   _legYCurve:
     serializedVersion: 2
     m_Curve:
@@ -1394,14 +1398,15 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  _legMaxDistance: 0.9
+  _legMaxDistance: 0.75
   _legLiftHeight: 0.25
-  _legMoveTimeMin: 0.4
-  _legMoveTimeMax: 0.5
+  _legMoveTimeMin: 0.25
+  _legMoveTimeMax: 0.35
   _leftArm: {fileID: 114341945833586732}
   _leftLeg: {fileID: 114138448774720520}
   _rightArm: {fileID: 114925506218442568}
   _rightLeg: {fileID: 114204609610134828}
+  _lookAt: {fileID: 114445579061263290}
 --- !u!114 &114341945833586732
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1487,6 +1492,60 @@ MonoBehaviour:
       length: 0
       sqrMag: 0
       axis: {x: 0, y: 0, z: 0}
+--- !u!114 &114445579061263290
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1729515480801642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 776adaaacdc5c4e8ab0395120a6e972b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fixTransforms: 1
+  solver:
+    IKPosition: {x: 0, y: 0, z: 0}
+    IKPositionWeight: 0.679
+    root: {fileID: 0}
+    target: {fileID: 0}
+    spine: []
+    head:
+      transform: {fileID: 4712991684121134}
+      weight: 0.507
+      solverPosition: {x: 0, y: 0, z: 0}
+      solverRotation: {x: 0, y: 0, z: 0, w: 1}
+      defaultLocalPosition: {x: 0, y: 0, z: 0}
+      defaultLocalRotation: {x: 0, y: 0, z: 0, w: 0}
+      length: 0
+      sqrMag: 0
+      axis: {x: -1, y: -0, z: -0}
+    eyes: []
+    bodyWeight: 0.5
+    headWeight: 0.5
+    eyesWeight: 1
+    clampWeight: 0.5
+    clampWeightHead: 0.5
+    clampWeightEyes: 0.5
+    clampSmoothing: 2
+    spineWeightCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0.3
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
 --- !u!114 &114451745442911292
 MonoBehaviour:
   m_ObjectHideFlags: 1
