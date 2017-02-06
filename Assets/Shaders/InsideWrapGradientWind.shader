@@ -12,10 +12,14 @@
 
 		_Hardness("Hardness", Range(.25, 1)) = 0.5
 
-		_WaveDir("Wind Direction", Vector) = (0,0,0,0)
-		_WaveSpeed("Wind Speed", float) = 0
-		_WaveNoise("Wind Noisiness", float) = 0
-		_WaveScale("Wind Scale", float) = 0
+		//these values are made uniform lower in the shader
+		//I kept them in for debugging later on.
+			//_WaveDir("Wind Direction", Vector) = (0,0,0,0)
+			//_WaveSpeed("Wind Speed", float) = 0
+			//_WaveNoise("Wind Noisiness", float) = 0
+			//_WaveScale("Wind Scale", float) = 0 
+			//_WaveAmount("Wind Amount", float) = 0
+
 	}
 		SubShader{
 		Tags{ "Queue" = "Geometry" }
@@ -60,19 +64,34 @@
 	fixed4 _ColorBot;
 	float  _Middle;
 
-	fixed4 _WaveDir;
-	float _WaveSpeed;
-	float _WaveNoise;
-	float _WaveScale;
+	//these values are uniform so that they'll work globally
+	uniform fixed4 _WaveDir;
+	uniform float _WaveSpeed;
+	uniform float _WaveNoise;
+	uniform float _WaveAmount;
+	uniform float _WaveScale;
 
 	void vert(inout appdata_full v) {
-		float4 worldPos = mul(unity_ObjectToWorld, v.vertex); 
-		//Chris's wind function modified to take in to account world height 
-		float noiseOffset = cnoise(worldPos.xyz) * _WaveNoise;
-		float heightSensitivity = clamp(worldPos.y * worldPos.y, 1, 5)/5;
-		worldPos += normalize(_WaveDir) * (normalize(_WaveDir) + sin(_Time.y * _WaveSpeed + noiseOffset)) * v.color.r * _WaveScale * heightSensitivity;
-		float4 objectSpaceVertex = mul(unity_WorldToObject, worldPos);
-		v.vertex = objectSpaceVertex;
+		//this effect causes the material to disappear if the amount is 0, this won't run the code if that's the case
+		if (_WaveAmount != 0) {
+			//put it in world space
+			float4 worldPos = mul(unity_ObjectToWorld, v.vertex);
+
+			//Chris's wind function modified to take in to account world height and more directional wind
+			//.......................
+			float noiseOffset = cnoise(worldPos.xyz) * _WaveNoise;
+			//clamped to prevent extreme results at higher branches, needs tweaking, it would be nice if lower plants shook more in here
+			float heightSensitivity = clamp(worldPos.y * worldPos.y, 0, 5) / 5;
+			//oscillation value adds on to the direction of the wind, it's length is measured with _WaveScale
+			float4 oscillation = sin(_Time.y * _WaveSpeed + noiseOffset) * _WaveScale * normalize(_WaveDir) * v.color.r * heightSensitivity;
+			//wave direction and oscillation combined are then scaled overall by the _WaveAmount
+			worldPos += (normalize(_WaveDir) + oscillation) * _WaveAmount * v.color.r * heightSensitivity;
+			//''''''''''''''''''''''
+
+			//take it back to object space
+			float4 objectSpaceVertex = mul(unity_WorldToObject, worldPos);
+			v.vertex = objectSpaceVertex;
+		}
 	}
 
 	void surf(Input IN, inout SurfaceOutput o) {
