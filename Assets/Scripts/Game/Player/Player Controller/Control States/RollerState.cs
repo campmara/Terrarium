@@ -54,6 +54,9 @@ public class RollerState : MonoBehaviour
 		_roller.CurrentHeldObject = pickup;
 	    _roller.CurrentHeldObject.gameObject.layer = LayerMask.NameToLayer("HeldObject");
 		_roller.ChangeState( _roller.State, P_ControlState.PICKINGUP );
+
+		// update the ik
+		_roller.IK.SetArmTarget(pickup.transform);
 	}
 
 	protected void HandleDropHeldObject()
@@ -68,6 +71,9 @@ public class RollerState : MonoBehaviour
 		    _roller.CurrentHeldObject.gameObject.layer = LayerMask.NameToLayer("Default");
 		    _roller.CurrentHeldObject.DropSelf();
 			_roller.CurrentHeldObject = null;
+
+			// update the ik
+			_roller.IK.LetGo();
 		}
 	}
 

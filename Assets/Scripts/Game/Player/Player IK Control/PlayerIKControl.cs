@@ -4,8 +4,13 @@ using RootMotion.FinalIK;
 
 public class PlayerIKControl : MonoBehaviour
 {
+	[Header("Look At Properties")]
+	[SerializeField] private Transform _lookAtTarget;
+	[SerializeField] private float _lookSpeed = 7f;
+
     [Header("Arm Properties")]
     [SerializeField] private Transform _armTarget;
+	[SerializeField] private float armMoveSpeed = 7f;
 
     [Header("Leg Properties")]
     [SerializeField] private AnimationCurve _legYCurve;
@@ -22,6 +27,7 @@ public class PlayerIKControl : MonoBehaviour
     [SerializeField] private CCDIK _leftLeg;
     [SerializeField] private CCDIK _rightArm;
     [SerializeField] private CCDIK _rightLeg;
+	[SerializeField] private LookAtIK _lookAt;
 
     public enum WalkState
     {
@@ -75,9 +81,22 @@ public class PlayerIKControl : MonoBehaviour
 
     private void LateUpdate()
     {
+		HandleLookAt();
         HandleArms();
         HandleLegs();
     }
+
+	private void HandleLookAt()
+	{
+		if (_lookAtTarget != null)
+		{
+			_lookAt.solver.IKPosition = Vector3.Lerp(_lookAt.solver.IKPosition, _lookAtTarget.position, _lookSpeed * Time.deltaTime);
+		}
+		else
+		{
+			_lookAt.solver.IKPosition = Vector3.Lerp(_lookAt.solver.IKPosition, transform.forward, _lookSpeed * Time.deltaTime);
+		}
+	}
 
     // =======
     // A R M S
@@ -87,20 +106,31 @@ public class PlayerIKControl : MonoBehaviour
     {
         if (_armTarget != null)
         {
-            _leftArm.solver.IKPosition = _armTarget.position;
-            _rightArm.solver.IKPosition = _armTarget.position;
+			_leftArm.solver.IKPosition = Vector3.Lerp(_leftArm.solver.IKPosition, _armTarget.position, armMoveSpeed * Time.deltaTime);
+			_rightArm.solver.IKPosition = Vector3.Lerp(_rightArm.solver.IKPosition, _armTarget.position, armMoveSpeed * Time.deltaTime);
         }
         else
         {
-            _leftArm.solver.IKPosition = transform.parent.position - (transform.parent.right * 0.5f);
-            _rightArm.solver.IKPosition = transform.parent.position + (transform.parent.right * 0.5f);
+			_leftArm.solver.IKPosition = Vector3.Lerp(_leftArm.solver.IKPosition, 
+														transform.parent.position - (transform.parent.right * 0.5f), 
+														armMoveSpeed * Time.deltaTime);
+			_rightArm.solver.IKPosition = Vector3.Lerp(_rightArm.solver.IKPosition, 
+														transform.parent.position + (transform.parent.right * 0.5f), 
+														armMoveSpeed * Time.deltaTime);
         }
     }
 
     public void SetArmTarget(Transform t)
     {
         _armTarget = t;
+		_lookAtTarget = t;
     }
+
+	public void LetGo()
+	{
+		_armTarget = null;
+		_lookAtTarget = null;
+	}
 
     // =======
     // L E G S
@@ -203,6 +233,7 @@ public class PlayerIKControl : MonoBehaviour
 
             _rightLegAtDest = true;
         }
+		GroundManager.instance.Ground.DrawOnPosition(currentPos, 1f);
     }
 
     private IEnumerator StepToIdle(CCDIK leg)
@@ -261,6 +292,7 @@ public class PlayerIKControl : MonoBehaviour
 
             _rightLegAtDest = true;
         }
+		GroundManager.instance.Ground.DrawOnPosition(currentPos, 1f);
     }
 
     private Vector3 ShootRayDown(Vector3 origin, Vector3 direction)

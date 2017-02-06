@@ -119,6 +119,9 @@ Material:
         name: _OcclusionStrength
       second: 1
     - first:
+        name: _PaintDistortion
+      second: 10
+    - first:
         name: _Parallax
       second: 0.02
     - first:
@@ -137,8 +140,14 @@ Material:
         name: _SrcBlend
       second: 1
     - first:
+        name: _UVDistortion
+      second: 0
+    - first:
         name: _UVSec
       second: 0
+    - first:
+        name: _WorldDistortion
+      second: 15
     - first:
         name: _ZWrite
       second: 1
@@ -163,10 +172,10 @@ Material:
       second: {r: 0, g: 0, b: 0, a: 1}
     - first:
         name: _GrassColor
-      second: {r: 0.31313342, g: 0.6397059, b: 0.24459344, a: 1}
+      second: {r: 0.48726276, g: 0.33304498, b: 0.8088235, a: 1}
     - first:
         name: _GroundColor
-      second: {r: 0.39725155, g: 0.71323526, b: 0.33039576, a: 1}
+      second: {r: 0.27951992, g: 0.55490386, b: 0.6911765, a: 1}
     - first:
         name: _ShadowColor
       second: {r: 1, g: 1, b: 1, a: 1}
