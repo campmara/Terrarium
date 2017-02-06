@@ -1,4 +1,4 @@
-﻿Shader "InsideWrap/Hardness (Half Lambert) with Gradient"
+﻿Shader "InsideWrap/Hardness (Half Lambert) with Gradient and Wind"
 {
 	Properties{
 		_MainTex("Base (RGB)", 2D) = "white" {}
@@ -11,13 +11,20 @@
 		_Middle("Middle", Range(0.001, 0.999)) = 0.5
 
 		_Hardness("Hardness", Range(.25, 1)) = 0.5
+
+		_WaveDir("Wind Direction", Vector) = (0,0,0,0)
+		_WaveSpeed("Wind Speed", float) = 0
+		_WaveNoise("Wind Noisiness", float) = 0
+		_WaveScale("Wind Scale", float) = 0
 	}
 		SubShader{
 		Tags{ "Queue" = "Geometry" }
 		//Cull Off
 		CGPROGRAM
 		
-	#pragma surface surf WrapLambert 
+	#pragma surface surf WrapLambert vertex:vert addshadow
+	#include "Noise.cginc"
+
 	half _Hardness;
 	half4 _ShadowColor;
 
@@ -52,6 +59,21 @@
 	fixed4 _ColorMid;
 	fixed4 _ColorBot;
 	float  _Middle;
+
+	fixed4 _WaveDir;
+	float _WaveSpeed;
+	float _WaveNoise;
+	float _WaveScale;
+
+	void vert(inout appdata_full v) {
+		float4 worldPos = mul(unity_ObjectToWorld, v.vertex); 
+		//Chris's wind function modified to take in to account world height 
+		float noiseOffset = cnoise(worldPos.xyz) * _WaveNoise;
+		float heightSensitivity = clamp(worldPos.y * worldPos.y, 1, 5)/5;
+		worldPos += normalize(_WaveDir) * (normalize(_WaveDir) + sin(_Time.y * _WaveSpeed + noiseOffset)) * v.color.r * _WaveScale * heightSensitivity;
+		float4 objectSpaceVertex = mul(unity_WorldToObject, worldPos);
+		v.vertex = objectSpaceVertex;
+	}
 
 	void surf(Input IN, inout SurfaceOutput o) {
 
