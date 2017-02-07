@@ -7,7 +7,7 @@ public class Seed : Pickupable
 
 	[SerializeField] GameObject _plantPrefab = null;
 	float _timeSinceLastPickup = 0.0f;
-	float _timePassedTillDestroy = 120.0f;
+	float _timePassedTillDestroy = 60.0f;
 	bool _isPickedUp = false;
 	const float _shootForce = 20.0f;
 	const float _searchRadius = 30.0f;

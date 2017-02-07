@@ -135,7 +135,7 @@ Material:
       second: 1
     - first:
         name: _ToggleBillboard
-      second: 1
+      second: 0
     - first:
         name: _UVSec
       second: 0
@@ -145,10 +145,10 @@ Material:
     m_Colors:
     - first:
         name: _Color
-      second: {r: 1, g: 1, b: 1, a: 1}
+      second: {r: 0.09558821, g: 0.07269523, b: 0.011245671, a: 1}
     - first:
         name: _Color2
-      second: {r: 0.67575467, g: 0.6911765, b: 0.6403547, a: 1}
+      second: {r: 0.9098039, g: 0.8352941, b: 0.63529414, a: 1}
     - first:
         name: _ColorBot
       second: {r: 1, g: 1, b: 1, a: 1}
