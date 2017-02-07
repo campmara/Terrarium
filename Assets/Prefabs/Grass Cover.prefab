@@ -19,7 +19,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4320040572819178}
-  - component: {fileID: 114705208277410224}
   m_Layer: 0
   m_Name: Grass Cover
   m_TagString: Untagged
@@ -127,14 +126,3 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114705208277410224
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1098117160196650}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d82086a4df41748bab0940253d5e81b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

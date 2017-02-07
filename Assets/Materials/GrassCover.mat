@@ -8,7 +8,7 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: GrassCover
   m_Shader: {fileID: 4800000, guid: fdf01df3dba9e41c094d4819153ef41d, type: 3}
-  m_ShaderKeywords: _ALPHATEST_ON _EMISSION
+  m_ShaderKeywords: _ALPHATEST_ON _EMISSION _TOGGLEBILLBOARD_ON
   m_LightmapFlags: 1
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -134,6 +134,9 @@ Material:
         name: _SrcBlend
       second: 1
     - first:
+        name: _ToggleBillboard
+      second: 1
+    - first:
         name: _UVSec
       second: 0
     - first:
@@ -142,10 +145,10 @@ Material:
     m_Colors:
     - first:
         name: _Color
-      second: {r: 0.8490871, g: 0.31617647, b: 1, a: 1}
+      second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _Color2
-      second: {r: 0.27951992, g: 0.55490386, b: 0.6911765, a: 1}
+      second: {r: 0.67575467, g: 0.6911765, b: 0.6403547, a: 1}
     - first:
         name: _ColorBot
       second: {r: 1, g: 1, b: 1, a: 1}
