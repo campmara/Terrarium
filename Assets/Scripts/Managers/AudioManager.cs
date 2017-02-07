@@ -124,6 +124,9 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 	{
 		MakeMeAPersistentSingleton();
 
+		TimeManager.instance.MinuteCallback += CalculateMusicTimeState;
+		TimeManager.instance.HourCallback += PlayHourlySong;
+
         CalculateMusicTimeState();
 
         _audioControllerList[(int)AudioControllerNames.MUSIC].PlayAudioSource(); 
@@ -158,6 +161,15 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
         _audioControllerList[(int) controllerName].Loop = loop;
     }
 
+	public void PlayController(AudioControllerNames controllerName)
+	{
+		_audioControllerList[(int) controllerName].Source.Play();
+	}
+
+	public bool GetControllerIsPlaying(AudioControllerNames controllerName)
+	{
+		return _audioControllerList[(int) controllerName].Source.isPlaying;
+	}
 
     #endregion
 
@@ -166,7 +178,8 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
     {
         SUNRISE = 0,
         MIDDAY,
-        SUNSET
+        SUNSET,
+		ON_THE_HOUR
     }
     MusicTimeState _musicTimeState = MusicTimeState.SUNRISE;
 
@@ -177,28 +190,62 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 
     void SetMusicTimeState( MusicTimeState newTimeState )
     {
-        _musicTimeState = newTimeState;
+		if (newTimeState != _musicTimeState)
+		{
+			_musicTimeState = newTimeState;
 
-        SetControllerClip( AudioControllerNames.MUSIC, _musicAudioClips[(int)_musicTimeState] );        
+			SetControllerClip( AudioControllerNames.MUSIC, _musicAudioClips[(int)_musicTimeState] ); 
+		}    
     }
 
     void CalculateMusicTimeState()
     {
         int realWorldHour = TimeManager.instance.RealWorldNow.TimeOfDay.Hours;
+		int realWorldMinutes = TimeManager.instance.RealWorldNow.TimeOfDay.Minutes;
 
-        if( realWorldHour > 0 && realWorldHour < 10)
-        {
-            SetMusicTimeState( MusicTimeState.SUNRISE );
-        }
-        else if (realWorldHour > 11 && realWorldHour < 17)
-        {
-            SetMusicTimeState( MusicTimeState.MIDDAY );
-        }
-        else 
-        {
-            SetMusicTimeState( MusicTimeState.SUNSET );
-        }
+		if (realWorldMinutes < 1)
+		{
+			return;
+		}
+
+		if( realWorldHour > 0 && realWorldHour < 10)
+		{
+			SetMusicTimeState( MusicTimeState.SUNRISE );
+		}
+		else if (realWorldHour > 11 && realWorldHour < 17)
+		{
+			SetMusicTimeState( MusicTimeState.MIDDAY );
+		}
+		else 
+		{
+			SetMusicTimeState( MusicTimeState.SUNSET );
+		}
     }
+
+	void PlayHourlySong()
+	{
+		StartCoroutine(HourlyRoutine());
+	}
+
+	IEnumerator HourlyRoutine()
+	{
+		TimeManager.instance.MinuteCallback -= CalculateMusicTimeState;
+
+		SetMusicTimeState(MusicTimeState.ON_THE_HOUR);
+		SetControllerLoop(AudioControllerNames.MUSIC, false);
+		PlayController(AudioControllerNames.MUSIC);
+
+		while (GetControllerIsPlaying(AudioControllerNames.MUSIC))
+		{
+			yield return null;
+		}
+
+		SetControllerLoop(AudioControllerNames.MUSIC, true);
+		TimeManager.instance.MinuteCallback += CalculateMusicTimeState;
+		CalculateMusicTimeState();
+		PlayController(AudioControllerNames.MUSIC);
+	}
+
 
     // Player Sing
     public void PlaySing(float pitch)
