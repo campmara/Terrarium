@@ -79,6 +79,23 @@ public class GroundDisc : MonoBehaviour
 
 	private void DrawCircle(int cx, int cy, int radius)
 	{
+		int r2 = radius * radius;
+		int area = r2 << 2;
+		int rr = radius << 1;
+		int width = _splatTex.width;
+		Color32 col = new Color32(0, 0, 0, 0);
+
+		for (int i = 0; i < area; i++)
+		{
+			int tx = (i % rr) - radius;
+			int ty = (i / rr) - radius;
+
+			if (tx * tx + ty * ty <= r2)
+			{
+				colors[((cy + ty) * width) + (cx + tx)] = col;
+			}
+		}
+		/*
 		int x, y, px, nx, py, ny, d;
 		int width = _splatTex.width;
 
@@ -102,6 +119,7 @@ public class GroundDisc : MonoBehaviour
 				colors[ny * width + nx] = col;
 			}
 		}
+		*/
 	}
 
 	private void CreateSplatTexture()

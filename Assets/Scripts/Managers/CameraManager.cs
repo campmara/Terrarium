@@ -34,17 +34,19 @@ public class CameraManager : SingletonBehaviour<CameraManager>
     Vector3 _focusPoint = Vector3.zero;    	// Center of focal point following player
     Vector3 _focusOffset = Vector3.zero;    
     float _centerDist = 0.0f;               // Current distance of focusCenter from transform
-    const float CAM_FOLLOWSPEED = 3f;
+    const float CAM_FOLLOWSPEED = 15f;
 	const float CAM_CENTER_UPDATE_SPEED = 15f;
     float _lookVertOffset;
     const float CAMLOOK_VERTICALOFFSET_MIN = 1.0f;	// How far up/down the cam looks relative to the actually cam focus point
-    const float CAMLOOK_VERTICALOFFSET_MAX = 3.0f;  // CHANGES IN REVERSE: gets closer to max as you zoom in closer
+    const float CAMLOOK_VERTICALOFFSET_MAX = 2.0f;  // CHANGES IN REVERSE: gets closer to max as you zoom in closer
     [SerializeField] AnimationCurve _lookVertOffsetCurve = null;
 
-    const float BOUNDING_VERTICALOFFSET = 0.75f;	// How much the bounding radius for camera movement is offset vertically from camera
+    const float BOUNDING_VERTICALOFFSET = 0.25f;	// How much the bounding radius for camera movement is offset vertically from camera
 	const float BOUNDING_LATERALOFFSET = 1.7f;		// How much the bounding radius for camera movement is offset horizontally from camera
 	//Vector3 _inputCamOffset = Vector3.zero; 				// Offsets camera based on bounding offsets for when player is moving player
 	const float BOUNDING_RADIUS = 1.7f;         // Distance for player to move from center for cam focus to start following
+	const float BOUNDING_RADIUS_MIN = 0.25f;
+	const float BOUNDING_RADIUS_MAX = 1.7f;
 
     #endregion
 
@@ -65,8 +67,8 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	const float ZOOM_SPEED = 0.6f;			// How much a frame of "zooming" input increments zoom interp
 	const float ZOOM_Y_DEADZONE = 0.1f;		// Zoom Input Deadzone for Y 
 	const float ZOOM_X_DEADZONE = 0.1f;		// Zoom Input Deadzone for X 
-	Vector2 zoomXRange = new Vector2( 4.25f, 10.0f );	// Min & Max zoom x value (x is min)
-	Vector2 zoomYRange = new Vector2( 1.5f, 15.0f );	// Min & Max zoom y values (x is min)
+	Vector2 zoomXRange = new Vector2( 2.25f, 8.0f );	// Min & Max zoom x value (x is min)
+	Vector2 zoomYRange = new Vector2( 1.0f, 10.0f );	// Min & Max zoom y values (x is min)
     const float ZOOM_DELTASPEED = 50.0f;    // How quickly camOffset moves towards new zoom values
 
 	const float LOCKED_ZOOMINTERP = 0.15f;
@@ -275,20 +277,28 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 		// Center is focusTransform.position
 		Vector3 focusDir = _focusTransform.position - _focusPoint;
 		float distance = focusDir.sqrMagnitude;
-		if ( /*distance > JohnTech.Sqr( BOUNDING_RADIUS ) ||*/ Mathf.Abs( focusDir.x ) > BOUNDING_LATERALOFFSET || Mathf.Abs( focusDir.z ) > BOUNDING_VERTICALOFFSET )
+
+		if ( distance > JohnTech.Sqr( Mathf.Lerp( BOUNDING_RADIUS_MIN, BOUNDING_RADIUS_MAX, _zoomInterp ) ) /*|| Mathf.Abs( focusDir.x ) > BOUNDING_LATERALOFFSET || Mathf.Abs( focusDir.z ) > BOUNDING_VERTICALOFFSET */)
         {
-            // Is outside of the circle.
+			// Is outside of the circle. 
 			Vector3 desiredPos = new Vector3( _focusTransform.position.x - _focusOffset.x, _focusPoint.y, _focusTransform.position.z - _focusOffset.z );
 			_focusPoint = Vector3.Lerp(_focusPoint, desiredPos, CAM_CENTER_UPDATE_SPEED * Time.fixedDeltaTime);
         }
         else
         {
             // Calculate which direction camera should move if exit bounding circle on screen
-            _focusOffset.x = _focusTransform.position.x - _focusPoint.x;
-            _focusOffset.y = _focusPoint.y;
-            _focusOffset.z = _focusTransform.position.z - _focusPoint.z;
+			CalculateFocusOffset();
         }
     }
+
+	private void CalculateFocusOffset()
+	{
+		_focusOffset.x = _focusTransform.position.x - _focusPoint.x;
+		_focusOffset.y = _focusPoint.y;
+		_focusOffset.z = _focusTransform.position.z - _focusPoint.z;
+		_focusOffset.Normalize();
+		_focusOffset *= Mathf.Lerp( BOUNDING_RADIUS_MIN, BOUNDING_RADIUS_MAX, _zoomInterp );
+	}
 
 	/// <summary>
 	/// Determines Position of Camera offset based on current direction from focus transform and the curr zoom value
@@ -320,6 +330,8 @@ public class CameraManager : SingletonBehaviour<CameraManager>
         _mainCam.fieldOfView = _fov;
 
         _lookVertOffset = Mathf.Lerp( _lookVertOffset, Mathf.Lerp( CAMLOOK_VERTICALOFFSET_MAX, CAMLOOK_VERTICALOFFSET_MIN, _lookVertOffsetCurve.Evaluate( zoomInterp ) ), ZOOM_DELTASPEED * Time.fixedDeltaTime ); ;
+
+		CalculateFocusOffset();
     }
 
 	/// <summary>
@@ -395,7 +407,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
         if (_focusTransform != null)
         {
             Gizmos.color = Color.white;
-            Gizmos.DrawWireSphere(_focusPoint, BOUNDING_RADIUS);
+			Gizmos.DrawWireSphere(_focusPoint, Mathf.Lerp( BOUNDING_RADIUS_MIN, BOUNDING_RADIUS_MAX, _zoomInterp ) );
             Gizmos.DrawLine(_focusPoint, _focusTransform.position);
             Gizmos.color = Color.blue;
             // Gizmos.DrawLine(_focusOffset, _focusTransform.position);
