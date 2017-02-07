@@ -5,7 +5,7 @@ using DG.Tweening;
 
 public class PickupState : RollerState 
 {
-    public override void Enter( P_ControlState prevState )
+    public override void Enter(P_ControlState prevState)
 	{
 		Debug.Log("ENTER PICKUP STATE");
 

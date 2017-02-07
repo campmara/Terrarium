@@ -4,6 +4,7 @@ using DG.Tweening;
 public class RollingState : RollerState 
 {
 	private float _turnVelocity = 0f;
+	private bool _grounded = false;
 
 	private Tween _tween;
 
@@ -18,14 +19,21 @@ public class RollingState : RollerState
                 CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_LOCKED );
 				//PlayerManager.instance.Player.AnimationController.PlayWalkToRollAnim();
 				BecomeBall();
+				_grounded = false;
 				_tween = _roller.RollSphere.transform.DOMoveY(0.375f, 0.5f)
-					.SetEase(Ease.OutBounce);
+					.SetEase(Ease.OutBounce)
+					.OnComplete(GroundHit);
 
 				
                 break;
         }
 
     }
+
+	private void GroundHit()
+	{
+		_grounded = true;
+	}
 
 	public override void Exit(P_ControlState nextState)
 	{
@@ -60,6 +68,12 @@ public class RollingState : RollerState
 
 		HandleRolling(input);
 		HandleTurning(input);
+
+		// Update the ground paint!
+		if (_grounded)
+		{
+			GroundManager.instance.Ground.DrawOnPosition(transform.position, 4f);
+		}
 	}
 
 	private void HandleRolling(InputCollection input)
