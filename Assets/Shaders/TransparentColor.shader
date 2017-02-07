@@ -7,10 +7,13 @@
 
 		_MainTex ("Albedo (RGB)", 2D) = "white" {}
 		_Cutoff ("Alpha Cutoff", Range(0, 1)) = 1
+
+		[MaterialToggle] _ToggleBillboard("Toggle Billboard Effect", Float) = 0
 	}
 	SubShader 
 	{
-		Tags { "RenderType"="Transparent" "Queue"="AlphaTest" }
+		//if performance is bad it's probably because of  "DisableBatching"="True" !!! 
+		Tags { "RenderType"="Transparent" "Queue"="AlphaTest" "DisableBatching"="True" }
 		LOD 200
 		
 		CGPROGRAM
@@ -37,9 +40,32 @@
 
 		fixed4 _Color;
 		fixed4 _Color2;
+		float _ToggleBillboard;
 
-		void vert (inout appdata_full v)
+		void vert (inout appdata_full v, out Input o)
 		{
+			
+			UNITY_INITIALIZE_OUTPUT(Input, o);
+
+			if (_ToggleBillboard == 1) {
+				//code via https://gist.github.com/renaudbedard/7a90ec4a5a7359712202
+
+				// get the camera basis vectors
+				float3 forward = -normalize(UNITY_MATRIX_V._m20_m21_m22);
+				float3 up = float3(0, 1, 0); //normalize(UNITY_MATRIX_V._m10_m11_m12); //rotate on all axises 
+				float3 right = normalize(UNITY_MATRIX_V._m00_m01_m02);
+
+				// rotate to face camera
+				float4x4 rotationMatrix = float4x4(right, 0,
+					up, 0,
+					forward, 0,
+					0, 0, 0, 1);
+
+				//float offset = _Object2World._m22 / 2;
+				float offset = 0;
+				v.vertex = mul(v.vertex + float4(0, offset, 0, 0), rotationMatrix) + float4(0, -offset, 0, 0);
+			}
+
 			fixed4 worldPos = mul(transpose(unity_ObjectToWorld), float4(0, 1, 0, 1));
 			v.normal = worldPos;
 		}

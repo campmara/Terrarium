@@ -6,10 +6,10 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: GreenGradient
+  m_Name: WindMat
   m_Shader: {fileID: 4800000, guid: 679bb6ecb44c34340ba702bd52755149, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 5
+  m_ShaderKeywords: _EMISSION
+  m_LightmapFlags: 1
   m_CustomRenderQueue: -1
   stringTagMap: {}
   m_SavedProperties:
@@ -37,12 +37,6 @@ Material:
         name: _DetailNormalMap
       second:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - first:
-        name: _DispTex
-      second:
-        m_Texture: {fileID: 2800000, guid: 0eceb5a7798c01046b89b8d558a91fcd, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
@@ -98,9 +92,6 @@ Material:
         name: _DetailNormalMapScale
       second: 1
     - first:
-        name: _Displacement
-      second: 0
-    - first:
         name: _DstBlend
       second: 0
     - first:
@@ -114,7 +105,7 @@ Material:
       second: 1
     - first:
         name: _Hardness
-      second: 0.745
+      second: 0.5
     - first:
         name: _Metallic
       second: 0
@@ -144,13 +135,13 @@ Material:
       second: 0
     - first:
         name: _WaveNoise
-      second: 0.75
+      second: 0.95
     - first:
         name: _WaveScale
-      second: 0.1
+      second: 0.28
     - first:
         name: _WaveSpeed
-      second: 1
+      second: 0.5
     - first:
         name: _ZWrite
       second: 1
@@ -160,19 +151,16 @@ Material:
       second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _ColorBot
-      second: {r: 0.40603742, g: 0.60294116, b: 0.39900517, a: 1}
+      second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _ColorMid
-      second: {r: 0.82456225, g: 0.8308824, b: 0.37267518, a: 1}
+      second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _ColorTop
-      second: {r: 0.81501013, g: 1, b: 0.16176468, a: 1}
+      second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
     - first:
-        name: _ShadowColor
-      second: {r: 1, g: 1, b: 1, a: 1}
-    - first:
         name: _WaveDir
-      second: {r: 1, g: 0, b: 1, a: 0}
+      second: {r: 1, g: 1, b: 13.93, a: 0}
