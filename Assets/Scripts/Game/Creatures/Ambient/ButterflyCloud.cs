@@ -7,6 +7,8 @@ public class ButterflyCloud : AmbientCreature {
     [SerializeField] GameObject _creatureObject = null;
     [SerializeField] private int _creatureCount = 2;
 
+	[SerializeField] Gradient _butterflyGradient = null;	
+
     Vector3 _idlePosition = Vector3.zero;   // pivot point for butterfly group
     const float IDLE_MINDIST = 0.5f;    // How close butterflies get to idle position until the stop tryna get back
 
@@ -24,11 +26,12 @@ public class ButterflyCloud : AmbientCreature {
     const float SPAWN_MINDIST = 0.5f;
     const float SPAWN_MAXDIST = 4f;
 
-    [ReadOnlyAttribute, SerializeField]Transform _playerTrans = null;
-    Vector3 _playerDir = Vector3.zero;
+	[ReadOnlyAttribute, SerializeField]Transform _focusTrans = null;
+	Vector3 _focusDir = Vector3.zero;
     const float PLAYER_CHECKRADIUS = 20.0f;     // How big of a radius Butteflies check
     const float PLAYER_BREAKDISTANCE = 20.0f;   // How far from idle Position butterflies can go    
     const float PLAYER_APPROACHSPEED = 0.5f;    // How quickly butterflies chase
+
 
     // Use this for initialization
     void Awake ()
@@ -41,18 +44,18 @@ public class ButterflyCloud : AmbientCreature {
 	// Update is called once per frame
 	void Update ()
     {
-        if(_playerTrans == null )
+        if(_focusTrans == null )
         {
             Collider[] colArr = Physics.OverlapSphere( _idlePosition, PLAYER_CHECKRADIUS);
 
             if( colArr.Length > 0 )
             {
                 index = 0;
-                while ( _playerTrans == null && index < colArr.Length )
+                while ( _focusTrans == null && index < colArr.Length )
                 {
                     if( colArr[index].gameObject.GetComponent<Player>() )
                     {
-                        _playerTrans = colArr[index].transform;
+                        _focusTrans = colArr[index].transform;
                     }
 
                     index++;
@@ -75,16 +78,16 @@ public class ButterflyCloud : AmbientCreature {
 
     private void FixedUpdate()
     {
-        if( _playerTrans != null )
+        if( _focusTrans != null )
         {
-            _playerDir = _playerTrans.position - transform.position;
-            if (( transform.position - _idlePosition ).magnitude < PLAYER_BREAKDISTANCE)
+            _focusDir = _focusTrans.position - transform.position;
+            if ( ( transform.position - _idlePosition ).magnitude < PLAYER_BREAKDISTANCE )
             {
-                transform.position = Vector3.Lerp( transform.position, _playerTrans.position, PLAYER_APPROACHSPEED * Time.deltaTime );
+                transform.position = Vector3.Lerp( transform.position, _focusTrans.position, PLAYER_APPROACHSPEED * Time.deltaTime );
             }
             else
             {
-                _playerTrans = null;
+                _focusTrans = null;
             }
         }
     }
@@ -97,6 +100,12 @@ public class ButterflyCloud : AmbientCreature {
             tmpCreature = Instantiate( _creatureObject, this.transform ) as GameObject;
 
             tmpCreature.transform.position = transform.position + Random.insideUnitSphere * Random.Range(SPAWN_MINDIST, SPAWN_MAXDIST);
+
+			Color newColor = _butterflyGradient.Evaluate( Random.value );
+			foreach( MeshRenderer m in tmpCreature.gameObject.GetComponentsInChildren<MeshRenderer>() )
+			{
+				m.material.color = newColor;
+			}
 
             _creatureList.Add( tmpCreature.transform );
             _creatureYStartPos.Add( tmpCreature.transform.position.y );
