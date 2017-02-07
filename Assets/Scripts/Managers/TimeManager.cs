@@ -21,21 +21,66 @@ public class TimeManager : SingletonBehaviour<TimeManager>
 
 	List<GameEvent> _eventQueue;
 
+	public delegate void MinuteDelegate();
+	public MinuteDelegate MinuteCallback;
+	bool minuteCallbackDone = false;
+
+	public delegate void HourDelegate();
+	public HourDelegate HourCallback;
+	bool hourCallbackDone = false;
+
+	void OnTheMinute()
+	{
+		// Do Something every minute.
+		minuteCallbackDone = true;
+	}
+
+	void OnTheHour()
+	{
+		hourCallbackDone = true;
+	}
+
 	public override void Initialize ()
 	{
         _realWorldTime = DateTime.Now;
         _eventQueue = new List<GameEvent>();
+
+		MinuteCallback += OnTheMinute;
+		HourCallback += OnTheHour;
+
 	    isInitialized = true;
 	}
 
 	void Update () 
 	{
+		_realWorldTime = DateTime.Now;
+
 		if( _curState == TimeState.NORMAL )
 		{
 			ProcessQueue();
 			PlantManager.instance.GrowPlants();
 
 			_curTime += Time.deltaTime;
+		}
+
+		// Handle Minute Callback
+		if (_realWorldTime.TimeOfDay.Seconds == 0 && minuteCallbackDone == false)
+		{
+			MinuteCallback();
+		}
+		else if (_realWorldTime.TimeOfDay.Seconds == 5)
+		{
+			minuteCallbackDone = false;
+		}
+
+		// Handle Hourly Callback
+		if (_realWorldTime.TimeOfDay.Minutes == 0 && hourCallbackDone == false)
+		{
+			HourCallback();
+		}
+		else if (_realWorldTime.TimeOfDay.Minutes == 1)
+		{
+			hourCallbackDone = false;
 		}
 	}
 
