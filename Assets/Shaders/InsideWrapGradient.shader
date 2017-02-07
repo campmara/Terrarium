@@ -1,20 +1,16 @@
-﻿Shader "Custom/Hardness (Half Lambert) with Gradient"
+﻿Shader "InsideWrap/Hardness (Half Lambert) with Gradient"
 {
 	Properties{
 		_MainTex("Base (RGB)", 2D) = "white" {}
 		_SecondaryTex("Secondary (RGB)", 2D) = "white" {}
 		_NormalTex("Normal Map", 2D) = "bump" {}
 
-		//_Color("Color", Color) = (1, 1, 1, 1)
 		_ColorTop("Top Color", Color) = (1,1,1,1)
 		_ColorMid("Mid Color", Color) = (1,1,1,1)
 		_ColorBot("Bot Color", Color) = (1,1,1,1)
 		_Middle("Middle", Range(0.001, 0.999)) = 0.5
 
 		_Hardness("Hardness", Range(.25, 1)) = 0.5
-
-		_ShadowColor("Shadow Color", Color) = (1,1,1,1)
-
 	}
 		SubShader{
 		Tags{ "Queue" = "Geometry" }
