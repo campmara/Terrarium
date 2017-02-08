@@ -2,6 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public class ButterflyData
+{
+	public Transform _butterflyTransform = null;
+	public Vector3 _parentOffset = Vector3.zero;
+	public Vector3 _targetPosition = Vector3.zero;
+	public float _moveSpeed = 0.0f;
+
+	const float MOVESPEED_MIN = 1.0f;
+	const float MOVESPEED_MAX = 15.0f;
+
+	public ButterflyData()
+	{
+		_moveSpeed = Random.Range( MOVESPEED_MIN, MOVESPEED_MAX );
+	}
+}
+
 public class ButterflyCloud : AmbientCreature {
 
     [SerializeField] GameObject _creatureObject = null;
@@ -13,14 +30,13 @@ public class ButterflyCloud : AmbientCreature {
     const float IDLE_MINDIST = 0.5f;    // How close butterflies get to idle position until the stop tryna get back
 
     int index = 0;  // b/c i'm a big baby and i'm doing gross iterations rn
-    List<Transform> _creatureList = new List<Transform>();
-    List<float> _creatureYStartPos = new List<float>();
-    List<float> _creatureYOffset = new List<float>();
+    
+	List<ButterflyData> _butterflyList = new List<ButterflyData>();
+
     // Sine Movement Values
-    const float FLOATING_YOFFSETMIN = 1.0f;
-    const float FLOATING_YOFFSETMAX = 5.0f;
-    const float FLOATING_YAMP = 0.25f;
-    const float FLOATING_YVEL = 2f;
+	const float FLOATING_YOFFSET = 0.0f;
+    const float FLOATING_YAMP = 0.05f;
+    const float FLOATING_YVEL = 0.25f;
 
     // butterfly spawn values
     const float SPAWN_MINDIST = 0.5f;
@@ -28,8 +44,7 @@ public class ButterflyCloud : AmbientCreature {
 
 	[ReadOnlyAttribute, SerializeField]Transform _focusTrans = null;
 	Vector3 _focusDir = Vector3.zero;
-    const float PLAYER_CHECKRADIUS = 20.0f;     // How big of a radius Butteflies check
-    const float PLAYER_BREAKDISTANCE = 20.0f;   // How far from idle Position butterflies can go    
+    const float PLAYER_CHECKRADIUS = 20.0f;     // How big of a radius Butteflies check    
     const float PLAYER_APPROACHSPEED = 0.5f;    // How quickly butterflies chase
 
 
@@ -46,6 +61,7 @@ public class ButterflyCloud : AmbientCreature {
     {
         if(_focusTrans == null )
         {
+			// Check if an object of interest is within radius 
             Collider[] colArr = Physics.OverlapSphere( _idlePosition, PLAYER_CHECKRADIUS);
 
             if( colArr.Length > 0 )
@@ -62,28 +78,24 @@ public class ButterflyCloud : AmbientCreature {
                 }
             }
 
+			// Move toward idle position if no focus transform
             if( ( transform.position - _idlePosition ).magnitude > IDLE_MINDIST )
             {
                 transform.position = Vector3.Lerp( transform.position, _idlePosition, PLAYER_APPROACHSPEED * Time.deltaTime );
             }
         }
-
-        for ( index = 0; index < _creatureList.Count; index++ )
-        {
-            float posChange = _creatureYStartPos[index] + ( FLOATING_YAMP * Mathf.Sin( FLOATING_YVEL * ( Time.time + _creatureYOffset[index] ) ) );
-            _creatureList[index].SetPosY( posChange );
-            //_creatureList[index].SetPosX( JohnTech.RandomSign() * Mathf.Cos(posChange ));
-        }
+			
+		MoveButterflies();
     }
 
     private void FixedUpdate()
     {
         if( _focusTrans != null )
         {
-            _focusDir = _focusTrans.position - transform.position;
-            if ( ( transform.position - _idlePosition ).magnitude < PLAYER_BREAKDISTANCE )
+            _focusDir = _focusTrans.position - this.transform.position;
+			if ( ( this.transform.position - _idlePosition ).magnitude < PLAYER_CHECKRADIUS )
             {
-                transform.position = Vector3.Lerp( transform.position, _focusTrans.position, PLAYER_APPROACHSPEED * Time.deltaTime );
+                this.transform.position = Vector3.Lerp( transform.position, _focusTrans.position, PLAYER_APPROACHSPEED * Time.deltaTime );
             }
             else
             {
@@ -92,9 +104,25 @@ public class ButterflyCloud : AmbientCreature {
         }
     }
 
+	private void MoveButterflies()
+	{
+		// Sine Float the Swarm
+		this.transform.SetPosY( FLOATING_YAMP * Mathf.Sin( FLOATING_YVEL * ( Time.time ) ) );
+
+		// Adjust the Target Positions for each butterfly
+		// And move the butterflies towards their target pos
+		foreach( ButterflyData bData in _butterflyList )
+		{
+			bData._targetPosition = this.transform.position + bData._parentOffset;
+
+			bData._butterflyTransform.position = Vector3.Lerp( bData._butterflyTransform.position, bData._targetPosition, bData._moveSpeed * Time.deltaTime );
+		}
+	}
+
     private void SpawnCreatures()
     {
         GameObject tmpCreature = null;
+		ButterflyData tmpData = null;
         for ( int i = 0; i < _creatureCount; i++ )
         {
             tmpCreature = Instantiate( _creatureObject, this.transform ) as GameObject;
@@ -107,9 +135,20 @@ public class ButterflyCloud : AmbientCreature {
 				m.material.color = newColor;
 			}
 
-            _creatureList.Add( tmpCreature.transform );
-            _creatureYStartPos.Add( tmpCreature.transform.position.y );
-            _creatureYOffset.Add( Random.Range( FLOATING_YOFFSETMIN, FLOATING_YOFFSETMAX ) );
+			tmpData = new ButterflyData();
+
+			tmpData._butterflyTransform = tmpCreature.transform;
+			tmpData._parentOffset = tmpCreature.transform.position - this.transform.position;
+			tmpData._targetPosition = tmpCreature.transform.position;
+
+			_butterflyList.Add( tmpData );                     
         }
     }
+
+	// Worried about mem leak, need to look into disposing of non Mono classes
+	private void OnDestroy()
+	{
+		_butterflyList.Clear();
+	}
+
 }
