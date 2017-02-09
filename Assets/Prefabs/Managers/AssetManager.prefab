@@ -9,52 +9,53 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1957489743728246}
+  m_RootGameObject: {fileID: 1243134418610190}
   m_IsPrefabParent: 1
---- !u!1 &1957489743728246
+--- !u!1 &1243134418610190
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4079134177840004}
-  - component: {fileID: 114522498168852030}
+  - component: {fileID: 4945397261084156}
+  - component: {fileID: 114967744799959454}
   m_Layer: 0
-  m_Name: Leafy Ground Plant 1
+  m_Name: AssetManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4079134177840004
+--- !u!4 &4945397261084156
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1957489743728246}
+  m_GameObject: {fileID: 1243134418610190}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.6040335, y: 4.7697463e-18, z: -3.222154}
-  m_LocalScale: {x: 3.5, y: 3.5, z: 3.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114522498168852030
+--- !u!114 &114967744799959454
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1957489743728246}
+  m_GameObject: {fileID: 1243134418610190}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6ddd4666c8ab419ab196afde88e8590, type: 3}
+  m_Script: {fileID: 11500000, guid: 78366088292bbef44addbe779d8d140e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pAssetKey: 0
-  _spawnables:
+  _seedAssetList:
+  - {fileID: 1527965070150554, guid: 33686b7f91d454047b4c00e8026b6d28, type: 2}
+  _groundCoverAssetList:
   - {fileID: 1858957961874388, guid: 7f7cf89e0464249b59a2c548ec42dd9b, type: 2}
-  _baseGrowthRate: 0.6
-  _scaleRange: {x: 2, y: 6}
-  _leaf: {fileID: 1846552769908484, guid: f41ebbb9e478fec449e2f8c287072170, type: 2}
-  _fruit: {fileID: 1331700218982416, guid: b029e295a6ac1af4da86ad0fdafacebc, type: 2}
+  _plantableAssetList:
+  - {fileID: 1957489743728246, guid: 2e152ae3f797a491ca6ec5694d70fb63, type: 2}
+  _growableAssetList:
+  - {fileID: 1028824138140006, guid: b116cff499e3a4c14b3a2b78496f3139, type: 2}
