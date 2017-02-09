@@ -7,7 +7,8 @@ public class AmbientCreature : MonoBehaviour
     public enum CreatureType
     {
         NONE = -1,
-        BUTTERFLY = 0
+        BUTTERFLY = 0,
+		MOTES
     }
 
     [SerializeField]
