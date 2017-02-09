@@ -276,6 +276,6 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
             float dR = data[maxN + 1] / data[maxN];
             freqN += 0.5f * (dR * dR - dL * dL);
         }
-        return freqN * ((float)AudioSettings.outputSampleRate / 2f) / 1024;
+        return freqN * ((float)AudioSettings.outputSampleRate / 2f) / 1024 / 1024;
     }
 }

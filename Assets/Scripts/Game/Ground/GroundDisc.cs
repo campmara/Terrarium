@@ -17,7 +17,9 @@ public class GroundDisc : MonoBehaviour
 	private GameObject _grassParent;
 
 	private Texture2D _splatTex;
-	private Color32[] colors;
+
+	private Color32[] currentColors;
+	private Color32[] targetColors;
 
 	private void Awake()
 	{
@@ -37,7 +39,13 @@ public class GroundDisc : MonoBehaviour
 
 	private void Update()
 	{
+		//UpdateColors();
 		UpdateTexture();
+	}
+
+	private void UpdateColors()
+	{
+		
 	}
 
 	private void SpawnRandomCover()
@@ -84,42 +92,25 @@ public class GroundDisc : MonoBehaviour
 		int rr = radius << 1;
 		int width = _splatTex.width;
 		Color32 col = new Color32(0, 0, 0, 0);
+		Vector2 diffFromCenter = Vector2.zero;
+		float alpha = 0f;
 
 		for (int i = 0; i < area; i++)
 		{
 			int tx = (i % rr) - radius;
 			int ty = (i / rr) - radius;
 
+			diffFromCenter.x = (float)tx;
+			diffFromCenter.y = (float)ty;
+
+			alpha = Mathf.Lerp(0, 255, diffFromCenter.sqrMagnitude / (float)r2);
+			col.a = (byte)alpha;
+
 			if (tx * tx + ty * ty <= r2)
 			{
-				colors[((cy + ty) * width) + (cx + tx)] = col;
+				currentColors[((cy + ty) * width) + (cx + tx)] = col;
 			}
 		}
-		/*
-		int x, y, px, nx, py, ny, d;
-		int width = _splatTex.width;
-
-		for (x = 0; x <= radius; x++)
-		{
-			d = (int)Mathf.Ceil(Mathf.Sqrt(radius * radius - x * x));
-
-			byte val = (byte)(d * width);
-			Color32 col = new Color32(0, 0, 0, val);
-
-			for (y = 0; y <= d; y++)
-			{
-				px = cx + x;
-				nx = cx - x;
-				py = cy + y;
-				ny = cy - y;
-
-				colors[py * width + px] = col;
-				colors[py * width + nx] = col;
-				colors[ny * width + px] = col;
-				colors[ny * width + nx] = col;
-			}
-		}
-		*/
 	}
 
 	private void CreateSplatTexture()
@@ -127,7 +118,8 @@ public class GroundDisc : MonoBehaviour
 		_splatTex = new Texture2D(512, 512, TextureFormat.Alpha8, true, true);
 		_splatTex.filterMode = FilterMode.Point;
 		TEXELS_PER_WORLD_UNIT = (float)_splatTex.width / ((ScaleFactor + 1f) * 10f);
-		colors = new Color32[_splatTex.width * _splatTex.height];
+		currentColors = new Color32[_splatTex.width * _splatTex.height];
+		//targetColors = new Color32[_splatTex.width * _splatTex.height];
 
 		// Send to the shader.
 		_mesh.sharedMaterial.SetTexture("_MainTex", _splatTex);
@@ -138,7 +130,7 @@ public class GroundDisc : MonoBehaviour
 
 	private void UpdateTexture()
 	{
-		_splatTex.SetPixels32(colors);
+		_splatTex.SetPixels32(currentColors);
 		_splatTex.Apply();
 	}
 
@@ -146,9 +138,11 @@ public class GroundDisc : MonoBehaviour
 	{
 		for (int i = 0; i < _splatTex.width * _splatTex.height; i++)
 		{
-			colors[i] = new Color32(0, 0, 0, 255);
+			currentColors[i] = new Color32(0, 0, 0, 255);
 		}
-		_splatTex.SetPixels32(colors);
+		//targetColors = currentColors;
+
+		_splatTex.SetPixels32(currentColors);
 		_splatTex.Apply();
 	}
 }

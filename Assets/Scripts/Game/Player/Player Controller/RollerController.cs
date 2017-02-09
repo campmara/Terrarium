@@ -75,7 +75,7 @@ public class RollerController : ControllerBase
 	    _face = GetComponentInChildren<FaceManager>();
 		_mesh = GetComponentInChildren<SkinnedMeshRenderer>().gameObject;
 		_rig = transform.GetChild(0).gameObject;
-		_rollSphere = transform.GetChild(3).gameObject;
+		_rollSphere = transform.GetChild(2).gameObject;
 
 		// Add State Controller, Set parent to This Script, set to inactive
 		_walking = this.gameObject.AddComponent<WalkingState>();
