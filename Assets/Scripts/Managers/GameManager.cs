@@ -205,6 +205,10 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitUntil( () => WeatherManager.instance.IsInitialized );
 
+        CreatureManager.instance.Initialize();
+
+        yield return new WaitUntil( () => CreatureManager.instance.IsInitialized );
+
         ChangeGameState( GameState.INTRO );
 	}
 
