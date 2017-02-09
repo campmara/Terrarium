@@ -10,7 +10,8 @@ public class PlayerIKControl : MonoBehaviour
 
     [Header("Arm Properties")]
     [SerializeField] private Transform _armTarget;
-	[SerializeField] private float armMoveSpeed = 7f;
+	[SerializeField] private float armSpeedNoTarget = 7f;
+	[SerializeField] private float armSpeedTarget = 15f;
 
     [Header("Leg Properties")]
     [SerializeField] private AnimationCurve _legYCurve;
@@ -111,26 +112,26 @@ public class PlayerIKControl : MonoBehaviour
     {
         if (_armTarget != null)
         {
-			_leftArm.solver.IKPosition = Vector3.Lerp(_leftArm.solver.IKPosition, _armTarget.position, armMoveSpeed * Time.deltaTime);
-			_rightArm.solver.IKPosition = Vector3.Lerp(_rightArm.solver.IKPosition, _armTarget.position, armMoveSpeed * Time.deltaTime);
+			_leftArm.solver.IKPosition = Vector3.Lerp(_leftArm.solver.IKPosition, _armTarget.position, armSpeedTarget * Time.deltaTime);
+			_rightArm.solver.IKPosition = Vector3.Lerp(_rightArm.solver.IKPosition, _armTarget.position, armSpeedTarget * Time.deltaTime);
         }
 		else if (_walkState == WalkState.RITUAL)
         {
 			_leftArm.solver.IKPosition = Vector3.Lerp(_leftArm.solver.IKPosition, 
 				transform.position + (transform.parent.up * 5f) - (transform.parent.right * 0.5f), 
-				armMoveSpeed * Time.deltaTime);
+				armSpeedNoTarget * Time.deltaTime);
 			_rightArm.solver.IKPosition = Vector3.Lerp(_rightArm.solver.IKPosition, 
 				transform.position + (transform.parent.up * 5f) + (transform.parent.right * 0.5f), 
-				armMoveSpeed * Time.deltaTime);
+				armSpeedNoTarget * Time.deltaTime);
         }
 		else
 		{
 			_leftArm.solver.IKPosition = Vector3.Lerp(_leftArm.solver.IKPosition, 
 				transform.parent.position - (transform.parent.right * 0.5f), 
-				armMoveSpeed * Time.deltaTime);
+				armSpeedNoTarget * Time.deltaTime);
 			_rightArm.solver.IKPosition = Vector3.Lerp(_rightArm.solver.IKPosition, 
 				transform.parent.position + (transform.parent.right * 0.5f), 
-				armMoveSpeed * Time.deltaTime);
+				armSpeedNoTarget * Time.deltaTime);
 		}
     }
 
