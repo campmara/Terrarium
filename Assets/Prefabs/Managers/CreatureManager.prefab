@@ -53,3 +53,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _creatureObjectList:
   - {fileID: 1713782013305786, guid: ca9432e41d23f044c81e6bc84a225f87, type: 2}
+  - {fileID: 1795233830440944, guid: c8bbfa447b3864368a81eabaa79081aa, type: 2}
