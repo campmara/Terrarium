@@ -44,7 +44,9 @@ public class CameraManager : SingletonBehaviour<CameraManager>
     const float BOUNDING_VERTICALOFFSET = 0.25f;	// How much the bounding radius for camera movement is offset vertically from camera
 	const float BOUNDING_LATERALOFFSET = 1.7f;		// How much the bounding radius for camera movement is offset horizontally from camera
 	//Vector3 _inputCamOffset = Vector3.zero; 				// Offsets camera based on bounding offsets for when player is moving player
-	const float BOUNDING_RADIUS = 1.7f;  
+	const float BOUNDING_RADIUS = 1.7f;         // Distance for player to move from center for cam focus to start following   
+	const float BOUNDING_RADIUS_MIN = 0.25f;   
+	const float BOUNDING_RADIUS_MAX = 1.7f;  
 	// Distance for player to move from center for cam focus to start following
 
     #endregion

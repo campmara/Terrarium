@@ -395,12 +395,12 @@ MonoBehaviour:
   _pAssetKey: -1
   _spawnables:
   - {fileID: 1957489743728246, guid: 2e152ae3f797a491ca6ec5694d70fb63, type: 2}
-  - {fileID: 1786725959533962, guid: dafc924c72eae445f981af645fa00b57, type: 2}
   _baseGrowthRate: 0.01
   _scaleRange: {x: 6, y: 12}
-  _gAssetKey: 0
-  _seedPrefab: {fileID: 1527965070150554, guid: 33686b7f91d454047b4c00e8026b6d28,
-    type: 2}
+  _gAssetKey: -1
+  _droppablePrefabs:
+  - {fileID: 1527965070150554, guid: 33686b7f91d454047b4c00e8026b6d28, type: 2}
+  - {fileID: 1786725959533962, guid: dafc924c72eae445f981af645fa00b57, type: 2}
   _curStage: 0
   _bStemRoot: {fileID: 4521704662299462}
   _leafPrefab: {fileID: 1248963832722794, guid: a0521c65f58601b43975af7e8620d049,
