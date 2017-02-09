@@ -4,13 +4,7 @@ using UnityEngine;
 
 public class GroundCover : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    [SerializeField] protected GroundCoverAssetKey _assetKey = GroundCoverAssetKey.NONE;
+    public GroundCoverAssetKey AssetKey { get { return _assetKey; } set { _assetKey = value; } }
+ 
 }

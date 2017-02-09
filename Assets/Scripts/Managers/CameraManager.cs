@@ -103,7 +103,9 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 
 		ResetCameraOffset();
 
-		_mainCam.fieldOfView = Mathf.Lerp( CAM_FOV_MIN, CAM_FOV_MAX, ZOOM_RESETINTERP );
+		//_mainCam.fieldOfView = Mathf.Lerp( CAM_FOV_MIN, CAM_FOV_MAX, ZOOM_RESETINTERP );
+		_mainCam.fieldOfView = 82.5f;
+
         _lookVertOffset = Mathf.Lerp( CAMLOOK_VERTICALOFFSET_MIN, CAMLOOK_VERTICALOFFSET_MAX, ZOOM_RESETINTERP );
 
         _screenCenter = new Vector2(Screen.width / 2, Screen.height / 2);

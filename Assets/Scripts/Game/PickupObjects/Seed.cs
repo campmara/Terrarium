@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Seed : Pickupable 
 {
+    [SerializeField] protected SeedAssetKey _assetKey = SeedAssetKey.NONE;
+    public SeedAssetKey AssetKey { get { return _assetKey; } set { _assetKey = value; } }
 
-	[SerializeField] GameObject _plantPrefab = null;
+    [SerializeField] GameObject _plantPrefab = null;
 	float _timeSinceLastPickup = 0.0f;
 	float _timePassedTillDestroy = 60.0f;
 	bool _isPickedUp = false;

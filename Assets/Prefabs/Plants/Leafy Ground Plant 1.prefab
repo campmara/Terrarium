@@ -76,6 +76,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6ddd4666c8ab419ab196afde88e8590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pAssetKey: 0
   _spawnables:
   - {fileID: 1858957961874388, guid: 7f7cf89e0464249b59a2c548ec42dd9b, type: 2}
   _baseGrowthRate: 0.6

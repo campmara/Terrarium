@@ -18,7 +18,7 @@
 		
 		CGPROGRAM
 		// Physically based Standard lighting model, and enable shadows on all light types
-		#pragma surface surf Lambert vertex:vert alphatest:_Cutoff
+		#pragma surface surf Lambert vertex:vert alphatest:_Cutoff addshadow
 
 		// Use shader model 3.0 target, to get nicer looking lighting
 		#pragma target 3.0
@@ -52,7 +52,8 @@
 
 				// get the camera basis vectors
 				float3 forward = -normalize(UNITY_MATRIX_V._m20_m21_m22);
-				float3 up = float3(0, 1, 0); //normalize(UNITY_MATRIX_V._m10_m11_m12); //rotate on all axises 
+				//float3 up = float3(0, 1, 0); //normalize(UNITY_MATRIX_V._m10_m11_m12); //rotate on all axises 
+				float3 up = UNITY_MATRIX_IT_MV[1].xyz;
 				float3 right = normalize(UNITY_MATRIX_V._m00_m01_m02);
 
 				// rotate to face camera

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Plantable : MonoBehaviour
 {
+    [SerializeField] protected PlantableAssetKey _pAssetKey = PlantableAssetKey.NONE;
+    public PlantableAssetKey PAssetKey { get { return _pAssetKey; } set { _pAssetKey = value; } }
+
 	// class 2/3's need things to spawn && also have children objects with animators
     [SerializeField] private List<GameObject> _spawnables = new List<GameObject>();
 	protected List<Animator> _childAnimators = new List<Animator>();
