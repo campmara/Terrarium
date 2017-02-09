@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class Growable : Plantable
 {
-	[SerializeField] GameObject _seedPrefab = null;
+    [SerializeField] protected GrowableAssetKey _gAssetKey = GrowableAssetKey.NONE;
+    public GrowableAssetKey GAssetKey { get { return _gAssetKey; } set { _gAssetKey = value; } }
+
+    [SerializeField] GameObject _seedPrefab = null;
 	protected Animator _plantAnim = null;
 
 	const float _numGrowStages = 3;

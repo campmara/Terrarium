@@ -1,10 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class SaveManager : SingletonBehaviour<SaveManager> {
 
     const string SAVE_PATH = "TerrariumData";
+
+    public static event Action PrepSave;
+    public static event Action CompleteLoad;
+
+    PlantSaveData _plantSave = null;
+    public PlantSaveData PlantSave { get { return _plantSave; } set { _plantSave = value; } }
 
     public override void Initialize()
     {
@@ -55,6 +62,8 @@ public class SaveManager : SingletonBehaviour<SaveManager> {
 
 		reader.Dispose();
 
+        //CompleteLoad();
+
 		isInitialized = true;
 	}
 
@@ -64,7 +73,11 @@ public class SaveManager : SingletonBehaviour<SaveManager> {
 	/// <remarks> MAKE SURE TO SAVE SEQUENTIALLY. </remarks>
 	IEnumerator SaveDataRoutine()
 	{
-		// TODO: Create new Save Data
+        //PrepSave();
+
+        //yield return new WaitUntil( () => _plantSave != null );
+
+        // TODO: Create new Save Data
 		ES2Writer writer = ES2Writer.Create( Application.persistentDataPath + SAVE_PATH );
 
 		yield return 0;
@@ -93,3 +106,82 @@ public class SaveManager : SingletonBehaviour<SaveManager> {
 	}
 
 }
+
+
+
+#region Save Data Classes 
+
+public class PlantSaveData
+{
+    public int _seedCount = 0;
+    public List<SeedData> _seedData = new List<SeedData>();
+    public int _groundCoverCount = 0;
+    public List<GroundCoverData> _groundCoverData = new List<GroundCoverData>();
+    public int _growableCount = 0;
+    public List<GrowableData> _growableData = new List<GrowableData>();
+    public int _plantableCount = 0;
+    public List<PlantableData> _plantableData = new List<PlantableData>();
+
+    public PlantSaveData()
+    {
+    }
+}
+
+public class SeedData
+{
+    public SeedAssetKey _assetKey = SeedAssetKey.NONE;
+
+    public Vector3 _seedPosition = Vector3.zero;
+    public Quaternion _seedRotation = Quaternion.identity;
+
+    public float _timeSinceLastPickup = 0.0f;
+    public float _timePassedTillDestroy = 0.0f;
+
+    public SeedData()
+    {
+
+    }
+}
+
+public class GroundCoverData
+{
+    public GroundCoverAssetKey _assetKey = GroundCoverAssetKey.NONE;
+
+    public Vector3 _groundCoverPosition = Vector3.zero;
+    public Quaternion _groundCoverRotation = Quaternion.identity;
+
+    public GroundCoverData()
+    {
+
+    }
+}
+
+public class GrowableData
+{
+    public GrowableAssetKey _assetKey = GrowableAssetKey.NONE;
+
+    Growable.GrowthStage _growthStage = Growable.GrowthStage.Sprout;
+
+    public GrowableData()
+    {
+
+    }
+}
+
+public class PlantableData
+{
+    public PlantableAssetKey _assetKey = PlantableAssetKey.NONE;
+
+    public Vector3 _plantablePosition = Vector3.zero;
+    public Quaternion _plantableRotation = Quaternion.identity;
+    public Vector3 _localScale = Vector3.zero;
+
+    public float _curGrowthRate = 0.0f;
+
+
+    public PlantableData()
+    {
+
+    }
+}
+#endregion

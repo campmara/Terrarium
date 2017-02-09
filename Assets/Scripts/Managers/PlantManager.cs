@@ -6,13 +6,19 @@ using System;
 public class PlantManager : SingletonBehaviour<PlantManager>
 {
 	List<Seed> _seeds = new List<Seed>();
-	List<GroundCover> _groundCoverPlants = new List<GroundCover>();
+	List<GroundCover> _groundCoverPlants = new List<GroundCover>();   
 	List<Plantable> _smallPlants = new List<Plantable>();
 	List<Growable> _largePlants = new List<Growable>();
 
 	public static event Action ExecuteGrowth;
 
-	public override void Initialize ()
+    private void Awake()
+    {
+        SaveManager.PrepSave += HandleSave;
+        SaveManager.CompleteLoad += HandleLoad;
+    }
+
+    public override void Initialize ()
 	{
 		isInitialized = true;
 	}
@@ -73,4 +79,20 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 			ExecuteGrowth.Invoke();
 		}
 	}
+
+    void HandleSave()
+    {
+
+    }
+
+    void HandleLoad()
+    {
+
+    }
+
+    private void OnDestroy()
+    {
+        SaveManager.PrepSave -= HandleSave;
+        SaveManager.CompleteLoad -= HandleLoad;
+    }
 }

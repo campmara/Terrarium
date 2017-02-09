@@ -161,6 +161,10 @@ public class GameManager : MonoBehaviour
 
 	IEnumerator DelayedInitialize()
 	{
+        AssetManager.instance.Initialize();
+
+        yield return new WaitUntil( () => AssetManager.instance.IsInitialized );
+
         SaveManager.instance.Initialize();
 
         yield return new WaitUntil( () => SaveManager.instance.IsInitialized );
