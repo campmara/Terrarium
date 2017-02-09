@@ -93,26 +93,30 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
         if ( endTrough )
         {
             // If ending the trough time to tween to Peak
-            _windChangeTween = DOTween.To( () => _windInterp, x => _windInterp = x, _windStateInterpValues[Random.Range( 0, _windStateInterpValues.Length )], Random.Range( WINDRISE_MINTIME, WINDRISE_MAXTIME ) );
-            _windChangeTween.SetEase( Ease.OutBack );
+            //_windChangeTween = DOTween.To( () => _windInterp, x => _windInterp = x, _windStateInterpValues[Random.Range( 0, _windStateInterpValues.Length )], Random.Range( WINDRISE_MINTIME, WINDRISE_MAXTIME ) );
+            //_windChangeTween.SetEase( Ease.OutBack );
 
-            UpdateWindDirection();
+            _windInterp = _windStateInterpValues[Random.Range( 0, _windStateInterpValues.Length )];
         }
         else
         {
             // Else transition back to no wind
-            _windChangeTween = DOTween.To( () => _windInterp, x => _windInterp = x, 0.0f, Random.Range( WINDEND_MINTIME, WINDEND_MAXTIME ) );
-            _windChangeTween.SetEase( Ease.Linear );
+            //_windChangeTween = DOTween.To( () => _windInterp, x => _windInterp = x, 0.0f, Random.Range( WINDEND_MINTIME, WINDEND_MAXTIME ) );
+            //_windChangeTween.SetEase( Ease.Linear );
+            _windInterp = 0.0f;
         }
 
-        while ( _windChangeTween.IsPlaying() )
-        {
-            UpdateWindShaderValues();
+        //while ( _windChangeTween.IsPlaying() )
+        //{
+        //    UpdateWindShaderValues();
+        //    yield return 0;
+        //}
 
-            yield return 0;
-        }
+        UpdateWindShaderValues();
 
-        _windChangeTween.Kill();
+        yield return 0;
+
+        //_windChangeTween.Kill();
 
         HandleWindWait( !endTrough );
 

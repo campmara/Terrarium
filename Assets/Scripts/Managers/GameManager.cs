@@ -161,6 +161,10 @@ public class GameManager : MonoBehaviour
 
 	IEnumerator DelayedInitialize()
 	{
+        AssetManager.instance.Initialize();
+
+        yield return new WaitUntil( () => AssetManager.instance.IsInitialized );
+
         SaveManager.instance.Initialize();
 
         yield return new WaitUntil( () => SaveManager.instance.IsInitialized );
@@ -200,6 +204,10 @@ public class GameManager : MonoBehaviour
         WeatherManager.instance.Initialize();
 
         yield return new WaitUntil( () => WeatherManager.instance.IsInitialized );
+
+        CreatureManager.instance.Initialize();
+
+        yield return new WaitUntil( () => CreatureManager.instance.IsInitialized );
 
         ChangeGameState( GameState.INTRO );
 	}

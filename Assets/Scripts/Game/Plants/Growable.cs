@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class Growable : Plantable
 {
-	[SerializeField] GameObject _seedPrefab = null;
+    [SerializeField] protected GrowableAssetKey _gAssetKey = GrowableAssetKey.NONE;
+    public GrowableAssetKey GAssetKey { get { return _gAssetKey; } set { _gAssetKey = value; } }
+
+    [SerializeField] GameObject _seedPrefab = null;
 	protected Animator _plantAnim = null;
 
 	const float _numGrowStages = 3;
@@ -29,7 +32,11 @@ public class Growable : Plantable
 	float [] growthTime = new float[4]; // time splits initialized based on our animation
 	float [] growthRadii = new float[] { 6.0f, 10.0f, 15.0f, 20.0f };
 
-	protected override void Awake()
+    protected const float CREATURE_BASE_SPAWNODDS = 0.75f;
+    protected const float CREATURE_BASE_SPAWNY = -1.0f;
+
+
+    protected override void Awake()
 	{
 		InitPlant();
 	}
@@ -97,8 +104,6 @@ public class Growable : Plantable
 			{
 				CustomPlantGrowing();
 			}
-
-			GroundManager.instance.Ground.DrawOnPosition(transform.position, (_curTimestamp / _animEndTime) * 60f);
 		}
 	}
 
@@ -120,7 +125,7 @@ public class Growable : Plantable
 	{   		
 		if( _curStage != GrowthStage.Final )
 		{
-			_curStage += 1; // they are int enums so we can just increment
+            _curStage += 1; // they are int enums so we can just increment
 		}
 			
 		if( _curStage == GrowthStage.Sapling )
@@ -130,7 +135,10 @@ public class Growable : Plantable
 		else if( _curStage == GrowthStage.Final )
 		{
 			PlantManager.instance.RequestDropFruit( this, _timeBetweenFruitDrops );
-			StopGrowth();
+
+            SpawnAmbientCreature();
+
+            StopGrowth();
 		}
 
 		UpdateNewStageData();
@@ -202,7 +210,15 @@ public class Growable : Plantable
 
 		return newPlant;
 	}   
-		
+	
+    public virtual void SpawnAmbientCreature()
+    {
+        if (Random.value > CREATURE_BASE_SPAWNODDS)
+        {
+            CreatureManager.instance.SpawnRandomCreature( this.transform.position + ( Vector3.up * CREATURE_BASE_SPAWNY ) );
+        }
+    }
+    	
 	void OnDrawGizmos() 
 	{
 		Gizmos.color = Color.yellow;

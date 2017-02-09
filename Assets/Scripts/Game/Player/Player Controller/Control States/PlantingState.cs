@@ -10,7 +10,7 @@ public class PlantingState : RollerState
         Debug.Log( "ENTER PLANTING STATE" );
 
         // Handle transition
-        switch (prevState)
+        switch ( prevState )
         {
             case P_ControlState.CARRYING:            
                 HandleBeginPlanting();
@@ -39,6 +39,7 @@ public class PlantingState : RollerState
 
         if (_plantTween != null)
         {
+			_plantTween.Complete();
             _plantTween.Kill();
             _plantTween = null;
         }
@@ -65,7 +66,7 @@ public class PlantingState : RollerState
     void HandleBeginPlanting()
     {
         // Right now just gonna move seed Down...
-        if (_roller.CurrentHeldObject != null )
+        if ( _roller.CurrentHeldObject != null )
         {
 			_plantTween = _roller.CurrentHeldObject.transform.DOMoveY(RollerConstants.PLANTING_ENDY, RollerConstants.PLANTING_TIME ).OnComplete( () => HandlePlantingEnd() ).SetAutoKill( false ).SetEase(Ease.InBack);
         }        
@@ -76,7 +77,7 @@ public class PlantingState : RollerState
         // Handle a separate function for planting the seed
 
 		Seed seed = _roller.CurrentHeldObject.GetComponent<Seed>();
-		if( seed )
+		if( seed != null )
 		{
 			seed.TryPlanting();
 		}
