@@ -73,7 +73,7 @@ public class GroundPlant : Plantable
 		float duration = _childAnimators[ _childAnimators.Count - 1 ].runtimeAnimatorController.animationClips[0].length;
 		duration /= _curGrowthRate;
 		duration += _waitTime;
-		duration *= 2.0f;//this is a hack because for some reason it's not calculating correctly yay
+		duration *= 5.0f;		//this is a hack because for some reason it's not calculating correctly yay
 		StartCoroutine( "WaitForLastAnimEnd", duration );
 	}
 

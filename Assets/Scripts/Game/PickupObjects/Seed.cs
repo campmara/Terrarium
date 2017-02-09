@@ -9,9 +9,9 @@ public class Seed : Pickupable
 
     [SerializeField] GameObject _plantPrefab = null;
 	float _timeSinceLastPickup = 0.0f;
-	float _timePassedTillDestroy = 120.0f;
+	float _timePassedTillDestroy = 60.0f;
 	bool _isPickedUp = false;
-	const float _shootForce = 20.0f;
+	const float _shootForce = 30.0f;
 	const float _searchRadius = 30.0f;
 
 	void Update()
@@ -48,7 +48,8 @@ public class Seed : Pickupable
 	{
 		if( !FoundPlantsCloseBy() )
 		{
-			GameObject newPlant = Instantiate( _plantPrefab, transform.position, Quaternion.identity ) as GameObject;
+			Vector3 plantPos = new Vector3( transform.position.x, 0.0f, transform.position.z ); 
+			GameObject newPlant = Instantiate( _plantPrefab, plantPos, Quaternion.identity ) as GameObject; 
 			PlantManager.instance.AddBigPlant( newPlant.GetComponent<Growable>()  );
 			gameObject.SetActive(false);
 		}
