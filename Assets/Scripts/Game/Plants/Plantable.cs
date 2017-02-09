@@ -19,7 +19,7 @@ public class Plantable : MonoBehaviour
 	public float MinDistAway{ get { return _minDistAway; } }
 	protected float _minDistAway = 2.0f; // use for items you can't easily calculate the mesh size
 
-    protected const float _timeBetweenSpawns = 25.0f;
+    protected const float _timeBetweenSpawns = 35.0f;
     [SerializeField] protected float _baseGrowthRate = .005f;
 	[SerializeField] Vector2 _scaleRange = new Vector2( 8.0f, 12.0f); // we want to let these very per plant
     protected const float _wateredGrowthRate = .2f;
@@ -153,7 +153,7 @@ public class Plantable : MonoBehaviour
             spawnPoint += direction;
 			spawnPoint = new Vector3( spawnPoint.x, .1f, spawnPoint.z );
 
-			newPlant = (GameObject)Instantiate( _spawnables[Random.Range( 0, _spawnables.Count - 1)], spawnPoint, Quaternion.identity );
+			newPlant = (GameObject)Instantiate( _spawnables[Random.Range( 0, _spawnables.Count)], spawnPoint, Quaternion.identity );
         }
 
 		_minisSpawned++;

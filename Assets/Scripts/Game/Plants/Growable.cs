@@ -7,7 +7,7 @@ public class Growable : Plantable
     [SerializeField] protected GrowableAssetKey _gAssetKey = GrowableAssetKey.NONE;
     public GrowableAssetKey GAssetKey { get { return _gAssetKey; } set { _gAssetKey = value; } }
 
-    [SerializeField] GameObject _seedPrefab = null;
+	[SerializeField] List<GameObject> _droppablePrefabs = null;  
 	protected Animator _plantAnim = null;
 
 	const float _numGrowStages = 3;
@@ -28,7 +28,7 @@ public class Growable : Plantable
 		Final = 3
 	};
 			
-	float [] stageRadii = new float[] { 5.0f, 6.5f, 7.0f, 7.5f }; // how much room each stage need to grow
+	float [] stageRadii = new float[] { 3.0f, 4.5f, 6.0f, 6.5f }; // how much room each stage need to grow
 	float [] growthTime = new float[4]; // time splits initialized based on our animation
 	float [] growthRadii = new float[] { 6.0f, 10.0f, 15.0f, 20.0f };
 
@@ -147,6 +147,7 @@ public class Growable : Plantable
 	void UpdateNewStageData()
 	{
 		_outerSpawnRadius = stageRadii[ (int)_curStage ];
+		_minDistAway = stageRadii[(int)_curStage];//growthRadii[(int) _curStage];   
 		GetSetMeshRadius();
 
 		_curGrowthRate = _baseGrowthRate;
@@ -156,7 +157,7 @@ public class Growable : Plantable
 	bool IsOverlappingPlants()
 	{
 		//only check surroundings if you are over sprout phase
-		Collider[] overlappingObjects = Physics.OverlapSphere( transform.position, growthRadii[ (int)_curStage + 1 ] );
+		Collider[] overlappingObjects = Physics.OverlapSphere( transform.position, stageRadii[ (int)_curStage + 1 ] ); 
 
 		if( overlappingObjects.Length != 0 )
 		{
@@ -183,11 +184,11 @@ public class Growable : Plantable
 
 		if( size.x > size.z )
 		{
-			_innerMeshRadius = size.x  * transform.GetChild(1).localScale.x * transform.localScale.x;
+			_innerMeshRadius = size.x  * transform.GetChild(1).localScale.x; //* transform.localScale.x; 
 		}
 		else
 		{
-			_innerMeshRadius = size.z * transform.GetChild(1).localScale.x * transform.localScale.x ;
+			_innerMeshRadius = size.z * transform.GetChild(1).localScale.x;// * transform.localScale.x ; 
 		}
 	}
 		
@@ -199,7 +200,7 @@ public class Growable : Plantable
 		Vector2 randomPoint = Random.insideUnitCircle * _innerMeshRadius;
 		Vector3 spawnPoint = new Vector3( randomPoint.x, _fruitDropHeight, randomPoint.y ) + transform.position;
 
-		newPlant = (GameObject)Instantiate( _seedPrefab, spawnPoint, Quaternion.identity );
+		newPlant = (GameObject)Instantiate( _droppablePrefabs[Random.Range( 0, _droppablePrefabs.Count)], spawnPoint, Quaternion.identity );  
 
 		PlantManager.instance.RequestDropFruit( this, _timeBetweenFruitDrops );
 
