@@ -172,10 +172,10 @@ Material:
       second: {r: 0, g: 0, b: 0, a: 1}
     - first:
         name: _GrassColor
-      second: {r: 0.33823532, g: 0.522, b: 0.36, a: 1}
+      second: {r: 0.6544118, g: 0.5036877, b: 0.31277034, a: 1}
     - first:
         name: _GroundColor
-      second: {r: 0.9117647, g: 0.8359384, b: 0.63689446, a: 1}
+      second: {r: 0.75, g: 0.57231236, b: 0.34742647, a: 1}
     - first:
         name: _ShadowColor
       second: {r: 1, g: 1, b: 1, a: 1}

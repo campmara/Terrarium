@@ -39,6 +39,7 @@ public class PlantingState : RollerState
 
         if (_plantTween != null)
         {
+			_plantTween.Complete();
             _plantTween.Kill();
             _plantTween = null;
         }
