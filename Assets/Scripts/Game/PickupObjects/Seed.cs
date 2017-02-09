@@ -48,7 +48,7 @@ public class Seed : Pickupable
 		{
 			GameObject newPlant = Instantiate( _plantPrefab, transform.position, Quaternion.identity ) as GameObject;
 			PlantManager.instance.AddBigPlant( newPlant.GetComponent<Growable>()  );
-			//gameObject.SetActive(false);
+			gameObject.SetActive(false);
 		}
 	}
 

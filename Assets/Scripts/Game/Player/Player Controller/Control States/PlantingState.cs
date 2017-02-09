@@ -39,7 +39,6 @@ public class PlantingState : RollerState
 
         if (_plantTween != null)
         {
-            _plantTween.Complete();
             _plantTween.Kill();
             _plantTween = null;
         }
@@ -83,10 +82,6 @@ public class PlantingState : RollerState
 		}
 
         HandleDropHeldObject();
-        if( seed )
-        {
-            seed.gameObject.SetActive(false);
-        }
         _roller.ChangeState( P_ControlState.PLANTING, P_ControlState.WALKING );
     }
 }
