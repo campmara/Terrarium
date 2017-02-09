@@ -65,7 +65,6 @@ public class Growable : Plantable
 
 	protected override void StartGrowth()
 	{
-	    base.StartGrowth();
 		PlantManager.ExecuteGrowth += GrowPlant;
 		_plantAnim.enabled = true;
 	}

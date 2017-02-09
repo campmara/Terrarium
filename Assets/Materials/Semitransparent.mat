@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: new-moss
-  m_Shader: {fileID: 4800000, guid: fdf01df3dba9e41c094d4819153ef41d, type: 3}
+  m_Name: Semitransparent
+  m_Shader: {fileID: 4800000, guid: 7bd38216be2db1742a029c7727b1f501, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
   m_CustomRenderQueue: -1
@@ -48,7 +48,7 @@ Material:
     - first:
         name: _MainTex
       second:
-        m_Texture: {fileID: 2800000, guid: a7fc57378e4199f4ea008a53218c48c7, type: 3}
+        m_Texture: {fileID: 2800000, guid: ff34b0ecb22e7466fbd0a856b7a00621, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
@@ -75,7 +75,7 @@ Material:
       second: 1
     - first:
         name: _Cutoff
-      second: 0.406
+      second: 0.5
     - first:
         name: _DetailNormalMapScale
       second: 1
@@ -91,6 +91,9 @@ Material:
     - first:
         name: _GlossyReflections
       second: 1
+    - first:
+        name: _Hardness
+      second: 0.387
     - first:
         name: _Metallic
       second: 0
@@ -121,10 +124,7 @@ Material:
     m_Colors:
     - first:
         name: _Color
-      second: {r: 0.33655924, g: 0.6102941, b: 0.4064088, a: 1}
-    - first:
-        name: _Color2
-      second: {r: 0.6090607, g: 0.6838235, b: 0.43744594, a: 1}
+      second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
