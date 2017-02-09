@@ -264,4 +264,25 @@ public class RollerController : ControllerBase
 	    // SET THE IK STATE (REPLACES ABOVE)
 	    IK.SetState(PlayerIKControl.WalkState.WALK);
 	}
+
+	public void BecomeBall()
+	{
+		_ik.SetState(PlayerIKControl.WalkState.IDLE);
+
+		_face.gameObject.SetActive(false);
+		_mesh.SetActive(false);
+		_rig.SetActive(false);
+		_rollSphere.SetActive(true);
+	}
+
+	public void BecomeWalker()
+	{
+		_face.gameObject.SetActive(true);
+		_mesh.SetActive(true);
+		_rig.SetActive(true);
+		_rollSphere.SetActive(false);
+
+		_ik.ResetLegs();
+		_ik.SetState(PlayerIKControl.WalkState.WALK);
+	}
 }

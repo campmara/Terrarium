@@ -1159,7 +1159,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 1247d36b4c7709e458d14f43a1603828, type: 2}
+  - {fileID: 2100000, guid: e80215e3e3ca0479db48acaee56c6a23, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1254,7 +1254,8 @@ MonoBehaviour:
   _lookAtTarget: {fileID: 0}
   _lookSpeed: 10
   _armTarget: {fileID: 0}
-  armMoveSpeed: 4
+  armSpeedNoTarget: 7
+  armSpeedTarget: 16
   _legYCurve:
     serializedVersion: 2
     m_Curve:
@@ -1299,11 +1300,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 484718f2c4ab849829491782b508958a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: {x: -1, y: 0, z: 0}
+  axis: {x: 1, y: 0, z: 0}
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
-  min: -5
-  max: 185
+  min: 0
+  max: 180
   zeroAxisDisplayOffset: 0
 --- !u!114 &114036318137326532
 MonoBehaviour:
@@ -1316,11 +1317,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 484718f2c4ab849829491782b508958a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: {x: -1, y: 0, z: 0}
+  axis: {x: 1, y: 0, z: 0}
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
-  min: -5
-  max: 185
+  min: 0
+  max: 180
   zeroAxisDisplayOffset: 0
 --- !u!114 &114052277114745772
 MonoBehaviour:
@@ -1333,11 +1334,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 484718f2c4ab849829491782b508958a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: {x: -1, y: 0, z: 0}
+  axis: {x: 1, y: 0, z: 0}
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
-  min: -5
-  max: 185
+  min: 0
+  max: 180
   zeroAxisDisplayOffset: 0
 --- !u!114 &114066191721814448
 MonoBehaviour:
@@ -1621,8 +1622,8 @@ MonoBehaviour:
   axis: {x: 1, y: 0, z: 0}
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
-  min: -5
-  max: 185
+  min: 0
+  max: 180
   zeroAxisDisplayOffset: 0
 --- !u!114 &114411851398337212
 MonoBehaviour:
@@ -1657,11 +1658,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 484718f2c4ab849829491782b508958a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: {x: -1, y: 0, z: 0}
+  axis: {x: 1, y: 0, z: 0}
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
-  min: -5
-  max: 185
+  min: 0
+  max: 180
   zeroAxisDisplayOffset: 0
 --- !u!114 &114734712019417298
 MonoBehaviour:
@@ -1677,8 +1678,8 @@ MonoBehaviour:
   axis: {x: 1, y: 0, z: 0}
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
-  min: -5
-  max: 185
+  min: 0
+  max: 180
   zeroAxisDisplayOffset: 0
 --- !u!114 &114767945357341630
 MonoBehaviour:
@@ -1705,8 +1706,8 @@ MonoBehaviour:
   axis: {x: 1, y: 0, z: 0}
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
-  min: -5
-  max: 185
+  min: 0
+  max: 180
   zeroAxisDisplayOffset: 0
 --- !u!114 &114846073051716874
 MonoBehaviour:
@@ -1807,8 +1808,8 @@ MonoBehaviour:
   axis: {x: 1, y: 0, z: 0}
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
-  min: -5
-  max: 185
+  min: 0
+  max: 180
   zeroAxisDisplayOffset: 0
 --- !u!114 &114860146148554904
 MonoBehaviour:
@@ -1906,11 +1907,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 484718f2c4ab849829491782b508958a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: {x: -1, y: 0, z: 0}
+  axis: {x: 1, y: 0, z: 0}
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
-  min: -5
-  max: 185
+  min: 0
+  max: 180
   zeroAxisDisplayOffset: 0
 --- !u!114 &114992973683829692
 MonoBehaviour:
@@ -1926,8 +1927,8 @@ MonoBehaviour:
   axis: {x: 1, y: 0, z: 0}
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
-  min: -5
-  max: 185
+  min: 0
+  max: 180
   zeroAxisDisplayOffset: 0
 --- !u!135 &135798789006720372
 SphereCollider:
