@@ -21,7 +21,7 @@
 	}
 	SubShader
 	{
-		Tags{ "Queue" = "Geometry" }
+		Tags{ "Queue" = "Geometry+20" }
 		//Cull Off
 		CGPROGRAM
 			
