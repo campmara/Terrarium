@@ -84,7 +84,7 @@ public class PlayerIKControl : MonoBehaviour
         ResetLegs();
     }
 
-    private void LateUpdate()
+    private void FixedUpdate()
     {
 		HandleLookAt();
         HandleArms();
