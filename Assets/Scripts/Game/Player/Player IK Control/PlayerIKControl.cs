@@ -32,7 +32,8 @@ public class PlayerIKControl : MonoBehaviour
     public enum WalkState
     {
         IDLE,
-        WALK
+        WALK,
+		RITUAL
     };
     private WalkState _walkState = WalkState.IDLE;
     public void SetState(WalkState state)
@@ -51,6 +52,10 @@ public class PlayerIKControl : MonoBehaviour
             case WalkState.WALK:
                 _rightLegAtDest = true;
                 _leftLegAtDest = true;
+				break;
+			case WalkState.RITUAL:
+				_rightLegAtDest = true;
+				_leftLegAtDest = true;
                 break;
         }
 
@@ -109,15 +114,24 @@ public class PlayerIKControl : MonoBehaviour
 			_leftArm.solver.IKPosition = Vector3.Lerp(_leftArm.solver.IKPosition, _armTarget.position, armMoveSpeed * Time.deltaTime);
 			_rightArm.solver.IKPosition = Vector3.Lerp(_rightArm.solver.IKPosition, _armTarget.position, armMoveSpeed * Time.deltaTime);
         }
-        else
+		else if (_walkState == WalkState.RITUAL)
         {
 			_leftArm.solver.IKPosition = Vector3.Lerp(_leftArm.solver.IKPosition, 
-														transform.parent.position - (transform.parent.right * 0.5f), 
-														armMoveSpeed * Time.deltaTime);
+				transform.position + (transform.parent.up * 5f) - (transform.parent.right * 0.5f), 
+				armMoveSpeed * Time.deltaTime);
 			_rightArm.solver.IKPosition = Vector3.Lerp(_rightArm.solver.IKPosition, 
-														transform.parent.position + (transform.parent.right * 0.5f), 
-														armMoveSpeed * Time.deltaTime);
+				transform.position + (transform.parent.up * 5f) + (transform.parent.right * 0.5f), 
+				armMoveSpeed * Time.deltaTime);
         }
+		else
+		{
+			_leftArm.solver.IKPosition = Vector3.Lerp(_leftArm.solver.IKPosition, 
+				transform.parent.position - (transform.parent.right * 0.5f), 
+				armMoveSpeed * Time.deltaTime);
+			_rightArm.solver.IKPosition = Vector3.Lerp(_rightArm.solver.IKPosition, 
+				transform.parent.position + (transform.parent.right * 0.5f), 
+				armMoveSpeed * Time.deltaTime);
+		}
     }
 
     public void SetArmTarget(Transform t)
@@ -163,6 +177,24 @@ public class PlayerIKControl : MonoBehaviour
                 _rightLegRoutine = StartCoroutine(TakeStep(_rightLeg));
             }
         }
+		else if (_walkState == WalkState.RITUAL)
+		{
+			if (_leftLegAtDest)
+			{
+				if (_leftLegRoutine != null)
+					StopCoroutine(_leftLegRoutine);
+
+				_leftLegRoutine = StartCoroutine(RitualStep(_leftLeg));
+			}
+
+			if (_rightLegAtDest)
+			{
+				if (_rightLegRoutine != null)
+					StopCoroutine(_rightLegRoutine);
+
+				_rightLegRoutine = StartCoroutine(RitualStep(_rightLeg));
+			}
+		}
     }
 
     private bool CheckForLegStep(Vector3 legPos)
@@ -200,7 +232,7 @@ public class PlayerIKControl : MonoBehaviour
             Vector3 o = transform.position + (transform.forward * rayDistZ) + (transform.right * -rayDistX);
             _leftDestination.transform.position = ShootRayDown(o, d);
 
-            while (timer < _legMoveTimeMin)
+			while (timer < legMoveTime)
             {
                 timer += Time.deltaTime;
 
@@ -220,7 +252,7 @@ public class PlayerIKControl : MonoBehaviour
             Vector3 o = transform.position + (transform.forward * rayDistZ) + (transform.right * rayDistX);
             _rightDestination.transform.position = ShootRayDown(o, d);
 
-            while (timer < _legMoveTimeMin)
+			while (timer < legMoveTime)
             {
                 timer += Time.deltaTime;
 
@@ -259,7 +291,7 @@ public class PlayerIKControl : MonoBehaviour
             Vector3 o = transform.position + (transform.forward * rayDistZ) + (transform.right * -rayDistX);
             _leftDestination.transform.position = ShootRayDown(o, d);
 
-            while (timer < _legMoveTimeMin)
+			while (timer < legMoveTime)
             {
                 timer += Time.deltaTime;
 
@@ -279,7 +311,7 @@ public class PlayerIKControl : MonoBehaviour
             Vector3 o = transform.position + (transform.forward * rayDistZ) + (transform.right * rayDistX);
             _rightDestination.transform.position = ShootRayDown(o, d);
 
-            while (timer < _legMoveTimeMin)
+			while (timer < legMoveTime)
             {
                 timer += Time.deltaTime;
 
@@ -294,6 +326,60 @@ public class PlayerIKControl : MonoBehaviour
         }
 		GroundManager.instance.Ground.DrawOnPosition(currentPos, 1f);
     }
+
+	private IEnumerator RitualStep(CCDIK leg)
+	{
+		// Move The Leg
+		float timer = 0f;
+
+		Vector3 startPos = leg.solver.IKPosition;
+		Vector3 currentPos = startPos;
+		Vector3 d = Vector3.down;
+
+		// Randomize the footfall distances to make it look a little more natural.
+		float rayDistX = Random.Range(0.15f, 0.3f);
+		float legMoveTime = Random.Range(0.25f, 0.35f);
+
+		if (leg == _leftLeg)
+		{
+			_leftLegAtDest = false;
+
+			Vector3 o = transform.position + (transform.right * -rayDistX);
+			_leftDestination.transform.position = new Vector3(o.x, 0f, o.z);
+
+			while (timer < legMoveTime)
+			{
+				timer += Time.deltaTime;
+
+				currentPos = Vector3.Lerp(startPos, _leftDestination.transform.position, timer / _legMoveTimeMin);
+				currentPos.y = _legYCurve.Evaluate(timer / legMoveTime) * _legLiftHeight;
+				leg.solver.IKPosition = currentPos;
+
+				yield return null;
+			}
+			_leftLegAtDest = true;
+		}
+		else
+		{
+			_rightLegAtDest = false;
+
+			Vector3 o = transform.position + (transform.right * rayDistX);
+			_rightDestination.transform.position = new Vector3(o.x, 0f, o.z);
+
+			while (timer < legMoveTime)
+			{
+				timer += Time.deltaTime;
+
+				currentPos = Vector3.Lerp(startPos, _rightDestination.transform.position, timer / _legMoveTimeMin);
+				currentPos.y = _legYCurve.Evaluate(timer / legMoveTime) * _legLiftHeight;
+				leg.solver.IKPosition = currentPos;
+
+				yield return null;
+			}
+			_rightLegAtDest = true;
+		}
+		GroundManager.instance.Ground.DrawOnPosition(currentPos, 1f);
+	}
 
     private Vector3 ShootRayDown(Vector3 origin, Vector3 direction)
     {

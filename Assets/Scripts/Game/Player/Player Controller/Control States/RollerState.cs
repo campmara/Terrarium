@@ -79,6 +79,8 @@ public class RollerState : MonoBehaviour
 
 	protected void BecomeBall()
 	{
+		_roller.IK.SetState(PlayerIKControl.WalkState.IDLE);
+
 		_roller.Face.gameObject.SetActive(false);
 		_roller.Mesh.SetActive(false);
 		_roller.Rig.SetActive(false);
@@ -93,5 +95,6 @@ public class RollerState : MonoBehaviour
 		_roller.RollSphere.SetActive(false);
 
 		_roller.IK.ResetLegs();
+		_roller.IK.SetState(PlayerIKControl.WalkState.WALK);
 	}
 }
