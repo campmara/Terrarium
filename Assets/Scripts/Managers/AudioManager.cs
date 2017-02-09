@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using DG.Tweening;
 
 #region Audio Controller
 /// <summary>
@@ -25,7 +26,7 @@ public class AudioController
 	public AudioMixerGroup MixerGroup { set { _mixerGroup = value; _source.outputAudioMixerGroup = _mixerGroup; } }
 
 	[SerializeField, Range(0.0f, 1.0f)] private float _volume = 1.0f;
-	public float Volume { set { _volume = value; _source.volume = _volume; } }
+	public float Volume { get { return _source.volume; } set { _volume = value; _source.volume = _volume; } }
 
 	[SerializeField] private bool _playOnAwake = false;
 	public bool PlayOnAwake { set { _playOnAwake = value; _source.playOnAwake = _playOnAwake; } }
@@ -179,9 +180,10 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
         SUNRISE = 0,
         MIDDAY,
         SUNSET,
-		ON_THE_HOUR
+		ON_THE_HOUR,
+		NULL
     }
-    MusicTimeState _musicTimeState = MusicTimeState.SUNRISE;
+	MusicTimeState _musicTimeState = MusicTimeState.NULL;
 
     [SerializeField]
     private AudioClip[] _musicAudioClips;
@@ -190,13 +192,34 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 
     void SetMusicTimeState( MusicTimeState newTimeState )
     {
-		if (newTimeState != _musicTimeState)
+		if (_musicTimeState == MusicTimeState.NULL && newTimeState != MusicTimeState.NULL)
 		{
 			_musicTimeState = newTimeState;
-
-			SetControllerClip( AudioControllerNames.MUSIC, _musicAudioClips[(int)_musicTimeState] ); 
+			SetControllerClip( AudioControllerNames.MUSIC, _musicAudioClips[(int)_musicTimeState] );
+		}
+		else if (newTimeState != _musicTimeState)
+		{
+			StartCoroutine(ChangeMusicRoutine(newTimeState));
 		}    
     }
+
+	// Fades out the current music before switching.
+	IEnumerator ChangeMusicRoutine(MusicTimeState newTimeState)
+	{
+		Tween volTween = DOTween.To(()=> _audioControllerList[(int) AudioControllerNames.MUSIC].Volume, 
+			x=> _audioControllerList[(int) AudioControllerNames.MUSIC].Volume = x, 
+			0f, 
+			3f);
+
+		yield return volTween.WaitForCompletion();
+
+		yield return new WaitForSeconds(1.5f);
+
+		_musicTimeState = newTimeState;
+		SetControllerClip( AudioControllerNames.MUSIC, _musicAudioClips[(int)_musicTimeState] ); 
+		SetControllerVolume(AudioControllerNames.MUSIC, 1f);
+		PlayController(AudioControllerNames.MUSIC);
+	}
 
     void CalculateMusicTimeState()
     {
@@ -233,7 +256,6 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 
 		SetMusicTimeState(MusicTimeState.ON_THE_HOUR);
 		SetControllerLoop(AudioControllerNames.MUSIC, false);
-		PlayController(AudioControllerNames.MUSIC);
 
 		while (GetControllerIsPlaying(AudioControllerNames.MUSIC))
 		{
