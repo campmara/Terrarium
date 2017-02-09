@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: GrassCover
+  m_Name: Ground Grass Blade
   m_Shader: {fileID: 4800000, guid: fdf01df3dba9e41c094d4819153ef41d, type: 3}
   m_ShaderKeywords: _ALPHATEST_ON _EMISSION _TOGGLEBILLBOARD_ON
   m_LightmapFlags: 1
@@ -48,7 +48,7 @@ Material:
     - first:
         name: _MainTex
       second:
-        m_Texture: {fileID: 2800000, guid: 18f7f8a634c06491fb606c61401abb8e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0f1e1f15e08646b4ba6ff67e94523a6c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
@@ -135,7 +135,7 @@ Material:
       second: 1
     - first:
         name: _ToggleBillboard
-      second: 0
+      second: 1
     - first:
         name: _UVSec
       second: 0
