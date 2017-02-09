@@ -5,6 +5,7 @@ using UnityEngine;
 public class PickupCollider : MonoBehaviour 
 {
 	[ReadOnly] public Pickupable parentPickupable;
+	[SerializeField] bool _lockedRotation = true;
 
 	void Awake()
 	{
@@ -14,6 +15,9 @@ public class PickupCollider : MonoBehaviour
 	void FixedUpdate()
 	{
 		// Always keep the trigger upright.
-		transform.rotation = Quaternion.identity;
+		if( _lockedRotation )
+		{
+			transform.rotation = Quaternion.identity;
+		}
 	}
 }
