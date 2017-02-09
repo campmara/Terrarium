@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 114532653587645046}
   - component: {fileID: 114306507564058432}
   - component: {fileID: 114653816407649740}
-  - component: {fileID: 64491893344423352}
+  - component: {fileID: 136638934846887856}
   m_Layer: 0
   m_Name: seed
   m_TagString: Untagged
@@ -100,20 +100,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!64 &64491893344423352
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1527965070150554}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Convex: 1
-  m_InflateMesh: 1
-  m_SkinWidth: 0.04
-  m_Mesh: {fileID: 4300000, guid: 7e8a201d9af314ef9905d851d86c033b, type: 3}
 --- !u!95 &95433790120513474
 Animator:
   serializedVersion: 3
@@ -153,7 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dddceb5e1637b4cd08027a2203db480e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _assetKey: 0
+  _assetKey: -1
   _plantPrefab: {fileID: 1028824138140006, guid: b116cff499e3a4c14b3a2b78496f3139,
     type: 2}
 --- !u!114 &114653816407649740
@@ -168,3 +154,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentPickupable: {fileID: 0}
+  _lockedRotation: 1
+--- !u!136 &136638934846887856
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1527965070150554}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.05
+  m_Height: 0.15
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}
