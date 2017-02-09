@@ -58,13 +58,13 @@ MonoBehaviour:
   _butterflyGradient:
     key0:
       serializedVersion: 2
-      rgba: 4286310908
+      rgba: 4285351333
     key1:
       serializedVersion: 2
-      rgba: 4285351333
+      rgba: 4284120572
     key2:
       serializedVersion: 2
-      rgba: 5930492
+      rgba: 8120828
     key3:
       serializedVersion: 2
       rgba: 8441441
@@ -85,7 +85,7 @@ MonoBehaviour:
     ctime2: 32768
     ctime3: 49151
     ctime4: 65535
-    ctime5: 58789
+    ctime5: 65535
     ctime6: 0
     ctime7: 0
     atime0: 0

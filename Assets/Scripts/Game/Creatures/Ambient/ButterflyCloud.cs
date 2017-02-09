@@ -50,7 +50,7 @@ public class ButterflyCloud : AmbientCreature {
 
     // butterfly spawn values
     const float SPAWN_MINDIST = 0.5f;
-    const float SPAWN_MAXDIST = 4f;
+    const float SPAWN_MAXDIST = 3f;
 
 	[ReadOnlyAttribute, SerializeField]Transform _focusTrans = null;
 	Vector3 _focusDir = Vector3.zero;
