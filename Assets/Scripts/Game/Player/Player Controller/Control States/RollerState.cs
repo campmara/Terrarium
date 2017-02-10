@@ -57,6 +57,8 @@ public class RollerState : MonoBehaviour
 
 		// update the ik
 		_roller.IK.SetArmTarget(pickup.transform);
+
+		AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_ACTIONFX, 1 );
 	}
 
 	protected void HandleDropHeldObject()
@@ -75,5 +77,7 @@ public class RollerState : MonoBehaviour
 			// update the ik
 			_roller.IK.LetGo();
 		}
+
+		AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_ACTIONFX, 0 );
 	}
 }

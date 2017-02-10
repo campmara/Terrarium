@@ -8,11 +8,12 @@ public class TimeManager : SingletonBehaviour<TimeManager>
 {
 	public enum TimeState
 	{
+		NONE = 0,
 		NORMAL,
 		FROZEN
 	}
 
-	TimeState _curState = TimeState.NORMAL;
+	TimeState _curState = TimeState.NONE;
 	float _curTime = 0.0f;
 
     DateTime _realWorldTime = new DateTime();
@@ -48,6 +49,8 @@ public class TimeManager : SingletonBehaviour<TimeManager>
 		MinuteCallback += OnTheMinute;
 		HourCallback += OnTheHour;
 
+		_curState = TimeState.NORMAL;
+
 	    isInitialized = true;
 	}
 
@@ -66,7 +69,10 @@ public class TimeManager : SingletonBehaviour<TimeManager>
 		// Handle Minute Callback
 		if (_realWorldTime.TimeOfDay.Seconds == 0 && minuteCallbackDone == false)
 		{
-			MinuteCallback();
+			if( MinuteCallback != null )
+			{
+				MinuteCallback();	
+			}
 		}
 		else if (_realWorldTime.TimeOfDay.Seconds == 5)
 		{
@@ -76,7 +82,10 @@ public class TimeManager : SingletonBehaviour<TimeManager>
 		// Handle Hourly Callback
 		if (_realWorldTime.TimeOfDay.Minutes == 0 && hourCallbackDone == false)
 		{
-			HourCallback();
+			if( HourCallback != null )
+			{
+				HourCallback();	
+			}
 		}
 		else if (_realWorldTime.TimeOfDay.Minutes == 1)
 		{

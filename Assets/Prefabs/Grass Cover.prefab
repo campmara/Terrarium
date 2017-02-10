@@ -19,7 +19,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4320040572819178}
-  - component: {fileID: 114613342724177000}
   m_Layer: 0
   m_Name: Grass Cover
   m_TagString: Untagged
@@ -109,14 +108,3 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1631806625991812}
   m_Mesh: {fileID: 4300000, guid: 6301ef4d2f0c2463d86f18ae203ecd00, type: 3}
---- !u!114 &114613342724177000
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1098117160196650}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d82086a4df41748bab0940253d5e81b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
