@@ -68,8 +68,15 @@ public class PlantingState : RollerState
         // Right now just gonna move seed Down...
         if ( _roller.CurrentHeldObject != null )
         {
-			_plantTween = _roller.CurrentHeldObject.transform.DOMoveY(RollerConstants.PLANTING_ENDY, RollerConstants.PLANTING_TIME ).OnComplete( () => HandlePlantingEnd() ).SetAutoKill( false ).SetEase(Ease.InBack);
-        }        
+			if( _roller.CurrentHeldObject.GetComponent<Seed>() ) 
+			{       
+				_plantTween = _roller.CurrentHeldObject.transform.DOMoveY(RollerConstants.PLANTING_ENDY, RollerConstants.PLANTING_TIME ).OnComplete( () => HandlePlantingEnd() ).SetAutoKill( false ).SetEase(Ease.InBack); 
+			}      
+			else 
+			{ 
+				HandlePlantingEnd(); 
+			} 
+		}        
     }
 
     void HandlePlantingEnd()

@@ -20,9 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4394169453956620}
   - component: {fileID: 33542406934288872}
-  - component: {fileID: 64969564447315562}
   - component: {fileID: 23024312468993906}
   - component: {fileID: 114005576607767822}
+  - component: {fileID: 65187435618643670}
   m_Layer: 0
   m_Name: Ground
   m_TagString: Untagged
@@ -38,7 +38,7 @@ Transform:
   m_GameObject: {fileID: 1917496532735620}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 1, z: 5}
+  m_LocalScale: {x: 15, y: 1, z: 15}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -81,8 +81,8 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1917496532735620}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &64969564447315562
-MeshCollider:
+--- !u!65 &65187435618643670
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -91,10 +91,8 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Convex: 0
-  m_InflateMesh: 0
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+  m_Size: {x: 10, y: 8, z: 10}
+  m_Center: {x: 0, y: -4, z: 0}
 --- !u!114 &114005576607767822
 MonoBehaviour:
   m_ObjectHideFlags: 1

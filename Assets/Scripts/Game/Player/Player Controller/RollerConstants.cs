@@ -25,6 +25,7 @@ public static class RollerConstants
 	public const float REVERSE_ROLL_SPEED = 6f;
 	public const float ROLL_ACCELERATION = 1f;
 	public const float ROLL_DECELERATION = 10f;
+	public const float ROLL_SPHERE_SPIN = 1250f;
 
 	// ROLL TURNING
 	public const float TURN_SPEED = 125f;

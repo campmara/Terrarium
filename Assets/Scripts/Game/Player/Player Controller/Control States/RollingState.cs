@@ -18,7 +18,7 @@ public class RollingState : RollerState
             case P_ControlState.WALKING:
                 CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_LOCKED );
 				//PlayerManager.instance.Player.AnimationController.PlayWalkToRollAnim();
-				BecomeBall();
+				_roller.BecomeBall();
 				_grounded = false;
 				_tween = _roller.RollSphere.transform.DOMoveY(0.375f, 0.5f)
 					.SetEase(Ease.OutBounce)
@@ -53,11 +53,13 @@ public class RollingState : RollerState
 			_roller.ChangeState( P_ControlState.ROLLING, P_ControlState.WALKING );
 		}
 
+		/*
 		// X BUTTON
 		if (input.XButton.IsPressed)
 		{
 			_roller.ChangeState(P_ControlState.ROLLING, P_ControlState.RITUAL);
 		}
+		*/
 
 		// MOVEMENT HANDLING
 		_roller.InputVec = new Vector3(
@@ -96,6 +98,9 @@ public class RollingState : RollerState
 
 		Vector3 movePos = _roller.transform.position + (_roller.transform.forward * _roller.Velocity * Time.deltaTime);
 		_roller.RB.MovePosition(movePos);
+
+		// Roll the Roll Sphere
+		_roller.RollSphere.transform.Rotate(RollerConstants.ROLL_SPHERE_SPIN * Time.deltaTime, 0f, 0f);
 
 		_roller.LastInputVec = _roller.InputVec.normalized;
 		/*

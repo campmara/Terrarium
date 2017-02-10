@@ -17,7 +17,7 @@ public class WalkingState : RollerState
             //PlayerManager.instance.Player.AnimationController.PlayRollToWalkAnim();
             _tween = _roller.RollSphere.transform.DOMoveY(1.5f, 0.5f)
                 .SetEase(Ease.OutQuint)
-                .OnComplete(BecomeWalker);
+				.OnComplete(_roller.BecomeWalker);
 
 
             
@@ -53,10 +53,15 @@ public class WalkingState : RollerState
 									  RollerConstants.WALK_DECELERATION, 
 									  RollerConstants.WALK_TURN_SPEED);
 
+		if (_tween != null && _tween.IsPlaying())
+		{
+			return;
+		}
+
         // B BUTTON
-        if (input.BButton.IsPressed)
+		if (input.BButton.IsPressed)
         {
-            if ( GameManager.Instance.State == GameManager.GameState.MAIN )
+            if (GameManager.Instance.State == GameManager.GameState.MAIN)
             {
                 _roller.ChangeState( P_ControlState.WALKING, P_ControlState.ROLLING );
             }

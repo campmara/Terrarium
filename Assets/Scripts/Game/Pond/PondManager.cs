@@ -62,6 +62,8 @@ public class PondManager : SingletonBehaviour<PondManager>
 
     private IEnumerator PopPlayerRoutine()
     {        
+		PlayerManager.instance.Player.GetComponent<RollerController>().BecomeBall();
+
         Vector3 endPos = _pond.transform.forward * 5f;
         Tween jumpTween = PlayerManager.instance.Player.transform.DOJump( endPos, POP_HEIGHT, 1, POP_DURATION ).SetEase( Ease.Linear );
 
@@ -70,6 +72,7 @@ public class PondManager : SingletonBehaviour<PondManager>
         CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
         GameManager.Instance.ChangeGameState( GameManager.GameState.MAIN );
 
+		PlayerManager.instance.Player.GetComponent<RollerController>().BecomeWalker();
         PlayerManager.instance.Player.GetComponent<RollerController>().ChangeState( P_ControlState.RITUAL, P_ControlState.WALKING );
     }
 }
