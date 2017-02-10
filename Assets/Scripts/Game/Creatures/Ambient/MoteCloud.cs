@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoteCloud : AmbientCreature {
-
+public class MoteCloud : AmbientCreature 
+{
 	ParticleSystem _particleSystem = null;
 
 	const float CLOUD_RADIUSMIN = 7.5f;
@@ -52,7 +52,7 @@ public class MoteCloud : AmbientCreature {
 					if ( colArr[index].gameObject.GetComponent<Player>() )
 					{
 						_focusTrans = colArr[index].transform;
-						ParticleSystem.ShapeModule shape = this.GetComponent<ParticleSystem.ShapeModule>();
+						ParticleSystem.ShapeModule shape = this.GetComponent<ParticleSystem>().shape;
 						shape.radius = CLOUD_RADIUSMAX;
 					}
 
