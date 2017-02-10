@@ -267,6 +267,7 @@ public class PlayerIKControl : MonoBehaviour
             _rightLegAtDest = true;
         }
 		GroundManager.instance.Ground.DrawOnPosition(currentPos, 1f);
+		AudioManager.instance.PlayRandomAudioClip( AudioManager.AudioControllerNames.PLAYER_FOOTSTEPS );
     }
 
     private IEnumerator StepToIdle(CCDIK leg)

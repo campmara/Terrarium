@@ -13,6 +13,8 @@ public class PlayerManager : SingletonBehaviour<PlayerManager>
 	{		
         _player.Initialize();
 
+		ReturnPlayerToPond();
+
         isInitialized = true;
 	}
 
@@ -26,8 +28,6 @@ public class PlayerManager : SingletonBehaviour<PlayerManager>
             GameObject newPlayer = Instantiate( _playerPrefab ) as GameObject;
 
             _player = newPlayer.GetComponent<Player>();
-
-            ReturnPlayerToPond();
         }
 
 	}

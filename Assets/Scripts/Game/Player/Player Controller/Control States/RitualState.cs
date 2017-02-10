@@ -15,6 +15,8 @@ public class RitualState : RollerState
 		_roller.IK.SetState(PlayerIKControl.WalkState.RITUAL);
 		ritualTimer = 0f;
 	    //PlayerManager.instance.Player.AnimationController.PlayIdleAnim();
+
+		AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_ACTIONFX, 2 );
 	}
 
 	public override void Exit(P_ControlState nextState)
@@ -29,6 +31,8 @@ public class RitualState : RollerState
 	    }
 	    transform.localScale = Vector3.one;
 	    */
+
+		AudioManager.instance.StopController( AudioManager.AudioControllerNames.PLAYER_ACTIONFX );
 	}
 
 	public override void HandleInput(InputCollection input)

@@ -62,6 +62,8 @@ public class PondManager : SingletonBehaviour<PondManager>
 
     private IEnumerator PopPlayerRoutine()
     {        
+		//AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_TRANSITIONFX, 2 );
+
 		PlayerManager.instance.Player.GetComponent<RollerController>().BecomeBall();
 
         Vector3 endPos = _pond.transform.forward * 5f;
