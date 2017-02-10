@@ -19,8 +19,13 @@ public class AudioController
 	private AudioSource _source = null;
     public AudioSource Source { get { return _source; } }
 
-	[SerializeField] private AudioClip _audioClip;
-	public AudioClip Clip { set { _audioClip = value; _source.clip = _audioClip; } }
+	[SerializeField] private List<AudioClip> _audioClipList;
+	public AudioClip MainClip { set { _audioClipList[0] = value; _source.clip = _audioClipList[0]; } }
+	public void SelectClip( int index )
+	{
+		Debug.Assert( index >= 0 && index < _audioClipList.Count );
+		_source.clip = _audioClipList[index];
+	}
 
 	[SerializeField] private AudioMixerGroup _mixerGroup = null;
 	public AudioMixerGroup MixerGroup { set { _mixerGroup = value; _source.outputAudioMixerGroup = _mixerGroup; } }
@@ -39,7 +44,7 @@ public class AudioController
 
 	public AudioController()
 	{
-		_audioClip = null;
+		_audioClipList = null;
 		_mixerGroup = null;
 		_volume = 1.0f;
 		_playOnAwake = false;
@@ -51,7 +56,8 @@ public class AudioController
 	{
 		_source = source;
 
-		_source.clip = _audioClip;
+		_source.clip = _audioClipList[0];
+		_source.outputAudioMixerGroup = _mixerGroup;
 		_source.volume = _volume;
 		_source.playOnAwake = _playOnAwake;
 		_source.loop = _loop;
@@ -78,6 +84,13 @@ public class AudioController
 		}
 	}
 
+	public void PlayRandomClip()
+	{
+		_source.clip = _audioClipList[ UnityEngine.Random.Range( 0, _audioClipList.Count )];
+
+		_source.Play();
+	}
+
 	#endregion
 }
 
@@ -88,7 +101,11 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 	public enum AudioControllerNames
 	{
         MUSIC = 0,
-	    PLAYER_SING = 1
+	    PLAYER_SING = 1,
+		PLAYER_FOOTSTEPS,
+		PLAYER_ROLL,
+		PLAYER_ACTIONFX,
+		PLAYER_TRANSITIONFX
 	}
 	[SerializeField] private List<AudioController> _audioControllerList = new List<AudioController>();
 
@@ -139,7 +156,7 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 
 	public void SetControllerClip(AudioControllerNames controllerName, AudioClip clip)
 	{
-		_audioControllerList[(int) controllerName].Clip = clip;
+		_audioControllerList[(int) controllerName].MainClip = clip;
 	}
 
 	public void SetControllerMixer(AudioControllerNames controllerName, AudioMixerGroup mixer)
@@ -164,7 +181,12 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 
 	public void PlayController(AudioControllerNames controllerName)
 	{
-		_audioControllerList[(int) controllerName].Source.Play();
+		_audioControllerList[(int) controllerName].PlayAudioSource();
+	}
+
+	public void StopController(AudioControllerNames controllerName)
+	{
+		_audioControllerList[(int) controllerName].StopAudioSource();
 	}
 
 	public bool GetControllerIsPlaying(AudioControllerNames controllerName)
@@ -172,21 +194,34 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 		return _audioControllerList[(int) controllerName].Source.isPlaying;
 	}
 
+	public void PlayRandomAudioClip( AudioControllerNames controllerName )
+	{
+		_audioControllerList[(int) controllerName].PlayRandomClip();
+	}
+
+	public void SetClipAtIndex( AudioControllerNames controllerName, int clipIndex )
+	{
+		_audioControllerList[(int) controllerName].SelectClip(clipIndex);
+	}
+
+	public void PlayClipAtIndex( AudioControllerNames controllerName, int clipIndex )
+	{
+		_audioControllerList[(int) controllerName].SelectClip(clipIndex);
+		_audioControllerList[(int) controllerName].PlayAudioSource();
+	}
+
     #endregion
 
 
     public enum MusicTimeState
     {
-        SUNRISE = 0,
+        NULL = -1,
+		SUNRISE = 0,
         MIDDAY,
         SUNSET,
-		ON_THE_HOUR,
-		NULL
+		ON_THE_HOUR
     }
 	MusicTimeState _musicTimeState = MusicTimeState.NULL;
-
-    [SerializeField]
-    private AudioClip[] _musicAudioClips;
 
     public MusicTimeState MusicTime { get { return _musicTimeState; } set { SetMusicTimeState(value); } }
 
@@ -195,7 +230,7 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 		if (_musicTimeState == MusicTimeState.NULL && newTimeState != MusicTimeState.NULL)
 		{
 			_musicTimeState = newTimeState;
-			SetControllerClip( AudioControllerNames.MUSIC, _musicAudioClips[(int)_musicTimeState] );
+			SetClipAtIndex( AudioControllerNames.MUSIC, (int)_musicTimeState );
 		}
 		else if (newTimeState != _musicTimeState)
 		{
@@ -216,7 +251,7 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 		yield return new WaitForSeconds(1.5f);
 
 		_musicTimeState = newTimeState;
-		SetControllerClip( AudioControllerNames.MUSIC, _musicAudioClips[(int)_musicTimeState] ); 
+		SetClipAtIndex( AudioControllerNames.MUSIC, (int)_musicTimeState ); 
 		SetControllerVolume(AudioControllerNames.MUSIC, 1f);
 		PlayController(AudioControllerNames.MUSIC);
 	}
