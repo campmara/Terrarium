@@ -75,10 +75,13 @@ Material:
       second: 1
     - first:
         name: _ColorFog
-      second: 0.79
+      second: 0.734
     - first:
         name: _Cutoff
       second: 0.5
+    - first:
+        name: _DepthClip
+      second: 0.1
     - first:
         name: _DetailNormalMapScale
       second: 1

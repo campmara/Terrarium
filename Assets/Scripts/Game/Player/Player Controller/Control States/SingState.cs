@@ -47,12 +47,12 @@ public class SingState : RollerState
 	    if (input.YButton.IsPressed)
 	    {
 	        AudioManager.instance.PlaySing(_singPitch);
-	        _roller.Face.SingFace();
+	        _roller.Face.Sing();
 	        _waitToReturnTimer = 0f;
 	    }
 		else
 		{
-		    _roller.Face.NormalFace();
+		    _roller.Face.BecomeIdle();
 		    _waitToReturnTimer += Time.deltaTime;
 		}
 
