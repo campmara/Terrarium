@@ -6,6 +6,8 @@ public class CarryState : RollerState
 	{
 		Debug.Log("ENTER CARRY STATE");
 
+		_roller.Face.BecomeEncumbered();
+
 		switch( prevState )
 		{
 		    case P_ControlState.PICKINGUP:
