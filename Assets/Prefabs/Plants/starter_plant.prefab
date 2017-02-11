@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 65361673310208896}
   - component: {fileID: 54446093939707212}
   - component: {fileID: 114174503958260724}
+  - component: {fileID: 114261372939883760}
   m_Layer: 0
   m_Name: starter_plant
   m_TagString: Untagged
@@ -405,6 +406,17 @@ MonoBehaviour:
   _bStemRoot: {fileID: 4521704662299462}
   _leafPrefab: {fileID: 1248963832722794, guid: a0521c65f58601b43975af7e8620d049,
     type: 2}
+--- !u!114 &114261372939883760
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1028824138140006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d2b9fdd69f746c287f1e9b9386afbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114731488935830358
 MonoBehaviour:
   m_ObjectHideFlags: 1
