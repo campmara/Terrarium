@@ -42,7 +42,7 @@ Transform:
   m_GameObject: {fileID: 1527965070150554}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6.2464447, y: 0.25, z: 1.5152425}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalScale: {x: 6, y: 6, z: 6}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba7f7241d0b3c46ac895ab052f9b1516, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentPickupable: {fileID: 0}
+  parentPickupable: {fileID: 114532653587645046}
   _lockedRotation: 1
 --- !u!136 &136638934846887856
 CapsuleCollider:
