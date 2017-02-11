@@ -244,8 +244,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1028824138140006}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.72, y: 0.114602864, z: -4.87}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalPosition: {x: 0.07098197, y: 6.670804e-20, z: -0.045063943}
+  m_LocalScale: {x: 12, y: 12, z: 12}
   m_Children:
   - {fileID: 4521704662299462}
   - {fileID: 4338989222700296}
@@ -392,10 +392,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 080f0cb5dcfc64ee99d5d9ac47120a21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pAssetKey: -1
   _spawnables:
-  - {fileID: 1839983384230560, guid: 0b2f7dafa006f4282bdc5c5658a69152, type: 2}
-  _seedPrefab: {fileID: 1527965070150554, guid: 33686b7f91d454047b4c00e8026b6d28,
-    type: 2}
+  - {fileID: 1957489743728246, guid: 2e152ae3f797a491ca6ec5694d70fb63, type: 2}
+  _baseGrowthRate: 0.01
+  _scaleRange: {x: 6, y: 12}
+  _gAssetKey: -1
+  _droppablePrefabs:
+  - {fileID: 1527965070150554, guid: 33686b7f91d454047b4c00e8026b6d28, type: 2}
+  - {fileID: 1786725959533962, guid: dafc924c72eae445f981af645fa00b57, type: 2}
   _curStage: 0
   _bStemRoot: {fileID: 4521704662299462}
   _leafPrefab: {fileID: 1248963832722794, guid: a0521c65f58601b43975af7e8620d049,
@@ -412,6 +417,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentPickupable: {fileID: 0}
+  _lockedRotation: 1
 --- !u!137 &137425570155143246
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

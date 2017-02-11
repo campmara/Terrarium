@@ -110,24 +110,28 @@ public class GameManager : MonoBehaviour
 		bool newSceneLoaded = false;
 		int newSceneIndex = 0;
 
-		if(newState != prevState)
+		if( newState != prevState )
 		{
-			switch(newState)
+			switch( newState )
 			{
 			case GameState.INIT:			// Only for game launch
 				Initialize();
 				break;
 			case GameState.INTRO:
-				break;
+                UIManager.GetPanelOfType<PanelIntro>().Disable();
+                break;
 			default:
 				break;
 			}
 			_state = newState;
 
-			StartCoroutine(DelayedCompleteChangeScene(newSceneLoaded, newSceneIndex));
+            StartCoroutine( DelayedCompleteChangeScene( newSceneLoaded, newSceneIndex ) );
 
 			if(GameStateChanged != null)
-				GameStateChanged(_state, prevState);
+            {
+                GameStateChanged( _state, prevState );
+            }
+				
 		}
 
 		Debug.Log("Transitioned from: " + prevState.ToString() + " to " + newState.ToString());
@@ -157,6 +161,10 @@ public class GameManager : MonoBehaviour
 
 	IEnumerator DelayedInitialize()
 	{
+        AssetManager.instance.Initialize();
+
+        yield return new WaitUntil( () => AssetManager.instance.IsInitialized );
+
         SaveManager.instance.Initialize();
 
         yield return new WaitUntil( () => SaveManager.instance.IsInitialized );
@@ -189,7 +197,19 @@ public class GameManager : MonoBehaviour
 
 		yield return new WaitUntil( () => CameraManager.instance.IsInitialized );
 
-    ChangeGameState(GameState.MAIN);
+        PondManager.instance.Initialize();
+
+        yield return new WaitUntil( () => PondManager.instance.IsInitialized );
+
+        WeatherManager.instance.Initialize();
+
+        yield return new WaitUntil( () => WeatherManager.instance.IsInitialized );
+
+        CreatureManager.instance.Initialize();
+
+        yield return new WaitUntil( () => CreatureManager.instance.IsInitialized );
+
+        ChangeGameState( GameState.INTRO );
 	}
 
 	IEnumerator RestartScene(int sceneNum, float waitTime)

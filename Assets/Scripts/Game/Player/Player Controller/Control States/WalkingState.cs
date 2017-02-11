@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
+using DG.Tweening;
 
 public class WalkingState : RollerState
 {
+    private Tween _tween;
+
     public override void Enter( P_ControlState prevState )
 	{
 		Debug.Log("ENTER WALKING STATE");
@@ -9,18 +12,30 @@ public class WalkingState : RollerState
         // Handle Transition
         switch ( prevState )
         {
-        case P_ControlState.ROLLING:
-			CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
-			PlayerManager.instance.Player.AnimationController.PlayRollToWalkAnim();
+        case P_ControlState.ROLLING:            
+            CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
+            //PlayerManager.instance.Player.AnimationController.PlayRollToWalkAnim();
+            _tween = _roller.RollSphere.transform.DOMoveY(1.5f, 0.5f)
+                .SetEase(Ease.OutQuint)
+				.OnComplete(_roller.BecomeWalker);
+
+
+            
             break;
         }
 
-        PlayerManager.instance.Player.AnimationController.PlayWalkAnim();
+        //PlayerManager.instance.Player.AnimationController.PlayWalkAnim();
 	}
 
 	public override void Exit(P_ControlState nextState)
 	{
 		Debug.Log("EXIT WALKING STATE");
+
+        if (_tween != null)
+	    {
+	        _tween.Kill();
+	        _tween = null;
+	    }
 
 		RollerParent.Idling = false;
     }
@@ -38,10 +53,18 @@ public class WalkingState : RollerState
 									  RollerConstants.WALK_DECELERATION, 
 									  RollerConstants.WALK_TURN_SPEED);
 
+		if (_tween != null && _tween.IsPlaying())
+		{
+			return;
+		}
+
         // B BUTTON
-        if (input.BButton.IsPressed)
+		if (input.BButton.IsPressed)
         {
-            _roller.ChangeState( P_ControlState.WALKING, P_ControlState.ROLLING );
+            if (GameManager.Instance.State == GameManager.GameState.MAIN)
+            {
+                _roller.ChangeState( P_ControlState.WALKING, P_ControlState.ROLLING );
+            }
         }
 
         // X BUTTON

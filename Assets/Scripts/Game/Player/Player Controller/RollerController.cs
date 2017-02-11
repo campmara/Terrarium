@@ -16,8 +16,23 @@ public enum P_ControlState
 public class RollerController : ControllerBase 
 {
     [ReadOnly]
-    Rigidbody _rigidbody = null;
+    private Rigidbody _rigidbody = null;
     public Rigidbody RB { get { return _rigidbody; } }
+
+    [ReadOnly] private PlayerIKControl _ik = null;
+    public PlayerIKControl IK { get { return _ik; } }
+
+    [ReadOnly] private FaceManager _face = null;
+    public FaceManager Face { get { return _face; } }
+
+	[ReadOnly] private GameObject _mesh = null;
+	public GameObject Mesh { get { return _mesh; } }
+
+	[ReadOnly] private GameObject _rig = null;
+	public GameObject Rig { get { return _rig; } }
+
+	[ReadOnly] private GameObject _rollSphere = null;
+	public GameObject RollSphere { get { return _rollSphere; } }
 
 	// These have accessors in the RollerState
 	[ReadOnly] Pickupable _currentHeldObject = null;
@@ -56,6 +71,11 @@ public class RollerController : ControllerBase
 	{
 		//Debug.Log("Added Test Controller to Player Control Manager");
         _rigidbody = GetComponent<Rigidbody>();
+	    _ik = GetComponentInChildren<PlayerIKControl>();
+	    _face = GetComponentInChildren<FaceManager>();
+		_mesh = GetComponentInChildren<SkinnedMeshRenderer>().gameObject;
+		_rig = transform.GetChild(0).gameObject;
+		_rollSphere = transform.GetChild(2).gameObject;
 
 		// Add State Controller, Set parent to This Script, set to inactive
 		_walking = this.gameObject.AddComponent<WalkingState>();
@@ -186,31 +206,30 @@ public class RollerController : ControllerBase
 			vec.y = 0f;
 			_inputVec = vec;
 
-			if (Mathf.Abs(_input.LeftStickX.Value) > RollerConstants.INPUT_DEADZONE || 
-				Mathf.Abs(_input.LeftStickY.Value) > RollerConstants.INPUT_DEADZONE)
-			{
-				Accelerate(maxMoveSpeed, moveAcceleration);
-				Vector3 movePos = transform.position + (_inputVec * _velocity * Time.deltaTime);
-				_rigidbody.MovePosition(movePos);
+		    // MOVEMENT
+		    {
+		        Accelerate(maxMoveSpeed, moveAcceleration);
+		        Vector3 movePos = transform.position + (_inputVec * _velocity * Time.deltaTime);
+		        _rigidbody.MovePosition(movePos);
 
-				targetRotation = Quaternion.LookRotation(_inputVec);
+		        targetRotation = Quaternion.LookRotation(_inputVec);
 
-				_lastInputVec = _inputVec.normalized;
-			}
-			else if (_velocity > 0f)
-			{
-				// Slowdown
-				_velocity -= moveDeceleration * Time.deltaTime;
-				Vector3 slowDownPos = transform.position + (_lastInputVec * _velocity * Time.deltaTime );
-				_rigidbody.MovePosition( slowDownPos );
-			}
+		        _lastInputVec = _inputVec.normalized;
+		    }
 
-			// So player continues turning even after InputUp
+		    // So player continues turning even after InputUp
 			transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, maxTurnSpeed * Time.deltaTime);
+		}
+	    else if (_velocity > 0f)
+		{
+		    // Slowdown
+		    _velocity -= moveDeceleration * Time.deltaTime;
+		    Vector3 slowDownPos = transform.position + (_lastInputVec * _velocity * Time.deltaTime );
+		    _rigidbody.MovePosition( slowDownPos );
 		}
 		else
 		{
-			if( _idleWaitRoutine == null )
+		    if( _idleWaitRoutine == null )
 			{
 				_idleWaitRoutine = StartCoroutine( JohnTech.WaitFunction(RollerConstants.IDLE_WAITTIME, () => HandleBeginIdle() ) );
 			}
@@ -230,13 +249,44 @@ public class RollerController : ControllerBase
 	{
 		_idling = true;
 
-		PlayerManager.instance.Player.AnimationController.PlayIdleAnim();
+		//PlayerManager.instance.Player.AnimationController.PlayIdleAnim();
+
+	    // SET THE IK STATE (REPLACES ABOVE)
+	    IK.SetState(PlayerIKControl.WalkState.IDLE);
 	}
 
 	public void HandleEndIdle()
 	{
 		_idling = false;
 
-		PlayerManager.instance.Player.AnimationController.PlayWalkAnim();
+		//PlayerManager.instance.Player.AnimationController.PlayWalkAnim();
+
+	    // SET THE IK STATE (REPLACES ABOVE)
+	    IK.SetState(PlayerIKControl.WalkState.WALK);
+	}
+
+	public void BecomeBall()
+	{
+		_ik.SetState(PlayerIKControl.WalkState.IDLE);
+
+		_face.gameObject.SetActive(false);
+		_mesh.SetActive(false);
+		_rig.SetActive(false);
+		_rollSphere.SetActive(true);
+
+		AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_TRANSITIONFX, 0 );
+	}
+
+	public void BecomeWalker()
+	{
+		_face.gameObject.SetActive(true);
+		_mesh.SetActive(true);
+		_rig.SetActive(true);
+		_rollSphere.SetActive(false);
+
+		_ik.ResetLegs();
+		_ik.SetState(PlayerIKControl.WalkState.WALK);
+
+		AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_TRANSITIONFX, 1 );
 	}
 }

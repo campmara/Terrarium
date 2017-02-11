@@ -1,4 +1,4 @@
-﻿Shader "Custom/Hardness (Half Lambert)"
+﻿Shader "InsideWrap/Hardness (Half Lambert)"
 {
 	Properties{
 		_MainTex("Base (RGB)", 2D) = "white" {}
