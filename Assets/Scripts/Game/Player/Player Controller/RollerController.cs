@@ -273,6 +273,8 @@ public class RollerController : ControllerBase
 		_mesh.SetActive(false);
 		_rig.SetActive(false);
 		_rollSphere.SetActive(true);
+
+		AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_TRANSITIONFX, 0 );
 	}
 
 	public void BecomeWalker()
@@ -284,5 +286,7 @@ public class RollerController : ControllerBase
 
 		_ik.ResetLegs();
 		_ik.SetState(PlayerIKControl.WalkState.WALK);
+
+		AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_TRANSITIONFX, 1 );
 	}
 }
