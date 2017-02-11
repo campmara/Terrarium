@@ -11,53 +11,69 @@ public class StarterPlant : Growable
 	private Transform[] _bones;
 
 	int _curChildSpawned = 1;
-	Coroutine leafSpawnRoutine = null;
 	float _timeBetweenLeafSpawns = 0.0f;
+
+	int _inverseIndex = 0;
+	float _offset = 0.0f;
+	int _ringNumber = 0;
+
+	Transform _currentParent = null;
+	Coroutine _leafSpawnRoutine = null;
+
 
 	protected override void AnimationSetup()
 	{
+		base.AnimationSetup();
+
 		_bones = _bStemRoot.GetComponentsInChildren<Transform>();
 		_numChildren = _bones.Length; // we subtract one for them that exists there
 
-		AnimatorStateInfo info = _plantAnim.GetCurrentAnimatorStateInfo(0);
+		AnimatorStateInfo info = _plantAnim.GetCurrentAnimatorStateInfo( 0 );
 		_timeBetweenLeafSpawns = ( info.length / _baseGrowthRate ) / _numChildren;
 
 		for (int i = 0; i < _plantAnim.layerCount; i++)
 		{
-			_plantAnim.SetLayerWeight( i, Random.Range(0, 2) );
+			_plantAnim.SetLayerWeight( i, Random.Range( 0, 2 ) );
 		}
 	}
 
 	private IEnumerator SpawnLeaves()
 	{
-		int inverseIndex = _numChildren - _curChildSpawned;
-		Transform currentParent = _bones[inverseIndex];
+		_inverseIndex = _numChildren - _curChildSpawned;
+		_currentParent = _bones[ _inverseIndex];
 
-		float offset = Random.Range( 0, 100 );
-		int ringnumber = Random.Range( 5, 8 );
+		_offset = Random.Range( 0, 100 );
+		_ringNumber = Random.Range( 5, 8 );
 
-		for (int i = 0; i < ringnumber; i++)
+		for (int i = 0; i < _ringNumber; i++)
 		{
-			GameObject l = Instantiate(_leafPrefab);
-			l.transform.SetParent(currentParent);
-			l.transform.position = currentParent.position;
-			l.transform.localScale = currentParent.localScale * inverseIndex * .2f;//(inverseIndex * inverseIndex * .05f);
-			l.transform.Rotate(new Vector3(0,i*360/ringnumber + offset, 0));
-			l.transform.position -= l.transform.forward * .015f * transform.localScale.x;
-			l.GetComponent<Animator>().speed *= _plantAnim.GetComponent<Animator>().speed;
+			SetupLeaf( i );
 		}
 
 		yield return new WaitForSeconds( _timeBetweenLeafSpawns );
 
 		_curChildSpawned++;
-		leafSpawnRoutine = null;
+		_leafSpawnRoutine = null;
 	}
 		
+	void SetupLeaf( int index )
+	{
+		GameObject l = Instantiate(_leafPrefab);
+
+		l.transform.SetParent( _currentParent );
+		l.transform.position = _currentParent.position;
+
+		l.transform.localScale = _currentParent.localScale * _inverseIndex * .2f;//(inverseIndex * inverseIndex * .05f);
+		l.transform.Rotate(new Vector3(0, index * 360 / _ringNumber + _offset, 0));
+		l.transform.position -= l.transform.forward * .015f * transform.localScale.x;
+		l.GetComponent<Animator>().speed *= _plantAnim.GetComponent<Animator>().speed;
+	}
+
 	protected override void CustomPlantGrowing()
 	{
-		if( leafSpawnRoutine == null && _curChildSpawned < _numChildren )
+		if( _leafSpawnRoutine == null && _curChildSpawned < _numChildren )
 		{
-			leafSpawnRoutine = StartCoroutine( SpawnLeaves() );
+			_leafSpawnRoutine = StartCoroutine( SpawnLeaves() );
 		}
 	}
 }

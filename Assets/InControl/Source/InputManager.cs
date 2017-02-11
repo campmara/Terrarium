@@ -102,7 +102,7 @@ namespace InControl
 			}
 
 #if !NETFX_CORE && !UNITY_WEBPLAYER && !UNITY_EDITOR_OSX && (UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
-			Platform = (Utility.GetWindowsVersion() + " " + SystemInfo.deviceModel).ToUpper();
+			Platform = Utility.GetWindowsVersion().ToUpper();
 #else
 			Platform = (SystemInfo.operatingSystem + " " + SystemInfo.deviceModel).ToUpper();
 #endif

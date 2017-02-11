@@ -4,32 +4,38 @@ using UnityEngine;
 
 public class PlayerManager : SingletonBehaviour<PlayerManager>
 {
+    [SerializeField] GameObject _playerPrefab = null;
+
 	[SerializeField] Player _player = null;
 	public Player Player { get { return _player; } }
 
 	public override void Initialize ()
-	{
-		if( _player != null)
-		{
-			_player.Initialize();
-		}
+	{		
+        _player.Initialize();
 
-		isInitialized = true;
+		ReturnPlayerToPond();
+
+        isInitialized = true;
 	}
 
 	// Use this for initialization
 	void Awake () 
 	{
-		if( _player == null )
-		{
-			Debug.Log("[PlayerManager]: No Player Prefab assigned, please set it up in the inspector when you get the chance.");
-		    _player = FindObjectOfType<Player>();
-		}
+        if (_player == null)
+        {
+            Debug.Assert( _playerPrefab != null );
+
+            GameObject newPlayer = Instantiate( _playerPrefab ) as GameObject;
+
+            _player = newPlayer.GetComponent<Player>();
+        }
+
 	}
+
+    public void ReturnPlayerToPond()
+    {
+        _player.transform.position = PondManager.instance.Pond.transform.position + ( Vector3.down * 3f );
+        _player.transform.rotation = Quaternion.identity;
+    }
 	
-	// Update is called once per frame
-	void Update () 
-	{
-		
-	}
 }

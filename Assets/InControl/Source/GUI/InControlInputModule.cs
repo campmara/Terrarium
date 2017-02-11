@@ -3,7 +3,7 @@ namespace InControl
 {
 	using UnityEngine;
 	using UnityEngine.EventSystems;
-
+	using UnityEngine.Serialization;
 
 	[AddComponentMenu( "Event/InControl Input Module" )]
 	public class InControlInputModule : StandaloneInputModule
@@ -22,9 +22,19 @@ namespace InControl
 		public float analogMoveThreshold = 0.5f;
 		public float moveRepeatFirstDuration = 0.8f;
 		public float moveRepeatDelayDuration = 0.1f;
-		public bool allowMobileDevice = true;
+
+		// Deprecated.
+		bool allowMobileDevice;
+
+		[FormerlySerializedAs( "allowMobileDevice" )]
+#if UNITY_5 && !(UNITY_5_0)
+		new public bool forceModuleActive;
+#else
+		public bool forceModuleActive;
+#endif
+
 		public bool allowMouseInput = true;
-		public bool focusOnMouseHover = false;
+		public bool focusOnMouseHover;
 
 		InputDevice inputDevice;
 		Vector3 thisMousePosition;
@@ -40,9 +50,7 @@ namespace InControl
 		TwoAxisInputControl direction;
 
 		public PlayerAction SubmitAction { get; set; }
-
 		public PlayerAction CancelAction { get; set; }
-
 		public PlayerTwoAxisAction MoveAction { get; set; }
 
 
@@ -66,7 +74,19 @@ namespace InControl
 			return true;
 #endif
 
-			return allowMobileDevice || Input.mousePresent;
+			if (forceModuleActive || Input.mousePresent)
+			{
+				return true;
+			}
+
+#if UNITY_5
+			if (Input.touchSupported)
+			{
+				return true;
+			}
+#endif
+
+			return false;
 		}
 
 
@@ -91,6 +111,11 @@ namespace InControl
 				shouldActivate |= MouseButtonIsPressed;
 			}
 #endif
+
+			if (Input.touchCount > 0)
+			{
+				shouldActivate = true;
+			}
 
 			return shouldActivate;
 		}
@@ -131,6 +156,13 @@ namespace InControl
 				}
 			}
 
+#if UNITY_5 && !(UNITY_5_0)
+			if (ProcessTouchEvents())
+			{
+				return;
+			}
+#endif
+
 #if !UNITY_IOS || UNITY_EDITOR
 			if (allowMouseInput)
 			{
@@ -138,6 +170,41 @@ namespace InControl
 			}
 #endif
 		}
+
+
+#if UNITY_5 && !(UNITY_5_0)
+		bool ProcessTouchEvents()
+		{
+			var touchCount = Input.touchCount;
+			for (var i = 0; i < touchCount; ++i)
+			{
+				var touch = Input.GetTouch( i );
+
+				if (touch.type == UnityEngine.TouchType.Indirect)
+				{
+					continue;
+				}
+
+				bool released;
+				bool pressed;
+				var pointer = GetTouchPointerEventData( touch, out pressed, out released );
+
+				ProcessTouchPress( pointer, pressed, released );
+
+				if (!released)
+				{
+					ProcessMove( pointer );
+					ProcessDrag( pointer );
+				}
+				else
+				{
+					RemovePointerData( pointer );
+				}
+			}
+
+			return touchCount > 0;
+		}
+#endif
 
 
 		bool SendButtonEventToSelectedObject()
@@ -390,7 +457,7 @@ namespace InControl
 		#region Unity 5.0 / 5.1 compatibility.
 
 #if UNITY_5_0 || UNITY_5_1
-		
+
 		bool SendUpdateEventToSelectedObject()
 		{
 			if (eventSystem.currentSelectedGameObject == null)
@@ -511,6 +578,94 @@ namespace InControl
 			return pressed || released || pointerData.IsPointerMoving() || pointerData.IsScrolling();
 		}
 
+#endif
+
+		#endregion
+
+
+		// Copied from StandaloneInputModule where these are marked private instead of protected in Unity 5.3 / 5.4
+		#region Unity 5.3 / 5.4 compatibility.
+
+#if UNITY_5_3 || UNITY_5_4
+		void ProcessTouchPress( PointerEventData pointerEvent, bool pressed, bool released )
+		{
+			var go = pointerEvent.pointerCurrentRaycast.gameObject;
+			if (pressed)
+			{
+				pointerEvent.eligibleForClick = true;
+				pointerEvent.delta = Vector2.zero;
+				pointerEvent.dragging = false;
+				pointerEvent.useDragThreshold = true;
+				pointerEvent.pressPosition = pointerEvent.position;
+				pointerEvent.pointerPressRaycast = pointerEvent.pointerCurrentRaycast;
+				DeselectIfSelectionChanged( go, pointerEvent );
+				if (pointerEvent.pointerEnter != go)
+				{
+					HandlePointerExitAndEnter( pointerEvent, go );
+					pointerEvent.pointerEnter = go;
+				}
+				var go2 = ExecuteEvents.ExecuteHierarchy( go, pointerEvent, ExecuteEvents.pointerDownHandler );
+				if (go2 == null)
+				{
+					go2 = ExecuteEvents.GetEventHandler<IPointerClickHandler>( go );
+				}
+				float unscaledTime = Time.unscaledTime;
+				if (go2 == pointerEvent.lastPress)
+				{
+					float num = unscaledTime - pointerEvent.clickTime;
+					if (num < 0.3f)
+					{
+						pointerEvent.clickCount++;
+					}
+					else
+					{
+						pointerEvent.clickCount = 1;
+					}
+					pointerEvent.clickTime = unscaledTime;
+				}
+				else
+				{
+					pointerEvent.clickCount = 1;
+				}
+				pointerEvent.pointerPress = go2;
+				pointerEvent.rawPointerPress = go;
+				pointerEvent.clickTime = unscaledTime;
+				pointerEvent.pointerDrag = ExecuteEvents.GetEventHandler<IDragHandler>( go );
+				if (pointerEvent.pointerDrag != null)
+				{
+					ExecuteEvents.Execute( pointerEvent.pointerDrag, pointerEvent, ExecuteEvents.initializePotentialDrag );
+				}
+			}
+			if (released)
+			{
+				ExecuteEvents.Execute( pointerEvent.pointerPress, pointerEvent, ExecuteEvents.pointerUpHandler );
+				var eventHandler = ExecuteEvents.GetEventHandler<IPointerClickHandler>( go );
+				if (pointerEvent.pointerPress == eventHandler && pointerEvent.eligibleForClick)
+				{
+					ExecuteEvents.Execute( pointerEvent.pointerPress, pointerEvent, ExecuteEvents.pointerClickHandler );
+				}
+				else if (pointerEvent.pointerDrag != null && pointerEvent.dragging)
+				{
+					ExecuteEvents.ExecuteHierarchy( go, pointerEvent, ExecuteEvents.dropHandler );
+				}
+				pointerEvent.eligibleForClick = false;
+				pointerEvent.pointerPress = null;
+				pointerEvent.rawPointerPress = null;
+				if (pointerEvent.pointerDrag != null && pointerEvent.dragging)
+				{
+					ExecuteEvents.Execute( pointerEvent.pointerDrag, pointerEvent, ExecuteEvents.endDragHandler );
+				}
+				pointerEvent.dragging = false;
+				pointerEvent.pointerDrag = null;
+				if (pointerEvent.pointerDrag != null)
+				{
+					ExecuteEvents.Execute( pointerEvent.pointerDrag, pointerEvent, ExecuteEvents.endDragHandler );
+				}
+				pointerEvent.pointerDrag = null;
+				ExecuteEvents.ExecuteHierarchy( pointerEvent.pointerEnter, pointerEvent, ExecuteEvents.pointerExitHandler );
+				pointerEvent.pointerEnter = null;
+			}
+		}
 #endif
 
 		#endregion

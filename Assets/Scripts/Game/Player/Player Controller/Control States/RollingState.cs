@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
+using DG.Tweening;
 
 public class RollingState : RollerState 
 {
 	private float _turnVelocity = 0f;
+	private bool _grounded = false;
+
+	private Tween _tween;
 
     public override void Enter( P_ControlState prevState ) 
 	{
@@ -13,15 +17,32 @@ public class RollingState : RollerState
         {
             case P_ControlState.WALKING:
                 CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_LOCKED );
-				PlayerManager.instance.Player.AnimationController.PlayWalkToRollAnim();
+				//PlayerManager.instance.Player.AnimationController.PlayWalkToRollAnim();
+				_roller.BecomeBall();
+				_grounded = false;
+				_tween = _roller.RollSphere.transform.DOMoveY(0.375f, 0.5f)
+					.SetEase(Ease.OutBounce)
+					.OnComplete(GroundHit);
+
+				
                 break;
         }
 
     }
 
+	private void GroundHit()
+	{
+		_grounded = true;
+	}
+
 	public override void Exit(P_ControlState nextState)
 	{
 		Debug.Log("EXIT ROLLING STATE");
+		if (_tween != null)
+	    {
+	        _tween.Kill();
+	        _tween = null;
+	    }
 	}
 
 	public override void HandleInput(InputCollection input)
@@ -32,11 +53,13 @@ public class RollingState : RollerState
 			_roller.ChangeState( P_ControlState.ROLLING, P_ControlState.WALKING );
 		}
 
+		/*
 		// X BUTTON
 		if (input.XButton.IsPressed)
 		{
 			_roller.ChangeState(P_ControlState.ROLLING, P_ControlState.RITUAL);
 		}
+		*/
 
 		// MOVEMENT HANDLING
 		_roller.InputVec = new Vector3(
@@ -47,6 +70,12 @@ public class RollingState : RollerState
 
 		HandleRolling(input);
 		HandleTurning(input);
+
+		// Update the ground paint!
+		if (_grounded)
+		{
+			GroundManager.instance.Ground.DrawOnPosition(transform.position, 4f);
+		}
 	}
 
 	private void HandleRolling(InputCollection input)
@@ -70,6 +99,9 @@ public class RollingState : RollerState
 		Vector3 movePos = _roller.transform.position + (_roller.transform.forward * _roller.Velocity * Time.deltaTime);
 		_roller.RB.MovePosition(movePos);
 
+		// Roll the Roll Sphere
+		_roller.RollSphere.transform.Rotate(RollerConstants.ROLL_SPHERE_SPIN * Time.deltaTime, 0f, 0f);
+
 		_roller.LastInputVec = _roller.InputVec.normalized;
 		/*
 		else if (velocity != 0f)
@@ -86,7 +118,7 @@ public class RollingState : RollerState
 	{
 		if (Mathf.Abs(input.LeftStickX.Value) > RollerConstants.INPUT_DEADZONE)
 		{
-			if (_roller.InputVec.z >= -0.2f)
+            if (_roller.InputVec.z >= -0.2f)
 			{
 				AccelerateTurn(RollerConstants.TURN_SPEED, RollerConstants.TURN_ACCELERATION, _roller.InputVec.x);
 			}
@@ -100,11 +132,21 @@ public class RollingState : RollerState
 		}
 		else if (_turnVelocity != 0f)
 		{
-			// Slowdown
-		    _turnVelocity -= Mathf.Sign(_turnVelocity) * RollerConstants.TURN_DECELERATION * Time.deltaTime;
+			if( Mathf.Abs( _turnVelocity ) < RollerConstants.TURN_MINSPEED )
+            {
+                // Set turn vel to 0 when below certain threshold
+                _turnVelocity = 0.0f;
+            }
+            else
+            {
+                // Slowdown
+                _turnVelocity -= Mathf.Sign( _turnVelocity ) * RollerConstants.TURN_DECELERATION * Time.deltaTime;
+            }
+            
 			Quaternion slowTurn = Quaternion.Euler(0f, _roller.transform.eulerAngles.y + (_turnVelocity * Time.deltaTime), 0f);
 			_roller.RB.MoveRotation(slowTurn);
 		}
+
 	}
 
 	private void AccelerateTurn(float max, float accel, float inputAffect)

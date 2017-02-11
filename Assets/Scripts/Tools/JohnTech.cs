@@ -43,6 +43,11 @@ public static class JohnTech
         return new Vector3(UnityEngine.Random.Range(minVal, maxVal), UnityEngine.Random.Range(minVal, maxVal), UnityEngine.Random.Range(minVal, maxVal));
     }
 
+    public static float RandomSign()
+    {
+        return JohnTech.CoinFlip() ? -1.0f : 1.0f;
+    }
+
 	// FROM WADEUTILS lel ;/
 	#region Increment Position Properties
 

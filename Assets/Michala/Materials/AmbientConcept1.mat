@@ -7,12 +7,12 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: AmbientConcept1
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: _ALPHAPREMULTIPLY_ON _EMISSION
+  m_Shader: {fileID: 4800000, guid: 7bd38216be2db1742a029c7727b1f501, type: 3}
+  m_ShaderKeywords: _ALPHABLEND_ON _EMISSION _GLOSSYREFLECTIONS_OFF _SPECULARHIGHLIGHTS_OFF
+    _TOGGLEBILLBOARD_ON
   m_LightmapFlags: 1
-  m_CustomRenderQueue: 3000
-  stringTagMap:
-    RenderType: Transparent
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
     m_TexEnvs:
@@ -76,7 +76,7 @@ Material:
       second: 1
     - first:
         name: _Cutoff
-      second: 0.5
+      second: 1
     - first:
         name: _DetailNormalMapScale
       second: 1
@@ -88,16 +88,19 @@ Material:
       second: 1
     - first:
         name: _Glossiness
-      second: 0.5
+      second: 0
     - first:
         name: _GlossyReflections
-      second: 1
+      second: 0
+    - first:
+        name: _Hardness
+      second: 0.5
     - first:
         name: _Metallic
       second: 0
     - first:
         name: _Mode
-      second: 3
+      second: 2
     - first:
         name: _OcclusionStrength
       second: 1
@@ -109,9 +112,12 @@ Material:
       second: 0
     - first:
         name: _SpecularHighlights
-      second: 1
+      second: 0
     - first:
         name: _SrcBlend
+      second: 5
+    - first:
+        name: _ToggleBillboard
       second: 1
     - first:
         name: _UVSec
@@ -122,6 +128,9 @@ Material:
     m_Colors:
     - first:
         name: _Color
+      second: {r: 1, g: 1, b: 1, a: 1}
+    - first:
+        name: _Color2
       second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _EmissionColor

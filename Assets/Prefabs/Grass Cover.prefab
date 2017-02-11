@@ -19,7 +19,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4320040572819178}
-  - component: {fileID: 114705208277410224}
   m_Layer: 0
   m_Name: Grass Cover
   m_TagString: Untagged
@@ -37,7 +36,6 @@ GameObject:
   - component: {fileID: 4002775828962856}
   - component: {fileID: 33853020006670638}
   - component: {fileID: 23886637826290934}
-  - component: {fileID: 95958392708167178}
   m_Layer: 0
   m_Name: upplane
   m_TagString: Untagged
@@ -110,31 +108,3 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1631806625991812}
   m_Mesh: {fileID: 4300000, guid: 6301ef4d2f0c2463d86f18ae203ecd00, type: 3}
---- !u!95 &95958392708167178
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1631806625991812}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 6301ef4d2f0c2463d86f18ae203ecd00, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114705208277410224
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1098117160196650}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d82086a4df41748bab0940253d5e81b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

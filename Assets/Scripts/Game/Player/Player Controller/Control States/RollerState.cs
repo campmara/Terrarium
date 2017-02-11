@@ -52,7 +52,13 @@ public class RollerState : MonoBehaviour
 	private void PickUpObject( Pickupable pickup )
 	{
 		_roller.CurrentHeldObject = pickup;
+	    _roller.CurrentHeldObject.gameObject.layer = LayerMask.NameToLayer("HeldObject");
 		_roller.ChangeState( _roller.State, P_ControlState.PICKINGUP );
+
+		// update the ik
+		_roller.IK.SetArmTarget(pickup.transform);
+
+		AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_ACTIONFX, 1 );
 	}
 
 	protected void HandleDropHeldObject()
@@ -64,8 +70,14 @@ public class RollerState : MonoBehaviour
 	{
 		if (_roller.CurrentHeldObject != null)
 		{
-			_roller.CurrentHeldObject.DropSelf();
+		    _roller.CurrentHeldObject.gameObject.layer = LayerMask.NameToLayer("Default");
+		    _roller.CurrentHeldObject.DropSelf();
 			_roller.CurrentHeldObject = null;
+
+			// update the ik
+			_roller.IK.LetGo();
 		}
+
+		AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_ACTIONFX, 0 );
 	}
 }
