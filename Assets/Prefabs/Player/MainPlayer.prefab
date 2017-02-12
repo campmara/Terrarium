@@ -375,6 +375,7 @@ GameObject:
   - component: {fileID: 114506823912231604}
   - component: {fileID: 114767945357341630}
   - component: {fileID: 114411851398337212}
+  - component: {fileID: 114619767340411946}
   m_Layer: 9
   m_Name: MainPlayer
   m_TagString: Untagged
@@ -1253,7 +1254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lookAtTarget: {fileID: 0}
-  _lookSpeed: 10
+  _lookSpeed: 15
   _armTarget: {fileID: 0}
   armSpeedNoTarget: 7
   armSpeedTarget: 16
@@ -1285,6 +1286,8 @@ MonoBehaviour:
   _legLiftHeight: 0.35
   _legMoveTimeMin: 0.25
   _legMoveTimeMax: 0.35
+  _minMoveVelocity: 0.5
+  _bodyPosMoveSpeed: 0.5
   _leftArm: {fileID: 114260794396808860}
   _leftLeg: {fileID: 114860146148554904}
   _rightArm: {fileID: 114846073051716874}
@@ -1456,30 +1459,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fixTransforms: 1
   solver:
-    IKPosition: {x: 0, y: 0, z: 0}
+    IKPosition: {x: 0.000022365068, y: 1.5025826, z: 3}
     IKPositionWeight: 0.679
-    root: {fileID: 0}
+    root: {fileID: 4796904896276364}
     target: {fileID: 0}
-    spine:
-    - transform: {fileID: 4796904896276364}
-      weight: 1
-      solverPosition: {x: 0, y: 0, z: 0}
-      solverRotation: {x: 0, y: 0, z: 0, w: 0}
-      defaultLocalPosition: {x: 0, y: 0, z: 0}
-      defaultLocalRotation: {x: 0, y: 0, z: 0, w: 0}
-      length: 0
-      sqrMag: 0
-      axis: {x: 0, y: 0, z: 0}
+    spine: []
     head:
-      transform: {fileID: 0}
+      transform: {fileID: 4796904896276364}
       weight: 0.507
       solverPosition: {x: 0, y: 0, z: 0}
       solverRotation: {x: 0, y: 0, z: 0, w: 1}
-      defaultLocalPosition: {x: 0, y: 0, z: 0}
-      defaultLocalRotation: {x: 0, y: 0, z: 0, w: 0}
+      defaultLocalPosition: {x: -0, y: 0.20258264, z: 0}
+      defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
       length: 0
       sqrMag: 0
-      axis: {x: -1, y: -0, z: -0}
+      axis: {x: 0, y: 0, z: 1}
     eyes: []
     bodyWeight: 0.5
     headWeight: 0.5
@@ -1646,6 +1640,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b2efcfdbe5324c7a8eae734f819e24c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114619767340411946
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1540322779817588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a1b474957ddd469c97838072a0ad1be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114639024258021122

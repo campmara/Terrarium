@@ -48,7 +48,7 @@ public class WalkingState : RollerState
             HandlePickup();
         }
 
-		RollerParent.StandardMovement(RollerConstants.WALK_SPEED, 
+		RollerParent.IKMovement(RollerConstants.WALK_SPEED, 
 									  RollerConstants.WALK_ACCELERATION, 
 									  RollerConstants.WALK_DECELERATION, 
 									  RollerConstants.WALK_TURN_SPEED);

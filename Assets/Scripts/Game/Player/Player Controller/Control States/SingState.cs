@@ -22,7 +22,7 @@ public class SingState : RollerState
 
 	public override void HandleInput (InputCollection input)
 	{
-		RollerParent.StandardMovement(RollerConstants.SING_WALK_SPEED, 
+		RollerParent.IKMovement(RollerConstants.SING_WALK_SPEED, 
 									  RollerConstants.WALK_ACCELERATION, 
 									  RollerConstants.WALK_DECELERATION, 
 									  RollerConstants.WALK_TURN_SPEED);
