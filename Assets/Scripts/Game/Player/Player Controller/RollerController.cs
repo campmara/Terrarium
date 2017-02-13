@@ -41,7 +41,7 @@ public class RollerController : ControllerBase
     public Vector3 InputVec { get { return _inputVec; } set { _inputVec = value; } }
     [ReadOnly] Vector3 _lastInputVec = Vector3.zero;
     public Vector3 LastInputVec { get { return _lastInputVec; } set { _lastInputVec = value; } }
-    [ReadOnly] float _velocity = 0f;
+    [ReadOnly, SerializeField] float _velocity = 0f;
     public float Velocity { get { return _velocity; } set { _velocity = value; } }
 	[ReadOnly] bool _idling = false;
 	public bool Idling { get { return _idling; } set { _idling = value; } }
@@ -243,7 +243,7 @@ public class RollerController : ControllerBase
 
 
 	public void IKMovement(float maxMoveSpeed, float moveAcceleration, float moveDeceleration,
-		float maxTurnSpeed, float bodyMoveSpeed = 50.0f )
+		float maxTurnSpeed, float bodyMoveSpeed = 2.0f )
 	{
 		// Left Stick Movement
 		Vector3 vec = new Vector3(_input.LeftStickX, 0f, _input.LeftStickY);
@@ -288,7 +288,7 @@ public class RollerController : ControllerBase
 				_idleWaitRoutine = StartCoroutine( JohnTech.WaitFunction(RollerConstants.IDLE_WAITTIME, () => HandleBeginIdle() ) );
 			}
 		}
-		_ik.UpdateMovementData( _inputVec * _velocity * Time.deltaTime, _targetRotation );
+		_ik.UpdateMovementData( _velocity, transform.position + (_inputVec * _velocity * RollerConstants.IK_TARGETWORLDSCALAR * Time.deltaTime), _targetRotation );
 
 		_rigidbody.MovePosition( Vector3.Lerp(transform.position, _targetMovePosition, bodyMoveSpeed * Time.fixedDeltaTime ) );
 	}

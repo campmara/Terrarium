@@ -13,7 +13,7 @@ public static class RollerConstants
 	public const float CARRY_SPEED = 3f;
 	public const float SING_WALK_SPEED = 2f;
 	public const float WALK_ACCELERATION = 0.25f;
-	public const float WALK_DECELERATION = 13f;
+	public const float WALK_DECELERATION = 7.5f;
 
 	// WALK TURNING
 	public const float WALK_TURN_SPEED = 5f;
@@ -61,6 +61,8 @@ public static class RollerConstants
 	// SINGING
 	public const float SINGING_RETURN_TIME = 0.6f;
     public const float PITCH_LERP_SPEED = 7f;
+
+    public const float IK_TARGETWORLDSCALAR = 35.0f;
 }
 
 
