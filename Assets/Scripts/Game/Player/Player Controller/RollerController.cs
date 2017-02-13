@@ -243,7 +243,7 @@ public class RollerController : ControllerBase
 
 
 	public void IKMovement(float maxMoveSpeed, float moveAcceleration, float moveDeceleration,
-		float maxTurnSpeed, float bodyMoveSpeed = 2.0f )
+		float maxTurnSpeed, float bodyMoveSpeed = 1.0f )
 	{
 		// Left Stick Movement
 		Vector3 vec = new Vector3(_input.LeftStickX, 0f, _input.LeftStickY);

@@ -1282,12 +1282,13 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  _legMaxDistance: 0.75
-  _legLiftHeight: 0.35
-  _legMoveTimeMin: 0.25
-  _legMoveTimeMax: 0.35
+  _legMaxDistance: 1
+  _legLiftHeight: 0.75
+  _legMoveTimeMin: 0.1
+  _legMoveTimeMax: 0.25
   _minMoveVelocity: 0.5
-  _bodyPosMoveSpeed: 0.5
+  _minMoveDistance: 5.5
+  _maxMoveVelocity: 5
   _leftArm: {fileID: 114260794396808860}
   _leftLeg: {fileID: 114860146148554904}
   _rightArm: {fileID: 114846073051716874}
@@ -1308,7 +1309,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 180
+  max: 15
   zeroAxisDisplayOffset: 0
 --- !u!114 &114036318137326532
 MonoBehaviour:
@@ -1325,7 +1326,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 180
+  max: 15
   zeroAxisDisplayOffset: 0
 --- !u!114 &114052277114745772
 MonoBehaviour:
@@ -1342,7 +1343,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 180
+  max: 15
   zeroAxisDisplayOffset: 0
 --- !u!114 &114066191721814448
 MonoBehaviour:
@@ -1618,7 +1619,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 180
+  max: 45
   zeroAxisDisplayOffset: 0
 --- !u!114 &114411851398337212
 MonoBehaviour:
@@ -1653,6 +1654,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a1b474957ddd469c97838072a0ad1be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _velocity: 0
 --- !u!114 &114639024258021122
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1680,7 +1682,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 180
+  max: 45
   zeroAxisDisplayOffset: 0
 --- !u!114 &114734712019417298
 MonoBehaviour:
@@ -1697,7 +1699,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 180
+  max: 15
   zeroAxisDisplayOffset: 0
 --- !u!114 &114767945357341630
 MonoBehaviour:
@@ -1725,7 +1727,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 180
+  max: 45
   zeroAxisDisplayOffset: 0
 --- !u!114 &114846073051716874
 MonoBehaviour:
@@ -1827,7 +1829,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 180
+  max: 15
   zeroAxisDisplayOffset: 0
 --- !u!114 &114860146148554904
 MonoBehaviour:
@@ -1929,7 +1931,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 180
+  max: 15
   zeroAxisDisplayOffset: 0
 --- !u!114 &114992973683829692
 MonoBehaviour:
@@ -1946,7 +1948,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 180
+  max: 15
   zeroAxisDisplayOffset: 0
 --- !u!135 &135798789006720372
 SphereCollider:
