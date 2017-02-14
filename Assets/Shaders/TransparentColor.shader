@@ -15,6 +15,8 @@
 		//if performance is bad it's probably because of  "DisableBatching"="True" !!! 
 		Tags { "RenderType"="Transparent" "Queue"="AlphaTest" "DisableBatching"="True" }
 		LOD 200
+
+		Cull Off
 		
 		CGPROGRAM
 		// Physically based Standard lighting model, and enable shadows on all light types

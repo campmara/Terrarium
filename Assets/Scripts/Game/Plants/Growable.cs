@@ -12,7 +12,7 @@ public class Growable : Plantable
 
 	const float _numGrowStages = 3;
 	const float _plantScaleFactor = 2.0f;
-	const float _timeBetweenFruitDrops = 30.0f;
+	const float _timeBetweenFruitDrops = 50.0f;
 	const float _fruitDropHeight = 8.0f;
 	protected float _animEndTime = 0.0f;
 	float _curTimestamp = 0.0f;

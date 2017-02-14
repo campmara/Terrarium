@@ -9,6 +9,8 @@ public class PlantingState : RollerState
     {
         Debug.Log( "ENTER PLANTING STATE" );
 
+		_roller.Face.BecomeFeisty();
+
         // Handle transition
         switch ( prevState )
         {
@@ -37,9 +39,10 @@ public class PlantingState : RollerState
                 break;
         }
 
+		_roller.Face.BecomeIdle();
+
         if (_plantTween != null)
         {
-			_plantTween.Complete();
             _plantTween.Kill();
             _plantTween = null;
         }
@@ -51,14 +54,14 @@ public class PlantingState : RollerState
         if (!input.AButton.IsPressed)
         {
             // Return to Carry State
-            _roller.ChangeState( P_ControlState.PLANTING, P_ControlState.CARRYING );
+            _roller.ChangeState( P_ControlState.CARRYING);
         }
 
         // B BUTTON
         if (input.BButton.IsPressed)
         {
             // Drop Seed
-            _roller.ChangeState( P_ControlState.PLANTING, P_ControlState.WALKING );
+            _roller.ChangeState( P_ControlState.WALKING);
         }
 
     }
@@ -90,6 +93,6 @@ public class PlantingState : RollerState
 		}
 
         HandleDropHeldObject();
-        _roller.ChangeState( P_ControlState.PLANTING, P_ControlState.WALKING );
+        _roller.ChangeState( P_ControlState.WALKING);
     }
 }

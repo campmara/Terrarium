@@ -9,6 +9,8 @@ public class PickupState : RollerState
 	{
 		Debug.Log("ENTER PICKUP STATE");
 
+		_roller.Face.BecomeInterested();
+
 		_roller.CurrentHeldObject.transform.parent = _roller.transform;
 		_roller.CurrentHeldObject.OnPickup();
 
@@ -18,7 +20,7 @@ public class PickupState : RollerState
 
 	void Transition()
 	{
-		_roller.ChangeState(P_ControlState.PICKINGUP, P_ControlState.CARRYING);
+		_roller.ChangeState(P_ControlState.CARRYING);
 	}
 
 	public override void Exit( P_ControlState nextState )
