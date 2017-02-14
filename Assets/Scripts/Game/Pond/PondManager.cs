@@ -75,6 +75,6 @@ public class PondManager : SingletonBehaviour<PondManager>
         GameManager.Instance.ChangeGameState( GameManager.GameState.MAIN );
 
 		PlayerManager.instance.Player.GetComponent<RollerController>().BecomeWalker();
-        PlayerManager.instance.Player.GetComponent<RollerController>().ChangeState( P_ControlState.RITUAL, P_ControlState.WALKING );
+        PlayerManager.instance.Player.GetComponent<RollerController>().ChangeState( P_ControlState.WALKING );
     }
 }

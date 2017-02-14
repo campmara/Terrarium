@@ -30,13 +30,13 @@ public class SingState : RollerState
 	    // B BUTTON
 	    if (input.BButton.IsPressed)
 	    {
-	        _roller.ChangeState( P_ControlState.WALKING, P_ControlState.ROLLING );
+	        _roller.ChangeState( P_ControlState.ROLLING);
 	    }
 
 	    // X BUTTON
 	    if (input.XButton.IsPressed)
 	    {
-	        _roller.ChangeState( P_ControlState.WALKING, P_ControlState.RITUAL );
+	        _roller.ChangeState( P_ControlState.RITUAL);
 	    }
 
 	    //float desiredPitch = 1.0f + _roller.InputVec.magnitude;
@@ -60,6 +60,6 @@ public class SingState : RollerState
 	        return;
 
         _waitToReturnTimer = 0f;
-        RollerParent.ChangeState(P_ControlState.SING, P_ControlState.WALKING);
+        RollerParent.ChangeState(P_ControlState.WALKING);
 	}
 }

@@ -12,12 +12,15 @@ public static class RollerConstants
 	public const float WALK_SPEED = 4f;
 	public const float CARRY_SPEED = 3f;
 	public const float SING_WALK_SPEED = 2f;
-	public const float WALK_ACCELERATION = 0.25f;
-	public const float WALK_DECELERATION = 7.5f;
+	public const float WALK_ACCELERATION = 0.15f;
+	public const float WALK_DECELERATION = 5.5f;
+    public const float WALK_TURNDAMPENING = 0.15f;
 
 	// WALK TURNING
 	public const float WALK_TURN_SPEED = 5f;
 	public const float CARRY_TURN_SPEED = 7f;
+    public const float WALK_TURNANGLE_MIN = 0.5f;
+    public const float WALK_TURNANGLE_MAX = 60.0f;
 
 	// ROLL
 	public const float ROLL_SPEED = 10f;

@@ -1282,13 +1282,39 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  _legMaxDistance: 1
-  _legLiftHeight: 0.75
-  _legMoveTimeMin: 0.1
-  _legMoveTimeMax: 0.25
-  _minMoveVelocity: 0.5
-  _minMoveDistance: 5.5
-  _maxMoveVelocity: 5
+  _legXCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.3455022
+      value: 0.8102112
+      inSlope: 0.9614758
+      outSlope: 0.9614758
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  _legMaxDistance: 1.25
+  _legLiftHeightMin: 0.75
+  _legLiftHeightMax: 1
+  _legMoveTimeMin: 0.3
+  _legMoveTimeMax: 0.4
+  _minMoveVelocity: 0.35
+  _maxMoveVelocity: 4
+  _turnSpeedRange: {x: 0.75, y: 2}
+  _bodyPosMoveSpeed: 5
   _leftArm: {fileID: 114260794396808860}
   _leftLeg: {fileID: 114860146148554904}
   _rightArm: {fileID: 114846073051716874}
