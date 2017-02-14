@@ -105,6 +105,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ScaleFactor: 4
-  _grassPrefab: {fileID: 1098117160196650, guid: 8264a3809547a411a9ed037d397d9600,
+  _grassPrefab: {fileID: 1196480962303788, guid: 8264a3809547a411a9ed037d397d9600,
     type: 2}
   _grassDensity: 100
