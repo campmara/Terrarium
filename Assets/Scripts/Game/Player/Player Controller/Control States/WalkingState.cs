@@ -14,13 +14,9 @@ public class WalkingState : RollerState
         {
         case P_ControlState.ROLLING:            
             CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
-            //PlayerManager.instance.Player.AnimationController.PlayRollToWalkAnim();
-            _tween = _roller.RollSphere.transform.DOMoveY(1.5f, 0.5f)
-                .SetEase(Ease.OutQuint)
-				.OnComplete(_roller.BecomeWalker);
-
-
-            
+                //PlayerManager.instance.Player.AnimationController.PlayRollToWalkAnim();
+                _roller.BecomeWalker();
+                _tween = _roller.RollSphere.transform.DOMoveY( 1.5f, 0.5f ).SetEase( Ease.OutQuint );           
             break;
         }
 
@@ -48,7 +44,7 @@ public class WalkingState : RollerState
             HandlePickup();
         }
 
-		RollerParent.StandardMovement(RollerConstants.WALK_SPEED, 
+		RollerParent.IKMovement(RollerConstants.WALK_SPEED, 
 									  RollerConstants.WALK_ACCELERATION, 
 									  RollerConstants.WALK_DECELERATION, 
 									  RollerConstants.WALK_TURN_SPEED);
@@ -63,20 +59,20 @@ public class WalkingState : RollerState
         {
             if (GameManager.Instance.State == GameManager.GameState.MAIN)
             {
-                _roller.ChangeState( P_ControlState.WALKING, P_ControlState.ROLLING );
+                _roller.ChangeState( P_ControlState.ROLLING);
             }
         }
 
         // X BUTTON
         if (input.XButton.IsPressed)
         {
-            _roller.ChangeState( P_ControlState.WALKING, P_ControlState.RITUAL );
+            _roller.ChangeState( P_ControlState.RITUAL);
         }
 
 		// Y BUTTON
 		if (input.YButton.IsPressed)
 		{
-			_roller.ChangeState( P_ControlState.WALKING, P_ControlState.SING );
+			_roller.ChangeState( P_ControlState.SING);
 		}
     }
 }

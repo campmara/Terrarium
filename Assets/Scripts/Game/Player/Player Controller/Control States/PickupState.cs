@@ -20,7 +20,7 @@ public class PickupState : RollerState
 
 	void Transition()
 	{
-		_roller.ChangeState(P_ControlState.PICKINGUP, P_ControlState.CARRYING);
+		_roller.ChangeState(P_ControlState.CARRYING);
 	}
 
 	public override void Exit( P_ControlState nextState )

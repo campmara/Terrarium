@@ -41,12 +41,18 @@ public class RollerController : ControllerBase
     public Vector3 InputVec { get { return _inputVec; } set { _inputVec = value; } }
     [ReadOnly] Vector3 _lastInputVec = Vector3.zero;
     public Vector3 LastInputVec { get { return _lastInputVec; } set { _lastInputVec = value; } }
-    [ReadOnly] float _velocity = 0f;
+    [ReadOnly, SerializeField] float _velocity = 0f;
     public float Velocity { get { return _velocity; } set { _velocity = value; } }
 	[ReadOnly] bool _idling = false;
 	public bool Idling { get { return _idling; } set { _idling = value; } }
 
-	private Quaternion targetRotation = Quaternion.identity;
+	[ReadOnly] Vector3 _targetIKPosition = Vector3.zero;
+	public Vector3 TargetIKPosition { get { return _targetIKPosition; } set { _targetIKPosition = value; } }
+	[ReadOnly] Vector3 _targetMovePosition = Vector3.zero;
+	public Vector3 TargetMovePosition { get { return _targetMovePosition; } set { _targetMovePosition = value; } }
+
+	private Quaternion _targetRotation = Quaternion.identity;
+    private float _targetRotAngle = 0.0f;
 	private Coroutine _idleWaitRoutine = null;
 
 	// ===========
@@ -100,7 +106,7 @@ public class RollerController : ControllerBase
 		_singing.RollerParent = this;
 
         // Set state to default (walking for now)
-        ChangeState( P_ControlState.NONE, P_ControlState.WALKING );
+        ChangeState( P_ControlState.WALKING);
 	}
 
 /* Can use these for if we are swapping in & out controllers from Player Control Manager
@@ -116,10 +122,10 @@ public class RollerController : ControllerBase
 	}
 */
 
-	public void ChangeState(P_ControlState fromState, P_ControlState toState)
+	public void ChangeState(P_ControlState toState)
 	{
 		// Exit & Deactivate current state
-		if( fromState != P_ControlState.NONE )
+		if( _controlState != P_ControlState.NONE )
 		{
 			_currentState.Exit( toState );
 
@@ -130,7 +136,6 @@ public class RollerController : ControllerBase
 				StopCoroutine( _idleWaitRoutine );
 				_idleWaitRoutine = null;
 			}
-
 
 		}
 			
@@ -164,8 +169,10 @@ public class RollerController : ControllerBase
 
 		//_currentState.enabled = true;
 
-		_currentState.Enter( fromState );
-	}
+		_currentState.Enter( _controlState );
+
+        _controlState = toState;
+    }
 
 
 	protected override void HandleInput()
@@ -212,13 +219,13 @@ public class RollerController : ControllerBase
 		        Vector3 movePos = transform.position + (_inputVec * _velocity * Time.deltaTime);
 		        _rigidbody.MovePosition(movePos);
 
-		        targetRotation = Quaternion.LookRotation(_inputVec);
+		        _targetRotation = Quaternion.LookRotation(_inputVec);
 
 		        _lastInputVec = _inputVec.normalized;
 		    }
 
 		    // So player continues turning even after InputUp
-			transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, maxTurnSpeed * Time.deltaTime);
+			transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, maxTurnSpeed * Time.deltaTime);
 		}
 	    else if (_velocity > 0f)
 		{
@@ -236,6 +243,60 @@ public class RollerController : ControllerBase
 		}
 	}
 
+
+	public void IKMovement(float maxMoveSpeed, float moveAcceleration, float moveDeceleration,
+		float maxTurnSpeed, float bodyMoveSpeed = 7.5f )
+	{
+		// Left Stick Movement
+		Vector3 vec = new Vector3(_input.LeftStickX, 0f, _input.LeftStickY);
+
+		if( vec.magnitude > RollerConstants.IDLE_MAXMAG )
+		{
+			if( _idleWaitRoutine != null )
+			{
+				StopCoroutine(_idleWaitRoutine);
+				_idleWaitRoutine = null;
+			}
+
+			if( _idling )
+			{
+				HandleEndIdle();
+			}
+
+			// Accounting for camera position
+			vec = CameraManager.instance.Main.transform.TransformDirection(vec);
+			vec.y = 0f;
+			_inputVec = vec.normalized;
+
+			// MOVEMENT
+			Accelerate(maxMoveSpeed, moveAcceleration);
+			
+			_targetRotation = Quaternion.LookRotation( _inputVec );
+            _targetRotAngle = Quaternion.Angle(_targetRotation, transform.rotation);            
+
+			_lastInputVec = _inputVec;
+			
+			// So player continues turning even after InputUp
+
+			transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, maxTurnSpeed * Time.deltaTime);
+		}
+		else if ( _velocity > 0f )
+		{
+			// Slowdown
+			_velocity -= moveDeceleration * Time.deltaTime;
+		}
+		else
+		{
+			if( _idleWaitRoutine == null )
+			{
+				_idleWaitRoutine = StartCoroutine( JohnTech.WaitFunction(RollerConstants.IDLE_WAITTIME, () => HandleBeginIdle() ) );
+			}
+		}
+		_ik.UpdateMovementData( _velocity, transform.position + (transform.forward * _inputVec.magnitude * _velocity * RollerConstants.IK_TARGETWORLDSCALAR * Time.deltaTime), transform.rotation );
+
+		_rigidbody.MovePosition( Vector3.Lerp(transform.position, _targetMovePosition, bodyMoveSpeed * Time.fixedDeltaTime ) );
+	}
+
 	public void Accelerate(float max, float accel, float inputAffect = 1.0f)
 	{
 		_velocity += accel * inputAffect;
@@ -243,7 +304,10 @@ public class RollerController : ControllerBase
 		{
 			_velocity = Mathf.Sign(_velocity) * max;
 		}
-	}
+
+        _velocity -= RollerConstants.WALK_TURNDAMPENING * Mathf.InverseLerp( RollerConstants.WALK_TURNANGLE_MIN, RollerConstants.WALK_TURNANGLE_MAX, _targetRotAngle );
+
+    }
 
 	public void HandleBeginIdle()
 	{
@@ -284,9 +348,12 @@ public class RollerController : ControllerBase
 		_rig.SetActive(true);
 		_rollSphere.SetActive(false);
 
-		_ik.ResetLegs();
-		_ik.SetState(PlayerIKControl.WalkState.WALK);
+        _targetMovePosition = this.transform.position;
 
-		AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_TRANSITIONFX, 1 );
+        _ik.ResetLegs();
+
+        _ik.SetState( PlayerIKControl.WalkState.WALK );        
+
+        AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_TRANSITIONFX, 1 );
 	}
 }
