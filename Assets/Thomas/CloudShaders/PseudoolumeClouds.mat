@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: GroundLeaf
+  m_Name: PseudoolumeClouds
   m_Shader: {fileID: 4800000, guid: 0a4c2dc3e6c043042a5f12aa874a5954, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
@@ -105,13 +105,13 @@ Material:
       second: 1
     - first:
         name: _Hardness
-      second: 0.428
+      second: 0.25
     - first:
         name: _Metallic
       second: 0
     - first:
         name: _Middle
-      second: 0.616
+      second: 0.5
     - first:
         name: _Mode
       second: 0
@@ -134,18 +134,6 @@ Material:
         name: _UVSec
       second: 0
     - first:
-        name: _WaveAmount
-      second: 3
-    - first:
-        name: _WaveNoise
-      second: 0.75
-    - first:
-        name: _WaveScale
-      second: 5
-    - first:
-        name: _WaveSpeed
-      second: 5
-    - first:
         name: _ZWrite
       second: 1
     m_Colors:
@@ -154,19 +142,13 @@ Material:
       second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _ColorBot
-      second: {r: 0.39705884, g: 0.2656791, b: 0.2656791, a: 1}
+      second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _ColorMid
-      second: {r: 0.551534, g: 0.625, b: 0.3446691, a: 1}
+      second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _ColorTop
-      second: {r: 0.8455882, g: 0.78855824, b: 0.018652698, a: 1}
+      second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
-    - first:
-        name: _ShadowColor
-      second: {r: 1, g: 1, b: 1, a: 1}
-    - first:
-        name: _WaveDir
-      second: {r: 1, g: 0, b: 1, a: 0}
