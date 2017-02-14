@@ -9,6 +9,8 @@ public class PlantingState : RollerState
     {
         Debug.Log( "ENTER PLANTING STATE" );
 
+		_roller.Face.BecomeFeisty();
+
         // Handle transition
         switch ( prevState )
         {
@@ -36,6 +38,8 @@ public class PlantingState : RollerState
                 }                
                 break;
         }
+
+		_roller.Face.BecomeIdle();
 
         if (_plantTween != null)
         {

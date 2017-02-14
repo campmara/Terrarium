@@ -916,7 +916,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1934728536432104}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.05, z: 0}
+  m_LocalPosition: {x: 0, y: -0.06, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4300689987589518}
@@ -1469,10 +1469,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _eyeRenderer: {fileID: 212329171399290572}
   _mouthRenderer: {fileID: 212633409616455250}
-  _eyesOpen: {fileID: 21300000, guid: bf830fca330ae4aaab1a266803011529, type: 3}
-  _eyesClosed: {fileID: 21300000, guid: e83c21aae3d794920bd3721d76b369c4, type: 3}
-  _mouthIdle: {fileID: 21300000, guid: 9ed1fdbfc54cf4ff593e4d6fe83abdcc, type: 3}
-  _mouthOh: {fileID: 21300000, guid: e20cd327e6e524cd2af18ef452c31f1f, type: 3}
+  _eyesOpen: {fileID: 21300000, guid: 6210c13dd4459204a8f316c57a2162fa, type: 3}
+  _eyesClosed: {fileID: 21300000, guid: 6901727c142638b409b1d4b2b843c100, type: 3}
+  _eyesDesire: {fileID: 21300000, guid: 54bd6772229141b458d8b77ba584216e, type: 3}
+  _eyesHappy: {fileID: 21300000, guid: f7e77c259a6d72c4dbcf59548d0bcd29, type: 3}
+  _eyesWink: {fileID: 21300000, guid: 2393db2b02bede44cb390c7e6c95fbb1, type: 3}
+  _eyesSurprised: {fileID: 21300000, guid: 55b5e29140e6e814c81ea670623e2b07, type: 3}
+  _eyesSad: {fileID: 21300000, guid: ae18e7ae055c4254cb4d316174a37fef, type: 3}
+  _eyesAngry: {fileID: 21300000, guid: 7075cb56eb57106428a0bf909aef0f79, type: 3}
+  _eyesAnnoyed: {fileID: 21300000, guid: 6fa7c4455dd5c6242ac31794cc2faea4, type: 3}
+  _mouthIdle: {fileID: 21300000, guid: 1baa488c2b2d54b409ea6732490e8d0e, type: 3}
+  _mouthOh: {fileID: 21300000, guid: fd4214c8cc479b5448f96d8c8194c446, type: 3}
+  _mouthD: {fileID: 21300000, guid: 6c3ef1673cba74748829a46375576486, type: 3}
+  _mouthSmile: {fileID: 21300000, guid: 4f27855cbac06c84db0b3cc7b88c51c9, type: 3}
+  _mouthSideSmile: {fileID: 21300000, guid: e19175707e2a0c8489fd1e6a6d05789d, type: 3}
+  _mouthDiagonal: {fileID: 21300000, guid: ec37b779374fd9246874f7c6dfa83fe0, type: 3}
+  _mouthSad: {fileID: 21300000, guid: 6fb1976ce3d064f4e8107ceb3e4cdfd9, type: 3}
+  _mouthVerySad: {fileID: 21300000, guid: 8d1e5d960d7b18047abf2fb13ac01522, type: 3}
 --- !u!114 &114137417149929418
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2092,7 +2105,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: bf830fca330ae4aaab1a266803011529, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6210c13dd4459204a8f316c57a2162fa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2127,7 +2140,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9ed1fdbfc54cf4ff593e4d6fe83abdcc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1baa488c2b2d54b409ea6732490e8d0e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

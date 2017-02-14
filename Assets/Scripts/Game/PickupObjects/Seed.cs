@@ -41,7 +41,7 @@ public class Seed : Pickupable
 		_timeSinceLastPickup = 0.0f;
 		_isPickedUp = false;
 
-		_rigidbody.AddForce( Vector3.up * _shootForce );
+	//	_rigidbody.AddForce( Vector3.up * _shootForce );
 	}
 
 	public void TryPlanting()

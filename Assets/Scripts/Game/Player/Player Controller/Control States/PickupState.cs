@@ -9,6 +9,8 @@ public class PickupState : RollerState
 	{
 		Debug.Log("ENTER PICKUP STATE");
 
+		_roller.Face.BecomeInterested();
+
 		_roller.CurrentHeldObject.transform.parent = _roller.transform;
 		_roller.CurrentHeldObject.OnPickup();
 
