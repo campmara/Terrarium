@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: GroundLeaf
-  m_Shader: {fileID: 4800000, guid: 0a4c2dc3e6c043042a5f12aa874a5954, type: 3}
+  m_Name: Cloud
+  m_Shader: {fileID: 4800000, guid: 75760963dc6e79843a2cae7737a64f99, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
   m_CustomRenderQueue: -1
@@ -58,6 +58,12 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
+        name: _NoiseOffsets
+      second:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
         name: _NormalTex
       second:
         m_Texture: {fileID: 0}
@@ -76,6 +82,12 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
+        name: _RimTex
+      second:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
         name: _SecondaryTex
       second:
         m_Texture: {fileID: 0}
@@ -87,7 +99,10 @@ Material:
       second: 1
     - first:
         name: _Cutoff
-      second: 0.5
+      second: 0.465
+    - first:
+        name: _DepthContrast
+      second: 0.0201
     - first:
         name: _DetailNormalMapScale
       second: 1
@@ -105,13 +120,13 @@ Material:
       second: 1
     - first:
         name: _Hardness
-      second: 0.428
+      second: 0
     - first:
         name: _Metallic
       second: 0
     - first:
         name: _Middle
-      second: 0.616
+      second: 0.5
     - first:
         name: _Mode
       second: 0
@@ -119,8 +134,20 @@ Material:
         name: _OcclusionStrength
       second: 1
     - first:
+        name: _Offset
+      second: 0.5
+    - first:
         name: _Parallax
       second: 0.02
+    - first:
+        name: _RimPower
+      second: 1.42
+    - first:
+        name: _SSScale
+      second: 0.125
+    - first:
+        name: _Seed
+      second: 13.6
     - first:
         name: _SmoothnessTextureChannel
       second: 0
@@ -134,18 +161,6 @@ Material:
         name: _UVSec
       second: 0
     - first:
-        name: _WaveAmount
-      second: 3
-    - first:
-        name: _WaveNoise
-      second: 0.75
-    - first:
-        name: _WaveScale
-      second: 5
-    - first:
-        name: _WaveSpeed
-      second: 5
-    - first:
         name: _ZWrite
       second: 1
     m_Colors:
@@ -154,19 +169,22 @@ Material:
       second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _ColorBot
-      second: {r: 0.39705884, g: 0.2656791, b: 0.2656791, a: 1}
+      second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _ColorMid
-      second: {r: 0.551534, g: 0.625, b: 0.3446691, a: 1}
+      second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _ColorTop
-      second: {r: 0.8455882, g: 0.78855824, b: 0.018652698, a: 1}
+      second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
     - first:
-        name: _ShadowColor
-      second: {r: 1, g: 1, b: 1, a: 1}
+        name: _MainColor
+      second: {r: 0.7794118, g: 0.739295, b: 0.739295, a: 1}
     - first:
-        name: _WaveDir
-      second: {r: 1, g: 0, b: 1, a: 0}
+        name: _NoiseScale
+      second: {r: 0.1, g: 0.1, b: 0.1, a: 0}
+    - first:
+        name: _SecondaryColor
+      second: {r: 0.50994813, g: 0.5294118, b: 0.5149147, a: 0}
