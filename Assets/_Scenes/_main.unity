@@ -151,7 +151,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &342485789
 Prefab:
@@ -260,6 +260,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8b267ddc143bf01438d42af723945864, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &416182352 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114005576607767822, guid: 8b267ddc143bf01438d42af723945864,
+    type: 2}
+  m_PrefabInternal: {fileID: 416182351}
+  m_Script: {fileID: 11500000, guid: 5054044b95524404b81fdbce2d58313e, type: 3}
 --- !u!1 &592504398
 GameObject:
   m_ObjectHideFlags: 0
@@ -447,12 +453,18 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4597840269665950, guid: 17e7204e7259943eaa4ae4fd5f6f0e54, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1786080884701266, guid: 17e7204e7259943eaa4ae4fd5f6f0e54, type: 2}
-      propertyPath: m_Name
-      value: Managers
-      objectReference: {fileID: 0}
+    - target: {fileID: 114536147130075368, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
+        type: 2}
+      propertyPath: _pond
+      value: 
+      objectReference: {fileID: 2028772720}
+    - target: {fileID: 114804556110679380, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
+        type: 2}
+      propertyPath: _ground
+      value: 
+      objectReference: {fileID: 416182352}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 17e7204e7259943eaa4ae4fd5f6f0e54, type: 2}
   m_IsPrefabParent: 0
@@ -519,3 +531,9 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 729a7e306b18e428280ad642238a823a, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &2028772720 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114502133834696186, guid: 729a7e306b18e428280ad642238a823a,
+    type: 2}
+  m_PrefabInternal: {fileID: 2028772719}
+  m_Script: {fileID: 11500000, guid: 1b0314ee535f7d3419607289f39822fb, type: 3}
