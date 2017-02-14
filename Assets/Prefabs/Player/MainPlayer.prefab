@@ -1335,7 +1335,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 15
+  max: 45
   zeroAxisDisplayOffset: 0
 --- !u!114 &114036318137326532
 MonoBehaviour:
@@ -1352,7 +1352,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 15
+  max: 45
   zeroAxisDisplayOffset: 0
 --- !u!114 &114052277114745772
 MonoBehaviour:
@@ -1369,7 +1369,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 15
+  max: 45
   zeroAxisDisplayOffset: 0
 --- !u!114 &114066191721814448
 MonoBehaviour:
@@ -1738,7 +1738,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 15
+  max: 45
   zeroAxisDisplayOffset: 0
 --- !u!114 &114767945357341630
 MonoBehaviour:
@@ -1868,7 +1868,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 15
+  max: 45
   zeroAxisDisplayOffset: 0
 --- !u!114 &114860146148554904
 MonoBehaviour:
@@ -1970,7 +1970,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 15
+  max: 45
   zeroAxisDisplayOffset: 0
 --- !u!114 &114992973683829692
 MonoBehaviour:
@@ -1987,7 +1987,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 15
+  max: 45
   zeroAxisDisplayOffset: 0
 --- !u!135 &135798789006720372
 SphereCollider:
