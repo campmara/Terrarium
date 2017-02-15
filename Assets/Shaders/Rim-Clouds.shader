@@ -12,13 +12,12 @@
 	}
 
 		SubShader{
-
 		Tags{ "Queue" = "Geometry" }
 		Cull Off
 		CGPROGRAM
 #include "Noise.cginc"
 
-#pragma surface surf WrapLambert alphatest:_Cutoff addshadow
+#pragma surface surf WrapLambert alphatest:_Cutoff addshadow nofog
 
 	float _Hardness;
 
