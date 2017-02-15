@@ -50,7 +50,7 @@ public class RollingState : RollerState
 		// B BUTTON
 		if (!input.BButton.IsPressed)
 		{
-			_roller.ChangeState( P_ControlState.ROLLING, P_ControlState.WALKING );
+			_roller.ChangeState( P_ControlState.WALKING);
 		}
 
 		/*

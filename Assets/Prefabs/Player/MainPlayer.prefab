@@ -375,6 +375,7 @@ GameObject:
   - component: {fileID: 114506823912231604}
   - component: {fileID: 114767945357341630}
   - component: {fileID: 114411851398337212}
+  - component: {fileID: 114619767340411946}
   m_Layer: 9
   m_Name: MainPlayer
   m_TagString: Untagged
@@ -915,7 +916,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1934728536432104}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.05, z: 0}
+  m_LocalPosition: {x: 0, y: -0.06, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4300689987589518}
@@ -1253,7 +1254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lookAtTarget: {fileID: 0}
-  _lookSpeed: 10
+  _lookSpeed: 15
   _armTarget: {fileID: 0}
   armSpeedNoTarget: 7
   armSpeedTarget: 16
@@ -1281,10 +1282,39 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  _legMaxDistance: 0.75
-  _legLiftHeight: 0.35
-  _legMoveTimeMin: 0.25
-  _legMoveTimeMax: 0.35
+  _legXCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.3455022
+      value: 0.8102112
+      inSlope: 0.9614758
+      outSlope: 0.9614758
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  _legMaxDistance: 1.25
+  _legLiftHeightMin: 0.75
+  _legLiftHeightMax: 1
+  _legMoveTimeMin: 0.3
+  _legMoveTimeMax: 0.4
+  _minMoveVelocity: 0.35
+  _maxMoveVelocity: 4
+  _turnSpeedRange: {x: 0.75, y: 2}
+  _bodyPosMoveSpeed: 5
   _leftArm: {fileID: 114260794396808860}
   _leftLeg: {fileID: 114860146148554904}
   _rightArm: {fileID: 114846073051716874}
@@ -1305,7 +1335,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 180
+  max: 15
   zeroAxisDisplayOffset: 0
 --- !u!114 &114036318137326532
 MonoBehaviour:
@@ -1322,7 +1352,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 180
+  max: 15
   zeroAxisDisplayOffset: 0
 --- !u!114 &114052277114745772
 MonoBehaviour:
@@ -1339,7 +1369,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 180
+  max: 15
   zeroAxisDisplayOffset: 0
 --- !u!114 &114066191721814448
 MonoBehaviour:
@@ -1439,10 +1469,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _eyeRenderer: {fileID: 212329171399290572}
   _mouthRenderer: {fileID: 212633409616455250}
-  _eyesOpen: {fileID: 21300000, guid: bf830fca330ae4aaab1a266803011529, type: 3}
-  _eyesClosed: {fileID: 21300000, guid: e83c21aae3d794920bd3721d76b369c4, type: 3}
-  _mouthIdle: {fileID: 21300000, guid: 9ed1fdbfc54cf4ff593e4d6fe83abdcc, type: 3}
-  _mouthOh: {fileID: 21300000, guid: e20cd327e6e524cd2af18ef452c31f1f, type: 3}
+  _eyesOpen: {fileID: 21300000, guid: 6210c13dd4459204a8f316c57a2162fa, type: 3}
+  _eyesClosed: {fileID: 21300000, guid: 6901727c142638b409b1d4b2b843c100, type: 3}
+  _eyesDesire: {fileID: 21300000, guid: 54bd6772229141b458d8b77ba584216e, type: 3}
+  _eyesHappy: {fileID: 21300000, guid: f7e77c259a6d72c4dbcf59548d0bcd29, type: 3}
+  _eyesWink: {fileID: 21300000, guid: 2393db2b02bede44cb390c7e6c95fbb1, type: 3}
+  _eyesSurprised: {fileID: 21300000, guid: 55b5e29140e6e814c81ea670623e2b07, type: 3}
+  _eyesSad: {fileID: 21300000, guid: ae18e7ae055c4254cb4d316174a37fef, type: 3}
+  _eyesAngry: {fileID: 21300000, guid: 7075cb56eb57106428a0bf909aef0f79, type: 3}
+  _eyesAnnoyed: {fileID: 21300000, guid: 6fa7c4455dd5c6242ac31794cc2faea4, type: 3}
+  _mouthIdle: {fileID: 21300000, guid: 1baa488c2b2d54b409ea6732490e8d0e, type: 3}
+  _mouthOh: {fileID: 21300000, guid: fd4214c8cc479b5448f96d8c8194c446, type: 3}
+  _mouthD: {fileID: 21300000, guid: 6c3ef1673cba74748829a46375576486, type: 3}
+  _mouthSmile: {fileID: 21300000, guid: 4f27855cbac06c84db0b3cc7b88c51c9, type: 3}
+  _mouthSideSmile: {fileID: 21300000, guid: e19175707e2a0c8489fd1e6a6d05789d, type: 3}
+  _mouthDiagonal: {fileID: 21300000, guid: ec37b779374fd9246874f7c6dfa83fe0, type: 3}
+  _mouthSad: {fileID: 21300000, guid: 6fb1976ce3d064f4e8107ceb3e4cdfd9, type: 3}
+  _mouthVerySad: {fileID: 21300000, guid: 8d1e5d960d7b18047abf2fb13ac01522, type: 3}
 --- !u!114 &114137417149929418
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1456,30 +1499,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fixTransforms: 1
   solver:
-    IKPosition: {x: 0, y: 0, z: 0}
+    IKPosition: {x: 0.000022365068, y: 1.5025826, z: 3}
     IKPositionWeight: 0.679
-    root: {fileID: 0}
+    root: {fileID: 4796904896276364}
     target: {fileID: 0}
-    spine:
-    - transform: {fileID: 4796904896276364}
-      weight: 1
-      solverPosition: {x: 0, y: 0, z: 0}
-      solverRotation: {x: 0, y: 0, z: 0, w: 0}
-      defaultLocalPosition: {x: 0, y: 0, z: 0}
-      defaultLocalRotation: {x: 0, y: 0, z: 0, w: 0}
-      length: 0
-      sqrMag: 0
-      axis: {x: 0, y: 0, z: 0}
+    spine: []
     head:
-      transform: {fileID: 0}
+      transform: {fileID: 4796904896276364}
       weight: 0.507
       solverPosition: {x: 0, y: 0, z: 0}
       solverRotation: {x: 0, y: 0, z: 0, w: 1}
-      defaultLocalPosition: {x: 0, y: 0, z: 0}
-      defaultLocalRotation: {x: 0, y: 0, z: 0, w: 0}
+      defaultLocalPosition: {x: -0, y: 0.20258264, z: 0}
+      defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
       length: 0
       sqrMag: 0
-      axis: {x: -1, y: -0, z: -0}
+      axis: {x: 0, y: 0, z: 1}
     eyes: []
     bodyWeight: 0.5
     headWeight: 0.5
@@ -1624,7 +1658,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 180
+  max: 45
   zeroAxisDisplayOffset: 0
 --- !u!114 &114411851398337212
 MonoBehaviour:
@@ -1648,6 +1682,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b2efcfdbe5324c7a8eae734f819e24c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114619767340411946
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1540322779817588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a1b474957ddd469c97838072a0ad1be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _velocity: 0
 --- !u!114 &114639024258021122
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1675,7 +1721,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 180
+  max: 45
   zeroAxisDisplayOffset: 0
 --- !u!114 &114734712019417298
 MonoBehaviour:
@@ -1692,7 +1738,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 180
+  max: 15
   zeroAxisDisplayOffset: 0
 --- !u!114 &114767945357341630
 MonoBehaviour:
@@ -1720,7 +1766,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 180
+  max: 45
   zeroAxisDisplayOffset: 0
 --- !u!114 &114846073051716874
 MonoBehaviour:
@@ -1822,7 +1868,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 180
+  max: 15
   zeroAxisDisplayOffset: 0
 --- !u!114 &114860146148554904
 MonoBehaviour:
@@ -1924,7 +1970,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 180
+  max: 15
   zeroAxisDisplayOffset: 0
 --- !u!114 &114992973683829692
 MonoBehaviour:
@@ -1941,7 +1987,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 180
+  max: 15
   zeroAxisDisplayOffset: 0
 --- !u!135 &135798789006720372
 SphereCollider:
@@ -2059,7 +2105,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: bf830fca330ae4aaab1a266803011529, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6210c13dd4459204a8f316c57a2162fa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2094,7 +2140,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9ed1fdbfc54cf4ff593e4d6fe83abdcc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1baa488c2b2d54b409ea6732490e8d0e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

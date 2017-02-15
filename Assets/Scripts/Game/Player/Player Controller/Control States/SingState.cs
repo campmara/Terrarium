@@ -22,7 +22,7 @@ public class SingState : RollerState
 
 	public override void HandleInput (InputCollection input)
 	{
-		RollerParent.StandardMovement(RollerConstants.SING_WALK_SPEED, 
+		RollerParent.IKMovement(RollerConstants.SING_WALK_SPEED, 
 									  RollerConstants.WALK_ACCELERATION, 
 									  RollerConstants.WALK_DECELERATION, 
 									  RollerConstants.WALK_TURN_SPEED);
@@ -30,13 +30,13 @@ public class SingState : RollerState
 	    // B BUTTON
 	    if (input.BButton.IsPressed)
 	    {
-	        _roller.ChangeState( P_ControlState.WALKING, P_ControlState.ROLLING );
+	        _roller.ChangeState( P_ControlState.ROLLING);
 	    }
 
 	    // X BUTTON
 	    if (input.XButton.IsPressed)
 	    {
-	        _roller.ChangeState( P_ControlState.WALKING, P_ControlState.RITUAL );
+	        _roller.ChangeState( P_ControlState.RITUAL);
 	    }
 
 	    //float desiredPitch = 1.0f + _roller.InputVec.magnitude;
@@ -47,12 +47,12 @@ public class SingState : RollerState
 	    if (input.YButton.IsPressed)
 	    {
 	        AudioManager.instance.PlaySing(_singPitch);
-	        _roller.Face.SingFace();
+	        _roller.Face.Sing();
 	        _waitToReturnTimer = 0f;
 	    }
 		else
 		{
-		    _roller.Face.NormalFace();
+		    _roller.Face.BecomeIdle();
 		    _waitToReturnTimer += Time.deltaTime;
 		}
 
@@ -60,6 +60,6 @@ public class SingState : RollerState
 	        return;
 
         _waitToReturnTimer = 0f;
-        RollerParent.ChangeState(P_ControlState.SING, P_ControlState.WALKING);
+        RollerParent.ChangeState(P_ControlState.WALKING);
 	}
 }

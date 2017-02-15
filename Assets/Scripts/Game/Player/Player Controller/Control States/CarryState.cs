@@ -6,6 +6,8 @@ public class CarryState : RollerState
 	{
 		Debug.Log("ENTER CARRY STATE");
 
+		_roller.Face.BecomeEncumbered();
+
 		switch( prevState )
 		{
 		    case P_ControlState.PICKINGUP:
@@ -38,12 +40,12 @@ public class CarryState : RollerState
         if (input.AButton.IsPressed)
 		{
             // NOTE: Should only happen for seeds ?
-			_roller.ChangeState( P_ControlState.CARRYING, P_ControlState.PLANTING );
+			_roller.ChangeState( P_ControlState.PLANTING);
 		}
 
 		if (input.BButton.IsPressed)
 		{
-			_roller.ChangeState( P_ControlState.CARRYING, P_ControlState.WALKING );
+			_roller.ChangeState( P_ControlState.WALKING);
 		}		
 	}
 }
