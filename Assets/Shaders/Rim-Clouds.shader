@@ -8,7 +8,9 @@
 		_Seed("Seed", float) = .1
 
 		_Hardness("Hardness", Range(0,1)) = 1
-		_Cutoff("cutoff", Range(0, 1)) = 1
+		_Cutoff("Cutoff", Range(0, 1)) = 1
+
+		_HeightMultiplier("Height Multiplier", Range(0,.5)) = .15
 	}
 
 		SubShader{
@@ -30,7 +32,7 @@
 		else
 			distAtten = saturate(1.0 / length(lightDir));
 
-		atten = lerp(atten, cnoise(atten), .35);
+		atten = lerp(atten, cnoise(atten), .45);
 
 		half diff = (max(0, dot(s.Normal, lightDir)) * atten + 1 - _Hardness);
 
@@ -54,6 +56,7 @@
 	float _Seed;
 	float4 _NoiseScale;
 	sampler2D _CameraDepthTexture;
+	float _HeightMultiplier;
 
 	void surf(Input IN, inout SurfaceOutput o) {
 		float depth = length(IN.worldPos - _WorldSpaceCameraPos) / 150;
@@ -66,8 +69,9 @@
 		n.y = IN.worldPos.y * _NoiseScale.y;
 		n.z = IN.worldPos.z * _NoiseScale.z;
 
-		//main texture + rimtexture and some contrast and the lighting difference
-		o.Albedo = lerp(_MainColor, _SecondaryColor, clamp(depth, 0, 1)); //
+		float heightmul = clamp(IN.worldPos.y * _HeightMultiplier, 0, 1);
+		float4 fog = lerp(_MainColor, _SecondaryColor, heightmul*heightmul*clamp(depth, 0, 1));
+		o.Albedo = fog;
 		//o.Albedo = depth;
 		//o.Albedo = _MainColor;
 
