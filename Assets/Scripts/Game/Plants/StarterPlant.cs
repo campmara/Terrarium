@@ -7,11 +7,16 @@ public class StarterPlant : Growable
 	[SerializeField] private Transform _bStemRoot = null;
 	[SerializeField] private GameObject _leafPrefab = null;
 
+	Vector3 _minScale = new Vector3( 4.0f, 4.0f, 4.0f );
+	Vector3 _maxScale = new Vector3( 14.0f, 14.0f, 14.0f );
+	float _scaleRate = .01f;
+
 	private int _numChildren;
 	private Transform[] _bones;
 
 	int _curChildSpawned = 1;
 	float _timeBetweenLeafSpawns = 0.0f;
+	float _timer = 0.0f;
 
 	int _inverseIndex = 0;
 	float _offset = 0.0f;
@@ -23,6 +28,7 @@ public class StarterPlant : Growable
 
 	protected override void AnimationSetup()
 	{
+		transform.localScale = _minScale;
 		base.AnimationSetup();
 
 		_bones = _bStemRoot.GetComponentsInChildren<Transform>();
@@ -71,6 +77,12 @@ public class StarterPlant : Growable
 
 	protected override void CustomPlantGrowing()
 	{
+		if( transform.localScale.x < _maxScale.x )
+		{
+			transform.localScale = Vector3.Lerp( _minScale, _maxScale, Mathf.SmoothStep( 0, 1, _timer * _scaleRate ) );
+			_timer += Time.deltaTime;
+		}
+			
 		if( _leafSpawnRoutine == null && _curChildSpawned < _numChildren )
 		{
 			_leafSpawnRoutine = StartCoroutine( SpawnLeaves() );

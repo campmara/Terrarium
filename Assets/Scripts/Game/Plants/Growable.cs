@@ -28,9 +28,9 @@ public class Growable : Plantable
 		Final = 3
 	};
 			
-	float [] stageRadii = new float[] { 3.0f, 4.5f, 6.0f, 6.5f }; // how much room each stage need to grow
+	float [] stageRadii = new float[] { 4.0f, 6.0f, 8.0f, 12.0f }; // how much room each stage need to grow, first element doesnt matter
 	float [] growthTime = new float[4]; // time splits initialized based on our animation
-	float [] growthRadii = new float[] { 6.0f, 10.0f, 15.0f, 20.0f };
+	float [] growthRadii = new float[] { 3.0f, 3.5f, 3.75f, 4.0f }; // how far away things need to be to even plant
 
     protected const float CREATURE_BASE_SPAWNODDS = 0.75f;
     protected const float CREATURE_BASE_SPAWNY = -1.0f;
@@ -64,9 +64,21 @@ public class Growable : Plantable
 
 	protected virtual void SetGrowthTransitionPoints()
 	{
-		for( int i = 1; i < _numGrowStages + 1; i++ )
+		float duration = _animEndTime / ( _numGrowStages + 3 );
+		for( int i = 0; i < _numGrowStages; i++ )
 		{
-			growthTime[i-1] = _animEndTime / _numGrowStages * i;
+			if( i  == _numGrowStages - 1)
+			{
+				growthTime[i] = duration * 3;
+			}
+			else if( i == 0)
+			{
+				growthTime[i] = duration;
+			}
+			else
+			{
+				growthTime[i] = duration * 2;
+			}
 		}
 	}
 
@@ -80,9 +92,10 @@ public class Growable : Plantable
 	protected override void StopGrowth()
 	{
 	    base.StopGrowth();
-		PlantManager.ExecuteGrowth -= GrowPlant;
-		_plantAnim.enabled = false;
+		CustomStopGrowth();
 	}
+
+	protected virtual void CustomStopGrowth(){}
 
 	public override void WaterPlant()
 	{
@@ -99,11 +112,9 @@ public class Growable : Plantable
 			if( _curTimestamp >= growthTime[ (int)_curStage ] )
 			{
 				TryTransitionStages();
-			} 
-			else
-			{
-				CustomPlantGrowing();
 			}
+
+			CustomPlantGrowing();
 		}
 	}
 
@@ -146,8 +157,8 @@ public class Growable : Plantable
 		
 	void UpdateNewStageData()
 	{
-		_outerSpawnRadius = stageRadii[ (int)_curStage ];
-		_minDistAway = stageRadii[(int)_curStage];//growthRadii[(int) _curStage];   
+		_outerSpawnRadius = stageRadii[ (int)_curStage ]; // this is a greater value to manage how big things grow
+		_minDistAway = growthRadii[(int)_curStage]; // this is a smaller value to keep planted things spaced
 		GetSetMeshRadius();
 
 		_curGrowthRate = _baseGrowthRate;
@@ -167,10 +178,10 @@ public class Growable : Plantable
 				if( otherPlant && col.gameObject != gameObject )
 				{
 					//because i just went up a level, if it's the same level as new me, growing, i should stop
-					if( (int)otherPlant.CurStage > ( (int)_curStage + 1 ) || otherPlant.CurStage == GrowthStage.Final )
+					if( (int)otherPlant.CurStage > ( (int)_curStage ) || otherPlant.CurStage == GrowthStage.Final )
 					{
 						return true;
-					}
+					} 
 				}
 			}
 		}
@@ -223,8 +234,13 @@ public class Growable : Plantable
 	void OnDrawGizmos() 
 	{
 		Gizmos.color = Color.yellow;
+		if( _curStage != GrowthStage.Final )
+		{
+			Gizmos.DrawWireSphere( transform.position, stageRadii[ (int)_curStage + 1 ] );
+		}
 
-		Gizmos.DrawWireSphere( transform.position, stageRadii[ (int)_curStage ] );
+//		Gizmos.color = Color.red;
+		//Gizmos.DrawWireSphere( transform.position, growthRadii[(int) _curStage ] );
 	}
 }
 
