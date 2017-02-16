@@ -1255,6 +1255,63 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lookAtTarget: {fileID: 0}
   _lookSpeed: 15
+  _headSpeedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: -0.0015337467
+      value: -0.0012359619
+      inSlope: 2.77102
+      outSlope: 2.77102
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.26600763
+      value: 1.0598255
+      inSlope: 0.93996525
+      outSlope: 0.93996525
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.7362504
+      value: 1.0063338
+      inSlope: -1.9548993
+      outSlope: -1.9548993
+      tangentMode: 34
+    - serializedVersion: 2
+      time: 1
+      value: 0.0051283836
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  _headPosCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: -0.013919026
+      outSlope: -0.013919026
+      tangentMode: 34
+    - serializedVersion: 2
+      time: 0.49991328
+      value: -0.006958306
+      inSlope: -9.123722
+      outSlope: -9.123722
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0.013914199
+      outSlope: 0.013914199
+      tangentMode: 34
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  _headMoveInterpSpeed: 4
+  _headHeightAnimScalar: 0
+  _headTargetInterp: 0.1
   _armTarget: {fileID: 0}
   armSpeedNoTarget: 7
   armSpeedTarget: 16
@@ -1268,7 +1325,7 @@ MonoBehaviour:
       outSlope: 2.999999
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.5
+      time: 0.25
       value: 1
       inSlope: 0
       outSlope: 0
@@ -1315,6 +1372,7 @@ MonoBehaviour:
   _maxMoveVelocity: 4
   _turnSpeedRange: {x: 0.75, y: 2}
   _bodyPosMoveSpeed: 5
+  _minFootDist: 0.3
   _leftArm: {fileID: 114260794396808860}
   _leftLeg: {fileID: 114860146148554904}
   _rightArm: {fileID: 114846073051716874}
@@ -1335,7 +1393,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 15
+  max: 45
   zeroAxisDisplayOffset: 0
 --- !u!114 &114036318137326532
 MonoBehaviour:
@@ -1352,7 +1410,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 15
+  max: 45
   zeroAxisDisplayOffset: 0
 --- !u!114 &114052277114745772
 MonoBehaviour:
@@ -1369,7 +1427,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 15
+  max: 45
   zeroAxisDisplayOffset: 0
 --- !u!114 &114066191721814448
 MonoBehaviour:
@@ -1738,7 +1796,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 15
+  max: 45
   zeroAxisDisplayOffset: 0
 --- !u!114 &114767945357341630
 MonoBehaviour:
@@ -1868,7 +1926,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 15
+  max: 45
   zeroAxisDisplayOffset: 0
 --- !u!114 &114860146148554904
 MonoBehaviour:
@@ -1970,7 +2028,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 15
+  max: 45
   zeroAxisDisplayOffset: 0
 --- !u!114 &114992973683829692
 MonoBehaviour:
@@ -1987,7 +2045,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
   useLimits: 1
   min: 0
-  max: 15
+  max: 45
   zeroAxisDisplayOffset: 0
 --- !u!135 &135798789006720372
 SphereCollider:

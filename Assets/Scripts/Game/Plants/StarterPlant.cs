@@ -7,6 +7,9 @@ public class StarterPlant : Growable
 	[SerializeField] private Transform _bStemRoot = null;
 	[SerializeField] private GameObject _leafPrefab = null;
 
+	Vector3 _minScale = new Vector3( 5.0f, 5.0f, 5.0f );
+	Vector3 _maxScale = new Vector3( 14.0f, 14.0f, 14.0f );
+
 	private int _numChildren;
 	private Transform[] _bones;
 
@@ -23,6 +26,7 @@ public class StarterPlant : Growable
 
 	protected override void AnimationSetup()
 	{
+		transform.localScale = _minScale;
 		base.AnimationSetup();
 
 		_bones = _bStemRoot.GetComponentsInChildren<Transform>();
@@ -31,7 +35,7 @@ public class StarterPlant : Growable
 		AnimatorStateInfo info = _plantAnim.GetCurrentAnimatorStateInfo( 0 );
 		_timeBetweenLeafSpawns = ( info.length / _baseGrowthRate ) / _numChildren;
 
-		for (int i = 0; i < _plantAnim.layerCount; i++)
+		for( int i = 0; i < _plantAnim.layerCount; i++ )
 		{
 			_plantAnim.SetLayerWeight( i, Random.Range( 0, 2 ) );
 		}
@@ -59,18 +63,30 @@ public class StarterPlant : Growable
 	void SetupLeaf( int index )
 	{
 		GameObject l = Instantiate(_leafPrefab);
-
+		Animator anim = l.GetComponent<Animator>();
+		_childAnimators.Add( anim );
 		l.transform.SetParent( _currentParent );
 		l.transform.position = _currentParent.position;
 
 		l.transform.localScale = _currentParent.localScale * _inverseIndex * .2f;//(inverseIndex * inverseIndex * .05f);
 		l.transform.Rotate(new Vector3(0, index * 360 / _ringNumber + _offset, 0));
 		l.transform.position -= l.transform.forward * .015f * transform.localScale.x;
-		l.GetComponent<Animator>().speed *= _plantAnim.GetComponent<Animator>().speed;
+		anim.speed *= _plantAnim.GetComponent<Animator>().speed;
+	}
+
+	protected override void CustomStopGrowth()
+	{
+		PlantManager.ExecuteGrowth -= GrowPlant;
+		PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
 	}
 
 	protected override void CustomPlantGrowing()
 	{
+		if( transform.localScale.x < _maxScale.x )
+		{
+			transform.localScale = Vector3.Lerp( _minScale, _maxScale, Mathf.SmoothStep( 0, 1, _curPercentAnimated ) );
+		}
+			
 		if( _leafSpawnRoutine == null && _curChildSpawned < _numChildren )
 		{
 			_leafSpawnRoutine = StartCoroutine( SpawnLeaves() );

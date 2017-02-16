@@ -23,6 +23,11 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		isInitialized = true;
 	}
 
+	public int GetActiveSeedCount()
+	{
+		return _seeds.Count;
+	}
+
 	public void RequestSpawnMini( Plantable plant, float timeUntil )
 	{
 		SpawnMiniPlantEvent spawnEvent = new SpawnMiniPlantEvent( plant, timeUntil );
