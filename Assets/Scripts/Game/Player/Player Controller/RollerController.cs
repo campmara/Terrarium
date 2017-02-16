@@ -50,6 +50,8 @@ public class RollerController : ControllerBase
 	public Vector3 TargetIKPosition { get { return _targetIKPosition; } set { _targetIKPosition = value; } }
 	[ReadOnly] Vector3 _targetMovePosition = Vector3.zero;
 	public Vector3 TargetMovePosition { get { return _targetMovePosition; } set { _targetMovePosition = value; } }
+    [ReadOnly] float _headMoveSpeedInterp = 0.0f;
+    public float HeadMoveInterp { get { return _headMoveSpeedInterp; } set { _headMoveSpeedInterp = value; } }
 
 	private Quaternion _targetRotation = Quaternion.identity;
     private float _targetRotAngle = 0.0f;
@@ -189,6 +191,7 @@ public class RollerController : ControllerBase
 	// BASIC CONTROLLER STUFF
 	// ======================
 
+        /// IS NO LONGER BEING USED, PLEASE LOOK AT IK MOVEMENT METHOD ///
 	public void StandardMovement(float maxMoveSpeed, float moveAcceleration, float moveDeceleration,
 								 float maxTurnSpeed)
 	{
@@ -294,7 +297,7 @@ public class RollerController : ControllerBase
 		}
 		_ik.UpdateMovementData( _velocity, transform.position + (transform.forward * _inputVec.magnitude * _velocity * RollerConstants.IK_TARGETWORLDSCALAR * Time.deltaTime), transform.rotation );
 
-		_rigidbody.MovePosition( Vector3.Lerp(transform.position, _targetMovePosition, bodyMoveSpeed * Time.fixedDeltaTime ) );
+		_rigidbody.MovePosition( Vector3.Lerp(transform.position, _targetMovePosition, Mathf.Lerp( RollerConstants.BODY_MINMOVESPEED, bodyMoveSpeed, _headMoveSpeedInterp ) * Time.fixedDeltaTime ) );
 	}
 
 	public void Accelerate(float max, float accel, float inputAffect = 1.0f)
