@@ -11,11 +11,11 @@ public class Growable : Plantable
 	protected Animator _plantAnim = null;
 
 	const float _numGrowStages = 3;
-	const float _plantScaleFactor = 2.0f;
 	const float _timeBetweenFruitDrops = 50.0f;
-	const float _fruitDropHeight = 8.0f;
+	float _fruitDropHeight = 8.0f;
 	protected float _animEndTime = 0.0f;
 	float _curTimestamp = 0.0f;
+	protected float _curPercentAnimated = 0.0f;
 
 	[SerializeField] GrowthStage _curStage = GrowthStage.Sprout;
 	public GrowthStage CurStage { get { return _curStage; } }
@@ -28,9 +28,9 @@ public class Growable : Plantable
 		Final = 3
 	};
 			
-	float [] stageRadii = new float[] { 3.0f, 4.5f, 6.0f, 6.5f }; // how much room each stage need to grow
+	float [] stageRadii = new float[] { 4.0f, 10.0f, 12.0f, 13.0f }; // how much room each stage need to grow, first element doesnt matter
 	float [] growthTime = new float[4]; // time splits initialized based on our animation
-	float [] growthRadii = new float[] { 6.0f, 10.0f, 15.0f, 20.0f };
+	float [] growthRadii = new float[] { 4.0f, 5.5f, 5.75f, 6.0f }; // how far away things need to be to even plant
 
     protected const float CREATURE_BASE_SPAWNODDS = 0.75f;
     protected const float CREATURE_BASE_SPAWNY = -1.0f;
@@ -49,6 +49,7 @@ public class Growable : Plantable
 		AnimationSetup();
 		_outerSpawnRadius = stageRadii[ (int)_curStage ];
 		_minDistAway = growthRadii[ 0 ];
+		GetSetMeshRadius();
 
 		StartGrowth();
 	}
@@ -64,9 +65,17 @@ public class Growable : Plantable
 
 	protected virtual void SetGrowthTransitionPoints()
 	{
-		for( int i = 1; i < _numGrowStages + 1; i++ )
+		float _duration = 1.0f / _numGrowStages;
+		for( int i = 0; i < _numGrowStages; i++ )
 		{
-			growthTime[i-1] = _animEndTime / _numGrowStages * i;
+			if( i != 0 )
+			{
+				growthTime[i] = _duration * (i+1);
+			}
+			else
+			{
+				growthTime[i] = .15f;
+			}
 		}
 	}
 
@@ -79,31 +88,41 @@ public class Growable : Plantable
 
 	protected override void StopGrowth()
 	{
-	    base.StopGrowth();
-		PlantManager.ExecuteGrowth -= GrowPlant;
-		_plantAnim.enabled = false;
+		CustomStopGrowth();
+	}
+
+	protected virtual void CustomStopGrowth()
+	{
+		base.StopGrowth();
 	}
 
 	public override void WaterPlant()
 	{
-		//start growing and start growing at a faster rate
-		_curGrowthRate = _wateredGrowthRate;
+		ChangeGrowthRate( _baseGrowthRate * _wateredGrowthMultiplier );
+	}
+
+	void ChangeGrowthRate(float newRate )
+	{
+		_plantAnim.speed = newRate;
+
+		foreach( Animator child in _childAnimators )
+		{
+			child.speed = newRate;
+		}
 	}
 		
 	public override void GrowPlant()
 	{
 		if( _curStage != GrowthStage.Final )
 		{
-			_curTimestamp = _plantAnim.GetCurrentAnimatorStateInfo(0).normalizedTime;
+			_curPercentAnimated = _plantAnim.GetCurrentAnimatorStateInfo(0).normalizedTime / _animEndTime; // Mathf.Lerp(0.0f, _animEndTime, _plantAnim.GetCurrentAnimatorStateInfo(0).normalizedTime ); // i am x percent of the way through anim
 
-			if( _curTimestamp >= growthTime[ (int)_curStage ] )
+			if( _curPercentAnimated >= growthTime[ (int)_curStage ] )
 			{
 				TryTransitionStages();
-			} 
-			else
-			{
-				CustomPlantGrowing();
 			}
+
+			CustomPlantGrowing();
 		}
 	}
 
@@ -128,7 +147,7 @@ public class Growable : Plantable
             _curStage += 1; // they are int enums so we can just increment
 		}
 			
-		if( _curStage == GrowthStage.Sapling )
+		if( _curStage == GrowthStage.Sapling ) //if i'm now growing into final
 		{
 			PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
 		}
@@ -141,17 +160,19 @@ public class Growable : Plantable
             StopGrowth();
 		}
 
+		ChangeGrowthRate( _baseGrowthRate );
 		UpdateNewStageData();
 	}
 		
 	void UpdateNewStageData()
 	{
-		_outerSpawnRadius = stageRadii[ (int)_curStage ];
-		_minDistAway = stageRadii[(int)_curStage];//growthRadii[(int) _curStage];   
+		_outerSpawnRadius = stageRadii[ (int)_curStage ]; // this is a greater value to manage how big things grow
+		_minDistAway = growthRadii[(int)_curStage]; // this is a smaller value to keep planted things spaced
 		GetSetMeshRadius();
 
 		_curGrowthRate = _baseGrowthRate;
 		_plantAnim.speed = _curGrowthRate;
+		_fruitDropHeight = transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().bounds.size.y * ( _numGrowStages + 1 );
 	}
 
 	bool IsOverlappingPlants()
@@ -167,10 +188,10 @@ public class Growable : Plantable
 				if( otherPlant && col.gameObject != gameObject )
 				{
 					//because i just went up a level, if it's the same level as new me, growing, i should stop
-					if( (int)otherPlant.CurStage > ( (int)_curStage + 1 ) || otherPlant.CurStage == GrowthStage.Final )
+					if( (int)otherPlant.CurStage > ( (int)_curStage ) || otherPlant.CurStage == GrowthStage.Final )
 					{
 						return true;
-					}
+					} 
 				}
 			}
 		}
@@ -180,15 +201,15 @@ public class Growable : Plantable
 		
 	protected override void GetSetMeshRadius()
 	{
-		Vector3 size = GetComponentInChildren<SkinnedMeshRenderer>().bounds.size;
+		Vector3 size = transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().bounds.size;
 
 		if( size.x > size.z )
 		{
-			_innerMeshRadius = size.x  * transform.GetChild(1).localScale.x; //* transform.localScale.x; 
+			_innerMeshRadius = size.x  * .5f; 
 		}
 		else
 		{
-			_innerMeshRadius = size.z * transform.GetChild(1).localScale.x;// * transform.localScale.x ; 
+			_innerMeshRadius = size.z  * .5f; 
 		}
 	}
 		
@@ -197,7 +218,8 @@ public class Growable : Plantable
 		GameObject newPlant = null;
 
 		//what kind of radius do i want
-		Vector2 randomPoint = Random.insideUnitCircle * _innerMeshRadius;
+		Vector2 randomPoint = Random.insideUnitCircle;
+		randomPoint = new Vector2( randomPoint.x + Mathf.Sign(randomPoint.x) * _innerMeshRadius, randomPoint.y + Mathf.Sign(randomPoint.y) + _innerMeshRadius );
 		Vector3 spawnPoint = new Vector3( randomPoint.x, _fruitDropHeight, randomPoint.y ) + transform.position;
 
 		newPlant = (GameObject)Instantiate( _droppablePrefabs[Random.Range( 0, _droppablePrefabs.Count)], spawnPoint, Quaternion.identity );  
@@ -223,8 +245,13 @@ public class Growable : Plantable
 	void OnDrawGizmos() 
 	{
 		Gizmos.color = Color.yellow;
+		if( _curStage != GrowthStage.Final )
+		{
+			Gizmos.DrawWireSphere( transform.position, _innerMeshRadius );//stageRadii[ (int)_curStage + 1 ] );
+		}
 
-		Gizmos.DrawWireSphere( transform.position, stageRadii[ (int)_curStage ] );
+//		Gizmos.color = Color.red;
+		//Gizmos.DrawWireSphere( transform.position, growthRadii[(int) _curStage ] );
 	}
 }
 
