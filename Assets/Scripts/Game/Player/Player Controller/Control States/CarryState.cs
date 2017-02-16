@@ -32,7 +32,7 @@ public class CarryState : RollerState
 
 	public override void HandleInput(InputCollection input)
 	{
-		RollerParent.StandardMovement(RollerConstants.CARRY_SPEED,
+		RollerParent.IKMovement(RollerConstants.CARRY_SPEED,
 									  RollerConstants.WALK_ACCELERATION,
 									  RollerConstants.WALK_DECELERATION,
 									  RollerConstants.CARRY_TURN_SPEED);
