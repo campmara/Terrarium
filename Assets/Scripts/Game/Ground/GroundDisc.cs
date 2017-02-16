@@ -4,23 +4,38 @@ using UnityEngine;
 
 public class GroundDisc : MonoBehaviour 
 {
-	public struct PaintPixel
+	const float PAINT_FADE_SPEED = 0.3f;
+
+	public float ScaleFactor = 3f;
+
+	[SerializeField] private GameObject _grassPrefab;
+	[SerializeField] private int _grassDensity = 100;
+
+	//const float TEXELS_PER_WORLD_UNIT = 6.4f;
+	float TEXELS_PER_WORLD_UNIT = 0f;
+
+	private MeshRenderer _mesh;
+
+	private GameObject _grassParent;
+
+	private Texture2D _splatTex;
+
+	private static Color32 paintColor = new Color32(0, 0, 0, 0);
+	private static Color32 baseColor = new Color32(0, 0, 0, 255);
+	private Color32[] currentColors;
+
+	public class PaintPixel
 	{
 		private int index;
 		private float alpha;
 
 		public int Index { get { return this.index; } }
-		public float Alpha { get { return this.alpha; } }
+		public float Alpha { get { return this.alpha; } set { this.alpha = value; } }
 
 		public PaintPixel(int i, float a)
 		{
 			this.index = i;
 			this.alpha = a;
-		}
-
-		public void Fade()
-		{
-			this.alpha = Mathf.Lerp(this.alpha, 255, PAINT_FADE_SPEED * Time.deltaTime);
 		}
 	}
 	public class PaintPixelComparer : EqualityComparer<PaintPixel>
@@ -39,25 +54,6 @@ public class GroundDisc : MonoBehaviour
 	}
 	private HashSet<PaintPixel> pixelData;
 
-	const float PAINT_FADE_SPEED = 0.01f;
-
-	public float ScaleFactor = 3f;
-
-	[SerializeField] private GameObject _grassPrefab;
-	[SerializeField] private int _grassDensity = 100;
-
-	//const float TEXELS_PER_WORLD_UNIT = 6.4f;
-	float TEXELS_PER_WORLD_UNIT = 0f;
-
-	private MeshRenderer _mesh;
-
-	private GameObject _grassParent;
-
-	private Texture2D _splatTex;
-
-	private Color32 baseColor;
-	private Color32[] currentColors;
-
 	private void Awake()
 	{
 		_mesh = GetComponent(typeof(MeshRenderer)) as MeshRenderer;
@@ -72,6 +68,7 @@ public class GroundDisc : MonoBehaviour
 		}
 
 		CreateSplatTexture();
+		//BeginTextureUpdateLoop();
 	}
 
 	private void Update()
@@ -79,22 +76,38 @@ public class GroundDisc : MonoBehaviour
 		UpdateTexture();
 	}
 
+	private IEnumerator BeginTextureUpdateLoop()
+	{
+		yield return new WaitForSeconds(0.04166666667f);
+
+		UpdateTexture();
+
+		StartCoroutine(BeginTextureUpdateLoop());
+	}
+
+	private float FadeAlpha(float alpha)
+	{
+		return Mathf.Lerp(alpha, 255f, PAINT_FADE_SPEED * Time.deltaTime);
+		//this.alpha = Color32.Lerp(paintColor, baseColor, PAINT_FADE_SPEED * Time.deltaTime).a;
+		//this.alpha = Mathf.Lerp(this.alpha, 255f, PAINT_FADE_SPEED * Time.deltaTime);
+	}
+
 	private void UpdateTexture()
 	{
 		// Process and update the pixels.
 		foreach (PaintPixel p in pixelData)
 		{
-			// Update the actual color array with the updated pixel data.
-			currentColors[p.Index].a = (byte)p.Alpha;
-
 			if (p.Alpha >= 255f)
 			{
+				p.Alpha = 255f;
 				currentColors[p.Index] = baseColor;
+				continue;
 			}
-			else
-			{
-				p.Fade();
-			}
+
+			p.Alpha = FadeAlpha(p.Alpha);
+
+			// Update the actual color array with the updated pixel data.
+			currentColors[p.Index].a = (byte)p.Alpha;
 		}
 
 		// Clean up faded pixels.
@@ -164,6 +177,7 @@ public class GroundDisc : MonoBehaviour
 			diffFromCenter.y = (float)ty;
 
 			alpha = Mathf.Lerp(0f, 255f, diffFromCenter.sqrMagnitude / (float)r2);
+
 			//col.a = (byte)alpha;
 
 			if (tx * tx + ty * ty <= r2)
@@ -182,7 +196,6 @@ public class GroundDisc : MonoBehaviour
 
 		currentColors = new Color32[_splatTex.width * _splatTex.height];
 		pixelData = new HashSet<PaintPixel>(new PaintPixelComparer());
-		baseColor = new Color32(0, 0, 0, 255);
 
 		// Send to the shader.
 		_mesh.sharedMaterial.SetTexture("_MainTex", _splatTex);
