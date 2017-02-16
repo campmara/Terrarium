@@ -122,6 +122,9 @@ Material:
         name: _Hardness
       second: 0
     - first:
+        name: _HeightMultiplier
+      second: 0.032
+    - first:
         name: _Metallic
       second: 0
     - first:
@@ -141,7 +144,7 @@ Material:
       second: 0.02
     - first:
         name: _RimPower
-      second: 1.42
+      second: 2
     - first:
         name: _SSScale
       second: 0.125
@@ -181,10 +184,10 @@ Material:
       second: {r: 0, g: 0, b: 0, a: 1}
     - first:
         name: _MainColor
-      second: {r: 0.37467563, g: 0.37611115, b: 0.4044118, a: 1}
+      second: {r: 0.17430796, g: 0.17512229, b: 0.19117647, a: 1}
     - first:
         name: _NoiseScale
       second: {r: 0.1, g: 0.1, b: 0.1, a: 0}
     - first:
         name: _SecondaryColor
-      second: {r: 0.7197232, g: 0.7647059, b: 0.7312014, a: 0}
+      second: {r: 0.76777387, g: 0.78676474, b: 0.7462695, a: 0}
