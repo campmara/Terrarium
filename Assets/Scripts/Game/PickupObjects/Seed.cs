@@ -18,7 +18,7 @@ public class Seed : Pickupable
 	{
 		if( !_isPickedUp )
 		{
-			if( _timeSinceLastPickup >= _timePassedTillDestroy )
+			if( _timeSinceLastPickup >= _timePassedTillDestroy && PlantManager.instance.GetActiveSeedCount() > 2 )
 			{
 				Destroy( gameObject );
 			}

@@ -13,7 +13,7 @@ public class Growable : Plantable
 	const float _numGrowStages = 3;
 	const float _plantScaleFactor = 2.0f;
 	const float _timeBetweenFruitDrops = 50.0f;
-	const float _fruitDropHeight = 8.0f;
+	float _fruitDropHeight = 8.0f;
 	protected float _animEndTime = 0.0f;
 	float _curTimestamp = 0.0f;
 
@@ -28,7 +28,7 @@ public class Growable : Plantable
 		Final = 3
 	};
 			
-	float [] stageRadii = new float[] { 4.0f, 6.0f, 8.0f, 12.0f }; // how much room each stage need to grow, first element doesnt matter
+	float [] stageRadii = new float[] { 4.0f, 7.0f, 10.0f, 12.0f }; // how much room each stage need to grow, first element doesnt matter
 	float [] growthTime = new float[4]; // time splits initialized based on our animation
 	float [] growthRadii = new float[] { 3.0f, 3.5f, 3.75f, 4.0f }; // how far away things need to be to even plant
 
@@ -49,6 +49,7 @@ public class Growable : Plantable
 		AnimationSetup();
 		_outerSpawnRadius = stageRadii[ (int)_curStage ];
 		_minDistAway = growthRadii[ 0 ];
+		GetSetMeshRadius();
 
 		StartGrowth();
 	}
@@ -163,6 +164,7 @@ public class Growable : Plantable
 
 		_curGrowthRate = _baseGrowthRate;
 		_plantAnim.speed = _curGrowthRate;
+		_fruitDropHeight = transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().bounds.size.y * ( _numGrowStages + 1 );
 	}
 
 	bool IsOverlappingPlants()
@@ -191,15 +193,15 @@ public class Growable : Plantable
 		
 	protected override void GetSetMeshRadius()
 	{
-		Vector3 size = GetComponentInChildren<SkinnedMeshRenderer>().bounds.size;
+		Vector3 size = transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().bounds.size;
 
 		if( size.x > size.z )
 		{
-			_innerMeshRadius = size.x  * transform.GetChild(1).localScale.x; //* transform.localScale.x; 
+			_innerMeshRadius = size.x  * transform.localScale.x *.5f; 
 		}
 		else
 		{
-			_innerMeshRadius = size.z * transform.GetChild(1).localScale.x;// * transform.localScale.x ; 
+			_innerMeshRadius = size.z  * transform.localScale.x * .5f; 
 		}
 	}
 		
@@ -208,7 +210,8 @@ public class Growable : Plantable
 		GameObject newPlant = null;
 
 		//what kind of radius do i want
-		Vector2 randomPoint = Random.insideUnitCircle * _innerMeshRadius;
+		Vector2 randomPoint = Random.insideUnitCircle;
+		randomPoint = new Vector2( randomPoint.x + _innerMeshRadius, randomPoint.y + _innerMeshRadius );
 		Vector3 spawnPoint = new Vector3( randomPoint.x, _fruitDropHeight, randomPoint.y ) + transform.position;
 
 		newPlant = (GameObject)Instantiate( _droppablePrefabs[Random.Range( 0, _droppablePrefabs.Count)], spawnPoint, Quaternion.identity );  
@@ -236,7 +239,7 @@ public class Growable : Plantable
 		Gizmos.color = Color.yellow;
 		if( _curStage != GrowthStage.Final )
 		{
-			Gizmos.DrawWireSphere( transform.position, stageRadii[ (int)_curStage + 1 ] );
+			Gizmos.DrawWireSphere( transform.position, _innerMeshRadius );//stageRadii[ (int)_curStage + 1 ] );
 		}
 
 //		Gizmos.color = Color.red;

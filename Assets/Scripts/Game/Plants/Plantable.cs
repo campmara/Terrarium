@@ -147,7 +147,8 @@ public class Plantable : MonoBehaviour
         if( _spawnables.Count != 0 )
         {
             //what kind of radius do i want
-            Vector2 randomPoint = Random.insideUnitCircle * _outerSpawnRadius;
+			Vector2 randomPoint = Random.insideUnitCircle;
+			randomPoint = new Vector2( randomPoint.x + _outerSpawnRadius, randomPoint.y + _outerSpawnRadius );
             Vector3 spawnPoint = new Vector3( randomPoint.x, .1f, randomPoint.y ) + transform.position;
             Vector3 direction = ( spawnPoint - transform.position ).normalized * ( _innerMeshRadius );
             spawnPoint += direction;

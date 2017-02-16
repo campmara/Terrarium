@@ -7,9 +7,9 @@ public class StarterPlant : Growable
 	[SerializeField] private Transform _bStemRoot = null;
 	[SerializeField] private GameObject _leafPrefab = null;
 
-	Vector3 _minScale = new Vector3( 4.0f, 4.0f, 4.0f );
+	Vector3 _minScale = new Vector3( 5.0f, 5.0f, 5.0f );
 	Vector3 _maxScale = new Vector3( 14.0f, 14.0f, 14.0f );
-	float _scaleRate = .01f;
+	float _scaleRate = .02f;
 
 	private int _numChildren;
 	private Transform[] _bones;
@@ -37,7 +37,7 @@ public class StarterPlant : Growable
 		AnimatorStateInfo info = _plantAnim.GetCurrentAnimatorStateInfo( 0 );
 		_timeBetweenLeafSpawns = ( info.length / _baseGrowthRate ) / _numChildren;
 
-		for (int i = 0; i < _plantAnim.layerCount; i++)
+		for( int i = 0; i < _plantAnim.layerCount; i++ )
 		{
 			_plantAnim.SetLayerWeight( i, Random.Range( 0, 2 ) );
 		}
