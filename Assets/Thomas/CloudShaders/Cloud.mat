@@ -181,10 +181,10 @@ Material:
       second: {r: 0, g: 0, b: 0, a: 1}
     - first:
         name: _MainColor
-      second: {r: 0.7794118, g: 0.739295, b: 0.739295, a: 1}
+      second: {r: 0.37467563, g: 0.37611115, b: 0.4044118, a: 1}
     - first:
         name: _NoiseScale
       second: {r: 0.1, g: 0.1, b: 0.1, a: 0}
     - first:
         name: _SecondaryColor
-      second: {r: 0.50994813, g: 0.5294118, b: 0.5149147, a: 0}
+      second: {r: 0.7197232, g: 0.7647059, b: 0.7312014, a: 0}
