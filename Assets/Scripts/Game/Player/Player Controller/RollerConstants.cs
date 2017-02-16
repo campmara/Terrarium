@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Reflection;
 using UnityEngine;
-using UnityEditor;
 
 public static class RollerConstants 
 {
