@@ -10,6 +10,10 @@
 		// The properties below are used in the custom inspector.
 		_UpVectorPitch("Up Vector Pitch", float) = 0
 		_UpVectorYaw("Up Vector Yaw", float) = 0
+
+		_FogLevel("Fog Level", Range(0,1)) = 0.5
+		_FogBlend("Fog Blend", Range(0,100)) = 0.5
+		//_FogColor("Fog Color", Color) = (1, 1, 1, 0)
 	}
 
 		CGINCLUDE
@@ -34,6 +38,9 @@
 	half _Intensity;
 	half _Exponent;
 
+	half _FogLevel;
+	half _FogBlend;
+
 	v2f vert(appdata v)
 	{
 		v2f o;
@@ -45,7 +52,15 @@
 	fixed4 frag(v2f i) : COLOR
 	{
 		half d = dot(normalize(i.texcoord), _UpVector) * 0.5f + 0.5f;
-	return lerp(_Color1, _Color2, pow(d, _Exponent)) * _Intensity;
+		//if (d < _UpVector.y * _FogLevel) {
+		//	return unity_FogColor;
+		//}
+
+		float melt = (d - _FogLevel * _UpVector.y) * _FogBlend;
+		melt = saturate(melt);
+
+		fixed4 sky = lerp(_Color1, _Color2, pow(d, _Exponent)) * _Intensity;
+		return lerp(unity_FogColor, sky, melt);
 	}
 
 		ENDCG

@@ -169,7 +169,7 @@ Material:
       second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _ColorBot
-      second: {r: 0.44290656, g: 0.72895056, b: 0.9411765, a: 1}
+      second: {r: 0.30406573, g: 0.41123968, b: 0.5588235, a: 1}
     - first:
         name: _ColorMid
       second: {r: 0.37370238, g: 0.6139396, b: 0.7941176, a: 1}
@@ -190,4 +190,4 @@ Material:
       second: {r: 0, g: 0, b: 0, a: 0}
     - first:
         name: _RimColor
-      second: {r: 1, g: 1, b: 1, a: 1}
+      second: {r: 0.125, g: 0.125, b: 0.125, a: 1}
