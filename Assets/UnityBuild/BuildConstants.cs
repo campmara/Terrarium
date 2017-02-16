@@ -19,7 +19,7 @@ public static class BuildConstants
     {
         None,
         OSX_Universal,
-        Windows_x86,
+        Windows_x64,
     }
 
     public enum Distribution
@@ -27,11 +27,11 @@ public static class BuildConstants
         None,
     }
 
-    public static readonly System.DateTime buildDate = new System.DateTime(636208727098386820);
-    public const string version = "1.0.754.3994";
+    public static readonly System.DateTime buildDate = new System.DateTime(636228494085958730);
+    public const string version = "1.0.777.3294";
     public const ReleaseType releaseType = ReleaseType.Release;
     public const Platform platform = Platform.PC;
-    public const Architecture architecture = Architecture.Windows_x86;
+    public const Architecture architecture = Architecture.Windows_x64;
     public const Distribution distribution = Distribution.None;
 }
 
