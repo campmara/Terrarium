@@ -4,13 +4,21 @@ using RootMotion.FinalIK;
 
 public class PlayerIKControl : MonoBehaviour
 {
-	RollerController _parentController = null;
+    RollerController _parentController = null;
 
-	[Header("Look At Properties")]
-	[SerializeField] private Transform _lookAtTarget;
-	[SerializeField] private float _lookSpeed = 7f;
+    [Header( "Look At Properties" )]
+    [SerializeField] private Transform _lookAtTarget;
+    [SerializeField] private float _lookSpeed = 7f;
+    [SerializeField]
+    private AnimationCurve _headSpeedCurve;
+    [SerializeField]
+    private AnimationCurve _headPosCurve;
+    [SerializeField] private float _headMoveInterpSpeed = 1.0f;
+    [SerializeField] private float _headHeightAnimScalar = 0.05f;
+    [SerializeField, Tooltip("Only counts between 0 & 1. Determines what percentage between feet and target head tries to move to")] private float _headTargetInterp = 0.25f;
 
-    [Header("Arm Properties")]
+
+[Header("Arm Properties")]
     [SerializeField] private Transform _armTarget;
 	[SerializeField] private float armSpeedNoTarget = 7f;
 	[SerializeField] private float armSpeedTarget = 15f;
@@ -31,6 +39,7 @@ public class PlayerIKControl : MonoBehaviour
     [SerializeField] private float _maxMoveVelocity = 4.0f;
     [SerializeField] private Vector2 _turnSpeedRange = new Vector2(1.0f, 5.0f);
 	[SerializeField] private float _bodyPosMoveSpeed = 5.0f;
+    [SerializeField] private float _minFootDist = 0.3f;
 
     [Header("Limb IK References")]
     [SerializeField] private CCDIK _leftArm;
@@ -56,9 +65,10 @@ public class PlayerIKControl : MonoBehaviour
 
 	private float _currLegLiftHeight;
 	private float _baseHeadY;
+    private float _legHeightAnimEval = 0.0f;
 
-	private Coroutine _leftLegRoutine;
-	private Coroutine _rightLegRoutine;
+	[SerializeField] private Coroutine _leftLegRoutine;
+    [SerializeField] private Coroutine _rightLegRoutine;
 	private bool _leftLegAtDest;
 	private bool _rightLegAtDest;
 
@@ -86,8 +96,17 @@ public class PlayerIKControl : MonoBehaviour
             case WalkState.IDLE:
                 //_leftLegRoutine = StartCoroutine(StepToIdle(_leftLeg));
                 //_rightLegRoutine = StartCoroutine(StepToIdle(_rightLeg));
+                //_lookAtTarget = CameraManager.instance.Main.transform;
                 break;
             case WalkState.WALK:
+                if( _walkState == WalkState.RITUAL )
+                {                    
+                    ResetLegs();
+                }
+                //if ( _lookAtTarget == CameraManager.instance.Main.transform )
+                //{
+                //    _lookAtTarget = null;
+                //}
                 _rightLegAtDest = true;
                 _leftLegAtDest = true;
 				break;
@@ -120,19 +139,45 @@ public class PlayerIKControl : MonoBehaviour
 		UpdateParentController();
     }
 
-	private void UpdateParentController()
+    private void LateUpdate()
+    {
+        if ( _leftLeg != null )
+        {
+            _leftLeg.solver.IKPosition = Vector3.Lerp( _leftLeg.solver.IKPosition, _leftLegPos, 20.0f * Time.deltaTime );
+        }
+        if (_rightLeg != null )
+        {
+            _rightLeg.solver.IKPosition = Vector3.Lerp( _rightLeg.solver.IKPosition, _rightLegPos, 20.0f * Time.deltaTime );
+        }        
+    }
+
+    private void UpdateParentController()
 	{
-		Vector3 targetPos = JohnTech.Midpoint(_targetMovePosition, _legPosMidpoint);
-		targetPos.y = _parentController.transform.position.y;
+
+        Vector3 targetPos = Vector3.Lerp( _legPosMidpoint, _targetMovePosition, _headTargetInterp );
+        //Vector3 targetPos = JohnTech.Midpoint(_targetMovePosition, _legPosMidpoint);  // Sets target position to be midpoint between leg midd and target pos
+        //Vector3 targetPos = _legPosMidpoint;  // Sets target position to be midpoint between legs
+
+        targetPos.y = _parentController.transform.position.y;
+
         _parentController.TargetMovePosition = Vector3.Lerp( _parentController.TargetMovePosition, targetPos, _bodyPosMoveSpeed * Time.deltaTime );
         //_parentController.TargetMovePosition = targetPos;
 
+        _parentController.HeadMoveInterp = Mathf.Lerp( _parentController.HeadMoveInterp, _headSpeedCurve.Evaluate( _legHeightAnimEval ), _bodyPosMoveSpeed * Time.deltaTime );
+        //_parentController.HeadMoveInterp = _headSpeedCurve.Evaluate( _legHeightAnimEval );
     }
 
 	private void HandleLookAt()
 	{
-		
-		_lookAt.transform.SetPosY( _baseHeadY + ( 0.04f * Mathf.Sin( 7.0f * ( Time.time ) ) ));
+        if (_walkState == WalkState.IDLE)
+        {
+            _lookAt.transform.SetPosY( _baseHeadY + ( 0.04f * Mathf.Sin( 7.0f * ( Time.time ) ) ) );
+        }
+        else if ( _walkState == WalkState.WALK )
+        {
+            _lookAt.transform.SetPosY( Mathf.Lerp( _lookAt.transform.position.y, _baseHeadY + ( _headPosCurve.Evaluate( _legHeightAnimEval ) * _headHeightAnimScalar ), _headMoveInterpSpeed * Time.deltaTime) );
+        }
+
 		if ( _lookAtTarget != null )
 		{
 			_lookAt.solver.IKPosition = Vector3.Lerp( _lookAt.solver.IKPosition, _lookAtTarget.position, _lookSpeed * Time.deltaTime );
@@ -144,12 +189,17 @@ public class PlayerIKControl : MonoBehaviour
 		}
 	}
 
+    #region Arm Methods
+
     // =======
     // A R M S
     // =======
 
     private void HandleArms()
     {
+        // TODO: add arm movement up & down based on animation time
+        // TODO: add Arm Rigidbody Stuff
+
         if (_armTarget != null)
         {
 			_leftArm.solver.IKPosition = Vector3.Lerp(_leftArm.solver.IKPosition, _armTarget.position, armSpeedTarget * Time.deltaTime);
@@ -187,12 +237,16 @@ public class PlayerIKControl : MonoBehaviour
 		_lookAtTarget = null;
 	}
 
+    #endregion
+
+    #region Legs Methods
+
     // =======
     // L E G S
     // =======
 
-	// Occurs in fixed update through Roller Controller IK Movement
-	public void UpdateMovementData( float velocity, Vector3 targetOffset, Quaternion targetRotation )
+    // Occurs in fixed update through Roller Controller IK Movement
+    public void UpdateMovementData( float velocity, Vector3 targetOffset, Quaternion targetRotation )
 	{
         if( velocity > _minMoveVelocity || ( _legPosMidpoint - _targetMovePosition ).magnitude > _legMaxDistance )
         {        
@@ -239,19 +293,20 @@ public class PlayerIKControl : MonoBehaviour
 		{
 			if ( _leftLegRoutine == null && _leftLegAtDest )
 			{
-				_leftLegRoutine = StartCoroutine(RitualStep(_leftLeg));
+                _leftLegRoutine = StartCoroutine( RitualStep( _leftLeg ) );
 			}
 
 			if (_rightLegRoutine == null && _rightLegAtDest )
 			{
-				_rightLegRoutine = StartCoroutine(RitualStep(_rightLeg));
+                _rightLegRoutine = StartCoroutine( RitualStep( _rightLeg ) );
 			}
 		}
     }
 
     private bool CheckForLegStep(Vector3 legPos)
     {
-		return (legPos - _targetMovePosition).magnitude > (legPos - transform.position).magnitude;
+        // can step if: target position is farther away from leg than the body OR leg to target is mag is greater than a minimum distance it is trying to resolve to
+        return (legPos - _targetMovePosition).magnitude > (legPos - transform.position).magnitude || ( legPos - _targetMovePosition ).magnitude > _minFootDist;
     }
 
     private IEnumerator TakeStep( CCDIK leg )
@@ -294,9 +349,7 @@ public class PlayerIKControl : MonoBehaviour
             {
                 timer += Time.deltaTime;
 
-				currentPos = Vector3.LerpUnclamped(startPos, _leftDestination, _legXCurve.Evaluate( timer / legMoveTime ) );
-				currentPos.y = _legYCurve.Evaluate(timer / legMoveTime) * _currLegLiftHeight;
-                leg.solver.IKPosition = currentPos;
+                LegIKUpdate( ref _leftLegPos, startPos, _leftDestination, currentPos, timer, legMoveTime );
 
                 yield return null;
             }
@@ -329,9 +382,7 @@ public class PlayerIKControl : MonoBehaviour
             {
                 timer += Time.deltaTime;
 
-				currentPos = Vector3.Lerp(startPos, _rightDestination, _legXCurve.Evaluate( timer / legMoveTime ));
-				currentPos.y = _legYCurve.Evaluate(timer / legMoveTime) * _currLegLiftHeight;
-                leg.solver.IKPosition = currentPos;
+                LegIKUpdate( ref _rightLegPos, startPos, _rightDestination, currentPos, timer, legMoveTime );
 
                 yield return null;
             }
@@ -373,9 +424,7 @@ public class PlayerIKControl : MonoBehaviour
             {
                 timer += Time.deltaTime;
 
-                currentPos = Vector3.Lerp(startPos, _leftDestination, _legXCurve.Evaluate( timer / _legMoveTimeMin ) );
-				currentPos.y = _legYCurve.Evaluate(timer / legMoveTime) * _currLegLiftHeight;
-                leg.solver.IKPosition = currentPos;
+                LegIKUpdate( ref _leftLegPos, startPos, _leftDestination, currentPos, timer, legMoveTime );
 
                 yield return null;
             }
@@ -397,9 +446,7 @@ public class PlayerIKControl : MonoBehaviour
             {
                 timer += Time.deltaTime;
 
-                currentPos = Vector3.Lerp(startPos, _rightDestination, _legXCurve.Evaluate( timer / _legMoveTimeMin ) );
-				currentPos.y = _legYCurve.Evaluate(timer / legMoveTime) * _currLegLiftHeight;
-                leg.solver.IKPosition = currentPos;
+                LegIKUpdate( ref _rightLegPos, startPos, _rightDestination, currentPos, timer, legMoveTime );
 
                 yield return null;
             }
@@ -432,16 +479,14 @@ public class PlayerIKControl : MonoBehaviour
             _legOrigin = transform.position + (transform.right * -rayDistX);
 			_leftDestination = new Vector3( _legOrigin.x, 0f, _legOrigin.z);
 
-			_currLegLiftHeight = Mathf.Lerp( _legLiftHeightMin, _legLiftHeightMax, Mathf.InverseLerp( _minMoveVelocity, _maxMoveVelocity, _parentController.Velocity ));
+            _currLegLiftHeight = Mathf.Lerp( _legLiftHeightMin, _legLiftHeightMax, Mathf.InverseLerp( _minMoveVelocity, _maxMoveVelocity, _parentController.Velocity ) );
 			while (timer < legMoveTime)
 			{
 				timer += Time.deltaTime;
 
-				currentPos = Vector3.Lerp(startPos, _leftDestination, timer / _legMoveTimeMin);
-				currentPos.y = _legYCurve.Evaluate(timer / legMoveTime) * _currLegLiftHeight;
-				leg.solver.IKPosition = currentPos;
+                LegIKUpdate( ref _leftLegPos, startPos, _leftDestination, currentPos, timer, legMoveTime );
 
-				yield return null;
+                yield return null;
 			}
 			_leftLegAtDest = true;
 		}
@@ -449,24 +494,42 @@ public class PlayerIKControl : MonoBehaviour
 		{
 			_rightLegAtDest = false;
 
-            _legOrigin = transform.position + (transform.right * rayDistX);
-			_rightDestination = new Vector3( _legOrigin.x, 0f, _legOrigin.z);
+            _legOrigin = transform.position + ( transform.right * rayDistX );
+            _rightDestination = new Vector3( _legOrigin.x, 0f, _legOrigin.z );
 
-			_currLegLiftHeight = Mathf.Lerp( _legLiftHeightMin, _legLiftHeightMax, Mathf.InverseLerp( _minMoveVelocity, _maxMoveVelocity, _parentController.Velocity ));
+            _currLegLiftHeight = Mathf.Lerp( _legLiftHeightMin, _legLiftHeightMax, Mathf.InverseLerp( _minMoveVelocity, _maxMoveVelocity, _parentController.Velocity ) );
 			while (timer < legMoveTime)
 			{
 				timer += Time.deltaTime;
+                
+                LegIKUpdate( ref _rightLegPos, startPos, _rightDestination, currentPos, timer, legMoveTime );
 
-				currentPos = Vector3.Lerp(startPos, _rightDestination, timer / _legMoveTimeMin);
-				currentPos.y = _legYCurve.Evaluate(timer / legMoveTime) * _currLegLiftHeight;
-				leg.solver.IKPosition = currentPos;
-
-				yield return null;
+                yield return null;
 			}
 			_rightLegAtDest = true;
 		}
+
 		GroundManager.instance.Ground.DrawOnPosition(currentPos, 1f);
 	}
+
+    /// <summary>
+    /// Calculates and sets new leg ik position
+    /// </summary>
+    /// <param name="leg"></param>
+    /// <param name="startPos"></param>
+    /// <param name="destination"></param>
+    /// <param name="currentPos"></param>
+    /// <param name="timer"></param>
+    /// <param name="legMoveTime"></param>
+    private void LegIKUpdate( /*CCDIK leg,*/ ref Vector3 legPosition, Vector3 startPos, Vector3 destination, Vector3 currentPos, float timer, float legMoveTime )
+    {
+        currentPos = Vector3.Lerp( startPos, destination, timer / legMoveTime );
+        _legHeightAnimEval = _legYCurve.Evaluate( timer / legMoveTime );    // Used elsewhere to determine head movement, arm movement, etc.
+        currentPos.y = _legHeightAnimEval * _currLegLiftHeight;
+
+        //leg.solver.IKPosition = currentPos;
+        legPosition = currentPos;
+    }
 
     private Vector3 ShootRayDown(Vector3 origin, Vector3 direction)
     {
@@ -497,6 +560,8 @@ public class PlayerIKControl : MonoBehaviour
         _rightLegPos = transform.parent.position + ( transform.parent.right * 0.25f );
         _legPosMidpoint = JohnTech.Midpoint( _leftLegPos, _rightLegPos );
 
+        _legHeightAnimEval = 0.0f;
+
         _leftLegRoutine = null;
         _rightLegRoutine = null;
 
@@ -504,13 +569,18 @@ public class PlayerIKControl : MonoBehaviour
         _rightLegAtDest = true;
     }
 
-	void OnDrawGizmos()
+    #endregion
+
+    void OnDrawGizmos()
 	{
 		Gizmos.color = Color.blue;
 		Gizmos.DrawSphere( _leftDestination, 0.25f );
 		Gizmos.DrawSphere( _rightDestination, 0.25f );
 
-		Gizmos.color = Color.red;
+        Gizmos.DrawSphere( _leftLegPos, 0.05f );
+        Gizmos.DrawSphere( _rightLegPos, 0.05f );
+
+        Gizmos.color = Color.red;
 		Gizmos.DrawLine( _leftDestination, _rightDestination );
 		Gizmos.DrawCube( _legPosMidpoint, JohnTech.UniformVec(0.25f) );
 

@@ -13,8 +13,9 @@ public static class RollerConstants
 	public const float CARRY_SPEED = 3f;
 	public const float SING_WALK_SPEED = 2f;
 	public const float WALK_ACCELERATION = 0.15f;
-	public const float WALK_DECELERATION = 5.5f;
-    public const float WALK_TURNDAMPENING = 0.15f;
+	public const float WALK_DECELERATION = 5.0f;
+    public const float WALK_TURNDAMPENING = 0.15f;   // Used to dampen velocity when turning really hard
+    public const float BODY_MINMOVESPEED = 2.5f;
 
 	// WALK TURNING
 	public const float WALK_TURN_SPEED = 5f;
@@ -41,7 +42,7 @@ public static class RollerConstants
     public const float PICKUP_CHECKHEIGHT = 0.5f;
 	public const float PICKUP_CHECKRADIUS = 1.0f;
 	public const float PICKUP_FORWARDSCALAR = 0.8f;
-	public const float PICKUP_UPSCALAR = 0.65f;
+	public const float PICKUP_UPSCALAR = 1.1f;
 	public const float PICKUP_TIME = 0.75f;
 
 	// IDLE
