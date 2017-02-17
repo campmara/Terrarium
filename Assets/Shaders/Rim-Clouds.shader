@@ -59,7 +59,8 @@
 	float _HeightMultiplier;
 
 	void surf(Input IN, inout SurfaceOutput o) {
-		float depth = length(IN.worldPos - _WorldSpaceCameraPos) / 150;
+		//float depth = length(IN.worldPos - _WorldSpaceCameraPos) / 150;
+		depth = 1;
 
 		float t = _Seed;
 
