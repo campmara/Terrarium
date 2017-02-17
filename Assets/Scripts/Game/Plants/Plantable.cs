@@ -12,8 +12,8 @@ public class Plantable : MonoBehaviour
 	protected List<Animator> _childAnimators = new List<Animator>();
 
 	//we use inner mesh radius and outer spawn radius to calculate where spawnables can spawn
-    protected float _innerMeshRadius = 1.0f;
-    protected float _outerSpawnRadius = 2.0f;
+    protected float _innerMeshRadius = 2.0f;
+    protected float _outerSpawnRadius = 2.5f;
 	public float OuterSpawnRadius { get { return _outerSpawnRadius; } }
 	[SerializeField] const float _defaultInnerRadiusSize = 1.0f; // use for items you can't easily calculate the mesh size
 	public float MinDistAway{ get { return _minDistAway; } }
@@ -22,7 +22,7 @@ public class Plantable : MonoBehaviour
     protected const float _timeBetweenSpawns = 35.0f;
     [SerializeField] protected float _baseGrowthRate = .005f;
 	[SerializeField] Vector2 _scaleRange = new Vector2( 8.0f, 12.0f); // we want to let these very per plant
-    protected const float _wateredGrowthRate = .2f;
+    protected const float _wateredGrowthMultiplier = 3.0f;
 	protected const int _maxMinisSpawned = 5;
 
 
@@ -83,7 +83,10 @@ public class Plantable : MonoBehaviour
 
     public virtual void WaterPlant()
     {
-        // ups the rate if it's in a certain mode
+		foreach( Animator child in _childAnimators )
+		{
+			child.speed = _baseGrowthRate * _wateredGrowthMultiplier;
+		}
     }
 
     public void ResetPlant()
@@ -147,7 +150,8 @@ public class Plantable : MonoBehaviour
         if( _spawnables.Count != 0 )
         {
             //what kind of radius do i want
-            Vector2 randomPoint = Random.insideUnitCircle * _outerSpawnRadius;
+			Vector2 randomPoint = Random.insideUnitCircle;
+			randomPoint = new Vector2( randomPoint.x * _outerSpawnRadius, randomPoint.y * _outerSpawnRadius );
             Vector3 spawnPoint = new Vector3( randomPoint.x, .1f, randomPoint.y ) + transform.position;
             Vector3 direction = ( spawnPoint - transform.position ).normalized * ( _innerMeshRadius );
             spawnPoint += direction;

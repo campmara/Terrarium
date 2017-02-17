@@ -12,7 +12,7 @@ public class RitualState : RollerState
 	{
 		Debug.Log("ENTER RITUAL STATE");
         //_tween = transform.DOScaleY( 0.1f, RollerConstants.RITUAL_TIME ).OnComplete( OnCompleteRitual );
-		_roller.IK.SetState(PlayerIKControl.WalkState.RITUAL);
+        _roller.IK.SetState( PlayerIKControl.WalkState.RITUAL );
 		ritualTimer = 0f;
 	    //PlayerManager.instance.Player.AnimationController.PlayIdleAnim();
 
@@ -22,15 +22,8 @@ public class RitualState : RollerState
 	public override void Exit(P_ControlState nextState)
 	{
 		Debug.Log("EXIT RITUAL STATE");
-		_roller.IK.SetState(PlayerIKControl.WalkState.IDLE);
-		/*
-	    if (_tween != null)
-	    {
-	        _tween.Kill();
-	        _tween = null;
-	    }
-	    transform.localScale = Vector3.one;
-	    */
+
+        _roller.IK.SetState( PlayerIKControl.WalkState.WALK );
 
 		AudioManager.instance.StopController( AudioManager.AudioControllerNames.PLAYER_ACTIONFX );
 	}
@@ -83,7 +76,20 @@ public class RitualState : RollerState
 
         // TODO: implement plant watering here
         transform.localScale = Vector3.one;
-
+		WaterPlantsCloseBy( currentPaintSize * .5f );
         PondManager.instance.HandlePondReturn();
     }
+
+	void WaterPlantsCloseBy( float searchRadius )
+	{
+		Collider[] cols = Physics.OverlapSphere( transform.position, searchRadius );
+		foreach( Collider col in cols )
+		{
+			Plantable plant = col.GetComponent<Plantable>();
+			if( plant )
+			{
+				plant.WaterPlant();
+			}
+		}
+	}
 }

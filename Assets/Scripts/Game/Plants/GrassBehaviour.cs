@@ -5,10 +5,11 @@ using UnityEngine;
 public class GrassBehaviour : PlantBehaviour 
 {
 	Animator _anim = null;
-	bool _isSquishing = false;
+	[SerializeField] List<Color> _possibleColors;
 
 	void Awake()
 	{
+		GetComponent<SpriteRenderer>().color = _possibleColors[ Random.Range( 0, _possibleColors.Count - 1 ) ];
 		_anim = GetComponent<Animator>();
 		_anim.SetBool( "isSquishing", false );
 	}
