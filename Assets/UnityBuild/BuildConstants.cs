@@ -27,11 +27,11 @@ public static class BuildConstants
         None,
     }
 
-    public static readonly System.DateTime buildDate = new System.DateTime(636228516573994050);
-    public const string version = "1.0.777.3444";
+    public static readonly System.DateTime buildDate = new System.DateTime(636231857536636510);
+    public const string version = "1.0.781.2677";
     public const ReleaseType releaseType = ReleaseType.Release;
-    public const Platform platform = Platform.PC;
-    public const Architecture architecture = Architecture.Windows_x64;
+    public const Platform platform = Platform.OSX;
+    public const Architecture architecture = Architecture.OSX_Universal;
     public const Distribution distribution = Distribution.None;
 }
 
