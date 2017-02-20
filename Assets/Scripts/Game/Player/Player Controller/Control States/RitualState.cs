@@ -52,6 +52,8 @@ public class RitualState : RollerState
 
         transform.DOMoveY( -5.0f, 0.5f );
 
+		_roller.IK.SetState( PlayerIKControl.WalkState.POND_RETURN );
+
         StartCoroutine( DelayedCompleteRitual() );        
     }
 
