@@ -54,21 +54,29 @@ public class WalkingState : RollerState
 			return;
 		}
 
+        if (input.LeftBumper.IsPressed && input.RightBumper.IsPressed)
+        {
+            _roller.ChangeState( P_ControlState.RITUAL);
+        }
+
         // B BUTTON
-		if (input.BButton.IsPressed)
+		//if (input.BButton.IsPressed)
+        //if (input.LeftStickButton.IsPressed)
+        if (input.RightBumper.IsPressed)
         {
             if (GameManager.Instance.State == GameManager.GameState.MAIN)
             {
                 _roller.ChangeState( P_ControlState.ROLLING);
             }
         }        
-        else if (input.XButton.IsPressed)   // X BUTTON
+        /*else if (input.XButton.IsPressed)   // X BUTTON
         {
             _roller.ChangeState( P_ControlState.RITUAL);
-        }
+        }*/
 
 		// Y BUTTON
-		if (input.YButton.IsPressed)
+		//if (input.YButton.IsPressed)
+        if (input.LeftBumper.IsPressed)
 		{
 			_roller.ChangeState( P_ControlState.SING);
 		}
