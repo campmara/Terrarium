@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class GroundDisc : MonoBehaviour 
@@ -10,6 +9,8 @@ public class GroundDisc : MonoBehaviour
 
 	[SerializeField] private GameObject _grassPrefab;
 	[SerializeField] private int _grassDensity = 100;
+
+	[ReadOnly, SerializeField] private GroundDecalPool decalPool;
 
 	//const float TEXELS_PER_WORLD_UNIT = 6.4f;
 	float TEXELS_PER_WORLD_UNIT = 0f;
@@ -58,31 +59,24 @@ public class GroundDisc : MonoBehaviour
 	{
 		_mesh = GetComponent(typeof(MeshRenderer)) as MeshRenderer;
 	    _grassParent = new GameObject {name = "Grass"};
+		decalPool = GetComponentInChildren(typeof(GroundDecalPool)) as GroundDecalPool;
 
 		transform.localScale = new Vector3(ScaleFactor + 1f, 1f, ScaleFactor + 1f);
 		_mesh.sharedMaterial.SetFloat("_ScaleFactor", ScaleFactor);
 
+		/*
 	    for (int i = 0; i < _grassDensity; i++)
 		{
 			SpawnRandomCover();
 		}
+		*/
 
 		CreateSplatTexture();
-		//BeginTextureUpdateLoop();
 	}
 
 	private void Update()
 	{
-		UpdateTexture();
-	}
-
-	private IEnumerator BeginTextureUpdateLoop()
-	{
-		yield return new WaitForSeconds(0.04166666667f);
-
-		UpdateTexture();
-
-		StartCoroutine(BeginTextureUpdateLoop());
+		//UpdateTexture();
 	}
 
 	private float FadeAlpha(float alpha)
@@ -136,6 +130,11 @@ public class GroundDisc : MonoBehaviour
 		//grass.transform.GetChild(0).localScale = new Vector3(Random.Range(0.8f, 1.1f), Random.Range(0.8f, 1.1f), 0f);
 
 		grass.transform.parent = _grassParent.transform;
+	}
+
+	public void DrawSplatDecal(Vector3 pos, float size)
+	{
+		decalPool.AddDecal(pos, size);
 	}
 
 	// DYNAMIC TEXTURE STUFF
