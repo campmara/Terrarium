@@ -404,7 +404,8 @@ public class PlayerIKControl : MonoBehaviour
             _rightLegAtDest = true;
 			_rightLegRoutine = null;
         }
-		GroundManager.instance.Ground.DrawOnPosition(currentPos, 1f);
+        GroundManager.instance.Ground.DrawSplatDecal(currentPos, 0.25f);
+		//GroundManager.instance.Ground.DrawOnPosition(currentPos, 1f);
 		AudioManager.instance.PlayRandomAudioClip( AudioManager.AudioControllerNames.PLAYER_FOOTSTEPS );
     }
 
@@ -468,7 +469,8 @@ public class PlayerIKControl : MonoBehaviour
             _rightLegAtDest = true;
 			_rightLegRoutine = null;
         }
-		GroundManager.instance.Ground.DrawOnPosition(currentPos, 1f);
+        GroundManager.instance.Ground.DrawSplatDecal(currentPos, 0.25f);
+		//GroundManager.instance.Ground.DrawOnPosition(currentPos, 1f);
     }
 
 	private IEnumerator RitualStep(CCDIK leg)
@@ -520,8 +522,8 @@ public class PlayerIKControl : MonoBehaviour
 			}
 			_rightLegAtDest = true;
 		}
-
-		GroundManager.instance.Ground.DrawOnPosition(currentPos, 1f);
+        GroundManager.instance.Ground.DrawSplatDecal(currentPos, 0.25f);
+		//GroundManager.instance.Ground.DrawOnPosition(currentPos, 1f);
 	}
 
     /// <summary>
