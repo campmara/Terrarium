@@ -825,6 +825,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ground: {fileID: 0}
+  _mask: {fileID: 0}
+  _scaleFactor: 4
 --- !u!114 &114853906761940640
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -74,7 +74,8 @@ public class RollingState : RollerState
 		// Update the ground paint!
 		if (_grounded)
 		{
-			GroundManager.instance.Ground.DrawOnPosition(transform.position, 4f);
+			GroundManager.instance.Ground.DrawSplatDecal(transform.position, 1f);
+			//GroundManager.instance.Ground.DrawOnPosition(transform.position, 4f);
 		}
 	}
 
