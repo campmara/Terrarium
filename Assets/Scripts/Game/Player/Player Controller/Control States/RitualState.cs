@@ -62,13 +62,14 @@ public class RitualState : RollerState
 		float timer = 0f;
 		float totalTime = RollerConstants.RITUAL_COMPLETEWAIT;
 		float currentPaintSize = 0f;
-		float maxPaintSize = 30f;
+		float maxPaintSize = 4f;
 		Vector3 pos = transform.position;
 
 		Tween paint = DOTween.To(()=> currentPaintSize, x=> currentPaintSize = x, maxPaintSize, totalTime);
 		while(paint.IsPlaying())
 		{
-			GroundManager.instance.Ground.DrawOnPosition(pos, currentPaintSize);
+			GroundManager.instance.Ground.DrawSplatDecal(pos, currentPaintSize);
+			//GroundManager.instance.Ground.DrawOnPosition(pos, currentPaintSize);
 			yield return null;
 		}
 
