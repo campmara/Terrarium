@@ -156,7 +156,6 @@ public class PlayerIKControl : MonoBehaviour
 
     private void UpdateParentController()
 	{
-
         Vector3 targetPos = Vector3.Lerp( _legPosMidpoint, _targetMovePosition, _headTargetInterp );
         //Vector3 targetPos = JohnTech.Midpoint(_targetMovePosition, _legPosMidpoint);  // Sets target position to be midpoint between leg midd and target pos
         //Vector3 targetPos = _legPosMidpoint;  // Sets target position to be midpoint between legs
@@ -270,6 +269,8 @@ public class PlayerIKControl : MonoBehaviour
             _lastRotation = _targetRotation;
             _targetRotation = targetRotation;
         }
+
+        _targetMovePosition.y = PondManager.instance.Pond.GetPondY(_targetMovePosition);
 	}
 
     private void HandleLegs()
