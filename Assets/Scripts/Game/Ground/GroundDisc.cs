@@ -5,8 +5,6 @@ public class GroundDisc : MonoBehaviour
 {
 	const float PAINT_FADE_SPEED = 0.3f;
 
-	public float ScaleFactor = 3f;
-
 	[SerializeField] private GameObject _grassPrefab;
 	[SerializeField] private int _grassDensity = 100;
 
@@ -57,12 +55,8 @@ public class GroundDisc : MonoBehaviour
 
 	private void Awake()
 	{
-		_mesh = GetComponent(typeof(MeshRenderer)) as MeshRenderer;
 	    _grassParent = new GameObject {name = "Grass"};
 		decalPool = GetComponentInChildren(typeof(GroundDecalPool)) as GroundDecalPool;
-
-		transform.localScale = new Vector3(ScaleFactor + 1f, 1f, ScaleFactor + 1f);
-		_mesh.sharedMaterial.SetFloat("_ScaleFactor", ScaleFactor);
 
 		/*
 	    for (int i = 0; i < _grassDensity; i++)
@@ -71,7 +65,7 @@ public class GroundDisc : MonoBehaviour
 		}
 		*/
 
-		CreateSplatTexture();
+		//CreateSplatTexture();
 	}
 
 	private void Update()
@@ -115,6 +109,7 @@ public class GroundDisc : MonoBehaviour
 		_splatTex.Apply();
 	}
 
+	/*
 	private void SpawnRandomCover()
 	{
 		Vector3 spawnPos = Random.insideUnitSphere * 5f * ScaleFactor;
@@ -131,11 +126,14 @@ public class GroundDisc : MonoBehaviour
 
 		grass.transform.parent = _grassParent.transform;
 	}
+	*/
 
 	public void DrawSplatDecal(Vector3 pos, float size)
 	{
 		decalPool.AddDecal(pos, size);
 	}
+
+	/*
 
 	// DYNAMIC TEXTURE STUFF
 	public void DrawOnPosition(Vector3 center, float radius)
@@ -212,4 +210,5 @@ public class GroundDisc : MonoBehaviour
 		_splatTex.SetPixels32(currentColors);
 		_splatTex.Apply();
 	}
+	*/
 }
