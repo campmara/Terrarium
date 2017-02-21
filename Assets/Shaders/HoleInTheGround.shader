@@ -2,7 +2,7 @@
 {
 	SubShader 
 	{
-	    Tags {"Queue" = "Geometry+10" } // earlier = hides stuff later in queue
+	    Tags {"Queue" = "Geometry-1" } // earlier = hides stuff later in queue
 	    Lighting Off
 	    ZTest LEqual
 	    ZWrite On
