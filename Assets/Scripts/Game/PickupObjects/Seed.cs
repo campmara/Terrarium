@@ -46,31 +46,9 @@ public class Seed : Pickupable
 
 	public void TryPlanting()
 	{
-		if( !FoundPlantsCloseBy() )
-		{
-			Vector3 plantPos = new Vector3( transform.position.x, 0.0f, transform.position.z ); 
-			GameObject newPlant = Instantiate( _plantPrefab, plantPos, Quaternion.identity ) as GameObject; 
-			PlantManager.instance.AddBigPlant( newPlant.GetComponent<Growable>()  );
-			gameObject.SetActive(false);
-		}
-	}
-
-	bool FoundPlantsCloseBy()
-	{
-		Collider[] foundObjects = Physics.OverlapSphere( transform.position, _searchRadius );
-		foreach( Collider col in foundObjects ) 
-		{
-			Plantable plant = col.gameObject.GetComponent<Plantable>();
-			if( plant )
-			{
-				float distance = ( col.gameObject.transform.position - transform.position ).magnitude;
-				if( distance <= plant.MinDistAway )
-				{
-					return true;
-				}
-			}
-		}
-
-		return false;
+		Vector3 plantPos = new Vector3( transform.position.x, 0.0f, transform.position.z ); 
+		GameObject newPlant = Instantiate( _plantPrefab, plantPos, Quaternion.identity ) as GameObject; 
+		PlantManager.instance.AddBigPlant( newPlant.GetComponent<Growable>()  );
+		gameObject.SetActive(false);
 	}
 }

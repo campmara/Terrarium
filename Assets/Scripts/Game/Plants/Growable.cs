@@ -17,18 +17,19 @@ public class Growable : Plantable
 	float _curTimestamp = 0.0f;
 	protected float _curPercentAnimated = 0.0f;
 
-	[SerializeField] GrowthStage _curStage = GrowthStage.Sprout;
+	[SerializeField] GrowthStage _curStage = GrowthStage.Seed;
 	public GrowthStage CurStage { get { return _curStage; } }
 
 	public enum GrowthStage : int
 	{
+		Seed = -1,
 		Sprout = 0,
 		GrowingSprout= 1,
 		Sapling = 2,
 		Final = 3
 	};
 			
-	float [] stageRadii = new float[] { 4.0f, 10.0f, 12.0f, 13.0f }; // how much room each stage need to grow, first element doesnt matter
+	float [] stageRadii = new float[] { 6.0f, 8.0f, 10.0f, 12.0f }; // how much room each stage need to grow, first element doesnt matter
 	float [] growthTime = new float[4]; // time splits initialized based on our animation
 	float [] growthRadii = new float[] { 4.0f, 5.5f, 5.75f, 6.0f }; // how far away things need to be to even plant
 
@@ -44,14 +45,25 @@ public class Growable : Plantable
 	protected override void InitPlant()
 	{
 		base.InitPlant();
-
-		_curStage = GrowthStage.Sprout;
+		_curStage = GrowthStage.Seed;
 		AnimationSetup();
-		_outerSpawnRadius = stageRadii[ (int)_curStage ];
-		_minDistAway = growthRadii[ 0 ];
-		GetSetMeshRadius();
 
-		StartGrowth();
+		if( !IsOverlappingPlants() )
+		{
+			_curStage = GrowthStage.Sprout;
+			_outerSpawnRadius = stageRadii[ (int)_curStage ];
+			_minDistAway = growthRadii[ 0 ];
+			GetSetMeshRadius();
+			StartGrowth();
+		}
+		else
+		{
+			if( _plantAnim )
+			{
+				_plantAnim.enabled = false;
+			}
+			CustomStopGrowth();
+		}
 	}
 
 	protected virtual void AnimationSetup()
@@ -65,17 +77,19 @@ public class Growable : Plantable
 
 	protected virtual void SetGrowthTransitionPoints()
 	{
-		float _duration = 1.0f / _numGrowStages;
-		for( int i = 0; i < _numGrowStages; i++ )
+		float _duration = 1.0f / ( _numGrowStages + 1 );
+		for( int i = 0; i < _numGrowStages + 1; i++ )
 		{
-			if( i != 0 )
-			{
-				growthTime[i] = _duration * (i+1);
-			}
-			else
-			{
-				growthTime[i] = .15f;
-			}
+//			if( i != 0 )
+//			{
+//				growthTime[i] = _duration * (i+1);
+//			}
+//			else
+//			{
+//				growthTime[i] = .15f;
+//			}
+
+			growthTime[i] = _duration * (i+1);
 		}
 	}
 
@@ -88,12 +102,17 @@ public class Growable : Plantable
 
 	protected override void StopGrowth()
 	{
+		PlantManager.ExecuteGrowth -= GrowPlant;
 		CustomStopGrowth();
 	}
 
 	protected virtual void CustomStopGrowth()
 	{
 		base.StopGrowth();
+		if( _plantAnim )
+		{
+			_plantAnim.enabled = false;
+		}
 	}
 
 	public override void WaterPlant()
@@ -119,7 +138,7 @@ public class Growable : Plantable
 
 			if( _curPercentAnimated >= growthTime[ (int)_curStage ] )
 			{
-				TryTransitionStages();
+ 				TryTransitionStages();
 			}
 
 			CustomPlantGrowing();
@@ -130,6 +149,10 @@ public class Growable : Plantable
 		
 	void TryTransitionStages()
 	{
+		if( _curStage == GrowthStage.Sprout )
+		{
+			Debug.Log("HELLO");
+		}
 		if( IsOverlappingPlants() )
 		{
 			StopGrowth();
@@ -223,6 +246,11 @@ public class Growable : Plantable
 		Vector3 spawnPoint = new Vector3( randomPoint.x, _fruitDropHeight, randomPoint.y ) + transform.position;
 
 		newPlant = (GameObject)Instantiate( _droppablePrefabs[Random.Range( 0, _droppablePrefabs.Count)], spawnPoint, Quaternion.identity );  
+		Seed seed = newPlant.GetComponent<Seed>();
+		if( seed )
+		{
+			PlantManager.instance.AddSeed( seed );
+		}
 
 		PlantManager.instance.RequestDropFruit( this, _timeBetweenFruitDrops );
 
@@ -250,8 +278,11 @@ public class Growable : Plantable
 			Gizmos.DrawWireSphere( transform.position, _innerMeshRadius );//stageRadii[ (int)_curStage + 1 ] );
 		}
 
-//		Gizmos.color = Color.red;
-		//Gizmos.DrawWireSphere( transform.position, growthRadii[(int) _curStage ] );
+		Gizmos.color = Color.red;
+		if( (int) _curStage > -1 )
+		{
+		Gizmos.DrawWireSphere( transform.position, stageRadii[(int) _curStage ] );
+		}
 	}
 }
 

@@ -39,16 +39,7 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 	    DropFruitEvent dropGameEvent = new DropFruitEvent( plant, timeUntil );
 		TimeManager.instance.AddEvent( dropGameEvent );
 	}
-
-	public void DropSeed( Growable plant )
-	{
-		//create a new seed based on plant type
-		Seed newSeed = plant.DropFruit().GetComponent<Seed>();
-
-		//add the new guy to our list
-		_seeds.Add(newSeed);
-	}
-
+		
 	public void DestroySeed( Seed oldSeed )
 	{
 		_seeds.Remove( oldSeed );
@@ -58,6 +49,11 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 	public void AddBigPlant( Growable bigPlant )
 	{
 		_largePlants.Add( bigPlant );
+	}
+
+	public void AddSeed( Seed seed )
+	{
+		_seeds.Add( seed );
 	}
 
 	public void SpawnMini( Plantable plant )

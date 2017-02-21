@@ -8,7 +8,7 @@ public class StarterPlant : Growable
 	[SerializeField] private GameObject _leafPrefab = null;
 
 	Vector3 _minScale = new Vector3( 5.0f, 5.0f, 5.0f );
-	Vector3 _maxScale = new Vector3( 14.0f, 14.0f, 14.0f );
+	Vector3 _maxScale = new Vector3( 11.0f, 11.0f, 11.0f );
 
 	private int _numChildren;
 	private Transform[] _bones;
@@ -76,7 +76,6 @@ public class StarterPlant : Growable
 
 	protected override void CustomStopGrowth()
 	{
-		PlantManager.ExecuteGrowth -= GrowPlant;
 		PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
 	}
 
