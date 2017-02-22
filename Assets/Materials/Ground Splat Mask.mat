@@ -6,11 +6,11 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Ground Crater Mesh
-  m_Shader: {fileID: 4800000, guid: 0a4c2dc3e6c043042a5f12aa874a5954, type: 3}
+  m_Name: Ground Splat Mask
+  m_Shader: {fileID: 4800000, guid: 815f016ef36e840aeaae65334055b793, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
-  m_CustomRenderQueue: 1990
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
@@ -58,12 +58,6 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
-        name: _NormalTex
-      second:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - first:
         name: _OcclusionMap
       second:
         m_Texture: {fileID: 0}
@@ -71,12 +65,6 @@ Material:
         m_Offset: {x: 0, y: 0}
     - first:
         name: _ParallaxMap
-      second:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - first:
-        name: _SecondaryTex
       second:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -104,14 +92,8 @@ Material:
         name: _GlossyReflections
       second: 1
     - first:
-        name: _Hardness
-      second: 1
-    - first:
         name: _Metallic
       second: 0
-    - first:
-        name: _Middle
-      second: 0.001
     - first:
         name: _Mode
       second: 0
@@ -121,6 +103,12 @@ Material:
     - first:
         name: _Parallax
       second: 0.02
+    - first:
+        name: _Radius
+      second: 1
+    - first:
+        name: _ScaleFactor
+      second: 4
     - first:
         name: _SmoothnessTextureChannel
       second: 0
@@ -138,17 +126,11 @@ Material:
       second: 1
     m_Colors:
     - first:
+        name: _Center
+      second: {r: 0, g: 0, b: 0, a: 0}
+    - first:
         name: _Color
       second: {r: 1, g: 1, b: 1, a: 1}
-    - first:
-        name: _ColorBot
-      second: {r: 0.36431366, g: 0.5147059, b: 0.26113755, a: 1}
-    - first:
-        name: _ColorMid
-      second: {r: 0.46270284, g: 0.5661765, b: 0.34553418, a: 1}
-    - first:
-        name: _ColorTop
-      second: {r: 0.46270284, g: 0.5661765, b: 0.34553418, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}

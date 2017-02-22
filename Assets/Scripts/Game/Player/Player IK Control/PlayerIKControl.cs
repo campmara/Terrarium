@@ -14,7 +14,7 @@ public class PlayerIKControl : MonoBehaviour
     [SerializeField]
     private AnimationCurve _headPosCurve;
     [SerializeField] private float _headMoveInterpSpeed = 1.0f;
-    [SerializeField] private float _headHeightAnimScalar = 0.05f;
+    [SerializeField] private float _headHeightAnimScalar = 0.025f;
     [SerializeField, Tooltip("Only counts between 0 & 1. Determines what percentage between feet and target head tries to move to")] private float _headTargetInterp = 0.25f;
 
 
@@ -76,7 +76,8 @@ public class PlayerIKControl : MonoBehaviour
     {
         IDLE,
         WALK,
-		RITUAL
+		RITUAL,
+		POND_RETURN
     };
     private WalkState _walkState = WalkState.IDLE;
     public void SetState(WalkState state)
@@ -113,7 +114,9 @@ public class PlayerIKControl : MonoBehaviour
 			case WalkState.RITUAL:
 				_rightLegAtDest = true;
 				_leftLegAtDest = true;
-                break;			
+                break;	
+			case WalkState.POND_RETURN:				
+				break;
         }
 
         _walkState = state;
@@ -153,7 +156,6 @@ public class PlayerIKControl : MonoBehaviour
 
     private void UpdateParentController()
 	{
-
         Vector3 targetPos = Vector3.Lerp( _legPosMidpoint, _targetMovePosition, _headTargetInterp );
         //Vector3 targetPos = JohnTech.Midpoint(_targetMovePosition, _legPosMidpoint);  // Sets target position to be midpoint between leg midd and target pos
         //Vector3 targetPos = _legPosMidpoint;  // Sets target position to be midpoint between legs
@@ -167,17 +169,24 @@ public class PlayerIKControl : MonoBehaviour
         //_parentController.HeadMoveInterp = _headSpeedCurve.Evaluate( _legHeightAnimEval );
     }
 
+	#region Head Methods
+
 	private void HandleLookAt()
 	{
         if (_walkState == WalkState.IDLE)
         {
-            _lookAt.transform.SetPosY( _baseHeadY + ( 0.04f * Mathf.Sin( 7.0f * ( Time.time ) ) ) );
+            _lookAt.transform.localPosition.SetPosY( _baseHeadY + ( 0.024f * Mathf.Sin( 7.0f * ( Time.time ) ) ) );
         }
         else if ( _walkState == WalkState.WALK )
         {
-            _lookAt.transform.SetPosY( Mathf.Lerp( _lookAt.transform.position.y, _baseHeadY + ( _headPosCurve.Evaluate( _legHeightAnimEval ) * _headHeightAnimScalar ), _headMoveInterpSpeed * Time.deltaTime) );
+            _lookAt.transform.localPosition.SetPosY( Mathf.Lerp( _lookAt.transform.localPosition.y, _baseHeadY + ( _headPosCurve.Evaluate( _legHeightAnimEval ) * _headHeightAnimScalar ), _headMoveInterpSpeed * Time.deltaTime) );
+        }
+        else if ( _walkState == WalkState.POND_RETURN )
+        {
+            _lookAt.transform.localPosition.SetPosY( 0.2f );
         }
 
+        // Setting where IK should resolve to look at
 		if ( _lookAtTarget != null )
 		{
 			_lookAt.solver.IKPosition = Vector3.Lerp( _lookAt.solver.IKPosition, _lookAtTarget.position, _lookSpeed * Time.deltaTime );
@@ -188,6 +197,8 @@ public class PlayerIKControl : MonoBehaviour
 			_lookAt.solver.IKPosition = Vector3.Lerp( _lookAt.solver.IKPosition, _lookAt.transform.position + this.transform.parent.forward, _lookSpeed * Time.deltaTime );
 		}
 	}
+
+	#endregion
 
     #region Arm Methods
 
@@ -258,6 +269,8 @@ public class PlayerIKControl : MonoBehaviour
             _lastRotation = _targetRotation;
             _targetRotation = targetRotation;
         }
+
+        _targetMovePosition.y = PondManager.instance.Pond.GetPondY(_targetMovePosition);
 	}
 
     private void HandleLegs()
@@ -392,7 +405,8 @@ public class PlayerIKControl : MonoBehaviour
             _rightLegAtDest = true;
 			_rightLegRoutine = null;
         }
-		GroundManager.instance.Ground.DrawOnPosition(currentPos, 1f);
+        GroundManager.instance.Ground.DrawSplatDecal(currentPos, 0.25f);
+		//GroundManager.instance.Ground.DrawOnPosition(currentPos, 1f);
 		AudioManager.instance.PlayRandomAudioClip( AudioManager.AudioControllerNames.PLAYER_FOOTSTEPS );
     }
 
@@ -456,7 +470,8 @@ public class PlayerIKControl : MonoBehaviour
             _rightLegAtDest = true;
 			_rightLegRoutine = null;
         }
-		GroundManager.instance.Ground.DrawOnPosition(currentPos, 1f);
+        GroundManager.instance.Ground.DrawSplatDecal(currentPos, 0.25f);
+		//GroundManager.instance.Ground.DrawOnPosition(currentPos, 1f);
     }
 
 	private IEnumerator RitualStep(CCDIK leg)
@@ -508,8 +523,8 @@ public class PlayerIKControl : MonoBehaviour
 			}
 			_rightLegAtDest = true;
 		}
-
-		GroundManager.instance.Ground.DrawOnPosition(currentPos, 1f);
+        GroundManager.instance.Ground.DrawSplatDecal(currentPos, 0.25f);
+		//GroundManager.instance.Ground.DrawOnPosition(currentPos, 1f);
 	}
 
     /// <summary>

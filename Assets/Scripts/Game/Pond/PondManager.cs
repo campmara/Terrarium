@@ -56,7 +56,10 @@ public class PondManager : SingletonBehaviour<PondManager>
     {
         // Transport player to pond pop point.
         // Tell the Camera to pan back to the pond.      
-        PlayerManager.instance.ReturnPlayerToPond();  
+        PlayerManager.instance.ReturnPlayerToPond(); 
+
+        PlayerManager.instance.Player.ControlManager.SetActiveController<InactiveController>();
+
         CameraManager.instance.ChangeCameraState( CameraManager.CameraState.POND_RETURNPAN );       
     }
 
@@ -64,13 +67,18 @@ public class PondManager : SingletonBehaviour<PondManager>
     {        
 		//AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_TRANSITIONFX, 2 );
 
-		PlayerManager.instance.Player.GetComponent<RollerController>().BecomeBall();
+		//PlayerManager.instance.Player.GetComponent<RollerController>().BecomeBall();
 
         Vector3 endPos = _pond.transform.forward * 5f;
         Tween jumpTween = PlayerManager.instance.Player.transform.DOJump( endPos, POP_HEIGHT, 1, POP_DURATION ).SetEase( Ease.Linear );
-
         yield return jumpTween.WaitForCompletion();
+
+        //float endY = -1.5f;
+        //Tween popTween = PlayerManager.instance.Player.transform.DOMoveY(endY, 0.75f);
+        //yield return popTween.WaitForCompletion();
         
+        PlayerManager.instance.Player.ControlManager.SetActiveController<RollerController>();
+
         CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
         GameManager.Instance.ChangeGameState( GameManager.GameState.MAIN );
 
