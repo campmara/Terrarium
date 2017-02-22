@@ -19,9 +19,15 @@ public class PlayerIKControl : MonoBehaviour
 
 
 [Header("Arm Properties")]
-    [SerializeField] private Transform _armTarget;
+    [SerializeField] private Transform _armTargetTransform = null;
 	[SerializeField] private float armSpeedNoTarget = 7f;
 	[SerializeField] private float armSpeedTarget = 15f;
+    private Vector3 _leftArmTargetPos = Vector3.zero;
+    private Vector3 _rightArmTargetPos = Vector3.zero;
+    
+    // These "base targets" are what the arms are resolving towards when not holding something / focused on something / reaching
+    [SerializeField] private SpringJoint _leftArmSpringTarget = null;   
+    [SerializeField] private SpringJoint _rightArmSpringTarget = null;
 
     [Header("Leg Properties")]
     [SerializeField] private AnimationCurve _legYCurve;
@@ -144,14 +150,14 @@ public class PlayerIKControl : MonoBehaviour
 
     private void LateUpdate()
     {
-        if ( _leftLeg != null )
-        {
-            _leftLeg.solver.IKPosition = Vector3.Lerp( _leftLeg.solver.IKPosition, _leftLegPos, 20.0f * Time.deltaTime );
-        }
-        if (_rightLeg != null )
-        {
-            _rightLeg.solver.IKPosition = Vector3.Lerp( _rightLeg.solver.IKPosition, _rightLegPos, 20.0f * Time.deltaTime );
-        }        
+        Debug.Assert( _leftLeg != null );
+        _leftLeg.solver.IKPosition = Vector3.Lerp( _leftLeg.solver.IKPosition, _leftLegPos, 20.0f * Time.deltaTime );        
+        _rightLeg.solver.IKPosition = Vector3.Lerp( _rightLeg.solver.IKPosition, _rightLegPos, 20.0f * Time.deltaTime );
+
+        //_rightArm.solver.IKPosition = Vector3.Lerp( _rightLeg.solver.IKPosition, _rightArmTargetPos, armSpeedTarget );
+        //_leftArm.solver.IKPosition = Vector3.Lerp( _leftArm.solver.IKPosition, _leftArmTargetPos, armSpeedTarget );
+        _rightArm.solver.IKPosition = _rightArmTargetPos;
+        _leftArm.solver.IKPosition = _leftArmTargetPos;
     }
 
     private void UpdateParentController()
@@ -208,43 +214,47 @@ public class PlayerIKControl : MonoBehaviour
 
     private void HandleArms()
     {
-        // TODO: add arm movement up & down based on animation time
-        // TODO: add Arm Rigidbody Stuff
+        // TODO: lerp speed should be unique for each type of arm reaching/movement
+        // TODO: Adjust hand spring anchors
 
-        if (_armTarget != null)
+        // Move arm target pos, updates IK in Late Update
+        if (_armTargetTransform != null)
         {
-			_leftArm.solver.IKPosition = Vector3.Lerp(_leftArm.solver.IKPosition, _armTarget.position, armSpeedTarget * Time.deltaTime);
-			_rightArm.solver.IKPosition = Vector3.Lerp(_rightArm.solver.IKPosition, _armTarget.position, armSpeedTarget * Time.deltaTime);
+			_leftArmTargetPos = Vector3.Lerp(_leftArmTargetPos, _armTargetTransform.position, armSpeedTarget * Time.deltaTime);
+			_rightArmTargetPos = Vector3.Lerp(_rightArmTargetPos, _armTargetTransform.position, armSpeedTarget * Time.deltaTime);
         }
 		else if (_walkState == WalkState.RITUAL)
         {
-			_leftArm.solver.IKPosition = Vector3.Lerp(_leftArm.solver.IKPosition, 
+			_leftArmTargetPos = Vector3.Lerp(_leftArmTargetPos, 
 				transform.position + (transform.parent.up * 5f) - (transform.parent.right * 0.5f), 
 				armSpeedNoTarget * Time.deltaTime);
-			_rightArm.solver.IKPosition = Vector3.Lerp(_rightArm.solver.IKPosition, 
+			_rightArmTargetPos = Vector3.Lerp(_rightArmTargetPos, 
 				transform.position + (transform.parent.up * 5f) + (transform.parent.right * 0.5f), 
 				armSpeedNoTarget * Time.deltaTime);
         }
 		else
-		{
-			_leftArm.solver.IKPosition = Vector3.Lerp(_leftArm.solver.IKPosition, 
+		{            
+            _leftArmSpringTarget.connectedAnchor = Vector3.Lerp( _leftArmSpringTarget.connectedAnchor, 
 				transform.parent.position - (transform.parent.right * 0.5f), 
 				armSpeedNoTarget * Time.deltaTime);
-			_rightArm.solver.IKPosition = Vector3.Lerp(_rightArm.solver.IKPosition,
+			_rightArmSpringTarget.connectedAnchor = Vector3.Lerp( _rightArmSpringTarget.connectedAnchor, 
                 transform.parent.position + (transform.parent.right * 0.5f), 
 				armSpeedNoTarget * Time.deltaTime);
+
+            _leftArmTargetPos = Vector3.Lerp(_leftArmTargetPos, _leftArmSpringTarget.transform.position, armSpeedNoTarget * Time.deltaTime);
+			_rightArmTargetPos = Vector3.Lerp(_rightArmTargetPos, _rightArmSpringTarget.transform.position, armSpeedNoTarget * Time.deltaTime);            
 		}
     }
 
     public void SetArmTarget(Transform t)
     {
-        _armTarget = t;
+        _armTargetTransform = t;
 		_lookAtTarget = t;
     }
 
 	public void LetGo()
 	{
-		_armTarget = null;
+		_armTargetTransform = null;
 		_lookAtTarget = null;
 	}
 

@@ -12,6 +12,7 @@ public class PlayerControlManager : MonoBehaviour
 
 	void Awake ()
 	{
+		SetActiveController<InactiveController>();
 	}
 
 	void FixedUpdate () 
