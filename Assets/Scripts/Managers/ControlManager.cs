@@ -10,6 +10,9 @@ public class InputCollection : PlayerActionSet
 	public PlayerAction XButton;
 	public PlayerAction YButton;
 
+	public PlayerAction LeftBumper;
+	public PlayerAction RightBumper;
+
 	public PlayerAction LeftStickLeft;
 	public PlayerAction LeftStickRight;
 	public PlayerAction LeftStickDown;
@@ -25,6 +28,7 @@ public class InputCollection : PlayerActionSet
 	public PlayerOneAxisAction RightStickX;
 	public PlayerOneAxisAction RightStickY;
 
+	public PlayerAction LeftStickButton;
     public PlayerAction RightStickButton;
 
 	public InputCollection()
@@ -33,6 +37,9 @@ public class InputCollection : PlayerActionSet
 		BButton = CreatePlayerAction("B Button");
 		XButton = CreatePlayerAction("X Button");
 		YButton = CreatePlayerAction("Y Button");
+
+		LeftBumper = CreatePlayerAction("Left Bumper");
+		RightBumper = CreatePlayerAction("Right Bumper");
 
 		LeftStickLeft = CreatePlayerAction("Left Stick Left");
 		LeftStickRight = CreatePlayerAction("Left Stick Right");
@@ -49,6 +56,7 @@ public class InputCollection : PlayerActionSet
 		RightStickX = CreateOneAxisPlayerAction(RightStickLeft, RightStickRight);
 		RightStickY = CreateOneAxisPlayerAction(RightStickDown, RightStickUp);
 
+		LeftStickButton = CreatePlayerAction("Left Stick Click");
         RightStickButton = CreatePlayerAction("Right Stick Button");
 
         // ADD BINDINGS
@@ -56,6 +64,9 @@ public class InputCollection : PlayerActionSet
 		BButton.AddDefaultBinding(InputControlType.Action2);
 		XButton.AddDefaultBinding(InputControlType.Action3);
 		YButton.AddDefaultBinding(InputControlType.Action4);
+
+		LeftBumper.AddDefaultBinding(InputControlType.LeftBumper);
+		RightBumper.AddDefaultBinding(InputControlType.RightBumper);
 
 		LeftStickLeft.AddDefaultBinding(InputControlType.LeftStickLeft);
 		LeftStickRight.AddDefaultBinding(InputControlType.LeftStickRight);
@@ -67,6 +78,7 @@ public class InputCollection : PlayerActionSet
 		RightStickDown.AddDefaultBinding(InputControlType.RightStickDown);
 		RightStickUp.AddDefaultBinding(InputControlType.RightStickUp);
 
+		LeftStickButton.AddDefaultBinding(InputControlType.LeftStickButton);
         RightStickButton.AddDefaultBinding(InputControlType.RightStickButton);
 
 		// Keyboard Controls

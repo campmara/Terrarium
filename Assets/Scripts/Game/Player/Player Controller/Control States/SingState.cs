@@ -16,7 +16,7 @@ public class SingState : RollerState
 	public override void Exit (P_ControlState nextState)
 	{
 		Debug.Log("EXIT SING STATE");
-
+		_roller.Face.BecomeIdle();
 		RollerParent.Idling = false;
 	}
 
@@ -28,15 +28,19 @@ public class SingState : RollerState
 									  RollerConstants.WALK_TURN_SPEED);
 
 	    // B BUTTON
-	    if (input.BButton.IsPressed)
+	    //if (input.BButton.IsPressed)
+		if (!input.LeftBumper.IsPressed && input.RightBumper.IsPressed)
 	    {
 	        _roller.ChangeState( P_ControlState.ROLLING);
+			return;
 	    }
 
 	    // X BUTTON
-	    if (input.XButton.IsPressed)
+	    //if (input.XButton.IsPressed)
+		if (input.LeftBumper.IsPressed && input.RightBumper.IsPressed)
 	    {
 	        _roller.ChangeState( P_ControlState.RITUAL);
+			return;
 	    }
 
 	    //float desiredPitch = 1.0f + _roller.InputVec.magnitude;
@@ -44,10 +48,11 @@ public class SingState : RollerState
 	    _singPitch = Mathf.Lerp(_singPitch, desiredPitch, RollerConstants.PITCH_LERP_SPEED * Time.deltaTime);
 
 	    // Y BUTTON
-	    if (input.YButton.IsPressed)
+	    //if (input.YButton.IsPressed)
+		if (input.LeftBumper.IsPressed)
 	    {
 	        AudioManager.instance.PlaySing(_singPitch);
-	        _roller.Face.Sing();
+			_roller.Face.Sing();
 	        _waitToReturnTimer = 0f;
 	    }
 		else
