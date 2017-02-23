@@ -10,9 +10,6 @@ public class InputCollection : PlayerActionSet
 	public PlayerAction XButton;
 	public PlayerAction YButton;
 
-	public PlayerAction LeftBumper;
-	public PlayerAction RightBumper;
-
 	public PlayerAction LeftStickLeft;
 	public PlayerAction LeftStickRight;
 	public PlayerAction LeftStickDown;
@@ -38,9 +35,6 @@ public class InputCollection : PlayerActionSet
 		XButton = CreatePlayerAction("X Button");
 		YButton = CreatePlayerAction("Y Button");
 
-		LeftBumper = CreatePlayerAction("Left Bumper");
-		RightBumper = CreatePlayerAction("Right Bumper");
-
 		LeftStickLeft = CreatePlayerAction("Left Stick Left");
 		LeftStickRight = CreatePlayerAction("Left Stick Right");
 		LeftStickDown = CreatePlayerAction("Left Stick Down");
@@ -64,9 +58,6 @@ public class InputCollection : PlayerActionSet
 		BButton.AddDefaultBinding(InputControlType.Action2);
 		XButton.AddDefaultBinding(InputControlType.Action3);
 		YButton.AddDefaultBinding(InputControlType.Action4);
-
-		LeftBumper.AddDefaultBinding(InputControlType.LeftBumper);
-		RightBumper.AddDefaultBinding(InputControlType.RightBumper);
 
 		LeftStickLeft.AddDefaultBinding(InputControlType.LeftStickLeft);
 		LeftStickRight.AddDefaultBinding(InputControlType.LeftStickRight);

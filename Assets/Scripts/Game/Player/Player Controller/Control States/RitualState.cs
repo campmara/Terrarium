@@ -42,18 +42,9 @@ public class RitualState : RollerState
 		currentTurnSpeed = Mathf.Lerp(0, RollerConstants.RITUAL_TURN_SPEED, ritualTimer / RollerConstants.RITUAL_TIME);
 		transform.Rotate(0f, currentTurnSpeed * Time.deltaTime, 0f);
 
-	    //if (/*!isComplete &&*/ !input.XButton.IsPressed)
-		if (!input.LeftBumper.IsPressed && !input.RightBumper.IsPressed)
+	    if (/*!isComplete &&*/ !input.XButton.IsPressed)
 		{
 		    _roller.ChangeState(P_ControlState.WALKING);
-		}
-		else if (!input.LeftBumper.IsPressed && input.RightBumper.IsPressed)
-		{
-			_roller.ChangeState(P_ControlState.WALKING);
-		}
-		else if (input.LeftBumper.IsPressed && !input.RightBumper.IsPressed)
-		{
-			_roller.ChangeState(P_ControlState.SING);
 		}
 	}
 		
