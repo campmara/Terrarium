@@ -61,13 +61,14 @@ public class RitualState : RollerState
 
     IEnumerator DelayedCompleteRitual()
     {
-		float timer = 0f;
-		float totalTime = RollerConstants.RITUAL_COMPLETEWAIT;
 		float currentPaintSize = 0f;
 		float maxPaintSize = 4f;
 		Vector3 pos = transform.position;
 
-		Tween paint = DOTween.To(()=> currentPaintSize, x=> currentPaintSize = x, maxPaintSize, totalTime);
+		// Tell the plant manager to pop up all planted seeds in the vicinity and some grass / bushes.
+		
+
+		Tween paint = DOTween.To(()=> currentPaintSize, x=> currentPaintSize = x, maxPaintSize, RollerConstants.RITUAL_COMPLETEWAIT);
 		while(paint.IsPlaying())
 		{
 			GroundManager.instance.Ground.DrawSplatDecal(pos, currentPaintSize);
@@ -76,8 +77,6 @@ public class RitualState : RollerState
 		}
 
 		yield return paint.WaitForCompletion();
-
-		//yield return new WaitForSeconds(totalTime);
 
         // TODO: implement plant watering here
         transform.localScale = Vector3.one;

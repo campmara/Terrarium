@@ -1,44 +1,34 @@
 fileFormatVersion: 2
-guid: 174120c8823ccb140bb9f6ae5053819c
-timeCreated: 1484811274
+guid: 3a1a768fe28f60c4599f6ff2c2e008ef
+timeCreated: 1486504516
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: b_Leaf00
-    100002: b_Leaf01
-    100004: Leaf
-    100006: //RootNode
-    100008: b_Stem00
-    100010: b_Stem01
-    100012: b_Stem02
-    100014: b_Stem03
-    100016: b_Stem04
-    100018: b_Stem05
-    100020: b_Stem06
-    100022: b_Stem07
-    100024: b_Stem08
-    100026: Stem
-    400000: b_Leaf00
-    400002: b_Leaf01
-    400004: Leaf
-    400006: //RootNode
-    400008: b_Stem00
-    400010: b_Stem01
-    400012: b_Stem02
-    400014: b_Stem03
-    400016: b_Stem04
-    400018: b_Stem05
-    400020: b_Stem06
-    400022: b_Stem07
-    400024: b_Stem08
-    400026: Stem
-    4300000: Leaf
-    4300002: Stem
-    7400000: moss_leaf_Flop
+    100000: //RootNode
+    100002: pPlane1
+    100004: pPlane10
+    100006: pPlane12
+    100008: pPlane6
+    400000: //RootNode
+    400002: pPlane1
+    400004: pPlane10
+    400006: pPlane12
+    400008: pPlane6
+    2300000: pPlane1
+    2300002: pPlane10
+    2300004: pPlane12
+    2300006: pPlane6
+    3300000: pPlane1
+    3300002: pPlane10
+    3300004: pPlane12
+    3300006: pPlane6
+    4300000: pPlane1
+    4300002: pPlane6
+    4300004: pPlane10
+    4300006: pPlane12
+    7400000: Take 001
     9500000: //RootNode
-    13700000: Leaf
-    13700002: Stem
   materials:
     importMaterials: 1
     materialName: 0
@@ -59,47 +49,11 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations:
-    - serializedVersion: 16
-      name: moss_leaf_Flop
-      takeName: Take 001
-      firstFrame: 0
-      lastFrame: 70
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask:
-      - path: 
-        weight: 1
-      - path: b_Leaf00
-        weight: 1
-      - path: b_Leaf00/b_Leaf01
-        weight: 1
-      - path: Leaf
-        weight: 1
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+    clipAnimations: []
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 2
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1

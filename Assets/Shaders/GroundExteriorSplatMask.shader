@@ -36,7 +36,7 @@
 			float rad = _Radius * (5 * _ScaleFactor);
 			if (len < rad)
 			{
-				//o.Alpha = 0;
+				o.Alpha = 0;
 				discard;
 			}
 			
