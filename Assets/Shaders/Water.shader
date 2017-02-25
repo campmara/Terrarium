@@ -20,7 +20,7 @@
 	{
 		GrabPass{}
 
-		Tags{ "Queue" = "Geometry+5" "IgnoreProjector" = "True" "RenderType" = "Opaque" }
+		Tags{ "Queue" = "Geometry-5" "IgnoreProjector" = "True" "RenderType" = "Opaque" }
 		LOD 200
 
 		CGPROGRAM

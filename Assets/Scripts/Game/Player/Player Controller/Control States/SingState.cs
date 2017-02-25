@@ -16,7 +16,7 @@ public class SingState : RollerState
 	public override void Exit (P_ControlState nextState)
 	{
 		Debug.Log("EXIT SING STATE");
-
+		_roller.Face.BecomeIdle();
 		RollerParent.Idling = false;
 	}
 
@@ -31,6 +31,7 @@ public class SingState : RollerState
 	    if (input.BButton.IsPressed)
 	    {
 	        _roller.ChangeState( P_ControlState.ROLLING);
+			return;
 	    }
 
 	    // X BUTTON
@@ -47,7 +48,7 @@ public class SingState : RollerState
 	    if (input.YButton.IsPressed)
 	    {
 	        AudioManager.instance.PlaySing(_singPitch);
-	        _roller.Face.Sing();
+			_roller.Face.Sing();
 	        _waitToReturnTimer = 0f;
 	    }
 		else

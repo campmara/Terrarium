@@ -12,6 +12,7 @@
 		Tags {"Queue" = "Transparent+10" } // earlier = hides stuff later in queue
 	    ZTest LEqual
 	    ZWrite On
+		Blend SrcAlpha OneMinusSrcAlpha
 	    //ColorMask 0
 		
 		CGPROGRAM
@@ -35,10 +36,12 @@
 			float rad = _Radius * (5 * _ScaleFactor);
 			if (len < rad)
 			{
+				//o.Alpha = 0;
 				discard;
 			}
+			
+
 		}
 		ENDCG
 	}
-	FallBack "Diffuse"
 }
