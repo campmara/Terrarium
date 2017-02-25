@@ -48,20 +48,9 @@ public class RollingState : RollerState
 	public override void HandleInput(InputCollection input)
 	{
 		// B BUTTON
-		//if (!input.BButton.IsPressed)
-		//if (!input.LeftStickButton.IsPressed /*&& input.LeftStickClick.HasChanged*/)
-		if (!input.RightBumper.IsPressed && !input.LeftBumper.IsPressed)
+		if (!input.BButton.IsPressed)
 		{
 			_roller.ChangeState( P_ControlState.WALKING);
-		}
-		else if (!input.RightBumper.IsPressed && input.LeftBumper.IsPressed)
-		{
-			_roller.ChangeState(P_ControlState.SING);
-		}
-		else if (input.LeftBumper.IsPressed && input.RightBumper.IsPressed)
-		{
-			// WIll go to walk then ritual.
-			_roller.ChangeState(P_ControlState.WALKING);
 		}
 
 		/*

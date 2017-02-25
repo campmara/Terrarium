@@ -1,34 +1,80 @@
 fileFormatVersion: 2
-guid: 3a1a768fe28f60c4599f6ff2c2e008ef
-timeCreated: 1486504516
+guid: 71a44395520b0ca43b4106f74ceaadc2
+timeCreated: 1488047124
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: pPlane1
-    100004: pPlane10
-    100006: pPlane12
-    100008: pPlane6
-    400000: //RootNode
-    400002: pPlane1
-    400004: pPlane10
-    400006: pPlane12
-    400008: pPlane6
-    2300000: pPlane1
-    2300002: pPlane10
-    2300004: pPlane12
-    2300006: pPlane6
-    3300000: pPlane1
-    3300002: pPlane10
-    3300004: pPlane12
-    3300006: pPlane6
-    4300000: pPlane1
-    4300002: pPlane6
-    4300004: pPlane10
-    4300006: pPlane12
+    100000: body
+    100002: core
+    100004: head
+    100006: l_arm1
+    100008: l_arm2
+    100010: l_arm3
+    100012: l_arm4
+    100014: l_arm5
+    100016: l_foot
+    100018: l_hip
+    100020: l_leg1
+    100022: l_leg2
+    100024: l_leg3
+    100026: l_leg4
+    100028: l_leg5
+    100030: l_shoulder
+    100032: l_wrist
+    100034: //RootNode
+    100036: pCube1
+    100038: r_arm1
+    100040: r_arm2
+    100042: r_arm3
+    100044: r_arm4
+    100046: r_arm5
+    100048: r_foot
+    100050: r_hip
+    100052: r_leg1
+    100054: r_leg2
+    100056: r_leg3
+    100058: r_leg4
+    100060: r_leg5
+    100062: r_shoulder
+    100064: r_wrist
+    400000: body
+    400002: core
+    400004: head
+    400006: l_arm1
+    400008: l_arm2
+    400010: l_arm3
+    400012: l_arm4
+    400014: l_arm5
+    400016: l_foot
+    400018: l_hip
+    400020: l_leg1
+    400022: l_leg2
+    400024: l_leg3
+    400026: l_leg4
+    400028: l_leg5
+    400030: l_shoulder
+    400032: l_wrist
+    400034: //RootNode
+    400036: pCube1
+    400038: r_arm1
+    400040: r_arm2
+    400042: r_arm3
+    400044: r_arm4
+    400046: r_arm5
+    400048: r_foot
+    400050: r_hip
+    400052: r_leg1
+    400054: r_leg2
+    400056: r_leg3
+    400058: r_leg4
+    400060: r_leg5
+    400062: r_shoulder
+    400064: r_wrist
+    4300000: pCube1
     7400000: Take 001
     9500000: //RootNode
+    13700000: pCube1
   materials:
     importMaterials: 1
     materialName: 0
