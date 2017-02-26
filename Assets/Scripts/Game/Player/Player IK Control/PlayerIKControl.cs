@@ -20,8 +20,9 @@ public class PlayerIKControl : MonoBehaviour
 
 [Header("Arm Properties")]
     [SerializeField] private Transform _armTargetTransform = null;
+    public Transform ArmTargetTrans { get { return _armTargetTransform; } }
 	[SerializeField] private float armSpeedNoTarget = 7f;
-	[SerializeField] private float armSpeedTarget = 15f;
+	[SerializeField] private float armSpeedTarget = 7f;
     private Vector3 _leftArmTargetPos = Vector3.zero;
     private Vector3 _rightArmTargetPos = Vector3.zero;
     
@@ -29,7 +30,12 @@ public class PlayerIKControl : MonoBehaviour
     [SerializeField] private SpringJoint _leftArmSpringTarget = null;   
     [SerializeField] private SpringJoint _rightArmSpringTarget = null;
 
-    [Header("Leg Properties")]
+    private bool _armsReaching = false;
+    public bool ArmsReaching { get { return _armsReaching;} set { _armsReaching = value; } }
+    private float _leftArmReachInterp = 0.0f;
+    private float _rightArmReachInterp = 0.0f;
+
+[Header("Leg Properties")]
     [SerializeField] private AnimationCurve _legYCurve;
     [SerializeField] private AnimationCurve _legXCurve;
 
@@ -220,8 +226,13 @@ public class PlayerIKControl : MonoBehaviour
         // Move arm target pos, updates IK in Late Update
         if (_armTargetTransform != null)
         {
-			_leftArmTargetPos = Vector3.Lerp(_leftArmTargetPos, _armTargetTransform.position, armSpeedTarget * Time.deltaTime);
-			_rightArmTargetPos = Vector3.Lerp(_rightArmTargetPos, _armTargetTransform.position, armSpeedTarget * Time.deltaTime);
+			_leftArmTargetPos = Vector3.Lerp(_leftArmTargetPos, Vector3.Lerp(_leftArmSpringTarget.transform.position, _armTargetTransform.position, _leftArmReachInterp ), armSpeedTarget * Time.deltaTime);
+			_rightArmTargetPos = Vector3.Lerp(_rightArmTargetPos, Vector3.Lerp(_rightArmSpringTarget.transform.position, _armTargetTransform.position, _rightArmReachInterp ), armSpeedTarget * Time.deltaTime);
+        }
+        else if ( _armTargetTransform == null && _armsReaching )
+        {
+            _leftArmTargetPos = Vector3.Lerp(_leftArmTargetPos, Vector3.Lerp(_leftArmSpringTarget.transform.position, _leftArmSpringTarget.transform.position + (Vector3.up * 50.0f), _leftArmReachInterp ), armSpeedTarget * Time.deltaTime);
+			_rightArmTargetPos = Vector3.Lerp(_rightArmTargetPos, Vector3.Lerp(_rightArmSpringTarget.transform.position, _rightArmSpringTarget.transform.position + (Vector3.up * 50.0f), _rightArmReachInterp ), armSpeedTarget * Time.deltaTime);
         }
 		else if (_walkState == WalkState.RITUAL)
         {
@@ -248,15 +259,33 @@ public class PlayerIKControl : MonoBehaviour
 
     public void SetArmTarget(Transform t)
     {
-        _armTargetTransform = t;
-		_lookAtTarget = t;
+        if( t != null )
+        {
+            _armTargetTransform = t;
+		    _lookAtTarget = t;
+
+            _leftArmSpringTarget.GetComponent<Rigidbody>().isKinematic = true;
+            _rightArmSpringTarget.GetComponent<Rigidbody>().isKinematic = true;
+        }
+        _armsReaching = true;
     }
 
 	public void LetGo()
 	{
 		_armTargetTransform = null;
 		_lookAtTarget = null;
+
+        _leftArmSpringTarget.GetComponent<Rigidbody>().isKinematic = false;
+        _rightArmSpringTarget.GetComponent<Rigidbody>().isKinematic = false;
+
+        _armsReaching = false;
 	}
+
+    public void UpdateArmInterpValues( float leftValue, float rightValue )
+    {
+        _leftArmReachInterp = leftValue;
+        _rightArmReachInterp = rightValue;
+    }
 
     #endregion
 
