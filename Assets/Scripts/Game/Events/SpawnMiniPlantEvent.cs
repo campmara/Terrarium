@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class SpawnMiniPlantEvent : GameEvent
+﻿public class SpawnMiniPlantEvent : GameEvent
 {
 	Plantable _plant = null;
 

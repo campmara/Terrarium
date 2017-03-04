@@ -162,6 +162,16 @@ public class ControlManager : SingletonBehaviour<ControlManager>
 		
 	}
 
+	public void Vibrate( float intensity )
+	{
+		InputManager.ActiveDevice.Vibrate(intensity);
+	}
+
+	public void Vibrate( float leftMotorIntensity, float rightMotorIntensity )
+	{
+		InputManager.ActiveDevice.Vibrate(leftMotorIntensity, rightMotorIntensity);
+	}
+
 	/// <summary>
 	/// Setups the controls for standalone.
 	/// Runs in Awake of ControlManager.

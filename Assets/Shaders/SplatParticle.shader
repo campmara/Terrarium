@@ -18,9 +18,9 @@ Shader "Custom/Particles/Splat Particle"
 	{
 		Tags { "Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent" "PreviewType"="Plane" }
 		Blend SrcAlpha OneMinusSrcAlpha
-		ColorMask RGB
+		//ColorMask RGB
 
-		Cull Off Lighting Off ZWrite Off
+		Lighting Off ZWrite Off
 
 		//y
 		//ZTest LEqual
