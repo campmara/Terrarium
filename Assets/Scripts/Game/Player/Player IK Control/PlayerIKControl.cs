@@ -22,7 +22,7 @@ public class PlayerIKControl : MonoBehaviour
     [SerializeField] private Transform _armTargetTransform = null;
     public Transform ArmTargetTrans { get { return _armTargetTransform; } }
 	[SerializeField] private float armSpeedNoTarget = 7f;
-	[SerializeField] private float armSpeedTarget = 7f;
+	[SerializeField] private float armSpeedTarget = 0.015f;
     private Vector3 _leftArmTargetPos = Vector3.zero;
     private Vector3 _rightArmTargetPos = Vector3.zero;
     
@@ -160,10 +160,10 @@ public class PlayerIKControl : MonoBehaviour
         _leftLeg.solver.IKPosition = Vector3.Lerp( _leftLeg.solver.IKPosition, _leftLegPos, 20.0f * Time.deltaTime );        
         _rightLeg.solver.IKPosition = Vector3.Lerp( _rightLeg.solver.IKPosition, _rightLegPos, 20.0f * Time.deltaTime );
 
-        //_rightArm.solver.IKPosition = Vector3.Lerp( _rightLeg.solver.IKPosition, _rightArmTargetPos, armSpeedTarget );
-        //_leftArm.solver.IKPosition = Vector3.Lerp( _leftArm.solver.IKPosition, _leftArmTargetPos, armSpeedTarget );
-        _rightArm.solver.IKPosition = _rightArmTargetPos;
-        _leftArm.solver.IKPosition = _leftArmTargetPos;
+        _rightArm.solver.IKPosition = Vector3.Lerp( _rightLeg.solver.IKPosition, _rightArmTargetPos, armSpeedTarget );
+        _leftArm.solver.IKPosition = Vector3.Lerp( _leftArm.solver.IKPosition, _leftArmTargetPos, armSpeedTarget );
+        //_rightArm.solver.IKPosition = _rightArmTargetPos;
+        //_leftArm.solver.IKPosition = _leftArmTargetPos;
     }
 
     private void UpdateParentController()

@@ -100,8 +100,8 @@ public class InputCollection : PlayerActionSet
 		LeftTrigger.AddDefaultBinding( Key.Q );
 		RightTrigger.AddDefaultBinding( Key.Q );
 
-		LeftTrigger.Sensitivity = 0.5f;
-		RightTrigger.Sensitivity = 0.5f;
+		LeftTrigger.Sensitivity = 0.0025f;
+		RightTrigger.Sensitivity = 0.0025f;
     }
 }
 
