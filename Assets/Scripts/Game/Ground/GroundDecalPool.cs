@@ -24,7 +24,7 @@ public class GroundDecalPool : MonoBehaviour
 		decalParticles[dataIndex].position = pos + (Vector3.up * 0.005f);
 		decalParticles[dataIndex].startSize = Random.Range(size - 0.1f, size + 0.1f);
 
-		Vector3 rot = Quaternion.LookRotation(Vector3.up, Vector3.up).eulerAngles;
+		Vector3 rot = Quaternion.LookRotation(Vector3.down, Vector3.up).eulerAngles;
 		rot.z = Random.Range(0f, 360f);
 		decalParticles[dataIndex].rotation3D = rot;
 

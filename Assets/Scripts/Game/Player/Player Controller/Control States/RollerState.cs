@@ -25,10 +25,10 @@ public class RollerState : MonoBehaviour
 
 	protected void HandlePickup()
 	{
-		CheckForPickup();
+		CheckForPickupObject();
 	}
 		
-	private void CheckForPickup()
+	private void CheckForPickupObject()
 	{
 		Vector3 _pickupCenter = _roller.transform.position + ( Vector3.up * RollerConstants.PICKUP_CHECKHEIGHT ) + _roller.transform.forward;
 
@@ -36,27 +36,44 @@ public class RollerState : MonoBehaviour
 
 		if ( overlapArray.Length > 0 )
 		{
+			Pickupable pickup = null;
 			//if the pickupable is a plant, we can only pick it up if it's still in seed stage
 			foreach( Collider col in overlapArray )
 			{
-				Pickupable pickup = col.gameObject.GetComponent<Pickupable>();
-				if( pickup )
-				{
-					PickUpObject( pickup );
+				pickup = col.gameObject.GetComponent<Pickupable>();
+				if( pickup != null )
+				{					
 					break;
 				}
 			}
+
+			ObjectArmFocus( pickup );
 		}
+	}
+
+	private void ObjectArmFocus( Pickupable pickup )
+	{
+		// update the ik
+		if (pickup != null )
+		{
+			_roller.IK.SetArmTarget( pickup.transform );
+		}		
+		else
+		{
+			_roller.IK.SetArmTarget( null );
+		}
+	}
+
+	public void HandleGrabObject()
+	{
+		PickUpObject( _roller.IK.ArmTargetTrans.GetComponent<Pickupable>() );		
 	}
 
 	private void PickUpObject( Pickupable pickup )
 	{
 		_roller.CurrentHeldObject = pickup;
 	    _roller.CurrentHeldObject.gameObject.layer = LayerMask.NameToLayer("HeldObject");
-		_roller.ChangeState( P_ControlState.PICKINGUP);
-
-		// update the ik
-		_roller.IK.SetArmTarget(pickup.transform);
+		_roller.ChangeState( P_ControlState.PICKINGUP);		
 
 		AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_ACTIONFX, 1 );
 	}
@@ -73,10 +90,10 @@ public class RollerState : MonoBehaviour
 		    _roller.CurrentHeldObject.gameObject.layer = LayerMask.NameToLayer("Default");
 		    _roller.CurrentHeldObject.DropSelf();
 			_roller.CurrentHeldObject = null;
-
-			// update the ik
-			_roller.IK.LetGo();
 		}
+
+		// update the ik
+		_roller.IK.LetGo();
 
 		AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_ACTIONFX, 0 );
 	}

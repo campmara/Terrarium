@@ -28,19 +28,16 @@ public class SingState : RollerState
 									  RollerConstants.WALK_TURN_SPEED);
 
 	    // B BUTTON
-	    //if (input.BButton.IsPressed)
-		if (!input.LeftBumper.IsPressed && input.RightBumper.IsPressed)
+	    if (input.BButton.IsPressed)
 	    {
 	        _roller.ChangeState( P_ControlState.ROLLING);
 			return;
 	    }
 
 	    // X BUTTON
-	    //if (input.XButton.IsPressed)
-		if (input.LeftBumper.IsPressed && input.RightBumper.IsPressed)
+	    if (input.XButton.IsPressed)
 	    {
 	        _roller.ChangeState( P_ControlState.RITUAL);
-			return;
 	    }
 
 	    //float desiredPitch = 1.0f + _roller.InputVec.magnitude;
@@ -48,8 +45,7 @@ public class SingState : RollerState
 	    _singPitch = Mathf.Lerp(_singPitch, desiredPitch, RollerConstants.PITCH_LERP_SPEED * Time.deltaTime);
 
 	    // Y BUTTON
-	    //if (input.YButton.IsPressed)
-		if (input.LeftBumper.IsPressed)
+	    if (input.YButton.IsPressed)
 	    {
 	        AudioManager.instance.PlaySing(_singPitch);
 			_roller.Face.Sing();

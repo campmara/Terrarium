@@ -10,9 +10,6 @@ public class InputCollection : PlayerActionSet
 	public PlayerAction XButton;
 	public PlayerAction YButton;
 
-	public PlayerAction LeftBumper;
-	public PlayerAction RightBumper;
-
 	public PlayerAction LeftStickLeft;
 	public PlayerAction LeftStickRight;
 	public PlayerAction LeftStickDown;
@@ -28,6 +25,9 @@ public class InputCollection : PlayerActionSet
 	public PlayerOneAxisAction RightStickX;
 	public PlayerOneAxisAction RightStickY;
 
+	public PlayerAction LeftTrigger;
+	public PlayerAction RightTrigger;
+
 	public PlayerAction LeftStickButton;
     public PlayerAction RightStickButton;
 
@@ -37,9 +37,6 @@ public class InputCollection : PlayerActionSet
 		BButton = CreatePlayerAction("B Button");
 		XButton = CreatePlayerAction("X Button");
 		YButton = CreatePlayerAction("Y Button");
-
-		LeftBumper = CreatePlayerAction("Left Bumper");
-		RightBumper = CreatePlayerAction("Right Bumper");
 
 		LeftStickLeft = CreatePlayerAction("Left Stick Left");
 		LeftStickRight = CreatePlayerAction("Left Stick Right");
@@ -56,6 +53,9 @@ public class InputCollection : PlayerActionSet
 		RightStickX = CreateOneAxisPlayerAction(RightStickLeft, RightStickRight);
 		RightStickY = CreateOneAxisPlayerAction(RightStickDown, RightStickUp);
 
+		LeftTrigger = CreatePlayerAction( "Left Trigger" );
+		RightTrigger = CreatePlayerAction( "Right Trigger" );
+
 		LeftStickButton = CreatePlayerAction("Left Stick Click");
         RightStickButton = CreatePlayerAction("Right Stick Button");
 
@@ -64,9 +64,6 @@ public class InputCollection : PlayerActionSet
 		BButton.AddDefaultBinding(InputControlType.Action2);
 		XButton.AddDefaultBinding(InputControlType.Action3);
 		YButton.AddDefaultBinding(InputControlType.Action4);
-
-		LeftBumper.AddDefaultBinding(InputControlType.LeftBumper);
-		RightBumper.AddDefaultBinding(InputControlType.RightBumper);
 
 		LeftStickLeft.AddDefaultBinding(InputControlType.LeftStickLeft);
 		LeftStickRight.AddDefaultBinding(InputControlType.LeftStickRight);
@@ -77,6 +74,9 @@ public class InputCollection : PlayerActionSet
 		RightStickRight.AddDefaultBinding(InputControlType.RightStickRight);
 		RightStickDown.AddDefaultBinding(InputControlType.RightStickDown);
 		RightStickUp.AddDefaultBinding(InputControlType.RightStickUp);
+
+		LeftTrigger.AddDefaultBinding( InputControlType.LeftTrigger );
+		RightTrigger.AddDefaultBinding( InputControlType.RightTrigger );
 
 		LeftStickButton.AddDefaultBinding(InputControlType.LeftStickButton);
         RightStickButton.AddDefaultBinding(InputControlType.RightStickButton);
@@ -96,6 +96,12 @@ public class InputCollection : PlayerActionSet
         RightStickRight.AddDefaultBinding(Key.RightArrow);
         RightStickUp.AddDefaultBinding(Key.UpArrow);
         RightStickDown.AddDefaultBinding(Key.DownArrow);
+
+		LeftTrigger.AddDefaultBinding( Key.Q );
+		RightTrigger.AddDefaultBinding( Key.Q );
+
+		LeftTrigger.Sensitivity = 0.0025f;
+		RightTrigger.Sensitivity = 0.0025f;
     }
 }
 
@@ -154,6 +160,16 @@ public class ControlManager : SingletonBehaviour<ControlManager>
 	void Update () 
 	{
 		
+	}
+
+	public void Vibrate( float intensity )
+	{
+		InputManager.ActiveDevice.Vibrate(intensity);
+	}
+
+	public void Vibrate( float leftMotorIntensity, float rightMotorIntensity )
+	{
+		InputManager.ActiveDevice.Vibrate(leftMotorIntensity, rightMotorIntensity);
 	}
 
 	/// <summary>

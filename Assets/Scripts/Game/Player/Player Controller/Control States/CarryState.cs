@@ -43,7 +43,8 @@ public class CarryState : RollerState
 			_roller.ChangeState( P_ControlState.PLANTING);
 		}
 
-		if (input.BButton.IsPressed)
+		// Drop if you release the controller triggers...
+		if ( input.LeftTrigger.Value < 1.0f || input.RightTrigger.Value < 1.0f )
 		{
 			_roller.ChangeState( P_ControlState.WALKING);
 		}		

@@ -297,7 +297,15 @@ public class RollerController : ControllerBase
 		}
 		_ik.UpdateMovementData( _velocity, transform.position + (transform.forward * _inputVec.magnitude * _velocity * RollerConstants.IK_TARGETWORLDSCALAR * Time.deltaTime), transform.rotation );
 
+		// Hmm
+		//this.GetComponent<PlayerAnimationController>().SetPlayerSpeed( _velocity / maxMoveSpeed );
+
 		_rigidbody.MovePosition( Vector3.Lerp(transform.position, _targetMovePosition, Mathf.Lerp( RollerConstants.BODY_MINMOVESPEED, bodyMoveSpeed, _headMoveSpeedInterp ) * Time.fixedDeltaTime ) );
+	}
+
+	public void UpdateArmReachIK( float leftArmValue, float rightArmValue )
+	{
+		_ik.UpdateArmInterpValues( leftArmValue, rightArmValue );
 	}
 
 	public void Accelerate(float max, float accel, float inputAffect = 1.0f)

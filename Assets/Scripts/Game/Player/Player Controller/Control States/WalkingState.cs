@@ -39,12 +39,32 @@ public class WalkingState : RollerState
 	public override void HandleInput(InputCollection input)
 	{   
         // A BUTTON
-        if (input.AButton.WasPressed)
+        if ( !_roller.IK.ArmsReaching )
         {
-            HandlePickup();
+            if( input.LeftTrigger.WasPressed || input.RightTrigger.WasPressed )
+            {
+                HandlePickup();
+            }            
+        }
+        else
+        {
+            if( input.LeftTrigger.Value <= 0.0f && input.RightTrigger.Value <= 0.0f )
+            {
+                HandleDropHeldObject();
+            }
+            else
+            {
+                _roller.UpdateArmReachIK( input.LeftTrigger.Value, input.RightTrigger.Value );
+                
+                // If both triggers pulled down all the way
+                if ( _roller.IK.ArmTargetTrans != null && ( input.LeftTrigger.Value >= 1.0f && input.RightTrigger.Value >= 1.0f ))
+                {
+                    HandleGrabObject();
+                }
+            }            
         }
 
-		RollerParent.IKMovement(RollerConstants.WALK_SPEED, 
+		_roller.IKMovement(RollerConstants.WALK_SPEED, 
 									  RollerConstants.WALK_ACCELERATION, 
 									  RollerConstants.WALK_DECELERATION, 
 									  RollerConstants.WALK_TURN_SPEED);
@@ -54,29 +74,21 @@ public class WalkingState : RollerState
 			return;
 		}
 
-        if (input.LeftBumper.IsPressed && input.RightBumper.IsPressed)
-        {
-            _roller.ChangeState( P_ControlState.RITUAL);
-        }
-
         // B BUTTON
-		//if (input.BButton.IsPressed)
-        //if (input.LeftStickButton.IsPressed)
-        if (input.RightBumper.IsPressed)
+		if (input.BButton.IsPressed)
         {
             if (GameManager.Instance.State == GameManager.GameState.MAIN)
             {
                 _roller.ChangeState( P_ControlState.ROLLING);
             }
         }        
-        /*else if (input.XButton.IsPressed)   // X BUTTON
+        else if (input.XButton.IsPressed)   // X BUTTON
         {
             _roller.ChangeState( P_ControlState.RITUAL);
-        }*/
+        }
 
 		// Y BUTTON
-		//if (input.YButton.IsPressed)
-        if (input.LeftBumper.IsPressed)
+		if (input.YButton.IsPressed)
 		{
 			_roller.ChangeState( P_ControlState.SING);
 		}
