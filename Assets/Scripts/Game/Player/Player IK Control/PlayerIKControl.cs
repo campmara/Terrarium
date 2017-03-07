@@ -19,8 +19,11 @@ public class PlayerIKControl : MonoBehaviour
 
 
 [Header("Arm Properties")]
-    [SerializeField] private Transform _armTargetTransform = null;
-    public Transform ArmTargetTrans { get { return _armTargetTransform; } }
+    [SerializeField] private Transform _leftArmTargetTransform = null;
+    [SerializeField] private Transform _rightArmTargetTransform = null;
+    public Transform LeftArmTargetTrans { get { return _leftArmTargetTransform; } }
+    public Transform RightArmTargetTrans { get { return _rightArmTargetTransform; } }
+    public bool ArmTargetsSet { get { return _leftArmTargetTransform != null && _rightArmTargetTransform != null; } }
 	[SerializeField] private float armSpeedNoTarget = 7f;
 	[SerializeField] private float armSpeedTarget = 0.015f;
     private Vector3 _leftArmTargetPos = Vector3.zero;
@@ -35,7 +38,10 @@ public class PlayerIKControl : MonoBehaviour
     private float _leftArmReachInterp = 0.0f;
     private float _rightArmReachInterp = 0.0f;
 
-[Header("Leg Properties")]
+    private const float ARM_REACHDISTMAX = 8.0f;
+    private const float ARM_REACHDISTMIN = 0.75f;
+
+    [Header("Leg Properties")]
     [SerializeField] private AnimationCurve _legYCurve;
     [SerializeField] private AnimationCurve _legXCurve;
 
@@ -224,17 +230,47 @@ public class PlayerIKControl : MonoBehaviour
         // TODO: Adjust hand spring anchors
 
         // Move arm target pos, updates IK in Late Update
-        if (_armTargetTransform != null)
-        {
-			_leftArmTargetPos = Vector3.Lerp(_leftArmTargetPos, Vector3.Lerp(_leftArmSpringTarget.transform.position, _armTargetTransform.position, _leftArmReachInterp ), armSpeedTarget * Time.deltaTime);
-			_rightArmTargetPos = Vector3.Lerp(_rightArmTargetPos, Vector3.Lerp(_rightArmSpringTarget.transform.position, _armTargetTransform.position, _rightArmReachInterp ), armSpeedTarget * Time.deltaTime);
-        }
-        else if ( _armTargetTransform == null && _armsReaching )
-        {
-            _leftArmTargetPos = Vector3.Lerp(_leftArmTargetPos, Vector3.Lerp(_leftArmSpringTarget.transform.position, _leftArmSpringTarget.transform.position + (Vector3.up * 50.0f), _leftArmReachInterp ), armSpeedTarget * Time.deltaTime);
-			_rightArmTargetPos = Vector3.Lerp(_rightArmTargetPos, Vector3.Lerp(_rightArmSpringTarget.transform.position, _rightArmSpringTarget.transform.position + (Vector3.up * 50.0f), _rightArmReachInterp ), armSpeedTarget * Time.deltaTime);
-        }
-		else if (_walkState == WalkState.RITUAL)
+        if ( _armsReaching )
+        {            
+            if( _leftArmTargetTransform == null && _rightArmTargetTransform == null  )  // Lift arms up just cuzz (reaching not grabbing)
+            {
+                _leftArmTargetPos = Vector3.Lerp( _leftArmTargetPos, Vector3.Lerp( _leftArmSpringTarget.transform.position, _leftArmSpringTarget.transform.position + ( Vector3.up * 50.0f ), _leftArmReachInterp ), armSpeedTarget * Time.deltaTime );
+                _rightArmTargetPos = Vector3.Lerp( _rightArmTargetPos, Vector3.Lerp( _rightArmSpringTarget.transform.position, _rightArmSpringTarget.transform.position + ( Vector3.up * 50.0f ), _rightArmReachInterp ), armSpeedTarget * Time.deltaTime );
+            }
+            else if( ArmTargetsSet) // Reach both arms to position
+            {
+                _leftArmTargetPos = Vector3.Lerp( _leftArmTargetPos, Vector3.Lerp( _leftArmSpringTarget.transform.position, _leftArmTargetTransform.position, _leftArmReachInterp ), armSpeedTarget * Time.deltaTime );
+                _rightArmTargetPos = Vector3.Lerp( _rightArmTargetPos, Vector3.Lerp( _rightArmSpringTarget.transform.position, _rightArmTargetTransform.position, _rightArmReachInterp ), armSpeedTarget * Time.deltaTime );
+            }
+            else    // Figure out which arm is reaching otherwise
+            {
+                if( _leftArmTargetTransform != null )
+                {
+                    // Check if reaching is still viable (too far away from object)
+                    CheckReachConstraints( _leftArmTargetTransform );
+                    if( _armsReaching )
+                    {
+                        _leftArmTargetPos = Vector3.Lerp( _leftArmTargetPos, _leftArmTargetTransform.position, armSpeedTarget * Time.deltaTime );
+
+                        _rightArmSpringTarget.connectedAnchor = Vector3.Lerp( _rightArmSpringTarget.connectedAnchor, transform.parent.position + ( transform.parent.right * 0.5f ), armSpeedNoTarget * Time.deltaTime );
+                        _rightArmTargetPos = Vector3.Lerp( _rightArmTargetPos, _rightArmSpringTarget.transform.position, armSpeedNoTarget * Time.deltaTime );
+                    }
+                }
+                else if( _rightArmTargetTransform != null )
+                {
+                    CheckReachConstraints( _rightArmTargetTransform );
+                    if( _armsReaching )
+                    {
+                        _rightArmTargetPos = Vector3.Lerp( _rightArmTargetPos, Vector3.Lerp( _rightArmSpringTarget.transform.position, _rightArmTargetTransform.position, _rightArmReachInterp ), armSpeedTarget * Time.deltaTime );
+
+                        _leftArmSpringTarget.connectedAnchor = Vector3.Lerp( _leftArmSpringTarget.connectedAnchor, transform.parent.position - ( transform.parent.right * 0.5f ), armSpeedNoTarget * Time.deltaTime );
+                        _leftArmTargetPos = Vector3.Lerp( _leftArmTargetPos, _leftArmSpringTarget.transform.position, armSpeedNoTarget * Time.deltaTime );
+                    }
+                }
+            }
+
+        }        
+		else if (_walkState == WalkState.RITUAL)    // Lift arms up to spin~~
         {
 			_leftArmTargetPos = Vector3.Lerp(_leftArmTargetPos, 
 				transform.position + (transform.parent.up * 5f) - (transform.parent.right * 0.5f), 
@@ -243,7 +279,7 @@ public class PlayerIKControl : MonoBehaviour
 				transform.position + (transform.parent.up * 5f) + (transform.parent.right * 0.5f), 
 				armSpeedNoTarget * Time.deltaTime);
         }
-		else
+		else   // Position arms at sides, update position of springs
 		{            
             _leftArmSpringTarget.connectedAnchor = Vector3.Lerp( _leftArmSpringTarget.connectedAnchor, 
 				transform.parent.position - (transform.parent.right * 0.5f), 
@@ -257,12 +293,13 @@ public class PlayerIKControl : MonoBehaviour
 		}
     }
 
-    public void SetArmTarget(Transform t)
+    public void SetArmTarget( Transform t )
     {
         if( t != null )
         {
-            _armTargetTransform = t;
-		    _lookAtTarget = t;
+            _leftArmTargetTransform = t;
+            _rightArmTargetTransform = t;
+            _lookAtTarget = t;
 
             _leftArmSpringTarget.GetComponent<Rigidbody>().isKinematic = true;
             _rightArmSpringTarget.GetComponent<Rigidbody>().isKinematic = true;
@@ -270,10 +307,33 @@ public class PlayerIKControl : MonoBehaviour
         _armsReaching = true;
     }
 
-	public void LetGo()
+    public void SetReachTarget( Transform reachable, bool rightArm )
+    {
+        if( rightArm )
+        {
+            _rightArmTargetTransform = reachable;
+            _rightArmSpringTarget.GetComponent<Rigidbody>().isKinematic = true;
+        }
+        else
+        {
+            _leftArmTargetTransform = reachable;
+            _leftArmSpringTarget.GetComponent<Rigidbody>().isKinematic = true;            
+        }
+
+        if( JohnTech.CoinFlip() )
+        {
+            _lookAtTarget = reachable;
+        }
+
+        _armsReaching = true;
+    }
+
+
+    public void LetGo()
 	{
-		_armTargetTransform = null;
-		_lookAtTarget = null;
+		_leftArmTargetTransform = null;
+        _rightArmTargetTransform = null;
+        _lookAtTarget = null;
 
         _leftArmSpringTarget.GetComponent<Rigidbody>().isKinematic = false;
         _rightArmSpringTarget.GetComponent<Rigidbody>().isKinematic = false;
@@ -285,6 +345,24 @@ public class PlayerIKControl : MonoBehaviour
     {
         _leftArmReachInterp = leftValue;
         _rightArmReachInterp = rightValue;
+    }
+
+    void CheckReachConstraints( Transform reachTransform )
+    {
+        float reachDist = ( _parentController.transform.position - reachTransform.position ).magnitude;
+
+        if ( reachDist > ARM_REACHDISTMAX )
+        {
+            // TODO: Make Droopy Sad : (
+
+            LetGo();
+        }
+        else if ( reachDist < ARM_REACHDISTMIN )
+        {
+            // TODO: Make Droopy Happy : )
+
+            LetGo();
+        }
     }
 
     #endregion
