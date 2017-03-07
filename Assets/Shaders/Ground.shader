@@ -25,7 +25,7 @@
 		//Cull Off
 		CGPROGRAM
 			
-		#pragma surface surf WrapLambert
+		#pragma surface surf WrapLambert addshadow
 		#include "Noise.cginc"
 
 		half _Hardness;
