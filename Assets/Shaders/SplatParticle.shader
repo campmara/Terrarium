@@ -33,7 +33,7 @@ Shader "Custom/Particles/Splat Particle"
 			
 				CGPROGRAM
 // Upgrade NOTE: excluded shader from DX11; has structs without semantics (struct v2f members worldPos)
-#pragma exclude_renderers d3d11
+//#pragma exclude_renderers d3d11
 				#pragma vertex vert
 				#pragma fragment frag
 				#pragma target 2.0
