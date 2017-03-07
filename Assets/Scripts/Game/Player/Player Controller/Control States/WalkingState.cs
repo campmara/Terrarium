@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
+using System.Collections;
 using DG.Tweening;
 
 public class WalkingState : RollerState
 {
     private Tween _tween;
+
+    Coroutine _reachCoroutine = null;
 
     public override void Enter( P_ControlState prevState )
 	{
@@ -33,31 +36,53 @@ public class WalkingState : RollerState
 	        _tween = null;
 	    }
 
+        if( _reachCoroutine != null )
+        {            
+            StopCoroutine( _reachCoroutine );
+            _reachCoroutine = null;
+        }
+
 		RollerParent.Idling = false;
     }
 
 	public override void HandleInput(InputCollection input)
 	{   
         // A BUTTON
-        if ( !_roller.IK.ArmsReaching )
+        if ( !_roller.IK.ArmTargetsSet )
         {
             if( input.LeftTrigger.WasPressed || input.RightTrigger.WasPressed )
-            {
+            {               
+                if (_reachCoroutine != null)
+                {
+                    StopCoroutine( _reachCoroutine );
+                    _reachCoroutine = null;
+                }
+
                 HandlePickup();
-            }            
+            }
+            else if( !_roller.IK.ArmsReaching )
+            {
+                if( _reachCoroutine == null )
+                {
+                    _reachCoroutine = StartCoroutine( ReachWaitRoutine() );
+                }
+            }
+                    
         }
-        else
+        else    // If Arms Reaching
         {
+            // If triggers are released
             if( input.LeftTrigger.Value <= 0.0f && input.RightTrigger.Value <= 0.0f )
             {
                 HandleDropHeldObject();
             }
-            else
+            else    // Else if triggers are held down... 
             {
+                // Update how far the arms are reaching
                 _roller.UpdateArmReachIK( input.LeftTrigger.Value, input.RightTrigger.Value );
                 
                 // If both triggers pulled down all the way
-                if ( _roller.IK.ArmTargetTrans != null && ( input.LeftTrigger.Value >= 1.0f && input.RightTrigger.Value >= 1.0f ))
+                if ( _roller.IK.ArmTargetsSet && ( input.LeftTrigger.Value >= 1.0f && input.RightTrigger.Value >= 1.0f ))
                 {
                     HandleGrabObject();
                 }
@@ -92,5 +117,19 @@ public class WalkingState : RollerState
 		{
 			_roller.ChangeState( P_ControlState.SING);
 		}
+    }
+
+    IEnumerator ReachWaitRoutine()
+    {
+        Debug.Log( "Starting Reach Timer" );
+
+        yield return new WaitForSeconds( Random.Range( RollerConstants.IK_REACH_WAITMIN, RollerConstants.IK_REACH_WAITMAX ) );
+
+        Debug.Log( "Prepping Reach" );
+
+        // Flip to decide where arm is reaching
+        CheckForReachable( JohnTech.CoinFlip() );
+
+        _reachCoroutine = null;
     }
 }

@@ -66,6 +66,11 @@ public static class RollerConstants
     public const float PITCH_LERP_SPEED = 7f;
 
     public const float IK_TARGETWORLDSCALAR = 35.0f;
+
+    // IK
+    public const float IK_REACH_CHECKRADIUS = 8.0f;
+    public const float IK_REACH_WAITMIN = 1.5f;
+    public const float IK_REACH_WAITMAX = 10.0f;
 }
 
 

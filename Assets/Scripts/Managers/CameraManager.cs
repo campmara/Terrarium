@@ -70,7 +70,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	const float ZOOM_X_DEADZONE = 0.1f;		// Zoom Input Deadzone for X 
 	Vector2 zoomXRange = new Vector2( 2.25f, 8.0f );	// Min & Max zoom x value (x is min)
 	Vector2 zoomYRange = new Vector2( 1.0f, 10.0f );	// Min & Max zoom y values (x is min)
-    const float ZOOM_DELTASPEED = 50.0f;    // How quickly camOffset moves towards new zoom values
+    const float ZOOM_DELTASPEED = 15.0f;    // How quickly camOffset moves towards new zoom values
 
 	const float LOCKED_ZOOMINTERP = 0.15f;
 
