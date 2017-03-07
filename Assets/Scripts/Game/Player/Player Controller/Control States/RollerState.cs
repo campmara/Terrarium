@@ -51,6 +51,24 @@ public class RollerState : MonoBehaviour
 		}
 	}
 
+    protected void CheckForReachable( bool rightArmReaching )
+    {
+        Vector3 _pickupCenter = _roller.transform.position + ( Vector3.up * RollerConstants.PICKUP_CHECKHEIGHT );
+
+        Collider[] overlapArray = Physics.OverlapSphere( _pickupCenter, RollerConstants.IK_REACH_CHECKRADIUS, 1 << LayerMask.NameToLayer("Touchable") );
+
+        if (overlapArray.Length > 0)
+        {           
+            // Pick a random reach point
+            SetArmReach( overlapArray[Random.Range( 0, overlapArray.Length )].transform, rightArmReaching );
+        }
+    }
+
+    private void SetArmReach( Transform reachable, bool rightArmReaching )
+    {
+        _roller.IK.SetReachTarget( reachable, rightArmReaching );
+    }
+
 	private void ObjectArmFocus( Pickupable pickup )
 	{
 		// update the ik
@@ -66,7 +84,7 @@ public class RollerState : MonoBehaviour
 
 	public void HandleGrabObject()
 	{
-		PickUpObject( _roller.IK.ArmTargetTrans.GetComponent<Pickupable>() );		
+		PickUpObject( _roller.IK.LeftArmTargetTrans.GetComponent<Pickupable>() );		
 	}
 
 	private void PickUpObject( Pickupable pickup )
@@ -87,7 +105,7 @@ public class RollerState : MonoBehaviour
 	{
 		if (_roller.CurrentHeldObject != null)
 		{
-		    _roller.CurrentHeldObject.gameObject.layer = LayerMask.NameToLayer("Default");
+		    _roller.CurrentHeldObject.gameObject.layer = LayerMask.NameToLayer("Default");  // TODO: make sure seeds go back to their original layer ? Do we reach for seeds?
 		    _roller.CurrentHeldObject.DropSelf();
 			_roller.CurrentHeldObject = null;
 		}
