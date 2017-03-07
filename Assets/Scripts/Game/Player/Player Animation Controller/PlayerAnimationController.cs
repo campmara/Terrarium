@@ -11,11 +11,12 @@ public class PlayerAnimationController : MonoBehaviour {
     const string WALK_ANIM = "WalkAnim";
     const string ROLL_ANIM = "RollAnim";
     const string IDLE_ANIM = "IdleAnim";
-	const string CARRYIDLE_ANIM = "IdleAnim";
 
-	const string WALKTOROLL_ANIM = "WalkToRoll";
-	const string ROLLTOWALK_ANIM = "RollToWalk";
-
+    #region Parameter Names
+    
+    const string PLAYERSPEED_PARAM = "player_velocity";
+    
+    #endregion
     public void Initialize()
     {
     }
@@ -26,35 +27,8 @@ public class PlayerAnimationController : MonoBehaviour {
         _animator = this.GetComponent<Animator>();
 	}
 	
-    public void PlayIdleAnim()
-    {     
-        _animator.Play( IDLE_ANIM );
-    }
-
-	public void PlayCarryIdleAnim()
-	{     
-		_animator.Play( CARRYIDLE_ANIM );
-	}
-
-    public void PlayWalkAnim()
+    public void SetPlayerSpeed(float speed)
     {
-        _animator.Play( WALK_ANIM );
+        _animator.SetFloat(PLAYERSPEED_PARAM, speed);
     }
-
-    public void PlayRollAnim()
-    {
-        _animator.Play( ROLL_ANIM );
-    }
-
-	// Transitions to WALK animation in the animation controller
-	public void PlayRollToWalkAnim()
-	{
-		_animator.Play( ROLLTOWALK_ANIM );
-	}
-
-	// No transition to a roll anim yet, just a SPHERE
-	public void PlayWalkToRollAnim()
-	{
-		_animator.Play( WALKTOROLL_ANIM );
-	}
 }
