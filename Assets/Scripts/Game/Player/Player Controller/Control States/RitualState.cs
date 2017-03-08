@@ -80,7 +80,7 @@ public class RitualState : RollerState
 
         // TODO: implement plant watering here
         transform.localScale = Vector3.one;
-		WaterPlantsCloseBy( currentPaintSize * .5f );
+		WaterPlantsCloseBy( currentPaintSize );
         PondManager.instance.HandlePondReturn();
     }
 
@@ -89,7 +89,7 @@ public class RitualState : RollerState
 		Collider[] cols = Physics.OverlapSphere( transform.position, searchRadius );
 		foreach( Collider col in cols )
 		{
-			Plantable plant = col.GetComponent<Plantable>();
+			BasePlant plant = col.GetComponent<BasePlant>();
 			if( plant )
 			{
 				plant.WaterPlant();

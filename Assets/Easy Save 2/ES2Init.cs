@@ -64,7 +64,7 @@ public class ES2Init : MonoBehaviour
 		ES2TypeManager.types[typeof(UnityEngine.PolygonCollider2D)] = new ES2_PolygonCollider2D();
 		ES2TypeManager.types[typeof(System.Object)] = new ES2_object();
 		ES2TypeManager.types[typeof(UnityEngine.Texture)] = new ES2_Texture();
-		ES2TypeManager.types[typeof(Growable)] = new ES2UserType_Growable();
+		ES2TypeManager.types[typeof(BigPlant)] = new ES2UserType_BigPlant();
 		ES2TypeManager.types[typeof(PlantManager)] = new ES2UserType_PlantManager();
 		ES2TypeManager.types[typeof(UnityEngine.MeshFilter)] = new ES2UserType_UnityEngineMeshFilter();
 		ES2TypeManager.types[typeof(UnityEngine.Rigidbody)] = new ES2UserType_UnityEngineRigidbody();

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GroundPlant : Plantable
+public class GroundPlant : SmallPlant
 {
 
     [SerializeField] GameObject _leaf;
@@ -15,13 +15,15 @@ public class GroundPlant : Plantable
     float _waitTime = 0.0f;
     float _leafScale = 0.0f;
 
-    protected override void Awake()
+	Animator _lastAnim = null; // some classic jank
+
+    protected override void InitPlant()
     {
-		base.Awake();
+		base.InitPlant();
 		StartGrowth();
     }
 		
-    protected override void StartGrowth()
+    void StartGrowth()
     {
         for( int _layerIndex = 0; _layerIndex < _layerCount; _layerIndex++ )
         {
@@ -33,12 +35,11 @@ public class GroundPlant : Plantable
                 GrowLeaf( _curLeafNum, _layerIndex, newLayer );
             }
 				
-            StartCoroutine( TweenLocalScale( newLayer.transform, Vector3.zero, Vector3.one * ( 1 - _layerIndex * .2f ), ( 5 + _layerIndex ) * _curGrowthRate ) );
+            StartCoroutine( TweenLocalScale( newLayer.transform, Vector3.zero, Vector3.one * ( 1 - _layerIndex * .2f ), ( 5 + _layerIndex ) * _growthRate ) );
         }
 
-		PrepStoppingAfterLastAnim();
-
-        GrowFruit();
+		GrowFruit();
+		StartCoroutine( WaitToSpawnChild() );
     }
 
     void SetupLayer(int layerIndex, GameObject layer)
@@ -60,22 +61,16 @@ public class GroundPlant : Plantable
         newLeaf.transform.parent = parentLayer.transform;
 		newLeaf.transform.localScale = new Vector3( _leafScale, _leafScale, _leafScale );
 
-        newLeaf.GetComponent<Animator>().speed *= _curGrowthRate;
-        _waitTime =  ( .5f + ( ( layerIndex * _numLeaves ) + leafNumber ) * .05f ) / _curGrowthRate;
-
-		_childAnimators.Add( newLeaf.GetComponent<Animator>() );
+        newLeaf.GetComponent<Animator>().speed *= _growthRate;
+        _waitTime =  ( .5f + ( ( layerIndex * _numLeaves ) + leafNumber ) * .05f ) / _growthRate;
 
         StartCoroutine( WaitAndStart( newLeaf.GetComponent<Animator>(), _waitTime ) );
-    }
 
-	void PrepStoppingAfterLastAnim()
-	{
-		float duration = _childAnimators[ _childAnimators.Count - 1 ].runtimeAnimatorController.animationClips[0].length;
-		duration /= _curGrowthRate;
-		duration += _waitTime;
-		duration *= 5.0f;		//this is a hack because for some reason it's not calculating correctly yay
-		StartCoroutine( "WaitForLastAnimEnd", duration );
-	}
+		if( leafNumber == _numLeaves - 1 && layerIndex == _layerCount - 1 )
+		{
+			_lastAnim = newLeaf.GetComponent<Animator>();
+		}
+    }
 
     void GrowFruit()
     {
@@ -85,7 +80,7 @@ public class GroundPlant : Plantable
         curFruit.transform.parent = transform;
 		curFruit.transform.localScale = preserveScale;
 
-        StartCoroutine( TweenLocalScale( curFruit.transform, Vector3.zero, curFruit.transform.localScale, 7.0f * _curGrowthRate));
+        StartCoroutine( TweenLocalScale( curFruit.transform, Vector3.zero, curFruit.transform.localScale, 7.0f * _growthRate));
     }
 
     IEnumerator TweenLocalScale( Transform focusTransform, Vector3 startScale, Vector3 endScale, float moveTime )
@@ -110,9 +105,18 @@ public class GroundPlant : Plantable
         anim.Play(0);
     }
 
-	IEnumerator WaitForLastAnimEnd( float animLen )
+	private IEnumerator WaitToSpawnChild()
 	{
-		yield return new WaitForSeconds( animLen );
-		base.StopGrowth();
+		float _animEndTime = _lastAnim.GetCurrentAnimatorStateInfo(0).length;
+		float _curTimeAnimated = _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime; // Mathf.Lerp(0.0f, _animEndTime, _plantAnim.GetCurrentAnimatorStateInfo(0).normalizedTime ); // i am x percent of the way through anim
+
+		while( _curTimeAnimated < _animEndTime )
+		{
+			//update
+			_curTimeAnimated = _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime; 
+			yield return null;
+		}
+
+		PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
 	}
 }
