@@ -14,7 +14,7 @@ public class AssetManager : SingletonBehaviour<AssetManager> {
     
     [SerializeField]
     List<UnityEngine.Object> _plantableAssetList = new List<UnityEngine.Object>();
-    List<Plantable> _plantableObjectList = new List<Plantable>();
+	List<SmallPlant> _plantableObjectList = new List<SmallPlant>();
 
     [SerializeField]
     List<UnityEngine.Object> _BigPlantAssetList = new List<UnityEngine.Object>();
@@ -118,11 +118,11 @@ public class AssetManager : SingletonBehaviour<AssetManager> {
 
     #region Plantable Methods
 
-    public Plantable InstantiatePlantable( PlantableAssetKey assetKey )
+	public SmallPlant InstantiatePlantable( SmallPlantAssetKey assetKey )
     {
         Debug.Assert( _plantableAssetList.Count > 0 );
 
-        Plantable newPlantable = null;
+		SmallPlant newPlantable = null;
 
         // Check if seed of the same asset key has already been instantiated but has been "destroyed"
         if (_seedObjectList.Count > 0)
@@ -134,7 +134,7 @@ public class AssetManager : SingletonBehaviour<AssetManager> {
         if (newPlantable == null)
         {
             Debug.Assert( (int)assetKey < _plantableAssetList.Count && (int)assetKey >= 0 );
-            newPlantable = Instantiate( _plantableAssetList[(int)assetKey] ) as Plantable;
+			newPlantable = Instantiate( _plantableAssetList[(int)assetKey] ) as SmallPlant;
         }
         else   // If asset found remove parenting to AssetManager & remove them from the list
         {
@@ -146,7 +146,7 @@ public class AssetManager : SingletonBehaviour<AssetManager> {
         return newPlantable;
     }
 
-    public void DestroyPlantable( Plantable plantable )
+	public void DestroyPlantable( SmallPlant plantable )
     {
         plantable.transform.SetParent( this.transform );
 
@@ -213,7 +213,7 @@ public enum GroundCoverAssetKey
     STARTER = 0
 }
 
-public enum PlantableAssetKey
+public enum SmallPlantAssetKey
 {
     NONE = -1,
     STARTER = 0

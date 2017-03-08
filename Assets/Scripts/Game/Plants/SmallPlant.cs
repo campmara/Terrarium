@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SmallPlant : BasePlant
 {
-	[SerializeField] protected PlantableAssetKey _pAssetKey = PlantableAssetKey.NONE;
-	public PlantableAssetKey PAssetKey { get { return _pAssetKey; } set { _pAssetKey = value; } }
+	[SerializeField] protected SmallPlantAssetKey _pAssetKey = SmallPlantAssetKey.NONE;
+	public SmallPlantAssetKey PAssetKey { get { return _pAssetKey; } set { _pAssetKey = value; } }
 
 	// spawn information
 	[SerializeField] private List<GameObject> _spawnables = new List<GameObject>();

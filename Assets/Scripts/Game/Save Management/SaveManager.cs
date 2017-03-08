@@ -120,7 +120,7 @@ public class PlantSaveData
     public int _BigPlantCount = 0;
 	public List<BigPlantData> _BigPlantData = new List<BigPlantData>();
     public int _plantableCount = 0;
-    public List<PlantableData> _plantableData = new List<PlantableData>();
+	public List<SmallPlantData> _plantableData = new List<SmallPlantData>();
 
     public PlantSaveData()
     {
@@ -168,9 +168,9 @@ public class BigPlantData
     }
 }
 
-public class PlantableData
+public class SmallPlantData
 {
-    public PlantableAssetKey _assetKey = PlantableAssetKey.NONE;
+	public SmallPlantAssetKey _assetKey = SmallPlantAssetKey.NONE;
 
     public Vector3 _plantablePosition = Vector3.zero;
     public Quaternion _plantableRotation = Quaternion.identity;
@@ -179,7 +179,7 @@ public class PlantableData
     public float _curGrowthRate = 0.0f;
 
 
-    public PlantableData()
+	public SmallPlantData()
     {
 
     }
