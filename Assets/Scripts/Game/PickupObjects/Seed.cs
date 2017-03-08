@@ -7,11 +7,14 @@ public class Seed : Pickupable
     [SerializeField] protected SeedAssetKey _assetKey = SeedAssetKey.NONE;
     public SeedAssetKey AssetKey { get { return _assetKey; } set { _assetKey = value; } }
 
-    [SerializeField] GameObject _plantPrefab = null;
+    [SerializeField] GameObject _moundPrefab = null;
+
 	float _timeSinceLastPickup = 0.0f;
 	float _timePassedTillDestroy = 60.0f;
 	bool _isPickedUp = false;
-	const float _shootForce = 30.0f;
+	bool _hasFallen = false;
+
+	const int  _selfPlantProbability = 75;
 	const float _searchRadius = 30.0f;
 
 	void Update()
@@ -40,15 +43,32 @@ public class Seed : Pickupable
 		base.DropSelf();
 		_timeSinceLastPickup = 0.0f;
 		_isPickedUp = false;
-
-	//	_rigidbody.AddForce( Vector3.up * _shootForce );
 	}
 
 	public void TryPlanting()
 	{
 		Vector3 plantPos = new Vector3( transform.position.x, 0.0f, transform.position.z ); 
-		GameObject newPlant = Instantiate( _plantPrefab, plantPos, Quaternion.identity ) as GameObject; 
-		PlantManager.instance.AddBigPlant( newPlant.GetComponent<Growable>()  );
+		GameObject mound = Instantiate( _moundPrefab, plantPos, Quaternion.identity ) as GameObject; 
+		PlantManager.instance.AddMound( mound.GetComponent<Mound>()  );
 		gameObject.SetActive(false);
+	}
+
+	void OnCollisionEnter( Collision col ) 
+	{
+		if( !_hasFallen )
+		{
+			if( col.gameObject.GetComponent<GroundDisc>() )
+			{
+
+				int dieRoll = (int)Random.Range( 0, 100 );
+
+				if( dieRoll <= _selfPlantProbability )
+				{
+					TryPlanting();
+				}
+
+				_hasFallen = true;
+			}
+		}
 	}
 }

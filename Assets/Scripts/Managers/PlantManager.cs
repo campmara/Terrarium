@@ -7,8 +7,10 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 {
 	List<Seed> _seeds = new List<Seed>();
 	List<GroundCover> _groundCoverPlants = new List<GroundCover>();   
-	List<Plantable> _smallPlants = new List<Plantable>();
-	List<Growable> _largePlants = new List<Growable>();
+	List<SmallPlant> _smallPlants = new List<SmallPlant>();
+	List<BigPlant> _largePlants = new List<BigPlant>();
+	List<Mound> _mounds = new List<Mound>();
+
 
 	public static event Action ExecuteGrowth;
 
@@ -28,13 +30,13 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		return _seeds.Count;
 	}
 
-	public void RequestSpawnMini( Plantable plant, float timeUntil )
+	public void RequestSpawnMini( BasePlant plant, float timeUntil )
 	{
 		SpawnMiniPlantEvent spawnEvent = new SpawnMiniPlantEvent( plant, timeUntil );
 		TimeManager.instance.AddEvent( spawnEvent );
 	}
 
-	public void RequestDropFruit( Growable plant, float timeUntil )
+	public void RequestDropFruit( BigPlant plant, float timeUntil )
 	{
 	    DropFruitEvent dropGameEvent = new DropFruitEvent( plant, timeUntil );
 		TimeManager.instance.AddEvent( dropGameEvent );
@@ -46,7 +48,7 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		Destroy( oldSeed.gameObject );
 	}
 
-	public void AddBigPlant( Growable bigPlant )
+	public void AddBigPlant( BigPlant bigPlant )
 	{
 		_largePlants.Add( bigPlant );
 	}
@@ -56,15 +58,26 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		_seeds.Add( seed );
 	}
 
-	public void SpawnMini( Plantable plant )
+	public void AddMound( Mound mound )
+	{
+		_mounds.Add( mound );
+	}
+
+	public void DeleteMound( Mound mound )
+	{
+		_mounds.Remove( mound );
+		Destroy( mound.gameObject );
+	}
+
+	public void SpawnMini( BasePlant plant )
 	{
 		//based on type, spawn some sort of mini
-		GameObject newPlant = plant.SpawnMiniPlant();
+		GameObject newPlant = plant.SpawnChildPlant();
 		if( newPlant )
 		{
-			if( newPlant.GetComponent<Plantable>() )
+			if( newPlant.GetComponent<SmallPlant>() )
 			{
-				_smallPlants.Add( newPlant.GetComponent<Plantable>() );
+				_smallPlants.Add( newPlant.GetComponent<SmallPlant>() );
 			}
 			else
 			{
@@ -81,15 +94,9 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		}
 	}
 
-    void HandleSave()
-    {
+    void HandleSave(){}
 
-    }
-
-    void HandleLoad()
-    {
-
-    }
+    void HandleLoad(){}
 
     private void OnDestroy()
     {

@@ -117,8 +117,8 @@ public class PlantSaveData
     public List<SeedData> _seedData = new List<SeedData>();
     public int _groundCoverCount = 0;
     public List<GroundCoverData> _groundCoverData = new List<GroundCoverData>();
-    public int _growableCount = 0;
-    public List<GrowableData> _growableData = new List<GrowableData>();
+    public int _BigPlantCount = 0;
+	public List<BigPlantData> _BigPlantData = new List<BigPlantData>();
     public int _plantableCount = 0;
     public List<PlantableData> _plantableData = new List<PlantableData>();
 
@@ -156,13 +156,13 @@ public class GroundCoverData
     }
 }
 // TODO: Need a system to pull and process the animator/leaf data from the plants
-public class GrowableData
+public class BigPlantData
 {
-    public GrowableAssetKey _assetKey = GrowableAssetKey.NONE;
+	public BigPlantAssetKey _assetKey = BigPlantAssetKey.NONE;
 
-    Growable.GrowthStage _growthStage = Growable.GrowthStage.Sprout;
+	BigPlant.GrowthStage _growthStage = BigPlant.GrowthStage.Sprout;
 
-    public GrowableData()
+	public BigPlantData()
     {
 
     }

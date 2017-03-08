@@ -17,8 +17,8 @@ public class AssetManager : SingletonBehaviour<AssetManager> {
     List<Plantable> _plantableObjectList = new List<Plantable>();
 
     [SerializeField]
-    List<UnityEngine.Object> _growableAssetList = new List<UnityEngine.Object>();
-    List<Growable> _growableObjectList = new List<Growable>();
+    List<UnityEngine.Object> _BigPlantAssetList = new List<UnityEngine.Object>();
+    List<BigPlant> _BigPlantObjectList = new List<BigPlant>();
 
 
     // Use this for initialization
@@ -157,43 +157,43 @@ public class AssetManager : SingletonBehaviour<AssetManager> {
 
     #endregion
 
-    #region Growable Methods
+    #region BigPlant Methods
 
-    public Growable InstantiateGrowable( GrowableAssetKey assetKey )
+    public BigPlant InstantiateBigPlant( BigPlantAssetKey assetKey )
     {
-        Debug.Assert( _growableAssetList.Count > 0 );
+        Debug.Assert( _BigPlantAssetList.Count > 0 );
 
-        Growable newGrowable = null;
+        BigPlant newBigPlant = null;
 
         // Check if seed of the same asset key has already been instantiated but has been "destroyed"
         if (_seedObjectList.Count > 0)
         {
-            newGrowable = _growableObjectList.Find( x => x.GAssetKey == assetKey );
+            newBigPlant = _BigPlantObjectList.Find( x => x.GAssetKey == assetKey );
         }
 
         // If none found, spawn new Asset
-        if (newGrowable == null)
+        if (newBigPlant == null)
         {
-            Debug.Assert( (int)assetKey < _growableAssetList.Count && (int)assetKey >= 0 );
-            newGrowable = Instantiate( _growableAssetList[(int)assetKey] ) as Growable;
+            Debug.Assert( (int)assetKey < _BigPlantAssetList.Count && (int)assetKey >= 0 );
+            newBigPlant = Instantiate( _BigPlantAssetList[(int)assetKey] ) as BigPlant;
         }
         else   // If asset found remove parenting to AssetManager & remove them from the list
         {
-            newGrowable.transform.SetParent( null );
-            newGrowable.gameObject.SetActive( true );
-            _growableObjectList.Remove( newGrowable );
+            newBigPlant.transform.SetParent( null );
+            newBigPlant.gameObject.SetActive( true );
+            _BigPlantObjectList.Remove( newBigPlant );
         }
 
-        return newGrowable;
+        return newBigPlant;
     }
 
-    public void DestroyGrowable( Growable growable )
+    public void DestroyBigPlant( BigPlant BigPlant )
     {
-        growable.transform.SetParent( this.transform );
+        BigPlant.transform.SetParent( this.transform );
 
-        growable.gameObject.SetActive( false );
+        BigPlant.gameObject.SetActive( false );
 
-        _growableObjectList.Add( growable );
+        _BigPlantObjectList.Add( BigPlant );
     }
 
     #endregion
@@ -219,7 +219,7 @@ public enum PlantableAssetKey
     STARTER = 0
 }
 
-public enum GrowableAssetKey
+public enum BigPlantAssetKey
 {
     NONE = -1,
     STARTER = 0
