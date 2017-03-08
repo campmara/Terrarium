@@ -98,19 +98,20 @@ public class TimeManager : SingletonBehaviour<TimeManager>
 	    GameEvent curEvent = null;
 	    float eventTime = 0.0f;
 
-	    if( _eventQueue.Count != 0 )
-	    {
-	        curEvent = _eventQueue[0];
-	        eventTime = _eventQueue[0].GameTimeExecution;
-	    }
-
-		while( _eventQueue.Count != 0  &&  eventTime <= _curTime )
+		while( _eventQueue.Count != 0 )
 		{
-		    curEvent = _eventQueue[0];
-		    eventTime = _eventQueue[0].GameTimeExecution;
+			curEvent = _eventQueue[0];
+			eventTime = _eventQueue[0].GameTimeExecution;
 
-		    _eventQueue.Remove( curEvent );
-			curEvent.Execute();
+			if( eventTime > _curTime )
+			{
+				break;
+			}
+			else
+			{
+				_eventQueue.Remove( curEvent );
+				curEvent.Execute();
+			}
 		}
 	}
 		

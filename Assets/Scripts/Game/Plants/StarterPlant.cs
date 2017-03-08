@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StarterPlant : Growable 
+public class StarterPlant : BigPlant 
 {
 	[SerializeField] private Transform _bStemRoot = null;
 	[SerializeField] private GameObject _leafPrefab = null;
 
-	Vector3 _minScale = new Vector3( 5.0f, 5.0f, 5.0f );
+	Vector3 _minScale = new Vector3( 0.0f, 0.0f, 0.0f );
+	public Vector3 MinScale { get { return _minScale; }  set { _minScale = value; } }
 	Vector3 _maxScale = new Vector3( 14.0f, 14.0f, 14.0f );
 
 	private int _numChildren;
@@ -24,10 +25,9 @@ public class StarterPlant : Growable
 	Coroutine _leafSpawnRoutine = null;
 
 
-	protected override void AnimationSetup()
+	protected override void InitPlant()
 	{
-		transform.localScale = _minScale;
-		base.AnimationSetup();
+		base.InitPlant();
 
 		_bones = _bStemRoot.GetComponentsInChildren<Transform>();
 		_numChildren = _bones.Length; // we subtract one for them that exists there
@@ -74,13 +74,7 @@ public class StarterPlant : Growable
 		anim.speed *= _plantAnim.GetComponent<Animator>().speed;
 	}
 
-	protected override void CustomStopGrowth()
-	{
-		PlantManager.ExecuteGrowth -= GrowPlant;
-		PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
-	}
-
-	protected override void CustomPlantGrowing()
+	protected override void CustomPlantGrowth()
 	{
 		if( transform.localScale.x < _maxScale.x )
 		{
@@ -91,5 +85,10 @@ public class StarterPlant : Growable
 		{
 			_leafSpawnRoutine = StartCoroutine( SpawnLeaves() );
 		}
+	}
+
+	protected override void CustomStopGrowth()
+	{
+		BeginDeath();
 	}
 }
