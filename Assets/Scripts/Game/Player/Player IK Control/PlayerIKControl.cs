@@ -155,7 +155,7 @@ public class PlayerIKControl : MonoBehaviour
     {
 		HandleLookAt();
         HandleArms();
-        HandleLegs();
+        //HandleLegs();
 
 		UpdateParentController();
     }
@@ -163,8 +163,8 @@ public class PlayerIKControl : MonoBehaviour
     private void LateUpdate()
     {
         Debug.Assert( _leftLeg != null );
-        _leftLeg.solver.IKPosition = Vector3.Lerp( _leftLeg.solver.IKPosition, _leftLegPos, 20.0f * Time.deltaTime );        
-        _rightLeg.solver.IKPosition = Vector3.Lerp( _rightLeg.solver.IKPosition, _rightLegPos, 20.0f * Time.deltaTime );
+        //_leftLeg.solver.IKPosition = Vector3.Lerp( _leftLeg.solver.IKPosition, _leftLegPos, 20.0f * Time.deltaTime );        
+        //_rightLeg.solver.IKPosition = Vector3.Lerp( _rightLeg.solver.IKPosition, _rightLegPos, 20.0f * Time.deltaTime );
 
         _rightArm.solver.IKPosition = Vector3.Lerp( _rightLeg.solver.IKPosition, _rightArmTargetPos, armSpeedTarget );
         _leftArm.solver.IKPosition = Vector3.Lerp( _leftArm.solver.IKPosition, _leftArmTargetPos, armSpeedTarget );
@@ -685,8 +685,8 @@ public class PlayerIKControl : MonoBehaviour
     {
         _targetMovePosition = _parentController.transform.position;
 
-        _leftLeg.solver.IKPosition = transform.parent.position - (transform.parent.right * 0.25f);
-		_rightLeg.solver.IKPosition = transform.parent.position + (transform.parent.right * 0.25f);
+        //_leftLeg.solver.IKPosition = transform.parent.position - (transform.parent.right * 0.25f);
+		//_rightLeg.solver.IKPosition = transform.parent.position + (transform.parent.right * 0.25f);
 
         _leftLegPos = transform.parent.position - ( transform.parent.right * 0.25f );
         _rightLegPos = transform.parent.position + ( transform.parent.right * 0.25f );

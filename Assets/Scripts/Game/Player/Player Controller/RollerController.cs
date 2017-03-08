@@ -52,6 +52,7 @@ public class RollerController : ControllerBase
 	public Vector3 TargetMovePosition { get { return _targetMovePosition; } set { _targetMovePosition = value; } }
     [ReadOnly] float _headMoveSpeedInterp = 0.0f;
     public float HeadMoveInterp { get { return _headMoveSpeedInterp; } set { _headMoveSpeedInterp = value; } }
+	float _currMaxVelocity = 0.0f;
 
 	private Quaternion _targetRotation = Quaternion.identity;
     private float _targetRotAngle = 0.0f;
@@ -209,7 +210,7 @@ public class RollerController : ControllerBase
 			if (_idling)
 			{
 				HandleEndIdle();
-			}
+			}			
 
 			// Accounting for camera position
 			vec = CameraManager.instance.Main.transform.TransformDirection(vec);
@@ -266,13 +267,15 @@ public class RollerController : ControllerBase
 				HandleEndIdle();
 			}
 
+			_currMaxVelocity = Mathf.Lerp( 0.0f, maxMoveSpeed, vec.magnitude );
+
 			// Accounting for camera position
 			vec = CameraManager.instance.Main.transform.TransformDirection(vec);
 			vec.y = 0f;
 			_inputVec = vec.normalized;
 
 			// MOVEMENT
-			Accelerate(maxMoveSpeed, moveAcceleration);
+			Accelerate( _currMaxVelocity, moveAcceleration );
 			
 			_targetRotation = Quaternion.LookRotation( _inputVec );
             _targetRotAngle = Quaternion.Angle(_targetRotation, transform.rotation);            
@@ -298,9 +301,10 @@ public class RollerController : ControllerBase
 		_ik.UpdateMovementData( _velocity, transform.position + (transform.forward * _inputVec.magnitude * _velocity * RollerConstants.IK_TARGETWORLDSCALAR * Time.deltaTime), transform.rotation );
 
 		// Hmm
-		//this.GetComponent<PlayerAnimationController>().SetPlayerSpeed( _velocity / maxMoveSpeed );
+		this.GetComponent<PlayerAnimationController>().SetPlayerSpeed( _velocity / maxMoveSpeed );
 
-		_rigidbody.MovePosition( Vector3.Lerp(transform.position, _targetMovePosition, Mathf.Lerp( RollerConstants.BODY_MINMOVESPEED, bodyMoveSpeed, _headMoveSpeedInterp ) * Time.fixedDeltaTime ) );
+		_rigidbody.MovePosition(transform.position + (transform.forward * _inputVec.magnitude * _velocity * Time.deltaTime));
+		//_rigidbody.MovePosition( Vector3.Lerp(transform.position, _targetMovePosition, Mathf.Lerp( RollerConstants.BODY_MINMOVESPEED, bodyMoveSpeed, _headMoveSpeedInterp ) * Time.fixedDeltaTime ) );
 	}
 
 	public void UpdateArmReachIK( float leftArmValue, float rightArmValue )
@@ -308,16 +312,20 @@ public class RollerController : ControllerBase
 		_ik.UpdateArmInterpValues( leftArmValue, rightArmValue );
 	}
 
-	public void Accelerate(float max, float accel, float inputAffect = 1.0f)
+	public void Accelerate( float max, float accel, float inputAffect = 1.0f )
 	{
 		_velocity += accel * inputAffect;
-		if (Mathf.Abs(_velocity) > max)
+		if ( Mathf.Abs( _velocity ) > max )
 		{
 			_velocity = Mathf.Sign(_velocity) * max;
 		}
 
         _velocity -= RollerConstants.WALK_TURNDAMPENING * Mathf.InverseLerp( RollerConstants.WALK_TURNANGLE_MIN, RollerConstants.WALK_TURNANGLE_MAX, _targetRotAngle );
 
+		if( _velocity < 0.0f )
+		{
+			_velocity = 0.0f;
+		}
     }
 
 	public void HandleBeginIdle()
