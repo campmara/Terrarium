@@ -8,12 +8,10 @@
 		_Center("Center of Disc", Vector) = (0, 0, 0, 0)
 		_Radius("Disc Radius", Range(0.0, 1.0)) = 1.0
 		_ScaleFactor("Scale Factor", Float) = 4.0
-
-		_Cutoff("Alpha Cutoff", Range(0.0, 1.0)) = 1.0
 	}
 	SubShader 
 	{
-		Tags {"Queue" = "Transparent-5" "IgnoreProjector"="True"} // earlier = hides stuff later in queue
+		Tags {"Queue" = "AlphaTest-5" "IgnoreProjector"="True"} // earlier = hides stuff later in queue
 	    ZWrite On
 	    ColorMask 0
 		
