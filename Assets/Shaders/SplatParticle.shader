@@ -36,7 +36,7 @@
 
 			c *= IN.color;
 
-			o.Albedo = c.rgb;
+			o.Albedo = _TintColor.rgb * IN.color.rgb;
 		}
 		ENDCG
 	}
