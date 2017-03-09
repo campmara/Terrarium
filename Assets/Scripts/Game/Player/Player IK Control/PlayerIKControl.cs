@@ -26,8 +26,8 @@ public class PlayerIKControl : MonoBehaviour
     public bool ArmTargetsSet { get { return _leftArmTargetTransform != null && _rightArmTargetTransform != null; } }
 	[SerializeField] private float armSpeedNoTarget = 7f;
 	[SerializeField] private float armSpeedTarget = 0.015f;
-    private Vector3 _leftArmTargetPos = Vector3.zero;
-    private Vector3 _rightArmTargetPos = Vector3.zero;
+    [SerializeField, ReadOnlyAttribute] private Vector3 _leftArmTargetPos = Vector3.zero;
+    [SerializeField, ReadOnlyAttribute] private Vector3 _rightArmTargetPos = Vector3.zero;
     
     // These "base targets" are what the arms are resolving towards when not holding something / focused on something / reaching
     [SerializeField] private SpringJoint _leftArmSpringTarget = null;   
@@ -35,7 +35,9 @@ public class PlayerIKControl : MonoBehaviour
 
     private bool _armsReaching = false;
     public bool ArmsReaching { get { return _armsReaching;} set { _armsReaching = value; } }
+    [SerializeField, ReadOnlyAttribute]
     private float _leftArmReachInterp = 0.0f;
+    [SerializeField, ReadOnlyAttribute]
     private float _rightArmReachInterp = 0.0f;
 
     private const float ARM_REACHDISTMAX = 8.0f;
@@ -155,7 +157,7 @@ public class PlayerIKControl : MonoBehaviour
     {
 		HandleLookAt();
         HandleArms();
-        HandleLegs();
+        //HandleLegs();
 
 		UpdateParentController();
     }
@@ -163,8 +165,8 @@ public class PlayerIKControl : MonoBehaviour
     private void LateUpdate()
     {
         Debug.Assert( _leftLeg != null );
-        _leftLeg.solver.IKPosition = Vector3.Lerp( _leftLeg.solver.IKPosition, _leftLegPos, 20.0f * Time.deltaTime );        
-        _rightLeg.solver.IKPosition = Vector3.Lerp( _rightLeg.solver.IKPosition, _rightLegPos, 20.0f * Time.deltaTime );
+        //_leftLeg.solver.IKPosition = Vector3.Lerp( _leftLeg.solver.IKPosition, _leftLegPos, 20.0f * Time.deltaTime );        
+        //_rightLeg.solver.IKPosition = Vector3.Lerp( _rightLeg.solver.IKPosition, _rightLegPos, 20.0f * Time.deltaTime );
 
         _rightArm.solver.IKPosition = Vector3.Lerp( _rightLeg.solver.IKPosition, _rightArmTargetPos, armSpeedTarget );
         _leftArm.solver.IKPosition = Vector3.Lerp( _leftArm.solver.IKPosition, _leftArmTargetPos, armSpeedTarget );
@@ -234,10 +236,10 @@ public class PlayerIKControl : MonoBehaviour
         {            
             if( _leftArmTargetTransform == null && _rightArmTargetTransform == null  )  // Lift arms up just cuzz (reaching not grabbing)
             {
-                _leftArmTargetPos = Vector3.Lerp( _leftArmTargetPos, Vector3.Lerp( _leftArmSpringTarget.transform.position, _leftArmSpringTarget.transform.position + ( Vector3.up * 50.0f ), _leftArmReachInterp ), armSpeedTarget * Time.deltaTime );
-                _rightArmTargetPos = Vector3.Lerp( _rightArmTargetPos, Vector3.Lerp( _rightArmSpringTarget.transform.position, _rightArmSpringTarget.transform.position + ( Vector3.up * 50.0f ), _rightArmReachInterp ), armSpeedTarget * Time.deltaTime );
+                _leftArmTargetPos = Vector3.Lerp( _leftArmTargetPos, Vector3.Lerp( _leftArmSpringTarget.transform.position, _leftArmSpringTarget.transform.position + ( Vector3.up * 50.0f ) + -transform.right, _leftArmReachInterp ), armSpeedTarget * Time.deltaTime );
+                _rightArmTargetPos = Vector3.Lerp( _rightArmTargetPos, Vector3.Lerp( _rightArmSpringTarget.transform.position, _rightArmSpringTarget.transform.position + ( Vector3.up * 50.0f ) + transform.right, _rightArmReachInterp ), armSpeedTarget * Time.deltaTime );
             }
-            else if( ArmTargetsSet) // Reach both arms to position
+            else if( ArmTargetsSet ) // Reach both arms to position
             {
                 _leftArmTargetPos = Vector3.Lerp( _leftArmTargetPos, Vector3.Lerp( _leftArmSpringTarget.transform.position, _leftArmTargetTransform.position, _leftArmReachInterp ), armSpeedTarget * Time.deltaTime );
                 _rightArmTargetPos = Vector3.Lerp( _rightArmTargetPos, Vector3.Lerp( _rightArmSpringTarget.transform.position, _rightArmTargetTransform.position, _rightArmReachInterp ), armSpeedTarget * Time.deltaTime );
@@ -250,10 +252,10 @@ public class PlayerIKControl : MonoBehaviour
                     CheckReachConstraints( _leftArmTargetTransform );
                     if( _armsReaching )
                     {
-                        _leftArmTargetPos = Vector3.Lerp( _leftArmTargetPos, _leftArmTargetTransform.position, armSpeedTarget * Time.deltaTime );
+                        _leftArmTargetPos = Vector3.Lerp( _leftArmTargetPos,  _leftArmTargetTransform.position, armSpeedTarget * Time.deltaTime );
 
-                        _rightArmSpringTarget.connectedAnchor = Vector3.Lerp( _rightArmSpringTarget.connectedAnchor, transform.parent.position + ( transform.parent.right * 0.5f ), armSpeedNoTarget * Time.deltaTime );
-                        _rightArmTargetPos = Vector3.Lerp( _rightArmTargetPos, _rightArmSpringTarget.transform.position, armSpeedNoTarget * Time.deltaTime );
+                        _leftArmSpringTarget.connectedAnchor = Vector3.Lerp( _leftArmSpringTarget.connectedAnchor, transform.parent.position - ( transform.parent.right * 0.5f ), armSpeedNoTarget * Time.deltaTime );
+                        _leftArmTargetPos = Vector3.Lerp( _leftArmTargetPos, _leftArmSpringTarget.transform.position, armSpeedNoTarget * Time.deltaTime );                        
                     }
                 }
                 else if( _rightArmTargetTransform != null )
@@ -261,10 +263,10 @@ public class PlayerIKControl : MonoBehaviour
                     CheckReachConstraints( _rightArmTargetTransform );
                     if( _armsReaching )
                     {
-                        _rightArmTargetPos = Vector3.Lerp( _rightArmTargetPos, Vector3.Lerp( _rightArmSpringTarget.transform.position, _rightArmTargetTransform.position, _rightArmReachInterp ), armSpeedTarget * Time.deltaTime );
+                        _rightArmTargetPos = Vector3.Lerp( _rightArmTargetPos, _rightArmTargetTransform.position, armSpeedTarget * Time.deltaTime );
 
-                        _leftArmSpringTarget.connectedAnchor = Vector3.Lerp( _leftArmSpringTarget.connectedAnchor, transform.parent.position - ( transform.parent.right * 0.5f ), armSpeedNoTarget * Time.deltaTime );
-                        _leftArmTargetPos = Vector3.Lerp( _leftArmTargetPos, _leftArmSpringTarget.transform.position, armSpeedNoTarget * Time.deltaTime );
+                        _rightArmSpringTarget.connectedAnchor = Vector3.Lerp( _rightArmSpringTarget.connectedAnchor, transform.parent.position + ( transform.parent.right * 0.5f ), armSpeedNoTarget * Time.deltaTime );
+                        _rightArmTargetPos = Vector3.Lerp( _rightArmTargetPos, _rightArmSpringTarget.transform.position, armSpeedNoTarget * Time.deltaTime );
                     }
                 }
             }
@@ -343,7 +345,18 @@ public class PlayerIKControl : MonoBehaviour
 
     public void UpdateArmInterpValues( float leftValue, float rightValue )
     {
+        //if( _leftArmReachInterp > 0.0f && leftValue <= 0.0f )
+        //{
+        //    _leftArmTargetTransform = null;
+        //    _leftArmSpringTarget.GetComponent<Rigidbody>().isKinematic = false;
+        //}
         _leftArmReachInterp = leftValue;
+
+        //if ( _rightArmReachInterp > 0.0f && rightValue <= 0.0f)
+        //{
+        //    _rightArmTargetTransform = null;
+        //    _rightArmSpringTarget.GetComponent<Rigidbody>().isKinematic = false;
+        //}
         _rightArmReachInterp = rightValue;
     }
 
@@ -685,8 +698,8 @@ public class PlayerIKControl : MonoBehaviour
     {
         _targetMovePosition = _parentController.transform.position;
 
-        _leftLeg.solver.IKPosition = transform.parent.position - (transform.parent.right * 0.25f);
-		_rightLeg.solver.IKPosition = transform.parent.position + (transform.parent.right * 0.25f);
+        //_leftLeg.solver.IKPosition = transform.parent.position - (transform.parent.right * 0.25f);
+		//_rightLeg.solver.IKPosition = transform.parent.position + (transform.parent.right * 0.25f);
 
         _leftLegPos = transform.parent.position - ( transform.parent.right * 0.25f );
         _rightLegPos = transform.parent.position + ( transform.parent.right * 0.25f );
