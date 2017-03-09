@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
+using DG.Tweening;
 
 public class Mound : BasePlant
 {
@@ -12,6 +12,7 @@ public class Mound : BasePlant
 	Transform _sprout = null;
 	const float _spawnHeight = .33f;
 
+	const float _growthTweenTime = 1f;
 	const float _baseRate = 1.0f;
 	const float _wateredRate = 3.5f;
 	float _germinationRate = _baseRate;
@@ -35,10 +36,22 @@ public class Mound : BasePlant
 
 	protected override void StartPlantGrowth()
 	{
+		StartCoroutine(StartPlantRoutine());
+	}
+
+	protected IEnumerator StartPlantRoutine()
+	{
 		_germinationRate = _baseRate;
 		transform.position = transform.position.SetPosY( _spawnHeight );
 		_sprout = transform.GetChild(0);
 		_sprout.localScale = new Vector3( _sproutGrowthRange.x, _sproutGrowthRange.x, _sproutGrowthRange.x);
+
+		// scale it down!
+		transform.localScale = Vector3.zero;
+
+		// scale it up!
+		Tween growTween = transform.DOScale(Vector3.one, _growthTweenTime);
+		yield return growTween.WaitForCompletion();
 
 		SpinLifeLottery();
 		StartPlantUpdate();
