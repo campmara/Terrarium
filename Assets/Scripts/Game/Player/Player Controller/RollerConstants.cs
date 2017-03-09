@@ -8,12 +8,12 @@ public static class RollerConstants
 	public const float INPUT_DEADZONE = 0.3f;
 
 	// WALK
-	public const float WALK_SPEED = 4f;
+	public const float WALK_SPEED = 3f;
 	public const float CARRY_SPEED = 3f;
 	public const float SING_WALK_SPEED = 2f;
-	public const float WALK_ACCELERATION = 0.15f;
-	public const float WALK_DECELERATION = 5.0f;
-    public const float WALK_TURNDAMPENING = 0.15f;   // Used to dampen velocity when turning really hard
+	public const float WALK_ACCELERATION = 0.05f;
+	public const float WALK_DECELERATION = 4.0f;
+    public const float WALK_TURNDAMPENING = 0.025f;   // Used to dampen velocity when turning really hard
     public const float BODY_MINMOVESPEED = 2.5f;
 
 	// WALK TURNING
