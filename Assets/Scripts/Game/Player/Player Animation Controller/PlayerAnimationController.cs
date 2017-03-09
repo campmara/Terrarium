@@ -14,7 +14,8 @@ public class PlayerAnimationController : MonoBehaviour {
 
     #region Parameter Names
     
-    const string PLAYERSPEED_PARAM = "player_velocity";
+    const string PLAYERSPEED_PARAM = "Velocity";
+    int _velocityParamHash = 0;
     
     #endregion
     public void Initialize()
@@ -25,10 +26,12 @@ public class PlayerAnimationController : MonoBehaviour {
 	void Awake()
     {
         _animator = this.GetComponent<Animator>();
+
+        _velocityParamHash = Animator.StringToHash( PLAYERSPEED_PARAM );
 	}
 	
     public void SetPlayerSpeed(float speed)
     {
-        _animator.SetFloat(PLAYERSPEED_PARAM, speed);
+        _animator.SetFloat( _velocityParamHash, speed );
     }
 }

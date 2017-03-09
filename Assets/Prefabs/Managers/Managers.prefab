@@ -595,7 +595,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f581022939b94dbea3a9ad22f124314, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerPrefab: {fileID: 1540322779817588, guid: 825f3157ed0c24836b1abd5e1d12af9d,
+  _playerPrefab: {fileID: 1888846475258438, guid: d2315b596791f4c43a2aaa861e091514,
     type: 2}
   _player: {fileID: 0}
 --- !u!114 &114410437005371276
