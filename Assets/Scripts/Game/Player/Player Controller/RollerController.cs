@@ -375,4 +375,9 @@ public class RollerController : ControllerBase
 
         AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_TRANSITIONFX, 1 );
 	}
+
+    public void PlayFootstep()
+    {
+        AudioManager.instance.PlayRandomAudioClip( AudioManager.AudioControllerNames.PLAYER_FOOTSTEPS );
+    }
 }
