@@ -8,6 +8,7 @@
 	SubShader 
 	{
 		Tags { "RenderType"="Transparent" "Queue"="AlphaTest"}
+		ColorMask RGB
 		LOD 200
 		
 		CGPROGRAM
@@ -40,5 +41,5 @@
 		}
 		ENDCG
 	}
-	FallBack "Transparent/Cutout/Diffuse"
+	FallBack Off
 }
