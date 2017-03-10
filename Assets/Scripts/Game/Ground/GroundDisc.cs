@@ -130,6 +130,7 @@ public class GroundDisc : MonoBehaviour
 
 	public void DrawSplatDecal(Vector3 pos, float size)
 	{
+		pos.y = 0f;
 		decalPool.AddDecal(pos, size);
 	}
 
