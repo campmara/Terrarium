@@ -30,7 +30,9 @@ ModelImporter:
     400020: stem_b08
     400022: stem_b09
     4300000: Stem
-    7400000: Take 001
+    7400000: 'Grow 1 '
+    7400002: Grow 2
+    7400004: Grow 3
     9500000: //RootNode
     13700000: Stem
   materials:
@@ -53,11 +55,167 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: 'Grow 1 '
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 13
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Stem
+        weight: 1
+      - path: stem_b00
+        weight: 1
+      - path: stem_b00/stem_b01
+        weight: 1
+      - path: stem_b00/stem_b01/stem_b02
+        weight: 1
+      - path: stem_b00/stem_b01/stem_b02/stem_b03
+        weight: 1
+      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04
+        weight: 1
+      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04/stem_b05
+        weight: 1
+      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04/stem_b05/stem_b06
+        weight: 1
+      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04/stem_b05/stem_b06/stem_b07
+        weight: 1
+      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04/stem_b05/stem_b06/stem_b07/stem_b08
+        weight: 1
+      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04/stem_b05/stem_b06/stem_b07/stem_b08/stem_b09
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Grow 2
+      takeName: Take 001
+      firstFrame: 15
+      lastFrame: 27
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Stem
+        weight: 1
+      - path: stem_b00
+        weight: 1
+      - path: stem_b00/stem_b01
+        weight: 1
+      - path: stem_b00/stem_b01/stem_b02
+        weight: 1
+      - path: stem_b00/stem_b01/stem_b02/stem_b03
+        weight: 1
+      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04
+        weight: 1
+      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04/stem_b05
+        weight: 1
+      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04/stem_b05/stem_b06
+        weight: 1
+      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04/stem_b05/stem_b06/stem_b07
+        weight: 1
+      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04/stem_b05/stem_b06/stem_b07/stem_b08
+        weight: 1
+      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04/stem_b05/stem_b06/stem_b07/stem_b08/stem_b09
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Grow 3
+      takeName: Take 001
+      firstFrame: 30
+      lastFrame: 43
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Stem
+        weight: 1
+      - path: stem_b00
+        weight: 1
+      - path: stem_b00/stem_b01
+        weight: 1
+      - path: stem_b00/stem_b01/stem_b02
+        weight: 1
+      - path: stem_b00/stem_b01/stem_b02/stem_b03
+        weight: 1
+      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04
+        weight: 1
+      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04/stem_b05
+        weight: 1
+      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04/stem_b05/stem_b06
+        weight: 1
+      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04/stem_b05/stem_b06/stem_b07
+        weight: 1
+      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04/stem_b05/stem_b06/stem_b07/stem_b08
+        weight: 1
+      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04/stem_b05/stem_b06/stem_b07/stem_b08/stem_b09
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 5
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
