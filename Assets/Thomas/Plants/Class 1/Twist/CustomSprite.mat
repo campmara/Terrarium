@@ -48,7 +48,7 @@ Material:
     - first:
         name: _MainTex
       second:
-        m_Texture: {fileID: 2800000, guid: 098918a25cb77fd4bb94d28d66e10e55, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1f1c5e69ba03dd24a8aa6015fb2d636f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
@@ -93,7 +93,7 @@ Material:
       second: 0
     - first:
         name: _FrameScale
-      second: 1.11
+      second: 3.94
     - first:
         name: _GlossMapScale
       second: 1

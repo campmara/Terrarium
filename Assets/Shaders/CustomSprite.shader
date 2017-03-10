@@ -11,10 +11,10 @@
 		[MaterialToggle] _ToggleBillboard("Toggle Billboard Effect", Float) = 0
 	}
 	SubShader {
-		Tags { "RenderType"="Opaque" }
+		Tags { "RenderType"="Opaque" "DisableBatching"="True"}
 		LOD 200
 		
-		//Cull Off
+		Cull Off
 
 		CGPROGRAM
 		#pragma surface surf Lambert fullforwardshadows alphatest:_Cutoff vertex:vert addshadow
@@ -33,8 +33,9 @@
 		fixed4 _Color;
 		int _FrameNumber;
 		int _TotalFrames;
-		float _FrameScale;
 		float _ToggleBillboard;
+
+		//float _FrameScale;
 
 
 		void vert(inout appdata_base v)
@@ -68,12 +69,12 @@
 		void surf (Input IN, inout SurfaceOutput o) {
 			float frame = clamp(_FrameNumber, 0, _TotalFrames);
 
-			float xOffPerFrame = 1 / (float)_Columns;
-			float yOffPerFrame = 1 / (float)_Rows;
+			float xOffPerFrame = (1 / (float)_Columns);
+			float yOffPerFrame = (1 / (float)_Rows);
 
 			float2 spriteSize = IN.uv_MainTex;
-			spriteSize.x = spriteSize.x / _Columns;
-			spriteSize.y = spriteSize.y / _Rows;
+			spriteSize.x = (spriteSize.x / _Columns);
+			spriteSize.y = (spriteSize.y / _Rows);
 
 			float2 currentSprite = float2(0,  1 - yOffPerFrame);
 			currentSprite.x += frame * xOffPerFrame;
