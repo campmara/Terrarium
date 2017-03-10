@@ -608,6 +608,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114502133834696186, guid: 729a7e306b18e428280ad642238a823a,
+        type: 2}
+      propertyPath: _pondWalkCurve.m_Curve.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4807641728708578, guid: 729a7e306b18e428280ad642238a823a, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -649,6 +654,71 @@ Prefab:
         type: 2}
       propertyPath: m_ReceiveShadows
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114502133834696186, guid: 729a7e306b18e428280ad642238a823a,
+        type: 2}
+      propertyPath: _pondWalkCurve.m_Curve.Array.data[1].inSlope
+      value: -7.3832273
+      objectReference: {fileID: 0}
+    - target: {fileID: 114502133834696186, guid: 729a7e306b18e428280ad642238a823a,
+        type: 2}
+      propertyPath: _pondWalkCurve.m_Curve.Array.data[1].outSlope
+      value: -7.3832273
+      objectReference: {fileID: 0}
+    - target: {fileID: 114502133834696186, guid: 729a7e306b18e428280ad642238a823a,
+        type: 2}
+      propertyPath: _pondWalkCurve.m_Curve.Array.data[0].inSlope
+      value: -3.2213085
+      objectReference: {fileID: 0}
+    - target: {fileID: 114502133834696186, guid: 729a7e306b18e428280ad642238a823a,
+        type: 2}
+      propertyPath: _pondWalkCurve.m_Curve.Array.data[0].outSlope
+      value: -3.2213085
+      objectReference: {fileID: 0}
+    - target: {fileID: 114502133834696186, guid: 729a7e306b18e428280ad642238a823a,
+        type: 2}
+      propertyPath: _pondWalkCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114502133834696186, guid: 729a7e306b18e428280ad642238a823a,
+        type: 2}
+      propertyPath: _pondWalkCurve.m_Curve.Array.data[1].value
+      value: 0.5561433
+      objectReference: {fileID: 0}
+    - target: {fileID: 114502133834696186, guid: 729a7e306b18e428280ad642238a823a,
+        type: 2}
+      propertyPath: _pondWalkCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114502133834696186, guid: 729a7e306b18e428280ad642238a823a,
+        type: 2}
+      propertyPath: _pondWalkCurve.m_Curve.Array.data[1].time
+      value: 0.036808558
+      objectReference: {fileID: 0}
+    - target: {fileID: 114502133834696186, guid: 729a7e306b18e428280ad642238a823a,
+        type: 2}
+      propertyPath: _pondWalkCurve.m_Curve.Array.data[2].time
+      value: 0.18036108
+      objectReference: {fileID: 0}
+    - target: {fileID: 114502133834696186, guid: 729a7e306b18e428280ad642238a823a,
+        type: 2}
+      propertyPath: _pondWalkCurve.m_Curve.Array.data[2].value
+      value: 0.054157153
+      objectReference: {fileID: 0}
+    - target: {fileID: 114502133834696186, guid: 729a7e306b18e428280ad642238a823a,
+        type: 2}
+      propertyPath: _pondWalkCurve.m_Curve.Array.data[2].inSlope
+      value: -0.32316172
+      objectReference: {fileID: 0}
+    - target: {fileID: 114502133834696186, guid: 729a7e306b18e428280ad642238a823a,
+        type: 2}
+      propertyPath: _pondWalkCurve.m_Curve.Array.data[2].outSlope
+      value: -0.32316172
+      objectReference: {fileID: 0}
+    - target: {fileID: 114502133834696186, guid: 729a7e306b18e428280ad642238a823a,
+        type: 2}
+      propertyPath: _pondWalkCurve.m_Curve.Array.data[3].time
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 729a7e306b18e428280ad642238a823a, type: 2}

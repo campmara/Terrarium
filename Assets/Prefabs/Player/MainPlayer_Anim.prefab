@@ -171,6 +171,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4258982945756132}
+  - component: {fileID: 135827927301889324}
+  - component: {fileID: 114633949266455096}
   m_Layer: 0
   m_Name: l_foot
   m_TagString: Untagged
@@ -632,6 +634,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4746040335927022}
+  - component: {fileID: 135698776762249816}
+  - component: {fileID: 114453077858669640}
   m_Layer: 0
   m_Name: r_foot
   m_TagString: Untagged
@@ -1357,7 +1361,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 5231b5ba5f1056e498ec41783c66f73d, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -1539,6 +1543,17 @@ MonoBehaviour:
       length: 0
       sqrMag: 0
       axis: {x: -0.21379647, y: 0.946805, z: -0.17210536}
+--- !u!114 &114453077858669640
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1979857983373390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79bbd6e73bb18413cbd1f1dd3a4aa011, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114472523796396176
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1736,6 +1751,17 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+--- !u!114 &114633949266455096
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1276628804400934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79bbd6e73bb18413cbd1f1dd3a4aa011, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114934515498532584
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1810,8 +1836,12 @@ MonoBehaviour:
   _rightArmTargetTransform: {fileID: 0}
   armSpeedNoTarget: 7
   armSpeedTarget: 7
+  _leftArmTargetPos: {x: 0, y: 0, z: 0}
+  _rightArmTargetPos: {x: 0, y: 0, z: 0}
   _leftArmSpringTarget: {fileID: 145801016285384142}
   _rightArmSpringTarget: {fileID: 145753068842862206}
+  _leftArmReachInterp: 0
+  _rightArmReachInterp: 0
   _legYCurve:
     serializedVersion: 2
     m_Curve:
@@ -1909,6 +1939,30 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!135 &135698776762249816
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1979857983373390}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &135827927301889324
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1276628804400934}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!137 &137531902433205032
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
