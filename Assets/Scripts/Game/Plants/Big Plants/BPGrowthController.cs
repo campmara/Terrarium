@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BigPlant : BasePlant
+public class BPGrowthController : PlantController
 {
-	[SerializeField] protected BigPlantAssetKey _gAssetKey = BigPlantAssetKey.NONE;
-	public BigPlantAssetKey GAssetKey { get { return _gAssetKey; } set { _gAssetKey = value; } }
-
 	//****************
 	// ANIMATION VARIABLES
 	//****************
@@ -19,6 +16,30 @@ public class BigPlant : BasePlant
 	protected float _growthRate = 0.0f;
 	protected float _animEndTime = 0.0f;
 	protected float _curPercentAnimated = 0.0f;
+
+	//****************
+	// GROWTH VARIABLES
+	//****************
+
+	const float _numGrowStages = 3;
+	float _innerMeshRadius = 0.0f;
+	protected float _outerSpawnRadius = 2.5f;
+
+	[SerializeField] GrowthStage _curStage = GrowthStage.Seed;
+	public GrowthStage CurStage { get { return _curStage; } }
+
+	float [] _neededDistance = new float[] { 5.0f, 8.0f, 12.0f, 14.0f }; // how much room each stage need to grow, first element doesnt matter
+	float [] _spawnRadii = new float[] { 6.0f, 8.0f, 11.0f, 13.0f };  
+	bool _hardStopGrowth = false;
+
+	public enum GrowthStage : int
+	{
+		Seed = -1,
+		Sprout = 0,
+		GrowingSprout= 1,
+		Sapling = 2,
+		Final = 3
+	};
 
 	//****************
 	// SPAWN VARIABLES
@@ -39,56 +60,26 @@ public class BigPlant : BasePlant
 	protected const float CREATURE_BASE_SPAWNODDS = 0.75f;
 	protected const float CREATURE_BASE_SPAWNY = -1.0f;
 
-	//****************
-	// GROWTH VARIABLES
-	//****************
-
-	const float _numGrowStages = 3;
-	float _innerMeshRadius = 0.0f;
-	protected float _outerSpawnRadius = 2.5f;
-
-	[SerializeField] GrowthStage _curStage = GrowthStage.Seed;
-	public GrowthStage CurStage { get { return _curStage; } }
-
-	float [] _neededDistance = new float[] { 5.0f, 8.0f, 12.0f, 14.0f }; // how much room each stage need to grow, first element doesnt matter
-	float [] _spawnRadii = new float[] { 6.0f, 8.0f, 11.0f, 13.0f };  
-
-	public enum GrowthStage : int
+	void Awake()
 	{
-		Seed = -1,
-		Sprout = 0,
-		GrowingSprout= 1,
-		Sapling = 2,
-		Final = 3
-	};
-
-	void Awake() 
-	{
-		StartPlantGrowth();
+		_myPlant = GetComponent<BasePlant>();
+		_controllerType = ControllerType.Growth;
 	}
 
-	protected override void StartPlantUpdate()
+	public override void StartState()
 	{
-		PlantManager.ExecuteGrowth += UpdatePlant;
-	}
-
-	//********************************
-	// STARTING GROWTH SETUP FUNCTIONS
-	//********************************
-
-	protected override void StartPlantGrowth()
-	{
+		_myPlant = GetComponent<BasePlant>();
 		_growthRate = _baseGrowthRate;
 		_curStage = GrowthStage.Seed;
 
 		GetSetMeshRadius();
 		InitPlant();
-		DetermineGrowth();
+		DetermineGrowth();	
 	}
-				
+
 	protected virtual void InitPlant()
 	{
-		_plantAnim = GetComponent<Animator>();
+		_plantAnim = _myPlant.GetComponent<Animator>();
 		_plantAnim.enabled = true;
 		_animEndTime = _plantAnim.GetCurrentAnimatorStateInfo(0).length;
 		_plantAnim.speed = _baseGrowthRate;
@@ -102,15 +93,11 @@ public class BigPlant : BasePlant
 		{
 			_curStage = GrowthStage.Sprout;
 			_outerSpawnRadius = _spawnRadii[ (int)_curStage ];
-
-			StartPlantUpdate();
 		}
 		else
 		{
-			if( _plantAnim )
-			{
-				_plantAnim.enabled = false;
-			}
+			_hardStopGrowth = true;
+			StopState();
 		}
 	}
 
@@ -123,11 +110,11 @@ public class BigPlant : BasePlant
 		}
 	}
 
+	#region Growth Update Functions
 	//********************************
 	// PLANT GROWTH UPDATE FUNCTIONS
 	//********************************
-
-	public override void UpdatePlant()
+	public override void UpdateState()
 	{
 		if( _curStage != GrowthStage.Final )
 		{
@@ -149,24 +136,24 @@ public class BigPlant : BasePlant
 	{
 		if( IsOverlappingPlants() )
 		{
-			StopPlantGrowth();
+			StopState();
 		}
 		else
 		{
 			SwitchToNextStage();
 		}
 	}
-		
+
 	bool IsOverlappingPlants()
 	{
-		Collider[] overlappingObjects = Physics.OverlapSphere( transform.position, _neededDistance[ (int)_curStage + 1 ] ); 
+		Collider[] overlappingObjects = Physics.OverlapSphere( _myPlant.transform.position, _neededDistance[ (int)_curStage + 1 ] ); 
 
 		if( overlappingObjects.Length != 0 )
 		{
 			foreach( Collider col in overlappingObjects )
 			{
-				BigPlant otherPlant = col.GetComponent<BigPlant>();
-				if( otherPlant && col.gameObject != gameObject )
+				BPGrowthController otherPlant = col.GetComponent<BPGrowthController>();
+				if( otherPlant && col.gameObject != _myPlant.gameObject )
 				{
 					if( FillsOverlapCondition( otherPlant ) )
 					{
@@ -178,8 +165,8 @@ public class BigPlant : BasePlant
 
 		return false;
 	}  
-		
-	bool FillsOverlapCondition( BigPlant other )
+
+	bool FillsOverlapCondition( BPGrowthController other )
 	{
 		if( (int)other.CurStage > ( (int)_curStage ) || other.CurStage == GrowthStage.Final )
 		{
@@ -188,37 +175,49 @@ public class BigPlant : BasePlant
 
 		return false;
 	}
-		
+
 	void SwitchToNextStage()
 	{   		
 		if( _curStage != GrowthStage.Final )
 		{
 			_curStage += 1;
 		}
-			
+
 		if( _curStage == GrowthStage.Sapling )
 		{
-			PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
+			PlantManager.instance.RequestSpawnMini( _myPlant, _timeBetweenSpawns );
 		}
 
 		if( _curStage == GrowthStage.Final )
 		{
-			PlantManager.instance.RequestDropFruit( this, _timeBetweenFruitDrops );
-
+			PlantManager.instance.RequestDropFruit( _myPlant, _timeBetweenFruitDrops );
 			SpawnAmbientCreature();
-			StopPlantGrowth();
+			StopState();
 		}
 
 		ChangeGrowthRate( _baseGrowthRate );
 		UpdateNewStageData();
 	}
+	#endregion Growth Update Functions
 
-	protected override void StopPlantGrowth()
+	public override void StopState()
 	{
-		CustomStopGrowth();
+		if( _hardStopGrowth )
+		{
+			HardStopAnim();
+		}
+		else
+		{
+			CustomStopGrowth();
+		}
 	}
-		
+
 	protected virtual void CustomStopGrowth()
+	{
+		HardStopAnim();
+	}
+
+	protected void HardStopAnim()
 	{
 		if( _plantAnim )
 		{
@@ -230,16 +229,17 @@ public class BigPlant : BasePlant
 			child.enabled = false;
 		}
 
-		BeginDeath();
+		_myPlant.SwitchController( this );
 	}
-		
+
+	#region Spawn Functions
 	//********************************
 	// PLANT SPAWN FUNCTIONS
 	//********************************
 
-	public virtual GameObject DropFruit()
+	public override GameObject DropFruit()
 	{
-		Vector2 randomPoint = base.GetRandomPoint( _innerMeshRadius, _outerSpawnRadius );
+		Vector2 randomPoint = _myPlant.GetRandomPoint( _innerMeshRadius, _outerSpawnRadius );
 		Vector3 spawnPoint = new Vector3( randomPoint.x, _fruitDropHeight, randomPoint.y ) + transform.position;
 
 		GameObject newPlant = (GameObject)Instantiate( _droppingItems[Random.Range( 0, _droppingItems.Count)], spawnPoint, Quaternion.identity );  
@@ -250,7 +250,7 @@ public class BigPlant : BasePlant
 			PlantManager.instance.AddSeed( seed );
 		}
 
-		PlantManager.instance.RequestDropFruit( this, _timeBetweenFruitDrops );
+		PlantManager.instance.RequestDropFruit( _myPlant, _timeBetweenFruitDrops );
 
 		if( newPlant == null )
 		{
@@ -266,7 +266,7 @@ public class BigPlant : BasePlant
 
 		if( _spawnables.Count != 0 )
 		{
-			Vector2 randomPoint = base.GetRandomPoint( _innerMeshRadius, _outerSpawnRadius );
+			Vector2 randomPoint = _myPlant.GetRandomPoint( _innerMeshRadius, _outerSpawnRadius );
 			Vector3 spawnPoint = new Vector3( randomPoint.x, .1f, randomPoint.y ) + transform.position;
 			spawnPoint = new Vector3( spawnPoint.x, .05f, spawnPoint.z );
 
@@ -277,7 +277,7 @@ public class BigPlant : BasePlant
 
 		if( _minisSpawned < _maxMinisSpawned )
 		{
-			PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
+			PlantManager.instance.RequestSpawnMini( _myPlant, _timeBetweenSpawns );
 		}
 
 		if( newPlant == null )
@@ -295,26 +295,14 @@ public class BigPlant : BasePlant
 			CreatureManager.instance.SpawnRandomCreature( this.transform.position + ( Vector3.up * CREATURE_BASE_SPAWNY ) );
 		}
 	}
+	#endregion Spawn Functions
 
-	//********************************
-	// PLANT DEATH FUNCTIONS
-	//********************************
-
-	protected override void BeginDeath(){}
-	protected override void Decay(){}
-	protected override void Die(){}
-	protected override void StopPlantUpdate()
-	{
-		PlantManager.ExecuteGrowth -= UpdatePlant;
-	}
-
-	//********************************
-	// INTERACTION FUNCTIONS
-	//********************************
 	public override void WaterPlant(){}
-	public override void GrabPlant(){}
 	public override void TouchPlant(){}
+	public override void GrabPlant(){}
+	public override void StompPlant(){}
 
+	#region Helper Functions
 	//********************************
 	// HELPER FUNCTIONS
 	//********************************
@@ -336,25 +324,26 @@ public class BigPlant : BasePlant
 
 		_growthRate = _baseGrowthRate;
 		_plantAnim.speed = _growthRate;
-		_fruitDropHeight = transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().bounds.size.y * ( _numGrowStages + 1 );
+		_fruitDropHeight = _myPlant.transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().bounds.size.y * ( _numGrowStages + 1 );
 	}
 
 	protected void GetSetMeshRadius()
 	{
 		// get our stem
-		Vector3 size = transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().bounds.size;
+		Vector3 size = _myPlant.transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().bounds.size;
 
 		// take biggest component as radius size 
 		_innerMeshRadius = size.x > size.z ? size.x : size.z;
 		_innerMeshRadius *= .5f;
 	}
-		
+
 	void OnDrawGizmos() 
 	{
 		Gizmos.color = Color.yellow;
 		if( (int) _curStage > -1 )
 		{
-			Gizmos.DrawWireSphere( transform.position, _neededDistance[(int) _curStage ] );
+//			Gizmos.DrawWireSphere( _myPlant.transform.position, _neededDistance[(int) _curStage ] );
 		}
 	}
+	#endregion Helper Functions
 }
