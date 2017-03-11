@@ -78,11 +78,12 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 
     #region Pond Transition Variables
 
-    const float PONDRETURN_FORWARD = 15f;
-    const float PONDRETURN_UP = 10f;    
+    const float PONDRETURN_FORWARD = 4f;
+    const float PONDRETURN_UP = 5f;    
     const float PONDRETURN_TRANSITIONTIME = 1f;
 
-    const float PLAYERPOP_FORWARDPOS = 5.0f;
+    //const float PLAYERPOP_FORWARDPOS = 5.0f;
+	const float PLAYERPOP_FORWARDPOS = 0f;
 
     #endregion
 

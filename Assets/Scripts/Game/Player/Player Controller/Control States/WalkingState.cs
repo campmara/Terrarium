@@ -46,30 +46,27 @@ public class WalkingState : RollerState
     }
 
 	public override void HandleInput(InputCollection input)
-	{   
+	{
         // A BUTTON
-        if ( !_roller.IK.ArmTargetsSet )
+        if (input.LeftTrigger.WasPressed || input.RightTrigger.WasPressed)
         {
-            if( input.LeftTrigger.WasPressed || input.RightTrigger.WasPressed )
-            {               
-                if (_reachCoroutine != null)
-                {
-                    StopCoroutine( _reachCoroutine );
-                    _reachCoroutine = null;
-                }
-
-                HandlePickup();
-            }
-            else if( !_roller.IK.ArmsReaching )
+            // End coroutine waiting to see if the player should auto reach if the player inputs for arms  
+            if (_reachCoroutine != null)
             {
-                if( _reachCoroutine == null )
-                {
-                    _reachCoroutine = StartCoroutine( ReachWaitRoutine() );
-                }
+                StopCoroutine( _reachCoroutine );
+                _reachCoroutine = null;
             }
-                    
+
+            HandlePickup();
         }
-        else    // If Arms Reaching
+        //else if ( !_roller.IK.ArmsReaching && ( input.LeftTrigger.Value <= 0.0f || input.RightTrigger.Value <= 0.0f ) )
+        //{
+        //    if ( _reachCoroutine == null )
+        //    {
+        //        _reachCoroutine = StartCoroutine( ReachWaitRoutine() );
+        //    }
+        //}
+        else if( _roller.IK.ArmsReaching )   // If Arms Reaching
         {
             // If triggers are released
             if( input.LeftTrigger.Value <= 0.0f && input.RightTrigger.Value <= 0.0f )

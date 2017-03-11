@@ -1,0 +1,267 @@
+fileFormatVersion: 2
+guid: d33bc7fa39eb98849917f6cd33b3708e
+timeCreated: 1489100222
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: body
+    100002: character_root
+    100004: core
+    100006: head
+    100008: ikHandle1
+    100010: l_arm1
+    100012: l_arm2
+    100014: l_arm3
+    100016: l_arm4
+    100018: l_arm5
+    100020: l_foot
+    100022: l_hip
+    100024: L_IK
+    100026: l_leg1
+    100028: l_leg2
+    100030: l_leg3
+    100032: l_leg4
+    100034: l_leg5
+    100036: l_shoulder
+    100038: l_wrist
+    100040: nurbsCircle1
+    100042: nurbsCircle2
+    100044: pCube1
+    100046: r_arm1
+    100048: r_arm2
+    100050: r_arm3
+    100052: r_arm4
+    100054: r_arm5
+    100056: R_Arm_IK
+    100058: r_foot
+    100060: r_hip
+    100062: R_IK
+    100064: r_leg1
+    100066: r_leg2
+    100068: r_leg3
+    100070: r_leg4
+    100072: r_leg5
+    100074: r_shoulder
+    100076: r_wrist
+    100078: //RootNode
+    400000: body
+    400002: character_root
+    400004: core
+    400006: head
+    400008: ikHandle1
+    400010: l_arm1
+    400012: l_arm2
+    400014: l_arm3
+    400016: l_arm4
+    400018: l_arm5
+    400020: l_foot
+    400022: l_hip
+    400024: L_IK
+    400026: l_leg1
+    400028: l_leg2
+    400030: l_leg3
+    400032: l_leg4
+    400034: l_leg5
+    400036: l_shoulder
+    400038: l_wrist
+    400040: nurbsCircle1
+    400042: nurbsCircle2
+    400044: pCube1
+    400046: r_arm1
+    400048: r_arm2
+    400050: r_arm3
+    400052: r_arm4
+    400054: r_arm5
+    400056: R_Arm_IK
+    400058: r_foot
+    400060: r_hip
+    400062: R_IK
+    400064: r_leg1
+    400066: r_leg2
+    400068: r_leg3
+    400070: r_leg4
+    400072: r_leg5
+    400074: r_shoulder
+    400076: r_wrist
+    400078: //RootNode
+    4300000: pCube1
+    7400000: MC_Sit
+    9500000: //RootNode
+    13700000: pCube1
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: MC_Sit
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 172
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: character_root
+        weight: 1
+      - path: core
+        weight: 1
+      - path: core/body
+        weight: 1
+      - path: core/body/head
+        weight: 1
+      - path: core/l_hip
+        weight: 1
+      - path: core/l_hip/l_leg1
+        weight: 1
+      - path: core/l_hip/l_leg1/l_leg2
+        weight: 1
+      - path: core/l_hip/l_leg1/l_leg2/l_leg3
+        weight: 1
+      - path: core/l_hip/l_leg1/l_leg2/l_leg3/l_leg4
+        weight: 1
+      - path: core/l_hip/l_leg1/l_leg2/l_leg3/l_leg4/l_leg5
+        weight: 1
+      - path: core/l_hip/l_leg1/l_leg2/l_leg3/l_leg4/l_leg5/l_foot
+        weight: 1
+      - path: core/l_shoulder
+        weight: 1
+      - path: core/l_shoulder/l_arm1
+        weight: 1
+      - path: core/l_shoulder/l_arm1/l_arm2
+        weight: 1
+      - path: core/l_shoulder/l_arm1/l_arm2/l_arm3
+        weight: 1
+      - path: core/l_shoulder/l_arm1/l_arm2/l_arm3/l_arm4
+        weight: 1
+      - path: core/l_shoulder/l_arm1/l_arm2/l_arm3/l_arm4/l_arm5
+        weight: 1
+      - path: core/l_shoulder/l_arm1/l_arm2/l_arm3/l_arm4/l_arm5/l_wrist
+        weight: 1
+      - path: core/r_hip
+        weight: 1
+      - path: core/r_hip/r_leg1
+        weight: 1
+      - path: core/r_hip/r_leg1/r_leg2
+        weight: 1
+      - path: core/r_hip/r_leg1/r_leg2/r_leg3
+        weight: 1
+      - path: core/r_hip/r_leg1/r_leg2/r_leg3/r_leg4
+        weight: 1
+      - path: core/r_hip/r_leg1/r_leg2/r_leg3/r_leg4/r_leg5
+        weight: 1
+      - path: core/r_hip/r_leg1/r_leg2/r_leg3/r_leg4/r_leg5/r_foot
+        weight: 1
+      - path: core/r_shoulder
+        weight: 1
+      - path: core/r_shoulder/r_arm1
+        weight: 1
+      - path: core/r_shoulder/r_arm1/r_arm2
+        weight: 1
+      - path: core/r_shoulder/r_arm1/r_arm2/r_arm3
+        weight: 1
+      - path: core/r_shoulder/r_arm1/r_arm2/r_arm3/r_arm4
+        weight: 1
+      - path: core/r_shoulder/r_arm1/r_arm2/r_arm3/r_arm4/r_arm5
+        weight: 1
+      - path: core/r_shoulder/r_arm1/r_arm2/r_arm3/r_arm4/r_arm5/r_wrist
+        weight: 1
+      - path: ikHandle1
+        weight: 1
+      - path: L_IK
+        weight: 1
+      - path: nurbsCircle1
+        weight: 1
+      - path: nurbsCircle2
+        weight: 1
+      - path: pCube1
+        weight: 1
+      - path: R_Arm_IK
+        weight: 1
+      - path: R_IK
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

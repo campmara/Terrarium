@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GroundManager : SingletonBehaviour<GroundManager> 
 {
@@ -35,7 +33,7 @@ public class GroundManager : SingletonBehaviour<GroundManager>
 		_maskMesh = _mask.GetComponent(typeof(MeshRenderer)) as MeshRenderer;
 
 		_ground.transform.localScale = new Vector3(_scaleFactor + 1f, 1f, _scaleFactor + 1f);
-		_mask.transform.localScale = new Vector3(_scaleFactor + 1f, 1f, _scaleFactor + 1f);
+		_mask.transform.localScale = new Vector3(_scaleFactor + 10f, 1f, _scaleFactor + 10f);
 
 		_groundMesh.sharedMaterial.SetFloat("_ScaleFactor", _scaleFactor);
 		_maskMesh.sharedMaterial.SetFloat("_ScaleFactor", _scaleFactor);

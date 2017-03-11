@@ -55,7 +55,7 @@ public class GroundDisc : MonoBehaviour
 
 	private void Awake()
 	{
-	    _grassParent = new GameObject {name = "Grass"};
+	    //_grassParent = new GameObject {name = "Grass"};
 		decalPool = GetComponentInChildren(typeof(GroundDecalPool)) as GroundDecalPool;
 
 		/*
@@ -130,6 +130,7 @@ public class GroundDisc : MonoBehaviour
 
 	public void DrawSplatDecal(Vector3 pos, float size)
 	{
+		pos.y = 0f;
 		decalPool.AddDecal(pos, size);
 	}
 

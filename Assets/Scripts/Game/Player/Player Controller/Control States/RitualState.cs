@@ -62,11 +62,11 @@ public class RitualState : RollerState
     IEnumerator DelayedCompleteRitual()
     {
 		float currentPaintSize = 0f;
-		float maxPaintSize = 4f;
+		float maxPaintSize = 10f;
 		Vector3 pos = transform.position;
 
 		// Tell the plant manager to pop up all planted seeds in the vicinity and some grass / bushes.
-		
+				
 
 		Tween paint = DOTween.To(()=> currentPaintSize, x=> currentPaintSize = x, maxPaintSize, RollerConstants.RITUAL_COMPLETEWAIT);
 		while(paint.IsPlaying())

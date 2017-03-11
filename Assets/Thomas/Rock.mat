@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Rock
-  m_Shader: {fileID: 4800000, guid: 0a4c2dc3e6c043042a5f12aa874a5954, type: 3}
+  m_Shader: {fileID: 4800000, guid: 59cdfe878ccabd946998f8126157a8e6, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
   m_CustomRenderQueue: -1
@@ -49,6 +49,12 @@ Material:
         name: _MainTex
       second:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _MeltTex
+      second:
+        m_Texture: {fileID: 2800000, guid: a404c82a22223274a94a83d6d4415348, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
@@ -107,6 +113,12 @@ Material:
         name: _Hardness
       second: 0.5
     - first:
+        name: _MeltDistance
+      second: 0.23
+    - first:
+        name: _MeltY
+      second: 0.01
+    - first:
         name: _Metallic
       second: 0
     - first:
@@ -121,6 +133,9 @@ Material:
     - first:
         name: _Parallax
       second: 0.02
+    - first:
+        name: _Scale
+      second: -0.11
     - first:
         name: _SmoothnessTextureChannel
       second: 0
@@ -139,7 +154,7 @@ Material:
     m_Colors:
     - first:
         name: _Color
-      second: {r: 1, g: 1, b: 1, a: 1}
+      second: {r: 0.49264705, g: 0.49264705, b: 0.49264705, a: 1}
     - first:
         name: _ColorBot
       second: {r: 0.45489705, g: 0.4778362, b: 0.491, a: 1}
@@ -152,3 +167,9 @@ Material:
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
+    - first:
+        name: _LowerColor
+      second: {r: 1, g: 1, b: 1, a: 1}
+    - first:
+        name: _MeltColor
+      second: {r: 0.38438734, g: 0.5294118, b: 0.24524224, a: 1}
