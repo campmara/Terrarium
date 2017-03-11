@@ -34,7 +34,7 @@ public class PlantingState : RollerState
             case P_ControlState.WALKING:
                 if( _plantTween == null || !_plantTween.IsComplete() )
                 {
-                    HandleDropHeldObject();
+                    HandleBothArmRelease();
                 }                
                 break;
         }
@@ -92,7 +92,7 @@ public class PlantingState : RollerState
 			seed.TryPlanting();
 		}
 
-        HandleDropHeldObject();
+        HandleBothArmRelease();
         _roller.ChangeState( P_ControlState.WALKING);
     }
 }
