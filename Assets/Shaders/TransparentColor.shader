@@ -1,4 +1,4 @@
-﻿Shader "Custom/TransparentColor" 
+﻿Shader "Custom/Billboard" 
 {
 	Properties 
 	{

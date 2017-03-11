@@ -301,9 +301,13 @@ public class RollerController : ControllerBase
 		_ik.UpdateMovementData( _velocity, transform.position + (transform.forward * _inputVec.magnitude * _velocity * RollerConstants.IK_TARGETWORLDSCALAR * Time.deltaTime), transform.rotation );
 
 		// Hmm
+		// yeah hmmm
 		this.GetComponent<PlayerAnimationController>().SetPlayerSpeed( _velocity / maxMoveSpeed );
-
+		
 		_rigidbody.MovePosition(transform.position + (transform.forward * _inputVec.magnitude * _velocity * Time.deltaTime));
+		_rigidbody.position = new Vector3(_rigidbody.position.x,
+											PondManager.instance.Pond.GetPondY(_rigidbody.position),
+											_rigidbody.position.z);
 		//_rigidbody.MovePosition( Vector3.Lerp(transform.position, _targetMovePosition, Mathf.Lerp( RollerConstants.BODY_MINMOVESPEED, bodyMoveSpeed, _headMoveSpeedInterp ) * Time.fixedDeltaTime ) );
 	}
 

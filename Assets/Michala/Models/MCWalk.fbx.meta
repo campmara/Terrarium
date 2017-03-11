@@ -38,6 +38,11 @@ ModelImporter:
     100060: r_leg5
     100062: r_shoulder
     100064: r_wrist
+    100066: character_root
+    100068: L_Foot
+    100070: L_IK
+    100072: R_Foot
+    100074: R_IK
     400000: body
     400002: core
     400004: head
@@ -71,6 +76,11 @@ ModelImporter:
     400060: r_leg5
     400062: r_shoulder
     400064: r_wrist
+    400066: character_root
+    400068: L_Foot
+    400070: L_IK
+    400072: R_Foot
+    400074: R_IK
     4300000: pCube1
     7400000: Take 001
     9500000: //RootNode
