@@ -28,7 +28,7 @@ public class AudioController
 	}
 
 	[SerializeField] private AudioMixerGroup _mixerGroup = null;
-	public AudioMixerGroup MixerGroup { set { _mixerGroup = value; _source.outputAudioMixerGroup = _mixerGroup; } }
+	public AudioMixerGroup MixerGroup { set { _mixerGroup = value; _source.outputAudioMixerGroup = _mixerGroup; } get { return _mixerGroup; } }
 
 	[SerializeField, Range(0.0f, 1.0f)] private float _volume = 1.0f;
 	public float Volume { get { return _source.volume; } set { _volume = value; _source.volume = _volume; } }
@@ -148,6 +148,7 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
         CalculateMusicTimeState();
 
         _audioControllerList[(int)AudioControllerNames.MUSIC].PlayAudioSource(); 
+		_audioControllerList[(int)AudioControllerNames.PLAYER_SING].PlayAudioSource(); 
 
         isInitialized = true;
 	}
@@ -231,6 +232,7 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 		{
 			_musicTimeState = newTimeState;
 			SetClipAtIndex( AudioControllerNames.MUSIC, (int)_musicTimeState );
+			SetClipAtIndex( AudioControllerNames.PLAYER_SING, (int)_musicTimeState );
 		}
 		else if (newTimeState != _musicTimeState)
 		{
@@ -252,8 +254,10 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 
 		_musicTimeState = newTimeState;
 		SetClipAtIndex( AudioControllerNames.MUSIC, (int)_musicTimeState ); 
+		SetClipAtIndex( AudioControllerNames.PLAYER_SING, (int)_musicTimeState ); 
 		SetControllerVolume(AudioControllerNames.MUSIC, 1f);
 		PlayController(AudioControllerNames.MUSIC);
+		PlayController(AudioControllerNames.PLAYER_SING);
 	}
 
     void CalculateMusicTimeState()
@@ -307,9 +311,18 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
     // Player Sing
     public void PlaySing(float pitch)
     {
-        _audioControllerList[(int) AudioControllerNames.PLAYER_SING].Pitch = pitch;
-        _audioControllerList[(int) AudioControllerNames.PLAYER_SING].PlayAudioSource();
+        //_audioControllerList[(int) AudioControllerNames.PLAYER_SING].Pitch = pitch;
+        //_audioControllerList[(int) AudioControllerNames.PLAYER_SING].PlayAudioSource();
+		_audioControllerList[(int) AudioControllerNames.PLAYER_SING].MixerGroup.audioMixer.DOSetFloat("singVol", 0.0f, 0.1f);
     }
+
+	public void StopSing(float pitch)
+	{
+		//_audioControllerList[(int) AudioControllerNames.PLAYER_SING].Pitch = pitch;
+		//_audioControllerList[(int) AudioControllerNames.PLAYER_SING].PlayAudioSource();
+		_audioControllerList[(int) AudioControllerNames.PLAYER_SING].MixerGroup.audioMixer.DOSetFloat("singVol", -80.0f, 0.5f);
+	}
+
 
     public float GetCurrentMusicPitch()
     {

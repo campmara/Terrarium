@@ -53,6 +53,7 @@ public class SingState : RollerState
 	    }
 		else
 		{
+			AudioManager.instance.StopSing(_singPitch);
 		    _roller.Face.BecomeIdle();
 		    _waitToReturnTimer += Time.deltaTime;
 		}
