@@ -346,7 +346,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1037556617624174}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.18, y: 0.33, z: 4.29}
+  m_LocalPosition: {x: 7.49, y: 0.33, z: 5.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4651318875505674}
@@ -391,7 +391,7 @@ Transform:
   m_GameObject: {fileID: 1772929880310082}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.036444664, y: -0.77500004, z: -0.010000229}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4705559918519402}
   m_RootOrder: 1
@@ -463,6 +463,7 @@ MonoBehaviour:
   _deadMaterial: {fileID: 2100000, guid: 7721f1009d4554ae5a3226b84a7fa131, type: 2}
   _bigPlantPrefab: {fileID: 1028824138140006, guid: b116cff499e3a4c14b3a2b78496f3139,
     type: 2}
+  _starterMound: 1
 --- !u!135 &135363004299402988
 SphereCollider:
   m_ObjectHideFlags: 1

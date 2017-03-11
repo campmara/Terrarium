@@ -428,7 +428,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1037556617624174, guid: 35fbf4ec3e610419aa354f7eecbeebe8, type: 2}
       propertyPath: m_Name
-      value: Mound (1)
+      value: Mound 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 35fbf4ec3e610419aa354f7eecbeebe8, type: 2}
@@ -729,11 +729,6 @@ Prefab:
     - target: {fileID: 4705559918519402, guid: 35fbf4ec3e610419aa354f7eecbeebe8, type: 2}
       propertyPath: m_RootOrder
       value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 114665011765265934, guid: 35fbf4ec3e610419aa354f7eecbeebe8,
-        type: 2}
-      propertyPath: _starterMound
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 35fbf4ec3e610419aa354f7eecbeebe8, type: 2}

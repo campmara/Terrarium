@@ -30,8 +30,6 @@ public class SmallPlant : BasePlant
 
 	// death vars
 	bool _decaying = false;
-	float _deathLength = 0.0f;
-	float _timeUntilDeath = 0.0f;
 	//Renderer
 
 	void Awake()
