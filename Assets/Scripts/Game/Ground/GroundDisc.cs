@@ -55,7 +55,7 @@ public class GroundDisc : MonoBehaviour
 
 	private void Awake()
 	{
-	    _grassParent = new GameObject {name = "Grass"};
+	    //_grassParent = new GameObject {name = "Grass"};
 		decalPool = GetComponentInChildren(typeof(GroundDecalPool)) as GroundDecalPool;
 
 		/*
