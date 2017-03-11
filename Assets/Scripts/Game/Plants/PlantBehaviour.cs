@@ -18,7 +18,6 @@ public class PlantBehaviour : MonoBehaviour
 	const float _spinMin = 1.0f;
 
 	float _spinSpeed = 0.0f;
-	float _curRot = 0.0f;
 	float _origScale = 0.0f;
 	float _interpVal = 0.5f;
 	float _curScale = 0.0f;

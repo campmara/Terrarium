@@ -49,7 +49,7 @@ public class Seed : Pickupable
 	{
 		Vector3 plantPos = new Vector3( transform.position.x, 0.0f, transform.position.z ); 
 		GameObject mound = Instantiate( _moundPrefab, plantPos, Quaternion.identity ) as GameObject; 
-		PlantManager.instance.AddMound( mound.GetComponent<Mound>()  );
+		PlantManager.instance.AddMound( mound.GetComponent<BasePlant>()  );
 		gameObject.SetActive(false);
 	}
 

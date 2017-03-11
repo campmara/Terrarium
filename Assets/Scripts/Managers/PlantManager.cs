@@ -7,9 +7,9 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 {
 	List<Seed> _seeds = new List<Seed>();
 	List<GroundCover> _groundCoverPlants = new List<GroundCover>();   
-	List<SmallPlant> _smallPlants = new List<SmallPlant>();
-	List<BigPlant> _largePlants = new List<BigPlant>();
-	List<Mound> _mounds = new List<Mound>();
+	List<BasePlant> _smallPlants = new List<BasePlant>();
+	List<BasePlant> _largePlants = new List<BasePlant>();
+	List<BasePlant> _mounds = new List<BasePlant>();
 
 
 	public static event Action ExecuteGrowth;
@@ -30,13 +30,13 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		return _seeds.Count;
 	}
 
-	public void RequestSpawnMini( BasePlant plant, float timeUntil )
+	public void RequestSpawnMini( PlantController plant, float timeUntil )
 	{
 		SpawnMiniPlantEvent spawnEvent = new SpawnMiniPlantEvent( plant, timeUntil );
 		TimeManager.instance.AddEvent( spawnEvent );
 	}
 
-	public void RequestDropFruit( BigPlant plant, float timeUntil )
+	public void RequestDropFruit( BPGrowthController plant, float timeUntil )
 	{
 	    DropFruitEvent dropGameEvent = new DropFruitEvent( plant, timeUntil );
 		TimeManager.instance.AddEvent( dropGameEvent );
@@ -48,9 +48,9 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		Destroy( oldSeed.gameObject );
 	}
 
-	public void AddBigPlant( BigPlant bigPlant )
+	public void AddBasePlant( BasePlant BasePlant )
 	{
-		_largePlants.Add( bigPlant );
+		_largePlants.Add( BasePlant );
 	}
 
 	public void AddSeed( Seed seed )
@@ -58,26 +58,26 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		_seeds.Add( seed );
 	}
 
-	public void AddMound( Mound mound )
+	public void AddMound( BasePlant mound )
 	{
 		_mounds.Add( mound );
 	}
 
-	public void DeleteMound( Mound mound )
+	public void DeleteMound( BasePlant mound )
 	{
 		_mounds.Remove( mound );
 		Destroy( mound.gameObject );
 	}
 
-	public void SpawnMini( BasePlant plant )
+	public void SpawnMini( PlantController plant )
 	{
 		//based on type, spawn some sort of mini
 		GameObject newPlant = plant.SpawnChildPlant();
 		if( newPlant )
 		{
-			if( newPlant.GetComponent<SmallPlant>() )
+			if( newPlant.GetComponent<SPGrowthController>() )
 			{
-				_smallPlants.Add( newPlant.GetComponent<SmallPlant>() );
+				_smallPlants.Add( newPlant.GetComponent<BasePlant>() );
 			}
 			else
 			{
