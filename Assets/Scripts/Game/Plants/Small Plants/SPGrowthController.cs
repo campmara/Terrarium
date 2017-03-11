@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SmallPlant : BasePlant
+public class SPGrowthController : PlantController 
 {
-	[SerializeField] protected SmallPlantAssetKey _pAssetKey = SmallPlantAssetKey.NONE;
-	public SmallPlantAssetKey PAssetKey { get { return _pAssetKey; } set { _pAssetKey = value; } }
-
 	// spawn information
 	[SerializeField] private List<GameObject> _spawnables = new List<GameObject>();
 	protected List<Animator> _childAnimators = new List<Animator>();
@@ -27,33 +24,20 @@ public class SmallPlant : BasePlant
 
 	protected Rigidbody _rigidbody = null;
 
-
-	// death vars
-	bool _decaying = false;
-	//Renderer
-
 	void Awake()
 	{
+		_myPlant = GetComponent<BasePlant>();
+		_controllerType = ControllerType.Growth;
+	}
+
+	public override void StartState()
+	{
 		InitPlant();
 	}
-
-	//********************************
-	// STARTING GROWTH SETUP FUNCTIONS
-	//********************************
-
-	protected override void StartPlantUpdate()
-	{
-		PlantManager.ExecuteGrowth += UpdatePlant;
-	}
-
-	protected override void StartPlantGrowth()
-	{
-		StartPlantUpdate();
-		InitPlant();
-	}
-
+		
 	protected virtual void InitPlant()
 	{
+		_myPlant = GetComponent<BasePlant>();
 		// get mesh radius
 		GetSetMeshRadius();
 
@@ -65,17 +49,39 @@ public class SmallPlant : BasePlant
 
 		float randoScale = Random.Range( _scaleRange.x, _scaleRange.y);
 		transform.localScale = new Vector3( randoScale, randoScale, randoScale );
+
+		PlantManager.ExecuteGrowth += UpdateState;
 	}
 
 	//********************************
-	// PLANT GROWTH UPDATE FUNCTIONS
+	// UPDATE GROWTH FUNCTIONS
 	//********************************
 
-	public override void UpdatePlant()
+	public override void UpdateState()
 	{
 		CustomPlantGrowth();
 	}
+
 	protected virtual void CustomPlantGrowth(){}
+
+	//********************************
+	// STOP GROWTH FUNCTIONS
+	//********************************
+
+	public override void StopState()
+	{
+		CustomStopGrowth();
+	}
+
+	protected virtual void CustomStopGrowth()
+	{
+		foreach( Animator child in _childAnimators )
+		{
+			child.enabled = false;
+		}
+
+		PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
+	}
 
 	//********************************
 	// PLANT SPAWN FUNCTIONS
@@ -88,7 +94,7 @@ public class SmallPlant : BasePlant
 		if( _spawnables.Count != 0 )
 		{
 			//what kind of radius do i want
-			Vector2 randomPoint = base.GetRandomPoint( _innerMeshRadius, _outerSpawnRadius );
+			Vector2 randomPoint = _myPlant.GetRandomPoint( _innerMeshRadius, _outerSpawnRadius );
 			Vector3 spawnPoint = new Vector3( randomPoint.x, .1f, randomPoint.y ) + transform.position;
 			Vector3 direction = ( spawnPoint - transform.position ).normalized * ( _innerMeshRadius );
 			spawnPoint += direction;
@@ -111,39 +117,15 @@ public class SmallPlant : BasePlant
 
 		return newPlant;
 	}
-
+				
 	//********************************
-	// PLANT DEATH FUNCTIONS
+	// INTERACTIONS
 	//********************************
-	protected override void StopPlantUpdate()
-	{
-		PlantManager.ExecuteGrowth -= UpdatePlant;
-	}
 
-	protected override void StopPlantGrowth()
-	{
-		CustomStopGrowth();
-	}
-	protected virtual void CustomStopGrowth()
-	{
-		foreach( Animator child in _childAnimators )
-		{
-			child.enabled = false;
-		}
-
-		PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
-	}
-
-	protected override void BeginDeath(){}
-	protected override void Decay(){}
-	protected override void Die(){}
-
-	//********************************
-	// INTERACTION FUNCTIONS
-	//********************************
 	public override void WaterPlant(){}
-	public override void GrabPlant(){}
 	public override void TouchPlant(){}
+	public override void GrabPlant(){}
+	public override void StompPlant(){}
 
 	//********************************
 	// HELPER FUNCTIONS

@@ -2,31 +2,123 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BasePlant : MonoBehaviour
+public class BasePlant : MonoBehaviour
 {
-	protected float _deathLength = 0.0f;
-	protected float _timeUntilDeath = 0.0f;
+	[SerializeField] protected BasePlantAssetKey _pAssetKey = BasePlantAssetKey.NONE;
+	public BasePlantAssetKey PAssetKey { get { return _pAssetKey; } set { _pAssetKey = value; } }
 
-	// PLANT UPDATE 
-	protected abstract void StartPlantUpdate();
-	public abstract void UpdatePlant();
-	protected abstract void StopPlantUpdate();
+	// *************
+	// DEATH VARS
+	// **************
 
-	protected abstract void StartPlantGrowth();
-	protected abstract void StopPlantGrowth();
+	protected float _deathDuration = 0.0f;
+	public float DeathDuration { get { return _deathDuration; } set { _deathDuration = value; } }
 
-	// PLANT INTERACTION
-	public abstract void WaterPlant();
-	public abstract void GrabPlant();
-	public abstract void TouchPlant();
+	[SerializeField] Vector2 _DeathDurationRange = new Vector2( 0.0f, 10.0f );
 
-	// PLANT DEATH
-	protected abstract void BeginDeath();
-	protected abstract void Decay();
-	protected abstract void Die();
+	protected float _DeathTimer = 0.0f;
+	public float DeathTimer { get { return _DeathTimer; } set { _DeathTimer = value; } }
 
-	// PLANT EVENT
-	public virtual GameObject SpawnChildPlant(){ return null; }
+	[SerializeField] protected float _baseDecayRate = 0.0f;
+	public float BaseDecayRate { get { return _baseDecayRate; } set { _baseDecayRate = value; } }
+	protected float _curDecayRate = 0.0f;
+	public float CurDecayRate { get { return _curDecayRate; } set { _curDecayRate = value; } }
+	protected float _wateredDecayRate = 0.0f;
+	public float WateredDecayRate { get { return _wateredDecayRate; } set { _wateredDecayRate = value; } }
+
+	// *************
+	// STATE CONTROLLER
+	// **************
+
+	protected PlantController _activeController = null;
+	PlantController[] _controllers = new PlantController[2];
+
+	protected virtual void Awake()
+	{
+		Init();
+	}
+
+	public virtual void SwitchController( PlantController prevState )
+	{
+		if( _controllers[0] == prevState )
+		{
+			_activeController = _controllers[1];
+		}
+		else
+		{
+			_activeController = _controllers[0];
+		}
+
+		_activeController.StartState();
+	}
+
+	void Init() 
+	{
+		DeathTimer = 0.0f;
+		CurDecayRate = BaseDecayRate;
+		DeathDuration = Random.Range( _DeathDurationRange.x, _DeathDurationRange.y );
+
+		_controllers = GetComponents<PlantController>();
+
+		foreach( PlantController control in _controllers )
+		{
+			if( control.ControlType == PlantController.ControllerType.Growth )
+			{
+				_activeController = control;
+				break;
+			}
+		}
+
+		if( _activeController )
+		{
+			_activeController.StartState();
+			PlantManager.ExecuteGrowth += UpdatePlant;
+		}
+		else
+		{
+			Debug.Log( "SOMETHING WENT WRONG WITH THE PLANT CONTROLLER. PLEASE MAKE SURE A CONTROLLER TYPE IS ASSIGNED." );
+		}
+	}
+
+	public void UpdatePlant()
+	{
+		_activeController.UpdateState();
+	}
+
+	public virtual void WaterPlant()
+	{
+		_activeController.WaterPlant();
+	}
+
+	public void GrabPlant()
+	{
+		_activeController.GrabPlant();
+	}
+
+	public void TouchPlant()
+	{
+		_activeController.TouchPlant();
+	}
+
+	public void StompPlant()
+	{
+		_activeController.StompPlant();
+	}
+
+	public virtual GameObject SpawnChildPlant()
+	{
+		return _activeController.SpawnChildPlant();
+	}
+
+	public virtual GameObject DropFruit()
+	{
+		return _activeController.DropFruit();
+	}
+
+	void OnDestroy()
+	{
+		PlantManager.ExecuteGrowth -= UpdatePlant;
+	}
 
 	//helper function
 	public Vector2 GetRandomPoint( float minDist, float maxDist)

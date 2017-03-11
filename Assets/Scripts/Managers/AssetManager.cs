@@ -14,11 +14,11 @@ public class AssetManager : SingletonBehaviour<AssetManager> {
     
     [SerializeField]
     List<UnityEngine.Object> _plantableAssetList = new List<UnityEngine.Object>();
-	List<SmallPlant> _plantableObjectList = new List<SmallPlant>();
+	List<BasePlant> _plantableObjectList = new List<BasePlant>();
 
     [SerializeField]
-    List<UnityEngine.Object> _BigPlantAssetList = new List<UnityEngine.Object>();
-    List<BigPlant> _BigPlantObjectList = new List<BigPlant>();
+    List<UnityEngine.Object> _BasePlantAssetList = new List<UnityEngine.Object>();
+    List<BasePlant> _BasePlantObjectList = new List<BasePlant>();
 
 
     // Use this for initialization
@@ -118,11 +118,11 @@ public class AssetManager : SingletonBehaviour<AssetManager> {
 
     #region Plantable Methods
 
-	public SmallPlant InstantiatePlantable( SmallPlantAssetKey assetKey )
+	public BasePlant InstantiatePlantable( BasePlantAssetKey assetKey )
     {
         Debug.Assert( _plantableAssetList.Count > 0 );
 
-		SmallPlant newPlantable = null;
+		BasePlant newPlantable = null;
 
         // Check if seed of the same asset key has already been instantiated but has been "destroyed"
         if (_seedObjectList.Count > 0)
@@ -134,7 +134,7 @@ public class AssetManager : SingletonBehaviour<AssetManager> {
         if (newPlantable == null)
         {
             Debug.Assert( (int)assetKey < _plantableAssetList.Count && (int)assetKey >= 0 );
-			newPlantable = Instantiate( _plantableAssetList[(int)assetKey] ) as SmallPlant;
+			newPlantable = Instantiate( _plantableAssetList[(int)assetKey] ) as BasePlant;
         }
         else   // If asset found remove parenting to AssetManager & remove them from the list
         {
@@ -146,7 +146,7 @@ public class AssetManager : SingletonBehaviour<AssetManager> {
         return newPlantable;
     }
 
-	public void DestroyPlantable( SmallPlant plantable )
+	public void DestroyPlantable( BasePlant plantable )
     {
         plantable.transform.SetParent( this.transform );
 
@@ -157,43 +157,43 @@ public class AssetManager : SingletonBehaviour<AssetManager> {
 
     #endregion
 
-    #region BigPlant Methods
+    #region BasePlant Methods
 
-    public BigPlant InstantiateBigPlant( BigPlantAssetKey assetKey )
+    public BasePlant InstantiateBasePlant( BasePlantAssetKey assetKey )
     {
-        Debug.Assert( _BigPlantAssetList.Count > 0 );
+        Debug.Assert( _BasePlantAssetList.Count > 0 );
 
-        BigPlant newBigPlant = null;
+        BasePlant newBasePlant = null;
 
         // Check if seed of the same asset key has already been instantiated but has been "destroyed"
         if (_seedObjectList.Count > 0)
         {
-            newBigPlant = _BigPlantObjectList.Find( x => x.GAssetKey == assetKey );
+           // newBasePlant = _BasePlantObjectList.Find( x => x.GAssetKey == assetKey );
         }
 
         // If none found, spawn new Asset
-        if (newBigPlant == null)
+        if (newBasePlant == null)
         {
-            Debug.Assert( (int)assetKey < _BigPlantAssetList.Count && (int)assetKey >= 0 );
-            newBigPlant = Instantiate( _BigPlantAssetList[(int)assetKey] ) as BigPlant;
+            Debug.Assert( (int)assetKey < _BasePlantAssetList.Count && (int)assetKey >= 0 );
+            newBasePlant = Instantiate( _BasePlantAssetList[(int)assetKey] ) as BasePlant;
         }
         else   // If asset found remove parenting to AssetManager & remove them from the list
         {
-            newBigPlant.transform.SetParent( null );
-            newBigPlant.gameObject.SetActive( true );
-            _BigPlantObjectList.Remove( newBigPlant );
+            newBasePlant.transform.SetParent( null );
+            newBasePlant.gameObject.SetActive( true );
+            _BasePlantObjectList.Remove( newBasePlant );
         }
 
-        return newBigPlant;
+        return newBasePlant;
     }
 
-    public void DestroyBigPlant( BigPlant BigPlant )
+    public void DestroyBasePlant( BasePlant BasePlant )
     {
-        BigPlant.transform.SetParent( this.transform );
+        BasePlant.transform.SetParent( this.transform );
 
-        BigPlant.gameObject.SetActive( false );
+        BasePlant.gameObject.SetActive( false );
 
-        _BigPlantObjectList.Add( BigPlant );
+        _BasePlantObjectList.Add( BasePlant );
     }
 
     #endregion
@@ -219,7 +219,7 @@ public enum SmallPlantAssetKey
     STARTER = 0
 }
 
-public enum BigPlantAssetKey
+public enum BasePlantAssetKey
 {
     NONE = -1,
     STARTER = 0

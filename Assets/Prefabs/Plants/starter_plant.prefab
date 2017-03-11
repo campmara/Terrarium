@@ -25,6 +25,8 @@ GameObject:
   - component: {fileID: 114174503958260724}
   - component: {fileID: 114261372939883760}
   - component: {fileID: 135113451896205310}
+  - component: {fileID: 114092344845318102}
+  - component: {fileID: 114098142030374966}
   m_Layer: 12
   m_Name: starter_plant
   m_TagString: Untagged
@@ -245,7 +247,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1028824138140006}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.581046, y: 0, z: 2.3324096}
+  m_LocalPosition: {x: -3.984336, y: 0, z: -0.5032406}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4521704662299462}
@@ -370,6 +372,36 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114092344845318102
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1028824138140006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48546a37106ae474c9854776c588eedc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _deathColors:
+  - {r: 0.654902, g: 0.60784316, b: 0.5058824, a: 0}
+  - {r: 0.5058824, g: 0.43529412, b: 0.33333334, a: 0}
+  - {r: 0.30980393, g: 0.26666668, b: 0.14901961, a: 0}
+  _DeathDurationRange: {x: 0, y: 10}
+--- !u!114 &114098142030374966
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1028824138140006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 383399452f6ba4461be2a59e661615d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pAssetKey: -1
+  _DeathDurationRange: {x: 5, y: 10}
+  _baseDecayRate: 1.5
 --- !u!114 &114174503958260724
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -381,14 +413,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 080f0cb5dcfc64ee99d5d9ac47120a21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gAssetKey: -1
-  _baseGrowthRate: 0.01
+  _baseGrowthRate: 0.1
+  _curStage: 0
   _droppingItems:
   - {fileID: 1527965070150554, guid: 33686b7f91d454047b4c00e8026b6d28, type: 2}
   - {fileID: 1527965070150554, guid: 33686b7f91d454047b4c00e8026b6d28, type: 2}
   _spawnables:
   - {fileID: 1957489743728246, guid: 2e152ae3f797a491ca6ec5694d70fb63, type: 2}
-  _curStage: 0
   _bStemRoot: {fileID: 4521704662299462}
   _leafPrefab: {fileID: 1248963832722794, guid: a0521c65f58601b43975af7e8620d049,
     type: 2}

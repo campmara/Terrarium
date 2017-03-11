@@ -49,8 +49,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4705559918519402}
-  - component: {fileID: 114665011765265934}
   - component: {fileID: 135363004299402988}
+  - component: {fileID: 114334781743499214}
+  - component: {fileID: 114705503488462458}
+  - component: {fileID: 114731697741026298}
   m_Layer: 0
   m_Name: Mound
   m_TagString: Untagged
@@ -449,7 +451,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &114665011765265934
+--- !u!114 &114334781743499214
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -457,13 +459,38 @@ MonoBehaviour:
   m_GameObject: {fileID: 1037556617624174}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5594f2d5e363f47d1a0c7d7077babfd0, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f11be8150971458784e9b633b760421, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _deadMaterial: {fileID: 2100000, guid: 7721f1009d4554ae5a3226b84a7fa131, type: 2}
-  _bigPlantPrefab: {fileID: 1028824138140006, guid: b116cff499e3a4c14b3a2b78496f3139,
+--- !u!114 &114705503488462458
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1037556617624174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bc04f77afdbb48febc5d63bbd38f15d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _BasePlantPrefab: {fileID: 1028824138140006, guid: b116cff499e3a4c14b3a2b78496f3139,
     type: 2}
-  _starterMound: 1
+  _starterMound: 0
+--- !u!114 &114731697741026298
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1037556617624174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 383399452f6ba4461be2a59e661615d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pAssetKey: -1
+  _deathDuration: 0
+  _baseDecayRate: 0
 --- !u!135 &135363004299402988
 SphereCollider:
   m_ObjectHideFlags: 1
