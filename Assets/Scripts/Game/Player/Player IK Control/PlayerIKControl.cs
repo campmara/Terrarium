@@ -4,44 +4,35 @@ using RootMotion.FinalIK;
 
 public class PlayerIKControl : MonoBehaviour
 {
-    RollerController _parentController = null;
+    RollerController _parentController = null;    
 
     [Header( "Look At Properties" )]
     [SerializeField] private Transform _lookAtTarget;
     [SerializeField] private float _lookSpeed = 7f;
-    [SerializeField]
-    private AnimationCurve _headSpeedCurve;
+    
+    [SerializeField] private AnimationCurve _headSpeedCurve;
     [SerializeField]
     private AnimationCurve _headPosCurve;
     [SerializeField] private float _headMoveInterpSpeed = 1.0f;
     [SerializeField] private float _headHeightAnimScalar = 0.025f;
     [SerializeField, Tooltip("Only counts between 0 & 1. Determines what percentage between feet and target head tries to move to")] private float _headTargetInterp = 0.25f;
 
-
-[Header("Arm Properties")]
-    [SerializeField] private Transform _leftArmTargetTransform = null;
-    [SerializeField] private Transform _rightArmTargetTransform = null;
-    public Transform LeftArmTargetTrans { get { return _leftArmTargetTransform; } }
-    public Transform RightArmTargetTrans { get { return _rightArmTargetTransform; } }
-    public bool ArmTargetsSet { get { return _leftArmTargetTransform != null && _rightArmTargetTransform != null; } }
-	[SerializeField] private float armSpeedNoTarget = 7f;
-	[SerializeField] private float armSpeedTarget = 0.015f;
-    [SerializeField, ReadOnlyAttribute] private Vector3 _leftArmTargetPos = Vector3.zero;
-    [SerializeField, ReadOnlyAttribute] private Vector3 _rightArmTargetPos = Vector3.zero;
+    [Header("Arm Properties")]
+    [SerializeField] SpringJoint _leftArmSpringTarget = null;
+    public SpringJoint LeftArmSpring { get { return _leftArmSpringTarget; } }
+    [SerializeField] SpringJoint _rightArmSpringTarget = null;
+    public SpringJoint RightArmSpring { get { return _rightArmSpringTarget; } }
     
-    // These "base targets" are what the arms are resolving towards when not holding something / focused on something / reaching
-    [SerializeField] private SpringJoint _leftArmSpringTarget = null;   
-    [SerializeField] private SpringJoint _rightArmSpringTarget = null;
+    [SerializeField] PlayerArmIK _leftArmIK;
+    public PlayerArmIK LeftArm { get { return _leftArmIK; } }
+    [SerializeField] PlayerArmIK _rightArmIK;
+    public PlayerArmIK RightArm { get { return _rightArmIK; } }
+    Transform _armFocus = null;
+    public Transform ArmFocus { get { return _armFocus; } }
 
-    private bool _armsReaching = false;
-    public bool ArmsReaching { get { return _armsReaching;} set { _armsReaching = value; } }
-    [SerializeField, ReadOnlyAttribute]
-    private float _leftArmReachInterp = 0.0f;
-    [SerializeField, ReadOnlyAttribute]
-    private float _rightArmReachInterp = 0.0f;
-
-    private const float ARM_REACHDISTMAX = 8.0f;
-    private const float ARM_REACHDISTMIN = 0.75f;
+    public bool ArmsIdle { get { return _leftArmIK.ArmState == PlayerArmIK.ArmIKState.IDLE && _rightArmIK.ArmState == PlayerArmIK.ArmIKState.IDLE; } }
+    public bool ArmsGrabbing { get { return _leftArmIK.ArmState == PlayerArmIK.ArmIKState.GRABBING && _rightArmIK.ArmState == PlayerArmIK.ArmIKState.GRABBING; } }
+    public bool ArmsTargetReaching { get { return _leftArmIK.ArmState == PlayerArmIK.ArmIKState.TARGET_REACHING && _rightArmIK.ArmState == PlayerArmIK.ArmIKState.TARGET_REACHING; } }
 
     [Header("Leg Properties")]
     [SerializeField] private AnimationCurve _legYCurve;
@@ -62,9 +53,7 @@ public class PlayerIKControl : MonoBehaviour
     [SerializeField] private float _minFootDist = 0.3f;
 
     [Header("Limb IK References")]
-    [SerializeField] private CCDIK _leftArm;
     [SerializeField] private CCDIK _leftLeg;
-    [SerializeField] private CCDIK _rightArm;
     [SerializeField] private CCDIK _rightLeg;
 	[SerializeField] private LookAtIK _lookAt;
 
@@ -164,14 +153,10 @@ public class PlayerIKControl : MonoBehaviour
 
     private void LateUpdate()
     {
-        Debug.Assert( _leftLeg != null );
+        
         //_leftLeg.solver.IKPosition = Vector3.Lerp( _leftLeg.solver.IKPosition, _leftLegPos, 20.0f * Time.deltaTime );        
         //_rightLeg.solver.IKPosition = Vector3.Lerp( _rightLeg.solver.IKPosition, _rightLegPos, 20.0f * Time.deltaTime );
 
-        _rightArm.solver.IKPosition = Vector3.Lerp( _rightLeg.solver.IKPosition, _rightArmTargetPos, armSpeedTarget );
-        _leftArm.solver.IKPosition = Vector3.Lerp( _leftArm.solver.IKPosition, _leftArmTargetPos, armSpeedTarget );
-        //_rightArm.solver.IKPosition = _rightArmTargetPos;
-        //_leftArm.solver.IKPosition = _leftArmTargetPos;
     }
 
     private void UpdateParentController()
@@ -229,153 +214,100 @@ public class PlayerIKControl : MonoBehaviour
     private void HandleArms()
     {
         // TODO: lerp speed should be unique for each type of arm reaching/movement
-        // TODO: Adjust hand spring anchors
-
-        // Move arm target pos, updates IK in Late Update
-        if ( _armsReaching )
-        {            
-            if( _leftArmTargetTransform == null && _rightArmTargetTransform == null  )  // Lift arms up just cuzz (reaching not grabbing)
-            {
-                _leftArmTargetPos = Vector3.Lerp( _leftArmTargetPos, Vector3.Lerp( _leftArmSpringTarget.transform.position, _leftArmSpringTarget.transform.position + ( Vector3.up * 50.0f ) + -transform.right, _leftArmReachInterp ), armSpeedTarget * Time.deltaTime );
-                _rightArmTargetPos = Vector3.Lerp( _rightArmTargetPos, Vector3.Lerp( _rightArmSpringTarget.transform.position, _rightArmSpringTarget.transform.position + ( Vector3.up * 50.0f ) + transform.right, _rightArmReachInterp ), armSpeedTarget * Time.deltaTime );
-            }
-            else if( ArmTargetsSet ) // Reach both arms to position
-            {
-                _leftArmTargetPos = Vector3.Lerp( _leftArmTargetPos, Vector3.Lerp( _leftArmSpringTarget.transform.position, _leftArmTargetTransform.position, _leftArmReachInterp ), armSpeedTarget * Time.deltaTime );
-                _rightArmTargetPos = Vector3.Lerp( _rightArmTargetPos, Vector3.Lerp( _rightArmSpringTarget.transform.position, _rightArmTargetTransform.position, _rightArmReachInterp ), armSpeedTarget * Time.deltaTime );
-            }
-            else    // Figure out which arm is reaching otherwise
-            {
-                if( _leftArmTargetTransform != null )
-                {
-                    // Check if reaching is still viable (too far away from object)
-                    CheckReachConstraints( _leftArmTargetTransform );
-                    if( _armsReaching )
-                    {
-                        _leftArmTargetPos = Vector3.Lerp( _leftArmTargetPos,  _leftArmTargetTransform.position, armSpeedTarget * Time.deltaTime );
-
-                        _leftArmSpringTarget.connectedAnchor = Vector3.Lerp( _leftArmSpringTarget.connectedAnchor, transform.parent.position - ( transform.parent.right * 0.5f ), armSpeedNoTarget * Time.deltaTime );
-                        _leftArmTargetPos = Vector3.Lerp( _leftArmTargetPos, _leftArmSpringTarget.transform.position, armSpeedNoTarget * Time.deltaTime );                        
-                    }
-                }
-                else if( _rightArmTargetTransform != null )
-                {
-                    CheckReachConstraints( _rightArmTargetTransform );
-                    if( _armsReaching )
-                    {
-                        _rightArmTargetPos = Vector3.Lerp( _rightArmTargetPos, _rightArmTargetTransform.position, armSpeedTarget * Time.deltaTime );
-
-                        _rightArmSpringTarget.connectedAnchor = Vector3.Lerp( _rightArmSpringTarget.connectedAnchor, transform.parent.position + ( transform.parent.right * 0.5f ), armSpeedNoTarget * Time.deltaTime );
-                        _rightArmTargetPos = Vector3.Lerp( _rightArmTargetPos, _rightArmSpringTarget.transform.position, armSpeedNoTarget * Time.deltaTime );
-                    }
-                }
-            }
-
-        }        
-		else if (_walkState == WalkState.RITUAL)    // Lift arms up to spin~~
-        {
-			_leftArmTargetPos = Vector3.Lerp(_leftArmTargetPos, 
-				transform.position + (transform.parent.up * 5f) - (transform.parent.right * 0.5f), 
-				armSpeedNoTarget * Time.deltaTime);
-			_rightArmTargetPos = Vector3.Lerp(_rightArmTargetPos, 
-				transform.position + (transform.parent.up * 5f) + (transform.parent.right * 0.5f), 
-				armSpeedNoTarget * Time.deltaTime);
-        }
-		else   // Position arms at sides, update position of springs
-		{            
-            _leftArmSpringTarget.connectedAnchor = Vector3.Lerp( _leftArmSpringTarget.connectedAnchor, 
-				transform.parent.position - (transform.parent.right * 0.5f), 
-				armSpeedNoTarget * Time.deltaTime);
-			_rightArmSpringTarget.connectedAnchor = Vector3.Lerp( _rightArmSpringTarget.connectedAnchor, 
-                transform.parent.position + (transform.parent.right * 0.5f), 
-				armSpeedNoTarget * Time.deltaTime);
-
-            _leftArmTargetPos = Vector3.Lerp(_leftArmTargetPos, _leftArmSpringTarget.transform.position, armSpeedNoTarget * Time.deltaTime);
-			_rightArmTargetPos = Vector3.Lerp(_rightArmTargetPos, _rightArmSpringTarget.transform.position, armSpeedNoTarget * Time.deltaTime);            
-		}
     }
 
-    public void SetArmTarget( Transform t )
+    public void SetArmTarget( Transform target, PlayerArmIK.ArmType armType )
     {
-        if( t != null )
+        if( armType == PlayerArmIK.ArmType.LEFT )
         {
-            _leftArmTargetTransform = t;
-            _rightArmTargetTransform = t;
-            _lookAtTarget = t;
-
-            _leftArmSpringTarget.GetComponent<Rigidbody>().isKinematic = true;
-            _rightArmSpringTarget.GetComponent<Rigidbody>().isKinematic = true;
+            _leftArmIK.SetArmTargetTransform( target );
         }
-        _armsReaching = true;
+        else
+        {
+            _rightArmIK.SetArmTargetTransform( target );
+        }
+
+        if( target != null && _armFocus == null )
+        {
+            _armFocus = target;
+        }
     }
 
-    public void SetReachTarget( Transform reachable, bool rightArm )
+    public void SetBothArmGrab( Transform t )
     {
-        if( rightArm )
+        _leftArmIK.SetArmTargetTransform( t );
+        _rightArmIK.SetArmTargetTransform( t );
+        _lookAtTarget = t;
+
+        _leftArmSpringTarget.GetComponent<Rigidbody>().isKinematic = true;
+        _rightArmSpringTarget.GetComponent<Rigidbody>().isKinematic = true; 
+
+        _armFocus = t;      
+    }
+
+    public void SetAmbientReachTarget( Transform reachable, PlayerArmIK.ArmType armType )
+    {
+        if( armType == PlayerArmIK.ArmType.RIGHT )
         {
-            _rightArmTargetTransform = reachable;
+            _rightArmIK.SetAmbientReachTransform( reachable );
             _rightArmSpringTarget.GetComponent<Rigidbody>().isKinematic = true;
         }
         else
         {
-            _leftArmTargetTransform = reachable;
+            _leftArmIK.SetAmbientReachTransform( reachable );
             _leftArmSpringTarget.GetComponent<Rigidbody>().isKinematic = true;            
         }
 
-        if( JohnTech.CoinFlip() )
-        {
-            _lookAtTarget = reachable;
-        }
-
-        _armsReaching = true;
+        //if( JohnTech.CoinFlip() )
+        //{
+        //    _lookAtTarget = reachable;
+        //}
     }
 
+    public void HandleArmsGrab()
+    {
+        Debug.Assert( _leftArmIK.ArmState == PlayerArmIK.ArmIKState.TARGET_REACHING && _rightArmIK.ArmState == PlayerArmIK.ArmIKState.TARGET_REACHING );
 
-    public void LetGo()
+        _leftArmIK.GrabTargetTransform();
+        _rightArmIK.GrabTargetTransform();
+    }
+
+    public void LetGoOneArm( PlayerArmIK.ArmType armType )
+    {
+        if( armType == PlayerArmIK.ArmType.LEFT )
+        {
+            _leftArmIK.ReleaseTargetTransform();
+            _leftArmSpringTarget.GetComponent<Rigidbody>().isKinematic = false;
+        }
+        else
+        {
+            _rightArmIK.ReleaseTargetTransform();
+            _rightArmSpringTarget.GetComponent<Rigidbody>().isKinematic = false;        
+        }
+
+        if( ArmsIdle )
+        {
+            _armFocus = null;
+        }
+    }
+
+    public void LetGoBothArms()
 	{
-		_leftArmTargetTransform = null;
-        _rightArmTargetTransform = null;
+        _leftArmIK.ReleaseTargetTransform();
+        _rightArmIK.ReleaseTargetTransform();
+
         _lookAtTarget = null;
 
         _leftArmSpringTarget.GetComponent<Rigidbody>().isKinematic = false;
-        _rightArmSpringTarget.GetComponent<Rigidbody>().isKinematic = false;
+        _rightArmSpringTarget.GetComponent<Rigidbody>().isKinematic = false;        
 
-        _armsReaching = false;
+        _armFocus = null;
 	}
 
     public void UpdateArmInterpValues( float leftValue, float rightValue )
     {
-        //if( _leftArmReachInterp > 0.0f && leftValue <= 0.0f )
-        //{
-        //    _leftArmTargetTransform = null;
-        //    _leftArmSpringTarget.GetComponent<Rigidbody>().isKinematic = false;
-        //}
-        _leftArmReachInterp = leftValue;
-
-        //if ( _rightArmReachInterp > 0.0f && rightValue <= 0.0f)
-        //{
-        //    _rightArmTargetTransform = null;
-        //    _rightArmSpringTarget.GetComponent<Rigidbody>().isKinematic = false;
-        //}
-        _rightArmReachInterp = rightValue;
-    }
-
-    void CheckReachConstraints( Transform reachTransform )
-    {
-        float reachDist = ( _parentController.transform.position - reachTransform.position ).magnitude;
-
-        if ( reachDist > ARM_REACHDISTMAX )
-        {
-            // TODO: Make Droopy Sad : (
-
-            LetGo();
-        }
-        else if ( reachDist < ARM_REACHDISTMIN )
-        {
-            // TODO: Make Droopy Happy : )
-
-            LetGo();
-        }
+        _leftArmIK.ArmReachInterp = leftValue;
+        _rightArmIK.ArmReachInterp = rightValue;
     }
 
     #endregion
