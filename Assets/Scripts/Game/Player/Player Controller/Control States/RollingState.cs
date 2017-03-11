@@ -97,11 +97,15 @@ public class RollingState : RollerState
 			_roller.Accelerate(RollerConstants.ROLL_SPEED, RollerConstants.ROLL_ACCELERATION);
 		}
 
-		Vector3 movePos = _roller.transform.position + (_roller.transform.forward * _roller.Velocity * Time.deltaTime);
-		_roller.RB.MovePosition(movePos);
+		_roller.RB.MovePosition(_roller.transform.position + (_roller.transform.forward * _roller.Velocity * Time.deltaTime));
 
 		// Roll the Roll Sphere
 		_roller.RollSphere.transform.Rotate(RollerConstants.ROLL_SPHERE_SPIN * Time.deltaTime, 0f, 0f);
+
+		// Set the sphere y based on distance to pond.
+		Vector3 spherePos = _roller.RollSphere.transform.position;
+		spherePos.y = 0.375f + PondManager.instance.Pond.GetPondY(spherePos);
+		_roller.RollSphere.transform.position = spherePos;
 
 		_roller.LastInputVec = _roller.InputVec.normalized;
 		/*
