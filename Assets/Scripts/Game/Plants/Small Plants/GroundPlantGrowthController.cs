@@ -145,7 +145,7 @@ public class GroundPlantGrowthController : SPGrowthController
 		}
 
 		_waiting = false;
-		PlantManager.instance.RequestSpawnMini( _myPlant, _timeBetweenSpawns );
+		PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
 		_myPlant.SwitchController( this );
 	}
 }

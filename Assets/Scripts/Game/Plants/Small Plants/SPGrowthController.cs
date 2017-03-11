@@ -80,7 +80,7 @@ public class SPGrowthController : PlantController
 			child.enabled = false;
 		}
 
-		PlantManager.instance.RequestSpawnMini( _myPlant, _timeBetweenSpawns );
+		PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
 	}
 
 	//********************************
@@ -107,7 +107,7 @@ public class SPGrowthController : PlantController
 
 		if( _minisSpawned < _maxMinisSpawned )
 		{
-			PlantManager.instance.RequestSpawnMini( _myPlant, _timeBetweenSpawns );
+			PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
 		}
 
 		if( newPlant == null )

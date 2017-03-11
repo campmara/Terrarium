@@ -185,12 +185,12 @@ public class BPGrowthController : PlantController
 
 		if( _curStage == GrowthStage.Sapling )
 		{
-			PlantManager.instance.RequestSpawnMini( _myPlant, _timeBetweenSpawns );
+			PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
 		}
 
 		if( _curStage == GrowthStage.Final )
 		{
-			PlantManager.instance.RequestDropFruit( _myPlant, _timeBetweenFruitDrops );
+			PlantManager.instance.RequestDropFruit( this, _timeBetweenFruitDrops );
 			SpawnAmbientCreature();
 			StopState();
 		}
@@ -250,7 +250,7 @@ public class BPGrowthController : PlantController
 			PlantManager.instance.AddSeed( seed );
 		}
 
-		PlantManager.instance.RequestDropFruit( _myPlant, _timeBetweenFruitDrops );
+		PlantManager.instance.RequestDropFruit( this, _timeBetweenFruitDrops );
 
 		if( newPlant == null )
 		{
@@ -277,7 +277,7 @@ public class BPGrowthController : PlantController
 
 		if( _minisSpawned < _maxMinisSpawned )
 		{
-			PlantManager.instance.RequestSpawnMini( _myPlant, _timeBetweenSpawns );
+			PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
 		}
 
 		if( newPlant == null )

@@ -30,13 +30,13 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		return _seeds.Count;
 	}
 
-	public void RequestSpawnMini( BasePlant plant, float timeUntil )
+	public void RequestSpawnMini( PlantController plant, float timeUntil )
 	{
 		SpawnMiniPlantEvent spawnEvent = new SpawnMiniPlantEvent( plant, timeUntil );
 		TimeManager.instance.AddEvent( spawnEvent );
 	}
 
-	public void RequestDropFruit( BasePlant plant, float timeUntil )
+	public void RequestDropFruit( BPGrowthController plant, float timeUntil )
 	{
 	    DropFruitEvent dropGameEvent = new DropFruitEvent( plant, timeUntil );
 		TimeManager.instance.AddEvent( dropGameEvent );
@@ -69,13 +69,13 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		Destroy( mound.gameObject );
 	}
 
-	public void SpawnMini( BasePlant plant )
+	public void SpawnMini( PlantController plant )
 	{
 		//based on type, spawn some sort of mini
 		GameObject newPlant = plant.SpawnChildPlant();
 		if( newPlant )
 		{
-			if( newPlant.GetComponent<BasePlant>() )
+			if( newPlant.GetComponent<SPGrowthController>() )
 			{
 				_smallPlants.Add( newPlant.GetComponent<BasePlant>() );
 			}
