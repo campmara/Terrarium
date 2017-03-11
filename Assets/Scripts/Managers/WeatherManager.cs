@@ -113,6 +113,7 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
         //}
 
         UpdateWindShaderValues();
+        UpdateWindDirection();
 
         yield return 0;
 
