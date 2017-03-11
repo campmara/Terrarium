@@ -17,7 +17,7 @@
 		Cull Off
 		CGPROGRAM
 		
-	#pragma surface surf WrapLambert 
+	#pragma surface surf WrapLambert
 	half _Hardness;
 	half4 _ShadowColor;
 
