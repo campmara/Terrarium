@@ -23,7 +23,7 @@ public class CarryState : RollerState
         switch( nextState )
         {
             case P_ControlState.WALKING:
-                HandleDropHeldObject();
+                HandleBothArmRelease();
                 break;
         }
 

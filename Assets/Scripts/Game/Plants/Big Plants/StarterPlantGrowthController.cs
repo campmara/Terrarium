@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StarterPlant : BigPlant 
+public class StarterPlantGrowthController : BPGrowthController
 {
 	[SerializeField] private Transform _bStemRoot = null;
 	[SerializeField] private GameObject _leafPrefab = null;
@@ -24,6 +24,15 @@ public class StarterPlant : BigPlant
 	Transform _currentParent = null;
 	Coroutine _leafSpawnRoutine = null;
 
+	float _endTimeStamp = 0.0f;
+	Animator _lastAnim = null;
+	bool _waiting = false;
+
+	void Awake()
+	{
+		_myPlant = GetComponent<BasePlant>();
+		_controllerType = ControllerType.Growth;
+	}
 
 	protected override void InitPlant()
 	{
@@ -62,15 +71,15 @@ public class StarterPlant : BigPlant
 		
 	void SetupLeaf( int index )
 	{
-		GameObject l = Instantiate(_leafPrefab);
-		Animator anim = l.GetComponent<Animator>();
+		GameObject leaf = Instantiate( _leafPrefab);
+		Animator anim = leaf.GetComponent<Animator>();
 		_childAnimators.Add( anim );
-		l.transform.SetParent( _currentParent );
-		l.transform.position = _currentParent.position;
+		leaf.transform.SetParent( _currentParent );
+		leaf.transform.position = _currentParent.position;
 
-		l.transform.localScale = _currentParent.localScale * _inverseIndex * .2f;//(inverseIndex * inverseIndex * .05f);
-		l.transform.Rotate(new Vector3(0, index * 360 / _ringNumber + _offset, 0));
-		l.transform.position -= l.transform.forward * .015f * transform.localScale.x;
+		leaf.transform.localScale = _currentParent.localScale * _inverseIndex * .2f;//(inverseIndex * inverseIndex * .05f);
+		leaf.transform.Rotate(new Vector3(0, index * 360 / _ringNumber + _offset, 0));
+		leaf.transform.position -= leaf.transform.forward * .015f * transform.localScale.x;
 		anim.speed *= _plantAnim.GetComponent<Animator>().speed;
 	}
 
@@ -85,10 +94,38 @@ public class StarterPlant : BigPlant
 		{
 			_leafSpawnRoutine = StartCoroutine( SpawnLeaves() );
 		}
+
+		if( _lastAnim )
+		{
+			if( _endTimeStamp >= _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime )
+			{
+				_myPlant.SwitchController( this );
+			}
+		}
 	}
 
 	protected override void CustomStopGrowth()
 	{
-		BeginDeath();
+		if( !_waiting )
+		{
+			_lastAnim = _childAnimators[ _childAnimators.Count - 1 ];
+			//_lastClip = _lastAnim.runtimeAnimatorController.animationClips[0];
+			AnimatorStateInfo state = _lastAnim.GetCurrentAnimatorStateInfo(0);
+			_endTimeStamp =  state.length / state.speed ;//_lastClip.length - .04f;
+
+			StartCoroutine( WaitForLastLeaf() );
+		}
+	}
+
+	private IEnumerator WaitForLastLeaf()
+	{
+		_waiting = true;
+		while( _endTimeStamp > _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime )
+		{
+			yield return null;
+		}
+
+		_waiting = false;
+		_myPlant.SwitchController( this );
 	}
 }

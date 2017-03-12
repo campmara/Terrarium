@@ -1,10 +1,10 @@
 ﻿public class SpawnMiniPlantEvent : GameEvent
 {
-	BasePlant _plant = null;
+	PlantController _plant = null;
 
 	public SpawnMiniPlantEvent(){}
 
-	public SpawnMiniPlantEvent( BasePlant parent, float timeUntilSpawn ) : base( timeUntilSpawn )
+	public SpawnMiniPlantEvent( PlantController parent, float timeUntilSpawn ) : base( timeUntilSpawn )
 	{
 		_plant = parent;
 	}
