@@ -66,6 +66,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4948656579914976}
   - component: {fileID: 114939842368148082}
+  - component: {fileID: 114730521517839052}
   m_Layer: 0
   m_Name: l_hip
   m_TagString: Untagged
@@ -189,6 +190,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4321898873145736}
   - component: {fileID: 114588847984742038}
+  - component: {fileID: 114850895054587912}
   m_Layer: 0
   m_Name: r_shoulder
   m_TagString: Untagged
@@ -339,7 +341,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1587799030803316
 GameObject:
   m_ObjectHideFlags: 1
@@ -395,6 +397,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4645409406886394}
   - component: {fileID: 114409906982786312}
+  - component: {fileID: 114196515715762872}
   m_Layer: 0
   m_Name: l_shoulder
   m_TagString: Untagged
@@ -1431,6 +1434,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _frameLag: 2
+--- !u!114 &114196515715762872
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1677408140718030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4c447db68daf4718b75275d66234e1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _armSpring: {fileID: 145801016285384142}
+  _armType: 0
+  _armState: 0
+  _armTargetTransform: {fileID: 0}
+  _armSpeedNoTarget: 7
+  _armSpeedTarget: 10
+  _armTargetPos: {x: 0, y: 0, z: 0}
+  _armReachInterp: 0
 --- !u!114 &114259314273431226
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1762,6 +1784,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79bbd6e73bb18413cbd1f1dd3a4aa011, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114730521517839052
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1105461282720412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4c447db68daf4718b75275d66234e1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _armSpring: {fileID: 145801016285384142}
+  _armType: 0
+  _armState: 0
+  _armTargetTransform: {fileID: 0}
+  _armSpeedNoTarget: 7
+  _armSpeedTarget: 0.015
+  _armTargetPos: {x: 0, y: 0, z: 0}
+  _armReachInterp: 0
+--- !u!114 &114850895054587912
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1315966361810136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4c447db68daf4718b75275d66234e1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _armSpring: {fileID: 145753068842862206}
+  _armType: 1
+  _armState: 0
+  _armTargetTransform: {fileID: 0}
+  _armSpeedNoTarget: 7
+  _armSpeedTarget: 10
+  _armTargetPos: {x: 0, y: 0, z: 0}
+  _armReachInterp: 0
 --- !u!114 &114934515498532584
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1832,16 +1892,10 @@ MonoBehaviour:
   _headMoveInterpSpeed: 4
   _headHeightAnimScalar: 0
   _headTargetInterp: 0.1
-  _leftArmTargetTransform: {fileID: 0}
-  _rightArmTargetTransform: {fileID: 0}
-  armSpeedNoTarget: 7
-  armSpeedTarget: 7
-  _leftArmTargetPos: {x: 0, y: 0, z: 0}
-  _rightArmTargetPos: {x: 0, y: 0, z: 0}
   _leftArmSpringTarget: {fileID: 145801016285384142}
   _rightArmSpringTarget: {fileID: 145753068842862206}
-  _leftArmReachInterp: 0
-  _rightArmReachInterp: 0
+  _leftArmIK: {fileID: 114196515715762872}
+  _rightArmIK: {fileID: 114850895054587912}
   _legYCurve:
     serializedVersion: 2
     m_Curve:
@@ -1900,9 +1954,7 @@ MonoBehaviour:
   _turnSpeedRange: {x: 0.75, y: 2}
   _bodyPosMoveSpeed: 5
   _minFootDist: 0.3
-  _leftArm: {fileID: 114409906982786312}
   _leftLeg: {fileID: 114939842368148082}
-  _rightArm: {fileID: 114588847984742038}
   _rightLeg: {fileID: 114472523796396176}
   _lookAt: {fileID: 114605867960473536}
 --- !u!114 &114939842368148082

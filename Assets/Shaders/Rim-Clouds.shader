@@ -7,7 +7,6 @@
 		_NoiseScale("Noise Scale", vector) = (0,0,0,0)
 		_Seed("Seed", float) = .1
 
-		_Hardness("Hardness", Range(0,1)) = 1
 		_Cutoff("Cutoff", Range(0, 1)) = 1
 
 		_HeightMultiplier("Height Multiplier", Range(0,.5)) = .15
@@ -17,30 +16,8 @@
 		Tags{ "Queue" = "Geometry" }
 		Cull Off
 		CGPROGRAM
-#include "Noise.cginc"
 
-#pragma surface surf WrapLambert alphatest:_Cutoff addshadow nofog
-
-	float _Hardness;
-
-	half4 LightingWrapLambert(SurfaceOutput s, half3 lightDir, half atten) {
-		s.Normal = normalize(s.Normal);
-
-		half distAtten;
-		if (_WorldSpaceLightPos0.w == 0.0)
-			distAtten = 1.0;
-		else
-			distAtten = saturate(1.0 / length(lightDir));
-
-		atten = lerp(atten, cnoise(atten), .45);
-
-		half diff = (max(0, dot(s.Normal, lightDir)) * atten + 1 - _Hardness);
-
-		half4 c;
-		c.rgb = (s.Albedo * diff * _LightColor0) * distAtten;
-		c.a = s.Alpha;
-		return c;
-	}
+#pragma surface surf Clouds alphatest:_Cutoff addshadow nofog
 
 	struct Input {
 		float3 viewDir;
@@ -56,11 +33,33 @@
 	float _Seed;
 	float4 _NoiseScale;
 	sampler2D _CameraDepthTexture;
+	sampler2D _LightTextureB0;
 	float _HeightMultiplier;
 
+	float hash(float n)
+	{
+		return frac(sin(n)*43758.5453);
+	}
+
+	float noise(float3 x)
+	{
+		// The noise function returns a value in the range -1.0f -> 1.0f
+
+		float3 p = floor(x);
+		float3 f = frac(x);
+
+		f = f*f*(3.0 - 2.0*f);
+		float n = p.x + p.y*57.0 + 113.0*p.z;
+
+		return lerp(lerp(lerp(hash(n + 0.0), hash(n + 1.0), f.x),
+			lerp(hash(n + 57.0), hash(n + 58.0), f.x), f.y),
+			lerp(lerp(hash(n + 113.0), hash(n + 114.0), f.x),
+				lerp(hash(n + 170.0), hash(n + 171.0), f.x), f.y), f.z);
+	}
+
 	void surf(Input IN, inout SurfaceOutput o) {
-		//float depth = length(IN.worldPos - _WorldSpaceCameraPos) / 150;
-		depth = 1;
+		float depth = length(IN.worldPos ) / 150; // - _WorldSpaceCameraPos
+		//depth = 1;
 
 		float t = _Seed;
 
@@ -79,9 +78,16 @@
 		//the normals used in this rim function are deformed by our rimtexture giving part of the main effect of the shader
 		half rim = 1 - saturate(dot(normalize(IN.viewDir), o.Normal));
 		half oppositeside = saturate(dot(normalize(IN.viewDir), -o.Normal));
-
-		o.Alpha = 1 - pow(rim, _RimPower) + cnoise(n + _Seed) + cnoise(n *50 + _Seed)*.25 + pow(oppositeside, _RimPower);
+		o.Alpha = 1 - pow(rim, _RimPower) + noise(n * 5 + _Seed)*.01 + noise(n * 25 + _Seed) * .25 + pow(oppositeside, _RimPower); // 
 	}
+
+	half4 LightingClouds(SurfaceOutput s, half3 lightDir, half atten) {
+		half4 c;
+		c.rgb = atten * s.Albedo;
+		c.a = s.Alpha;
+		return c;
+	}
+
 	ENDCG
 	}
 		FallBack "Diffuse"

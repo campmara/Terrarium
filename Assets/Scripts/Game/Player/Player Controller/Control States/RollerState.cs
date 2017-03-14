@@ -23,38 +23,46 @@ public class RollerState : MonoBehaviour
 	// H E L P E R  M E T H O D S
 	// ==========================
 
-	protected void HandlePickup()
+	protected void HandlePickup( PlayerArmIK.ArmType armType )
 	{
-		CheckForPickupObject();
+		CheckForPickupObject( armType );
 	}
 		
-	private void CheckForPickupObject()
+	private void CheckForPickupObject( PlayerArmIK.ArmType armType )
 	{
-		Vector3 _pickupCenter = _roller.transform.position + ( Vector3.up * RollerConstants.PICKUP_CHECKHEIGHT ) + _roller.transform.forward;
-
-		Collider[] overlapArray = Physics.OverlapSphere( _pickupCenter, RollerConstants.PICKUP_CHECKRADIUS );
-
-		if ( overlapArray.Length > 0 )
+		if( _roller.IK.ArmFocus == null )
 		{
-			Pickupable pickup = null;
-            //if the pickupable is a plant, we can only pick it up if it's still in seed stage
-            if( overlapArray.Length > 0 )
-            {
-                foreach ( Collider col in overlapArray )
-                {
-                    pickup = col.gameObject.GetComponent<Pickupable>();
-                    if ( pickup != null )
-                    {
-                        break;
-                    }
-                }
-            }            
+			Vector3 _pickupCenter = _roller.transform.position + ( Vector3.up * RollerConstants.PICKUP_CHECKHEIGHT ) + _roller.transform.forward;	
 
-			ObjectArmFocus( pickup );
+			Collider[] overlapArray = Physics.OverlapSphere( _pickupCenter, RollerConstants.PICKUP_CHECKRADIUS );
+
+			if ( overlapArray.Length > 0 )
+			{
+				Pickupable pickup = null;
+				//if the pickupable is a plant, we can only pick it up if it's still in seed stage
+				if( overlapArray.Length > 0 )
+				{
+					foreach ( Collider col in overlapArray )
+					{
+						pickup = col.gameObject.GetComponent<Pickupable>();
+						if ( pickup != null )
+						{
+							break;
+						}
+					}
+				}            
+
+				_roller.IK.SetArmTarget( pickup != null ? pickup.transform : null , armType );
+			}
 		}
+		else
+		{
+			_roller.IK.SetArmTarget( _roller.IK.ArmFocus, armType );
+		}
+		
 	}
 
-    protected void CheckForReachable( bool rightArmReaching )
+    protected void CheckForReachable( PlayerArmIK.ArmType armType )
     {
         Vector3 _pickupCenter = _roller.transform.position + ( Vector3.up * RollerConstants.PICKUP_CHECKHEIGHT );
 
@@ -63,35 +71,24 @@ public class RollerState : MonoBehaviour
         if (overlapArray.Length > 0)
         {           
             // Pick a random reach point
-            SetArmReach( overlapArray[Random.Range( 0, overlapArray.Length )].transform, rightArmReaching );
+            SetAmbientArmReach( overlapArray[Random.Range( 0, overlapArray.Length )].transform, armType );
         }
     }
 
-    private void SetArmReach( Transform reachable, bool rightArmReaching )
+    private void SetAmbientArmReach( Transform reachable, PlayerArmIK.ArmType armType )
     {
-        _roller.IK.SetReachTarget( reachable, rightArmReaching );
+        _roller.IK.SetAmbientReachTarget( reachable, armType );
     }
-
-	private void ObjectArmFocus( Pickupable pickup )
-	{
-		// update the ik
-		if (pickup != null )
-		{
-			_roller.IK.SetArmTarget( pickup.transform );
-		}		
-		else
-		{            
-            _roller.IK.SetArmTarget( null );
-		}
-	}
 
 	public void HandleGrabObject()
 	{
-		PickUpObject( _roller.IK.LeftArmTargetTrans.GetComponent<Pickupable>() );		
+		PickUpObject( _roller.IK.ArmFocus.GetComponent<Pickupable>() );		
 	}
 
 	private void PickUpObject( Pickupable pickup )
 	{
+		_roller.IK.HandleArmsGrab();
+
 		_roller.CurrentHeldObject = pickup;
 	    _roller.CurrentHeldObject.gameObject.layer = LayerMask.NameToLayer("HeldObject");
 		_roller.ChangeState( P_ControlState.PICKINGUP);		
@@ -99,23 +96,36 @@ public class RollerState : MonoBehaviour
 		AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_ACTIONFX, 1 );
 	}
 
-	protected void HandleDropHeldObject()
+	protected void HandleBothArmRelease()
 	{
-		DropHeldObject();
-	}
+		_roller.IK.LetGoBothArms();
 
-	void DropHeldObject()
-	{
-		if (_roller.CurrentHeldObject != null)
+		if ( _roller.IK.ArmsIdle && _roller.CurrentHeldObject != null )
 		{
 		    _roller.CurrentHeldObject.gameObject.layer = LayerMask.NameToLayer("Default");  // TODO: make sure seeds go back to their original layer ? Do we reach for seeds?
 		    _roller.CurrentHeldObject.DropSelf();
 			_roller.CurrentHeldObject = null;
 		}
+	}
 
+	protected void HandleArmRelease( PlayerArmIK.ArmType armType )
+	{
+		DropHeldObject( armType );
+	}
+
+	void DropHeldObject( PlayerArmIK.ArmType armType )
+	{
 		// update the ik
-		_roller.IK.LetGo();
+		_roller.IK.LetGoOneArm( armType );
 
-		AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_ACTIONFX, 0 );
+		if ( _roller.IK.ArmsIdle && _roller.CurrentHeldObject != null )
+		{
+		    _roller.CurrentHeldObject.gameObject.layer = LayerMask.NameToLayer("Default");  // TODO: make sure seeds go back to their original layer ? Do we reach for seeds?
+		    _roller.CurrentHeldObject.DropSelf();
+			_roller.CurrentHeldObject = null;
+
+			AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_ACTIONFX, 0 );
+		}
+		
 	}
 }
