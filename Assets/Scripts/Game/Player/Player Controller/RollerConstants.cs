@@ -40,12 +40,14 @@ public static class RollerConstants
     // PICKUP
     public const float PICKUP_CHECKHEIGHT = 0.5f;
 	public const float PICKUP_CHECKRADIUS = 1.0f;
-	public const float PICKUP_FORWARDSCALAR = 0.8f;
-	public const float PICKUP_UPSCALAR = 1.1f;
-	public const float PICKUP_TIME = 0.75f;
+    public const float PICKUP_FORWARDSCALAR_PART1 = 0.58f;
+    public const float PICKUP_UPSCALAR_PART1 = 0.5f;
+    public const float PICKUP_FORWARDSCALAR_PART2 = 0.08f;
+	public const float PICKUP_UPSCALAR_PART2 = 2.0f;
+	public const float PICKUP_TIME = 0.75f;    
 
-	// IDLE
-	public const float IDLE_MAXMAG = 0.01f;
+    // IDLE
+    public const float IDLE_MAXMAG = 0.01f;
 	public const float IDLE_WAITTIME = 0.1f;
 
 	// TRANSITIONS
@@ -60,9 +62,10 @@ public static class RollerConstants
 	// PLANTING
 	public const float PLANTING_TIME = 0.75f;
 	public const float PLANTING_ENDY = 0f;
+    public const float PLANTING_ENDX = 1.25f;
 
-	// SINGING
-	public const float SINGING_RETURN_TIME = 0.6f;
+    // SINGING
+    public const float SINGING_RETURN_TIME = 0.6f;
     public const float PITCH_LERP_SPEED = 7f;
 
     public const float IK_TARGETWORLDSCALAR = 35.0f;
@@ -71,6 +74,8 @@ public static class RollerConstants
     public const float IK_REACH_CHECKRADIUS = 8.0f;
     public const float IK_REACH_WAITMIN = 1.5f;
     public const float IK_REACH_WAITMAX = 10.0f;
+
+    
 }
 
 

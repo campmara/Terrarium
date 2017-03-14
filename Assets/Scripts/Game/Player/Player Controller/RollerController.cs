@@ -284,7 +284,7 @@ public class RollerController : ControllerBase
 			
 			// So player continues turning even after InputUp
 
-			transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, maxTurnSpeed * Time.deltaTime);
+			_rigidbody.MoveRotation( Quaternion.Slerp( transform.rotation, _targetRotation, maxTurnSpeed * Time.deltaTime ) );
 		}
 		else if ( _velocity > 0f )
 		{
@@ -385,9 +385,4 @@ public class RollerController : ControllerBase
 
         AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_TRANSITIONFX, 1 );
 	}
-
-    public void PlayFootstep()
-    {
-        AudioManager.instance.PlayRandomAudioClip( AudioManager.AudioControllerNames.PLAYER_FOOTSTEPS );
-    }
 }
