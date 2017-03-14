@@ -10,7 +10,7 @@
 	}
 		SubShader
 		{
-			Tags{ "RenderType" = "Transparent" "Queue" = "AlphaTest"}
+			Tags{ "RenderType" = "Geometry" "Queue" = "AlphaTest" }
 			LOD 200
 
 			Cull Off
