@@ -923,7 +923,7 @@ Prefab:
         type: 2}
       propertyPath: _pond
       value: 
-      objectReference: {fileID: 2028772720}
+      objectReference: {fileID: 0}
     - target: {fileID: 114804556110679380, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
         type: 2}
       propertyPath: _ground
@@ -1052,12 +1052,10 @@ Prefab:
       propertyPath: m_ReceiveShadows
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4200001319709768, guid: 729a7e306b18e428280ad642238a823a, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 729a7e306b18e428280ad642238a823a, type: 2}
   m_IsPrefabParent: 0
---- !u!114 &2028772720 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114502133834696186, guid: 729a7e306b18e428280ad642238a823a,
-    type: 2}
-  m_PrefabInternal: {fileID: 2028772719}
-  m_Script: {fileID: 11500000, guid: 1b0314ee535f7d3419607289f39822fb, type: 3}

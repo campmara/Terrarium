@@ -1449,9 +1449,10 @@ MonoBehaviour:
   _armType: 0
   _armState: 0
   _armTargetTransform: {fileID: 0}
-  _armSpeedNoTarget: 7
-  _armSpeedTarget: 10
+  _armTargetLerpSpeed: 7
+  _armIKLerpSpeed: 15
   _armTargetPos: {x: 0, y: 0, z: 0}
+  _armGrabSpeed: 20
   _armReachInterp: 0
 --- !u!114 &114259314273431226
 MonoBehaviour:
@@ -1799,9 +1800,10 @@ MonoBehaviour:
   _armType: 0
   _armState: 0
   _armTargetTransform: {fileID: 0}
-  _armSpeedNoTarget: 7
-  _armSpeedTarget: 0.015
+  _armTargetLerpSpeed: 7
+  _armIKLerpSpeed: 15
   _armTargetPos: {x: 0, y: 0, z: 0}
+  _armGrabSpeed: 20
   _armReachInterp: 0
 --- !u!114 &114850895054587912
 MonoBehaviour:
@@ -1818,9 +1820,10 @@ MonoBehaviour:
   _armType: 1
   _armState: 0
   _armTargetTransform: {fileID: 0}
-  _armSpeedNoTarget: 7
-  _armSpeedTarget: 10
+  _armTargetLerpSpeed: 7
+  _armIKLerpSpeed: 15
   _armTargetPos: {x: 0, y: 0, z: 0}
+  _armGrabSpeed: 20
   _armReachInterp: 0
 --- !u!114 &114934515498532584
 MonoBehaviour:

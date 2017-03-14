@@ -4,6 +4,7 @@ public class FootTrigger : MonoBehaviour
 {
 	void OnTriggerEnter(Collider other)
 	{
-		GroundManager.instance.Ground.DrawSplatDecal(transform.position, 0.25f);
+        AudioManager.instance.PlayRandomAudioClip( AudioManager.AudioControllerNames.PLAYER_FOOTSTEPS );
+        GroundManager.instance.Ground.DrawSplatDecal(transform.position, 0.25f);
 	}
 }

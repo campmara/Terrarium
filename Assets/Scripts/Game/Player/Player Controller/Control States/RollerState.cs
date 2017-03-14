@@ -100,7 +100,7 @@ public class RollerState : MonoBehaviour
 	{
 		_roller.IK.LetGoBothArms();
 
-		if ( _roller.IK.ArmsIdle && _roller.CurrentHeldObject != null )
+		if ( _roller.CurrentHeldObject != null )
 		{
 		    _roller.CurrentHeldObject.gameObject.layer = LayerMask.NameToLayer("Default");  // TODO: make sure seeds go back to their original layer ? Do we reach for seeds?
 		    _roller.CurrentHeldObject.DropSelf();
