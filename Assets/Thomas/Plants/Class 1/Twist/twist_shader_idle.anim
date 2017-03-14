@@ -23,20 +23,20 @@ AnimationClip:
         time: 0
         value: 11
         inSlope: 0
-        outSlope: 0
-        tangentMode: 136
+        outSlope: 14
+        tangentMode: 69
       - serializedVersion: 2
         time: 0.5
         value: 18
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
+        inSlope: 14
+        outSlope: -16
+        tangentMode: 69
       - serializedVersion: 2
         time: 1
         value: 10
-        inSlope: 0
+        inSlope: -16
         outSlope: 0
-        tangentMode: 136
+        tangentMode: 69
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -87,20 +87,20 @@ AnimationClip:
         time: 0
         value: 11
         inSlope: 0
-        outSlope: 0
-        tangentMode: 136
+        outSlope: 14
+        tangentMode: 69
       - serializedVersion: 2
         time: 0.5
         value: 18
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
+        inSlope: 14
+        outSlope: -16
+        tangentMode: 69
       - serializedVersion: 2
         time: 1
         value: 10
-        inSlope: 0
+        inSlope: -16
         outSlope: 0
-        tangentMode: 136
+        tangentMode: 69
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
