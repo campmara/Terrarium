@@ -1,36 +1,36 @@
 fileFormatVersion: 2
-guid: 7f0074bb9df3e174db6feea795b6c60d
-timeCreated: 1489100363
+guid: 17e02633b4158c246a2f3eb7920d9145
+timeCreated: 1489533147
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: Stem
-    100004: stem_b00
-    100006: stem_b01
-    100008: stem_b02
-    100010: stem_b03
-    100012: stem_b04
-    100014: stem_b05
-    100016: stem_b06
-    100018: stem_b07
-    100020: stem_b08
-    100022: stem_b09
-    400000: //RootNode
-    400002: Stem
-    400004: stem_b00
-    400006: stem_b01
-    400008: stem_b02
-    400010: stem_b03
-    400012: stem_b04
-    400014: stem_b05
-    400016: stem_b06
-    400018: stem_b07
-    400020: stem_b08
-    400022: stem_b09
+    100000: b_stem00
+    100002: b_stem01
+    100004: b_stem02
+    100006: b_stem03
+    100008: b_stem04
+    100010: b_stem05
+    100012: b_stem06
+    100014: b_stem07
+    100016: b_stem08
+    100018: b_stem09
+    100020: //RootNode
+    100022: Stem
+    400000: b_stem00
+    400002: b_stem01
+    400004: b_stem02
+    400006: b_stem03
+    400008: b_stem04
+    400010: b_stem05
+    400012: b_stem06
+    400014: b_stem07
+    400016: b_stem08
+    400018: b_stem09
+    400020: //RootNode
+    400022: Stem
     4300000: Stem
-    7400000: 'Grow 1 '
+    7400000: Grow 1
     7400002: Grow 2
     7400004: Grow 3
     9500000: //RootNode
@@ -57,7 +57,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: 'Grow 1 '
+      name: Grow 1
       takeName: Take 001
       firstFrame: 0
       lastFrame: 13
@@ -83,27 +83,27 @@ ModelImporter:
       transformMask:
       - path: 
         weight: 1
+      - path: b_stem00
+        weight: 1
+      - path: b_stem00/b_stem01
+        weight: 1
+      - path: b_stem00/b_stem01/b_stem02
+        weight: 1
+      - path: b_stem00/b_stem01/b_stem02/b_stem03
+        weight: 1
+      - path: b_stem00/b_stem01/b_stem02/b_stem03/b_stem04
+        weight: 1
+      - path: b_stem00/b_stem01/b_stem02/b_stem03/b_stem04/b_stem05
+        weight: 1
+      - path: b_stem00/b_stem01/b_stem02/b_stem03/b_stem04/b_stem05/b_stem06
+        weight: 1
+      - path: b_stem00/b_stem01/b_stem02/b_stem03/b_stem04/b_stem05/b_stem06/b_stem07
+        weight: 1
+      - path: b_stem00/b_stem01/b_stem02/b_stem03/b_stem04/b_stem05/b_stem06/b_stem07/b_stem08
+        weight: 1
+      - path: b_stem00/b_stem01/b_stem02/b_stem03/b_stem04/b_stem05/b_stem06/b_stem07/b_stem08/b_stem09
+        weight: 1
       - path: Stem
-        weight: 1
-      - path: stem_b00
-        weight: 1
-      - path: stem_b00/stem_b01
-        weight: 1
-      - path: stem_b00/stem_b01/stem_b02
-        weight: 1
-      - path: stem_b00/stem_b01/stem_b02/stem_b03
-        weight: 1
-      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04
-        weight: 1
-      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04/stem_b05
-        weight: 1
-      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04/stem_b05/stem_b06
-        weight: 1
-      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04/stem_b05/stem_b06/stem_b07
-        weight: 1
-      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04/stem_b05/stem_b06/stem_b07/stem_b08
-        weight: 1
-      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04/stem_b05/stem_b06/stem_b07/stem_b08/stem_b09
         weight: 1
       maskType: 3
       maskSource: {instanceID: 0}
@@ -135,27 +135,27 @@ ModelImporter:
       transformMask:
       - path: 
         weight: 1
+      - path: b_stem00
+        weight: 1
+      - path: b_stem00/b_stem01
+        weight: 1
+      - path: b_stem00/b_stem01/b_stem02
+        weight: 1
+      - path: b_stem00/b_stem01/b_stem02/b_stem03
+        weight: 1
+      - path: b_stem00/b_stem01/b_stem02/b_stem03/b_stem04
+        weight: 1
+      - path: b_stem00/b_stem01/b_stem02/b_stem03/b_stem04/b_stem05
+        weight: 1
+      - path: b_stem00/b_stem01/b_stem02/b_stem03/b_stem04/b_stem05/b_stem06
+        weight: 1
+      - path: b_stem00/b_stem01/b_stem02/b_stem03/b_stem04/b_stem05/b_stem06/b_stem07
+        weight: 1
+      - path: b_stem00/b_stem01/b_stem02/b_stem03/b_stem04/b_stem05/b_stem06/b_stem07/b_stem08
+        weight: 1
+      - path: b_stem00/b_stem01/b_stem02/b_stem03/b_stem04/b_stem05/b_stem06/b_stem07/b_stem08/b_stem09
+        weight: 1
       - path: Stem
-        weight: 1
-      - path: stem_b00
-        weight: 1
-      - path: stem_b00/stem_b01
-        weight: 1
-      - path: stem_b00/stem_b01/stem_b02
-        weight: 1
-      - path: stem_b00/stem_b01/stem_b02/stem_b03
-        weight: 1
-      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04
-        weight: 1
-      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04/stem_b05
-        weight: 1
-      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04/stem_b05/stem_b06
-        weight: 1
-      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04/stem_b05/stem_b06/stem_b07
-        weight: 1
-      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04/stem_b05/stem_b06/stem_b07/stem_b08
-        weight: 1
-      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04/stem_b05/stem_b06/stem_b07/stem_b08/stem_b09
         weight: 1
       maskType: 3
       maskSource: {instanceID: 0}
@@ -187,27 +187,27 @@ ModelImporter:
       transformMask:
       - path: 
         weight: 1
+      - path: b_stem00
+        weight: 1
+      - path: b_stem00/b_stem01
+        weight: 1
+      - path: b_stem00/b_stem01/b_stem02
+        weight: 1
+      - path: b_stem00/b_stem01/b_stem02/b_stem03
+        weight: 1
+      - path: b_stem00/b_stem01/b_stem02/b_stem03/b_stem04
+        weight: 1
+      - path: b_stem00/b_stem01/b_stem02/b_stem03/b_stem04/b_stem05
+        weight: 1
+      - path: b_stem00/b_stem01/b_stem02/b_stem03/b_stem04/b_stem05/b_stem06
+        weight: 1
+      - path: b_stem00/b_stem01/b_stem02/b_stem03/b_stem04/b_stem05/b_stem06/b_stem07
+        weight: 1
+      - path: b_stem00/b_stem01/b_stem02/b_stem03/b_stem04/b_stem05/b_stem06/b_stem07/b_stem08
+        weight: 1
+      - path: b_stem00/b_stem01/b_stem02/b_stem03/b_stem04/b_stem05/b_stem06/b_stem07/b_stem08/b_stem09
+        weight: 1
       - path: Stem
-        weight: 1
-      - path: stem_b00
-        weight: 1
-      - path: stem_b00/stem_b01
-        weight: 1
-      - path: stem_b00/stem_b01/stem_b02
-        weight: 1
-      - path: stem_b00/stem_b01/stem_b02/stem_b03
-        weight: 1
-      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04
-        weight: 1
-      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04/stem_b05
-        weight: 1
-      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04/stem_b05/stem_b06
-        weight: 1
-      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04/stem_b05/stem_b06/stem_b07
-        weight: 1
-      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04/stem_b05/stem_b06/stem_b07/stem_b08
-        weight: 1
-      - path: stem_b00/stem_b01/stem_b02/stem_b03/stem_b04/stem_b05/stem_b06/stem_b07/stem_b08/stem_b09
         weight: 1
       maskType: 3
       maskSource: {instanceID: 0}
@@ -215,7 +215,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 5
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1

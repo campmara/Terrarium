@@ -18,8 +18,8 @@
 		CGPROGRAM
 
 #pragma surface surf Clouds alphatest:_Cutoff addshadow nofog
-
-	struct Input {
+#include "Noise.cginc"
+		struct Input {
 		float3 viewDir;
 		float3 worldPos;
 		float4 screenPos;
@@ -36,30 +36,9 @@
 	sampler2D _LightTextureB0;
 	float _HeightMultiplier;
 
-	float hash(float n)
-	{
-		return frac(sin(n)*43758.5453);
-	}
-
-	float noise(float3 x)
-	{
-		// The noise function returns a value in the range -1.0f -> 1.0f
-
-		float3 p = floor(x);
-		float3 f = frac(x);
-
-		f = f*f*(3.0 - 2.0*f);
-		float n = p.x + p.y*57.0 + 113.0*p.z;
-
-		return lerp(lerp(lerp(hash(n + 0.0), hash(n + 1.0), f.x),
-			lerp(hash(n + 57.0), hash(n + 58.0), f.x), f.y),
-			lerp(lerp(hash(n + 113.0), hash(n + 114.0), f.x),
-				lerp(hash(n + 170.0), hash(n + 171.0), f.x), f.y), f.z);
-	}
-
 	void surf(Input IN, inout SurfaceOutput o) {
-		float depth = length(IN.worldPos ) / 150; // - _WorldSpaceCameraPos
-		//depth = 1;
+		float depth = length(IN.worldPos) / 150; // - _WorldSpaceCameraPos
+												 //depth = 1;
 
 		float t = _Seed;
 
@@ -70,7 +49,7 @@
 		n.z = IN.worldPos.z * _NoiseScale.z;
 
 		float heightmul = clamp(IN.worldPos.y * _HeightMultiplier, 0, 1);
-		float4 fog = lerp(_MainColor, _SecondaryColor, heightmul*heightmul*clamp(depth, 0, 1));
+		float4 fog = lerp(_MainColor, _SecondaryColor,	heightmul*heightmul*clamp(depth, 0, 1));
 		o.Albedo = fog;
 		//o.Albedo = depth;
 		//o.Albedo = _MainColor;
@@ -78,7 +57,7 @@
 		//the normals used in this rim function are deformed by our rimtexture giving part of the main effect of the shader
 		half rim = 1 - saturate(dot(normalize(IN.viewDir), o.Normal));
 		half oppositeside = saturate(dot(normalize(IN.viewDir), -o.Normal));
-		o.Alpha = 1 - pow(rim, _RimPower) + noise(n * 5 + _Seed)*.01 + noise(n * 25 + _Seed) * .25 + pow(oppositeside, _RimPower); // 
+		o.Alpha = 1 - pow(rim, _RimPower) + wnoise(n * 5 + _Seed)*.01 + wnoise(n * 25 + _Seed) * .25 + pow(oppositeside, _RimPower); // 
 	}
 
 	half4 LightingClouds(SurfaceOutput s, half3 lightDir, half atten) {
