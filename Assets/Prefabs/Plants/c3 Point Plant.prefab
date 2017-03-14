@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 114143557252328216}
   - component: {fileID: 114280579108323062}
   m_Layer: 0
-  m_Name: pointstem
+  m_Name: c3 Point Plant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
