@@ -17,12 +17,14 @@ public class BPDeathController : PlantController
 	private float flyTimer = 0f;
 	private float flyPluckTime;
 
-	const float WIND_EFFECT = 0.1f;
+	const float WIND_EFFECT = 0.2f;
 	const float PLUCK_FORCE = 13f;
-	const float ASCEND_FORCE = 0.7f;
+	const float ASCEND_FORCE = 1.5f;
 
 	const float PLUCK_MIN_TIME = 0.5f;
 	const float PLUCK_MAX_TIME = 1.2f;
+
+	const float KILL_Y = 100f;
 
 	enum DeathState
 	{
@@ -98,6 +100,11 @@ public class BPDeathController : PlantController
 
 	protected virtual void FlyAway()
 	{
+		if (transform.position.y > KILL_Y)
+		{
+			PlantManager.instance.DeleteLargePlant(_myPlant);
+		}
+
 		_rb.isKinematic = false;
 		Vector3 upDir = ((Vector3.up * 5f) + (WeatherManager.instance.WindForce)).normalized;
 
@@ -119,6 +126,8 @@ public class BPDeathController : PlantController
 		// Apply a weird constant random rotation.
 		_rb.AddTorque(WeatherManager.instance.WindForce * WIND_EFFECT * Time.deltaTime);
 	}
+
+
 
 	void FadeColor()
 	{
