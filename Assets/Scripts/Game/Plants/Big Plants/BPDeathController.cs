@@ -13,6 +13,17 @@ public class BPDeathController : PlantController
 	Color[] _interpColors = new Color[3];
 	int[] _shaderIDs = new int[3];
 
+	private Rigidbody _rb;
+	private float flyTimer = 0f;
+	private float flyPluckTime;
+
+	const float WIND_EFFECT = 0.1f;
+	const float PLUCK_FORCE = 13f;
+	const float ASCEND_FORCE = 0.7f;
+
+	const float PLUCK_MIN_TIME = 0.5f;
+	const float PLUCK_MAX_TIME = 1.2f;
+
 	enum DeathState
 	{
 		Dying,
@@ -22,7 +33,10 @@ public class BPDeathController : PlantController
 	public override void Init()
 	{
 		_myPlant = GetComponent<BasePlant>();
+		_rb = GetComponent<Rigidbody>();
 		_controllerType = ControllerType.Death;
+
+		flyPluckTime = Random.Range(PLUCK_MIN_TIME, PLUCK_MAX_TIME);
 	}
 
 	public override void StartState()
@@ -84,7 +98,26 @@ public class BPDeathController : PlantController
 
 	protected virtual void FlyAway()
 	{
-		//while rising
+		_rb.isKinematic = false;
+		Vector3 upDir = ((Vector3.up * 5f) + (WeatherManager.instance.WindForce)).normalized;
+
+		// increment the fly flyTimer
+		flyTimer += Time.deltaTime;
+
+		// Apply an upward force.
+		if (flyTimer >= flyPluckTime)
+		{
+			// regular floating
+			_rb.AddForce(upDir * ASCEND_FORCE * Time.deltaTime, ForceMode.Impulse);
+		}
+		else
+		{
+			// pluck
+			_rb.AddForce(upDir * PLUCK_FORCE * Time.deltaTime, ForceMode.Impulse);
+		}
+		
+		// Apply a weird constant random rotation.
+		_rb.AddTorque(WeatherManager.instance.WindForce * WIND_EFFECT * Time.deltaTime);
 	}
 
 	void FadeColor()
