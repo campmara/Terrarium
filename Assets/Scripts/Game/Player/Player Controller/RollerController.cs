@@ -290,6 +290,11 @@ public class RollerController : ControllerBase
 		{
 			// Slowdown
 			_velocity -= moveDeceleration * Time.deltaTime;
+
+			if( _velocity < 0.0f )
+			{
+				_velocity = 0.0f;
+			}
 		}
 		else
 		{
@@ -308,6 +313,7 @@ public class RollerController : ControllerBase
 		_rigidbody.position = new Vector3(_rigidbody.position.x,
 											PondManager.instance.Pond.GetPondY(_rigidbody.position),
 											_rigidbody.position.z);
+
 		//_rigidbody.MovePosition( Vector3.Lerp(transform.position, _targetMovePosition, Mathf.Lerp( RollerConstants.BODY_MINMOVESPEED, bodyMoveSpeed, _headMoveSpeedInterp ) * Time.fixedDeltaTime ) );
 	}
 

@@ -47,51 +47,60 @@ public class WalkingState : RollerState
 
 	public override void HandleInput(InputCollection input)
 	{
-        // A BUTTON
-        if (input.LeftTrigger.WasPressed || input.RightTrigger.WasPressed)
+        // A BUTTON    
+        if ( ( input.LeftTrigger.WasPressed || input.RightTrigger.WasPressed ) )
         {
             // End coroutine waiting to see if the player should auto reach if the player inputs for arms  
-            if (_reachCoroutine != null)
+            if ( _reachCoroutine != null )
             {
                 StopCoroutine( _reachCoroutine );
                 _reachCoroutine = null;
             }
 
-            HandlePickup();
+            if ( input.LeftTrigger.WasPressed )
+            {
+                HandlePickup( PlayerArmIK.ArmType.LEFT );
+            }
+            if ( input.RightTrigger.WasPressed )
+            {
+                HandlePickup( PlayerArmIK.ArmType.RIGHT );
+            }
         }
-        //else if ( !_roller.IK.ArmsReaching && ( input.LeftTrigger.Value <= 0.0f || input.RightTrigger.Value <= 0.0f ) )
-        //{
-        //    if ( _reachCoroutine == null )
-        //    {
-        //        _reachCoroutine = StartCoroutine( ReachWaitRoutine() );
-        //    }
-        //}
-        else if( _roller.IK.ArmsReaching )   // If Arms Reaching
+
+        if( !_roller.IK.ArmsIdle )   // If Arms Reaching
         {
             // If triggers are released
-            if( input.LeftTrigger.Value <= 0.0f && input.RightTrigger.Value <= 0.0f )
-            {
-                HandleDropHeldObject();
-            }
-            else    // Else if triggers are held down... 
-            {
-                // Update how far the arms are reaching
-                _roller.UpdateArmReachIK( input.LeftTrigger.Value, input.RightTrigger.Value );
-                
+            //if( input.LeftTrigger.Value <= 0.0f && input.RightTrigger.Value <= 0.0f )
+            //{
+            //    HandleBothArmRelease();
+            //}            
+
+            if( input.RightTrigger.Value > 0.0f || input.LeftTrigger.Value > 0.0f )    // Else if triggers are held down... 
+            {                                
                 // If both triggers pulled down all the way
-                if ( _roller.IK.ArmTargetsSet && ( input.LeftTrigger.Value >= 1.0f && input.RightTrigger.Value >= 1.0f ))
+                if ( _roller.IK.ArmsTargetReaching && ( input.LeftTrigger.Value >= 1.0f && input.RightTrigger.Value >= 1.0f ) )
                 {
                     HandleGrabObject();
                 }
             }            
         }
+        else
+        {
+            if ( _reachCoroutine == null )
+            {
+                _reachCoroutine = StartCoroutine( ReachWaitRoutine() );
+            }
+        }
+
+        // Update how far the arms are reaching
+        _roller.UpdateArmReachIK( input.LeftTrigger.Value, input.RightTrigger.Value );
 
 		_roller.IKMovement(RollerConstants.WALK_SPEED, 
 									  RollerConstants.WALK_ACCELERATION, 
 									  RollerConstants.WALK_DECELERATION, 
 									  RollerConstants.WALK_TURN_SPEED);
 
-		if (_tween != null && _tween.IsPlaying())
+		if ( _tween != null && _tween.IsPlaying() )
 		{
 			return;
 		}
@@ -118,14 +127,14 @@ public class WalkingState : RollerState
 
     IEnumerator ReachWaitRoutine()
     {
-        Debug.Log( "Starting Reach Timer" );
+        //Debug.Log( "Starting Reach Timer" );
 
         yield return new WaitForSeconds( Random.Range( RollerConstants.IK_REACH_WAITMIN, RollerConstants.IK_REACH_WAITMAX ) );
 
-        Debug.Log( "Prepping Reach" );
+        //Debug.Log( "Prepping Reach" );
 
         // Flip to decide where arm is reaching
-        CheckForReachable( JohnTech.CoinFlip() );
+        CheckForReachable( JohnTech.CoinFlip() ? PlayerArmIK.ArmType.LEFT : PlayerArmIK.ArmType.RIGHT );
 
         _reachCoroutine = null;
     }

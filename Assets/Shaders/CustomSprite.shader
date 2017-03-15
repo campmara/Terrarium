@@ -1,10 +1,11 @@
 ﻿Shader "Custom/ShaderSpriteSheet" {
 	Properties {
-		_Color ("Color", Color) = (1,1,1,1)
+		_Color ("Color 1", Color) = (1,1,1,1)
+		_Color2 ("Color 2", Color) = (1,1,1,1)
+
 		_MainTex ("Albedo (RGB)", 2D) = "white" {}
 		_Columns("Columns", int) = 8
 		_Rows("Rows", int) = 3
-		//_FrameScale("Frame Scale", float) = 1
 		_FrameNumber ("Frame Number", int) = 0
 		_TotalFrames ("Total Number of Frames", int) = 1
 		_Cutoff ("Alpha Cutoff", Range(0,1)) = 1
@@ -31,12 +32,10 @@
 		int _Columns;
 		int _Rows;
 		fixed4 _Color;
+		fixed4 _Color2;
 		int _FrameNumber;
 		int _TotalFrames;
 		float _ToggleBillboard;
-
-		//float _FrameScale;
-
 
 		void vert(inout appdata_base v)
 		{
@@ -85,6 +84,8 @@
 			currentSprite.x -= rowIndex * _Columns * xOffPerFrame;
 
 			fixed4 c = tex2D (_MainTex, spriteSize + currentSprite) * _Color;
+			c.rgb = lerp(_Color, _Color2, c.r);
+
 			o.Albedo = c.rgb;
 			o.Alpha = c.a;
 		}
