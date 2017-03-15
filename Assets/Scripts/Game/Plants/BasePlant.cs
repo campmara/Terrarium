@@ -62,10 +62,10 @@ public class BasePlant : MonoBehaviour
 
 		foreach( PlantController control in _controllers )
 		{
+			control.Init();
 			if( control.ControlType == PlantController.ControllerType.Growth )
 			{
 				_activeController = control;
-				break;
 			}
 		}
 

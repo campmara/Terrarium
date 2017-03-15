@@ -15,6 +15,7 @@ public abstract class PlantController : MonoBehaviour
 		Unassigned
 	}
 
+	public abstract void Init();
 	public abstract void UpdateState();
 	public abstract void StopState();
 	public abstract void StartState();
@@ -26,6 +27,4 @@ public abstract class PlantController : MonoBehaviour
 	public abstract void TouchPlant();
 	public abstract void GrabPlant();
 	public abstract void StompPlant();
-
-	public virtual void FinishedGrowing(){}
 }

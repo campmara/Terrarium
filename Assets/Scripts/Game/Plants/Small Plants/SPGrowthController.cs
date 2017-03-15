@@ -24,7 +24,7 @@ public class SPGrowthController : PlantController
 
 	protected Rigidbody _rigidbody = null;
 
-	void Awake()
+	public override void Init()
 	{
 		_myPlant = GetComponent<BasePlant>();
 		_controllerType = ControllerType.Growth;

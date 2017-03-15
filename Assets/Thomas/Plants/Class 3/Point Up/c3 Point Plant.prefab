@@ -130,8 +130,8 @@ GameObject:
   - component: {fileID: 135460259765701704}
   - component: {fileID: 114489051819565388}
   - component: {fileID: 114887960489354722}
-  - component: {fileID: 114589028328963138}
   - component: {fileID: 114026638650390066}
+  - component: {fileID: 114336753827948082}
   m_Layer: 0
   m_Name: c3 Point Plant
   m_TagString: Untagged
@@ -318,7 +318,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1622798177204276}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 5.618227, y: 0.01, z: -1.5511771}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4622317588078864}
@@ -412,6 +412,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentPickupable: {fileID: 0}
   _lockedRotation: 1
+--- !u!114 &114336753827948082
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1622798177204276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c89c16775a3ab6747bd06c3a52a18944, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _baseGrowthRate: 0.1
+  _curStage: 0
+  _droppingItems:
+  - {fileID: 1808484651768524, guid: 1aa42e991932b6449927645456d98dca, type: 2}
+  _spawnables:
+  - {fileID: 1957489743728246, guid: 2e152ae3f797a491ca6ec5694d70fb63, type: 2}
+  _bStemRoot: {fileID: 4622317588078864}
+  _leafPrefab: {fileID: 1543003685192774, guid: 3b7612a57e8103346becf09c2a9c5c95,
+    type: 2}
 --- !u!114 &114489051819565388
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -426,26 +446,6 @@ MonoBehaviour:
   _pAssetKey: -1
   _DeathDurationRange: {x: 5, y: 10}
   _baseDecayRate: 1.5
---- !u!114 &114589028328963138
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1622798177204276}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 080f0cb5dcfc64ee99d5d9ac47120a21, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _baseGrowthRate: 0.1
-  _curStage: 0
-  _droppingItems:
-  - {fileID: 1527965070150554, guid: 33686b7f91d454047b4c00e8026b6d28, type: 2}
-  - {fileID: 1527965070150554, guid: 33686b7f91d454047b4c00e8026b6d28, type: 2}
-  _spawnables:
-  - {fileID: 1957489743728246, guid: 2e152ae3f797a491ca6ec5694d70fb63, type: 2}
-  _bStemRoot: {fileID: 4622317588078864}
-  _leafPrefab: {fileID: 100006, guid: 50b827d01b9ed0a49a251d4b05f0062c, type: 3}
 --- !u!114 &114887960489354722
 MonoBehaviour:
   m_ObjectHideFlags: 1
