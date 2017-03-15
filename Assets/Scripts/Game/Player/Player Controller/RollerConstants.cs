@@ -55,7 +55,7 @@ public static class RollerConstants
 	public const float TRANSITION_DECELERATION = 20f;
 
 	// RITUAL DANCE
-	public const float RITUAL_TIME = 5.5f;
+	public const float RITUAL_TIME = 4.5f;
 	public const float RITUAL_TURN_SPEED = 2000f;
     public const float RITUAL_COMPLETEWAIT = 1.0f;
 

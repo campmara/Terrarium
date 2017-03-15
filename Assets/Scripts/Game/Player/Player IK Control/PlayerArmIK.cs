@@ -51,7 +51,7 @@ public class PlayerArmIK : MonoBehaviour {
 
     private const float ARM_REACHDISTMAX = 8.0f;
     private const float ARM_REACHDISTMIN = 0.75f;
-
+    private const float ARM_REACHANGLEMAX = 90.0f;
 
 	// Use this for initialization
 	void Awake () 
@@ -126,8 +126,6 @@ public class PlayerArmIK : MonoBehaviour {
 				_armTargetLerpSpeed * Time.deltaTime);
         }
 
-        
-
         _armTargetPos = Vector3.Lerp( _armTargetPos, _armSpring.transform.position, _armTargetLerpSpeed * Time.deltaTime);
     }
 
@@ -195,11 +193,14 @@ public class PlayerArmIK : MonoBehaviour {
 
     void CheckReachConstraints( )
     {
-        float reachDist = ( this.transform.position - _armTargetTransform.position ).magnitude;
+        Vector3 reachDir = _armTargetTransform.position - this.transform.position;
+        float reachDist = reachDir.magnitude;
+        float reachAngle = Vector3.Angle( _parentIKController.transform.forward, _armTargetTransform.position );
 
         //Debug.Log( reachDist );
+        Debug.Log( reachAngle );
 
-        if ( reachDist > ARM_REACHDISTMAX )
+        if ( reachDist > ARM_REACHDISTMAX || reachAngle > ARM_REACHANGLEMAX )
         {
             // TODO: Make Droopy Sad : (
 

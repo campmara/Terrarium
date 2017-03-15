@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _creatureType: 0
-  _creatureObject: {fileID: 1868349424925914, guid: d0476fad2b1684ef6ab9188edbbfd7bc,
+  _creatureObject: {fileID: 1807727771728244, guid: db26640bf529c4c3a8a1484eeacd3699,
     type: 2}
   _creatureCount: 5
   _butterflyGradient:

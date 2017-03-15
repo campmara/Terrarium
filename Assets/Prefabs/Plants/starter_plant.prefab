@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 135113451896205310}
   - component: {fileID: 114092344845318102}
   - component: {fileID: 114098142030374966}
+  - component: {fileID: 114169642532466072}
   m_Layer: 12
   m_Name: starter_plant
   m_TagString: Untagged
@@ -387,7 +388,6 @@ MonoBehaviour:
   - {r: 0.654902, g: 0.60784316, b: 0.5058824, a: 0}
   - {r: 0.5058824, g: 0.43529412, b: 0.33333334, a: 0}
   - {r: 0.30980393, g: 0.26666668, b: 0.14901961, a: 0}
-  _DeathDurationRange: {x: 0, y: 10}
 --- !u!114 &114098142030374966
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -402,6 +402,18 @@ MonoBehaviour:
   _pAssetKey: -1
   _DeathDurationRange: {x: 5, y: 10}
   _baseDecayRate: 1.5
+--- !u!114 &114169642532466072
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1028824138140006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c41ac8717533e4dfe950929dae1318b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _carryable: 0
 --- !u!114 &114174503958260724
 MonoBehaviour:
   m_ObjectHideFlags: 1

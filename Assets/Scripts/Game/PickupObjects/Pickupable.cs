@@ -6,9 +6,16 @@ using UnityEngine;
 public class Pickupable : MonoBehaviour
 {
     protected Rigidbody _rigidbody;
+    protected Transform _grabTransform;
 
-    protected bool _carried = false;
-    public bool Carried { get { return _carried; } }
+    [SerializeField] protected bool _carryable = false;
+    public bool Carryable { get { return _carryable; } }
+
+    [SerializeField, ReadOnlyAttribute] protected bool _grabbed = false;
+    public bool Grabbed { get { return _grabbed; } }
+
+    protected float _grabberBurdenInterp = 0.0f;
+    public float GrabberBurdenInterp { get { return _grabberBurdenInterp; } }
 
     protected virtual void Awake()
     {
@@ -16,19 +23,32 @@ public class Pickupable : MonoBehaviour
     }
 
     // This gets called when we pick up the object. Pickupable controls its own rigidbody.
-    public virtual void OnPickup()
+    public virtual void OnPickup( Transform grabTransform )
     {
-        _carried = true;
+        _grabbed = true;
+        _grabTransform = grabTransform;
+        _grabberBurdenInterp = 0.0f;
         _rigidbody.useGravity = false;
         _rigidbody.isKinematic = true;
 
+        if( this.GetComponent<PickupCollider>() != null )
+        {
+            this.GetComponent<PickupCollider>().LockedRotation = false;
+        }
     }
 
     public virtual void DropSelf()
     {
-        _carried = false;
+        _grabbed = false;
+        _grabTransform = null;
+        _grabberBurdenInterp = 0.0f;
         transform.parent = null;
         _rigidbody.useGravity = true;
         _rigidbody.isKinematic = false;
+
+        if( this.GetComponent<PickupCollider>() != null )
+        {
+            this.GetComponent<PickupCollider>().LockedRotation = true;
+        }
     }
 }
