@@ -6,7 +6,7 @@ public class MoundDeathController : PlantController
 {
 	[SerializeField] Material _deadMaterial = null;
 
-	void Awake()
+	public override void Init()
 	{
 		_myPlant = GetComponent<BasePlant>();
 		_controllerType = ControllerType.Death;

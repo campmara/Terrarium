@@ -23,7 +23,7 @@ public class MoundGrowthController : PlantController
 	const float _deathProbability = 15.0f; // probability out of 100
 	bool _canLive = true;
 
-	void Awake()
+	public override void Init()
 	{
 		_myPlant = GetComponent<BasePlant>();
 		_controllerType = ControllerType.Growth;
