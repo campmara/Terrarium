@@ -11,6 +11,9 @@
 
 	public override void Execute()
 	{
-		PlantManager.instance.SpawnMini( _plant );
+		if (_plant)
+		{
+			PlantManager.instance.SpawnMini( _plant );
+		}
 	}
 }
