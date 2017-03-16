@@ -629,11 +629,6 @@ Prefab:
       propertyPath: _pond
       value: 
       objectReference: {fileID: 2028772720}
-    - target: {fileID: 114481791995722538, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
-        type: 2}
-      propertyPath: m_Color.a
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 17e7204e7259943eaa4ae4fd5f6f0e54, type: 2}
   m_IsPrefabParent: 0

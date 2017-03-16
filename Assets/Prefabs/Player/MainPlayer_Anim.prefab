@@ -1446,6 +1446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _armSpring: {fileID: 145801016285384142}
+  _face: {fileID: 114087498708826506}
   _armType: 0
   _armState: 0
   _armTargetTransform: {fileID: 0}
@@ -1797,6 +1798,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _armSpring: {fileID: 145801016285384142}
+  _face: {fileID: 0}
   _armType: 0
   _armState: 0
   _armTargetTransform: {fileID: 0}
@@ -1817,6 +1819,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _armSpring: {fileID: 145753068842862206}
+  _face: {fileID: 114087498708826506}
   _armType: 1
   _armState: 0
   _armTargetTransform: {fileID: 0}

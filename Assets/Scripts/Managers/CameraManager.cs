@@ -182,6 +182,10 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 
                 // Move towards new focus center
 				_mainCam.transform.position = Vector3.Lerp( _mainCam.transform.position, _focusPoint + _camOffset, CAM_FOLLOWSPEED * Time.fixedDeltaTime );
+                if (_mainCam.transform.position.y < 0.0f)
+                {
+                    _mainCam.transform.SetPosY( 0.0f );
+                }
 
                 // Rotate Around Camera around player if Right stick horizontal movement
                 //      Done After b/c cam stutters if done before position change

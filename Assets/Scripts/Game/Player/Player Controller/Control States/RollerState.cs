@@ -71,16 +71,7 @@ public class RollerState : MonoBehaviour
         Collider[] overlapArray = Physics.OverlapSphere( _pickupCenter, RollerConstants.IK_REACH_CHECKRADIUS, 1 << LayerMask.NameToLayer("Touchable") );
 
         if (overlapArray.Length > 0)
-        {
-            // Pick a random reach point
-            if (JohnTech.CoinFlip())
-            {
-                _roller.Face.BecomeInterested();
-            }
-            else
-            {
-                _roller.Face.BecomeDesirous();
-            }
+        {            
             SetAmbientArmReach( overlapArray[Random.Range( 0, overlapArray.Length )].transform, armType );
         }
     }
