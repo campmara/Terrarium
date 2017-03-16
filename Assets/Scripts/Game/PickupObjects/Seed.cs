@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Seed : Pickupable 
 {
@@ -15,6 +16,8 @@ public class Seed : Pickupable
 
 	const int  _selfPlantProbability = 75;
 	const float _searchRadius = 30.0f;
+
+	Tween _sinkTween = null;
 
 	void Update()
 	{
@@ -33,6 +36,11 @@ public class Seed : Pickupable
 
     public override void OnPickup( Transform grabTransform )
 	{
+		if (_sinkTween != null)
+		{
+			_sinkTween.Rewind();
+		}
+
 		base.OnPickup( grabTransform );
 	}
 
@@ -47,7 +55,22 @@ public class Seed : Pickupable
 		Vector3 plantPos = new Vector3( transform.position.x, 0.0f, transform.position.z ); 
 		GameObject mound = Instantiate( _moundPrefab, plantPos, Quaternion.identity ) as GameObject; 
 		PlantManager.instance.AddMound( mound.GetComponent<BasePlant>()  );
+		GroundManager.instance.EmitDirtParticles(plantPos);
 		gameObject.SetActive(false);
+	}
+
+	void BeginSelfPlant()
+	{
+		Transform child = transform.GetChild(0);
+		Vector3 endPos = child.position + (Vector3.down * 0.36f);
+		float sinkTime = Random.Range(10f, 20f);
+
+		_sinkTween = child.DOMove(endPos, sinkTime).OnComplete(EndSelfPlant);
+	}
+
+	void EndSelfPlant()
+	{
+		TryPlanting();
 	}
 
 	void OnCollisionEnter( Collision col ) 
@@ -61,7 +84,7 @@ public class Seed : Pickupable
 
 				if( dieRoll <= _selfPlantProbability )
 				{
-					TryPlanting();
+					BeginSelfPlant();
 				}
 
 				_hasFallen = true;

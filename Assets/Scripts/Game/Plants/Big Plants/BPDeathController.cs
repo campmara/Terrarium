@@ -17,14 +17,14 @@ public class BPDeathController : PlantController
 	private float flyTimer = 0f;
 	private float flyPluckTime;
 
-	const float WIND_EFFECT = 0.2f;
-	const float PLUCK_FORCE = 13f;
-	const float ASCEND_FORCE = 1.5f;
+	const float WIND_EFFECT = 2f;
+	const float PLUCK_FORCE = 17f;
+	const float ASCEND_FORCE = 2.25f;
 
 	const float PLUCK_MIN_TIME = 0.5f;
 	const float PLUCK_MAX_TIME = 1.2f;
 
-	const float KILL_Y = 100f;
+	const float KILL_Y = 30f;
 
 	enum DeathState
 	{
@@ -95,6 +95,7 @@ public class BPDeathController : PlantController
 		else
 		{
 			_curState = DeathState.Flying;
+			GroundManager.instance.EmitDirtParticles(transform.position, 1f);
 		}
 	}
 
