@@ -695,7 +695,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdf67534fde86f9418177ce0dc8a2c37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _windInterp: 0
+  _windInterp: 0.225
   _waveDir: {x: 1, y: 0, z: 0}
 --- !u!114 &114613613601675322
 MonoBehaviour:
@@ -922,13 +922,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _seedAssetList:
-  - {fileID: 1527965070150554, guid: 33686b7f91d454047b4c00e8026b6d28, type: 2}
+  - {fileID: 0}
   _groundCoverAssetList:
-  - {fileID: 1858957961874388, guid: 7f7cf89e0464249b59a2c548ec42dd9b, type: 2}
+  - {fileID: 0}
   _plantableAssetList:
-  - {fileID: 1957489743728246, guid: 2e152ae3f797a491ca6ec5694d70fb63, type: 2}
-  _growableAssetList:
-  - {fileID: 1028824138140006, guid: b116cff499e3a4c14b3a2b78496f3139, type: 2}
+  - {fileID: 0}
+  _BasePlantAssetList: []
 --- !u!114 &114941952725714932
 MonoBehaviour:
   m_ObjectHideFlags: 1
