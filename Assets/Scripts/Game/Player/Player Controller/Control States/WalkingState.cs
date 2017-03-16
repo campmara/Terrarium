@@ -129,12 +129,6 @@ public class WalkingState : RollerState
 		{
 			_roller.ChangeState( P_ControlState.SING);
 		}
-
-        // Left Stick Button
-        if (input.LeftStickButton.IsPressed)
-        {
-            _roller.ChangeState(P_ControlState.SIT);
-        }
     }
 
     void IdleTimer(InputCollection input)
@@ -146,6 +140,14 @@ public class WalkingState : RollerState
         if (input.ActiveDevice.AnyButtonIsPressed || vec.magnitude >= 0.25f)
         {
             _idleTimer = 0f;
+        }
+        else
+        {
+            // Left Stick Button
+            if (input.LeftStickButton.IsPressed)
+            {
+                _roller.ChangeState(P_ControlState.SIT);
+            }
         }
 
         if (_idleTimer >= RollerConstants.IDLE_SITTING_TIMER)

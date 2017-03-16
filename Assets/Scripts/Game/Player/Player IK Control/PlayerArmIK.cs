@@ -175,16 +175,18 @@ public class PlayerArmIK : MonoBehaviour {
 
     private void HandleGrabbing()
     {
-        // Each arm offseted differently. should be done in animation idk
-        if( _armType == ArmType.LEFT )
-        {
-            _armTargetPos = Vector3.Lerp( _armTargetPos, Vector3.Lerp( _armSpring.transform.position, _armTargetTransform.position - ( _parentIKController.transform.right * _armGrabOffset ), _armReachInterp ), _armGrabSpeed * Time.deltaTime );
-        }
-        else
-        {
-            _armTargetPos = Vector3.Lerp( _armTargetPos, Vector3.Lerp( _armSpring.transform.position, _armTargetTransform.position + ( _parentIKController.transform.right * _armGrabOffset ), _armReachInterp ), _armGrabSpeed * Time.deltaTime );
-        }
-        
+		if( _armTargetTransform != null )
+		{
+			// Each arm offseted differently. should be done in animation idk
+			if( _armType == ArmType.LEFT )
+			{
+				_armTargetPos = Vector3.Lerp( _armTargetPos, Vector3.Lerp( _armSpring.transform.position, _armTargetTransform.position - ( _parentIKController.transform.right * _armGrabOffset ), _armReachInterp ), _armGrabSpeed * Time.deltaTime );
+			}
+			else
+			{
+				_armTargetPos = Vector3.Lerp( _armTargetPos, Vector3.Lerp( _armSpring.transform.position, _armTargetTransform.position + ( _parentIKController.transform.right * _armGrabOffset ), _armReachInterp ), _armGrabSpeed * Time.deltaTime );
+			}
+		}                
     }
 
     public void SetArmTargetTransform( Transform target )

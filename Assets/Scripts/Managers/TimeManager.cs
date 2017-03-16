@@ -125,7 +125,6 @@ public class TimeManager : SingletonBehaviour<TimeManager>
 		}
 	}
 
-
 	public void ChangeState( TimeState newState )
 	{
 		_curState = newState;

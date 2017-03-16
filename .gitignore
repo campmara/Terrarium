@@ -31,4 +31,4 @@ sysinfo.txt
 *.unitypackage
 Assets/Easy Save 2/Disabled\.meta
 
-\.vscode/launch\.json
+.vscode/launch.json

@@ -32,22 +32,45 @@ public class CarryState : RollerState
 
 	public override void HandleInput(InputCollection input)
 	{
-		RollerParent.IKMovement( Mathf.Lerp( RollerConstants.CARRY_SPEED, 0.0f, _roller.CurrentHeldObject.GrabberBurdenInterp ),
-									  RollerConstants.WALK_ACCELERATION,
-									  RollerConstants.WALK_DECELERATION,
-									  RollerConstants.CARRY_TURN_SPEED );
-
-        if (input.AButton.IsPressed)
+		if( RollerParent.CurrentHeldObject != null )
 		{
-            // NOTE: Should only happen for seeds ?
-			_roller.ChangeState( P_ControlState.PLANTING);
-		}
+			RollerParent.IKMovement( Mathf.Lerp( RollerConstants.CARRY_SPEED, 0.0f, _roller.CurrentHeldObject.GrabberBurdenInterp ),
+				RollerConstants.WALK_ACCELERATION,
+				RollerConstants.WALK_DECELERATION,
+				RollerConstants.CARRY_TURN_SPEED );
 
-		// Drop if you release the controller triggers...
-		if ( !_roller.CurrentHeldObject.Grabbed || input.LeftTrigger.Value < 1.0f || input.RightTrigger.Value < 1.0f )
+			if( !RollerParent.CurrentHeldObject.Carryable )
+			{
+				if( RollerParent.CurrentHeldObject.GetComponent<SmallPlantPickupable>() )
+				{
+					if( RollerParent.InputVec.magnitude > 0.1f )
+					{
+						RollerParent.CurrentHeldObject.GetComponent<SmallPlantPickupable>().IncrementTug();	
+					}
+					else
+					{
+						RollerParent.CurrentHeldObject.GetComponent<SmallPlantPickupable>().ResetTug();
+					}
+
+				}
+			}
+
+			if (input.AButton.IsPressed)
+			{
+				// NOTE: Should only happen for seeds ?
+				_roller.ChangeState( P_ControlState.PLANTING);
+			}
+
+			// Drop if you release the controller triggers...
+			if ( !_roller.CurrentHeldObject.Grabbed || input.LeftTrigger.Value < 1.0f || input.RightTrigger.Value < 1.0f )
+			{
+				_roller.ChangeState( P_ControlState.WALKING);
+			}
+		}
+		else
 		{
 			_roller.ChangeState( P_ControlState.WALKING);
-		}	
-        	
+		}
+
 	}
 }

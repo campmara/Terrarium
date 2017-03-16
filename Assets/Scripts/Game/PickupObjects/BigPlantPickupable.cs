@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BigPlantPickupable : Pickupable {
 
-	const float BIGPLANT_MINTUGDIST = 0.15f;	
-	const float BIGPLANT_MAXTUGDIST = 1.76f;	
+	const float BIGPLANT_MINTUGDIST = 0.25f;	
+	const float BIGPLANT_MAXTUGDIST = 1.8f;	
 	
 	Vector3 _grabberDirection = Vector3.zero;
 	const float BIGPLANT_TUGANGLE_MAXOFFSET = 2.0f;
@@ -48,10 +48,7 @@ public class BigPlantPickupable : Pickupable {
 	{
 		_grabbed = false;
 		_grabTransform = null;
-				
-		_grabberDirection = Vector3.zero;
-		_tugDirection = Quaternion.identity;
-		_grabberBurdenInterp = 0.0f;
+
 
 		// Rotate plant back to being upright
 		StartCoroutine( DelayedReleaseBigPlant() );
@@ -60,6 +57,24 @@ public class BigPlantPickupable : Pickupable {
 
 	IEnumerator DelayedReleaseBigPlant()
 	{
+		Vector3 springDirection = Vector3.Reflect( -_grabberDirection, Vector3.up );
+		float springInterp = _grabberBurdenInterp * 0.75f;
+		Quaternion springTarget = Quaternion.FromToRotation( Vector3.up, Vector3.Slerp( Vector3.up, springDirection, Mathf.Lerp( 0.0f, BIGPLANT_TUGANGLE_MAX, springInterp ) ) );
+
+		while( springInterp > _grabberBurdenInterp * 0.05f )
+		{
+			while( Quaternion.Angle( this.transform.rotation, springTarget ) > 1.0f )
+			{
+				transform.rotation = Quaternion.Slerp(transform.rotation, springTarget, BIGPLANT_TUGANGLE_RETURNSPEED * 2.5f * Time.deltaTime);
+
+				yield return 0;
+			}
+
+			springDirection = Vector3.Reflect( -springDirection, Vector3.up );
+			springInterp *=  0.5f;
+			springTarget = Quaternion.FromToRotation( Vector3.up, Vector3.Slerp( Vector3.up, springDirection, Mathf.Lerp( 0.0f, BIGPLANT_TUGANGLE_MAX, springInterp ) ) );
+		}
+
 		while( Quaternion.Angle( this.transform.rotation, Quaternion.identity ) > 0.0f )
 		{
 			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.identity, BIGPLANT_TUGANGLE_RETURNSPEED * Time.deltaTime);
@@ -68,6 +83,10 @@ public class BigPlantPickupable : Pickupable {
 		}
 
 		this.transform.rotation = Quaternion.identity;
+
+		_grabberBurdenInterp = 0.0f;
+		_grabberDirection = Vector3.zero;
+		_tugDirection = Quaternion.identity;
 
         if (this.GetComponent<PickupCollider>() != null)
         {
