@@ -8,6 +8,8 @@ public class PlayerArmIK : MonoBehaviour {
     PlayerIKControl _parentIKController = null;
     CCDIK _armIK = null;
     [SerializeField] SpringJoint _armSpring = null;
+    [SerializeField]
+    FaceManager _face = null;
 
     public enum ArmType : int
     {
@@ -195,20 +197,22 @@ public class PlayerArmIK : MonoBehaviour {
     {
         Vector3 reachDir = _armTargetTransform.position - this.transform.position;
         float reachDist = reachDir.magnitude;
-        float reachAngle = Vector3.Angle( _parentIKController.transform.forward, _armTargetTransform.position );
+        float reachAngle = Vector3.Angle( _parentIKController.transform.forward, reachDir );
 
         //Debug.Log( reachDist );
-        Debug.Log( reachAngle );
+        //Debug.Log( reachAngle );
 
         if ( reachDist > ARM_REACHDISTMAX || reachAngle > ARM_REACHANGLEMAX )
         {
             // TODO: Make Droopy Sad : (
+            _face.BecomeSad();
 
             ReleaseTargetTransform();
         }
         else if ( reachDist < ARM_REACHDISTMIN )
         {
             // TODO: Make Droopy Happy : )
+            _face.BecomeHappy();
 
             ReleaseTargetTransform();
         }
@@ -225,8 +229,21 @@ public class PlayerArmIK : MonoBehaviour {
 
     public void SetAmbientReachTransform( Transform reachTrans )
     {
-        if( _armState == ArmIKState.IDLE )
-        {            
+        Vector3 reachDir = reachTrans.position - this.transform.position;
+        float reachAngle = Vector3.Angle( _parentIKController.transform.forward, reachDir.normalized );
+
+        if ( _armState == ArmIKState.IDLE || reachAngle < ARM_REACHANGLEMAX )
+        {
+            // Pick a random reach point
+            if (JohnTech.CoinFlip())
+            {
+                _face.BecomeInterested();
+            }
+            else
+            {
+                _face.BecomeDesirous();
+            }
+
             _armTargetTransform = reachTrans;
 
             SetArmState( ArmIKState.AMBIENT_REACHING );

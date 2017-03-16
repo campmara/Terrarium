@@ -8,7 +8,7 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
     #region Wind Values
 
     // Determines how far inbetween each Min/Max value the wind is
-    [ReadOnlyAttribute, SerializeField] float _windInterp = 0.0f;
+    [SerializeField] float _windInterp = 0.0f;
 
     // World direction of wind
     [ReadOnlyAttribute, SerializeField] Vector3 _waveDir = Vector3.right;
@@ -61,14 +61,15 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
     // Use this for initialization
     void Awake ()
     {
-		
-	}
-
+        
+    }
+    
     public override void Initialize()
     {
         UpdateWindShaderValues();
+        UpdateWindDirection();
 
-        HandleWindWait( true );
+        //HandleWindWait( true );
 
         isInitialized = true;
     }
