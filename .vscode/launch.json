@@ -1,14 +1,4 @@
 {
-<<<<<<< HEAD
-	"version":"0.2.0",
-	"configurations":[ 
-		{
-			"name":"Unity",
-			"type":"mono",
-			"request":"attach",
-			"address":"localhost",
-			"port":56389
-=======
 	"version": "0.2.0",
 	"configurations": [
 		{
@@ -41,7 +31,6 @@
 			"type": "unity",
 			"request": "launch"
 
->>>>>>> master
 		}
 	]
 }
