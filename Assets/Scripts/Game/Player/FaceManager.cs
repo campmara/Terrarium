@@ -133,7 +133,7 @@ public class FaceManager : MonoBehaviour
         if (_blinkRoutine != null)
             StopCoroutine(_blinkRoutine);
 
-        _blinkRoutine = StartCoroutine(BlinkRoutine(Random.Range(1f, 6f)));
+        _blinkRoutine = StartCoroutine(BlinkRoutine(Random.Range(1f, 5f)));
     }
 
     private IEnumerator BlinkRoutine(float delay)

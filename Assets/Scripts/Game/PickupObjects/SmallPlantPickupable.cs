@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class SmallPlantPickupable : Pickupable {
 
-	
 	Vector3 _grabberDirection = Vector3.zero;
 
 	const float SMALLPLANT_MINTUGDIST = 0.25f;
-	const float SMALLPLANT_MAXTUGDIST = 1.5f;
+	const float SMALLPLANT_MAXTUGDIST = 1.0f;
 	const float TUG_MINVAL = 0.9f;
 	const float SMALLPLANT_TUGTIME = 0.25f;
 	float _tugTimer = 0.0f;
@@ -32,7 +31,10 @@ public class SmallPlantPickupable : Pickupable {
 			
 			if( _tugTimer > SMALLPLANT_TUGTIME)
 			{
-				// TODO: DESTROY ME 
+                // TODO: DESTROY ME 
+                Debug.Log("SHould Drop Here");
+
+                _grabbed = false;
 			}
 		}
 	}

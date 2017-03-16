@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class BigPlantPickupable : Pickupable {
 
-	const float BIGPLANT_MINTUGDIST = 0.5f;	
-	const float BIGPLANT_MAXTUGDIST = 2.0f;	
+	const float BIGPLANT_MINTUGDIST = 0.15f;	
+	const float BIGPLANT_MAXTUGDIST = 1.76f;	
 	
 	Vector3 _grabberDirection = Vector3.zero;
 	const float BIGPLANT_TUGANGLE_MAXOFFSET = 2.0f;
 	Quaternion _tugDirection = Quaternion.identity;
 
-	const float BIGPLANT_TUGANGLE_MAX = 10.0f;
-	const float BIGPLANT_TUGANGLE_RETURNSPEED = 2.0f;
+    const float BIGPLANT_TUGANGLE_MAX = 0.12f;
+    const float BIGPLANT_TUGANGLE_RETURNSPEED = 7.0f;
+
 
 	void FixedUpdate()
 	{
@@ -22,8 +23,10 @@ public class BigPlantPickupable : Pickupable {
 
 			_grabberBurdenInterp = Mathf.InverseLerp( BIGPLANT_MINTUGDIST, BIGPLANT_MAXTUGDIST, _grabberDirection.magnitude );
 
-			_tugDirection = Quaternion.FromToRotation( Vector3.up, _grabberDirection.normalized );
-			transform.rotation = Quaternion.Slerp( Quaternion.identity, _tugDirection, _grabberBurdenInterp );
+            // TODO: Make max angle be more determined by Plant Health
+            _tugDirection = Quaternion.FromToRotation( Vector3.up, Vector3.Slerp( Vector3.up, _grabberDirection, Mathf.Lerp( 0.0f, BIGPLANT_TUGANGLE_MAX, _grabberBurdenInterp ) ) );
+            
+            transform.rotation = _tugDirection;
 		}
 	}
 
@@ -53,15 +56,11 @@ public class BigPlantPickupable : Pickupable {
 		// Rotate plant back to being upright
 		StartCoroutine( DelayedReleaseBigPlant() );
 
-		if( this.GetComponent<PickupCollider>() != null )
-        {
-            this.GetComponent<PickupCollider>().LockedRotation = true;
-        }
 	}
 
 	IEnumerator DelayedReleaseBigPlant()
 	{
-		while( Quaternion.Angle( this.transform.rotation, Quaternion.identity ) > 1.0f )
+		while( Quaternion.Angle( this.transform.rotation, Quaternion.identity ) > 0.0f )
 		{
 			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.identity, BIGPLANT_TUGANGLE_RETURNSPEED * Time.deltaTime);
 
@@ -69,5 +68,10 @@ public class BigPlantPickupable : Pickupable {
 		}
 
 		this.transform.rotation = Quaternion.identity;
-	}
+
+        if (this.GetComponent<PickupCollider>() != null)
+        {
+            this.GetComponent<PickupCollider>().LockedRotation = true;
+        }
+    }
 }

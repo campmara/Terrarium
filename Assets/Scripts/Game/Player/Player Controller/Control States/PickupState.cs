@@ -30,6 +30,7 @@ public class PickupState : RollerState
 		else
 		{
 			_roller.CurrentHeldObject.OnPickup( this.transform );
+            Transition();
 		}
 
 	}

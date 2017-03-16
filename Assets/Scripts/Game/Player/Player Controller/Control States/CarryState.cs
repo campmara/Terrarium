@@ -32,10 +32,10 @@ public class CarryState : RollerState
 
 	public override void HandleInput(InputCollection input)
 	{
-		RollerParent.IKMovement(RollerConstants.CARRY_SPEED,
+		RollerParent.IKMovement( Mathf.Lerp( RollerConstants.CARRY_SPEED, 0.0f, _roller.CurrentHeldObject.GrabberBurdenInterp ),
 									  RollerConstants.WALK_ACCELERATION,
 									  RollerConstants.WALK_DECELERATION,
-									  RollerConstants.CARRY_TURN_SPEED);
+									  RollerConstants.CARRY_TURN_SPEED );
 
         if (input.AButton.IsPressed)
 		{
@@ -44,9 +44,10 @@ public class CarryState : RollerState
 		}
 
 		// Drop if you release the controller triggers...
-		if ( input.LeftTrigger.Value < 1.0f || input.RightTrigger.Value < 1.0f )
+		if ( !_roller.CurrentHeldObject.Grabbed || input.LeftTrigger.Value < 1.0f || input.RightTrigger.Value < 1.0f )
 		{
 			_roller.ChangeState( P_ControlState.WALKING);
-		}		
+		}	
+        	
 	}
 }
