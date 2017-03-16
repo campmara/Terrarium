@@ -14,6 +14,7 @@
 		_WhispTexture("Whisp Texture", 2D) = "white" {}
 		_FogLevel("Fog Level", Range(0,1)) = 0.5
 		_FogBlend("Fog Blend", Range(0,100)) = 0.5
+		_FogLightTransition("Fog Light Transition", Range(0, 3)) = 1
 		//_FogColor("Fog Color", Color) = (1, 1, 1, 0)
 	}
 
@@ -44,6 +45,7 @@
 	half _FogBlend;
 
 	sampler2D _WhispTexture;
+	float _FogLightTransition;
 
 	v2f vert(appdata v)
 	{
@@ -64,15 +66,18 @@
 		half d = dot(normalize(i.texcoord), 
 			_UpVector + lineNoise)
 			* 0.5f + 0.5f;
+		half noise_d = dot(normalize(i.texcoord),
+			_UpVector)
+			* 0.5f + 0.5f;
 		//if (d < _UpVector.y * _FogLevel) {
 		//	return unity_FogColor;
 		//}
 
-		float melt = (d - _FogLevel * _UpVector.y + lineNoise) * _FogBlend;
+		float melt = (noise_d - _FogLevel * _UpVector.y + lineNoise) * _FogBlend;
 		melt = saturate(melt);
 
-		fixed4 sky = lerp(_Color1, _Color2, pow(d, _Exponent)) * _Intensity;
-		fixed4 fog = lerp(unity_FogColor, _Color1, clamp(i.texcoord.y + _FogLevel - .925, 0, 1));
+		fixed4 sky = lerp(_Color1, _Color2, pow(noise_d, _Exponent)) * _Intensity;
+		fixed4 fog = lerp(unity_FogColor, _Color1, clamp(d + _FogLevel - _FogLightTransition, 0, 1));
 		return lerp(fog, sky, melt);
 	}
 
