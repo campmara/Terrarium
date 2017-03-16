@@ -67,11 +67,6 @@ public class GameManager : MonoBehaviour
 			Instance = null;
 	}
 
-	void Start()
-	{
-
-	}
-
 	void Update()
 	{
 
