@@ -826,6 +826,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ground: {fileID: 0}
   _mask: {fileID: 0}
+  _dirtParticlePrefab: {fileID: 1354687133532450, guid: bb3679161993c49e99d8eadc81afbb2f,
+    type: 2}
   _scaleFactor: 4
 --- !u!114 &114853906761940640
 MonoBehaviour:
