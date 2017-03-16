@@ -92,8 +92,11 @@ public class RollerState : MonoBehaviour
 
 		_roller.CurrentHeldObject = pickup;
 
-        _grabbedObjPrevLayer = _roller.CurrentHeldObject.gameObject.layer;
-        _roller.CurrentHeldObject.gameObject.layer = LayerMask.NameToLayer("HeldObject");
+		if( pickup.Carryable )
+		{
+			_grabbedObjPrevLayer = _roller.CurrentHeldObject.gameObject.layer;
+			_roller.CurrentHeldObject.gameObject.layer = LayerMask.NameToLayer("HeldObject");
+		}        
 
 		_roller.ChangeState( P_ControlState.PICKINGUP);		
 
@@ -106,7 +109,10 @@ public class RollerState : MonoBehaviour
 
 		if ( _roller.CurrentHeldObject != null )
 		{
-		    _roller.CurrentHeldObject.gameObject.layer = _grabbedObjPrevLayer;  // TODO: make sure seeds go back to their original layer ? Do we reach for seeds?
+			if( _roller.CurrentHeldObject.Carryable )
+			{
+				_roller.CurrentHeldObject.gameObject.layer = _grabbedObjPrevLayer;
+			}
 		    _roller.CurrentHeldObject.DropSelf();
 			_roller.CurrentHeldObject = null;
 		}
@@ -124,7 +130,10 @@ public class RollerState : MonoBehaviour
 
 		if ( _roller.IK.ArmsIdle && _roller.CurrentHeldObject != null )
 		{
-		    _roller.CurrentHeldObject.gameObject.layer = _grabbedObjPrevLayer;  // TODO: make sure seeds go back to their original layer ? Do we reach for seeds?
+			if( _roller.CurrentHeldObject.Carryable )
+			{
+				_roller.CurrentHeldObject.gameObject.layer = _grabbedObjPrevLayer;
+			}
 		    _roller.CurrentHeldObject.DropSelf();
 			_roller.CurrentHeldObject = null;
 
