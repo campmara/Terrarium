@@ -232,7 +232,7 @@ public class PlayerArmIK : MonoBehaviour {
         Vector3 reachDir = reachTrans.position - this.transform.position;
         float reachAngle = Vector3.Angle( _parentIKController.transform.forward, reachDir.normalized );
 
-        if ( _armState == ArmIKState.IDLE || reachAngle < ARM_REACHANGLEMAX )
+        if ( _armState == ArmIKState.IDLE && reachAngle < ARM_REACHANGLEMAX )
         {
             // Pick a random reach point
             if (JohnTech.CoinFlip())

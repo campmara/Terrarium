@@ -8,6 +8,8 @@ public class GroundManager : SingletonBehaviour<GroundManager>
 	[SerializeField] private GameObject _mask;
 	public GameObject Mask { get { return _mask; } }
 
+	[SerializeField] private GameObject _dirtParticlePrefab;
+
 	private MeshRenderer _groundMesh;
 	private MeshRenderer _maskMesh;
 
@@ -37,5 +39,13 @@ public class GroundManager : SingletonBehaviour<GroundManager>
 
 		_groundMesh.sharedMaterial.SetFloat("_ScaleFactor", _scaleFactor);
 		_maskMesh.sharedMaterial.SetFloat("_ScaleFactor", _scaleFactor);
+	}
+
+	public void EmitDirtParticles(Vector3 pos, float size = 0.25f)
+	{
+		GameObject dirt = Instantiate(_dirtParticlePrefab, pos, Quaternion.identity) as GameObject;
+		
+		var module = dirt.GetComponentInChildren<ParticleSystem>().main;
+		module.startSize = size;
 	}
 }
