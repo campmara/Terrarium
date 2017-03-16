@@ -13,6 +13,7 @@
 		SubShader{
 		Tags{ "RenderType" = "Geometry" }
 		LOD 300
+		//cull off
 
 		CGPROGRAM
 #pragma surface surf BlinnPhong vertex:disp nolightmap addshadow fullforwardshadows
@@ -53,6 +54,7 @@
 		float3 worldPos;
 		float3 worldNormal;
 		float4 color : COLOR;
+		float3 viewDir;
 	};
 
 	sampler2D _MeltTex;
