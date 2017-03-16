@@ -78,7 +78,7 @@ public class AudioController
 
 	public void PlayAudioSource()
 	{
-		if(!_source.isPlaying)
+		if( !_source.isPlaying )
 		{
 			_source.Play();	
 		}
@@ -86,9 +86,13 @@ public class AudioController
 
 	public void PlayRandomClip()
 	{
-		_source.clip = _audioClipList[ UnityEngine.Random.Range( 0, _audioClipList.Count )];
+        if( !_source.isPlaying )
+        {
+            _source.clip = _audioClipList[UnityEngine.Random.Range( 0, _audioClipList.Count )];
 
-		_source.Play();
+            _source.Play();
+        }
+
 	}
 
 	#endregion

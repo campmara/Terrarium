@@ -10,6 +10,8 @@ public class RollerState : MonoBehaviour
 	protected RollerController _roller;
 	public RollerController RollerParent { get { return _roller; } set { _roller = value; } }
 
+    int _grabbedObjPrevLayer = 0;
+
 	// ============================
 	// V I R T U A L  M E T H O D S
 	// ============================
@@ -69,8 +71,16 @@ public class RollerState : MonoBehaviour
         Collider[] overlapArray = Physics.OverlapSphere( _pickupCenter, RollerConstants.IK_REACH_CHECKRADIUS, 1 << LayerMask.NameToLayer("Touchable") );
 
         if (overlapArray.Length > 0)
-        {           
+        {
             // Pick a random reach point
+            if (JohnTech.CoinFlip())
+            {
+                _roller.Face.BecomeInterested();
+            }
+            else
+            {
+                _roller.Face.BecomeDesirous();
+            }
             SetAmbientArmReach( overlapArray[Random.Range( 0, overlapArray.Length )].transform, armType );
         }
     }
@@ -90,7 +100,10 @@ public class RollerState : MonoBehaviour
 		_roller.IK.HandleArmsGrab();
 
 		_roller.CurrentHeldObject = pickup;
-	    _roller.CurrentHeldObject.gameObject.layer = LayerMask.NameToLayer("HeldObject");
+
+        _grabbedObjPrevLayer = _roller.CurrentHeldObject.gameObject.layer;
+        _roller.CurrentHeldObject.gameObject.layer = LayerMask.NameToLayer("HeldObject");
+
 		_roller.ChangeState( P_ControlState.PICKINGUP);		
 
 		AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_ACTIONFX, 1 );
@@ -100,9 +113,9 @@ public class RollerState : MonoBehaviour
 	{
 		_roller.IK.LetGoBothArms();
 
-		if ( _roller.IK.ArmsIdle && _roller.CurrentHeldObject != null )
+		if ( _roller.CurrentHeldObject != null )
 		{
-		    _roller.CurrentHeldObject.gameObject.layer = LayerMask.NameToLayer("Default");  // TODO: make sure seeds go back to their original layer ? Do we reach for seeds?
+		    _roller.CurrentHeldObject.gameObject.layer = _grabbedObjPrevLayer;  // TODO: make sure seeds go back to their original layer ? Do we reach for seeds?
 		    _roller.CurrentHeldObject.DropSelf();
 			_roller.CurrentHeldObject = null;
 		}
@@ -120,7 +133,7 @@ public class RollerState : MonoBehaviour
 
 		if ( _roller.IK.ArmsIdle && _roller.CurrentHeldObject != null )
 		{
-		    _roller.CurrentHeldObject.gameObject.layer = LayerMask.NameToLayer("Default");  // TODO: make sure seeds go back to their original layer ? Do we reach for seeds?
+		    _roller.CurrentHeldObject.gameObject.layer = _grabbedObjPrevLayer;  // TODO: make sure seeds go back to their original layer ? Do we reach for seeds?
 		    _roller.CurrentHeldObject.DropSelf();
 			_roller.CurrentHeldObject = null;
 

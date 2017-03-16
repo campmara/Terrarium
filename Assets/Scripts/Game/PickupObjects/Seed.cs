@@ -11,7 +11,6 @@ public class Seed : Pickupable
 
 	float _timeSinceLastPickup = 0.0f;
 	float _timePassedTillDestroy = 60.0f;
-	bool _isPickedUp = false;
 	bool _hasFallen = false;
 
 	const int  _selfPlantProbability = 75;
@@ -19,7 +18,7 @@ public class Seed : Pickupable
 
 	void Update()
 	{
-		if( !_isPickedUp )
+		if( !_grabbed )
 		{
 			if( _timeSinceLastPickup >= _timePassedTillDestroy && PlantManager.instance.GetActiveSeedCount() > 2 )
 			{
@@ -32,17 +31,15 @@ public class Seed : Pickupable
 		}
 	}
 
-    public override void OnPickup()
+    public override void OnPickup( Transform grabTransform )
 	{
-		base.OnPickup();
-		_isPickedUp = true;
+		base.OnPickup( grabTransform );
 	}
 
 	public override void DropSelf()
 	{
 		base.DropSelf();
 		_timeSinceLastPickup = 0.0f;
-		_isPickedUp = false;
 	}
 
 	public void TryPlanting()
