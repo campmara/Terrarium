@@ -15,6 +15,7 @@ public static class RollerConstants
 	public const float WALK_DECELERATION = 4.0f;
     public const float WALK_TURNDAMPENING = 0.025f;   // Used to dampen velocity when turning really hard
     public const float BODY_MINMOVESPEED = 2.5f;
+	public const float IDLE_SITTING_TIMER = 30f;
 
 	// WALK TURNING
 	public const float WALK_TURN_SPEED = 5f;
