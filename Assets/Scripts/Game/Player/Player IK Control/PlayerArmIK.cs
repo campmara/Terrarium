@@ -8,6 +8,8 @@ public class PlayerArmIK : MonoBehaviour {
     PlayerIKControl _parentIKController = null;
     CCDIK _armIK = null;
     [SerializeField] SpringJoint _armSpring = null;
+    [SerializeField]
+    FaceManager _face = null;
 
     public enum ArmType : int
     {
@@ -32,7 +34,14 @@ public class PlayerArmIK : MonoBehaviour {
     public Transform ArmTargetTrans { get { return _armTargetTransform; } }    
 	[SerializeField] private float _armTargetLerpSpeed = 7f;
 	[SerializeField] private float _armIKLerpSpeed = 15f;    
-    [SerializeField, ReadOnlyAttribute] private Vector3 _armTargetPos = Vector3.zero;    
+    [SerializeField, ReadOnlyAttribute] private Vector3 _armTargetPos = Vector3.zero;
+    
+    /// 
+    /// GRABBING VARIABLES
+    /// 
+    [SerializeField]
+    private float _armGrabSpeed = 20f;
+    private float _armGrabOffset = 0.4f;
 
     [SerializeField, ReadOnlyAttribute] private float _armReachInterp = 0.0f;
     public float ArmReachInterp { get { return _armReachInterp; } set { _armReachInterp = value; } }
@@ -44,7 +53,7 @@ public class PlayerArmIK : MonoBehaviour {
 
     private const float ARM_REACHDISTMAX = 8.0f;
     private const float ARM_REACHDISTMIN = 0.75f;
-
+    private const float ARM_REACHANGLEMAX = 90.0f;
 
 	// Use this for initialization
 	void Awake () 
@@ -91,6 +100,9 @@ public class PlayerArmIK : MonoBehaviour {
         {
             switch( newState )
             {
+                case ArmIKState.IDLE:
+                    _armSpring.GetComponent<Rigidbody>().isKinematic = false;
+                    break;
                 default:
                     break;
             }
@@ -115,8 +127,6 @@ public class PlayerArmIK : MonoBehaviour {
 				_parentIKController.transform.parent.position - ( -_parentIKController.transform.parent.right * ARM_IDLE_OUT ), 
 				_armTargetLerpSpeed * Time.deltaTime);
         }
-
-        
 
         _armTargetPos = Vector3.Lerp( _armTargetPos, _armSpring.transform.position, _armTargetLerpSpeed * Time.deltaTime);
     }
@@ -155,7 +165,16 @@ public class PlayerArmIK : MonoBehaviour {
 
     private void HandleGrabbing()
     {
-        _armTargetPos = Vector3.Lerp( _armTargetPos, Vector3.Lerp( _armSpring.transform.position, _armTargetTransform.position, _armReachInterp ), _armTargetLerpSpeed * Time.deltaTime );
+        // Each arm offseted differently. should be done in animation idk
+        if( _armType == ArmType.LEFT )
+        {
+            _armTargetPos = Vector3.Lerp( _armTargetPos, Vector3.Lerp( _armSpring.transform.position, _armTargetTransform.position - ( _parentIKController.transform.right * _armGrabOffset ), _armReachInterp ), _armGrabSpeed * Time.deltaTime );
+        }
+        else
+        {
+            _armTargetPos = Vector3.Lerp( _armTargetPos, Vector3.Lerp( _armSpring.transform.position, _armTargetTransform.position + ( _parentIKController.transform.right * _armGrabOffset ), _armReachInterp ), _armGrabSpeed * Time.deltaTime );
+        }
+        
     }
 
     public void SetArmTargetTransform( Transform target )
@@ -176,19 +195,24 @@ public class PlayerArmIK : MonoBehaviour {
 
     void CheckReachConstraints( )
     {
-        float reachDist = ( this.transform.position - _armTargetTransform.position ).magnitude;
+        Vector3 reachDir = _armTargetTransform.position - this.transform.position;
+        float reachDist = reachDir.magnitude;
+        float reachAngle = Vector3.Angle( _parentIKController.transform.forward, reachDir );
 
         //Debug.Log( reachDist );
+        //Debug.Log( reachAngle );
 
-        if ( reachDist > ARM_REACHDISTMAX )
+        if ( reachDist > ARM_REACHDISTMAX || reachAngle > ARM_REACHANGLEMAX )
         {
             // TODO: Make Droopy Sad : (
+            _face.BecomeSad();
 
             ReleaseTargetTransform();
         }
         else if ( reachDist < ARM_REACHDISTMIN )
         {
             // TODO: Make Droopy Happy : )
+            _face.BecomeHappy();
 
             ReleaseTargetTransform();
         }
@@ -205,8 +229,21 @@ public class PlayerArmIK : MonoBehaviour {
 
     public void SetAmbientReachTransform( Transform reachTrans )
     {
-        if( _armState == ArmIKState.IDLE )
-        {            
+        Vector3 reachDir = reachTrans.position - this.transform.position;
+        float reachAngle = Vector3.Angle( _parentIKController.transform.forward, reachDir.normalized );
+
+        if ( _armState == ArmIKState.IDLE || reachAngle < ARM_REACHANGLEMAX )
+        {
+            // Pick a random reach point
+            if (JohnTech.CoinFlip())
+            {
+                _face.BecomeInterested();
+            }
+            else
+            {
+                _face.BecomeDesirous();
+            }
+
             _armTargetTransform = reachTrans;
 
             SetArmState( ArmIKState.AMBIENT_REACHING );

@@ -87,12 +87,16 @@ public class RitualState : RollerState
 	void WaterPlantsCloseBy( float searchRadius )
 	{
 		Collider[] cols = Physics.OverlapSphere( transform.position, searchRadius );
-		foreach( Collider col in cols )
+		
+		if( cols.Length > 0 )
 		{
-			BasePlant plant = col.GetComponent<BasePlant>();
-			if( plant )
+			foreach( Collider col in cols )
 			{
-				plant.WaterPlant();
+				BasePlant plant = col.GetComponent<BasePlant>();
+				if( plant != null )
+				{
+					plant.WaterPlant();
+				}
 			}
 		}
 	}

@@ -31,6 +31,7 @@ public class FaceManager : MonoBehaviour
 	[SerializeField] private Sprite _mouthVerySad;
 
     private Coroutine _blinkRoutine;
+    private Coroutine _idleRoutine;
 
 	void Awake()
 	{
@@ -51,67 +52,85 @@ public class FaceManager : MonoBehaviour
 	{
 		SetEyes(_eyesOpen);
 		SetMouth(_mouthIdle);
-	}
+    }
 
 	public void Sing()
 	{
 		SetEyes(_eyesHappy);
 		SetMouth(_mouthOh);
-	}
+    }
 
 	public void BecomeHappy()
 	{
 		SetEyes(_eyesHappy);
 		SetMouth(_mouthSmile);
-	}
+
+        StartReturnIdle();
+    }
 
 	public void Wink()
 	{
 		SetEyes(_eyesWink);
 		SetMouth(_mouthSideSmile);
-	}
+
+        StartReturnIdle();
+    }
 
 	public void BecomeAnnoyed()
 	{
 		SetEyes(_eyesAnnoyed);
 		SetMouth(_mouthSad);
-	}
+
+        StartReturnIdle();
+    }
 
 	public void BecomeSad()
 	{
 		SetEyes(_eyesSad);
 		SetMouth(_mouthVerySad);
-	}
+
+        StartReturnIdle();
+    }
 
 	public void BecomeInterested()
 	{
 		SetEyes(_eyesOpen);
 		SetMouth(_mouthOh);
-	}
+
+        StartReturnIdle();
+    }
 
 	public void BecomeSurprised()
 	{
 		SetEyes(_eyesSurprised);
 		SetMouth(_mouthOh);
-	}
+
+        StartReturnIdle();
+    }
 
 	public void BecomeDesirous()
 	{
 		SetEyes(_eyesDesire);
 		SetMouth(_mouthD);
-	}
+
+        StartReturnIdle();
+    }
 
 	public void BecomeEncumbered()
 	{
 		SetEyes(_eyesAngry);
 		SetMouth(_mouthDiagonal);
-	}
+
+        StartReturnIdle();
+    }
 
 	public void BecomeFeisty()
 	{
 		SetEyes(_eyesAngry);
 		SetMouth(_mouthOh);
-	}
+
+        StartReturnIdle();
+    }
 
 	// ===========
 	// H E L P E R
@@ -133,7 +152,7 @@ public class FaceManager : MonoBehaviour
         if (_blinkRoutine != null)
             StopCoroutine(_blinkRoutine);
 
-        _blinkRoutine = StartCoroutine(BlinkRoutine(Random.Range(1f, 6f)));
+        _blinkRoutine = StartCoroutine(BlinkRoutine(Random.Range(1f, 5f)));
     }
 
     private IEnumerator BlinkRoutine(float delay)
@@ -146,5 +165,23 @@ public class FaceManager : MonoBehaviour
 		_eyeRenderer.sprite = _currentEyes;
 
         InitiateBlinkLoop();
+    }
+
+    void StartReturnIdle()
+    {
+        if (_idleRoutine != null)
+        {
+            StopCoroutine( _idleRoutine );
+        }
+        _idleRoutine = StartCoroutine( DelayedDefaultExpression() );
+    }
+
+    IEnumerator DelayedDefaultExpression()
+    {
+        yield return new WaitForSeconds( 5.0f );
+
+        BecomeIdle();
+
+        _idleRoutine = null;
     }
 }
