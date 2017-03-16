@@ -5,6 +5,7 @@ using DG.Tweening;
 public class WalkingState : RollerState
 {
     private Tween _tween;
+    private float _idleTimer = 0f;
 
     Coroutine _reachCoroutine = null;
 
@@ -22,6 +23,8 @@ public class WalkingState : RollerState
                 _tween = _roller.RollSphere.transform.DOMoveY( 1.5f, 0.5f ).SetEase( Ease.OutQuint );           
             break;
         }
+
+        _idleTimer = 0f;
 
         //PlayerManager.instance.Player.AnimationController.PlayWalkAnim();
 	}
@@ -47,6 +50,9 @@ public class WalkingState : RollerState
 
 	public override void HandleInput(InputCollection input)
 	{
+        // Check for sitting after idling for a while.
+        IdleTimer(input);
+
         // A BUTTON    
         if ( ( input.LeftTrigger.WasPressed || input.RightTrigger.WasPressed ) )
         {
@@ -123,6 +129,30 @@ public class WalkingState : RollerState
 		{
 			_roller.ChangeState( P_ControlState.SING);
 		}
+
+        // Left Stick Button
+        if (input.LeftStickButton.IsPressed)
+        {
+            _roller.ChangeState(P_ControlState.SIT);
+        }
+    }
+
+    void IdleTimer(InputCollection input)
+    {
+        // handle idle timing
+        _idleTimer += Time.deltaTime;
+
+        Vector3 vec = new Vector3(input.LeftStickX, 0f, input.LeftStickY);
+        if (input.ActiveDevice.AnyButtonIsPressed || vec.magnitude >= 0.25f)
+        {
+            _idleTimer = 0f;
+        }
+
+        if (_idleTimer >= RollerConstants.IDLE_SITTING_TIMER)
+        {
+            // go to sitting State
+            _roller.ChangeState(P_ControlState.SIT);
+        }
     }
 
     IEnumerator ReachWaitRoutine()
