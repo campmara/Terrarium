@@ -16,6 +16,9 @@ public class PlayerAnimationController : MonoBehaviour {
     
     const string PLAYERSPEED_PARAM = "Velocity";
     int _velocityParamHash = 0;
+
+    const string SITTING_PARAM = "Sitting";
+    int _sittingParamHash = 0;
     
     #endregion
     public void Initialize()
@@ -28,10 +31,16 @@ public class PlayerAnimationController : MonoBehaviour {
         _animator = this.GetComponent<Animator>();
 
         _velocityParamHash = Animator.StringToHash( PLAYERSPEED_PARAM );
+        _sittingParamHash = Animator.StringToHash(SITTING_PARAM);
 	}
 	
     public void SetPlayerSpeed(float speed)
     {
         _animator.SetFloat( _velocityParamHash, speed );
+    }
+
+    public void SetSitting(bool isSitting)
+    {
+        _animator.SetBool(_sittingParamHash, isSitting);
     }
 }

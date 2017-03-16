@@ -11,6 +11,16 @@ public class PlayerArmIK : MonoBehaviour {
     [SerializeField]
     FaceManager _face = null;
 
+    void OnDisable()
+    {
+        _armIK.enabled = false;
+    }
+
+    void OnEnable()
+    {
+        _armIK.enabled = true;
+    }
+
     public enum ArmType : int
     {
         LEFT = 0,
@@ -89,7 +99,7 @@ public class PlayerArmIK : MonoBehaviour {
     }
 
 	// Update is called once per frame
-	void LateUpdate () 
+	public void UpdateArmIK () 
 	{
 		 _armIK.solver.IKPosition = Vector3.Lerp( _armIK.solver.IKPosition, _armTargetPos, _armIKLerpSpeed );
 	}
