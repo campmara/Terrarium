@@ -128,6 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _carryable: 1
+  _grabbed: 0
   _assetKey: -1
   _moundPrefab: {fileID: 1037556617624174, guid: 35fbf4ec3e610419aa354f7eecbeebe8,
     type: 2}
