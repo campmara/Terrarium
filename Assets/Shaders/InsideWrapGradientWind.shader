@@ -72,6 +72,8 @@
 	uniform float _WaveScale;
 
 	void vert(inout appdata_full v) {
+		v.color.r = 1;
+
 		//this effect causes the material to disappear if the amount is 0, this won't run the code if that's the case
 		if (_WaveAmount == 0 || _WaveDir.x == 0 && _WaveDir.y == 0 && _WaveDir.z == 0) { return; }
 		
