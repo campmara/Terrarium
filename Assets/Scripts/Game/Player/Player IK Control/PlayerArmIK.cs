@@ -11,6 +11,16 @@ public class PlayerArmIK : MonoBehaviour {
     [SerializeField]
     FaceManager _face = null;
 
+    void OnDisable()
+    {
+        _armIK.enabled = false;
+    }
+
+    void OnEnable()
+    {
+        _armIK.enabled = true;
+    }
+
     public enum ArmType : int
     {
         LEFT = 0,
@@ -89,7 +99,7 @@ public class PlayerArmIK : MonoBehaviour {
     }
 
 	// Update is called once per frame
-	void LateUpdate () 
+	public void UpdateArmIK () 
 	{
 		 _armIK.solver.IKPosition = Vector3.Lerp( _armIK.solver.IKPosition, _armTargetPos, _armIKLerpSpeed );
 	}
@@ -232,7 +242,7 @@ public class PlayerArmIK : MonoBehaviour {
         Vector3 reachDir = reachTrans.position - this.transform.position;
         float reachAngle = Vector3.Angle( _parentIKController.transform.forward, reachDir.normalized );
 
-        if ( _armState == ArmIKState.IDLE && reachAngle < ARM_REACHANGLEMAX )
+        if ( _armState == ArmIKState.IDLE || reachAngle < ARM_REACHANGLEMAX )
         {
             // Pick a random reach point
             if (JohnTech.CoinFlip())

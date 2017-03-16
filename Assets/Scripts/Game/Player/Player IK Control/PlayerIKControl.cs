@@ -142,8 +142,30 @@ public class PlayerIKControl : MonoBehaviour
         ResetLegs();
     }
 
+    private bool ikFrozen = false;
+    public void DisableIK()
+    {
+        ikFrozen = true;
+        _leftArmIK.enabled = false;
+        _rightArmIK.enabled = false;
+        _lookAt.enabled = false;
+    }
+
+    public void EnableIK()
+    {
+        ikFrozen = false;
+        _leftArmIK.enabled = true;
+        _rightArmIK.enabled = true;
+        _lookAt.enabled = true;
+    }
+
     private void FixedUpdate()
     {
+        if (ikFrozen)
+        {
+            return;
+        }
+
 		HandleLookAt();
         HandleArms();
         //HandleLegs();
@@ -214,6 +236,8 @@ public class PlayerIKControl : MonoBehaviour
     private void HandleArms()
     {
         // TODO: lerp speed should be unique for each type of arm reaching/movement
+        _leftArmIK.UpdateArmIK();
+        _rightArmIK.UpdateArmIK();
     }
 
     public void SetArmTarget( Transform target, PlayerArmIK.ArmType armType )

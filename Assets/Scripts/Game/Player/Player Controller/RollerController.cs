@@ -9,13 +9,15 @@ public enum P_ControlState
 	CARRYING,
 	RITUAL,
     PLANTING,
-	SING
+	SING,
+	SIT
 }
 
 [RequireComponent(typeof(Rigidbody))]
 public class RollerController : ControllerBase 
 {
 	private Player _player = null;
+	public Player Player { get { return _player; } }
 
     [ReadOnly]
     private Rigidbody _rigidbody = null;
@@ -77,6 +79,7 @@ public class RollerController : ControllerBase
 	private RitualState _ritual = null;	
     private PlantingState _planting = null;
 	private SingState _singing = null;
+	private SittingState _sitting = null;
 
 	void Awake()
 	{
@@ -110,6 +113,9 @@ public class RollerController : ControllerBase
 
 		_singing = this.gameObject.AddComponent<SingState>();
 		_singing.RollerParent = this;
+
+		_sitting = this.gameObject.AddComponent<SittingState>();
+		_sitting.RollerParent = this;
 
         // Set state to default (walking for now)
         ChangeState( P_ControlState.WALKING);
@@ -168,6 +174,9 @@ public class RollerController : ControllerBase
             break;
 		case P_ControlState.SING:
 			_currentState = _singing;
+			break;
+		case P_ControlState.SIT:
+			_currentState = _sitting;
 			break;
         default:
 			break;
