@@ -176,10 +176,18 @@ public class ButterflyCloud : AmbientCreature {
 			tmpData._parentOffset = tmpCreature.transform.position - this.transform.position;
 			tmpData._targetPosition = tmpCreature.transform.position;
 
+			StartCoroutine( DelayedStartAnim( tmpCreature.GetComponent<Animator>() ) );
+
 			_butterflyList.Add( tmpData );                     
         }
     }
 
+	IEnumerator DelayedStartAnim( Animator anim )
+	{
+		yield return new WaitForSeconds( Random.Range( 0.1f, 0.75f ) );
+
+		anim.SetTime(0.0f);
+	}
 
 	// Worried about mem leak, need to look into disposing of non Mono classes
 	private void OnDestroy()
