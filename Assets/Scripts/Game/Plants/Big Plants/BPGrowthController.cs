@@ -58,7 +58,7 @@ public class BPGrowthController : PlantController
 
 	// ambient creatures
 	protected const float CREATURE_BASE_SPAWNODDS = 0.75f;
-	protected const float CREATURE_BASE_SPAWNY = -1.0f;
+	protected const float CREATURE_BASE_SPAWNY = 1.0f;
 
 	public override void Init()
 	{
