@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Gradient Sky
-  m_Shader: {fileID: 4800000, guid: 3fb34ab542a090e49bb5d18e0ec396cb, type: 3}
+  m_Name: ScreenDepth
+  m_Shader: {fileID: 4800000, guid: dee5b0988c139664fa4741349f0fa877, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
   m_CustomRenderQueue: -1
@@ -69,16 +69,13 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _WhispTexture
-      second:
-        m_Texture: {fileID: 2800000, guid: f19ceb968bb2d4d739d0e63b6fb94eda, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     m_Floats:
     - first:
         name: _BumpScale
       second: 1
+    - first:
+        name: _CameraProximity
+      second: 1000000
     - first:
         name: _Cutoff
       second: 0.5
@@ -89,18 +86,6 @@ Material:
         name: _DstBlend
       second: 0
     - first:
-        name: _Exponent
-      second: 1
-    - first:
-        name: _FogBlend
-      second: 7.6
-    - first:
-        name: _FogLevel
-      second: 0.625
-    - first:
-        name: _FogLightTransition
-      second: 1.41
-    - first:
         name: _GlossMapScale
       second: 1
     - first:
@@ -108,9 +93,6 @@ Material:
       second: 0.5
     - first:
         name: _GlossyReflections
-      second: 1
-    - first:
-        name: _Intensity
       second: 1
     - first:
         name: _Metallic
@@ -125,6 +107,12 @@ Material:
         name: _Parallax
       second: 0.02
     - first:
+        name: _RingPassTimeLength
+      second: 2
+    - first:
+        name: _RingWidth
+      second: 0.01
+    - first:
         name: _SmoothnessTextureChannel
       second: 0
     - first:
@@ -137,30 +125,15 @@ Material:
         name: _UVSec
       second: 0
     - first:
-        name: _UpVectorPitch
-      second: 0
-    - first:
-        name: _UpVectorYaw
-      second: 0
-    - first:
         name: _ZWrite
       second: 1
     m_Colors:
     - first:
+        name: _ClipColor
+      second: {r: 0, g: 0, b: 0, a: 0}
+    - first:
         name: _Color
       second: {r: 1, g: 1, b: 1, a: 1}
     - first:
-        name: _Color1
-      second: {r: 1, g: 1, b: 1, a: 0}
-    - first:
-        name: _Color2
-      second: {r: 0.4852941, g: 0.637931, b: 1, a: 0}
-    - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
-    - first:
-        name: _FogColor
-      second: {r: 1, g: 1, b: 1, a: 0}
-    - first:
-        name: _UpVector
-      second: {r: 0, g: 2, b: 0, a: 0}
