@@ -69,6 +69,12 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		Destroy( mound.gameObject );
 	}
 
+	public void DeleteLargePlant(BasePlant plant)
+	{
+		_largePlants.Remove(plant);
+		Destroy(plant.gameObject);
+	}
+
 	public void SpawnMini( PlantController plant )
 	{
 		//based on type, spawn some sort of mini
