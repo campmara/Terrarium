@@ -248,7 +248,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1028824138140006}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.984336, y: 0, z: -0.5032406}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4521704662299462}
@@ -385,9 +385,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _deathColors:
-  - {r: 0.654902, g: 0.60784316, b: 0.5058824, a: 0}
-  - {r: 0.5058824, g: 0.43529412, b: 0.33333334, a: 0}
-  - {r: 0.30980393, g: 0.26666668, b: 0.14901961, a: 0}
+  - {r: 0.7647059, g: 0.6934825, b: 0.29238755, a: 0.07980764}
+  - {r: 0.58823526, g: 0.46948567, b: 0.22923875, a: 0.07980764}
+  - {r: 0.30147058, g: 0.27927926, b: 0.16403547, a: 0.07980764}
 --- !u!114 &114098142030374966
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -400,8 +400,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pAssetKey: -1
-  _DeathDurationRange: {x: 5, y: 10}
-  _baseDecayRate: 1.5
+  _DeathDurationRange: {x: 275, y: 320}
+  _baseDecayRate: 1
 --- !u!114 &114169642532466072
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -426,7 +426,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 080f0cb5dcfc64ee99d5d9ac47120a21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseGrowthRate: 0.1
+  _baseGrowthRate: 0.005
   _curStage: 0
   _droppingItems:
   - {fileID: 1356359172527236, guid: bbfef1f81afcefc438cf9d537e7f0931, type: 2}

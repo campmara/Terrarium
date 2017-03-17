@@ -16,7 +16,7 @@ public class MoundGrowthController : PlantController
 	const float _wateredRate = 3.5f;
 	float _germinationRate = _baseRate;
 
-	float _timerDuration = 40.0f;
+	float _timerDuration = 30.0f;
 	float _curTime = 0.0f;
 	float _scaleInterp = 0.0f;
 

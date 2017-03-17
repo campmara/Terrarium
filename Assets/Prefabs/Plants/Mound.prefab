@@ -489,7 +489,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pAssetKey: -1
-  _DeathDurationRange: {x: 0, y: 10}
+  _DeathDurationRange: {x: 12, y: 15}
   _baseDecayRate: 0
 --- !u!135 &135363004299402988
 SphereCollider:

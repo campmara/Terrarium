@@ -184,7 +184,7 @@ Material:
       second: {r: 0.45579284, g: 0.58823526, b: 0.3287197, a: 1}
     - first:
         name: _Color2
-      second: {r: 0.38438734, g: 0.5294118, b: 0.24524224, a: 1}
+      second: {r: 0.33955377, g: 0.45588237, b: 0.22794119, a: 1}
     - first:
         name: _ColorBot
       second: {r: 1, g: 1, b: 1, a: 1}
