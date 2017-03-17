@@ -9,6 +9,8 @@ public class SittingState : RollerState
 		// TRIGGER SITTING ON
 		_roller.IK.DisableIK();
 		_roller.Player.AnimationController.SetSitting(true);
+
+		CameraManager.instance.ChangeCameraState( CameraManager.CameraState.SITTING );
 	}
 
 	public override void Exit (P_ControlState nextState)
@@ -16,6 +18,8 @@ public class SittingState : RollerState
 		Debug.Log("EXIT SIT STATE");
 
 		_roller.IK.EnableIK();
+
+		CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
 	}
 
 	public override void HandleInput (InputCollection input)

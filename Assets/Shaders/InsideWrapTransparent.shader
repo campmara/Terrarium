@@ -2,7 +2,8 @@
 {
 	Properties{
 		_MainTex("Base (RGB)", 2D) = "white" {}
-		_Color("Color", Color) = (1,1,1,1)
+		_Color("Color 1", Color) = (1,1,1,1)
+		_Color2("Color 2", Color) = (1,1,1,1)
 		_Hardness("Hardness", Range(.25, 1)) = 0.5
 	}
 		SubShader{
@@ -37,9 +38,11 @@
 
 	sampler2D _MainTex;
 	float4 _Color;
+	float4 _Color2;
 
 	void surf(Input IN, inout SurfaceOutput o) {
-		float4 c = tex2D(_MainTex, IN.uv_MainTex) * _Color;
+		float4 c = tex2D(_MainTex, IN.uv_MainTex);
+		c.rgb = lerp(_Color, _Color2, c.r);
 		o.Albedo = c.rgb;
 		o.Alpha = c.a;
 	}
