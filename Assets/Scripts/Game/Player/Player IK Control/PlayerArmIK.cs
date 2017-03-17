@@ -61,9 +61,14 @@ public class PlayerArmIK : MonoBehaviour {
     private const float ARM_EMPTYREACH_UP = 10.0f;
     private const float ARM_EMPTYREACH_OUT = 7.5f;
 
+	// Ambient Reaching Variables
     private const float ARM_REACHDISTMAX = 8.0f;
     private const float ARM_REACHDISTMIN = 0.75f;
     private const float ARM_REACHANGLEMAX = 90.0f;
+
+	private float _ambientReachTimer = 0.0f;
+	private const float AMBIENTREACH_MINTIME = 2.0f;
+	private const float AMBIENTREACH_MAXTIME = 10.0f;
 
 	// Use this for initialization
 	void Awake () 
@@ -113,7 +118,10 @@ public class PlayerArmIK : MonoBehaviour {
                 case ArmIKState.IDLE:
                     _armSpring.GetComponent<Rigidbody>().isKinematic = false;
                     break;
-                default:
+				case ArmIKState.AMBIENT_REACHING:
+					_ambientReachTimer = 0.0f;
+					break;
+				default:
                     break;
             }
 
@@ -211,17 +219,23 @@ public class PlayerArmIK : MonoBehaviour {
         float reachDist = reachDir.magnitude;
         float reachAngle = Vector3.Angle( _parentIKController.transform.forward, reachDir );
 
+		_ambientReachTimer += Time.deltaTime;
+
         //Debug.Log( reachDist );
         //Debug.Log( reachAngle );
 
-        if ( reachDist > ARM_REACHDISTMAX || reachAngle > ARM_REACHANGLEMAX )
+		if ( reachDist > ARM_REACHDISTMAX || reachAngle > ARM_REACHANGLEMAX || _ambientReachTimer > AMBIENTREACH_MAXTIME )
         {
-            // TODO: Make Droopy Sad : (
-            _face.BecomeSad();
+
+			if( _ambientReachTimer < AMBIENTREACH_MINTIME )
+			{
+				// TODO: Make Droopy Sad : (
+				_face.BecomeSad();	
+			}            
 
             ReleaseTargetTransform();
         }
-        else if ( reachDist < ARM_REACHDISTMIN )
+        else if ( reachDist <= ARM_REACHDISTMIN )
         {
             // TODO: Make Droopy Happy : )
             _face.BecomeHappy();
