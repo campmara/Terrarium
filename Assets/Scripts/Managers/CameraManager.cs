@@ -12,7 +12,8 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 		FOLLOWPLAYER_FREE,
 		FOLLOWPLAYER_LOCKED,
 		TRANSITION,
-        POND_RETURNPAN
+        POND_RETURNPAN,
+		SITTING
 	}
 	CameraState _state = CameraState.INTRO;
 
@@ -93,6 +94,8 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	[SerializeField] AnimationCurve _fovCurve = null; 
     const float CAM_FOV = 60f;
 
+	const float SITTING_ROTATESPEED = 1.0f;
+
 	public override void Initialize ()
 	{
 		if( PlayerManager.instance.Player != null )
@@ -145,6 +148,10 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 			break;
 		case CameraState.TRANSITION:
 			HandleTransitionMovement();
+			break;
+		case CameraState.SITTING:
+			SittingCameraRotate();
+			HandleFreePlayerCamera();
 			break;
 		default:
 			break;
@@ -201,6 +208,11 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 		}
 	}
 
+	void SittingCameraRotate()
+	{
+		_mainCam.transform.RotateAround( _focusPoint, Vector3.up, SITTING_ROTATESPEED * Time.fixedDeltaTime );
+		_camOffset = _mainCam.transform.position - _focusPoint;
+	}
 
 	private void HandleLockedPlayerCamera()
 	{
@@ -379,6 +391,8 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	{
 		if( newState != _state )
 		{
+			CameraState prevState = _state;
+
 			// On Disable Old State
 			switch( _state )
 			{
@@ -396,7 +410,10 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 			switch( _state )
 			{
 			case CameraState.FOLLOWPLAYER_FREE:
-				_zoomInterp = ZOOM_RESETINTERP;
+				if( prevState != CameraState.SITTING)
+				{
+					_zoomInterp = ZOOM_RESETINTERP;	
+				}			
 				break;
 			case CameraState.FOLLOWPLAYER_LOCKED:
 				_camInputVals.x = 0.0f;	// So _camOffset lerps in zooming quack
