@@ -28,8 +28,8 @@ public class BPDeathController : PlantController
 
 	enum DeathState
 	{
-		Dying,
-		Flying
+		Flying,
+		Dying
 	}
 
 	public override void Init()
