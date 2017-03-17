@@ -14,6 +14,7 @@ public class BigPlantPickupable : Pickupable {
     const float BIGPLANT_TUGANGLE_MAX = 0.12f;
     const float BIGPLANT_TUGANGLE_RETURNSPEED = 7.0f;
 
+	Coroutine _springRoutine = null;
 
 	void FixedUpdate()
 	{
@@ -50,9 +51,14 @@ public class BigPlantPickupable : Pickupable {
 		_grabTransform = null;
 
 
-		// Rotate plant back to being upright
-		StartCoroutine( DelayedReleaseBigPlant() );
+		if( _springRoutine != null )
+		{
+			StopCoroutine( _springRoutine );
+			_springRoutine = null;
+		}
 
+		// Rotate plant back to being upright
+		_springRoutine = StartCoroutine( DelayedReleaseBigPlant() );
 	}
 
 	IEnumerator DelayedReleaseBigPlant()
@@ -92,5 +98,7 @@ public class BigPlantPickupable : Pickupable {
         {
             this.GetComponent<PickupCollider>().LockedRotation = true;
         }
+
+		_springRoutine = null;
     }
 }
