@@ -94,7 +94,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	[SerializeField] AnimationCurve _fovCurve = null; 
     const float CAM_FOV = 60f;
 
-	const float SITTING_ROTATESPEED = 1.0f;
+	const float SITTING_ROTATESPEED = 2.0f;
 
 	public override void Initialize ()
 	{
