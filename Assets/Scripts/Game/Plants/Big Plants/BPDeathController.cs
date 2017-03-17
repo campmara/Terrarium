@@ -13,18 +13,27 @@ public class BPDeathController : PlantController
 	Color[] _interpColors = new Color[3];
 	int[] _shaderIDs = new int[3];
 
-	private Rigidbody _rb;
-	private float flyTimer = 0f;
-	private float flyPluckTime;
+	enum FlyState
+	{
+		PLUCK,
+		SLOWDOWN,
+		FLOAT
+	}
+	private FlyState _currentFlyState = FlyState.PLUCK;
 
-	const float WIND_EFFECT = 2f;
+	private Rigidbody _rb;
+	private float _flyTimer = 0f;
+	private float _flyPluckTime;
+
+	const float WIND_EFFECT = 30f;
 	const float PLUCK_FORCE = 17f;
 	const float ASCEND_FORCE = 2.25f;
 
-	const float PLUCK_MIN_TIME = 0.5f;
-	const float PLUCK_MAX_TIME = 1.2f;
+	const float PLUCK_MIN_TIME = 1.0f;
+	const float PLUCK_MAX_TIME = 2.2f;
+	const float SLOWDOWN_TIME = 1.1f;
 
-	const float KILL_Y = 30f;
+	const float KILL_Y = 50f;
 
 	enum DeathState
 	{
@@ -38,7 +47,7 @@ public class BPDeathController : PlantController
 		_rb = GetComponent<Rigidbody>();
 		_controllerType = ControllerType.Death;
 
-		flyPluckTime = Random.Range(PLUCK_MIN_TIME, PLUCK_MAX_TIME);
+		_flyPluckTime = Random.Range(PLUCK_MIN_TIME, PLUCK_MAX_TIME);
 	}
 
 	public override void StartState()
@@ -101,34 +110,60 @@ public class BPDeathController : PlantController
 
 	protected virtual void FlyAway()
 	{
-		if (transform.position.y > KILL_Y)
-		{
-			PlantManager.instance.DeleteLargePlant(_myPlant);
-		}
+		CheckForKill();
+		HandleFlyStateChanges();
 
 		_rb.isKinematic = false;
 		Vector3 upDir = ((Vector3.up * 5f) + (WeatherManager.instance.WindForce)).normalized;
 
-		// increment the fly flyTimer
-		flyTimer += Time.deltaTime;
-
 		// Apply an upward force.
-		if (flyTimer >= flyPluckTime)
+		if (_currentFlyState == FlyState.FLOAT)
 		{
-			// regular floating
 			_rb.AddForce(upDir * ASCEND_FORCE * Time.deltaTime, ForceMode.Impulse);
 		}
-		else
+		else if (_currentFlyState == FlyState.PLUCK)
 		{
-			// pluck
 			_rb.AddForce(upDir * PLUCK_FORCE * Time.deltaTime, ForceMode.Impulse);
+		}
+		else if (_currentFlyState == FlyState.SLOWDOWN)
+		{
+			_rb.AddForce(upDir * Mathf.Lerp(PLUCK_FORCE, ASCEND_FORCE, _flyTimer / SLOWDOWN_TIME) * Time.deltaTime, ForceMode.Impulse);
 		}
 		
 		// Apply a weird constant random rotation.
 		_rb.AddTorque(WeatherManager.instance.WindForce * WIND_EFFECT * Time.deltaTime);
 	}
 
+	void CheckForKill()
+	{
+		if (transform.position.y > KILL_Y)
+		{
+			PlantManager.instance.DeleteLargePlant(_myPlant);
+		}
+	}
 
+	void HandleFlyStateChanges()
+	{
+		if (_currentFlyState == FlyState.FLOAT)
+		{
+			return;
+		}
+
+		// increment the fly flyTimer
+		_flyTimer += Time.deltaTime;
+
+		if (_currentFlyState == FlyState.PLUCK && _flyTimer >= _flyPluckTime)
+		{
+			_currentFlyState = FlyState.SLOWDOWN;
+			_flyTimer = 0f;
+		}
+
+		if (_currentFlyState == FlyState.SLOWDOWN && _flyTimer >= SLOWDOWN_TIME)
+		{
+			_currentFlyState = FlyState.FLOAT;
+			_flyTimer = 0f;
+		}
+	}
 
 	void FadeColor()
 	{
