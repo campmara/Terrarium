@@ -32,6 +32,7 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 
 	public void RequestSpawnMini( PlantController plant, float timeUntil )
 	{
+		Debug.Log( "REQUEST: "  + timeUntil );
 		SpawnMiniPlantEvent spawnEvent = new SpawnMiniPlantEvent( plant, timeUntil );
 		TimeManager.instance.AddEvent( spawnEvent );
 	}

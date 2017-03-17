@@ -65,9 +65,9 @@
 		o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb * tex2D(_SecondaryTex, IN.uv_SecondaryTex).rgb * gradient;
 		o.Normal = UnpackNormal(tex2D(_NormalTex, IN.uv_NormalTex));
 		//o.Albedo = screenPos;
-		if (dot(o.Normal, IN.viewDir) < -.25) {
-			o.Albedo = float4(0, 0, 0, 1);
-		}
+		//if (dot(o.Normal, IN.viewDir) < -.25) {
+		//	o.Albedo = float4(0, 0, 0, 1);
+		//}
 	}
 
 	ENDCG

@@ -424,10 +424,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c89c16775a3ab6747bd06c3a52a18944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseGrowthRate: 0.1
+  _baseGrowthRate: 0.013
   _curStage: 0
   _droppingItems:
-  - {fileID: 1808484651768524, guid: 1aa42e991932b6449927645456d98dca, type: 2}
+  - {fileID: 1631419253260572, guid: e7e4ccc23b3b8416c994f33a1840c8c6, type: 2}
   _spawnables:
   - {fileID: 1957489743728246, guid: 83b5e0e2c650c804e98215001deaed97, type: 2}
   _bStemRoot: {fileID: 4508866319713756}
