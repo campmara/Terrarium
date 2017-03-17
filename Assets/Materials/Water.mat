@@ -87,7 +87,7 @@ Material:
       second: 1
     - first:
         name: _DistAmt
-      second: 35
+      second: 10.1
     - first:
         name: _DstBlend
       second: 0
@@ -148,13 +148,13 @@ Material:
       second: {r: 0.4749135, g: 0.722378, b: 0.89705884, a: 1}
     - first:
         name: _ColorBot
-      second: {r: 0.375, g: 0.5603448, b: 1, a: 0}
+      second: {r: 0.33607268, g: 0.4549555, b: 0.5441177, a: 1}
     - first:
         name: _ColorMid
-      second: {r: 0.375, g: 0.5603448, b: 1, a: 0}
+      second: {r: 0.39857265, g: 0.5309479, b: 0.71323526, a: 1}
     - first:
         name: _ColorTop
-      second: {r: 0.375, g: 0.5603448, b: 1, a: 0}
+      second: {r: 0.5902898, g: 0.68822336, b: 0.75735295, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
