@@ -428,7 +428,7 @@ MonoBehaviour:
   _droppingItems:
   - {fileID: 1808484651768524, guid: 1aa42e991932b6449927645456d98dca, type: 2}
   _spawnables:
-  - {fileID: 1957489743728246, guid: 2e152ae3f797a491ca6ec5694d70fb63, type: 2}
+  - {fileID: 1957489743728246, guid: 83b5e0e2c650c804e98215001deaed97, type: 2}
   _bStemRoot: {fileID: 4622317588078864}
   _leafPrefab: {fileID: 1543003685192774, guid: 3b7612a57e8103346becf09c2a9c5c95,
     type: 2}
