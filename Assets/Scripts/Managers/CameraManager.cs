@@ -80,7 +80,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 
     const float PONDRETURN_FORWARD = 4f;
     const float PONDRETURN_UP = 5f;    
-    const float PONDRETURN_TRANSITIONTIME = 1f;
+    const float PONDRETURN_TRANSITIONTIME = 2f;
 
     //const float PLAYERPOP_FORWARDPOS = 5.0f;
 	const float PLAYERPOP_FORWARDPOS = 0f;
@@ -182,6 +182,10 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 
                 // Move towards new focus center
 				_mainCam.transform.position = Vector3.Lerp( _mainCam.transform.position, _focusPoint + _camOffset, CAM_FOLLOWSPEED * Time.fixedDeltaTime );
+                if (_mainCam.transform.position.y < 0.0f)
+                {
+                    _mainCam.transform.SetPosY( 0.0f );
+                }
 
                 // Rotate Around Camera around player if Right stick horizontal movement
                 //      Done After b/c cam stutters if done before position change
@@ -301,7 +305,9 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 		_focusOffset.x = _focusTransform.position.x - _focusPoint.x;
 		_focusOffset.y = _focusPoint.y;
 		_focusOffset.z = _focusTransform.position.z - _focusPoint.z;
+
 		_focusOffset.Normalize();
+
 		_focusOffset *= Mathf.Lerp( BOUNDING_RADIUS_MIN, BOUNDING_RADIUS_MAX, _zoomInterp );
 	}
 
@@ -376,10 +382,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 			// On Disable Old State
 			switch( _state )
 			{
-			case CameraState.FOLLOWPLAYER_FREE:
-				if( newState == CameraState.TRANSITION )
-				{					
-				}
+			case CameraState.FOLLOWPLAYER_FREE:				
 				break;
 			case CameraState.FOLLOWPLAYER_LOCKED:
 				break;
@@ -393,6 +396,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 			switch( _state )
 			{
 			case CameraState.FOLLOWPLAYER_FREE:
+				_zoomInterp = ZOOM_RESETINTERP;
 				break;
 			case CameraState.FOLLOWPLAYER_LOCKED:
 				_camInputVals.x = 0.0f;	// So _camOffset lerps in zooming quack

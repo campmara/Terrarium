@@ -9,12 +9,16 @@ public enum P_ControlState
 	CARRYING,
 	RITUAL,
     PLANTING,
-	SING
+	SING,
+	SIT
 }
 
 [RequireComponent(typeof(Rigidbody))]
 public class RollerController : ControllerBase 
 {
+	private Player _player = null;
+	public Player Player { get { return _player; } }
+
     [ReadOnly]
     private Rigidbody _rigidbody = null;
     public Rigidbody RB { get { return _rigidbody; } }
@@ -75,11 +79,13 @@ public class RollerController : ControllerBase
 	private RitualState _ritual = null;	
     private PlantingState _planting = null;
 	private SingState _singing = null;
+	private SittingState _sitting = null;
 
 	void Awake()
 	{
 		//Debug.Log("Added Test Controller to Player Control Manager");
-        _rigidbody = GetComponent<Rigidbody>();
+        _player = this.GetComponent<Player>();
+		_rigidbody = GetComponent<Rigidbody>();
 	    _ik = GetComponentInChildren<PlayerIKControl>();
 	    _face = GetComponentInChildren<FaceManager>();
 		_mesh = GetComponentInChildren<SkinnedMeshRenderer>().gameObject;
@@ -107,6 +113,9 @@ public class RollerController : ControllerBase
 
 		_singing = this.gameObject.AddComponent<SingState>();
 		_singing.RollerParent = this;
+
+		_sitting = this.gameObject.AddComponent<SittingState>();
+		_sitting.RollerParent = this;
 
         // Set state to default (walking for now)
         ChangeState( P_ControlState.WALKING);
@@ -165,6 +174,9 @@ public class RollerController : ControllerBase
             break;
 		case P_ControlState.SING:
 			_currentState = _singing;
+			break;
+		case P_ControlState.SIT:
+			_currentState = _sitting;
 			break;
         default:
 			break;
@@ -267,6 +279,7 @@ public class RollerController : ControllerBase
 				HandleEndIdle();
 			}
 
+			// Forces a max velocity based on how magnitude of controller stick
 			_currMaxVelocity = Mathf.Lerp( 0.0f, maxMoveSpeed, vec.magnitude );
 
 			// Accounting for camera position
@@ -275,6 +288,7 @@ public class RollerController : ControllerBase
 			_inputVec = vec.normalized;
 
 			// MOVEMENT
+			
 			Accelerate( _currMaxVelocity, moveAcceleration );
 			
 			_targetRotation = Quaternion.LookRotation( _inputVec );
@@ -284,7 +298,7 @@ public class RollerController : ControllerBase
 			
 			// So player continues turning even after InputUp
 
-			transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, maxTurnSpeed * Time.deltaTime);
+			_rigidbody.MoveRotation( Quaternion.Slerp( transform.rotation, _targetRotation, maxTurnSpeed * Time.deltaTime ) );
 		}
 		else if ( _velocity > 0f )
 		{
@@ -307,7 +321,7 @@ public class RollerController : ControllerBase
 
 		// Hmm
 		// yeah hmmm
-		this.GetComponent<PlayerAnimationController>().SetPlayerSpeed( _velocity / maxMoveSpeed );
+		this._player.AnimationController.SetPlayerSpeed( _velocity / maxMoveSpeed );
 		
 		_rigidbody.MovePosition(transform.position + (transform.forward * _inputVec.magnitude * _velocity * Time.deltaTime));
 		_rigidbody.position = new Vector3(_rigidbody.position.x,
@@ -385,9 +399,4 @@ public class RollerController : ControllerBase
 
         AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_TRANSITIONFX, 1 );
 	}
-
-    public void PlayFootstep()
-    {
-        AudioManager.instance.PlayRandomAudioClip( AudioManager.AudioControllerNames.PLAYER_FOOTSTEPS );
-    }
 }

@@ -72,8 +72,12 @@ public class PlantingState : RollerState
         if ( _roller.CurrentHeldObject != null )
         {
 			if( _roller.CurrentHeldObject.GetComponent<Seed>() ) 
-			{       
-				_plantTween = _roller.CurrentHeldObject.transform.DOMoveY(RollerConstants.PLANTING_ENDY, RollerConstants.PLANTING_TIME ).OnComplete( () => HandlePlantingEnd() ).SetAutoKill( false ).SetEase(Ease.InBack); 
+			{
+                Vector3 plantPos = this.transform.position;
+                plantPos.y = RollerConstants.PLANTING_ENDY;  
+                plantPos += transform.forward * RollerConstants.PLANTING_ENDX;
+
+				_plantTween = _roller.CurrentHeldObject.transform.DOMove(plantPos, RollerConstants.PLANTING_TIME ).OnComplete( () => HandlePlantingEnd() ).SetAutoKill( false ).SetEase(Ease.InBack); 
 			}      
 			else 
 			{ 

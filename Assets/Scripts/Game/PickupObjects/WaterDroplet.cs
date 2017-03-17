@@ -41,9 +41,9 @@ public class WaterDroplet : Pickupable
     }
 
 	// This gets called when we pick up the object. Pickupable controls its own rigidbody.
-    public override void OnPickup( )
+    public override void OnPickup( Transform grabTransform )
     {
-        base.OnPickup();
+        base.OnPickup( grabTransform );
 
         transform.rotation = Quaternion.identity;
         modelObj.transform.rotation = Quaternion.identity;

@@ -13,7 +13,7 @@ public class ButterflyData
 
     public float _moveSpeed = 0.0f;
     
-    const float PIVOTSPEED_MAX = 20.0f;
+    const float PIVOTSPEED_MAX = 5.0f;
 	const float MOVESPEED_MIN = 1.0f;
 	const float MOVESPEED_MAX = 15.0f;
 
@@ -50,12 +50,16 @@ public class ButterflyCloud : AmbientCreature {
 
     // butterfly spawn values
     const float SPAWN_MINDIST = 0.5f;
-    const float SPAWN_MAXDIST = 3f;
+    const float SPAWN_MAXDIST = 2f;
+	const float SPAWN_HEIGHT = 5.0f;
+
+	const float YOFFSET_MIN = -0.1f;
+	const float YOFFSET_MAX = 2.0f;
 
 	[ReadOnlyAttribute, SerializeField]Transform _focusTrans = null;
 	Vector3 _focusDir = Vector3.zero;
-    const float PLAYER_CHECKRADIUS = 20.0f;     // How big of a radius Butteflies check    
-    const float PLAYER_APPROACHSPEED = 1.0f;    // How quickly butterflies chase
+    const float PLAYER_CHECKRADIUS = 9.0f;     // How big of a radius Butteflies check    
+    const float PLAYER_APPROACHSPEED = 0.1f;    // How quickly butterflies chase
     const float FOCUS_LOOKATSPEED = 1.0f;
 
     // Use this for initialization
@@ -135,6 +139,7 @@ public class ButterflyCloud : AmbientCreature {
 		{
             // Pivot around parent
             bData._parentOffset = Quaternion.Euler( bData._pivotDir * Time.deltaTime ) * bData._parentOffset;
+			bData._parentOffset.y = Mathf.Clamp( bData._parentOffset.y, YOFFSET_MIN, YOFFSET_MAX );	// Clamp 
 
             // Adjust the Target Positions for each butterfly
             bData._targetPosition = this.transform.position + bData._parentOffset;
@@ -145,7 +150,7 @@ public class ButterflyCloud : AmbientCreature {
             // Look at whatever the swarm is focused on
             if( _focusTrans != null)
             {
-                bData._butterflyTransform.rotation = Quaternion.Lerp( bData._butterflyTransform.rotation, Quaternion.LookRotation( ( _focusTrans.position - bData._butterflyTransform.position ).normalized, Vector3.up ), FOCUS_LOOKATSPEED * Time.deltaTime );
+                bData._butterflyTransform.rotation = Quaternion.Slerp( bData._butterflyTransform.rotation, Quaternion.LookRotation( ( _focusTrans.position - bData._butterflyTransform.position ).normalized, Vector3.up ), FOCUS_LOOKATSPEED * Time.deltaTime );
             }            
 		}
 	}
@@ -166,15 +171,23 @@ public class ButterflyCloud : AmbientCreature {
 
             tmpData = new ButterflyData();
 
-            tmpCreature.transform.position = transform.position + Random.insideUnitSphere * Random.Range( SPAWN_MINDIST, SPAWN_MAXDIST );
+			tmpCreature.transform.position = transform.position + ( Random.insideUnitSphere * Random.Range( SPAWN_MINDIST, SPAWN_MAXDIST ) ) + ( Vector3.up * SPAWN_HEIGHT );
             tmpData._butterflyTransform = tmpCreature.transform;
 			tmpData._parentOffset = tmpCreature.transform.position - this.transform.position;
 			tmpData._targetPosition = tmpCreature.transform.position;
+
+			StartCoroutine( DelayedStartAnim( tmpCreature.GetComponent<Animator>() ) );
 
 			_butterflyList.Add( tmpData );                     
         }
     }
 
+	IEnumerator DelayedStartAnim( Animator anim )
+	{
+		yield return new WaitForSeconds( Random.Range( 0.1f, 0.75f ) );
+
+		anim.SetTime(0.0f);
+	}
 
 	// Worried about mem leak, need to look into disposing of non Mono classes
 	private void OnDestroy()
