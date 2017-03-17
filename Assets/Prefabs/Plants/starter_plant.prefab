@@ -400,8 +400,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pAssetKey: -1
-  _DeathDurationRange: {x: 5, y: 10}
-  _baseDecayRate: 1.5
+  _DeathDurationRange: {x: 275, y: 320}
+  _baseDecayRate: 1
 --- !u!114 &114169642532466072
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -426,7 +426,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 080f0cb5dcfc64ee99d5d9ac47120a21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseGrowthRate: 0.1
+  _baseGrowthRate: 0.005
   _curStage: 0
   _droppingItems:
   - {fileID: 1356359172527236, guid: bbfef1f81afcefc438cf9d537e7f0931, type: 2}
