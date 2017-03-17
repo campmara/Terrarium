@@ -148,7 +148,7 @@ Material:
       second: {r: 0.4749135, g: 0.722378, b: 0.89705884, a: 1}
     - first:
         name: _ColorBot
-      second: {r: 0.39857265, g: 0.5309479, b: 0.71323526, a: 1}
+      second: {r: 0.33607268, g: 0.4549555, b: 0.5441177, a: 1}
     - first:
         name: _ColorMid
       second: {r: 0.39857265, g: 0.5309479, b: 0.71323526, a: 1}
