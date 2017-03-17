@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Gradient Sky
-  m_Shader: {fileID: 4800000, guid: 3fb34ab542a090e49bb5d18e0ec396cb, type: 3}
+  m_Name: Puff Particle
+  m_Shader: {fileID: 4800000, guid: 7bd38216be2db1742a029c7727b1f501, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
   m_CustomRenderQueue: -1
@@ -48,11 +48,17 @@ Material:
     - first:
         name: _MainTex
       second:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 8b98fcd5a608f453182ec06a6bba401a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
         name: _MetallicGlossMap
+      second:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _NormalTex
       second:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -70,9 +76,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
-        name: _WhispTexture
+        name: _SecondaryTex
       second:
-        m_Texture: {fileID: 2800000, guid: f19ceb968bb2d4d739d0e63b6fb94eda, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -89,18 +95,6 @@ Material:
         name: _DstBlend
       second: 0
     - first:
-        name: _Exponent
-      second: 1
-    - first:
-        name: _FogBlend
-      second: 7.6
-    - first:
-        name: _FogLevel
-      second: 0.625
-    - first:
-        name: _FogLightTransition
-      second: 1.41
-    - first:
         name: _GlossMapScale
       second: 1
     - first:
@@ -110,11 +104,14 @@ Material:
         name: _GlossyReflections
       second: 1
     - first:
-        name: _Intensity
-      second: 1
+        name: _Hardness
+      second: 0.5
     - first:
         name: _Metallic
       second: 0
+    - first:
+        name: _Middle
+      second: 0.5
     - first:
         name: _Mode
       second: 0
@@ -137,30 +134,21 @@ Material:
         name: _UVSec
       second: 0
     - first:
-        name: _UpVectorPitch
-      second: 0
-    - first:
-        name: _UpVectorYaw
-      second: 0
-    - first:
         name: _ZWrite
       second: 1
     m_Colors:
     - first:
         name: _Color
+      second: {r: 0.7941176, g: 0.73593515, b: 0.61310554, a: 1}
+    - first:
+        name: _ColorBot
       second: {r: 1, g: 1, b: 1, a: 1}
     - first:
-        name: _Color1
-      second: {r: 1, g: 1, b: 1, a: 0}
+        name: _ColorMid
+      second: {r: 1, g: 1, b: 1, a: 1}
     - first:
-        name: _Color2
-      second: {r: 0.4852941, g: 0.637931, b: 1, a: 0}
+        name: _ColorTop
+      second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
-    - first:
-        name: _FogColor
-      second: {r: 1, g: 1, b: 1, a: 0}
-    - first:
-        name: _UpVector
-      second: {r: 0, g: 2, b: 0, a: 0}

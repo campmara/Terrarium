@@ -264,26 +264,34 @@ public class BPGrowthController : PlantController
 	{
 		GameObject newPlant = null;
 
-		if( _spawnables.Count != 0 )
+		if ( _myPlant != null )
 		{
-			Vector2 randomPoint = _myPlant.GetRandomPoint( _innerMeshRadius, _outerSpawnRadius );
-			Vector3 spawnPoint = new Vector3( randomPoint.x, .1f, randomPoint.y ) + transform.position;
-			spawnPoint = new Vector3( spawnPoint.x, .05f, spawnPoint.z );
+			if( _spawnables.Count != 0 )
+			{
+				Vector2 randomPoint = _myPlant.GetRandomPoint( _innerMeshRadius, _outerSpawnRadius );
+				Vector3 spawnPoint = new Vector3( randomPoint.x, .1f, randomPoint.y ) + transform.position;
+				spawnPoint = new Vector3( spawnPoint.x, .05f, spawnPoint.z );
 
-			newPlant = (GameObject)Instantiate( _spawnables[Random.Range( 0, _spawnables.Count)], spawnPoint, Quaternion.identity );
+				newPlant = (GameObject)Instantiate( _spawnables[Random.Range( 0, _spawnables.Count)], spawnPoint, Quaternion.identity );
+			}
+
+			_minisSpawned++;
+
+			if( _minisSpawned < _maxMinisSpawned )
+			{
+				PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
+			}
+
+			if( newPlant == null )
+			{
+				Debug.Log("spawning minis plant messed up ");
+			}
+		}
+		else
+		{
+			Debug.Log("Tryna Spawn Mini WHile Destroyed");
 		}
 
-		_minisSpawned++;
-
-		if( _minisSpawned < _maxMinisSpawned )
-		{
-			PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
-		}
-
-		if( newPlant == null )
-		{
-			Debug.Log("spawning minis plant messed up ");
-		}
 
 		return newPlant;
 	}

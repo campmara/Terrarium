@@ -11,14 +11,17 @@
 		_UpVectorPitch("Up Vector Pitch", float) = 0
 		_UpVectorYaw("Up Vector Yaw", float) = 0
 
+		_WhispTexture("Whisp Texture", 2D) = "white" {}
 		_FogLevel("Fog Level", Range(0,1)) = 0.5
 		_FogBlend("Fog Blend", Range(0,100)) = 0.5
+		_FogLightTransition("Fog Light Transition", Range(0, 3)) = 1
 		//_FogColor("Fog Color", Color) = (1, 1, 1, 0)
 	}
 
 		CGINCLUDE
 
-#include "UnityCG.cginc"
+		#include "UnityCG.cginc"
+		#include "Noise.cginc"
 
 		struct appdata
 	{
@@ -41,6 +44,9 @@
 	half _FogLevel;
 	half _FogBlend;
 
+	sampler2D _WhispTexture;
+	float _FogLightTransition;
+
 	v2f vert(appdata v)
 	{
 		v2f o;
@@ -51,16 +57,28 @@
 
 	fixed4 frag(v2f i) : COLOR
 	{
-		half d = dot(normalize(i.texcoord), _UpVector) * 0.5f + 0.5f;
+		float noiseHeight = .05;
+		float noiseScale = 5;
+		float time = _Time * 5;
+
+		float lineNoise = sin((i.texcoord.x*noiseScale) + time)*cos((i.texcoord.z*noiseScale) + time)*noiseHeight;
+		lineNoise += tex2D(_WhispTexture, i.texcoord.xz) / 45;
+		half d = dot(normalize(i.texcoord), 
+			_UpVector + lineNoise)
+			* 0.5f + 0.5f;
+		half noise_d = dot(normalize(i.texcoord),
+			_UpVector)
+			* 0.5f + 0.5f;
 		//if (d < _UpVector.y * _FogLevel) {
 		//	return unity_FogColor;
 		//}
 
-		float melt = (d - _FogLevel * _UpVector.y) * _FogBlend;
+		float melt = (noise_d - _FogLevel * _UpVector.y + lineNoise) * _FogBlend;
 		melt = saturate(melt);
 
-		fixed4 sky = lerp(_Color1, _Color2, pow(d, _Exponent)) * _Intensity;
-		return lerp(unity_FogColor, sky, melt);
+		fixed4 sky = lerp(_Color1, _Color2, pow(noise_d, _Exponent)) * _Intensity;
+		fixed4 fog = lerp(unity_FogColor, _Color1, clamp(d + _FogLevel - _FogLightTransition, 0, 1));
+		return lerp(fog, sky, melt);
 	}
 
 		ENDCG

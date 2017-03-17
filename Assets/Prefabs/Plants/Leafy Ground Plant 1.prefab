@@ -144,3 +144,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _carryable: 0
   _grabbed: 0
+  _tugUpParticle: {fileID: 1727087997097078, guid: 0103d30c7c7cd4068a4d277c17befd51,
+    type: 2}

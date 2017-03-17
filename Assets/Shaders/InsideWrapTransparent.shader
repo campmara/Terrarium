@@ -46,5 +46,5 @@
 
 	ENDCG
 	}
-		FallBack "Standard"
+		FallBack "Transparent/Cutout/Diffuse"
 }
