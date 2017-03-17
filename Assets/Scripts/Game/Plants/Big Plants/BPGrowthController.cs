@@ -48,8 +48,8 @@ public class BPGrowthController : PlantController
 	//fruits
 	[SerializeField] List<GameObject> _droppingItems = null;  
 	float _fruitDropHeight = 8.0f;
-	const float _timeBetweenFruitDrops = 40.0f;
-	protected const float _timeBetweenSpawns = 35.0f;
+	const float _timeBetweenFruitDrops = 60.0f;
+	protected const float _timeBetweenSpawns = 30.0f;
 
 	// small plants
 	[SerializeField] List<GameObject> _spawnables = new List<GameObject>();
