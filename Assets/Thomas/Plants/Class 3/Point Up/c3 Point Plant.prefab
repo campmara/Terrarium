@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 114887960489354722}
   - component: {fileID: 114026638650390066}
   - component: {fileID: 114336753827948082}
+  - component: {fileID: 114459154648449280}
   m_Layer: 0
   m_Name: c3 Point Plant
   m_TagString: Untagged
@@ -423,7 +424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c89c16775a3ab6747bd06c3a52a18944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseGrowthRate: 0.1
+  _baseGrowthRate: 0.0125
   _curStage: 0
   _droppingItems:
   - {fileID: 1808484651768524, guid: 1aa42e991932b6449927645456d98dca, type: 2}
@@ -432,6 +433,19 @@ MonoBehaviour:
   _bStemRoot: {fileID: 4622317588078864}
   _leafPrefab: {fileID: 1543003685192774, guid: 3b7612a57e8103346becf09c2a9c5c95,
     type: 2}
+--- !u!114 &114459154648449280
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1622798177204276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c41ac8717533e4dfe950929dae1318b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _carryable: 0
+  _grabbed: 0
 --- !u!114 &114489051819565388
 MonoBehaviour:
   m_ObjectHideFlags: 1

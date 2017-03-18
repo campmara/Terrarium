@@ -110,9 +110,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spawnables:
-  - {fileID: 1671318262009308, guid: a5d3f8bb0c7864468a5c1899760b344c, type: 2}
+  - {fileID: 1863841682442650, guid: fa18cc17991d646178faacbf71f38a50, type: 2}
+  - {fileID: 1211071532307350, guid: 267f161e8216446fd8bd51c9ff2019f2, type: 2}
   _growthRate: 0.1
-  _baseGrowthRate: 0.1
+  _baseGrowthRate: 0.25
   _scaleRange: {x: 3, y: 9}
   _leaf: {fileID: 1846552769908484, guid: f41ebbb9e478fec449e2f8c287072170, type: 2}
   _fruit: {fileID: 1331700218982416, guid: b029e295a6ac1af4da86ad0fdafacebc, type: 2}
