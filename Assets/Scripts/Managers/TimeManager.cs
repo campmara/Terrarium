@@ -20,7 +20,7 @@ public class TimeManager : SingletonBehaviour<TimeManager>
     public DateTime RealWorldTime { get { return _realWorldTime; } }
     public DateTime RealWorldNow { get { return DateTime.Now; } }
 
-	List<GameEvent> _eventQueue;
+	List<GameEvent> _eventQueue = new List<GameEvent>();
 
 	public delegate void MinuteDelegate();
 	public MinuteDelegate MinuteCallback;

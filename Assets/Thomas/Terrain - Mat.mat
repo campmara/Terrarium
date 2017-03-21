@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Terrain - Mat
-  m_Shader: {fileID: 4800000, guid: b3626806bf23dc04f9c7a2b50d5c0d2c, type: 3}
+  m_Shader: {fileID: 4800000, guid: cade45a53f884bf41800371fc8f89e84, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
   m_CustomRenderQueue: -1
@@ -64,6 +64,12 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
+        name: _NormalTex
+      second:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
         name: _OcclusionMap
       second:
         m_Texture: {fileID: 0}
@@ -71,6 +77,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     - first:
         name: _ParallaxMap
+      second:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _SecondaryTex
       second:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -122,6 +134,9 @@ Material:
         name: _GlossyReflections
       second: 1
     - first:
+        name: _Hardness
+      second: 0.35
+    - first:
         name: _Metallic
       second: 0.187
     - first:
@@ -151,7 +166,7 @@ Material:
     m_Colors:
     - first:
         name: _Color
-      second: {r: 0.22302118, g: 0.23549111, b: 0.24264705, a: 1}
+      second: {r: 0.29682094, g: 0.31846297, b: 0.33088237, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}

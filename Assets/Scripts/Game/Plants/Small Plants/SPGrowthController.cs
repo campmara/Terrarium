@@ -11,7 +11,7 @@ public class SPGrowthController : PlantController
 	protected int _minisSpawned = 0;
 
 	protected float _spawnRadius = 2.5f;
-	protected const float _timeBetweenSpawns = 35.0f;
+	protected const float _timeBetweenSpawns = 5.0f;
 
 	protected float _innerMeshRadius = 2.0f;
 	protected float _outerSpawnRadius = 2.5f;
@@ -90,7 +90,6 @@ public class SPGrowthController : PlantController
 	public override GameObject SpawnChildPlant()
 	{
 		GameObject newPlant = null;
-
 		if( _spawnables.Count != 0 )
 		{
 			//what kind of radius do i want
