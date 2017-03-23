@@ -102,10 +102,12 @@
 		//take it back to object space
 		float4 objectSpaceVertex = mul(unity_WorldToObject, worldPos);
 		v.vertex = objectSpaceVertex;
-
+		
+		/*
 		v.color.r = wind;
 		v.color.g = wind;
-		v.color.b = wind;
+		v.color.b = wind; 
+		*/
 	}
 
 	void surf(Input IN, inout SurfaceOutput o) {
@@ -113,8 +115,8 @@
 		fixed4 gradient = lerp(_ColorBot, _ColorMid, IN.uv_MainTex.y / _Middle) * step(IN.uv_MainTex.y, _Middle);
 		gradient += lerp(_ColorMid, _ColorTop, (IN.uv_MainTex.y - _Middle) / (1 - _Middle)) * step(_Middle, IN.uv_MainTex.y);
 
-		//o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb * tex2D(_SecondaryTex, IN.uv_SecondaryTex).rgb * gradient;
-		o.Albedo = IN.color.r;
+		o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb * tex2D(_SecondaryTex, IN.uv_SecondaryTex).rgb * gradient;
+		//o.Albedo = IN.color.r;
 		o.Normal = UnpackNormal(tex2D(_NormalTex, IN.uv_NormalTex));
 	}
 
