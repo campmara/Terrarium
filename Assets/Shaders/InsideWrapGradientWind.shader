@@ -12,6 +12,8 @@
 
 		_Hardness("Hardness", Range(.25, 1)) = 0.5
 
+		_Sensitivity("Height Sensitivity", Range(.000001, 1000)) = 15
+
 		//these values are made uniform lower in the shader
 		//I kept them in for debugging later on.
 			//_WaveDir("Wind Direction", Vector) = (0,0,0,0)
@@ -53,6 +55,7 @@
 		float2 uv_MainTex;
 		float2 uv_SecondaryTex;
 		float2 uv_NormalTex;
+		float4 color : COLOR;
 	};
 
 	sampler2D _MainTex;
@@ -64,6 +67,9 @@
 	fixed4 _ColorBot;
 	float  _Middle;
 
+	//wind
+	float _Sensitivity;
+
 	//these values are uniform so that they'll work globally
 	uniform fixed4 _WaveDir;
 	uniform float _WaveSpeed;
@@ -72,7 +78,6 @@
 	uniform float _WaveScale;
 
 	void vert(inout appdata_full v) {
-		v.color.r = 1;
 
 		//this effect causes the material to disappear if the amount is 0, this won't run the code if that's the case
 		if (_WaveAmount == 0 || _WaveDir.x == 0 && _WaveDir.y == 0 && _WaveDir.z == 0) { return; }
@@ -85,11 +90,11 @@
 
 		float noiseOffset = cnoise(worldPos.xyz) * _WaveNoise;
 		//clamped to prevent extreme results at higher branches, needs tweaking, it would be nice if lower plants shook more in here
-		float heightSensitivity = clamp(worldPos.y * worldPos.y, 0, 5) / 5;
+		float heightSensitivity = clamp(worldPos.y * worldPos.y, 0, _Sensitivity) / _Sensitivity;
 		//oscillation value adds on to the direction of the wind, it's length is measured with _WaveScale
-		float4 oscillation = sin(_Time.y * _WaveSpeed + noiseOffset) * _WaveScale * normalize(_WaveDir) * v.color.r * heightSensitivity;
+		float4 oscillation = sin(_Time.y * _WaveSpeed + noiseOffset) * _WaveScale * normalize(_WaveDir) * heightSensitivity; // * v.color.r
 		//wave direction and oscillation combined are then scaled overall by the _WaveAmount
-		float4 wind = (normalize(_WaveDir) + oscillation) * _WaveAmount * v.color.r * heightSensitivity;
+		float4 wind = (normalize(_WaveDir) + oscillation) * _WaveAmount * heightSensitivity; //* v.color.r
 
 		worldPos += wind;
 		//''''''''''''''''''''''
@@ -98,6 +103,11 @@
 		float4 objectSpaceVertex = mul(unity_WorldToObject, worldPos);
 		v.vertex = objectSpaceVertex;
 		
+		/*
+		v.color.r = wind;
+		v.color.g = wind;
+		v.color.b = wind; 
+		*/
 	}
 
 	void surf(Input IN, inout SurfaceOutput o) {
@@ -106,6 +116,7 @@
 		gradient += lerp(_ColorMid, _ColorTop, (IN.uv_MainTex.y - _Middle) / (1 - _Middle)) * step(_Middle, IN.uv_MainTex.y);
 
 		o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb * tex2D(_SecondaryTex, IN.uv_SecondaryTex).rgb * gradient;
+		//o.Albedo = IN.color.r;
 		o.Normal = UnpackNormal(tex2D(_NormalTex, IN.uv_NormalTex));
 	}
 
