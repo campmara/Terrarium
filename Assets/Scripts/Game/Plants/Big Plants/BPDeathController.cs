@@ -5,6 +5,7 @@ using UnityEngine;
 public class BPDeathController : PlantController 
 {	
 	[SerializeField] Color[] _deathColors = new Color[3];
+	[SerializeField] float _waterDecayReturnTime = 20.0f;
 
 	DeathState _curState = DeathState.Dying;
 
@@ -29,11 +30,11 @@ public class BPDeathController : PlantController
 	const float PLUCK_FORCE = 17f;
 	const float ASCEND_FORCE = 2.25f;
 
-	const float PLUCK_MIN_TIME = 1.0f;
-	const float PLUCK_MAX_TIME = 2.2f;
+	const float PLUCK_MIN_TIME = 0.05f;
+	const float PLUCK_MAX_TIME = 0.15f;
 	const float SLOWDOWN_TIME = 1.1f;
 
-	const float KILL_Y = 50f;
+	const float KILL_Y = 100f;
 
 	enum DeathState
 	{
@@ -114,20 +115,20 @@ public class BPDeathController : PlantController
 		HandleFlyStateChanges();
 
 		_rb.isKinematic = false;
-		Vector3 upDir = ((Vector3.up * 5f) + (WeatherManager.instance.WindForce)).normalized;
+		Vector3 upDir = ( ( Vector3.up * 5f ) + ( WeatherManager.instance.WindForce ) ).normalized;
 
 		// Apply an upward force.
-		if (_currentFlyState == FlyState.FLOAT)
+		if ( _currentFlyState == FlyState.FLOAT )
 		{
-			_rb.AddForce(upDir * ASCEND_FORCE * Time.deltaTime, ForceMode.Impulse);
+			_rb.AddForce( upDir * ASCEND_FORCE * Time.deltaTime, ForceMode.Impulse );
 		}
-		else if (_currentFlyState == FlyState.PLUCK)
+		else if ( _currentFlyState == FlyState.PLUCK )
 		{
-			_rb.AddForce(upDir * PLUCK_FORCE * Time.deltaTime, ForceMode.Impulse);
+			_rb.AddForce( upDir * PLUCK_FORCE * Time.deltaTime, ForceMode.Impulse );
 		}
-		else if (_currentFlyState == FlyState.SLOWDOWN)
+		else if ( _currentFlyState == FlyState.SLOWDOWN )
 		{
-			_rb.AddForce(upDir * Mathf.Lerp(PLUCK_FORCE, ASCEND_FORCE, _flyTimer / SLOWDOWN_TIME) * Time.deltaTime, ForceMode.Impulse);
+			_rb.AddForce( upDir * Mathf.Lerp( PLUCK_FORCE, ASCEND_FORCE, _flyTimer / SLOWDOWN_TIME ) * Time.deltaTime, ForceMode.Impulse );
 		}
 		
 		// Apply a weird constant random rotation.
@@ -190,6 +191,13 @@ public class BPDeathController : PlantController
 	{
 		//stave off the death 
 		_myPlant.CurDecayRate = _myPlant.WateredDecayRate;
+
+		if( _myPlant.DecayReturnRoutine != null )
+		{
+			StopCoroutine( _myPlant.DecayReturnRoutine );
+		}
+
+		_myPlant.DecayReturnRoutine = StartCoroutine( _myPlant.DelayedReturnDecayRate( _waterDecayReturnTime ) );
 	}
 
 	public override void TouchPlant(){}

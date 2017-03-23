@@ -388,6 +388,7 @@ MonoBehaviour:
   - {r: 0.7647059, g: 0.6934825, b: 0.29238755, a: 0.07980764}
   - {r: 0.58823526, g: 0.46948567, b: 0.22923875, a: 0.07980764}
   - {r: 0.30147058, g: 0.27927926, b: 0.16403547, a: 0.07980764}
+  _waterDecayReturnTime: 20
 --- !u!114 &114098142030374966
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -426,7 +427,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 080f0cb5dcfc64ee99d5d9ac47120a21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseGrowthRate: 0.005
+  _baseGrowthRate: 0.0025
   _curStage: 0
   _droppingItems:
   - {fileID: 1356359172527236, guid: bbfef1f81afcefc438cf9d537e7f0931, type: 2}

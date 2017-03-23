@@ -85,7 +85,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pAssetKey: -1
-  _DeathDurationRange: {x: 45, y: 60}
+  _DeathDurationRange: {x: 550, y: 600}
   _baseDecayRate: 1
 --- !u!114 &114200887993625748
 MonoBehaviour:
@@ -132,6 +132,7 @@ MonoBehaviour:
   - {r: 0.6544118, g: 0.6070897, b: 0.5052444, a: 0}
   - {r: 0.50735295, g: 0.43721884, b: 0.33201775, a: 0}
   - {r: 0.30882353, g: 0.26497433, b: 0.14987023, a: 0}
+  _waterDecayReturnTime: 20
 --- !u!114 &114956479723811758
 MonoBehaviour:
   m_ObjectHideFlags: 1

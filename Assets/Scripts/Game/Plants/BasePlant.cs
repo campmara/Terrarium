@@ -26,6 +26,9 @@ public class BasePlant : MonoBehaviour
 	protected float _wateredDecayRate = 0.0f;
 	public float WateredDecayRate { get { return _wateredDecayRate; } set { _wateredDecayRate = value; } }
 
+	Coroutine _decayReturnRoutine = null;
+	public Coroutine DecayReturnRoutine { get { return _decayReturnRoutine; } set { _decayReturnRoutine = value; } }
+
 	// *************
 	// STATE CONTROLLER
 	// **************
@@ -118,6 +121,12 @@ public class BasePlant : MonoBehaviour
 	void OnDestroy()
 	{
 		PlantManager.ExecuteGrowth -= UpdatePlant;
+
+		if( _decayReturnRoutine != null )
+		{
+			StopCoroutine( _decayReturnRoutine );
+			_decayReturnRoutine = null;
+		}
 	}
 
 	//helper function
@@ -129,5 +138,12 @@ public class BasePlant : MonoBehaviour
 		randomPoint = new Vector2( Mathf.Sign(randomPoint.x) * xOffset +  randomPoint.x, randomPoint.y + yOffset * Mathf.Sign(randomPoint.y) );
 
 		return randomPoint;
+	}
+
+	public IEnumerator DelayedReturnDecayRate( float returnTime )
+	{
+		yield return new WaitForSeconds( returnTime );
+
+		_curDecayRate = _baseDecayRate;
 	}
 }
