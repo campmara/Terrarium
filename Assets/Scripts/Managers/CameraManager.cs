@@ -90,7 +90,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 
 	float _fov; 
 	const float CAM_FOV_MIN = 60.0f;    // CHANGES IN REVERSE: the lower closer it is zoomed in the closer the fov is to its max val 
-	const float CAM_FOV_MAX = 90.0f; 
+	const float CAM_FOV_MAX = 80.0f; 
 	[SerializeField] AnimationCurve _fovCurve = null; 
     const float CAM_FOV = 60f;
 
@@ -265,7 +265,9 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	/// </summary>
 	private IEnumerator DelayedPondReturnPan()
 	{
-	    Transform pondTransform = PondManager.instance.Pond.transform;
+		yield return new WaitForSeconds( RollerConstants.RITUAL_COMPLETEWAIT );
+
+		Transform pondTransform = PondManager.instance.Pond.transform;
 	    Vector3 desiredPos = ( pondTransform.forward * PONDRETURN_FORWARD ) + ( pondTransform.up * PONDRETURN_UP );
 
         Vector3 forward = ( pondTransform.position - ( desiredPos - ( pondTransform.forward * PLAYERPOP_FORWARDPOS ) ) ).normalized;

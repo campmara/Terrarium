@@ -230,7 +230,7 @@ public class PlayerArmIK : MonoBehaviour {
 			if( _ambientReachTimer < AMBIENTREACH_MINTIME )
 			{
 				// TODO: Make Droopy Sad : (
-				_face.BecomeSad();	
+				//_face.BecomeSad();	
 			}            
 
             ReleaseTargetTransform();
