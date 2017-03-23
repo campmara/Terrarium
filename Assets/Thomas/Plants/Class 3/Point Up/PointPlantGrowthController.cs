@@ -117,6 +117,7 @@ public class PointPlantGrowthController : BPGrowthController
         anim.speed *= _plantAnim.GetComponent<Animator>().speed * 2f;
 
         _leafTransformations.Add(transformedLeaf);
+		UpdateLeafTransforms();
     }
 
     protected override void CustomPlantGrowth()
@@ -154,7 +155,6 @@ public class PointPlantGrowthController : BPGrowthController
             currentLeaf.rotation = currentLeafParent.rotation * _leafTransformations[i].rotationOffset;
             currentLeaf.position = currentLeafParent.position + _leafTransformations[i].positionOffset;
         }
-
     }
 
     protected override void CustomStopGrowth()

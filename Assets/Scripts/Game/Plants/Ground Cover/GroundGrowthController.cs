@@ -15,6 +15,8 @@ public class GroundGrowthController : PlantController
 		_myPlant = GetComponent<BasePlant>();
 		_controllerType = ControllerType.Growth;
 		_anim = GetComponentInChildren<Animator>();
+
+		transform.localScale = new Vector3(transform.localScale.x, Random.Range(0.95f, 1.25f), transform.localScale.z);
 	}	
 
 	public override void StartState(){}
