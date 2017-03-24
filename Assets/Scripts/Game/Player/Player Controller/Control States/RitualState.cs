@@ -52,19 +52,19 @@ public class RitualState : RollerState
     {
         GameManager.Instance.ChangeGameState( GameManager.GameState.POND_RETURN );
 
+        Vector3 pos = transform.position;
         //transform.DOMoveY( -50.0f, 1.0f );
 		PondManager.instance.HandlePondReturn();
 
 		_roller.IK.SetState( PlayerIKControl.WalkState.POND_RETURN );
 
-        StartCoroutine( DelayedCompleteRitual() );        
+        StartCoroutine( DelayedCompleteRitual( pos ) );        
     }
 
-    IEnumerator DelayedCompleteRitual()
+    IEnumerator DelayedCompleteRitual(Vector3 pos)
     {
 		float currentPaintSize = 0f;
 		float maxPaintSize = 10f;
-		Vector3 pos = transform.position;
 
 		// Tell the plant manager to pop up all planted seeds in the vicinity and some grass / bushes.
 				
