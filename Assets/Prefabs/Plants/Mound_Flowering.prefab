@@ -54,7 +54,7 @@ GameObject:
   - component: {fileID: 114705503488462458}
   - component: {fileID: 114731697741026298}
   m_Layer: 0
-  m_Name: Mound
+  m_Name: Mound_Flowering
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -491,6 +491,7 @@ MonoBehaviour:
   _pAssetKey: -1
   _DeathDurationRange: {x: 12, y: 15}
   _baseDecayRate: 0
+  _curDecayRate: 0
 --- !u!135 &135363004299402988
 SphereCollider:
   m_ObjectHideFlags: 1
