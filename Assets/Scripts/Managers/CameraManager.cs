@@ -265,7 +265,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	/// </summary>
 	private IEnumerator DelayedPondReturnPan()
 	{
-        yield return new WaitForSeconds( RollerConstants.RITUAL_COMPLETEWAIT );
+        yield return new WaitForSeconds( RollerConstants.instance.RITUAL_COMPLETEWAIT );
 
         Transform pondTransform = PondManager.instance.Pond.transform;
 	    Vector3 desiredPos = ( pondTransform.forward * PONDRETURN_FORWARD ) + ( pondTransform.up * PONDRETURN_UP );

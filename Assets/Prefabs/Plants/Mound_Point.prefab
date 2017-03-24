@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 114161420381823384}
   - component: {fileID: 114071364559162066}
   m_Layer: 0
-  m_Name: PointMound
+  m_Name: Mound_Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114885641527461720}
   - component: {fileID: 114789553866927508}
   m_Layer: 0
-  m_Name: Twist Plant
+  m_Name: Plant_Twist
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -156,6 +156,7 @@ MonoBehaviour:
   _pAssetKey: -1
   _DeathDurationRange: {x: 15, y: 20}
   _baseDecayRate: 2
+  _curDecayRate: 0
 --- !u!114 &114789553866927508
 MonoBehaviour:
   m_ObjectHideFlags: 1
