@@ -81,26 +81,26 @@ public class RollingState : RollerState
 
 	private void HandleRolling(InputCollection input)
 	{
-		if (Mathf.Abs(input.LeftStickY.Value) > RollerConstants.INPUT_DEADZONE)
+		if (Mathf.Abs(input.LeftStickY.Value) > RollerConstants.instance.INPUT_DEADZONE)
 		{
 			if (_roller.InputVec.z >= 0f)
 			{
-				_roller.Accelerate(RollerConstants.ROLL_MAX_SPEED, RollerConstants.ROLL_ACCELERATION, _roller.InputVec.z);
+				_roller.Accelerate(RollerConstants.instance.ROLL_MAX_SPEED, RollerConstants.instance.ROLL_ACCELERATION, _roller.InputVec.z);
 			}
 			else
 			{
-				_roller.Accelerate(RollerConstants.REVERSE_ROLL_SPEED, RollerConstants.ROLL_ACCELERATION);
+				_roller.Accelerate(RollerConstants.instance.REVERSE_ROLL_SPEED, RollerConstants.instance.ROLL_ACCELERATION);
 			}
 		}
 		else
 		{
-			_roller.Accelerate(RollerConstants.ROLL_SPEED, RollerConstants.ROLL_ACCELERATION);
+			_roller.Accelerate(RollerConstants.instance.ROLL_SPEED, RollerConstants.instance.ROLL_ACCELERATION);
 		}
 
 		_roller.RB.MovePosition(_roller.transform.position + (_roller.transform.forward * _roller.Velocity * Time.deltaTime));
 
 		// Roll the Roll Sphere
-		_roller.RollSphere.transform.Rotate(RollerConstants.ROLL_SPHERE_SPIN * Time.deltaTime, 0f, 0f);
+		_roller.RollSphere.transform.Rotate(RollerConstants.instance.ROLL_SPHERE_SPIN * Time.deltaTime, 0f, 0f);
 
 		// Set the sphere y based on distance to pond.
 		Vector3 spherePos = _roller.RollSphere.transform.position;
@@ -121,15 +121,15 @@ public class RollingState : RollerState
 
 	private void HandleTurning(InputCollection input)
 	{
-		if (Mathf.Abs(input.LeftStickX.Value) > RollerConstants.INPUT_DEADZONE)
+		if (Mathf.Abs(input.LeftStickX.Value) > RollerConstants.instance.INPUT_DEADZONE)
 		{
             if (_roller.InputVec.z >= -0.2f)
 			{
-				AccelerateTurn(RollerConstants.TURN_SPEED, RollerConstants.TURN_ACCELERATION, _roller.InputVec.x);
+				AccelerateTurn(RollerConstants.instance.TURN_SPEED, RollerConstants.instance.TURN_ACCELERATION, _roller.InputVec.x);
 			}
 			else
 			{
-				AccelerateTurn(RollerConstants.REVERSE_TURN_SPEED, RollerConstants.TURN_ACCELERATION, _roller.InputVec.x);
+				AccelerateTurn(RollerConstants.instance.REVERSE_TURN_SPEED, RollerConstants.instance.TURN_ACCELERATION, _roller.InputVec.x);
 			}
 
 			Quaternion turn = Quaternion.Euler(0f, _roller.transform.eulerAngles.y + (_turnVelocity * Time.deltaTime), 0f);
@@ -137,7 +137,7 @@ public class RollingState : RollerState
 		}
 		else if (_turnVelocity != 0f)
 		{
-			if( Mathf.Abs( _turnVelocity ) < RollerConstants.TURN_MINSPEED )
+			if( Mathf.Abs( _turnVelocity ) < RollerConstants.instance.TURN_MINSPEED )
             {
                 // Set turn vel to 0 when below certain threshold
                 _turnVelocity = 0.0f;
@@ -145,7 +145,7 @@ public class RollingState : RollerState
             else
             {
                 // Slowdown
-                _turnVelocity -= Mathf.Sign( _turnVelocity ) * RollerConstants.TURN_DECELERATION * Time.deltaTime;
+                _turnVelocity -= Mathf.Sign( _turnVelocity ) * RollerConstants.instance.TURN_DECELERATION * Time.deltaTime;
             }
             
 			Quaternion slowTurn = Quaternion.Euler(0f, _roller.transform.eulerAngles.y + (_turnVelocity * Time.deltaTime), 0f);
