@@ -10,9 +10,9 @@
 		// The properties below are used in the custom inspector.
 		_UpVectorPitch("Up Vector Pitch", float) = 0
 		_UpVectorYaw("Up Vector Yaw", float) = 0
-
+		_MainTex("MainTex", 2D) = "white" {}
 		_WhispTexture("Whisp Texture", 2D) = "white" {}
-		_FogLevel("Fog Level", Range(0,1)) = 0.5
+		_FogLevel("Fog Level", Range(0,2)) = 0.5
 		_FogBlend("Fog Blend", Range(0,100)) = 0.5
 		_FogLightTransition("Fog Light Transition", Range(0, 3)) = 1
 		//_FogColor("Fog Color", Color) = (1, 1, 1, 0)
@@ -21,6 +21,7 @@
 		CGINCLUDE
 
 		#include "UnityCG.cginc"
+		#include "Lighting.cginc"
 		#include "Noise.cginc"
 
 		struct appdata
@@ -45,6 +46,7 @@
 	half _FogBlend;
 
 	sampler2D _WhispTexture;
+	sampler2D _MainTex;
 	float _FogLightTransition;
 
 	v2f vert(appdata v)
@@ -57,28 +59,35 @@
 
 	fixed4 frag(v2f i) : COLOR
 	{
+		_UpVector = _WorldSpaceLightPos0 * 2;
 		float noiseHeight = .05;
 		float noiseScale = 5;
 		float time = _Time * 5;
+		float3 uv = i.texcoord + _UpVector;
 
-		float lineNoise = sin((i.texcoord.x*noiseScale) + time)*cos((i.texcoord.z*noiseScale) + time)*noiseHeight;
-		lineNoise += tex2D(_WhispTexture, i.texcoord.xz) / 45;
+		float lineNoise = sin((uv.x*noiseScale) + time)*cos((uv.z*noiseScale) + time)*noiseHeight;
+		float4 whispTex = tex2D(_WhispTexture, uv.xz) / 45;
+		lineNoise -= whispTex;
 		half d = dot(normalize(i.texcoord), 
-			_UpVector + lineNoise)
-			* 0.5f + 0.5f;
-		half noise_d = dot(normalize(i.texcoord),
 			_UpVector)
 			* 0.5f + 0.5f;
-		//if (d < _UpVector.y * _FogLevel) {
-		//	return unity_FogColor;
-		//}
+		half noise_d = dot(normalize(i.texcoord),
+			_UpVector + lineNoise)
+			* 0.5f + 0.5f;
 
-		float melt = (noise_d - _FogLevel * _UpVector.y + lineNoise) * _FogBlend;
+
+		float melt = (noise_d - _FogLevel + lineNoise) * _FogBlend;
 		melt = saturate(melt);
+		//fixed4 tex = tex2D(_MainTex, i.texcoord.xyz * 5);
 
 		fixed4 sky = clamp(lerp(_Color1, _Color2, pow(noise_d, _Exponent)) * _Intensity, 0, 1);
-		fixed4 fog = lerp(unity_FogColor, _Color1, clamp(d + _FogLevel - _FogLightTransition, 0, 1));
-		return lerp(fog, sky, melt);
+		fixed4 fog = lerp(unity_FogColor, _Color1, clamp(d + _FogLevel - _FogLightTransition + whispTex.r, 0, 1));
+
+		float meltSun = (d*d - _FogLevel - .99) * 50;
+		fixed4 sun = smoothstep(0, _LightColor0, meltSun);
+
+		return lerp(fog, sky, melt) + sun;
+		return sun;
 	}
 
 		ENDCG
