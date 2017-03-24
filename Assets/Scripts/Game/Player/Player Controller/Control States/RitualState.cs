@@ -39,7 +39,7 @@ public class RitualState : RollerState
 			OnCompleteRitual();
 		}
 
-		currentTurnSpeed = Mathf.Lerp(0, RollerConstants.RITUAL_TURN_SPEED, ritualTimer / RollerConstants.RITUAL_TIME);
+		currentTurnSpeed = Mathf.Lerp(RollerConstants.RITUAL_TURN_SPEED * 0.1f, RollerConstants.RITUAL_TURN_SPEED, ritualTimer / RollerConstants.RITUAL_TIME);
 		transform.Rotate(0f, currentTurnSpeed * Time.deltaTime, 0f);
 
 	    if (/*!isComplete &&*/ !input.XButton.IsPressed)
@@ -52,7 +52,8 @@ public class RitualState : RollerState
     {
         GameManager.Instance.ChangeGameState( GameManager.GameState.POND_RETURN );
 
-        transform.DOMoveY( -5.0f, 0.5f );
+        //transform.DOMoveY( -50.0f, 1.0f );
+		PondManager.instance.HandlePondReturn();
 
 		_roller.IK.SetState( PlayerIKControl.WalkState.POND_RETURN );
 
@@ -80,8 +81,7 @@ public class RitualState : RollerState
 
         // TODO: implement plant watering here
         transform.localScale = Vector3.one;
-		WaterPlantsCloseBy( currentPaintSize );
-        PondManager.instance.HandlePondReturn();
+		WaterPlantsCloseBy( currentPaintSize );        
     }
 
 	void WaterPlantsCloseBy( float searchRadius )

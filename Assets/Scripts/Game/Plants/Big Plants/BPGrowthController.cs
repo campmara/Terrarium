@@ -28,8 +28,8 @@ public class BPGrowthController : PlantController
 	[SerializeField] GrowthStage _curStage = GrowthStage.Seed;
 	public GrowthStage CurStage { get { return _curStage; } }
 
-	float [] _neededDistance = new float[] { 5.0f, 8.0f, 12.0f, 14.0f }; // how much room each stage need to grow, first element doesnt matter
-	float [] _spawnRadii = new float[] { 6.0f, 8.0f, 11.0f, 13.0f };  
+	float [] _neededDistance = new float[] { 4.0f, 8.0f, 10.0f, 12.0f }; // how much room each stage need to grow, first element doesnt matter
+	float [] _spawnRadii = new float[] { 4.0f, 6.0f, 8.0f, 11.0f };  
 	bool _hardStopGrowth = false;
 
 	public enum GrowthStage : int
@@ -48,8 +48,8 @@ public class BPGrowthController : PlantController
 	//fruits
 	[SerializeField] List<GameObject> _droppingItems = null;  
 	float _fruitDropHeight = 8.0f;
-	const float _timeBetweenFruitDrops = 60.0f;
-	protected const float _timeBetweenSpawns = 30.0f;
+	const float _timeBetweenFruitDrops = 30.0f;
+	protected const float _timeBetweenSpawns = 15.0f;
 
 	// small plants
 	[SerializeField] List<GameObject> _spawnables = new List<GameObject>();
@@ -57,7 +57,7 @@ public class BPGrowthController : PlantController
 	protected int _minisSpawned = 0;
 
 	// ambient creatures
-	protected const float CREATURE_BASE_SPAWNODDS = 0.75f;
+	protected const float CREATURE_BASE_SPAWNODDS = 0.5f;	// Higher number is LESS LIKELY ( checks if random val is greater than )
 	protected const float CREATURE_BASE_SPAWNY = 1.0f;
 
 	public override void Init()
