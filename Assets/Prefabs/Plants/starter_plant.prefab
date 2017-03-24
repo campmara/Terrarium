@@ -401,8 +401,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pAssetKey: -1
-  _DeathDurationRange: {x: 275, y: 320}
+  _DeathDurationRange: {x: 250, y: 300}
   _baseDecayRate: 1
+  _curDecayRate: 0
 --- !u!114 &114169642532466072
 MonoBehaviour:
   m_ObjectHideFlags: 1

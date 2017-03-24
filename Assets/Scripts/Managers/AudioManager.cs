@@ -144,7 +144,7 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 
 	public override void Initialize ()
 	{
-		MakeMeAPersistentSingleton();
+		//MakeMeAPersistentSingleton();
 
 		TimeManager.instance.MinuteCallback += CalculateMusicTimeState;
 		TimeManager.instance.HourCallback += PlayHourlySong;

@@ -21,7 +21,7 @@ public class BasePlant : MonoBehaviour
 
 	[SerializeField] protected float _baseDecayRate = 0.0f;
 	public float BaseDecayRate { get { return _baseDecayRate; } set { _baseDecayRate = value; } }
-	protected float _curDecayRate = 0.0f;
+	[SerializeField, ReadOnlyAttribute]protected float _curDecayRate = 0.0f;
 	public float CurDecayRate { get { return _curDecayRate; } set { _curDecayRate = value; } }
 	protected float _wateredDecayRate = 0.0f;
 	public float WateredDecayRate { get { return _wateredDecayRate; } set { _wateredDecayRate = value; } }
