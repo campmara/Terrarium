@@ -50,7 +50,7 @@ public class UIManager : SingletonBehaviour<UIManager>
 
 	void Awake()
 	{
-		MakeMeAPersistentSingleton();
+		//MakeMeAPersistentSingleton();
 	}
 
 	public override void Initialize()

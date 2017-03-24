@@ -52,19 +52,19 @@ public class RitualState : RollerState
     {
         GameManager.Instance.ChangeGameState( GameManager.GameState.POND_RETURN );
 
+        Vector3 pos = transform.position;
         //transform.DOMoveY( -50.0f, 1.0f );
 		PondManager.instance.HandlePondReturn();
 
 		_roller.IK.SetState( PlayerIKControl.WalkState.POND_RETURN );
 
-        StartCoroutine( DelayedCompleteRitual() );        
+        StartCoroutine( DelayedCompleteRitual( pos ) );        
     }
 
-    IEnumerator DelayedCompleteRitual()
+    IEnumerator DelayedCompleteRitual(Vector3 pos)
     {
 		float currentPaintSize = 0f;
 		float maxPaintSize = 10f;
-		Vector3 pos = transform.position;
 
 		// Tell the plant manager to pop up all planted seeds in the vicinity and some grass / bushes.
 				
@@ -81,21 +81,23 @@ public class RitualState : RollerState
 
         // TODO: implement plant watering here
         transform.localScale = Vector3.one;
-		WaterPlantsCloseBy( currentPaintSize );        
+		WaterPlantsCloseBy( currentPaintSize, pos );        
     }
 
-	void WaterPlantsCloseBy( float searchRadius )
+	void WaterPlantsCloseBy( float searchRadius, Vector3 pos )
 	{
-		Collider[] cols = Physics.OverlapSphere( transform.position, searchRadius );
-		
+		Collider[] cols = Physics.OverlapSphere( pos, searchRadius );
+		BasePlant plant = null;
 		if( cols.Length > 0 )
 		{
 			foreach( Collider col in cols )
 			{
-				BasePlant plant = col.GetComponent<BasePlant>();
+				plant = col.GetComponent<BasePlant>();
 				if( plant != null )
 				{
 					plant.WaterPlant();
+
+					plant = null;
 				}
 			}
 		}
