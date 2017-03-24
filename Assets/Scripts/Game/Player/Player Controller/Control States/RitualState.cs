@@ -81,21 +81,23 @@ public class RitualState : RollerState
 
         // TODO: implement plant watering here
         transform.localScale = Vector3.one;
-		WaterPlantsCloseBy( currentPaintSize );        
+		WaterPlantsCloseBy( currentPaintSize, pos );        
     }
 
-	void WaterPlantsCloseBy( float searchRadius )
+	void WaterPlantsCloseBy( float searchRadius, Vector3 pos )
 	{
-		Collider[] cols = Physics.OverlapSphere( transform.position, searchRadius );
-		
+		Collider[] cols = Physics.OverlapSphere( pos, searchRadius );
+		BasePlant plant = null;
 		if( cols.Length > 0 )
 		{
 			foreach( Collider col in cols )
 			{
-				BasePlant plant = col.GetComponent<BasePlant>();
+				plant = col.GetComponent<BasePlant>();
 				if( plant != null )
 				{
 					plant.WaterPlant();
+
+					plant = null;
 				}
 			}
 		}

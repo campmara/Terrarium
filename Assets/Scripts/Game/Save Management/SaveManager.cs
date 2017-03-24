@@ -15,7 +15,7 @@ public class SaveManager : SingletonBehaviour<SaveManager> {
 
     public override void Initialize()
     {
-        MakeMeAPersistentSingleton();
+        //MakeMeAPersistentSingleton();
        
 		// Save & Load on Initialize
         if ( ES2.Exists( Application.persistentDataPath + SAVE_PATH ) )   // Check if save data exists

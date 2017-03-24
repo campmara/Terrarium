@@ -146,7 +146,7 @@ public class ControlManager : SingletonBehaviour<ControlManager>
 
 	public override void Initialize()
 	{
-		MakeMeAPersistentSingleton();
+		//MakeMeAPersistentSingleton();
 
 		foreach(InputDevice device in InputManager.Devices)
 		{
