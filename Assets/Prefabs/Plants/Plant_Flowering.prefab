@@ -29,7 +29,7 @@ GameObject:
   - component: {fileID: 114098142030374966}
   - component: {fileID: 114169642532466072}
   m_Layer: 12
-  m_Name: starter_plant
+  m_Name: Plant_Flowering
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

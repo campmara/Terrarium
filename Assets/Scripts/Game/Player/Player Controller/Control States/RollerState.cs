@@ -34,9 +34,9 @@ public class RollerState : MonoBehaviour
 	{
 		if( _roller.IK.ArmFocus == null )
 		{
-			Vector3 _pickupCenter = _roller.transform.position + ( Vector3.up * RollerConstants.PICKUP_CHECKHEIGHT ) + _roller.transform.forward;	
+			Vector3 _pickupCenter = _roller.transform.position + ( Vector3.up * RollerConstants.instance.PICKUP_CHECKHEIGHT ) + _roller.transform.forward;	
 
-			Collider[] overlapArray = Physics.OverlapSphere( _pickupCenter, RollerConstants.PICKUP_CHECKRADIUS );
+			Collider[] overlapArray = Physics.OverlapSphere( _pickupCenter, RollerConstants.instance.PICKUP_CHECKRADIUS );
 
 			if ( overlapArray.Length > 0 )
 			{
@@ -66,9 +66,9 @@ public class RollerState : MonoBehaviour
 
     protected void CheckForReachable( PlayerArmIK.ArmType armType )
     {
-        Vector3 _pickupCenter = _roller.transform.position + ( Vector3.up * RollerConstants.PICKUP_CHECKHEIGHT );
+        Vector3 _pickupCenter = _roller.transform.position + ( Vector3.up * RollerConstants.instance.PICKUP_CHECKHEIGHT );
 
-        Collider[] overlapArray = Physics.OverlapSphere( _pickupCenter, RollerConstants.IK_REACH_CHECKRADIUS, 1 << LayerMask.NameToLayer("Touchable") );
+        Collider[] overlapArray = Physics.OverlapSphere( _pickupCenter, RollerConstants.instance.IK_REACH_CHECKRADIUS, 1 << LayerMask.NameToLayer("Touchable") );
 
         if (overlapArray.Length > 0)
         {            

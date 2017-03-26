@@ -149,7 +149,7 @@ GameObject:
   - component: {fileID: 114334575975064900}
   - component: {fileID: 114112665346417312}
   m_Layer: 12
-  m_Name: Point Plant
+  m_Name: Plant_Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -424,7 +424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c89c16775a3ab6747bd06c3a52a18944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseGrowthRate: 0.008
+  _baseGrowthRate: 1
   _curStage: 0
   _droppingItems:
   - {fileID: 1631419253260572, guid: e7e4ccc23b3b8416c994f33a1840c8c6, type: 2}

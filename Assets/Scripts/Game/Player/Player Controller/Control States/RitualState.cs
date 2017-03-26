@@ -11,7 +11,7 @@ public class RitualState : RollerState
 	public override void Enter(P_ControlState prevState)
 	{
 		Debug.Log("ENTER RITUAL STATE");
-        //_tween = transform.DOScaleY( 0.1f, RollerConstants.RITUAL_TIME ).OnComplete( OnCompleteRitual );
+        //_tween = transform.DOScaleY( 0.1f, RollerConstants.instance.RITUAL_TIME ).OnComplete( OnCompleteRitual );
         _roller.IK.SetState( PlayerIKControl.WalkState.RITUAL );
 		ritualTimer = 0f;
 	    //PlayerManager.instance.Player.AnimationController.PlayIdleAnim();
@@ -34,12 +34,12 @@ public class RitualState : RollerState
 	{
 	    //bool isComplete = _tween.IsComplete();
 		ritualTimer += Time.deltaTime;
-		if (ritualTimer > RollerConstants.RITUAL_TIME)
+		if (ritualTimer > RollerConstants.instance.RITUAL_TIME)
 		{
 			OnCompleteRitual();
 		}
 
-		currentTurnSpeed = Mathf.Lerp(RollerConstants.RITUAL_TURN_SPEED * 0.1f, RollerConstants.RITUAL_TURN_SPEED, ritualTimer / RollerConstants.RITUAL_TIME);
+		currentTurnSpeed = Mathf.Lerp(RollerConstants.instance.RITUAL_TURN_SPEED * 0.1f, RollerConstants.instance.RITUAL_TURN_SPEED, ritualTimer / RollerConstants.instance.RITUAL_TIME);
 		transform.Rotate(0f, currentTurnSpeed * Time.deltaTime, 0f);
 
 	    if (/*!isComplete &&*/ !input.XButton.IsPressed)
@@ -69,7 +69,7 @@ public class RitualState : RollerState
 		// Tell the plant manager to pop up all planted seeds in the vicinity and some grass / bushes.
 				
 
-		Tween paint = DOTween.To(()=> currentPaintSize, x=> currentPaintSize = x, maxPaintSize, RollerConstants.RITUAL_COMPLETEWAIT);
+		Tween paint = DOTween.To(()=> currentPaintSize, x=> currentPaintSize = x, maxPaintSize, RollerConstants.instance.RITUAL_COMPLETEWAIT);
 		while(paint.IsPlaying())
 		{
 			GroundManager.instance.Ground.DrawSplatDecal(pos, currentPaintSize);
