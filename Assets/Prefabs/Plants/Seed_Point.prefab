@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 114567027945101722}
   - component: {fileID: 136490754988800404}
   m_Layer: 12
-  m_Name: Point Seed
+  m_Name: Seed_Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

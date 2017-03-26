@@ -211,7 +211,7 @@ public class RollerController : ControllerBase
 		// Left Stick Movement
 		Vector3 vec = new Vector3(_input.LeftStickX, 0f, _input.LeftStickY);
 
-		if(vec.magnitude > RollerConstants.IDLE_MAXMAG)
+		if(vec.magnitude > RollerConstants.instance.IDLE_MAXMAG)
 		{
 			if(_idleWaitRoutine != null)
 			{
@@ -254,7 +254,7 @@ public class RollerController : ControllerBase
 		{
 		    if( _idleWaitRoutine == null )
 			{
-				_idleWaitRoutine = StartCoroutine( JohnTech.WaitFunction(RollerConstants.IDLE_WAITTIME, () => HandleBeginIdle() ) );
+				_idleWaitRoutine = StartCoroutine( JohnTech.WaitFunction(RollerConstants.instance.IDLE_WAITTIME, () => HandleBeginIdle() ) );
 			}
 		}
 	}
@@ -266,7 +266,7 @@ public class RollerController : ControllerBase
 		// Left Stick Movement
 		Vector3 vec = new Vector3(_input.LeftStickX, 0f, _input.LeftStickY);
 
-		if( vec.magnitude > RollerConstants.IDLE_MAXMAG )
+		if( vec.magnitude > RollerConstants.instance.IDLE_MAXMAG )
 		{
 			if( _idleWaitRoutine != null )
 			{
@@ -314,10 +314,10 @@ public class RollerController : ControllerBase
 		{
 			if( _idleWaitRoutine == null )
 			{
-				_idleWaitRoutine = StartCoroutine( JohnTech.WaitFunction(RollerConstants.IDLE_WAITTIME, () => HandleBeginIdle() ) );
+				_idleWaitRoutine = StartCoroutine( JohnTech.WaitFunction(RollerConstants.instance.IDLE_WAITTIME, () => HandleBeginIdle() ) );
 			}
 		}
-		_ik.UpdateMovementData( _velocity, transform.position + (transform.forward * _inputVec.magnitude * _velocity * RollerConstants.IK_TARGETWORLDSCALAR * Time.deltaTime), transform.rotation );
+		_ik.UpdateMovementData( _velocity, transform.position + (transform.forward * _inputVec.magnitude * _velocity * RollerConstants.instance.IK_TARGETWORLDSCALAR * Time.deltaTime), transform.rotation );
 
 		// Hmm
 		// yeah hmmm
@@ -328,7 +328,7 @@ public class RollerController : ControllerBase
 											PondManager.instance.Pond.GetPondY(_rigidbody.position),
 											_rigidbody.position.z);
 
-		//_rigidbody.MovePosition( Vector3.Lerp(transform.position, _targetMovePosition, Mathf.Lerp( RollerConstants.BODY_MINMOVESPEED, bodyMoveSpeed, _headMoveSpeedInterp ) * Time.fixedDeltaTime ) );
+		//_rigidbody.MovePosition( Vector3.Lerp(transform.position, _targetMovePosition, Mathf.Lerp( RollerConstants.instance.BODY_MINMOVESPEED, bodyMoveSpeed, _headMoveSpeedInterp ) * Time.fixedDeltaTime ) );
 	}
 
 	public void UpdateArmReachIK( float leftArmValue, float rightArmValue )
@@ -344,7 +344,7 @@ public class RollerController : ControllerBase
 			_velocity = Mathf.Sign(_velocity) * max;
 		}
 
-        _velocity -= RollerConstants.WALK_TURNDAMPENING * Mathf.InverseLerp( RollerConstants.WALK_TURNANGLE_MIN, RollerConstants.WALK_TURNANGLE_MAX, _targetRotAngle );
+        _velocity -= RollerConstants.instance.WALK_TURNDAMPENING * Mathf.InverseLerp( RollerConstants.instance.WALK_TURNANGLE_MIN, RollerConstants.instance.WALK_TURNANGLE_MAX, _targetRotAngle );
 
 		if( _velocity < 0.0f )
 		{

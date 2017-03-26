@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114408767732348020}
   - component: {fileID: 136177284551878512}
   m_Layer: 0
-  m_Name: seed
+  m_Name: Seed_Flowering
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

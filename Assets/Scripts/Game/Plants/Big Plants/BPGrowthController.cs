@@ -300,7 +300,7 @@ public class BPGrowthController : PlantController
 	{
 		if (Random.value > CREATURE_BASE_SPAWNODDS)
 		{
-			CreatureManager.instance.SpawnRandomCreature( this.transform.position + ( Vector3.up * CREATURE_BASE_SPAWNY ) );
+			CreatureManager.instance.SpawnRandomCreature( this.transform.position + ( Vector3.up * ( CREATURE_BASE_SPAWNY + Random.Range( -2.0f, 2.0f ) ) ) );
 		}
 	}
 	#endregion Spawn Functions
