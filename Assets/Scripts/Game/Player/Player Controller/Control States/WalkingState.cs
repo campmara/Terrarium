@@ -101,10 +101,10 @@ public class WalkingState : RollerState
         // Update how far the arms are reaching
         _roller.UpdateArmReachIK( input.LeftTrigger.Value, input.RightTrigger.Value );
 
-		_roller.IKMovement(RollerConstants.WALK_SPEED, 
-									  RollerConstants.WALK_ACCELERATION, 
-									  RollerConstants.WALK_DECELERATION, 
-									  RollerConstants.WALK_TURN_SPEED);
+		_roller.IKMovement(RollerConstants.instance.WALK_SPEED, 
+									  RollerConstants.instance.WALK_ACCELERATION, 
+									  RollerConstants.instance.WALK_DECELERATION, 
+									  RollerConstants.instance.WALK_TURN_SPEED);
 
 		if ( _tween != null && _tween.IsPlaying() )
 		{
@@ -150,7 +150,7 @@ public class WalkingState : RollerState
             }
         }
 
-        if (_idleTimer >= RollerConstants.IDLE_SITTING_TIMER)
+        if (_idleTimer >= RollerConstants.instance.IDLE_SITTING_TIMER)
         {
             // go to sitting State
             _roller.ChangeState(P_ControlState.SIT);
@@ -161,7 +161,7 @@ public class WalkingState : RollerState
     {
         //Debug.Log( "Starting Reach Timer" );
 
-        yield return new WaitForSeconds( Random.Range( RollerConstants.IK_REACH_WAITMIN, RollerConstants.IK_REACH_WAITMAX ) );
+        yield return new WaitForSeconds( Random.Range( RollerConstants.instance.IK_REACH_WAITMIN, RollerConstants.instance.IK_REACH_WAITMAX ) );
 
         //Debug.Log( "Prepping Reach" );
 

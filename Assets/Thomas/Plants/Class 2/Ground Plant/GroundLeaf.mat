@@ -122,6 +122,9 @@ Material:
         name: _Parallax
       second: 0.02
     - first:
+        name: _Sensitivity
+      second: 2
+    - first:
         name: _SmoothnessTextureChannel
       second: 0
     - first:

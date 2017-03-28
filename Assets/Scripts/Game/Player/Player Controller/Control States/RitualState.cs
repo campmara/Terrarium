@@ -11,7 +11,7 @@ public class RitualState : RollerState
 	public override void Enter(P_ControlState prevState)
 	{
 		Debug.Log("ENTER RITUAL STATE");
-        //_tween = transform.DOScaleY( 0.1f, RollerConstants.RITUAL_TIME ).OnComplete( OnCompleteRitual );
+        //_tween = transform.DOScaleY( 0.1f, RollerConstants.instance.RITUAL_TIME ).OnComplete( OnCompleteRitual );
         _roller.IK.SetState( PlayerIKControl.WalkState.RITUAL );
 		ritualTimer = 0f;
 	    //PlayerManager.instance.Player.AnimationController.PlayIdleAnim();
@@ -34,12 +34,12 @@ public class RitualState : RollerState
 	{
 	    //bool isComplete = _tween.IsComplete();
 		ritualTimer += Time.deltaTime;
-		if (ritualTimer > RollerConstants.RITUAL_TIME)
+		if (ritualTimer > RollerConstants.instance.RITUAL_TIME)
 		{
 			OnCompleteRitual();
 		}
 
-		currentTurnSpeed = Mathf.Lerp(0, RollerConstants.RITUAL_TURN_SPEED, ritualTimer / RollerConstants.RITUAL_TIME);
+		currentTurnSpeed = Mathf.Lerp(RollerConstants.instance.RITUAL_TURN_SPEED * 0.1f, RollerConstants.instance.RITUAL_TURN_SPEED, ritualTimer / RollerConstants.instance.RITUAL_TIME);
 		transform.Rotate(0f, currentTurnSpeed * Time.deltaTime, 0f);
 
 	    if (/*!isComplete &&*/ !input.XButton.IsPressed)
@@ -52,23 +52,24 @@ public class RitualState : RollerState
     {
         GameManager.Instance.ChangeGameState( GameManager.GameState.POND_RETURN );
 
-        transform.DOMoveY( -5.0f, 0.5f );
+        Vector3 pos = transform.position;
+        //transform.DOMoveY( -50.0f, 1.0f );
+		PondManager.instance.HandlePondReturn();
 
 		_roller.IK.SetState( PlayerIKControl.WalkState.POND_RETURN );
 
-        StartCoroutine( DelayedCompleteRitual() );        
+        StartCoroutine( DelayedCompleteRitual( pos ) );        
     }
 
-    IEnumerator DelayedCompleteRitual()
+    IEnumerator DelayedCompleteRitual(Vector3 pos)
     {
 		float currentPaintSize = 0f;
 		float maxPaintSize = 10f;
-		Vector3 pos = transform.position;
 
 		// Tell the plant manager to pop up all planted seeds in the vicinity and some grass / bushes.
 				
 
-		Tween paint = DOTween.To(()=> currentPaintSize, x=> currentPaintSize = x, maxPaintSize, RollerConstants.RITUAL_COMPLETEWAIT);
+		Tween paint = DOTween.To(()=> currentPaintSize, x=> currentPaintSize = x, maxPaintSize, RollerConstants.instance.RITUAL_COMPLETEWAIT);
 		while(paint.IsPlaying())
 		{
 			GroundManager.instance.Ground.DrawSplatDecal(pos, currentPaintSize);
@@ -80,22 +81,23 @@ public class RitualState : RollerState
 
         // TODO: implement plant watering here
         transform.localScale = Vector3.one;
-		WaterPlantsCloseBy( currentPaintSize );
-        PondManager.instance.HandlePondReturn();
+		WaterPlantsCloseBy( currentPaintSize, pos );        
     }
 
-	void WaterPlantsCloseBy( float searchRadius )
+	void WaterPlantsCloseBy( float searchRadius, Vector3 pos )
 	{
-		Collider[] cols = Physics.OverlapSphere( transform.position, searchRadius );
-		
+		Collider[] cols = Physics.OverlapSphere( pos, searchRadius );
+		BasePlant plant = null;
 		if( cols.Length > 0 )
 		{
 			foreach( Collider col in cols )
 			{
-				BasePlant plant = col.GetComponent<BasePlant>();
+				plant = col.GetComponent<BasePlant>();
 				if( plant != null )
 				{
 					plant.WaterPlant();
+
+					plant = null;
 				}
 			}
 		}

@@ -65,7 +65,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	 */
     [SerializeField] AnimationCurve _zoomInterpCurve = null;
 	float _zoomInterp = ZOOM_RESETINTERP;
-	const float ZOOM_RESETINTERP = 0.25f;	// Zoom Interp value for initialization & reset of camera (right stick click)
+	const float ZOOM_RESETINTERP = 0.35f;	// Zoom Interp value for initialization & reset of camera (right stick click)
 	const float ZOOM_SPEED = 0.6f;			// How much a frame of "zooming" input increments zoom interp
 	const float ZOOM_Y_DEADZONE = 0.1f;		// Zoom Input Deadzone for Y 
 	const float ZOOM_X_DEADZONE = 0.1f;		// Zoom Input Deadzone for X 
@@ -265,7 +265,9 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	/// </summary>
 	private IEnumerator DelayedPondReturnPan()
 	{
-	    Transform pondTransform = PondManager.instance.Pond.transform;
+        yield return new WaitForSeconds( RollerConstants.instance.RITUAL_COMPLETEWAIT );
+
+        Transform pondTransform = PondManager.instance.Pond.transform;
 	    Vector3 desiredPos = ( pondTransform.forward * PONDRETURN_FORWARD ) + ( pondTransform.up * PONDRETURN_UP );
 
         Vector3 forward = ( pondTransform.position - ( desiredPos - ( pondTransform.forward * PLAYERPOP_FORWARDPOS ) ) ).normalized;
@@ -444,3 +446,4 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	{
 	}
 }
+

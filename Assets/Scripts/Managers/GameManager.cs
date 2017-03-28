@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
 			Destroy(gameObject);
 		}
 
-		DontDestroyOnLoad(gameObject);
+		//DontDestroyOnLoad(gameObject);
 
 
 		#if !UNITY_EDITOR
@@ -76,6 +76,11 @@ public class GameManager : MonoBehaviour
 			break;
 		}
 
+		// rly hacky Restart gdi
+		if( Input.GetKey(KeyCode.I) && Input.GetKey(KeyCode.O) && Input.GetKey(KeyCode.P ) )
+		{
+			SceneManager.LoadScene(0);
+		}
 	}
 
 	public void ChangeGameState(GameState newState)
