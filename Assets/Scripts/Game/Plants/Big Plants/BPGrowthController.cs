@@ -13,9 +13,11 @@ public class BPGrowthController : PlantController
 	float [] growthTime = new float[4]; // time splits initialized based on our animation
 
 	[SerializeField] protected float _baseGrowthRate = 0.0f;
+	[SerializeField] protected float _wateredGrowthRate = 0.0f;
 	protected float _growthRate = 0.0f;
 	protected float _animEndTime = 0.0f;
 	protected float _curPercentAnimated = 0.0f;
+	protected const float WATERED_GROWTHRETURNTIME = 10.0f;
 
 	//****************
 	// GROWTH VARIABLES
@@ -303,9 +305,21 @@ public class BPGrowthController : PlantController
 			CreatureManager.instance.SpawnRandomCreature( this.transform.position + ( Vector3.up * ( CREATURE_BASE_SPAWNY + Random.Range( -2.0f, 2.0f ) ) ) );
 		}
 	}
+
 	#endregion Spawn Functions
 
-	public override void WaterPlant(){}
+	public override void WaterPlant()
+	{
+		ChangeGrowthRate( _wateredGrowthRate );
+
+		if( _myPlant.GrowReturnRoutine != null )
+		{
+			StopCoroutine( _myPlant.GrowReturnRoutine );
+		}
+
+		_myPlant.GrowReturnRoutine = StartCoroutine( DelayedReturnGrowthRate( WATERED_GROWTHRETURNTIME ) );
+	}
+
 	public override void TouchPlant(){}
 	public override void GrabPlant(){}
 	public override void StompPlant(){}
@@ -314,6 +328,13 @@ public class BPGrowthController : PlantController
 	//********************************
 	// HELPER FUNCTIONS
 	//********************************
+
+	IEnumerator DelayedReturnGrowthRate( float returnTime )
+	{
+		yield return new WaitForSeconds( returnTime );
+
+		ChangeGrowthRate( _baseGrowthRate );
+	}
 
 	void ChangeGrowthRate( float newRate )
 	{
