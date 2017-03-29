@@ -19,17 +19,19 @@ public class BasePlant : MonoBehaviour
 
     [SerializeField, ReadOnlyAttribute]
 	protected float _DeathTimer = 0.0f;
-	public float DeathTimer { get { return _DeathTimer; } set { _DeathTimer = value; } }
+	public float DeathTimer { get { return _DeathTimer; } set { _DeathTimer = Mathf.Max(value, 0.0f); } }
 
 	[SerializeField] protected float _baseDecayRate = 0.0f;
 	public float BaseDecayRate { get { return _baseDecayRate; } set { _baseDecayRate = value; } }
 	[SerializeField, ReadOnlyAttribute]protected float _curDecayRate = 0.0f;
 	public float CurDecayRate { get { return _curDecayRate; } set { _curDecayRate = value; } }
-	protected float _wateredDecayRate = 0.0f;
+	protected float _wateredDecayRate = -0.1f;
 	public float WateredDecayRate { get { return _wateredDecayRate; } set { _wateredDecayRate = value; } }
 
 	Coroutine _decayReturnRoutine = null;
 	public Coroutine DecayReturnRoutine { get { return _decayReturnRoutine; } set { _decayReturnRoutine = value; } }
+	Coroutine _growReturnRoutine = null;
+	public Coroutine GrowReturnRoutine { get { return _growReturnRoutine; } set { _growReturnRoutine = value; } }
 
 	// *************
 	// STATE CONTROLLER
