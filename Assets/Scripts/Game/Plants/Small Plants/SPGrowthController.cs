@@ -18,7 +18,7 @@ public class SPGrowthController : PlantController
 	[SerializeField] const float _defaultInnerRadiusSize = 1.0f; // use for items you can't easily calculate the mesh size
 
 	// plant n' growth vars
-	[SerializeField] protected float _growthRate = 0.0f;
+	[SerializeField, ReadOnlyAttribute] protected float _growthRate = 0.0f;
 	[SerializeField] protected float _baseGrowthRate = .005f;
 	[SerializeField] Vector2 _scaleRange = new Vector2( 8.0f, 12.0f ); // we want to let these vary per plant
 

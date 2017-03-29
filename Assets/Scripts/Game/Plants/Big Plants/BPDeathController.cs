@@ -190,8 +190,6 @@ public class BPDeathController : PlantController
 	public override void WaterPlant()
 	{
 		//stave off the death 
-		Debug.Log("Boy Got Watered ayy");
-
 		_myPlant.CurDecayRate = _myPlant.WateredDecayRate;
 
 		if( _myPlant.DecayReturnRoutine != null )
