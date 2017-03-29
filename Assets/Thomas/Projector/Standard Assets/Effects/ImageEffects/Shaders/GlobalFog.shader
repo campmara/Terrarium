@@ -21,6 +21,7 @@ CGINCLUDE
 	
 	//tom's ring size
 	uniform float _RingSize;
+	uniform float _FogFalloff;
 	
 	int4 _SceneFogMode; // x = fog mode, y = use radial flag
 	float4 _SceneFogParams;
@@ -137,8 +138,7 @@ CGINCLUDE
 		float4 wsPos = _CameraWS + wsDir;
 		
 		//tom's code
-		float fogSize = _RingSize;
-		float wsLength = length(wsPos) - fogSize;
+		float wsLength = (length(wsPos) * _FogFalloff) - _RingSize;
 
 		// Compute fog distance
 		float g = _DistanceParams.x;

@@ -22,7 +22,10 @@ namespace UnityStandardAssets.ImageEffects
         public float heightDensity = 2.0f;
 		[Tooltip("Push fog away from the camera by this amount")]
         public float startDistance = 0.0f;
+
         public float ringSize = 15f;
+        public float fogFalloff = 1f;
+        public Color setFogColor;
 
         public Shader fogShader = null;
         private Material fogMaterial = null;
@@ -50,6 +53,10 @@ namespace UnityStandardAssets.ImageEffects
 
             Camera cam = GetComponent<Camera>();
             Transform camtr = cam.transform;
+            if (!RenderSettings.fog)
+            {
+                RenderSettings.fogColor = setFogColor;
+            }
 
             Vector3[] frustumCorners = new Vector3[4];
             cam.CalculateFrustumCorners(new Rect(0, 0, 1, 1), cam.farClipPlane, cam.stereoActiveEye, frustumCorners);
@@ -72,9 +79,10 @@ namespace UnityStandardAssets.ImageEffects
             fogMaterial.SetVector("_CameraWS", camPos);
             fogMaterial.SetVector("_HeightParams", new Vector4(height, FdotC, paramK, heightDensity * 0.5f));
             fogMaterial.SetVector("_DistanceParams", new Vector4(-Mathf.Max(startDistance, 0.0f), excludeDepth, 0, 0));
-            fogMaterial.SetFloat("_RingSize", ringSize);
 
-            
+            fogMaterial.SetFloat("_RingSize", ringSize);
+            fogMaterial.SetFloat("_FogFalloff", fogFalloff);
+
 
             var sceneMode = RenderSettings.fogMode;
             var sceneDensity = RenderSettings.fogDensity;
