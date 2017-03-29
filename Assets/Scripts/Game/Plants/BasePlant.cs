@@ -7,15 +7,17 @@ public class BasePlant : MonoBehaviour
 	[SerializeField] protected BasePlantAssetKey _pAssetKey = BasePlantAssetKey.NONE;
 	public BasePlantAssetKey PAssetKey { get { return _pAssetKey; } set { _pAssetKey = value; } }
 
-	// *************
-	// DEATH VARS
-	// **************
+    // *************
+    // DEATH VARS
+    // **************
 
-	protected float _deathDuration = 0.0f;
+    [SerializeField, ReadOnlyAttribute]
+    protected float _deathDuration = 0.0f;
 	public float DeathDuration { get { return _deathDuration; } set { _deathDuration = value; } }
 
 	[SerializeField] Vector2 _DeathDurationRange = new Vector2( 0.0f, 10.0f );
 
+    [SerializeField, ReadOnlyAttribute]
 	protected float _DeathTimer = 0.0f;
 	public float DeathTimer { get { return _DeathTimer; } set { _DeathTimer = value; } }
 
