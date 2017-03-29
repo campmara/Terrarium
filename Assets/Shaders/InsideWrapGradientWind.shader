@@ -17,7 +17,6 @@
 		//these values are made uniform lower in the shader
 		//I kept them in for debugging later on.
 			//_WaveDir("Wind Direction", Vector) = (0,0,0,0)
-			//_WaveSpeed("Wind Speed", float) = 0
 			//_WaveNoise("Wind Noisiness", float) = 0
 			//_WaveScale("Wind Scale", float) = 0 
 			//_WaveAmount("Wind Amount", float) = 0
@@ -72,10 +71,10 @@
 
 	//these values are uniform so that they'll work globally
 	uniform fixed4 _WaveDir;
-	uniform float _WaveSpeed;
 	uniform float _WaveNoise;
 	uniform float _WaveAmount;
 	uniform float _WaveScale;
+	uniform float _WaveTime;
 
 	void vert(inout appdata_full v) {
 
@@ -92,7 +91,7 @@
 		//clamped to prevent extreme results at higher branches, needs tweaking, it would be nice if lower plants shook more in here
 		float heightSensitivity = clamp(worldPos.y * worldPos.y, 0, _Sensitivity) / _Sensitivity;
 		//oscillation value adds on to the direction of the wind, it's length is measured with _WaveScale
-		float4 oscillation = sin(_Time.y * _WaveSpeed + noiseOffset) * _WaveScale * normalize(_WaveDir) * heightSensitivity; // * v.color.r
+		float4 oscillation = sin(_WaveTime + noiseOffset) * _WaveScale * normalize(_WaveDir) * heightSensitivity; // * v.color.r
 		//wave direction and oscillation combined are then scaled overall by the _WaveAmount
 		float4 wind = (normalize(_WaveDir) + oscillation) * _WaveAmount * heightSensitivity; //* v.color.r
 
