@@ -9,25 +9,57 @@ public class windMan : MonoBehaviour
     private Presets presets;
 
     [SerializeField]
+    private float lerpSpeed = 1f;
+
+    [SerializeField, ReadOnlyAttribute]
+    private float _WaveTime;
+
+    [SerializeField, ReadOnlyAttribute]
     private Vector3 _WaveDir = new Vector3(1, 0, 0);
+    [SerializeField]
+    private Vector3 idealWaveDir = new Vector3(1, 0, 0);
+
     //the direction of the wind
-    [SerializeField]
+    [SerializeField, ReadOnlyAttribute]
     private float _WaveSpeed = 1f;
+    [SerializeField]
+    private float idealWaveSpeed = 1f;
+
     //the speed of oscillation in the wind
-    [SerializeField]
+    [SerializeField, ReadOnlyAttribute]
     private float _WaveNoise = 1f;
+    [SerializeField]
+    private float idealWaveNoise = 1f;
+
     //the scale of the noise in the oscillation of the wind
-    [SerializeField]
+    [SerializeField, ReadOnlyAttribute]
     private float _WaveScale = 0.5f;
-    //the scale of the oscillation part of the wind
     [SerializeField]
+    private float idealWaveScale = 0.5f;
+
+    //the scale of the oscillation part of the wind
+    [SerializeField, ReadOnlyAttribute]
     private float _WaveAmount = 0.5f;
+    [SerializeField]
+    private float idealWaveAmount = 0.5f;
+
     //how much the wind effect overall is applied
 
     void Update()
     {
+        _WaveTime += Time.deltaTime * _WaveSpeed;
+
+        float interpolation = Time.deltaTime * lerpSpeed;
+        _WaveDir = Vector3.Lerp(_WaveDir, idealWaveDir, interpolation);
+        _WaveSpeed = Mathf.Lerp(_WaveSpeed, idealWaveSpeed, interpolation);
+        _WaveNoise = Mathf.Lerp(_WaveNoise, idealWaveNoise, interpolation);
+        _WaveScale = Mathf.Lerp(_WaveScale, idealWaveScale, interpolation);
+        _WaveAmount = Mathf.Lerp(_WaveAmount, idealWaveAmount, interpolation);
+
+
         //this is the meat of this script
         //''''''''''''''''''''''''''''''''
+        Shader.SetGlobalFloat("_WaveTime", _WaveTime);
         Shader.SetGlobalVector("_WaveDir", _WaveDir);
         Shader.SetGlobalFloat("_WaveSpeed", _WaveSpeed);
         Shader.SetGlobalFloat("_WaveNoise", _WaveNoise);
@@ -43,35 +75,31 @@ public class windMan : MonoBehaviour
         }
         if (presets == Presets.minimal)
         {
-            _WaveSpeed = 0.5f;
-            _WaveNoise = 1f;
-            _WaveScale = 0.5f;
-            _WaveAmount = 0.25f;
+            SetWind(0.5f, 1f, 0.5f, 0.25f);
             return;
         }
         if (presets == Presets.breeze)
         {
-            _WaveSpeed = 1f;
-            _WaveNoise = 1f;
-            _WaveScale = 0.5f;
-            _WaveAmount = 0.5f;
+            SetWind(1f, 1f, 0.5f, 0.5f);
             return;
         }
         if (presets == Presets.windy)
         {
-            _WaveSpeed = 6f;
-            _WaveNoise = 2f;
-            _WaveScale = 0.15f;
-            _WaveAmount = 2f;
+            SetWind(6f, 2f, 0.15f, 2f);
             return;
         }
         if (presets == Presets.stormy)
         {
-            _WaveSpeed = 35f;
-            _WaveNoise = 15f;
-            _WaveScale = 0.05f;
-            _WaveAmount = 2.5f;
+            SetWind(35f, 15f, 0.05f, 2.5f);
             return;
         }
+    }
+
+    void SetWind(float speed, float noise, float scale, float amount)
+    {
+        idealWaveSpeed = speed;
+        idealWaveNoise = noise;
+        idealWaveScale = scale;
+        idealWaveAmount = amount;
     }
 }

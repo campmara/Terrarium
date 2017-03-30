@@ -35,7 +35,7 @@
 
 		void surf (Input IN, inout SurfaceOutputStandard o) 
 		{
-			float len = length(IN.worldPos - _Center) + cnoise(IN.worldPos) + cnoise(IN.worldPos * 4);
+			float len = length(IN.worldPos - _Center) + cnoise(IN.worldPos) + cnoise(IN.worldPos * 4 + _Time.y);
 			float rad = _Radius * (5 * _ScaleFactor);
 			if (len < rad)
 			{
