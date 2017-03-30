@@ -9,6 +9,8 @@
 		_MeltY("MeltY", float) = 1
 		_MeltDistance("Melt Distance", float) = 1
 		_Scale("Scale", float) = 1
+
+		[MaterialToggle] _ToggleColorFromGround("Toggle Color from Ground", Float) = 0
 	}
 		SubShader{
 		Tags{ "RenderType" = "Geometry" }
@@ -61,8 +63,17 @@
 	sampler2D _MainTex;
 	fixed4 _Color;
 	fixed4 _MeltColor;
+	float _ToggleColorFromGround;
+
+	//global variable for ground color
+	uniform float4 _GroundColorPrimary;
+	uniform float4 _GroundColorSecondary;
 
 	void surf(Input IN, inout SurfaceOutput o) {
+		if (_ToggleColorFromGround == 1) {
+			_MeltColor = _GroundColorSecondary;
+		}
+
 		//https://ravingbots.com/2015/09/02/how-to-improve-unity-terrain-texturing-tutorial/
 		fixed4 cX = tex2D(_MeltTex, IN.worldPos.yz * _Scale);
 		fixed4 cY = tex2D(_MeltTex, IN.worldPos.xz * _Scale);
