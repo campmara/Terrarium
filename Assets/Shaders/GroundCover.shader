@@ -14,7 +14,7 @@
 			LOD 200
 
 			Cull Off
-
+			//Blend SrcAlpha OneMinusSrcAlpha
 			CGPROGRAM
 			// Physically based Standard lighting model, and enable shadows on all light types
 	#pragma surface surf WrapLambert vertex:vert alphatest:_Cutoff addshadow

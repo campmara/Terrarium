@@ -14,8 +14,8 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 7
-  m_Fog: 1
-  m_FogColor: {r: 0.47756276, g: 0.5220663, b: 0.53676474, a: 1}
+  m_Fog: 0
+  m_FogColor: {r: 0.8897059, g: 0.86985445, b: 0.7588668, a: 0}
   m_FogMode: 3
   m_FogDensity: 0.0325
   m_LinearFogStart: 0
@@ -91,6 +91,35 @@ NavMeshSettings:
     cellSize: 0.16666667
     accuratePlacement: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &21300797 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1071704960912508, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
+    type: 2}
+  m_PrefabInternal: {fileID: 1577051533}
+--- !u!114 &21300800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 21300797}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6e624f71dc76894aa1b9f01dc9293b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  presets: 0
+  lerpSpeed: 1
+  _WaveTime: 0
+  _WaveDir: {x: 1, y: 0, z: 0}
+  idealWaveDir: {x: 1, y: 0, z: 0}
+  _WaveSpeed: 1
+  idealWaveSpeed: 1
+  _WaveNoise: 1
+  idealWaveNoise: 1
+  _WaveScale: 0.5
+  idealWaveScale: 0.5
+  _WaveAmount: 0.5
+  idealWaveAmount: 0.5
 --- !u!1 &87160942
 GameObject:
   m_ObjectHideFlags: 0
@@ -192,6 +221,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114161420381823384, guid: 75f7af8d7f7e3fe49b8f429c930ed604,
+        type: 2}
+      propertyPath: _starterMound
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 75f7af8d7f7e3fe49b8f429c930ed604, type: 2}
   m_IsPrefabParent: 0
@@ -257,13 +291,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 592504398}
-  m_LocalRotation: {x: 0.7172442, y: 0.003474217, z: 0.027745623, w: 0.69626063}
+  m_LocalRotation: {x: 0.5631592, y: 0.24202706, z: -0.30572236, w: 0.72856605}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 93.048004, y: -57.078003, z: -55.109985}
+  m_LocalEulerAnglesHint: {x: 75.600006, y: 1.9180001, z: -44.04}
 --- !u!1001 &784892484
 Prefab:
   m_ObjectHideFlags: 0
@@ -373,6 +407,18 @@ Prefab:
         type: 2}
       propertyPath: m_CastShadows
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4844647381418356, guid: 729a7e306b18e428280ad642238a823a, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1.0079999
+      objectReference: {fileID: 0}
+    - target: {fileID: 4844647381418356, guid: 729a7e306b18e428280ad642238a823a, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 1.0080001
+      objectReference: {fileID: 0}
+    - target: {fileID: 4844647381418356, guid: 729a7e306b18e428280ad642238a823a, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 0.6959257
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 729a7e306b18e428280ad642238a823a, type: 2}
@@ -508,6 +554,7 @@ GameObject:
   - component: {fileID: 1290208608}
   - component: {fileID: 1290208607}
   - component: {fileID: 1290208612}
+  - component: {fileID: 1290208613}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -595,6 +642,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mat: {fileID: 2100000, guid: 8a1b28ccbfb5e4642ba4354cccab0d4d, type: 2}
+--- !u!114 &1290208613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1290208606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76b5ec6153a1d55438228df10fe66844, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distanceFog: 1
+  excludeFarPixels: 1
+  useRadialDistance: 1
+  heightFog: 1
+  height: 1
+  heightDensity: 0.97
+  startDistance: 0
+  ringSize: 10
+  fogFalloff: 1
+  setFogColor: {r: 0.8897059, g: 0.86985445, b: 0.7588668, a: 0}
+  fogShader: {fileID: 4800000, guid: 70d8568987ac0499f952b54c7c13e265, type: 3}
 --- !u!1001 &1577051533
 Prefab:
   m_ObjectHideFlags: 0
@@ -654,6 +723,10 @@ Prefab:
       propertyPath: _audioControllerList.Array.data[4]._audioClipList.Array.data[2]
       value: 
       objectReference: {fileID: 8300000, guid: fe03c30646ed6d542aa0352b423031d7, type: 3}
+    - target: {fileID: 1233547343806072, guid: 17e7204e7259943eaa4ae4fd5f6f0e54, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 17e7204e7259943eaa4ae4fd5f6f0e54, type: 2}
   m_IsPrefabParent: 0

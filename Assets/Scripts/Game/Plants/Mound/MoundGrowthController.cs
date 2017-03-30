@@ -9,18 +9,18 @@ public class MoundGrowthController : PlantController
 
 	Vector2 _sproutGrowthRange = new Vector2( .75f, 5.0f);
 	Transform _sprout = null;
-	const float _spawnHeight = .33f;
+	const float _spawnHeight = .45f;
 
 	const float _growthTweenTime = 1f;
 	const float _baseRate = 1.0f;
-	const float _wateredRate = 3.5f;
+	const float _wateredRate = 5.5f;
 	float _germinationRate = _baseRate;
 
 	float _timerDuration = 30.0f;
 	float _curTime = 0.0f;
 	float _scaleInterp = 0.0f;
 
-	const float _deathProbability = 15.0f; // probability out of 100
+	const float _deathProbability = 0.0f; // probability out of 100
 	bool _canLive = true;
 
 	public override void Init()
