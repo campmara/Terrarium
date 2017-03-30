@@ -24,33 +24,32 @@ public class EnvironmentColorMan : MonoBehaviour {
         public Color cloudRimColor;
         
         //making a system for these is going to require more organization / thought.
-        /*
+        
         [Header("Plant colors")]
         [Header("Class 1")]
         public Gradient mossPlant;
-        public Gradient pointPlantStem;
-        public Gradient pointPlantLeaf;
+        public Gradient pointPlant;
         [Header("Class 2")]
         public Gradient leafyGroundPlantBulb;
         public Gradient leafyGroundPlantLeaf;
         [Header("Class 3")]
         public Gradient twistPlant;
         public Gradient cappPlant;
-        */
+        
     }
 
     public int currentPalette;
     public List<EnvironmentPalette> palettes;
     public Material terrainMaterial;
 
-    /*
+    
     //this is a terrible way to deal with this please help me find a better way
+    //basically anything that references a single item is a problem.
     //...
     
     //3 gradient
     public Material mossPlantMaterial;
-    public Material pointPlantStemMaterial;
-    public Material pointPlantLeafMaterial;
+    public Material pointPlantMaterial;
     public Material leafyGroundPlantBulbMaterial;
     public Material leafyGroundPlantLeafMaterial;
 
@@ -61,7 +60,7 @@ public class EnvironmentColorMan : MonoBehaviour {
     //one color
     public Material pondMaterial;
     //...
-    */
+    
 
     public ParticleSystem groundDecal;
     private Color decalStartColor;
@@ -73,10 +72,7 @@ public class EnvironmentColorMan : MonoBehaviour {
         Shader.SetGlobalColor("_GroundColorPrimary", palette.groundColorPrimary);
         Shader.SetGlobalColor("_GroundColorSecondary", palette.groundColorSecondary);
         Shader.SetGlobalColor("_GroundColorSecondary", palette.groundColorSecondary);
-        /*if (pondMaterial)
-        {
-            pondMaterial.SetColor("_GroundColorSecondary", palette.groundColorSecondary);
-        }*/
+
 
         if (groundDecal)
         {
@@ -98,30 +94,33 @@ public class EnvironmentColorMan : MonoBehaviour {
         {
             terrainMaterial.SetColor("_Color", palette.terrainColor);
         }
+        if (pondMaterial)
+        {
+            pondMaterial.SetColor("_Color", palette.terrainColor);
+        }
 
-        /*
+
         //plants
         //3 part
         ApplyThreePartGradient(mossPlantMaterial, palette.mossPlant);
-        ApplyThreePartGradient(pointPlantStemMaterial, palette.pointPlantStem);
-        ApplyThreePartGradient(pointPlantLeafMaterial, palette.pointPlantLeaf);
+        ApplyThreePartGradient(pointPlantMaterial, palette.pointPlant);
         ApplyThreePartGradient(leafyGroundPlantBulbMaterial, palette.leafyGroundPlantBulb);
         ApplyThreePartGradient(leafyGroundPlantLeafMaterial, palette.leafyGroundPlantLeaf);
 
         //2 part
         ApplyTwoPartGradient(twistPlantMaterial, palette.twistPlant);
         ApplyTwoPartGradient(cappPlantMaterial, palette.cappPlant);
-        */
+        
 }
 
-    /*
+    
     void ApplyThreePartGradient(Material mat, Gradient grad)
     {
         if (mat)
         {
-            mat.SetColor("Top Color", grad.Evaluate(0f));
-            mat.SetColor("Mid Color", grad.Evaluate(.5f));
-            mat.SetColor("Bot Color", grad.Evaluate(1f));
+            mat.SetColor("_ColorTop", grad.Evaluate(0f));
+            mat.SetColor("_ColorMid", grad.Evaluate(.5f));
+            mat.SetColor("_ColorBot", grad.Evaluate(1f));
         }
     }
     
@@ -133,5 +132,5 @@ public class EnvironmentColorMan : MonoBehaviour {
             mat.SetColor("_Color2", grad.Evaluate(1f));
         }
     }
-    */
+    
 }

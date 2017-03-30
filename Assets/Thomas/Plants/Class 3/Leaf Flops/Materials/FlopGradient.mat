@@ -6,10 +6,10 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Fruit
-  m_Shader: {fileID: 4800000, guid: 0a4c2dc3e6c043042a5f12aa874a5954, type: 3}
-  m_ShaderKeywords: _EMISSION
-  m_LightmapFlags: 1
+  m_Name: FlopGradient
+  m_Shader: {fileID: 4800000, guid: 679bb6ecb44c34340ba702bd52755149, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
   m_CustomRenderQueue: -1
   stringTagMap: {}
   m_SavedProperties:
@@ -37,6 +37,12 @@ Material:
         name: _DetailNormalMap
       second:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _DispTex
+      second:
+        m_Texture: {fileID: 2800000, guid: 0eceb5a7798c01046b89b8d558a91fcd, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
@@ -92,6 +98,9 @@ Material:
         name: _DetailNormalMapScale
       second: 1
     - first:
+        name: _Displacement
+      second: 0
+    - first:
         name: _DstBlend
       second: 0
     - first:
@@ -105,13 +114,13 @@ Material:
       second: 1
     - first:
         name: _Hardness
-      second: 0.74
+      second: 0.745
     - first:
         name: _Metallic
       second: 0
     - first:
         name: _Middle
-      second: 0.329
+      second: 0.5
     - first:
         name: _Mode
       second: 0
@@ -121,6 +130,9 @@ Material:
     - first:
         name: _Parallax
       second: 0.02
+    - first:
+        name: _Sensitivity
+      second: 151
     - first:
         name: _SmoothnessTextureChannel
       second: 0
@@ -142,13 +154,13 @@ Material:
       second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _ColorBot
-      second: {r: 0.9764706, g: 1, b: 0.59607846, a: 1}
+      second: {r: 0.8392157, g: 0.6392157, b: 0.6392157, a: 1}
     - first:
         name: _ColorMid
-      second: {r: 1, g: 0.95686275, b: 0.62352943, a: 1}
+      second: {r: 0.91764706, g: 0.72156864, b: 0.72156864, a: 1}
     - first:
         name: _ColorTop
-      second: {r: 1, g: 0.972549, b: 0.023529412, a: 1}
+      second: {r: 0.5647059, g: 0.93333334, b: 0.79607844, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
