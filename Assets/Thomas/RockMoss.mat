@@ -8,7 +8,7 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: RockMoss
   m_Shader: {fileID: 4800000, guid: 59cdfe878ccabd946998f8126157a8e6, type: 3}
-  m_ShaderKeywords: _EMISSION
+  m_ShaderKeywords: _EMISSION _TOGGLECOLORFROMGROUND_ON
   m_LightmapFlags: 1
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -144,6 +144,9 @@ Material:
       second: 1
     - first:
         name: _SrcBlend
+      second: 1
+    - first:
+        name: _ToggleColorFromGround
       second: 1
     - first:
         name: _UVSec
