@@ -68,13 +68,18 @@
 		fixed4 _GrassColor;
 		float _WorldDistortion;
 
+		//global variable for ground color
+		uniform float4 _GroundColorPrimary;
+		uniform float4 _GroundColorSecondary;
+
 		void surf(Input IN, inout SurfaceOutput o) 
 		{
 			fixed3 noise = cnoise(IN.worldPos * _WorldDistortion);
 			fixed4 tex = tex2D(_MainTex, IN.uv_MainTex);
 			fixed4 finalTex = tex2D(_MainTex, lerp(IN.uv_MainTex, noise, 0.004));
 
-            fixed3 c = lerp(_GrassColor, _GroundColor, finalTex.a);
+            //fixed3 c = lerp(_GrassColor, _GroundColor, finalTex.a);
+			fixed3 c = lerp(_GroundColorPrimary, _GroundColorSecondary, finalTex.a);
             o.Albedo = c;
 
 			o.Normal = UnpackNormal(tex2D(_NormalTex, IN.uv_NormalTex));
