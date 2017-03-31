@@ -2,8 +2,8 @@
 {
 	Properties
 	{
-		_Color("Color", Color) = (1,1,1,1)
-		_Color2("Color", Color) = (1,1,1,1)
+		//_Color("Color", Color) = (1,1,1,1)
+		//_Color2("Color", Color) = (1,1,1,1)
 		_MainTex("Albedo (RGB)", 2D) = "white" {}
 		_Hardness("Hardness", Range(0, 1)) = 1
 		_Cutoff("Alpha Cutoff", Range(0, 1)) = 1
@@ -53,6 +53,10 @@
 	fixed4 _Color2;
 	float _ToggleBillboard;
 
+	//global variable for ground color
+	uniform float4 _GroundColorPrimary;
+	uniform float4 _GroundColorSecondary;
+
 	void vert(inout appdata_full v, out Input o)
 	{
 		//throw wind in here eventually??
@@ -63,10 +67,8 @@
 
 	void surf(Input IN, inout SurfaceOutput o)
 	{
-		// Albedo comes from a texture tinted by color
-		//fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
 		fixed4 c = tex2D(_MainTex, IN.uv_MainTex);
-		c.rgb = lerp(_Color, _Color2, c.r);
+		c.rgb = lerp(_GroundColorPrimary, _GroundColorSecondary, c.r);
 		o.Albedo = c.rgb;
 		o.Alpha = c.a;
 	}

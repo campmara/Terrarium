@@ -25,7 +25,7 @@ namespace UnityStandardAssets.ImageEffects
 
         public float ringSize = 15f;
         public float fogFalloff = 1f;
-        public Color setFogColor;
+        //public Color setFogColor;
 
         public Shader fogShader = null;
         private Material fogMaterial = null;
@@ -53,10 +53,11 @@ namespace UnityStandardAssets.ImageEffects
 
             Camera cam = GetComponent<Camera>();
             Transform camtr = cam.transform;
-            if (!RenderSettings.fog)
+            /*if (!RenderSettings.fog)
             {
                 RenderSettings.fogColor = setFogColor;
-            }
+            }*/
+            //this is now done in environment color manager
 
             Vector3[] frustumCorners = new Vector3[4];
             cam.CalculateFrustumCorners(new Rect(0, 0, 1, 1), cam.farClipPlane, cam.stereoActiveEye, frustumCorners);
