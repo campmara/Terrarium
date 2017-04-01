@@ -15,7 +15,7 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 7
   m_Fog: 0
-  m_FogColor: {r: 0.8897059, g: 0.86985445, b: 0.7588668, a: 0}
+  m_FogColor: {r: 0.9044118, g: 0.8420386, b: 0.6384083, a: 0}
   m_FogMode: 3
   m_FogDensity: 0.0325
   m_LinearFogStart: 0
@@ -182,6 +182,53 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &91360374
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4927941408975982, guid: e8c71024a58e40149b7e08385a0fdc52, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927941408975982, guid: e8c71024a58e40149b7e08385a0fdc52, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927941408975982, guid: e8c71024a58e40149b7e08385a0fdc52, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927941408975982, guid: e8c71024a58e40149b7e08385a0fdc52, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927941408975982, guid: e8c71024a58e40149b7e08385a0fdc52, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927941408975982, guid: e8c71024a58e40149b7e08385a0fdc52, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927941408975982, guid: e8c71024a58e40149b7e08385a0fdc52, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927941408975982, guid: e8c71024a58e40149b7e08385a0fdc52, type: 2}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 114418737141023728, guid: e8c71024a58e40149b7e08385a0fdc52,
+        type: 2}
+      propertyPath: groundDecal
+      value: 
+      objectReference: {fileID: 1293482411}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: e8c71024a58e40149b7e08385a0fdc52, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1001 &411691770
 Prefab:
   m_ObjectHideFlags: 0
@@ -533,6 +580,31 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 198777316632145236, guid: f3fe1fdb9da654f72ae8ff06711f4a80,
+        type: 2}
+      propertyPath: randomSeed
+      value: -1306992874
+      objectReference: {fileID: 0}
+    - target: {fileID: 198777316632145236, guid: f3fe1fdb9da654f72ae8ff06711f4a80,
+        type: 2}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0.105882354
+      objectReference: {fileID: 0}
+    - target: {fileID: 198777316632145236, guid: f3fe1fdb9da654f72ae8ff06711f4a80,
+        type: 2}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.13725491
+      objectReference: {fileID: 0}
+    - target: {fileID: 198777316632145236, guid: f3fe1fdb9da654f72ae8ff06711f4a80,
+        type: 2}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.06666667
+      objectReference: {fileID: 0}
+    - target: {fileID: 198777316632145236, guid: f3fe1fdb9da654f72ae8ff06711f4a80,
+        type: 2}
+      propertyPath: InitialModule.startColor.maxColor.a
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f3fe1fdb9da654f72ae8ff06711f4a80, type: 2}
   m_IsPrefabParent: 0
@@ -662,8 +734,12 @@ MonoBehaviour:
   startDistance: 0
   ringSize: 10
   fogFalloff: 1
-  setFogColor: {r: 0.8897059, g: 0.86985445, b: 0.7588668, a: 0}
   fogShader: {fileID: 4800000, guid: 70d8568987ac0499f952b54c7c13e265, type: 3}
+--- !u!198 &1293482411 stripped
+ParticleSystem:
+  m_PrefabParentObject: {fileID: 198777316632145236, guid: f3fe1fdb9da654f72ae8ff06711f4a80,
+    type: 2}
+  m_PrefabInternal: {fileID: 1017378813}
 --- !u!1001 &1577051533
 Prefab:
   m_ObjectHideFlags: 0

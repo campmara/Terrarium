@@ -91,7 +91,7 @@
 		//clamped to prevent extreme results at higher branches, needs tweaking, it would be nice if lower plants shook more in here
 		float heightSensitivity = clamp(worldPos.y * worldPos.y, 0, _Sensitivity) / _Sensitivity;
 		//oscillation value adds on to the direction of the wind, it's length is measured with _WaveScale
-		float4 oscillation = sin(_WaveTime + noiseOffset) * _WaveScale * normalize(_WaveDir) * heightSensitivity; // * v.color.r
+		float4 oscillation = sin(_WaveTime + noiseOffset  * heightSensitivity) * _WaveScale * normalize(_WaveDir) * heightSensitivity; // * v.color.r
 		//wave direction and oscillation combined are then scaled overall by the _WaveAmount
 		float4 wind = (normalize(_WaveDir) + oscillation) * _WaveAmount * heightSensitivity; //* v.color.r
 
