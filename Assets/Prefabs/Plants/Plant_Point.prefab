@@ -424,8 +424,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c89c16775a3ab6747bd06c3a52a18944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseGrowthRate: 0.005
-  _wateredGrowthRate: 0.006
+  _baseGrowthRate: 0.0325
+  _wateredGrowthRate: 0.04
   _curStage: 0
   _droppingItems:
   - {fileID: 1631419253260572, guid: e7e4ccc23b3b8416c994f33a1840c8c6, type: 2}
@@ -446,7 +446,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pAssetKey: -1
+  _deathDuration: 0
   _DeathDurationRange: {x: 120, y: 180}
+  _DeathTimer: 0
   _baseDecayRate: 1
   _curDecayRate: 0
 --- !u!114 &114377923989409856

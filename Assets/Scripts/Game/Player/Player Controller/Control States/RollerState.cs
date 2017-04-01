@@ -54,7 +54,11 @@ public class RollerState : MonoBehaviour
 					}
 				}            
 
-				_roller.IK.SetArmTarget( pickup != null ? pickup.transform : null , armType );
+				if ( pickup != null )
+				{
+					_roller.IK.SetArmTarget( pickup.transform, armType );	
+				}
+
 			}
 		}
 		else
