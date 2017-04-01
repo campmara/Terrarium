@@ -109,8 +109,20 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 		PLAYER_FOOTSTEPS,
 		PLAYER_ROLL,
 		PLAYER_ACTIONFX,
-		PLAYER_TRANSITIONFX
+		PLAYER_TRANSITIONFX,
+		AMBIENCE,
+		OPENING_CHORD,
+		SUBTLE_MUSIC,
+		FULL_MUSIC
 	}
+
+
+	// threshold of number of plants to decide whether to play music
+	[SerializeField] private int subtleMusicThreshold = 3;
+
+	[SerializeField] private int fullMusicThreshold = 10;
+
+
 	[SerializeField] private List<AudioController> _audioControllerList = new List<AudioController>();
 
 	void Awake () 
@@ -150,7 +162,9 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 		TimeManager.instance.HourCallback += PlayHourlySong;
 
         CalculateMusicTimeState();
-
+		_audioControllerList[(int)AudioControllerNames.OPENING_CHORD].PlayRandomClip();
+		_audioControllerList[(int)AudioControllerNames.AMBIENCE].PlayAudioSource();
+		_audioControllerList[(int)AudioControllerNames.AMBIENCE].Loop = true;
         _audioControllerList[(int)AudioControllerNames.MUSIC].PlayAudioSource(); 
 
         isInitialized = true;
@@ -339,4 +353,28 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
         }
         return freqN * ((float)AudioSettings.outputSampleRate / 2f) / 1024 / 1024;
     }
+
+	public void PlantAdded(int numPlants)
+	{
+		// check threshold
+		if(numPlants >= subtleMusicThreshold)
+		{
+			// if subtle music has not started, start it
+			if(!_audioControllerList[(int) AudioControllerNames.SUBTLE_MUSIC].Source.isPlaying)
+			{
+				_audioControllerList[(int) AudioControllerNames.SUBTLE_MUSIC].PlayRandomClip();
+			}
+
+		}
+		else if(numPlants >= fullMusicThreshold)
+		{
+			// if full music has not started, and subtle music is not playing, start it
+			// if subtle music has not started, start it
+			if(!_audioControllerList[(int) AudioControllerNames.SUBTLE_MUSIC].Source.isPlaying &&
+			   !_audioControllerList[(int) AudioControllerNames.FULL_MUSIC].Source.isPlaying)
+			{
+				_audioControllerList[(int) AudioControllerNames.FULL_MUSIC].PlayRandomClip();
+			}
+		}
+	}
 }
