@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 198777316632145236}
   - component: {fileID: 199154852076337108}
   - component: {fileID: 114229707023453938}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Ground Decal Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 23176888966298778}
   - component: {fileID: 114818208076760938}
   - component: {fileID: 65478979296318042}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Ground Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4931938158737398}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Ground Hierarchy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 33498728552040666}
   - component: {fileID: 64993051372357966}
   - component: {fileID: 23395391854772748}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Splat Mask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -319,7 +319,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1982299996
+  randomSeed: -2141185359
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -492,7 +492,7 @@ ParticleSystem:
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
       minColor: {r: 0.41568628, g: 0.5058824, b: 0.30980393, a: 1}
-      maxColor: {r: 0.29411766, g: 0.4117647, b: 0.1882353, a: 1}
+      maxColor: {r: 0.105882354, g: 0.13725491, b: 0.06666667, a: 1}
       minMaxState: 0
     startSize:
       scalar: 1

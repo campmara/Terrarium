@@ -10,7 +10,8 @@ public enum P_ControlState
 	RITUAL,
     PLANTING,
 	SING,
-	SIT
+	SIT,
+	POND
 }
 
 [RequireComponent(typeof(Rigidbody))]
@@ -37,6 +38,9 @@ public class RollerController : ControllerBase
 
 	[ReadOnly] private GameObject _rollSphere = null;
 	public GameObject RollSphere { get { return _rollSphere; } }
+
+	[ReadOnly] private ParticleSystem _explodeParticleSystem = null;
+	public ParticleSystem ExplodeParticleSystem { get { return _explodeParticleSystem; } }
 
 	// These have accessors in the RollerState
 	[ReadOnly] Pickupable _currentHeldObject = null;
@@ -80,6 +84,7 @@ public class RollerController : ControllerBase
     private PlantingState _planting = null;
 	private SingState _singing = null;
 	private SittingState _sitting = null;
+	private PondState _ponding = null;
 
 	void Awake()
 	{
@@ -91,6 +96,7 @@ public class RollerController : ControllerBase
 		_mesh = GetComponentInChildren<SkinnedMeshRenderer>().gameObject;
 		_rig = transform.GetChild(0).gameObject;
 		_rollSphere = transform.GetChild(2).gameObject;
+		_explodeParticleSystem = GetComponentInChildren<ParticleSystem>();
 
 		// Add State Controller, Set parent to This Script, set to inactive
 		_walking = this.gameObject.AddComponent<WalkingState>();
@@ -117,8 +123,11 @@ public class RollerController : ControllerBase
 		_sitting = this.gameObject.AddComponent<SittingState>();
 		_sitting.RollerParent = this;
 
+		_ponding = this.gameObject.AddComponent<PondState>();
+		_ponding.RollerParent = this;
+
         // Set state to default (walking for now)
-        ChangeState( P_ControlState.WALKING);
+        ChangeState(P_ControlState.POND);
 	}
 
 /* Can use these for if we are swapping in & out controllers from Player Control Manager
@@ -177,6 +186,9 @@ public class RollerController : ControllerBase
 			break;
 		case P_ControlState.SIT:
 			_currentState = _sitting;
+			break;
+		case P_ControlState.POND:
+			_currentState = _ponding;
 			break;
         default:
 			break;

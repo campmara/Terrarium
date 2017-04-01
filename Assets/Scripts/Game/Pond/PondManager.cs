@@ -58,7 +58,7 @@ public class PondManager : SingletonBehaviour<PondManager>
         // Tell the Camera to pan back to the pond.      
         PlayerManager.instance.ReturnPlayerToPond(); 
 
-        PlayerManager.instance.Player.ControlManager.SetActiveController<InactiveController>();
+        //PlayerManager.instance.Player.ControlManager.SetActiveController<InactiveController>();
 
         CameraManager.instance.ChangeCameraState( CameraManager.CameraState.POND_RETURNPAN );       
     }
