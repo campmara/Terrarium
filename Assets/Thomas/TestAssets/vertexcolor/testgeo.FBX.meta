@@ -20,6 +20,7 @@ ModelImporter:
     4300000: GeoSphere001
     4300002: Teapot001
     4300004: Box001
+    4300006: Sphere001
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -45,7 +46,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 25
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1

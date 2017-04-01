@@ -27,7 +27,8 @@
 	// our vertex shader, that's where the magic happens!
 	void vert(inout appdata_full v)
 	{
-		v.vertex = lerp(v.vertex, v.color, _Deformation);
+		//3ds max flip vertex to rbga to account for deformation
+		v.vertex = lerp(v.vertex, v.color.rbga, _Deformation);
 	}
 
 	// a surface shader (very similar to the previous example)
