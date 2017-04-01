@@ -26,7 +26,8 @@ public class BPDeathController : PlantController
 	private float _flyTimer = 0f;
 	private float _flyPluckTime;
 
-	const float WIND_EFFECT = 30f;
+	[SerializeField] private float windEffect = 30f;
+
 	const float PLUCK_FORCE = 17f;
 	const float ASCEND_FORCE = 2.25f;
 
@@ -132,7 +133,7 @@ public class BPDeathController : PlantController
 		}
 		
 		// Apply a weird constant random rotation.
-		_rb.AddTorque(WeatherManager.instance.WindForce * WIND_EFFECT * Time.deltaTime);
+		_rb.AddTorque(WeatherManager.instance.WindForce * windEffect * Time.deltaTime);
 	}
 
 	void CheckForKill()
