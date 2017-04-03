@@ -246,10 +246,15 @@ public class PlayerIKControl : MonoBehaviour
         {
             _leftArmIK.SetArmTargetTransform( target );
         }
-        else
+		else if ( armType == PlayerArmIK.ArmType.RIGHT )
         {
             _rightArmIK.SetArmTargetTransform( target );
         }
+		else if ( armType == PlayerArmIK.ArmType.BOTH )
+		{
+			_leftArmIK.SetArmTargetTransform( target );
+			_rightArmIK.SetArmTargetTransform( target );
+		}			
 
         if( target != null && _armFocus == null )
         {
@@ -290,7 +295,7 @@ public class PlayerIKControl : MonoBehaviour
 
     public void HandleArmsGrab()
     {
-        Debug.Assert( _leftArmIK.ArmState == PlayerArmIK.ArmIKState.TARGET_REACHING && _rightArmIK.ArmState == PlayerArmIK.ArmIKState.TARGET_REACHING );
+        //Debug.Assert( _leftArmIK.ArmState == PlayerArmIK.ArmIKState.TARGET_REACHING && _rightArmIK.ArmState == PlayerArmIK.ArmIKState.TARGET_REACHING );
 
         _leftArmIK.GrabTargetTransform();
         _rightArmIK.GrabTargetTransform();

@@ -2,6 +2,8 @@
 
 public class CarryState : RollerState 
 {
+	bool canDrop = false;
+
     public override void Enter( P_ControlState prevState )
 	{
 		Debug.Log("ENTER CARRY STATE");
@@ -14,6 +16,8 @@ public class CarryState : RollerState
                 RollerParent.HandleEndIdle();
                 break;
 		}
+
+		canDrop = false;
 	}
 
 	public override void Exit( P_ControlState nextState )
@@ -26,13 +30,19 @@ public class CarryState : RollerState
                 HandleBothArmRelease();
                 break;
         }
-
+			
 		RollerParent.Idling = false;
 	}
 
-	public override void HandleInput(InputCollection input)
+	public override void HandleInput( InputCollection input )
 	{
-		if( RollerParent.CurrentHeldObject != null )
+		// Makin sure ppl release button to drop the Thing they are carrying.
+		if( !canDrop && input.AButton.WasReleased )
+		{
+			canDrop = true;
+		}
+
+		if( canDrop && RollerParent.CurrentHeldObject != null )
 		{
 			RollerParent.IKMovement( Mathf.Lerp( RollerConstants.instance.CARRY_SPEED, 0.0f, _roller.CurrentHeldObject.GrabberBurdenInterp ),
 				RollerConstants.instance.WALK_ACCELERATION,
@@ -55,21 +65,18 @@ public class CarryState : RollerState
 				}
 			}
 
-			if (input.AButton.IsPressed)
+			if ( input.AButton.WasPressed )
 			{
 				// NOTE: Should only happen for seeds ?
-				_roller.ChangeState( P_ControlState.PLANTING);
+				if( RollerParent.CurrentHeldObject.GetComponent<Seed>() != null )
+				{					
+					_roller.ChangeState( P_ControlState.PLANTING );
+				}
+				else
+				{
+					_roller.ChangeState( P_ControlState.WALKING );	
+				}
 			}
-
-			// Drop if you release the controller triggers...
-			if ( !_roller.CurrentHeldObject.Grabbed || input.LeftTrigger.Value < 1.0f || input.RightTrigger.Value < 1.0f )
-			{
-				_roller.ChangeState( P_ControlState.WALKING);
-			}
-		}
-		else
-		{
-			_roller.ChangeState( P_ControlState.WALKING);
 		}
 
 	}
