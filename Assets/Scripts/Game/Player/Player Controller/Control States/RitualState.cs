@@ -101,6 +101,7 @@ public class RitualState : RollerState
 		}
 
 		PondManager.instance.HandlePondReturn();
+        _roller.StopPlayer();
 		_roller.ChangeState(P_ControlState.POND);
     }
 
