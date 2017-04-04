@@ -287,7 +287,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
         _focusOffset = _focusPoint;
 
         // This changes the cam state when it finishes.
-        PondManager.instance.PopPlayerFromPond();
+        //PondManager.instance.PopPlayerFromPond();
 	}
 
 

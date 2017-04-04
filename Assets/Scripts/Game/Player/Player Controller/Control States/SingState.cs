@@ -28,11 +28,11 @@ public class SingState : RollerState
 									  RollerConstants.instance.WALK_TURN_SPEED);
 
 	    // B BUTTON
-	    if (input.BButton.IsPressed)
-	    {
-	        _roller.ChangeState( P_ControlState.ROLLING);
-			return;
-	    }
+//	    if (input.BButton.IsPressed)
+//	    {
+//	        _roller.ChangeState( P_ControlState.ROLLING);
+//			return;
+//	    }
 
 	    // X BUTTON
 	    if (input.XButton.IsPressed)
