@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6d1ccacd29a93a4d879c34158752ff3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentPalette: 3
+  currentPalette: 0
   palettes:
   - title: Desert
     groundColorPrimary: {r: 0.460271, g: 0.50735295, b: 0.45139492, a: 0}
@@ -85,5 +85,13 @@ MonoBehaviour:
     fogColor: {r: 0.093263395, g: 0.34290746, b: 0.5514706, a: 0}
     skyColor: {r: 0.9411765, g: 0.4844291, b: 0.4844291, a: 0}
     cloudRimColor: {r: 1, g: 0, b: 0.6000004, a: 0}
+  - title: Decay
+    groundColorPrimary: {r: 0.97794116, g: 0.97794116, b: 0.97794116, a: 0}
+    groundColorSecondary: {r: 0.066176474, g: 0.066176474, b: 0.066176474, a: 0}
+    groundDecalTint: {r: 0.75735295, g: 0.75735295, b: 0.75735295, a: 1}
+    terrainColor: {r: 0, g: 0, b: 0, a: 0}
+    fogColor: {r: 0.28676468, g: 0.28676468, b: 0.28676468, a: 0}
+    skyColor: {r: 0.20588237, g: 0.20588237, b: 0.20588237, a: 0}
+    cloudRimColor: {r: 0.75, g: 0.75, b: 0.75, a: 0}
   terrainMaterial: {fileID: 2100000, guid: be1f84fcd12c8814fb81989242a6b5ed, type: 2}
   groundDecal: {fileID: 0}
