@@ -364,6 +364,14 @@ public class RollerController : ControllerBase
 		}
     }
 
+    /// <summary>
+    /// Zeros out Velocity
+    /// </summary>
+    public void StopPlayer()
+    {
+        _velocity = 0.0f;
+    }
+
 	public void HandleBeginIdle()
 	{
 		_idling = true;
