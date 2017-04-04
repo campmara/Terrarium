@@ -186,7 +186,10 @@ public class ButterflyCloud : AmbientCreature {
 	{
 		yield return new WaitForSeconds( Random.Range( 0.1f, 0.75f ) );
 
-		anim.SetTime(0.0f);
+		// This was deprecated in 5.6 and doesn't work. Using StartPlayback for now but I have no idea if it actually works.
+		//anim.SetTime(0.0f);
+
+		anim.StartPlayback();
 	}
 
 	// Worried about mem leak, need to look into disposing of non Mono classes

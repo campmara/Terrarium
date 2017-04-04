@@ -1,4 +1,6 @@
-﻿//Current issues: 
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+//Current issues: 
 // - I haven't really researched what the vertex part of the distortion shader does
 // - general tidying of files
 // - lighting model includes unity's default which already reflects the world, it could easily be discarded and replaced with something on here:
@@ -162,7 +164,7 @@ Shader "Custom/Waterball"
 			o.worldPos.xyz = mul(unity_ObjectToWorld, v.vertex.xyz);
 			//https://forum.unity3d.com/threads/refraction-example.78750/
 			//refraction distorting uvs
-			float4 oPos = mul(UNITY_MATRIX_MVP, v.vertex);
+			float4 oPos = UnityObjectToClipPos(v.vertex);
 			#if UNITY_UV_STARTS_AT_TOP
 			float scale = -1.0;
 			#else

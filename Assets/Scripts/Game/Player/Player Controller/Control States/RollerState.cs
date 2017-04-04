@@ -145,4 +145,13 @@ public class RollerState : MonoBehaviour
 		}
 		
 	}
+
+    protected void IncrementLeftArmGesture()
+    {
+        _roller.IK.LeftArm.IncrementGestureIndex();
+    }
+    protected void IncrementRightArmGesture()
+    {
+        _roller.IK.RightArm.IncrementGestureIndex();
+    }
 }

@@ -55,6 +55,18 @@ public class WalkingState : RollerState
         // Check for sitting after idling for a while.
         IdleTimer(input);
 
+        if( input.LeftBumper.WasPressed )
+        {
+            _idleTimer = 0f;
+            IncrementLeftArmGesture();
+        }
+        if( input.RightBumper.WasPressed )
+        {
+            _idleTimer = 0f;
+            IncrementRightArmGesture();
+        }
+
+
 		// A BUTTON 
 		// THIS MAKES FIRST TIME YOU PRESS A BUTTON NOT WORK
 		// have to figure out a way to deal Incontrol detecting double button presserino between frames
