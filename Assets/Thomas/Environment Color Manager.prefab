@@ -51,12 +51,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6d1ccacd29a93a4d879c34158752ff3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentPalette: 0
+  currentPalette: 3
   palettes:
   - title: Desert
     groundColorPrimary: {r: 0.460271, g: 0.50735295, b: 0.45139492, a: 0}
     groundColorSecondary: {r: 0.32114303, g: 0.41176468, b: 0.19982697, a: 0}
-    groundDecalTint: {r: 0.33088237, g: 0.33088237, b: 0.33088237, a: 1}
+    groundDecalTint: {r: 0.6691177, g: 0.6691177, b: 0.6691177, a: 1}
     terrainColor: {r: 0.8161765, g: 0.68638283, b: 0.5221129, a: 0}
     fogColor: {r: 0.9044118, g: 0.8420386, b: 0.6384083, a: 0}
     skyColor: {r: 1, g: 0.9407708, b: 0.46323532, a: 0}
@@ -77,5 +77,13 @@ MonoBehaviour:
     fogColor: {r: 0.75735295, g: 0.88955384, b: 1, a: 0}
     skyColor: {r: 1, g: 1, b: 1, a: 0}
     cloudRimColor: {r: 0.9191176, g: 0.99665314, b: 1, a: 0}
+  - title: Red Moon
+    groundColorPrimary: {r: 0.8897059, g: 0.36634946, b: 0.36634946, a: 0}
+    groundColorSecondary: {r: 0.7941176, g: 0.2714174, b: 0.1518166, a: 0}
+    groundDecalTint: {r: 0.7794118, g: 0.7794118, b: 0.7794118, a: 1}
+    terrainColor: {r: 0.26275954, g: 0.4801486, b: 0.66176474, a: 0}
+    fogColor: {r: 0.093263395, g: 0.34290746, b: 0.5514706, a: 0}
+    skyColor: {r: 0.9411765, g: 0.4844291, b: 0.4844291, a: 0}
+    cloudRimColor: {r: 1, g: 0, b: 0.6000004, a: 0}
   terrainMaterial: {fileID: 2100000, guid: be1f84fcd12c8814fb81989242a6b5ed, type: 2}
   groundDecal: {fileID: 0}
