@@ -23,8 +23,10 @@ public class PlayerArmIK : MonoBehaviour {
 
     public enum ArmType : int
     {
-        LEFT = 0,
-        RIGHT
+        NONE = -1,
+		LEFT = 0,
+        RIGHT,
+		BOTH
     }
     [SerializeField] ArmType _armType = ArmType.LEFT;
 
@@ -147,6 +149,11 @@ public class PlayerArmIK : MonoBehaviour {
         }
 
         _armTargetPos = Vector3.Lerp( _armTargetPos, _armSpring.transform.position, _armTargetLerpSpeed * Time.deltaTime);
+
+		if( _armReachInterp > Mathf.Epsilon )
+		{
+			SetArmState( ArmIKState.EMPTY_REACHING );
+		}
     }
 
     private void HandleEmptyReaching()
@@ -188,11 +195,11 @@ public class PlayerArmIK : MonoBehaviour {
 			// Each arm offseted differently. should be done in animation idk
 			if( _armType == ArmType.LEFT )
 			{
-				_armTargetPos = Vector3.Lerp( _armTargetPos, Vector3.Lerp( _armSpring.transform.position, _armTargetTransform.position - ( _parentIKController.transform.right * _armGrabOffset ), _armReachInterp ), _armGrabSpeed * Time.deltaTime );
+				_armTargetPos = Vector3.Lerp( _armTargetPos, _armTargetTransform.position - ( _parentIKController.transform.right * _armGrabOffset ), _armGrabSpeed * Time.deltaTime );
 			}
 			else
 			{
-				_armTargetPos = Vector3.Lerp( _armTargetPos, Vector3.Lerp( _armSpring.transform.position, _armTargetTransform.position + ( _parentIKController.transform.right * _armGrabOffset ), _armReachInterp ), _armGrabSpeed * Time.deltaTime );
+				_armTargetPos = Vector3.Lerp( _armTargetPos,_armTargetTransform.position + ( _parentIKController.transform.right * _armGrabOffset ), _armGrabSpeed * Time.deltaTime );
 			}
 		}                
     }

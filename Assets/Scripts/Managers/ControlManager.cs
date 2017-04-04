@@ -156,20 +156,14 @@ public class ControlManager : SingletonBehaviour<ControlManager>
 		isInitialized = true;
 	}
 
-	// Update is called once per frame
-	void Update () 
-	{
-		
-	}
-
 	public void Vibrate( float intensity )
 	{
-		InputManager.ActiveDevice.Vibrate(intensity);
+		InputManager.ActiveDevice.Vibrate( intensity );
 	}
 
 	public void Vibrate( float leftMotorIntensity, float rightMotorIntensity )
 	{
-		InputManager.ActiveDevice.Vibrate(leftMotorIntensity, rightMotorIntensity);
+		InputManager.ActiveDevice.Vibrate( leftMotorIntensity, rightMotorIntensity );
 	}
 
 	/// <summary>
