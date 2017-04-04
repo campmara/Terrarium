@@ -13,10 +13,15 @@ public class BPGrowthController : PlantController
 	float [] growthTime = new float[4]; // time splits initialized based on our animation
 
 	[SerializeField] protected float _baseGrowthRate = 0.0f;
+	[SerializeField] protected Vector2 _scaleMultiplierRange = new Vector2( 3.0f, 18.0f );
+	[SerializeField] protected List<Vector2> _scaleRatios = new List<Vector2>();
 	[SerializeField] protected float _wateredGrowthRate = 0.0f;
+
 	protected float _growthRate = 0.0f;
 	protected float _animEndTime = 0.0f;
 	protected float _curPercentAnimated = 0.0f;
+	protected float _maxHeight = 0.0f;
+	protected float _maxWidth = 0.0f;
 	protected const float WATERED_GROWTHRETURNTIME = 10.0f;
 
 	//****************
@@ -30,7 +35,7 @@ public class BPGrowthController : PlantController
 	[SerializeField] GrowthStage _curStage = GrowthStage.Seed;
 	public GrowthStage CurStage { get { return _curStage; } }
 
-	float [] _neededDistance = new float[] { 4.0f, 8.0f, 10.0f, 12.0f }; // how much room each stage need to grow, first element doesnt matter
+	float [] _neededDistance = new float[] { 4.0f, 5.0f, 8.5f, 15.0f }; // how much room each stage need to grow, first element doesnt matter
 	float [] _spawnRadii = new float[] { 4.0f, 6.0f, 8.0f, 11.0f };  
 	bool _hardStopGrowth = false;
 
@@ -66,6 +71,11 @@ public class BPGrowthController : PlantController
 	{
 		_myPlant = GetComponent<BasePlant>();
 		_controllerType = ControllerType.Growth;
+
+		Vector2 ratio = _scaleRatios[ Random.Range( 0, _scaleRatios.Count - 1 ) ];
+		float multiplier = Random.Range( _scaleMultiplierRange.x, _scaleMultiplierRange.y);
+		_maxHeight = ratio.y * multiplier;
+		_maxWidth = ratio.x * multiplier;
 	}
 
 	public override void StartState()
@@ -128,8 +138,15 @@ public class BPGrowthController : PlantController
 			else
 			{
 				CustomPlantGrowth();
+				UpdateScale();
 			}
 		}
+	}
+
+	void UpdateScale()
+	{
+		float width = Mathf.Lerp( 1.0f, _maxWidth, _curPercentAnimated );
+		transform.localScale = new Vector3( width, Mathf.Lerp( 1.0f, _maxHeight, _curPercentAnimated ), width );
 	}
 
 	protected virtual void CustomPlantGrowth(){}
