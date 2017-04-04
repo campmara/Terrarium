@@ -1491,7 +1491,7 @@ MonoBehaviour:
   _armType: 0
   _armState: 0
   _armTargetTransform: {fileID: 0}
-  _armTargetLerpSpeed: 7
+  _armTargetLerpSpeed: 11
   _armIKLerpSpeed: 15
   _armTargetPos: {x: 0, y: 0, z: 0}
   _armGrabSpeed: 20
@@ -1853,7 +1853,7 @@ MonoBehaviour:
   _armType: 1
   _armState: 0
   _armTargetTransform: {fileID: 0}
-  _armTargetLerpSpeed: 7
+  _armTargetLerpSpeed: 11
   _armIKLerpSpeed: 15
   _armTargetPos: {x: 0, y: 0, z: 0}
   _armGrabSpeed: 20
