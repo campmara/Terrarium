@@ -1,4 +1,6 @@
-﻿Shader "Custom/VertexColorBlendshape" {
+﻿// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
+
+Shader "Custom/VertexColorBlendshape" {
 	Properties{
 		_Color("Main Color", Color) = (0.5, 0.5, 0.5, 1)
 		_MainTex("Base (RGB) Gloss (A)", 2D) = "white" {}
@@ -28,7 +30,8 @@
 	void vert(inout appdata_full v)
 	{
 		//3ds max flip vertex to rbga to account for deformation
-		v.vertex = lerp(v.vertex, v.color.rbga, _Deformation);
+		float3 colorToPosition = v.color.rbg;
+		v.vertex.xyz = lerp(v.vertex.xyz, colorToPosition, _Deformation);
 	}
 
 	// a surface shader (very similar to the previous example)
