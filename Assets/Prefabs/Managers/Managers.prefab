@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4766687266315788}
   - component: {fileID: 114548184982639564}
+  - component: {fileID: 114410962151157372}
   m_Layer: 0
   m_Name: WeatherManager
   m_TagString: Untagged
@@ -183,6 +184,22 @@ GameObject:
   - component: {fileID: 114713147651874150}
   m_Layer: 5
   m_Name: PanelIntro
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1535778019390500
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4702306208632676}
+  - component: {fileID: 114374224506587848}
+  m_Layer: 0
+  m_Name: ColorManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -449,6 +466,7 @@ Transform:
   - {fileID: 4320683676203154}
   - {fileID: 4583361739387042}
   - {fileID: 4766941708736326}
+  - {fileID: 4702306208632676}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -464,6 +482,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4597840269665950}
   m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4702306208632676
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1535778019390500}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4597840269665950}
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4766687266315788
 Transform:
@@ -598,6 +629,51 @@ MonoBehaviour:
   _playerPrefab: {fileID: 1888846475258438, guid: d2315b596791f4c43a2aaa861e091514,
     type: 2}
   _player: {fileID: 0}
+--- !u!114 &114374224506587848
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1535778019390500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c3e0e8464d8d4aa39039b94c456a451, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _currentPalette: 2
+  _environmentPaletteList:
+  - title: Desert
+    groundColorPrimary: {r: 0.460271, g: 0.50735295, b: 0.45139492, a: 0}
+    groundColorSecondary: {r: 0.32114303, g: 0.41176468, b: 0.19982697, a: 0}
+    groundDecalTint: {r: 0.6691177, g: 0.6691177, b: 0.6691177, a: 1}
+    terrainColor: {r: 0.8161765, g: 0.68638283, b: 0.5221129, a: 0}
+    fogColor: {r: 0.9044118, g: 0.8420386, b: 0.6384083, a: 0}
+    skyColor: {r: 1, g: 0.9407708, b: 0.46323532, a: 0}
+    cloudRimColor: {r: 1, g: 0.9843813, b: 0.9191176, a: 0}
+  - title: Classic
+    groundColorPrimary: {r: 0.82936853, g: 0.92970705, b: 0.9558824, a: 0}
+    groundColorSecondary: {r: 0.36385873, g: 0.5588235, b: 0.23010379, a: 0}
+    groundDecalTint: {r: 0.7794118, g: 0.7794118, b: 0.7794118, a: 1}
+    terrainColor: {r: 0.3696475, g: 0.37725586, b: 0.3897059, a: 0}
+    fogColor: {r: 0.75194633, g: 0.79895896, b: 0.83823526, a: 0}
+    skyColor: {r: 0.3897059, g: 0.77271783, b: 1, a: 0}
+    cloudRimColor: {r: 0.9191176, g: 0.99665314, b: 1, a: 0}
+  - title: Abzu
+    groundColorPrimary: {r: 0.04411763, g: 0.802231, b: 1, a: 0}
+    groundColorSecondary: {r: 0.7205882, g: 0.57398576, b: 0.54044116, a: 0}
+    groundDecalTint: {r: 0.7794118, g: 0.7794118, b: 0.7794118, a: 1}
+    terrainColor: {r: 0.974645, g: 1, b: 0.8161765, a: 0}
+    fogColor: {r: 0.75735295, g: 0.88955384, b: 1, a: 0}
+    skyColor: {r: 1, g: 1, b: 1, a: 0}
+    cloudRimColor: {r: 0.9191176, g: 0.99665314, b: 1, a: 0}
+  - title: Red Moon
+    groundColorPrimary: {r: 0.8897059, g: 0.36634946, b: 0.36634946, a: 0}
+    groundColorSecondary: {r: 0.7941176, g: 0.2714174, b: 0.1518166, a: 0}
+    groundDecalTint: {r: 0.7794118, g: 0.7794118, b: 0.7794118, a: 1}
+    terrainColor: {r: 0.26275954, g: 0.4801486, b: 0.66176474, a: 0}
+    fogColor: {r: 0.093263395, g: 0.34290746, b: 0.5514706, a: 0}
+    skyColor: {r: 0.9411765, g: 0.4844291, b: 0.4844291, a: 0}
+    cloudRimColor: {r: 1, g: 0, b: 0.6000004, a: 0}
 --- !u!114 &114410437005371276
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -609,6 +685,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d042cd139e6314882ae6708dcad2fa8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114410962151157372
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1071704960912508}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6e624f71dc76894aa1b9f01dc9293b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  presets: 0
+  lerpSpeed: 1
+  _WaveTime: 0
+  _WaveDir: {x: 1, y: 0, z: 0}
+  idealWaveDir: {x: 1, y: 0, z: 0}
+  _WaveSpeed: 1
+  idealWaveSpeed: 1
+  _WaveNoise: 1
+  idealWaveNoise: 1
+  _WaveScale: 0.5
+  idealWaveScale: 0.5
+  _WaveAmount: 0.5
+  idealWaveAmount: 0.5
 --- !u!114 &114481791995722538
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -796,7 +896,7 @@ MonoBehaviour:
   - _audioClipList:
     - {fileID: 8300000, guid: 5617e55cf46bd4971beb99b4e97e9786, type: 3}
     - {fileID: 8300000, guid: 2893cb221a72a428b96061d697189ddd, type: 3}
-    - {fileID: 8300000, guid: d0ac98daf4f844ba8b195b00eeccc0b9, type: 3}
+    - {fileID: 8300000, guid: fe03c30646ed6d542aa0352b423031d7, type: 3}
     _mixerGroup: {fileID: 243730844136138892, guid: 30f3aa683f5543d469208f1bb641c945,
       type: 2}
     _volume: 1
@@ -954,7 +1054,7 @@ Canvas:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1843660607247124}
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
@@ -963,6 +1063,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -973,7 +1074,7 @@ Canvas:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1558577593640314}
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_RenderMode: 2
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
@@ -982,6 +1083,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
