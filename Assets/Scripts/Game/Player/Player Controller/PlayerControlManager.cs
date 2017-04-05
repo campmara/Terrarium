@@ -20,7 +20,7 @@ public class PlayerControlManager : MonoBehaviour
 		if (_activeController != null)
 		{
 			// Process Input on Active Controller
-			_activeController.UpdateController();	
+			_activeController.FixedUpdateController();	
 		}
 	}
 
