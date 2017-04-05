@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: SnowBumps
-  m_Shader: {fileID: 4800000, guid: dc7beb685dd9dff40992228f9b7aed24, type: 3}
+  m_Name: SnowBumps - Copy
+  m_Shader: {fileID: 4800000, guid: 948ae003eb231d14e831363ea3b3d056, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
   m_CustomRenderQueue: -1
@@ -166,7 +166,7 @@ Material:
     m_Colors:
     - first:
         name: _Color
-      second: {r: 0.64705884, g: 0.91237324, b: 1, a: 1}
+      second: {r: 0.5661765, g: 0.5661765, b: 0.5661765, a: 1}
     - first:
         name: _ColorBot
       second: {r: 0.33823532, g: 0.8083166, b: 1, a: 1}
