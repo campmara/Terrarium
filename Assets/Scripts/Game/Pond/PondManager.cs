@@ -84,7 +84,7 @@ public class PondManager : SingletonBehaviour<PondManager>
         // Zero out velocity.
         PlayerManager.instance.Player.GetComponent<RollerController>().Velocity = 0f;
         
-		PlayerManager.instance.Player.GetComponent<RollerController>().BecomeWalker();
-        PlayerManager.instance.Player.GetComponent<RollerController>().ChangeState( P_ControlState.WALKING );
+		//PlayerManager.instance.Player.GetComponent<RollerController>().BecomeWalker();
+        //PlayerManager.instance.Player.GetComponent<RollerController>().ChangeState( P_ControlState.WALKING );
     }
 }

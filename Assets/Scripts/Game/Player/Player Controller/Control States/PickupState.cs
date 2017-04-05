@@ -21,11 +21,11 @@ public class PickupState : RollerState
 
 			Sequence pickupSequence = DOTween.Sequence();
 
-			Vector3 pickupMidPos = _roller.transform.position + ( _roller.transform.forward * RollerConstants.instance.PICKUP_FORWARDSCALAR_PART1 ) + ( _roller.transform.up * RollerConstants.instance.PICKUP_UPSCALAR_PART1 );
-			pickupSequence.Append( _roller.CurrentHeldObject.transform.DOMove( pickupMidPos, RollerConstants.instance.PICKUP_TIME * 0.33f ) );
+			Vector3 pickupMidPos = _roller.transform.position + ( _roller.transform.forward * RollerConstants.instance.PickupForwardScalarPart1 ) + ( _roller.transform.up * RollerConstants.instance.PickupUpScalarPart1 );
+			pickupSequence.Append( _roller.CurrentHeldObject.transform.DOMove( pickupMidPos, RollerConstants.instance.PickupTime * 0.33f ) );
 
-			Vector3 pickupEndPos = _roller.transform.position + (_roller.transform.forward * RollerConstants.instance.PICKUP_FORWARDSCALAR_PART2) + (_roller.transform.up * RollerConstants.instance.PICKUP_UPSCALAR_PART2 );
-			pickupSequence.Append( _roller.CurrentHeldObject.transform.DOMove( pickupEndPos, RollerConstants.instance.PICKUP_TIME * 0.66f ).OnComplete( Transition ) );   
+			Vector3 pickupEndPos = _roller.transform.position + (_roller.transform.forward * RollerConstants.instance.PickupForwardScalarPart2) + (_roller.transform.up * RollerConstants.instance.PickupUpScalarPart2 );
+			pickupSequence.Append( _roller.CurrentHeldObject.transform.DOMove( pickupEndPos, RollerConstants.instance.PickupTime * 0.66f ).OnComplete( Transition ) );   
 		}
 		else
 		{

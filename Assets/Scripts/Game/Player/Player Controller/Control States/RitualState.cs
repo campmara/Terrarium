@@ -5,7 +5,8 @@ using UnityEngine;
 public class RitualState : RollerState
 {
     //private Tween _tween;
-	//private float ritualTimer = 0f;
+	private float ritualTimer = 0f;
+	private bool hasExploded = false;
 	//float currentTurnSpeed = 0f;
 
 	public override void Enter(P_ControlState prevState)
@@ -13,17 +14,13 @@ public class RitualState : RollerState
 		Debug.Log("ENTER RITUAL STATE");
         //_tween = transform.DOScaleY( 0.1f, RollerConstants.instance.RITUAL_TIME ).OnComplete( OnCompleteRitual );
         _roller.IK.SetState( PlayerIKControl.WalkState.RITUAL );
-		//ritualTimer = 0f;
+		ritualTimer = 0f;
+		hasExploded = false;
 	    //PlayerManager.instance.Player.AnimationController.PlayIdleAnim();
 
 		//AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_ACTIONFX, 2 );
 
-		//_roller.Face.BecomeDesirous();
-
-		_roller.Mesh.SetActive(false);
-		_roller.Face.gameObject.SetActive(false);
-		_roller.ExplodeParticleSystem.Play();
-		OnCompleteRitual();
+		_roller.Face.BecomeDesirous();
 	}
 
 	public override void Exit(P_ControlState nextState)
@@ -43,21 +40,32 @@ public class RitualState : RollerState
 	public override void HandleInput(InputCollection input)
 	{
 	    //bool isComplete = _tween.IsComplete();
-		/*
-		ritualTimer += Time.deltaTime;
-		if (ritualTimer > RollerConstants.instance.RITUAL_TIME)
+		if (!hasExploded && ritualTimer > RollerConstants.instance.RitualTime)
 		{
-			OnCompleteRitual();
+			StartCoroutine(DelayedExplosion(0f));
+		}
+		else if (!hasExploded)
+		{
+			ritualTimer += Time.deltaTime;
+
+			// Update how far the arms are reaching
+			_roller.UpdateArmReachIK( input.LeftTrigger.Value, input.RightTrigger.Value );
+
+			_roller.IKMovement(RollerConstants.instance.WalkSpeed, 
+										RollerConstants.instance.WalkAcceleration, 
+										RollerConstants.instance.WalkDeceleration, 
+										RollerConstants.instance.WalkTurnSpeed);
+
+			if (!input.XButton.IsPressed)
+			{
+				_roller.ChangeState(P_ControlState.WALKING);
+			}
 		}
 
-		currentTurnSpeed = Mathf.Lerp(RollerConstants.instance.RITUAL_TURN_SPEED * 0.1f, RollerConstants.instance.RITUAL_TURN_SPEED, ritualTimer / RollerConstants.instance.RITUAL_TIME);
-		transform.Rotate(0f, currentTurnSpeed * Time.deltaTime, 0f);
+		//currentTurnSpeed = Mathf.Lerp(RollerConstants.instance.RITUAL_TURN_SPEED * 0.1f, RollerConstants.instance.RITUAL_TURN_SPEED, ritualTimer / RollerConstants.instance.RITUAL_TIME);
+		//transform.Rotate(0f, currentTurnSpeed * Time.deltaTime, 0f);
 
-	    if (!input.XButton.IsPressed)
-		{
-		    _roller.ChangeState(P_ControlState.WALKING);
-		}
-		*/
+	    
 	}
 		
     private void OnCompleteRitual()
@@ -71,6 +79,17 @@ public class RitualState : RollerState
 
         StartCoroutine( DelayedCompleteRitual( pos ) );        
     }
+
+	IEnumerator DelayedExplosion(float delay)
+	{
+		yield return new WaitForSeconds(delay);
+
+		hasExploded = true;
+		_roller.Mesh.SetActive(false);
+		_roller.Face.gameObject.SetActive(false);
+		_roller.ExplodeParticleSystem.Play();
+		OnCompleteRitual();
+	}
 
     IEnumerator DelayedCompleteRitual(Vector3 pos)
     {
@@ -101,6 +120,7 @@ public class RitualState : RollerState
 		}
 
 		PondManager.instance.HandlePondReturn();
+        _roller.StopPlayer();
 		_roller.ChangeState(P_ControlState.POND);
     }
 
