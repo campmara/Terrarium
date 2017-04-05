@@ -90,7 +90,14 @@ public class PlayerArmIK : MonoBehaviour {
                 HandleGesturing();
                 break;
             case ArmIKState.AMBIENT_REACHING:
-                HandleAmbientReaching();
+				if( _armTargetTransform != null )
+				{
+					HandleAmbientReaching();	
+				}
+				else
+				{
+					ReleaseTargetTransform();	
+				}
                 break;
             case ArmIKState.TARGET_REACHING:
                 HandleTargetReaching();
