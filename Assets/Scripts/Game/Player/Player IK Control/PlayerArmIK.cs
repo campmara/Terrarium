@@ -11,6 +11,9 @@ public class PlayerArmIK : MonoBehaviour {
     [SerializeField]
     FaceManager _face = null;
 
+    [SerializeField, Space(5)] Vector3[] _armGestureArray = { new Vector3( 7.5f, 10.0f, 0.0f) };
+    [SerializeField, ReadOnly] private int _armGestureIndex = 0;
+
     void OnDisable()
     {
         _armIK.enabled = false;
@@ -23,16 +26,18 @@ public class PlayerArmIK : MonoBehaviour {
 
     public enum ArmType : int
     {
-        LEFT = 0,
-        RIGHT
+        NONE = -1,
+		LEFT = 0,
+        RIGHT,
+		BOTH
     }
-    [SerializeField] ArmType _armType = ArmType.LEFT;
+    [SerializeField, Space(5)] ArmType _armType = ArmType.LEFT;
 
     public enum ArmIKState : int
     {
         IDLE = 0,           // Base state, should follw Arm Joint
         SITTING,            // For when idling/sitting (b/c arms animate)
-        EMPTY_REACHING,     // Trigger reach state but no target
+        GESTURING,     // Trigger reach state but no target
         AMBIENT_REACHING,   // Auto Reach State
         TARGET_REACHING,    // When triggers are pressed
         GRABBING           // Entered through Target Reaching (when triggers are both all the way pressed down)
@@ -58,9 +63,6 @@ public class PlayerArmIK : MonoBehaviour {
     
     private const float ARM_IDLE_OUT = 0.75f;
 
-    private const float ARM_EMPTYREACH_UP = 10.0f;
-    private const float ARM_EMPTYREACH_OUT = 7.5f;
-
 	// Ambient Reaching Variables
     private const float ARM_REACHDISTMAX = 8.0f;
     private const float ARM_REACHDISTMIN = 0.75f;
@@ -84,8 +86,8 @@ public class PlayerArmIK : MonoBehaviour {
             case ArmIKState.IDLE:
                 HandleIdle();
                 break;
-            case ArmIKState.EMPTY_REACHING:
-                HandleEmptyReaching();
+            case ArmIKState.GESTURING:
+                HandleGesturing();
                 break;
             case ArmIKState.AMBIENT_REACHING:
                 HandleAmbientReaching();
@@ -147,22 +149,43 @@ public class PlayerArmIK : MonoBehaviour {
         }
 
         _armTargetPos = Vector3.Lerp( _armTargetPos, _armSpring.transform.position, _armTargetLerpSpeed * Time.deltaTime);
+
+		if( _armReachInterp > Mathf.Epsilon )
+		{
+			SetArmState( ArmIKState.GESTURING );
+		}
     }
 
-    private void HandleEmptyReaching()
+    private void HandleGesturing()
     {
         if( _armType == ArmType.LEFT )
         {
-            _armTargetPos = Vector3.Lerp( _armTargetPos, Vector3.Lerp( _armSpring.transform.position, _armSpring.transform.position + ( Vector3.up * ARM_EMPTYREACH_UP ) + ( -_parentIKController.transform.right * ARM_EMPTYREACH_OUT ), _armReachInterp ), _armTargetLerpSpeed * Time.deltaTime );
+            _armTargetPos = Vector3.Lerp( _armTargetPos, Vector3.Lerp( _armSpring.transform.position,
+                _parentIKController.transform.position + ( -_parentIKController.transform.right * _armGestureArray[_armGestureIndex].x ) + ( Vector3.up * _armGestureArray[_armGestureIndex].y ) + ( _parentIKController.transform.forward * _armGestureArray[_armGestureIndex].z), 
+                _armReachInterp ), _armTargetLerpSpeed * Time.deltaTime );
         }
         else
         {
-            _armTargetPos = Vector3.Lerp( _armTargetPos, Vector3.Lerp( _armSpring.transform.position, _armSpring.transform.position + ( Vector3.up * ARM_EMPTYREACH_UP ) + ( _parentIKController.transform.right * ARM_EMPTYREACH_OUT ), _armReachInterp ), _armTargetLerpSpeed * Time.deltaTime );
+            _armTargetPos = Vector3.Lerp( _armTargetPos, Vector3.Lerp( _armSpring.transform.position,
+               _parentIKController.transform.position + ( _parentIKController.transform.right * _armGestureArray[_armGestureIndex].x ) + ( Vector3.up * _armGestureArray[_armGestureIndex].y ) + ( _parentIKController.transform.forward * _armGestureArray[_armGestureIndex].z ),
+               _armReachInterp ), _armTargetLerpSpeed * Time.deltaTime );           
         }
 
         if( _armReachInterp <= 0.0f )
         {
             SetArmState( ArmIKState.IDLE );
+        }
+    }
+
+    public void IncrementGestureIndex()
+    {
+        if( _armGestureIndex < _armGestureArray.Length - 1 )
+        {
+            _armGestureIndex++;
+        }
+        else
+        {
+            _armGestureIndex = 0;
         }
     }
 
@@ -188,11 +211,11 @@ public class PlayerArmIK : MonoBehaviour {
 			// Each arm offseted differently. should be done in animation idk
 			if( _armType == ArmType.LEFT )
 			{
-				_armTargetPos = Vector3.Lerp( _armTargetPos, Vector3.Lerp( _armSpring.transform.position, _armTargetTransform.position - ( _parentIKController.transform.right * _armGrabOffset ), _armReachInterp ), _armGrabSpeed * Time.deltaTime );
+				_armTargetPos = Vector3.Lerp( _armTargetPos, _armTargetTransform.position - ( _parentIKController.transform.right * _armGrabOffset ), _armGrabSpeed * Time.deltaTime );
 			}
 			else
 			{
-				_armTargetPos = Vector3.Lerp( _armTargetPos, Vector3.Lerp( _armSpring.transform.position, _armTargetTransform.position + ( _parentIKController.transform.right * _armGrabOffset ), _armReachInterp ), _armGrabSpeed * Time.deltaTime );
+				_armTargetPos = Vector3.Lerp( _armTargetPos,_armTargetTransform.position + ( _parentIKController.transform.right * _armGrabOffset ), _armGrabSpeed * Time.deltaTime );
 			}
 		}                
     }
@@ -209,7 +232,7 @@ public class PlayerArmIK : MonoBehaviour {
         }
         else
         {
-            SetArmState( ArmIKState.EMPTY_REACHING );
+            SetArmState( ArmIKState.GESTURING );
         }
     }
 
@@ -280,4 +303,6 @@ public class PlayerArmIK : MonoBehaviour {
     {        
         SetArmState( ArmIKState.GRABBING );
     }
+
+
 }

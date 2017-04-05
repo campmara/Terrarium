@@ -28,6 +28,9 @@ public class InputCollection : PlayerActionSet
 	public PlayerAction LeftTrigger;
 	public PlayerAction RightTrigger;
 
+    public PlayerAction LeftBumper;
+    public PlayerAction RightBumper;
+
 	public PlayerAction LeftStickButton;
     public PlayerAction RightStickButton;
 
@@ -56,6 +59,9 @@ public class InputCollection : PlayerActionSet
 		LeftTrigger = CreatePlayerAction( "Left Trigger" );
 		RightTrigger = CreatePlayerAction( "Right Trigger" );
 
+        LeftBumper = CreatePlayerAction( "Left Bumper" );
+        RightBumper = CreatePlayerAction( " Right Bumper" );
+
 		LeftStickButton = CreatePlayerAction("Left Stick Click");
         RightStickButton = CreatePlayerAction("Right Stick Button");
 
@@ -78,7 +84,10 @@ public class InputCollection : PlayerActionSet
 		LeftTrigger.AddDefaultBinding( InputControlType.LeftTrigger );
 		RightTrigger.AddDefaultBinding( InputControlType.RightTrigger );
 
-		LeftStickButton.AddDefaultBinding(InputControlType.LeftStickButton);
+        LeftBumper.AddDefaultBinding( InputControlType.LeftBumper );
+        RightBumper.AddDefaultBinding( InputControlType.RightBumper );
+
+        LeftStickButton.AddDefaultBinding(InputControlType.LeftStickButton);
         RightStickButton.AddDefaultBinding(InputControlType.RightStickButton);
 
 		// Keyboard Controls
@@ -156,20 +165,14 @@ public class ControlManager : SingletonBehaviour<ControlManager>
 		isInitialized = true;
 	}
 
-	// Update is called once per frame
-	void Update () 
-	{
-		
-	}
-
 	public void Vibrate( float intensity )
 	{
-		InputManager.ActiveDevice.Vibrate(intensity);
+		InputManager.ActiveDevice.Vibrate( intensity );
 	}
 
 	public void Vibrate( float leftMotorIntensity, float rightMotorIntensity )
 	{
-		InputManager.ActiveDevice.Vibrate(leftMotorIntensity, rightMotorIntensity);
+		InputManager.ActiveDevice.Vibrate( leftMotorIntensity, rightMotorIntensity );
 	}
 
 	/// <summary>

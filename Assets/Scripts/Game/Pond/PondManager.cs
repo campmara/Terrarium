@@ -58,7 +58,7 @@ public class PondManager : SingletonBehaviour<PondManager>
         // Tell the Camera to pan back to the pond.      
         PlayerManager.instance.ReturnPlayerToPond(); 
 
-        PlayerManager.instance.Player.ControlManager.SetActiveController<InactiveController>();
+        //PlayerManager.instance.Player.ControlManager.SetActiveController<InactiveController>();
 
         CameraManager.instance.ChangeCameraState( CameraManager.CameraState.POND_RETURNPAN );       
     }
@@ -81,6 +81,9 @@ public class PondManager : SingletonBehaviour<PondManager>
         CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
         GameManager.Instance.ChangeGameState( GameManager.GameState.MAIN );
 
+        // Zero out velocity.
+        PlayerManager.instance.Player.GetComponent<RollerController>().Velocity = 0f;
+        
 		PlayerManager.instance.Player.GetComponent<RollerController>().BecomeWalker();
         PlayerManager.instance.Player.GetComponent<RollerController>().ChangeState( P_ControlState.WALKING );
     }

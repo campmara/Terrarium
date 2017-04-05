@@ -2,7 +2,10 @@
 
 public class SittingState : RollerState 
 {
-	public override void Enter (P_ControlState prevState)
+    bool _onGround = false;
+    public bool OnGround { get { return _onGround; } set { _onGround = false; } }
+
+    public override void Enter (P_ControlState prevState)
 	{
 		Debug.Log("ENTER SIT STATE");
 
@@ -19,6 +22,8 @@ public class SittingState : RollerState
 
 		_roller.IK.EnableIK();
 
+        _onGround = false;
+
 		CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
 	}
 
@@ -26,15 +31,34 @@ public class SittingState : RollerState
 	{
 		Vector3 vec = new Vector3(input.LeftStickX, 0f, input.LeftStickY);
 
-		if (input.ActiveDevice.AnyButtonIsPressed || vec.magnitude >= 0.75f)
+		if ( input.ActiveDevice.AnyButtonIsPressed || vec.magnitude >= 0.75f )
 		{
 			// TRIGGER SITTING OFF.
 			_roller.Player.AnimationController.SetSitting(false);
+
+            if( !_onGround )
+            {
+                OnStandingUpComplete();
+            }            
 		}
+
 	}
 
 	public void OnStandingUpComplete()
 	{
 		_roller.ChangeState(P_ControlState.WALKING);
 	}
+
+    public void SetOnGround( int onGround )
+    {
+        if( onGround == 0 )
+        {
+            _onGround = false;
+        }
+        else
+        {
+            _onGround = true;
+        }
+        
+    }
 }

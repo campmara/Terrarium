@@ -9,6 +9,8 @@ public class WalkingState : RollerState
 
     Coroutine _reachCoroutine = null;
 
+	bool canPickup = false;
+
     public override void Enter( P_ControlState prevState )
 	{
 		Debug.Log("ENTER WALKING STATE");
@@ -25,7 +27,7 @@ public class WalkingState : RollerState
         }
 
         _idleTimer = 0f;
-
+		canPickup = false;
         //PlayerManager.instance.Player.AnimationController.PlayWalkAnim();
 	}
 
@@ -53,8 +55,27 @@ public class WalkingState : RollerState
         // Check for sitting after idling for a while.
         IdleTimer(input);
 
-        // A BUTTON    
-        if ( ( input.LeftTrigger.WasPressed || input.RightTrigger.WasPressed ) )
+        if( input.LeftBumper.WasPressed )
+        {
+            _idleTimer = 0f;
+            IncrementLeftArmGesture();
+        }
+        if( input.RightBumper.WasPressed )
+        {
+            _idleTimer = 0f;
+            IncrementRightArmGesture();
+        }
+
+
+		// A BUTTON 
+		// THIS MAKES FIRST TIME YOU PRESS A BUTTON NOT WORK
+		// have to figure out a way to deal Incontrol detecting double button presserino between frames
+		if( !canPickup && input.AButton.WasReleased )
+		{
+			canPickup = true;	
+		}
+          
+		if ( canPickup && input.AButton.WasPressed )
         {
             // End coroutine waiting to see if the player should auto reach if the player inputs for arms  
             if ( _reachCoroutine != null )
@@ -62,35 +83,20 @@ public class WalkingState : RollerState
                 StopCoroutine( _reachCoroutine );
                 _reachCoroutine = null;
             }
-
-            if ( input.LeftTrigger.WasPressed )
-            {
-                HandlePickup( PlayerArmIK.ArmType.LEFT );
-            }
-            if ( input.RightTrigger.WasPressed )
-            {
-                HandlePickup( PlayerArmIK.ArmType.RIGHT );
-            }
+/*
+			if( !_roller.IK.ArmsIdle )
+			{
+				HandleBothArmRelease();
+			}
+*/
+			HandlePickup( PlayerArmIK.ArmType.BOTH );
+			if( _roller.IK.ArmFocus != null )
+			{
+				HandleGrabObject();	
+			}
         }
 
-        if( !_roller.IK.ArmsIdle )   // If Arms Reaching
-        {
-            // If triggers are released
-            //if( input.LeftTrigger.Value <= 0.0f && input.RightTrigger.Value <= 0.0f )
-            //{
-            //    HandleBothArmRelease();
-            //}            
-
-            if( input.RightTrigger.Value > 0.0f || input.LeftTrigger.Value > 0.0f )    // Else if triggers are held down... 
-            {                                
-                // If both triggers pulled down all the way
-                if ( _roller.IK.ArmsTargetReaching && ( input.LeftTrigger.Value >= 1.0f && input.RightTrigger.Value >= 1.0f ) )
-                {
-                    HandleGrabObject();
-                }
-            }            
-        }
-        else
+		if( _roller.IK.ArmsIdle )
         {
             if ( _reachCoroutine == null )
             {
@@ -114,7 +120,7 @@ public class WalkingState : RollerState
         // B BUTTON
 		if (input.BButton.IsPressed)
         {
-            if (GameManager.Instance.State == GameManager.GameState.MAIN)
+            if ( GameManager.Instance.State == GameManager.GameState.MAIN )
             {
                 _roller.ChangeState( P_ControlState.ROLLING);
             }
@@ -122,10 +128,8 @@ public class WalkingState : RollerState
         else if (input.XButton.IsPressed)   // X BUTTON
         {
             _roller.ChangeState( P_ControlState.RITUAL);
-        }
-
-		// Y BUTTON
-		if (input.YButton.IsPressed)
+        }			
+		else if (input.YButton.IsPressed)	// Y BUTTON
 		{
 			_roller.ChangeState( P_ControlState.SING);
 		}
