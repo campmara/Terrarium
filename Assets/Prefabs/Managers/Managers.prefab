@@ -640,7 +640,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c3e0e8464d8d4aa39039b94c456a451, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentPalette: 2
+  _paletteIndex: 3
   _environmentPaletteList:
   - title: Desert
     groundColorPrimary: {r: 0.460271, g: 0.50735295, b: 0.45139492, a: 0}
@@ -674,6 +674,8 @@ MonoBehaviour:
     fogColor: {r: 0.093263395, g: 0.34290746, b: 0.5514706, a: 0}
     skyColor: {r: 0.9411765, g: 0.4844291, b: 0.4844291, a: 0}
     cloudRimColor: {r: 1, g: 0, b: 0.6000004, a: 0}
+  terrainMaterial: {fileID: 2100000, guid: be1f84fcd12c8814fb81989242a6b5ed, type: 2}
+  groundSplatDecal: {fileID: 0}
 --- !u!114 &114410437005371276
 MonoBehaviour:
   m_ObjectHideFlags: 1
