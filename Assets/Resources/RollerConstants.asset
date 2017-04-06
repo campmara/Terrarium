@@ -48,7 +48,7 @@ MonoBehaviour:
   TransitionDeceleration: 20
   RitualTime: 0.15
   RitualTurnSpeed: 2000
-  RitualCompleteWait: 1
+  RitualCompleteWait: 2
   PlantingTime: 0.75
   PlantingEndY: 0
   PlantingEndX: 1.25
