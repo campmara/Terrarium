@@ -32,7 +32,13 @@ public class StarterPlantGrowthController : BPGrowthController
 	{
 		_myPlant = GetComponent<BasePlant>();
 		_controllerType = ControllerType.Growth;
+        ColorManager.ExecutePaletteChange += HandlePalatteChange;
 	}
+
+    void OnDestroy()
+    {
+        ColorManager.ExecutePaletteChange -= HandlePalatteChange;
+    }
 
 	protected override void InitPlant()
 	{
@@ -127,5 +133,10 @@ public class StarterPlantGrowthController : BPGrowthController
 
 		_waiting = false;
 		_myPlant.SwitchController( this );
-	}
+    }
+
+    void HandlePalatteChange( ColorManager.EnvironmentPalette newPalatte )
+    {
+
+    }
 }

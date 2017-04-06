@@ -59,6 +59,12 @@ public class PointPlantGrowthController : BPGrowthController
         _myPlant = GetComponent<BasePlant>();
         _controllerType = ControllerType.Growth;
         _leafTransformations = new List<LeafTransformations>();
+        ColorManager.ExecutePaletteChange += HandlePalatteChange;
+    }
+
+    private void OnDestroy()
+    {
+        ColorManager.ExecutePaletteChange -= HandlePalatteChange;
     }
 
     protected override void InitPlant()
@@ -180,5 +186,9 @@ public class PointPlantGrowthController : BPGrowthController
 
         _waiting = false;
         _myPlant.SwitchController(this);
+    }
+    void HandlePalatteChange( ColorManager.EnvironmentPalette newPalatte )
+    {
+
     }
 }

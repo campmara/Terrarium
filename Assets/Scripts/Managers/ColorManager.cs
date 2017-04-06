@@ -22,9 +22,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 		public Color fogColor;
 		public Color skyColor;
 		public Color cloudRimColor;
-
-
-		/*
+		
         [Header("Plant colors")]
         [Header("Class 1")]
         public Gradient mossPlant;
@@ -36,7 +34,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
         [Header("Class 3")]
 		public Gradient twistPlant;
 		public Gradient cappPlant;
-		*/
+		
 	}
 		
 	public static event Action<EnvironmentPalette> ExecutePaletteChange;
@@ -53,7 +51,6 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 
 	void Awake () 
 	{
-		//UpdatePalatte( _activePalette );
 	}
 
 	public override void Initialize ()
@@ -62,9 +59,25 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 		isInitialized = true;
 	}
 
+    void AdvanceActivePalatte()
+    {
+        _paletteIndex++;
+        if (_paletteIndex >= _environmentPaletteList.Count)
+        {
+            _paletteIndex = _environmentPaletteList.Count - 1;
+        }
+
+        _activePalette = _environmentPaletteList[_paletteIndex];
+
+        if ( ExecutePaletteChange != null )
+        {
+            ExecutePaletteChange( _activePalette );
+        }
+    }
+
 	void EditorUpdatePalatte( int newPalatteIndex )
 	{
-		if( _paletteIndex != _environmentPaletteList.FindIndex( x => x.title == _activePalette.title ) );
+		if( _paletteIndex != _environmentPaletteList.FindIndex( x => x.title == _activePalette.title ) )    // Should be b a better way to do this
 		{
 			_activePalette = _environmentPaletteList[_paletteIndex];
 
@@ -89,12 +102,12 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 			{
 				terrainMaterial.SetColor( "_Color", _activePalette.terrainColor );
 			}
-
-			if( ExecutePaletteChange != null )
-			{
-				ExecutePaletteChange( _activePalette );
-			}
-		}
+           
+            if (ExecutePaletteChange != null)
+            {
+                ExecutePaletteChange( _activePalette );
+            }
+        }
 	}
 
 	/// <summary>
