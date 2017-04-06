@@ -223,7 +223,7 @@ public class RollerController : ControllerBase
 		// Left Stick Movement
 		Vector3 vec = new Vector3(_input.LeftStickX, 0f, _input.LeftStickY);
 
-		if(vec.magnitude > RollerConstants.instance.IDLE_MAXMAG)
+		if(vec.magnitude > RollerConstants.instance.IdleMaxMag)
 		{
 			if(_idleWaitRoutine != null)
 			{
@@ -266,7 +266,7 @@ public class RollerController : ControllerBase
 		{
 		    if( _idleWaitRoutine == null )
 			{
-				_idleWaitRoutine = StartCoroutine( JohnTech.WaitFunction(RollerConstants.instance.IDLE_WAITTIME, () => HandleBeginIdle() ) );
+				_idleWaitRoutine = StartCoroutine( JohnTech.WaitFunction(RollerConstants.instance.IdleWaitTime, () => HandleBeginIdle() ) );
 			}
 		}
 	}
@@ -278,7 +278,7 @@ public class RollerController : ControllerBase
 		// Left Stick Movement
 		Vector3 vec = new Vector3(_input.LeftStickX, 0f, _input.LeftStickY);
 
-		if( vec.magnitude > RollerConstants.instance.IDLE_MAXMAG )
+		if( vec.magnitude > RollerConstants.instance.IdleMaxMag )
 		{
 			if( _idleWaitRoutine != null )
 			{
@@ -326,10 +326,10 @@ public class RollerController : ControllerBase
 		{
 			if( _idleWaitRoutine == null )
 			{
-				_idleWaitRoutine = StartCoroutine( JohnTech.WaitFunction(RollerConstants.instance.IDLE_WAITTIME, () => HandleBeginIdle() ) );
+				_idleWaitRoutine = StartCoroutine( JohnTech.WaitFunction(RollerConstants.instance.IdleWaitTime, () => HandleBeginIdle() ) );
 			}
 		}
-		_ik.UpdateMovementData( _velocity, transform.position + (transform.forward * _inputVec.magnitude * _velocity * RollerConstants.instance.IK_TARGETWORLDSCALAR * Time.deltaTime), transform.rotation );
+		_ik.UpdateMovementData( _velocity, transform.position + (transform.forward * _inputVec.magnitude * _velocity * RollerConstants.instance.IKTargetWorldScalar * Time.deltaTime), transform.rotation );
 
 		// Hmm
 		// yeah hmmm
@@ -356,7 +356,7 @@ public class RollerController : ControllerBase
 			_velocity = Mathf.Sign(_velocity) * max;
 		}
 
-        _velocity -= RollerConstants.instance.WALK_TURNDAMPENING * Mathf.InverseLerp( RollerConstants.instance.WALK_TURNANGLE_MIN, RollerConstants.instance.WALK_TURNANGLE_MAX, _targetRotAngle );
+        _velocity -= RollerConstants.instance.WalkTurnDampening * Mathf.InverseLerp( RollerConstants.instance.WalkTurnAngleMin, RollerConstants.instance.WalkTurnAngleMax, _targetRotAngle );
 
 		if( _velocity < 0.0f )
 		{

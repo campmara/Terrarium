@@ -18,6 +18,10 @@ public class PondState : RollerState
 		if (input.AButton.IsPressed || input.BButton.IsPressed || input.XButton.IsPressed || input.YButton.IsPressed)
 		{
 			PondManager.instance.PopPlayerFromPond();
+		}
+
+		if (input.AButton.WasReleased || input.BButton.WasReleased || input.XButton.WasReleased || input.YButton.WasReleased)
+		{
 			_roller.ChangeState(P_ControlState.WALKING);
 		}
 	}
