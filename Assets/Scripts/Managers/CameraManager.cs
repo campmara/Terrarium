@@ -15,7 +15,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
         POND_RETURNPAN,
 		SITTING
 	}
-	CameraState _state = CameraState.INTRO;
+	CameraState _state = CameraState.NONE;
 
 	[SerializeField, ReadOnlyAttribute] Camera _mainCam = null;
 	public Camera Main { get { return _mainCam; } }
@@ -78,6 +78,9 @@ public class CameraManager : SingletonBehaviour<CameraManager>
     #endregion
 
     #region Pond Transition Variables
+
+	const float INTRO_PAN_PREWAIT_TIME = 2f;
+	const float INTRO_PAN_TIME = 2f;
 
     const float PONDRETURN_FORWARD = 4f;
     const float PONDRETURN_UP = 5f;    
@@ -155,6 +158,51 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 			break;
 		default:
 			break;
+		}
+	}
+
+	public void ChangeCameraState(CameraState newState)
+	{
+		if( newState != _state )
+		{
+			CameraState prevState = _state;
+
+			// On Disable Old State
+			switch( _state )
+			{
+			case CameraState.FOLLOWPLAYER_FREE:				
+				break;
+			case CameraState.FOLLOWPLAYER_LOCKED:
+				break;
+			default:
+				break;
+			}
+
+			_state = newState;
+
+			// On Enable New State
+			switch( _state )
+			{
+			case CameraState.FOLLOWPLAYER_FREE:
+				if( prevState != CameraState.SITTING)
+				{
+					_zoomInterp = ZOOM_RESETINTERP;	
+				}			
+				break;
+			case CameraState.FOLLOWPLAYER_LOCKED:
+				_camInputVals.x = 0.0f;	// So _camOffset lerps in zooming quack
+				break;
+			case CameraState.POND_RETURNPAN:
+                StartCoroutine( PondReturnPan() );
+				break;
+			case CameraState.INTRO:
+				StartCoroutine( PondIntroPan() );
+				break;
+			default:
+				break;
+			}
+
+			Debug.Log("[CameraManager]: " + prevState.ToString() + " to " + newState.ToString());
 		}
 	}
 
@@ -263,14 +311,14 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	/// <summary>
 	/// Handles the pond return pan.
 	/// </summary>
-	private IEnumerator DelayedPondReturnPan()
+	private IEnumerator PondReturnPan()
 	{
         yield return new WaitForSeconds( RollerConstants.instance.RitualCompleteWait );
 
         Transform pondTransform = PondManager.instance.Pond.transform;
 	    Vector3 desiredPos = ( pondTransform.forward * PONDRETURN_FORWARD ) + ( pondTransform.up * PONDRETURN_UP );
 
-        Vector3 forward = ( pondTransform.position - ( desiredPos - ( pondTransform.forward * PLAYERPOP_FORWARDPOS ) ) ).normalized;
+        Vector3 forward = ( pondTransform.position - ( desiredPos ) ).normalized;
         Quaternion desiredRot = Quaternion.LookRotation( forward, Vector3.up );
 
         Tween posTween = _mainCam.transform.DOMove( desiredPos, PONDRETURN_TRANSITIONTIME );
@@ -283,13 +331,33 @@ public class CameraManager : SingletonBehaviour<CameraManager>
         _zoomInterp = ZOOM_RESETINTERP;
         DetermineCameraZoom( _zoomInterp );
 
-        _focusPoint = pondTransform.forward * PLAYERPOP_FORWARDPOS;
+        _focusPoint = pondTransform.position;
         _focusOffset = _focusPoint;
-
-        // This changes the cam state when it finishes.
-        //PondManager.instance.PopPlayerFromPond();
 	}
 
+	private IEnumerator PondIntroPan()
+	{
+		yield return new WaitForSeconds(INTRO_PAN_PREWAIT_TIME);
+
+		Transform pondTransform = PondManager.instance.Pond.transform;
+		Vector3 desiredPos = ( pondTransform.forward * PONDRETURN_FORWARD ) + ( pondTransform.up * PONDRETURN_UP );
+
+		Vector3 forward = ( pondTransform.position - ( desiredPos ) ).normalized;
+        Quaternion desiredRot = Quaternion.LookRotation( forward, Vector3.up );
+
+		Tween posTween = _mainCam.transform.DOMove( desiredPos, INTRO_PAN_TIME );
+        Tween rotTween = _mainCam.transform.DORotateQuaternion( desiredRot, INTRO_PAN_TIME );
+
+		yield return rotTween.WaitForCompletion();
+
+		PositionCameraInFrontOfFocus();
+
+        //_zoomInterp = ZOOM_RESETINTERP;
+        //DetermineCameraZoom( _zoomInterp );
+
+        _focusPoint = pondTransform.position;
+        _focusOffset = _focusPoint;
+	}
 
     /// <summary>
     /// Based on Murray's code from here: https://raw.githubusercontent.com/MurrayIRC/frog/master/Assets/Scripts/Actors/Player/PlayerCamera.cs
@@ -387,47 +455,6 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 
 		_zoomInterp = ZOOM_RESETINTERP;
 		DetermineCameraZoom( _zoomInterp );
-	}
-
-	public void ChangeCameraState(CameraState newState)
-	{
-		if( newState != _state )
-		{
-			CameraState prevState = _state;
-
-			// On Disable Old State
-			switch( _state )
-			{
-			case CameraState.FOLLOWPLAYER_FREE:				
-				break;
-			case CameraState.FOLLOWPLAYER_LOCKED:
-				break;
-			default:
-				break;
-			}
-
-			_state = newState;
-
-			// On Enable New State
-			switch( _state )
-			{
-			case CameraState.FOLLOWPLAYER_FREE:
-				if( prevState != CameraState.SITTING)
-				{
-					_zoomInterp = ZOOM_RESETINTERP;	
-				}			
-				break;
-			case CameraState.FOLLOWPLAYER_LOCKED:
-				_camInputVals.x = 0.0f;	// So _camOffset lerps in zooming quack
-				break;
-			case CameraState.POND_RETURNPAN:
-                StartCoroutine( DelayedPondReturnPan() );
-				break;
-			default:
-				break;
-			}
-		}
-
 	}
 
     private void OnDrawGizmos()

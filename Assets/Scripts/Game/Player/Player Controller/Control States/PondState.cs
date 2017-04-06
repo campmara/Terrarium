@@ -6,11 +6,17 @@ public class PondState : RollerState
 	public override void Enter(P_ControlState prevState)
 	{
 		Debug.Log("ENTER POND STATE");
+
+		// Zero out velocity.
+		_roller.StopPlayer();
 	}
 
 	public override void Exit(P_ControlState nextState)
 	{
 		Debug.Log("EXIT POND STATE");
+
+		_roller.Mesh.SetActive(true);
+		_roller.Face.gameObject.SetActive(true);
 	}
 
 	public override void HandleInput(InputCollection input)

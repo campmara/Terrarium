@@ -54,7 +54,7 @@
 	// RITUAL DANCE
 	public float RitualTime = 0.25f;
 	public float RitualTurnSpeed = 2000f;
-    public float RitualCompleteWait = 1.5f;
+    public float RitualCompleteWait = 2f;
 
 	// PLANTING
 	public float PlantingTime = 0.75f;

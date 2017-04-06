@@ -118,7 +118,7 @@ public class GameManager : MonoBehaviour
 				Initialize();
 				break;
 			case GameState.INTRO:
-                UIManager.GetPanelOfType<PanelIntro>().Disable();
+				CameraManager.instance.ChangeCameraState(CameraManager.CameraState.INTRO);
                 break;
 			default:
 				break;
