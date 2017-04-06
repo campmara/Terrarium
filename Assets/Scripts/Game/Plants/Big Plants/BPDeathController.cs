@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class BPDeathController : PlantController 
 {	
+	// TODO REMOVE THIS ADDE MORE SCRIPTS GDI
+	public enum BigPlantType : int 
+	{
+		NONE = -1,
+		POINT,
+		MOSS,
+		LEAFY
+	}
+	[SerializeField] BigPlantType _type = BigPlantType.NONE;
+
 	[SerializeField] Color[] _deathColors = new Color[3];
 	[SerializeField] float _waterDecayReturnTime = 20.0f;
 
@@ -56,6 +66,8 @@ public class BPDeathController : PlantController
 	{
 		_myPlant.CurDecayRate = _myPlant.BaseDecayRate;
 		GetComponentMaterials();
+
+		ColorManager.ExecutePaletteChange += HandlePalatteChange;
 	}
 
 	void GetComponentMaterials()
@@ -208,5 +220,44 @@ public class BPDeathController : PlantController
 	{
 		//don't do SHEET!
 		return null;
+	}
+
+	void OnDestroy()
+	{
+		ColorManager.ExecutePaletteChange -= HandlePalatteChange;
+	}
+
+	void HandlePalatteChange( ColorManager.EnvironmentPalette newPalatte )
+	{
+		switch( _type )
+		{
+		case BigPlantType.POINT:
+			foreach( Material mat in _componentMaterials )
+			{
+				if( mat.name == "GroundLeaf" )
+				{
+					mat.SetColor( _shaderIDs[0], newPalatte.pointPlantLeaf.Evaluate(0.0f) );
+					mat.SetColor( _shaderIDs[1], newPalatte.pointPlantLeaf.Evaluate(0.5f) );
+					mat.SetColor( _shaderIDs[2], newPalatte.pointPlantLeaf.Evaluate(1.0f) );	
+				}
+				else if( mat.name == "GreenGradient")
+				{
+					mat.SetColor( _shaderIDs[0], newPalatte.pointPlantStem.Evaluate(0.0f) );
+					mat.SetColor( _shaderIDs[1], newPalatte.pointPlantStem.Evaluate(0.5f) );
+					mat.SetColor( _shaderIDs[2], newPalatte.pointPlantStem.Evaluate(1.0f) );
+				}
+			}
+			break;
+		case BigPlantType.MOSS:
+			foreach( Material mat in _componentMaterials )
+			{
+				mat.SetColor( _shaderIDs[0], newPalatte.mossPlant.Evaluate(0.0f) );
+				mat.SetColor( _shaderIDs[1], newPalatte.mossPlant.Evaluate(0.5f) );
+				mat.SetColor( _shaderIDs[2], newPalatte.mossPlant.Evaluate(1.0f) );
+			}
+			break;
+		default:
+			break;
+		}
 	}
 }

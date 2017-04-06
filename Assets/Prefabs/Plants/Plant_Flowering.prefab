@@ -384,11 +384,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48546a37106ae474c9854776c588eedc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _type: 0
   _deathColors:
   - {r: 0.7647059, g: 0.6934825, b: 0.29238755, a: 0.07980764}
   - {r: 0.58823526, g: 0.46948567, b: 0.22923875, a: 0.07980764}
   - {r: 0.30147058, g: 0.27927926, b: 0.16403547, a: 0.07980764}
   _waterDecayReturnTime: 20
+  windEffect: 30
 --- !u!114 &114098142030374966
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -431,6 +433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseGrowthRate: 0.0025
+  _wateredGrowthRate: 0
   _curStage: 0
   _droppingItems:
   - {fileID: 1356359172527236, guid: bbfef1f81afcefc438cf9d537e7f0931, type: 2}
@@ -505,6 +508,7 @@ SkinnedMeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   serializedVersion: 2
   m_Quality: 0

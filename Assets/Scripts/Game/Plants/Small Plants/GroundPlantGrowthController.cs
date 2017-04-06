@@ -22,13 +22,7 @@ public class GroundPlantGrowthController : SPGrowthController
 		base.InitPlant();
 		StartGrowth();
 
-        ColorManager.ExecutePaletteChange += HandlePalatteChange;
 	}
-
-    private void OnDestroy()
-    {
-        ColorManager.ExecutePaletteChange -= HandlePalatteChange;
-    }
 
     void StartGrowth()
 	{
@@ -155,10 +149,5 @@ public class GroundPlantGrowthController : SPGrowthController
 		_waiting = false;
 		_myPlant.SwitchController( this );
 	}
-
-    void HandlePalatteChange( ColorManager.EnvironmentPalette newPalatte )
-    {
-
-    }
-
+		
 }

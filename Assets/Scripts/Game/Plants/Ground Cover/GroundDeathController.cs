@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class GroundDeathController : PlantController 
 {
+	public enum GroundPlantType : int 
+	{
+		NONE = -1,
+		TWIST,
+		CAPP
+	}
+	[SerializeField]GroundPlantType _type = GroundPlantType.NONE;
+
 	Animator _anim = null;
 	Material _mat = null;
 
@@ -61,6 +69,8 @@ public class GroundDeathController : PlantController
 
 		_originalColors[0] = _mat.GetColor( _shaderIDs[0] );
 		_originalColors[1] = _mat.GetColor( _shaderIDs[1] );
+
+		ColorManager.ExecutePaletteChange += HandlePalatteChange;
 	}
 
 	public override void StopState()
@@ -92,4 +102,26 @@ public class GroundDeathController : PlantController
 	public override void WaterPlant(){}
 	public override void TouchPlant(){}
 	public override void GrabPlant(){}
+
+	void OnDestroy()
+	{
+		ColorManager.ExecutePaletteChange -= HandlePalatteChange;
+	}
+
+	void HandlePalatteChange( ColorManager.EnvironmentPalette newPalatte )
+	{
+		switch( _type )
+		{
+		case GroundPlantType.TWIST:
+			_mat.SetColor( _shaderIDs[0], newPalatte.twistPlant.Evaluate(0.0f) );
+			_mat.SetColor( _shaderIDs[1], newPalatte.twistPlant.Evaluate(0.5f) );
+			break;		
+		case GroundPlantType.CAPP:
+			_mat.SetColor( _shaderIDs[0], newPalatte.cappPlant.Evaluate(0.0f) );
+			_mat.SetColor( _shaderIDs[1], newPalatte.cappPlant.Evaluate(0.5f) );
+			break;		
+		default:
+			break;
+		}
+	}
 }
