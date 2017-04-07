@@ -183,16 +183,16 @@ public class BPDeathController : PlantController
 	{
 		//iterate through all items and move their color
 		//THIS IS HARD CODED AS HELL!
-		_interpColors[0] = Color.Lerp( _originalColors[0], _deathColors[0], _myPlant.DeathTimer / _myPlant.DeathDuration );
-		_interpColors[1] = Color.Lerp( _originalColors[1], _deathColors[1], _myPlant.DeathTimer / _myPlant.DeathDuration );
-		_interpColors[2] = Color.Lerp( _originalColors[2], _deathColors[2], _myPlant.DeathTimer / _myPlant.DeathDuration );
-
-		foreach( Material mat in _componentMaterials )
-		{
-			mat.SetColor( _shaderIDs[0], _interpColors[0] );
-			mat.SetColor( _shaderIDs[1], _interpColors[1] );
-			mat.SetColor( _shaderIDs[2], _interpColors[2] );
-		}
+//		_interpColors[0] = Color.Lerp( _originalColors[0], _deathColors[0], _myPlant.DeathTimer / _myPlant.DeathDuration );
+//		_interpColors[1] = Color.Lerp( _originalColors[1], _deathColors[1], _myPlant.DeathTimer / _myPlant.DeathDuration );
+//		_interpColors[2] = Color.Lerp( _originalColors[2], _deathColors[2], _myPlant.DeathTimer / _myPlant.DeathDuration );
+//
+//		foreach( Material mat in _componentMaterials )
+//		{
+//			mat.SetColor( _shaderIDs[0], _interpColors[0] );
+//			mat.SetColor( _shaderIDs[1], _interpColors[1] );
+//			mat.SetColor( _shaderIDs[2], _interpColors[2] );
+//		}
 	}
 
 	public override void StopState()
@@ -227,39 +227,102 @@ public class BPDeathController : PlantController
 		ColorManager.ExecutePaletteChange -= HandlePalatteChange;
 	}
 
-	void HandlePalatteChange( ColorManager.EnvironmentPalette newPalatte )
-	{
-		// TODO Make coroutine in This to switch plant colors, remove fading color changes
+	void HandlePalatteChange( ColorManager.EnvironmentPalette newPalette, ColorManager.EnvironmentPalette prevPalette  )
+	{		
+		Debug.Log( "transitionin a dyin plant color ");
 
 		switch( _type )
 		{
 		case BigPlantType.POINT:
-			foreach( Material mat in _componentMaterials )
-			{
-				if( mat.name == "GroundLeaf" )
-				{
-					mat.SetColor( _shaderIDs[0], newPalatte.pointPlantLeaf.Evaluate(0.0f) );
-					mat.SetColor( _shaderIDs[1], newPalatte.pointPlantLeaf.Evaluate(0.5f) );
-					mat.SetColor( _shaderIDs[2], newPalatte.pointPlantLeaf.Evaluate(1.0f) );	
-				}
-				else if( mat.name == "GreenGradient")
-				{
-					mat.SetColor( _shaderIDs[0], newPalatte.pointPlantStem.Evaluate(0.0f) );
-					mat.SetColor( _shaderIDs[1], newPalatte.pointPlantStem.Evaluate(0.5f) );
-					mat.SetColor( _shaderIDs[2], newPalatte.pointPlantStem.Evaluate(1.0f) );
-				}
-			}
+			StartCoroutine( DelayedTransitionPointColors( newPalette, prevPalette ) );
 			break;
 		case BigPlantType.MOSS:
-			foreach( Material mat in _componentMaterials )
-			{
-				mat.SetColor( _shaderIDs[0], newPalatte.mossPlant.Evaluate(0.0f) );
-				mat.SetColor( _shaderIDs[1], newPalatte.mossPlant.Evaluate(0.5f) );
-				mat.SetColor( _shaderIDs[2], newPalatte.mossPlant.Evaluate(1.0f) );
-			}
+			StartCoroutine( DelayedTransitionMossColors( newPalette.mossPlant ) );
+			break;
+		case BigPlantType.LEAFY:
+			StartCoroutine( DelayedTransitionLeafyColors( newPalette, prevPalette ) );
 			break;
 		default:
 			break;
 		}
 	}
+		
+	IEnumerator DelayedTransitionPointColors(ColorManager.EnvironmentPalette newPalette, ColorManager.EnvironmentPalette prevPalette, float transitionTime = ColorManager.PALATTE_TRANSITIONTIME )
+	{
+		float timer = 0.0f;
+
+		while( timer < transitionTime )
+		{
+			timer +=  Time.deltaTime;
+
+			foreach( Material mat in _componentMaterials )
+			{
+				if( mat.name == "GroundLeaf" )
+				{
+					mat.SetColor( _shaderIDs[0], Colorx.Slerp( prevPalette.pointPlantLeaf.Evaluate(0.0f), newPalette.pointPlantLeaf.Evaluate(0.0f), timer / transitionTime ) );
+					mat.SetColor( _shaderIDs[1], Colorx.Slerp( prevPalette.pointPlantLeaf.Evaluate(0.5f), newPalette.pointPlantLeaf.Evaluate(0.5f), timer / transitionTime ) );
+					mat.SetColor( _shaderIDs[2], Colorx.Slerp( prevPalette.pointPlantLeaf.Evaluate(1.0f), newPalette.pointPlantLeaf.Evaluate(1.0f), timer / transitionTime ) );
+				}
+				else if( mat.name == "GreenGradient")
+				{
+					mat.SetColor( _shaderIDs[0], Colorx.Slerp( prevPalette.pointPlantStem.Evaluate(0.0f), newPalette.pointPlantStem.Evaluate(0.0f), timer / transitionTime ) );
+					mat.SetColor( _shaderIDs[1], Colorx.Slerp( prevPalette.pointPlantStem.Evaluate(0.5f), newPalette.pointPlantStem.Evaluate(0.5f), timer / transitionTime ) );
+					mat.SetColor( _shaderIDs[2], Colorx.Slerp( prevPalette.pointPlantStem.Evaluate(1.0f), newPalette.pointPlantStem.Evaluate(1.0f), timer / transitionTime ) );
+				}
+			}
+
+			yield return 0;
+		}
+	}
+
+	IEnumerator DelayedTransitionMossColors( Gradient newGradient, float transitionTime = ColorManager.PALATTE_TRANSITIONTIME )
+	{
+		float timer = 0.0f;
+		Color topColor = _componentMaterials[0].GetColor( _shaderIDs[0] );
+		Color midColor = _componentMaterials[0].GetColor( _shaderIDs[1] );
+		Color botColor = _componentMaterials[0].GetColor( _shaderIDs[2] );
+
+		while( timer < transitionTime )
+		{
+			timer +=  Time.deltaTime;
+
+			foreach( Material mat in _componentMaterials )
+			{
+				mat.SetColor( _shaderIDs[0], Colorx.Slerp( topColor, newGradient.Evaluate(0.0f), timer / transitionTime ) );
+				mat.SetColor( _shaderIDs[1], Colorx.Slerp( midColor, newGradient.Evaluate(0.5f), timer / transitionTime ) );
+				mat.SetColor( _shaderIDs[2], Colorx.Slerp( botColor, newGradient.Evaluate(1.0f), timer / transitionTime ) );;
+			}
+
+			yield return 0;
+		}	
+	}
+
+	IEnumerator DelayedTransitionLeafyColors( ColorManager.EnvironmentPalette newPalette, ColorManager.EnvironmentPalette prevPalette, float transitionTime = ColorManager.PALATTE_TRANSITIONTIME ) 
+	{
+		float timer = 0.0f;
+
+		while( timer < transitionTime )
+		{
+			timer +=  Time.deltaTime;
+
+			foreach( Material mat in _componentMaterials )
+			{
+				if( mat.name == "GroundLeaf" )	// TODO make a new leaf material ?
+				{
+					mat.SetColor( _shaderIDs[0], Colorx.Slerp( prevPalette.leafyGroundPlantLeaf.Evaluate(0.0f), newPalette.leafyGroundPlantLeaf.Evaluate(0.0f), timer / transitionTime ) );
+					mat.SetColor( _shaderIDs[1], Colorx.Slerp( prevPalette.leafyGroundPlantLeaf.Evaluate(0.5f), newPalette.leafyGroundPlantLeaf.Evaluate(0.5f), timer / transitionTime ) );
+					mat.SetColor( _shaderIDs[2], Colorx.Slerp( prevPalette.leafyGroundPlantLeaf.Evaluate(1.0f), newPalette.leafyGroundPlantLeaf.Evaluate(1.0f), timer / transitionTime ) );
+				}
+				else if( mat.name == "Fruit" )
+				{
+					mat.SetColor( _shaderIDs[0], Colorx.Slerp( prevPalette.leafyGroundPlantBulb.Evaluate(0.0f), newPalette.leafyGroundPlantBulb.Evaluate(0.0f), timer / transitionTime ) );
+					mat.SetColor( _shaderIDs[1], Colorx.Slerp( prevPalette.leafyGroundPlantBulb.Evaluate(0.5f), newPalette.leafyGroundPlantBulb.Evaluate(0.5f), timer / transitionTime ) );
+					mat.SetColor( _shaderIDs[2], Colorx.Slerp( prevPalette.leafyGroundPlantBulb.Evaluate(1.0f), newPalette.leafyGroundPlantBulb.Evaluate(1.0f), timer / transitionTime ) );
+				}
+			}
+
+			yield return 0;
+		}
+	}
 }
+

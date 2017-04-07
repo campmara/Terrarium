@@ -44,12 +44,12 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 		
 	}
 		
-	public static event Action<EnvironmentPalette> ExecutePaletteChange;
+	public static event Action<EnvironmentPalette, EnvironmentPalette> ExecutePaletteChange;
 
 	[SerializeField] int _paletteIndex = 0;
 	EnvironmentPalette _activePalette;
 	public EnvironmentPalette ActivePalatte { get { return _activePalette; } }
-	public const float PALATTE_TRANSITIONTIME = 10.0f;
+	public const float PALATTE_TRANSITIONTIME = 5.0f;
 
 
 	[SerializeField, Space(5)] List<EnvironmentPalette> _environmentPaletteList = new List<EnvironmentPalette>();
@@ -64,7 +64,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 	[SerializeField] Material mossPlantMat;
 	[SerializeField] Material mossPlantSeedMat;
 
-	[SerializeField] Material pointPlantSeedMat;
+	public Material pointPlantSeedMat;
 	[SerializeField] Material pointPlantStemMat;
 	[SerializeField] Material pointPlantLeafMat;
 
@@ -94,10 +94,10 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
             _paletteIndex = 0;
         }
 
-		UpdatePalatte( _paletteIndex );
+		UpdatePalette( _paletteIndex );
     }
 
-	void UpdatePalatte( int newPalatteIndex )
+	void UpdatePalette( int newPalatteIndex )
 	{
 		EnvironmentPalette prevPalatte = _activePalette;
 		_activePalette = _environmentPaletteList[_paletteIndex];
@@ -132,17 +132,13 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 			ApplyThreePartGradient( mossPlantMat, _activePalette.mossPlant );
 			ApplyThreePartGradient( pointPlantSeedMat, _activePalette.pointPlantSeed );			
 			ApplyThreePartGradient( pointPlantLeafMat, _activePalette.pointPlantLeaf );
-			ApplyThreePartGradient( pointPlantStemMat, _activePalette.pointPlantStem);
+			ApplyThreePartGradient( pointPlantStemMat, _activePalette.pointPlantStem );
 			ApplyThreePartGradient( leafyGroundPlantBulbMat, _activePalette.leafyGroundPlantBulb );
 			ApplyThreePartGradient( leafyGroundPlantLeafMat, _activePalette.leafyGroundPlantLeaf );
 
 			ApplyTwoPartGradient( twistPlantMat, _activePalette.twistPlant );			
 			ApplyTwoPartGradient( cappPlantMat, _activePalette.pointPlantLeaf );
-
-			if (ExecutePaletteChange != null)
-			{
-				ExecutePaletteChange( _activePalette );
-			}   
+						  
 		}
 		else
 		{
@@ -157,16 +153,20 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 			TransitionThreePartGradient( mossPlantMat, _activePalette.mossPlant );
 			TransitionThreePartGradient( pointPlantSeedMat, _activePalette.pointPlantSeed );			
 			TransitionThreePartGradient( pointPlantLeafMat, _activePalette.pointPlantLeaf );
-			TransitionThreePartGradient( pointPlantStemMat, _activePalette.pointPlantStem);
+			TransitionThreePartGradient( pointPlantStemMat, _activePalette.pointPlantStem );
 			TransitionThreePartGradient( leafyGroundPlantBulbMat, _activePalette.leafyGroundPlantBulb );
 			TransitionThreePartGradient( leafyGroundPlantLeafMat, _activePalette.leafyGroundPlantLeaf );
 
 			TransitionTwoPartGradient( twistPlantMat, _activePalette.twistPlant );			
 			TransitionTwoPartGradient( cappPlantMat, _activePalette.pointPlantLeaf );
 
-			StartCoroutine( DelayedUpdatePalatteEvent() );
+			//StartCoroutine( DelayedUpdatePalatteEvent() );
 		}
 		     
+		if (ExecutePaletteChange != null)
+		{
+			ExecutePaletteChange( _activePalette, prevPalatte );
+		} 
 	}
 
 	void GeneralTransitionColors( EnvironmentPalette prevPalette, float duration = PALATTE_TRANSITIONTIME )
@@ -206,85 +206,71 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 	/// </summary>
 	/// <param name="material">Material.</param>
 	/// <param name="gradient">Gradient.</param>
-	public static void ApplyThreePartGradient( Material material, Gradient gradient )
+	public void ApplyThreePartGradient( Material objectMaterial, Gradient gradient )
 	{
 		//Debug.Assert( material != null && material.HasProperty("_TopColor"), "Must be a gradient shader!" );
 
-		material.SetColor("_TopColor", gradient.Evaluate(0f));
-		material.SetColor("_MidColor", gradient.Evaluate(.5f));
-		material.SetColor("_BotColor", gradient.Evaluate(1f));		
+		objectMaterial.SetColor("_ColorTop", gradient.Evaluate(0f));
+		objectMaterial.SetColor("_ColorMid", gradient.Evaluate(.5f));
+		objectMaterial.SetColor("_ColorBot", gradient.Evaluate(1f));	
+
 	}
-	public static void ApplyTwoPartGradient( Material material, Gradient gradient )
+	public void ApplyTwoPartGradient( Material objectMaterial, Gradient gradient )
 	{
 		//Debug.Assert( material != null && material.HasProperty("_Color1"), "Must be a two part gradient shader!" );
 
-		material.SetColor("_Color", gradient.Evaluate(0f));
-		material.SetColor("_Color2", gradient.Evaluate(.5f));
+		objectMaterial.SetColor("_Color", gradient.Evaluate(0f));
+		objectMaterial.SetColor("_Color2", gradient.Evaluate(.5f));
 	}
 
-	public void TransitionThreePartGradient( Material material, Gradient gradient, float transitionTime = PALATTE_TRANSITIONTIME )
+	public void TransitionThreePartGradient( Material objectMaterial, Gradient gradient, float transitionTime = PALATTE_TRANSITIONTIME )
 	{
-		StartCoroutine( DelayedChangeMaterialGradient( material, gradient, transitionTime ) );
+		StartCoroutine( DelayedChangeMaterialGradient( objectMaterial, gradient, transitionTime ) );
 	}
 
-	public void TransitionTwoPartGradient( Material material, Gradient gradient, float transitionTime = PALATTE_TRANSITIONTIME )
+	public void TransitionTwoPartGradient( Material objectMaterial, Gradient gradient, float transitionTime = PALATTE_TRANSITIONTIME )
 	{
-		StartCoroutine( DelayedChangeTwoGradientMaterial( material, gradient, transitionTime ) );
+		StartCoroutine( DelayedChangeTwoGradientMaterial( objectMaterial, gradient, transitionTime ) );
 	}
 
-	IEnumerator DelayedChangeMaterialGradient( Material material, Gradient gradient, float transitionTime )
+	IEnumerator DelayedChangeMaterialGradient( Material objectMaterial, Gradient gradient, float transitionTime )
 	{
 		float timer = 0.0f;
-		Color topColor = material.GetColor( "_TopColor" );
-		Color midColor = material.GetColor( "_MidColor" );
-		Color botColor = material.GetColor( "_BotColor" );
+		Color topColor = objectMaterial.GetColor( "_ColorTop" );
+		Color midColor = objectMaterial.GetColor( "_ColorMid" );
+		Color botColor = objectMaterial.GetColor( "_ColorBot" );
 
 		while( timer < transitionTime )
 		{
 			timer +=  Time.deltaTime;
 					
-			material.SetColor("_TopColor", Colorx.Slerp( topColor, gradient.Evaluate(0f), timer / transitionTime ) );
-			material.SetColor("_MidColor", Colorx.Slerp( midColor, gradient.Evaluate(.5f), timer / transitionTime ) );
-			material.SetColor("_BotColor", Colorx.Slerp( botColor, gradient.Evaluate(1f), timer / transitionTime ) );		
+			objectMaterial.SetColor("_ColorTop", Colorx.Slerp( topColor, gradient.Evaluate(0f), timer / transitionTime ) );
+			objectMaterial.SetColor("_ColorMid", Colorx.Slerp( midColor, gradient.Evaluate(.5f), timer / transitionTime ) );
+			objectMaterial.SetColor("_ColorBot", Colorx.Slerp( botColor, gradient.Evaluate(1f), timer / transitionTime ) );		
 
 			yield return 0;
 		}			
 	}
 
-	IEnumerator DelayedChangeTwoGradientMaterial( Material material, Gradient gradient, float transitionTime )
+	public IEnumerator DelayedChangeTwoGradientMaterial( Material objectMaterial, Gradient gradient, float transitionTime = PALATTE_TRANSITIONTIME )
 	{
 		float timer = 0.0f;
-		Color topColor = material.GetColor( "_Color" );
-		Color midColor = material.GetColor( "_Color2" );
+		Color topColor = objectMaterial.GetColor( "_Color" );
+		Color midColor = objectMaterial.GetColor( "_Color2" );
 
 
 		while( timer < transitionTime )
 		{
 			timer +=  Time.deltaTime;
 
-			material.SetColor("_Color", Colorx.Slerp( topColor, gradient.Evaluate(0f), timer / transitionTime ) );
-			material.SetColor("_Color2", Colorx.Slerp( midColor, gradient.Evaluate(0.5f), timer / transitionTime ) );
+			objectMaterial.SetColor("_Color", Colorx.Slerp( topColor, gradient.Evaluate(0f), timer / transitionTime ) );
+			objectMaterial.SetColor("_Color2", Colorx.Slerp( midColor, gradient.Evaluate(0.5f), timer / transitionTime ) );
 
 			yield return 0;
 		}			
 	}
 
-	IEnumerator DelayedUpdatePalatteEvent( float duration = PALATTE_TRANSITIONTIME )
-	{
-		float timer = 0.0f;
 
-		while( timer < duration )
-		{
-			timer += Time.deltaTime;
-
-			if ( ExecutePaletteChange != null )
-			{
-				ExecutePaletteChange( _activePalette );
-			}
-
-			yield return 0;
-		}
-	}
 
 	void OnValidate()
 	{		
@@ -297,10 +283,12 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 			_paletteIndex = _environmentPaletteList.Count - 1;
 		}
 
-		if( _paletteIndex != _environmentPaletteList.FindIndex( x => x.title == _activePalette.title ) )    // Should be b a better way to do this
-		{
-			UpdatePalatte( _paletteIndex );
-		}
+		UpdatePalette( _paletteIndex );
+
+//		if( _paletteIndex != _environmentPaletteList.FindIndex( x => x.title == _activePalette.title ) )    // Should be b a better way to do this
+//		{
+//			
+//		}
 
 	}
 }
