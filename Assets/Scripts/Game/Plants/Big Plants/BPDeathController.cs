@@ -1,60 +1,56 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class BPDeathController : PlantController 
 {	
 	[SerializeField] Color[] _deathColors = new Color[3];
 	[SerializeField] float _waterDecayReturnTime = 20.0f;
 
-	DeathState _curState = DeathState.Dying;
+	enum DeathState
+	{
+		Decaying,
+		Fading
+	}
+	DeathState _curState = DeathState.Decaying;
 
 	List<Material> _componentMaterials = new List<Material>();
 	Color[] _originalColors = new Color[3];
 	Color[] _interpColors = new Color[3];
 	int[] _shaderIDs = new int[3];
 
-	enum FlyState
-	{
-		PLUCK,
-		SLOWDOWN,
-		FLOAT
-	}
-	private FlyState _currentFlyState = FlyState.PLUCK;
+	ParticleSystem _essenceParticleSystem;
+	ParticleSystem.NoiseModule _essenceNoise;
 
-	private Rigidbody _rb;
-	private float _flyTimer = 0f;
-	private float _flyPluckTime;
-
-	[SerializeField] private float windEffect = 30f;
-
-	const float PLUCK_FORCE = 17f;
-	const float ASCEND_FORCE = 2.25f;
-
-	const float PLUCK_MIN_TIME = 0.05f;
-	const float PLUCK_MAX_TIME = 0.15f;
-	const float SLOWDOWN_TIME = 1.1f;
-
-	const float KILL_Y = 100f;
-
-	enum DeathState
-	{
-		Flying,
-		Dying
-	}
-
+	private float _fadeTime;
+	private float _cutoffValue;
+	
 	public override void Init()
 	{
 		_myPlant = GetComponent<BasePlant>();
-		_rb = GetComponent<Rigidbody>();
+
+		if (GetComponentInChildren<ParticleSystem>())
+		{
+			_essenceParticleSystem = GetComponentInChildren<ParticleSystem>();
+			_essenceNoise = _essenceParticleSystem.noise;
+		}
+
 		_controllerType = ControllerType.Death;
 
-		_flyPluckTime = Random.Range(PLUCK_MIN_TIME, PLUCK_MAX_TIME);
+		_fadeTime = Random.Range(5f, 7f);
+		_cutoffValue = 0f;
 	}
 
 	public override void StartState()
 	{
 		_myPlant.CurDecayRate = _myPlant.BaseDecayRate;
+
+		if (_essenceParticleSystem)
+		{
+			_essenceParticleSystem.Play();
+		}
+
 		GetComponentMaterials();
 	}
 
@@ -86,13 +82,13 @@ public class BPDeathController : PlantController
 
 	public override void UpdateState()
 	{
-		if( _curState == DeathState.Dying )
+		if( _curState == DeathState.Decaying )
 		{
 			Decay();
 		}
 		else
 		{
-			FlyAway();
+			FadeEssence();
 		}
 	}
 
@@ -100,86 +96,39 @@ public class BPDeathController : PlantController
 	{
 		if( _myPlant.DeathTimer < _myPlant.DeathDuration )
 		{
-			FadeColor();
+			// Increment the decay timer.
 			_myPlant.DeathTimer += Time.deltaTime * _myPlant.CurDecayRate;
 		}
 		else
 		{
-			_curState = DeathState.Flying;
-			GroundManager.instance.EmitDirtParticles(transform.position, 1f);
+			_curState = DeathState.Fading;
+
+			DOTween.To(()=> _cutoffValue, x=> _cutoffValue = x, 1f, _fadeTime)
+				.SetEase(Ease.InExpo)
+				.OnComplete(OnDeath);
+			//GroundManager.instance.EmitDirtParticles(transform.position, 1f);
 		}
 	}
 
-	protected virtual void FlyAway()
+	protected virtual void OnDeath()
 	{
-		CheckForKill();
-		HandleFlyStateChanges();
-
-		_rb.isKinematic = false;
-		Vector3 upDir = ( ( Vector3.up * 5f ) + ( WeatherManager.instance.WindForce ) ).normalized;
-
-		// Apply an upward force.
-		if ( _currentFlyState == FlyState.FLOAT )
-		{
-			_rb.AddForce( upDir * ASCEND_FORCE * Time.deltaTime, ForceMode.Impulse );
-		}
-		else if ( _currentFlyState == FlyState.PLUCK )
-		{
-			_rb.AddForce( upDir * PLUCK_FORCE * Time.deltaTime, ForceMode.Impulse );
-		}
-		else if ( _currentFlyState == FlyState.SLOWDOWN )
-		{
-			_rb.AddForce( upDir * Mathf.Lerp( PLUCK_FORCE, ASCEND_FORCE, _flyTimer / SLOWDOWN_TIME ) * Time.deltaTime, ForceMode.Impulse );
-		}
-		
-		// Apply a weird constant random rotation.
-		_rb.AddTorque(WeatherManager.instance.WindForce * windEffect * Time.deltaTime);
+		// Fully decayed and therefore no longer visible.
+		_essenceParticleSystem.Stop();
+		PlantManager.instance.DeleteLargePlant(_myPlant);
 	}
 
-	void CheckForKill()
+	void FadeEssence()
 	{
-		if (transform.position.y > KILL_Y)
+		for (int i = 0; i < _componentMaterials.Count; i++)
 		{
-			PlantManager.instance.DeleteLargePlant(_myPlant);
-		}
-	}
-
-	void HandleFlyStateChanges()
-	{
-		if (_currentFlyState == FlyState.FLOAT)
-		{
-			return;
+			_componentMaterials[i].SetFloat("_Cutoff", _cutoffValue);
 		}
 
-		// increment the fly flyTimer
-		_flyTimer += Time.deltaTime;
-
-		if (_currentFlyState == FlyState.PLUCK && _flyTimer >= _flyPluckTime)
+		if (_essenceParticleSystem != null)
 		{
-			_currentFlyState = FlyState.SLOWDOWN;
-			_flyTimer = 0f;
-		}
-
-		if (_currentFlyState == FlyState.SLOWDOWN && _flyTimer >= SLOWDOWN_TIME)
-		{
-			_currentFlyState = FlyState.FLOAT;
-			_flyTimer = 0f;
-		}
-	}
-
-	void FadeColor()
-	{
-		//iterate through all items and move their color
-		//THIS IS HARD CODED AS HELL!
-		_interpColors[0] = Color.Lerp( _originalColors[0], _deathColors[0], _myPlant.DeathTimer / _myPlant.DeathDuration );
-		_interpColors[1] = Color.Lerp( _originalColors[1], _deathColors[1], _myPlant.DeathTimer / _myPlant.DeathDuration );
-		_interpColors[2] = Color.Lerp( _originalColors[2], _deathColors[2], _myPlant.DeathTimer / _myPlant.DeathDuration );
-
-		foreach( Material mat in _componentMaterials )
-		{
-			mat.SetColor( _shaderIDs[0], _interpColors[0] );
-			mat.SetColor( _shaderIDs[1], _interpColors[1] );
-			mat.SetColor( _shaderIDs[2], _interpColors[2] );
+			_essenceNoise.strengthXMultiplier = WeatherManager.instance.WindForce.x;
+			_essenceNoise.strengthYMultiplier = WeatherManager.instance.WindForce.y;
+			_essenceNoise.strengthZMultiplier = WeatherManager.instance.WindForce.z;
 		}
 	}
 
