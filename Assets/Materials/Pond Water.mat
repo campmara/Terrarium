@@ -139,7 +139,7 @@ Material:
     m_Colors:
     - first:
         name: _Color
-      second: {r: 0.7516183, g: 0.9558824, b: 0.6536549, a: 1}
+      second: {r: 0.7205882, g: 0.57398576, b: 0.54044116, a: 0}
     - first:
         name: _ColorBot
       second: {r: 0.447, g: 0.61764705, b: 0.5569042, a: 0.734}
