@@ -6,12 +6,12 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Ground Crater Mesh
-  m_Shader: {fileID: 4800000, guid: cade45a53f884bf41800371fc8f89e84, type: 3}
-  m_ShaderKeywords: _EMISSION
-  m_LightmapFlags: 1
+  m_Name: GreenGradientSeed
+  m_Shader: {fileID: 4800000, guid: 0a4c2dc3e6c043042a5f12aa874a5954, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
-  m_CustomRenderQueue: 1990
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -31,6 +31,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _DetailNormalMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DispTex:
+        m_Texture: {fileID: 2800000, guid: 0eceb5a7798c01046b89b8d558a91fcd, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -65,13 +69,14 @@ Material:
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
+    - _Displacement: 0
     - _DstBlend: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Hardness: 1
+    - _Hardness: 0.745
     - _Metallic: 0
-    - _Middle: 0.001
+    - _Middle: 0.5
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
@@ -79,20 +84,15 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
+    - _WaveNoise: 0.75
+    - _WaveScale: 0.1
+    - _WaveSpeed: 1
     - _ZWrite: 1
     m_Colors:
-    - first:
-        name: _Color
-      second: {r: 0.974645, g: 1, b: 0.8161765, a: 0}
-    - first:
-        name: _ColorBot
-      second: {r: 0.1781351, g: 0.27205884, b: 0.08801904, a: 1}
-    - first:
-        name: _ColorMid
-      second: {r: 0.3823887, g: 0.4705882, b: 0.24221453, a: 1}
-    - first:
-        name: _ColorTop
-      second: {r: 0.5588235, g: 0.5128028, b: 0.44377163, a: 1}
-    - first:
-        name: _EmissionColor
-      second: {r: 0, g: 0, b: 0, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorBot: {r: 1, g: 0.38235295, b: 0.38235295, a: 1}
+    - _ColorMid: {r: 0.4705882, g: 0.47750863, b: 0.47750863, a: 1}
+    - _ColorTop: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _ShadowColor: {r: 1, g: 1, b: 1, a: 1}
+    - _WaveDir: {r: 1, g: 0, b: 1, a: 0}
