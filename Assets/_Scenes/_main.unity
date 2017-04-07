@@ -3192,11 +3192,6 @@ Prefab:
       propertyPath: _starterMound
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114731697741026298, guid: 35fbf4ec3e610419aa354f7eecbeebe8,
-        type: 2}
-      propertyPath: _pAssetKey
-      value: -1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 35fbf4ec3e610419aa354f7eecbeebe8, type: 2}
   m_IsPrefabParent: 0
