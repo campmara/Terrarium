@@ -415,11 +415,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48546a37106ae474c9854776c588eedc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _type: 0
   _deathColors:
   - {r: 0.7647059, g: 0.6934825, b: 0.29238755, a: 0.07980764}
   - {r: 0.58823526, g: 0.46948567, b: 0.22923875, a: 0.07980764}
   - {r: 0.30147058, g: 0.27927926, b: 0.16403547, a: 0.07980764}
   _waterDecayReturnTime: 20
+  windEffect: 30
 --- !u!114 &114098142030374966
 MonoBehaviour:
   m_ObjectHideFlags: 1

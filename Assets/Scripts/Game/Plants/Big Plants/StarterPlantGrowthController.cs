@@ -127,5 +127,6 @@ public class StarterPlantGrowthController : BPGrowthController
 
 		_waiting = false;
 		_myPlant.SwitchController( this );
-	}
+    }
+
 }
