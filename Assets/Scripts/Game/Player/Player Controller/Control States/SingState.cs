@@ -22,10 +22,10 @@ public class SingState : RollerState
 
 	public override void HandleInput (InputCollection input)
 	{
-		RollerParent.IKMovement(RollerConstants.instance.SING_WALK_SPEED, 
-									  RollerConstants.instance.WALK_ACCELERATION, 
-									  RollerConstants.instance.WALK_DECELERATION, 
-									  RollerConstants.instance.WALK_TURN_SPEED);
+		RollerParent.IKMovement(RollerConstants.instance.SingWalkSpeed, 
+									  RollerConstants.instance.WalkAcceleration, 
+									  RollerConstants.instance.WalkDeceleration, 
+									  RollerConstants.instance.WalkTurnSpeed);
 
 	    // B BUTTON
 //	    if (input.BButton.IsPressed)
@@ -42,7 +42,7 @@ public class SingState : RollerState
 
 	    //float desiredPitch = 1.0f + _roller.InputVec.magnitude;
 	    float desiredPitch = AudioManager.instance.GetCurrentMusicPitch();
-	    _singPitch = Mathf.Lerp(_singPitch, desiredPitch, RollerConstants.instance.PITCH_LERP_SPEED * Time.deltaTime);
+	    _singPitch = Mathf.Lerp(_singPitch, desiredPitch, RollerConstants.instance.PitchLerpSpeed * Time.deltaTime);
 
 	    // Y BUTTON
 	    if (input.YButton.IsPressed)
@@ -57,7 +57,7 @@ public class SingState : RollerState
 		    _waitToReturnTimer += Time.deltaTime;
 		}
 
-	    if (_waitToReturnTimer < RollerConstants.instance.SINGING_RETURN_TIME)
+	    if (_waitToReturnTimer < RollerConstants.instance.SingingReturnTime)
 	        return;
 
         _waitToReturnTimer = 0f;

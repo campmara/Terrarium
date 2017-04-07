@@ -1,78 +1,76 @@
 ﻿public class RollerConstants : ScriptableObjectSingleton<RollerConstants>
 {
 	// INPUT
-	public float INPUT_DEADZONE = 0.3f;
+	public float InputDeadzone = 0.3f;
 
 	// WALK
-	public float WALK_SPEED = 3f;
-	public float CARRY_SPEED = 3f;
-	public float SING_WALK_SPEED = 2f;
-	public float WALK_ACCELERATION = 0.05f;
-	public float WALK_DECELERATION = 4.0f;
-    public float WALK_TURNDAMPENING = 0.025f;   // Used to dampen velocity when turning really hard
-    public float BODY_MINMOVESPEED = 2.5f;
-	public float IDLE_SITTING_TIMER = 30f;
+	public float WalkSpeed = 3f;
+	public float CarrySpeed = 3f;
+	public float SingWalkSpeed = 2f;
+	public float WalkAcceleration = 0.05f;
+	public float WalkDeceleration = 4.0f;
+    public float WalkTurnDampening = 0.025f;   // Used to dampen velocity when turning really hard
+    public float BodyMinMoveSpeed = 2.5f;
+	public float IdleSittingTimer = 30f;
 
 	// WALK TURNING
-	public float WALK_TURN_SPEED = 5f;
-	public float CARRY_TURN_SPEED = 7f;
-    public float WALK_TURNANGLE_MIN = 0.5f;
-    public float WALK_TURNANGLE_MAX = 60.0f;
+	public float WalkTurnSpeed = 5f;
+	public float CarryTurnSpeed = 7f;
+    public float WalkTurnAngleMin = 0.5f;
+    public float WalkTurnAngleMax = 60.0f;
 
 	// ROLL
-	public float ROLL_SPEED = 10f;
-	public float ROLL_MAX_SPEED = 13f;
-	public float REVERSE_ROLL_SPEED = 6f;
-	public float ROLL_ACCELERATION = 1f;
-	public float ROLL_DECELERATION = 10f;
-	public float ROLL_SPHERE_SPIN = 1250f;
+	public float RollSpeed = 10f;
+	public float RollMaxSpeed = 13f;
+	public float ReverseRollSpeed = 6f;
+	public float RollAcceleration = 1f;
+	public float RollDeceleration = 10f;
+	public float RollSphereSpin = 1250f;
 
 	// ROLL TURNING
-	public float TURN_SPEED = 125f;
-	public float REVERSE_TURN_SPEED = 100f;
-	public float TURN_ACCELERATION = 15f;
-	public float TURN_DECELERATION = 700f;
-    public float TURN_MINSPEED = 25.0f;
+	public float TurnSpeed = 125f;
+	public float ReverseTurnSpeed = 100f;
+	public float TurnAcceleration = 15f;
+	public float TurnDeceleration = 700f;
+    public float TurnMinSpeed = 25.0f;
 
     // PICKUP
-    public float PICKUP_CHECKHEIGHT = 0.5f;
-	public float PICKUP_CHECKRADIUS = 1.0f;
-    public float PICKUP_FORWARDSCALAR_PART1 = 0.58f;
-    public float PICKUP_UPSCALAR_PART1 = 0.5f;
-    public float PICKUP_FORWARDSCALAR_PART2 = 0.08f;
-	public float PICKUP_UPSCALAR_PART2 = 2.0f;
-	public float PICKUP_TIME = 0.75f;    
+    public float PickupCheckHeight = 0.5f;
+	public float PickupCheckRadius = 1.0f;
+    public float PickupForwardScalarPart1 = 0.58f;
+    public float PickupUpScalarPart1 = 0.5f;
+    public float PickupForwardScalarPart2 = 0.08f;
+	public float PickupUpScalarPart2 = 2.0f;
+	public float PickupTime = 0.75f;    
 
     // IDLE
-    public float IDLE_MAXMAG = 0.01f;
-	public float IDLE_WAITTIME = 0.1f;
+    public float IdleMaxMag = 0.01f;
+	public float IdleWaitTime = 0.1f;
 
 	// TRANSITIONS
-	public float TRANSITION_TIME = 1f;
-	public float TRANSITION_DECELERATION = 20f;
+	public float TransitionTime = 1f;
+	public float TransitionDeceleration = 20f;
 
 	// RITUAL DANCE
-	public float RITUAL_TIME = 2.0f;
-	public float RITUAL_TURN_SPEED = 2000f;
-    public float RITUAL_COMPLETEWAIT = 3.0f;
+	public float RitualTime = 0.25f;
+	public float RitualTurnSpeed = 2000f;
+    public float RitualCompleteWait = 2f;
 
 	// PLANTING
-	public float PLANTING_TIME = 0.75f;
-	public float PLANTING_ENDY = 0f;
-    public float PLANTING_ENDX = 1.25f;
+	public float PlantingTime = 0.75f;
+	public float PlantingEndY = 0f;
+    public float PlantingEndX = 1.25f;
 
     // SINGING
-    public float SINGING_RETURN_TIME = 0.6f;
-    public float PITCH_LERP_SPEED = 7f;
+    public float SingingReturnTime = 0.6f;
+    public float PitchLerpSpeed = 7f;
 
-    public float IK_TARGETWORLDSCALAR = 35.0f;
+    public float IKTargetWorldScalar = 35.0f;
 
     // IK
-    public float IK_REACH_CHECKRADIUS = 8.0f;
-    public float IK_REACH_WAITMIN = 1.5f;
-    public float IK_REACH_WAITMAX = 10.0f;
-
-    
+    public float IKReachCheckRadius = 8.0f;
+    public float IKReachWaitMin = 1.5f;
+    public float IKReachWaitMax = 10.0f;
 }
 
 

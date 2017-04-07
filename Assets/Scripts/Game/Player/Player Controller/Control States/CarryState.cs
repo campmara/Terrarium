@@ -44,10 +44,10 @@ public class CarryState : RollerState
 
 		if( canDrop && RollerParent.CurrentHeldObject != null )
 		{
-			RollerParent.IKMovement( Mathf.Lerp( RollerConstants.instance.CARRY_SPEED, 0.0f, _roller.CurrentHeldObject.GrabberBurdenInterp ),
-				RollerConstants.instance.WALK_ACCELERATION,
-				RollerConstants.instance.WALK_DECELERATION,
-				RollerConstants.instance.CARRY_TURN_SPEED );
+			RollerParent.IKMovement( Mathf.Lerp( RollerConstants.instance.CarrySpeed, 0.0f, _roller.CurrentHeldObject.GrabberBurdenInterp ),
+				RollerConstants.instance.WalkAcceleration,
+				RollerConstants.instance.WalkDeceleration,
+				RollerConstants.instance.CarryTurnSpeed );
 
 			if( !RollerParent.CurrentHeldObject.Carryable )
 			{

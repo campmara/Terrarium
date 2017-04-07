@@ -87,10 +87,24 @@ Material:
     - _WaveSpeed: 5
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorBot: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorMid: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorTop: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _ShadowColor: {r: 1, g: 1, b: 1, a: 1}
-    - _WaveDir: {r: 1, g: 0, b: 1, a: 0}
+    - first:
+        name: _Color
+      second: {r: 1, g: 1, b: 1, a: 1}
+    - first:
+        name: _ColorBot
+      second: {r: 0.7372549, g: 0.8980392, b: 1, a: 1}
+    - first:
+        name: _ColorMid
+      second: {r: 0.9882353, g: 0.75686276, b: 1, a: 1}
+    - first:
+        name: _ColorTop
+      second: {r: 1, g: 0.8901961, b: 0, a: 1}
+    - first:
+        name: _EmissionColor
+      second: {r: 0, g: 0, b: 0, a: 1}
+    - first:
+        name: _ShadowColor
+      second: {r: 1, g: 1, b: 1, a: 1}
+    - first:
+        name: _WaveDir
+      second: {r: 1, g: 0, b: 1, a: 0}
