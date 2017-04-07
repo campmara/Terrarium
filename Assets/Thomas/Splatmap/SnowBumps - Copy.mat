@@ -6,10 +6,10 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: GreenGradient
-  m_Shader: {fileID: 4800000, guid: 679bb6ecb44c34340ba702bd52755149, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 5
+  m_Name: SnowBumps - Copy
+  m_Shader: {fileID: 4800000, guid: 948ae003eb231d14e831363ea3b3d056, type: 3}
+  m_ShaderKeywords: _EMISSION
+  m_LightmapFlags: 1
   m_CustomRenderQueue: -1
   stringTagMap: {}
   m_SavedProperties:
@@ -40,12 +40,6 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
-        name: _DispTex
-      second:
-        m_Texture: {fileID: 2800000, guid: 0eceb5a7798c01046b89b8d558a91fcd, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - first:
         name: _EmissionMap
       second:
         m_Texture: {fileID: 0}
@@ -64,12 +58,6 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
-        name: _NormalTex
-      second:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - first:
         name: _OcclusionMap
       second:
         m_Texture: {fileID: 0}
@@ -81,25 +69,28 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _SecondaryTex
-      second:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     m_Floats:
     - first:
         name: _BumpScale
       second: 1
     - first:
+        name: _ColorFog
+      second: 0.75
+    - first:
         name: _Cutoff
       second: 0.5
+    - first:
+        name: _DepthClip
+      second: 0.1
     - first:
         name: _DetailNormalMapScale
       second: 1
     - first:
         name: _Displacement
-      second: 0
+      second: 1
+    - first:
+        name: _DistAmt
+      second: 128
     - first:
         name: _DstBlend
       second: 0
@@ -113,14 +104,29 @@ Material:
         name: _GlossyReflections
       second: 1
     - first:
-        name: _Hardness
-      second: 0.745
+        name: _MainNoiseHeight
+      second: 0.1
+    - first:
+        name: _MainNoiseScale
+      second: 1
+    - first:
+        name: _MeltAmount
+      second: 0.11
+    - first:
+        name: _MeltCurve
+      second: 1.9
+    - first:
+        name: _MeltDistance
+      second: 1
+    - first:
+        name: _MeltY
+      second: 0
     - first:
         name: _Metallic
       second: 0
     - first:
         name: _Middle
-      second: 0.5
+      second: 0.009
     - first:
         name: _Mode
       second: 0
@@ -131,8 +137,14 @@ Material:
         name: _Parallax
       second: 0.02
     - first:
-        name: _Sensitivity
-      second: 151
+        name: _RimPower
+      second: 0.9
+    - first:
+        name: _SmearNoiseHeight
+      second: 1.3
+    - first:
+        name: _SmearNoiseScale
+      second: 1
     - first:
         name: _SmoothnessTextureChannel
       second: 0
@@ -148,22 +160,34 @@ Material:
     - first:
         name: _ZWrite
       second: 1
+    - first:
+        name: _uvScale
+      second: 1
     m_Colors:
     - first:
         name: _Color
-      second: {r: 1, g: 1, b: 1, a: 1}
+      second: {r: 0.5661765, g: 0.5661765, b: 0.5661765, a: 1}
     - first:
         name: _ColorBot
-      second: {r: 0.40603742, g: 0.60294116, b: 0.39900517, a: 1}
+      second: {r: 0.33823532, g: 0.8083166, b: 1, a: 1}
     - first:
         name: _ColorMid
-      second: {r: 0.82456225, g: 0.8308824, b: 0.37267518, a: 1}
+      second: {r: 0.6985294, g: 0.91267747, b: 1, a: 1}
     - first:
         name: _ColorTop
-      second: {r: 0.81501013, g: 1, b: 0.16176468, a: 1}
+      second: {r: 0, g: 0.6137424, b: 0.6691177, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
     - first:
-        name: _ShadowColor
-      second: {r: 1, g: 1, b: 1, a: 1}
+        name: _NoiseOffset
+      second: {r: 0, g: 0, b: 0, a: 0}
+    - first:
+        name: _Position
+      second: {r: 0, g: 0, b: 0, a: 0}
+    - first:
+        name: _PrevPosition
+      second: {r: 0, g: 0, b: 0, a: 0}
+    - first:
+        name: _RimColor
+      second: {r: 0.26, g: 0.19, b: 0.16, a: 0}

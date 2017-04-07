@@ -122,6 +122,9 @@ Material:
         name: _Parallax
       second: 0.02
     - first:
+        name: _Sensitivity
+      second: 15
+    - first:
         name: _SmoothnessTextureChannel
       second: 0
     - first:
@@ -142,13 +145,13 @@ Material:
       second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _ColorBot
-      second: {r: 1, g: 0.8482759, b: 0, a: 1}
+      second: {r: 0.9490196, g: 0.76862746, b: 0.94509804, a: 1}
     - first:
         name: _ColorMid
-      second: {r: 0.93255585, g: 1, b: 0.30147058, a: 1}
+      second: {r: 1, g: 0.8235294, b: 0.7411765, a: 1}
     - first:
         name: _ColorTop
-      second: {r: 1, g: 0, b: 0, a: 1}
+      second: {r: 0.9137255, g: 1, b: 0.5294118, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
