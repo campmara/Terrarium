@@ -13,7 +13,7 @@ public class PlayerManager : SingletonBehaviour<PlayerManager>
 	{		
         _player.Initialize();
 
-		ReturnPlayerToPond();
+        PutPlayerInPond();
 
         isInitialized = true;
 	}
@@ -29,10 +29,9 @@ public class PlayerManager : SingletonBehaviour<PlayerManager>
 
             _player = newPlayer.GetComponent<Player>();
         }
-
 	}
 
-    public void ReturnPlayerToPond()
+    public void PutPlayerInPond()
     {
         _player.transform.position = PondManager.instance.Pond.transform.position + ( Vector3.down * 3f );
         _player.transform.rotation = Quaternion.identity;
