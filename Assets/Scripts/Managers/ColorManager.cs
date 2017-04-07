@@ -10,6 +10,9 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 	{
 		public string title;
 
+		// TODO Add Rock Color Chnging
+		// TODO Rename EVERYTHING to make more sense
+
 		[Header("Ground colors"), Space(5)]
 		public Color groundColorPrimary;
 		public Color groundColorSecondary;
@@ -17,6 +20,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 
 		[Header("Terrain colors"), Space(5)]
 		public Color terrainColor;
+		public Gradient pondRockGradient;
 
 		[Header("Sky / Fog colors"), Space(5)]
 		public Color fogColor;
@@ -55,6 +59,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 	[Header("Global Materials"), Space(5)]
 	[SerializeField] Material terrainMaterial;
 	[SerializeField] ParticleSystem groundSplatDecal;
+	[SerializeField] Material pondRockMat;
 
 	[SerializeField] Material mossPlantMat;
 	[SerializeField] Material mossPlantSeedMat;
@@ -121,6 +126,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 				terrainMaterial.SetColor( "_Color", _activePalette.terrainColor );
 			}
 
+			ApplyThreePartGradient( pondRockMat, _activePalette.pondRockGradient );
 
 			ApplyThreePartGradient( mossPlantSeedMat, _activePalette.mossPlantSeed );
 			ApplyThreePartGradient( mossPlantMat, _activePalette.mossPlant );
@@ -144,6 +150,8 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 			//Debug.Log( "Transitioning Colors" );
 
 			GeneralTransitionColors( prevPalatte );
+
+			TransitionThreePartGradient( pondRockMat, _activePalette.pondRockGradient );
 
 			TransitionThreePartGradient( mossPlantSeedMat, _activePalette.mossPlantSeed );
 			TransitionThreePartGradient( mossPlantMat, _activePalette.mossPlant );
