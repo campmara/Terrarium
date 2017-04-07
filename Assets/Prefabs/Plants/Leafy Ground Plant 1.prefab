@@ -114,7 +114,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spawnables:
   - {fileID: 1863841682442650, guid: fa18cc17991d646178faacbf71f38a50, type: 2}
-  - {fileID: 1211071532307350, guid: 267f161e8216446fd8bd51c9ff2019f2, type: 2}
+  - {fileID: 1969664330500318, guid: 267f161e8216446fd8bd51c9ff2019f2, type: 2}
   _growthRate: 0.1
   _baseGrowthRate: 0.4
   _scaleRange: {x: 3, y: 9}
