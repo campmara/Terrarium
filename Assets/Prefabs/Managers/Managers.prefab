@@ -676,6 +676,7 @@ MonoBehaviour:
       m_Mode: 1
       m_NumColorKeys: 3
       m_NumAlphaKeys: 2
+    terrainRockColor: {r: 0.49411765, g: 0.49411765, b: 0.49411765, a: 1}
     fogColor: {r: 0.9044118, g: 0.8420386, b: 0.6384083, a: 0}
     skyColor: {r: 1, g: 0.9407708, b: 0.46323532, a: 0}
     cloudRimColor: {r: 1, g: 0.9843813, b: 0.9191176, a: 0}
@@ -974,6 +975,7 @@ MonoBehaviour:
       m_Mode: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
+    terrainRockColor: {r: 0, g: 0, b: 0, a: 0}
     fogColor: {r: 0.75194633, g: 0.79895896, b: 0.83823526, a: 0}
     skyColor: {r: 0.3897059, g: 0.77271783, b: 1, a: 0}
     cloudRimColor: {r: 0.9191176, g: 0.99665314, b: 1, a: 0}
@@ -1272,6 +1274,7 @@ MonoBehaviour:
       m_Mode: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
+    terrainRockColor: {r: 0, g: 0, b: 0, a: 0}
     fogColor: {r: 0.75735295, g: 0.88955384, b: 1, a: 0}
     skyColor: {r: 1, g: 1, b: 1, a: 0}
     cloudRimColor: {r: 0.9191176, g: 0.99665314, b: 1, a: 0}
@@ -1570,6 +1573,7 @@ MonoBehaviour:
       m_Mode: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
+    terrainRockColor: {r: 0, g: 0, b: 0, a: 0}
     fogColor: {r: 0.093263395, g: 0.34290746, b: 0.5514706, a: 0}
     skyColor: {r: 0.9411765, g: 0.4844291, b: 0.4844291, a: 0}
     cloudRimColor: {r: 1, g: 0, b: 0.6000004, a: 0}
@@ -1836,6 +1840,7 @@ MonoBehaviour:
       m_NumAlphaKeys: 2
   terrainMaterial: {fileID: 2100000, guid: be1f84fcd12c8814fb81989242a6b5ed, type: 2}
   groundSplatDecal: {fileID: 0}
+  terrainRockMat: {fileID: 0}
   pondRockMat: {fileID: 2100000, guid: 894573888e12443139f3f612cd6e8524, type: 2}
   mossPlantMat: {fileID: 2100000, guid: 39fa473b94596a4459575b9b6d11a2a7, type: 2}
   mossPlantSeedMat: {fileID: 2100000, guid: e4a2900d4826f344dbf4df354b13156c, type: 2}

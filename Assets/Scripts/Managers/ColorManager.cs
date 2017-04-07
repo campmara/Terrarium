@@ -21,6 +21,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 		[Header("Terrain colors"), Space(5)]
 		public Color terrainColor;
 		public Gradient pondRockGradient;
+		public Color terrainRockColor;
 
 		[Header("Sky / Fog colors"), Space(5)]
 		public Color fogColor;
@@ -59,6 +60,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 	[Header("Global Materials"), Space(5)]
 	[SerializeField] Material terrainMaterial;
 	[SerializeField] ParticleSystem groundSplatDecal;
+	[SerializeField] Material terrainRockMat;
 	[SerializeField] Material pondRockMat;
 
 	[SerializeField] Material mossPlantMat;
@@ -114,6 +116,8 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 				ParticleSystem.MainModule groundDecalMain = groundSplatDecal.main;
 				groundDecalMain.startColor = new Color( _activePalette.groundColorSecondary.r * _activePalette.groundDecalTint.r, _activePalette.groundColorSecondary.g * _activePalette.groundDecalTint.g, _activePalette.groundColorSecondary.b * _activePalette.groundDecalTint.b, 1.0f );
 			}
+
+			terrainRockMat.SetColor( "_Color", _activePalette.terrainRockColor);
 
 			//skybox
 			RenderSettings.fogColor = _activePalette.fogColor;
@@ -196,8 +200,9 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 			RenderSettings.skybox.SetColor( "_Color2", Colorx.Slerp( prevPalette.skyColor, _activePalette.skyColor, timer / duration ) );
 
 			//terrain
-			terrainMaterial.SetColor( "_Color", Colorx.Slerp( prevPalette.terrainColor, _activePalette.terrainColor, timer / duration ) );		
-				
+			terrainMaterial.SetColor( "_Color", Colorx.Slerp( prevPalette.terrainColor, _activePalette.terrainColor, timer / duration ) );						
+			terrainRockMat.SetColor( "_Color", Colorx.Slerp( prevPalette.terrainRockColor, _activePalette.terrainRockColor, timer / duration ) );
+
 			yield return 0;
 		}
 	}
