@@ -43,7 +43,7 @@ Shader "Custom/DeformBasedonSplatmap" {
 
 		float _Displacement;
 		float _Inset;
-
+		/*
 		void vert(inout appdata_full v, out Input o)
 		{
 			UNITY_INITIALIZE_OUTPUT(Input, o);
@@ -76,12 +76,12 @@ Shader "Custom/DeformBasedonSplatmap" {
 			worldPos.z += d.g;
 
 			worldNormal.xz += d.rg;
-			/*
+			
 			worldNormal.x = worldNormal.x - d.r;
 			worldNormal.z = worldNormal.z + d.g;
-			*/
+			
 
-			/*
+			
 			//for optimized normal maps
 			//float3 normal = UnpackNormal(d);
 			//d.a = d.a - (.5f * d.a);
@@ -91,11 +91,40 @@ Shader "Custom/DeformBasedonSplatmap" {
 			worldPos.x += normal.x;
 			worldPos.z -= normal.y;
 			//worldPos.y += normal.z;
-			*/
+			
 			o.worldUV = worldUV;
 			v.vertex = mul(unity_WorldToObject, worldPos);
 			v.normal = mul(unity_WorldToObject, worldNormal.xyz);
 		}
+		*/
+		void vert(inout appdata_full v, out Input o)
+		{
+			UNITY_INITIALIZE_OUTPUT(Input, o);
+
+			_OrthoCameraScale *= 2;
+			float4 worldPos = mul(unity_ObjectToWorld, v.vertex);
+			float4 worldNormal = mul(unity_ObjectToWorld, float4(v.normal, 0));
+
+			float2 worldUV = float2(((worldPos.x - _CameraWorldPos.x) / _OrthoCameraScale + .5f), ((worldPos.z - _CameraWorldPos.z) / _OrthoCameraScale + .5f)); //find a way to center this
+
+			float4 border = tex2Dlod(_ClipEdges, float4(worldUV, 0, 0)).rgba;
+			float4 d = (tex2Dlod(_SplatMap, float4(worldUV, 0, 0)));
+			
+			d.a = clamp(d.a - border.a, 0, 1);
+			d.rgb = (d.rgb - .5f) * d.a;
+
+			//for color normal maps
+			worldPos.x -= d.r;
+			worldPos.y -= (d.b);
+			worldPos.z += d.g;
+
+			worldNormal.xz += d.rg;
+
+			o.worldUV = worldUV;
+			v.vertex = mul(unity_WorldToObject, worldPos);
+			v.normal = mul(unity_WorldToObject, worldNormal.xyz);
+		}
+
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
 			fixed4 border = tex2D(_ClipEdges, IN.worldUV);

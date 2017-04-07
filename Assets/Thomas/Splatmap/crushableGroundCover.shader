@@ -2,11 +2,13 @@
 {
 	Properties
 	{
-		_Color("Color", Color) = (1,1,1,1)
-		_Color2("Color", Color) = (1,1,1,1)
+		//_Color("Color", Color) = (1,1,1,1)
+		//_Color2("Color", Color) = (1,1,1,1)
 		_MainTex("Albedo (RGB)", 2D) = "white" {}
 		_Hardness("Hardness", Range(0, 1)) = 1
 		_Cutoff("Alpha Cutoff", Range(0, 1)) = 1
+
+		_ImprintAmount("Imprint Amount", Range(0, 10)) = 1
 	}
 		SubShader
 		{
@@ -50,13 +52,15 @@
 		float2 worldUV;
 	};
 
-	fixed4 _Color;
-	fixed4 _Color2;
-	/*
+	//fixed4 _Color;
+	//fixed4 _Color2;
+	
 	//global variable for ground color
 	uniform float4 _GroundColorPrimary;
 	uniform float4 _GroundColorSecondary;
-	*/
+	
+
+	float _ImprintAmount;
 
 	//...splatmap...
 	uniform sampler2D _ClipEdges;
@@ -74,15 +78,27 @@
 
 		_OrthoCameraScale *= 2;
 		float4 worldPos = mul(unity_ObjectToWorld, v.vertex);
+		float4 worldNormal = mul(unity_ObjectToWorld, float4(v.normal, 0));
 
 		float2 worldUV = float2(((worldPos.x - _CameraWorldPos.x) / _OrthoCameraScale + .5f), ((worldPos.z - _CameraWorldPos.z) / _OrthoCameraScale + .5f)); //find a way to center this
 
 		float4 border = tex2Dlod(_ClipEdges, float4(worldUV, 0, 0)).rgba;
-		float4 d = (clamp((tex2Dlod(_SplatMap, float4(worldUV, 0, 0)) - border.a), 0, 1));
+		float4 d = (tex2Dlod(_SplatMap, float4(worldUV, 0, 0)));
 
-		worldPos.y -= d;
-		v.vertex = mul(unity_WorldToObject, worldPos);
+		d.a = clamp(d.a - border.a, 0, 1);
+		d.rg = (d.rg - .5f) * d.a;
+		d.b *= d.a;
+
+		//for color normal maps
+		worldPos.x -= d.r;
+		worldPos.y -= (d.b) * _ImprintAmount;
+		worldPos.z += d.g;
+
+		worldNormal.xz += d.rg;
+
 		o.worldUV = worldUV;
+		v.vertex = mul(unity_WorldToObject, worldPos);
+		v.normal = mul(unity_WorldToObject, worldNormal.xyz);
 	}
 
 	void surf(Input IN, inout SurfaceOutput o)
@@ -90,10 +106,12 @@
 		fixed4 border = tex2D(_ClipEdges, IN.worldUV);
 		fixed4 ao = tex2D(_SplatMap, IN.worldUV);
 		ao = clamp(ao.rgba - border.a, 0, 1);
-		fixed4 c = tex2D(_MainTex, IN.uv_MainTex);
-		c.rgb = lerp(_Color, _Color2, c.r);
-		c.rgb *= 1 - ao.r * .5f;
 
+		fixed4 c = tex2D(_MainTex, IN.uv_MainTex);
+		c.rgb = lerp(_GroundColorPrimary, _GroundColorSecondary, c.r);
+		ao.b *= 1 - ao.a; 
+		//c.rgb -= ao.b * 1;
+		//c.rgb = ao.b;
 		//o.Albedo = clamp(c.rgb - border.a, 0, 1);
 		o.Albedo = c.rgb;
 		o.Alpha = c.a;

@@ -11,7 +11,7 @@
 	{
 //		Blend One SrcAlpha
 //			Blend SrcAlpha One
-			//Blend SrcAlpha OneMinusSrcAlpha
+			Blend SrcAlpha OneMinusSrcAlpha
 
 		Zwrite Off
 		

@@ -107,7 +107,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1943285562693300}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0, z: -0.23}
+  m_LocalPosition: {x: 0, y: -0, z: -0.53}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4460033423466126}
@@ -146,8 +146,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1427473700875600}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
-  m_LocalScale: {x: 3.2369337, y: 3.236936, z: 3.236936}
+  m_LocalPosition: {x: 0, y: 0, z: 3.58}
+  m_LocalScale: {x: 5.4407916, y: 5.4407988, z: 5.4407988}
   m_Children:
   - {fileID: 4342444854510706}
   m_Father: {fileID: 4760450386783496}
@@ -160,7 +160,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1291826441215456}
   m_LocalRotation: {x: -0.7071109, y: -0.0000005438923, z: 0.00000049918884, w: -0.7071027}
-  m_LocalPosition: {x: -2.46, y: -6.75, z: 0.8}
+  m_LocalPosition: {x: 0, y: -5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4413462044291980}
@@ -386,7 +386,7 @@ TrailRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3d367e5cf9e5c884b82b1a7db4a275c5, type: 2}
+  - {fileID: 2100000, guid: 192b6a91bd455df47b240f4438e456d3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -423,9 +423,9 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 0}
-      key2: {r: 0.49411765, g: 0.49411765, b: 0.49411765, a: 0}
+      key0: {r: 1, g: 1, b: 1, a: 0}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0.49411765, g: 0.49411765, b: 0.49411765, a: 1}
       key3: {r: 0.49411765, g: 0.49411765, b: 0.49411765, a: 0}
       key4: {r: 0.49411765, g: 0.49411765, b: 0.49411765, a: 0}
       key5: {r: 1, g: 1, b: 0, a: 0}
@@ -440,16 +440,16 @@ TrailRenderer:
       ctime6: 65535
       ctime7: 0
       atime0: 0
-      atime1: 65535
-      atime2: 0
-      atime3: 0
+      atime1: 2313
+      atime2: 7517
+      atime3: 65535
       atime4: 0
       atime5: 0
       atime6: 0
       atime7: 0
       m_Mode: 0
       m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
+      m_NumAlphaKeys: 4
     numCornerVertices: 4
     numCapVertices: 3
     alignment: 0

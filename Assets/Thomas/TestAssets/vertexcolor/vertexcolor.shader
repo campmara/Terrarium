@@ -30,8 +30,12 @@ Shader "Custom/VertexColorBlendshape" {
 	void vert(inout appdata_full v)
 	{
 		//3ds max flip vertex to rbga to account for deformation
-		float3 colorToPosition = v.color.rbg;
-		v.vertex.xyz = lerp(v.vertex.xyz, colorToPosition, _Deformation);
+		float3 colorToPosition = v.color.rgb;
+		colorToPosition.r = 1 - colorToPosition.r;
+		colorToPosition.g = colorToPosition.g;
+		colorToPosition.b = colorToPosition.b;
+
+		v.vertex.xyz = lerp(v.vertex.xyz, (colorToPosition - .5) * 2, _Deformation);
 	}
 
 	// a surface shader (very similar to the previous example)

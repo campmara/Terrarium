@@ -18,5 +18,7 @@ public class SplatmapCamera : MonoBehaviour {
         Shader.SetGlobalTexture("_ClipEdges", border);
         Shader.SetGlobalFloat("_OrthoCameraScale", cam.orthographicSize);
         Shader.SetGlobalVector("_CameraWorldPos", transform.position);
+
+        transform.rotation = Quaternion.LookRotation(Vector3.down, Vector3.forward);
     }
 }
