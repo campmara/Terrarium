@@ -229,6 +229,8 @@ public class BPDeathController : PlantController
 
 	void HandlePalatteChange( ColorManager.EnvironmentPalette newPalatte )
 	{
+		// TODO Make coroutine in This to switch plant colors, remove fading color changes
+
 		switch( _type )
 		{
 		case BigPlantType.POINT:

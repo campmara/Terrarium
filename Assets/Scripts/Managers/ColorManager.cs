@@ -55,7 +55,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 	[SerializeField, Space(5)] List<EnvironmentPalette> _environmentPaletteList = new List<EnvironmentPalette>();
 	public List<EnvironmentPalette> PalletteList { get { return _environmentPaletteList; } set { _environmentPaletteList = value; } }
 
-
+	// TODO make as many of these global shader things as possible?
 	[Header("Global Materials"), Space(5)]
 	[SerializeField] Material terrainMaterial;
 	[SerializeField] ParticleSystem groundSplatDecal;

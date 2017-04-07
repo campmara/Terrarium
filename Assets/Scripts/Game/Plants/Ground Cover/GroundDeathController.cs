@@ -110,6 +110,8 @@ public class GroundDeathController : PlantController
 
 	void HandlePalatteChange( ColorManager.EnvironmentPalette newPalatte )
 	{
+		// TODO make coroutine to change colors, remove fading color changes
+
 		switch( _type )
 		{
 		case GroundPlantType.TWIST:
