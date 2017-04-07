@@ -15,7 +15,7 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 8
   m_Fog: 0
-  m_FogColor: {r: 0.75194633, g: 0.79895896, b: 0.83823526, a: 0}
+  m_FogColor: {r: 0.9044118, g: 0.8420386, b: 0.6384083, a: 0}
   m_FogMode: 3
   m_FogDensity: 0.0325
   m_LinearFogStart: 0
@@ -2880,17 +2880,17 @@ Prefab:
     - target: {fileID: 198777316632145236, guid: f3fe1fdb9da654f72ae8ff06711f4a80,
         type: 2}
       propertyPath: InitialModule.startColor.maxColor.r
-      value: 0.28359577
+      value: 0.21488248
       objectReference: {fileID: 0}
     - target: {fileID: 198777316632145236, guid: f3fe1fdb9da654f72ae8ff06711f4a80,
         type: 2}
       propertyPath: InitialModule.startColor.maxColor.g
-      value: 0.43555364
+      value: 0.27551904
       objectReference: {fileID: 0}
     - target: {fileID: 198777316632145236, guid: f3fe1fdb9da654f72ae8ff06711f4a80,
         type: 2}
       propertyPath: InitialModule.startColor.maxColor.b
-      value: 0.17934561
+      value: 0.13370776
       objectReference: {fileID: 0}
     - target: {fileID: 198777316632145236, guid: f3fe1fdb9da654f72ae8ff06711f4a80,
         type: 2}
