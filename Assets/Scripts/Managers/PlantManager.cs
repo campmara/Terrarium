@@ -32,9 +32,9 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		return _seeds.Count;
 	}
 
-	public void RequestSpawnMini( PlantController plant, float timeUntil )
+	public void RequestSpawnMini( BPGrowthController plant, float timeUntil )
 	{
-		if( _mediumPlants.Count < _maxMediumPlants )
+		if( _mediumPlants.Count < _maxMediumPlants && _smallPlants.Count < _maxSmallPlants )
 		{
 			SpawnMiniPlantEvent spawnEvent = new SpawnMiniPlantEvent( plant, timeUntil );
 			TimeManager.instance.AddEvent( spawnEvent );
@@ -83,7 +83,7 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		Destroy(plant.gameObject);
 	}
 
-	public void SpawnMini( PlantController plant, float waitTime )
+	public void SpawnMini( BPGrowthController plant, float waitTime )
 	{
 		//based on type, spawn some sort of mini
 		GameObject newPlant = SpawnNonClippingPlant( plant );
@@ -92,14 +92,16 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 			if( newPlant.GetComponent<SPGrowthController>() )
 			{
 				_mediumPlants.Add( newPlant.GetComponent<BasePlant>() );
+				plant.SpawnedMediums = plant.SpawnedMediums + 1;
 			}
 			else
 			{
 				_smallPlants.Add( newPlant.GetComponent<GroundCover>() );
+				plant.SpawnedSmalls = plant.SpawnedSmalls + 1;
 			}
-
-			RequestSpawnMini( plant, waitTime );
 		}
+		
+		plant.SpawnPlant();
 	}
 
 	public void GrowPlants()
@@ -121,13 +123,13 @@ public class PlantManager : SingletonBehaviour<PlantManager>
     }
 
 
-	GameObject SpawnNonClippingPlant( PlantController parent )
+	GameObject SpawnNonClippingPlant( BPGrowthController parent )
 	{
 		GameObject newPlant = null;
 		Vector3 spawnPoint;
 		GameObject spawn = GetRandomSpawnable( parent );
 
-		float checkRadius = parent.GetComponent<BasePlant>().InnerRadius;
+		float checkRadius = spawn.GetComponent<BasePlant>().InnerRadius;
 		checkRadius = checkRadius > 0.0f ? checkRadius : 1.0f;
 		Collider[] hitColliders;
 		bool insideObject = false;
@@ -137,12 +139,13 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		while( newPlant == null && allowedAttempts >= attempts  )
 		{
 			attempts++;
-			spawnPoint = GetRandomSpawnPoint( parent.GetComponent<BasePlant>(), spawn );
+			spawnPoint = GetRandomSpawnPoint( parent, spawn );
 			hitColliders = Physics.OverlapSphere( spawnPoint, checkRadius );
 
 			foreach( Collider col in hitColliders )
 			{
-				if( col.GetComponent<BasePlant>() || col.GetComponent<PondTech>() || col.GetComponent<RockTag>() )
+				if( col.GetComponent<SPGrowthController>() || col.GetComponent<BPGrowthController>() || col.GetComponent<PondTech>() || col.GetComponent<RockTag>() )
+				//col.GetComponent<BasePlant>()
 				{
 					insideObject = true;
 					break;
@@ -154,34 +157,37 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 				newPlant = (GameObject)Instantiate( spawn, spawnPoint, Quaternion.identity );
 				return newPlant;
 			}
+			else if( parent.spawnState == BPGrowthController.SpawningState.SmallSpawning && parent.SpawnedSmalls > 8 )
+			{
+				parent.ForceSpawnMediums();
+			}
 		}
 
 		// this should never be executed
 		return null;
 	}
 		
-	GameObject GetRandomSpawnable( PlantController plant )
+	GameObject GetRandomSpawnable( BPGrowthController plant )
 	{
 		GameObject spawn = null;
-		if( plant.GetComponent<SPGrowthController>() )
+
+		if( plant.spawnState == BPGrowthController.SpawningState.SmallSpawning )
 		{
-			SPGrowthController spController = plant as SPGrowthController;
-			spawn = spController.Spawnables[ UnityEngine.Random.Range( 0, spController.Spawnables.Count)];
+			spawn = plant._smallSpawnables[ UnityEngine.Random.Range( 0, plant._smallSpawnables.Count ) ];
 		}
-		else if( plant.GetComponent<BPGrowthController>() )
+		else if( plant.spawnState == BPGrowthController.SpawningState.MediumSpawning )
 		{
-			BPGrowthController bpController = plant as BPGrowthController;
-			spawn = bpController.Spawnables[ UnityEngine.Random.Range( 0, bpController.Spawnables.Count)];
+			spawn = plant._mediumSpawnables[ UnityEngine.Random.Range( 0, plant._mediumSpawnables.Count ) ];
 		}
 
 		return spawn;
 	}
 
-	Vector3 GetRandomSpawnPoint( BasePlant plant, GameObject spawn )
+	Vector3 GetRandomSpawnPoint( BPGrowthController plant, GameObject spawn )
 	{
 		Vector2 randomPoint = plant.GetRandomPoint();//GetRandomPoint( plant.InnerRadius, plant.OuterRadius );
 		Vector3 pos = plant.transform.position;
-		Vector3 spawnPoint = new Vector3( pos.x + randomPoint.x, plant.SpawnHeight, pos.z + randomPoint.y );
+		Vector3 spawnPoint = new Vector3( pos.x + randomPoint.x, .2f/*plant.SpawnHeight*/, pos.z + randomPoint.y );
 
 		return new Vector3( spawnPoint.x, .2f, spawnPoint.z );
 	}

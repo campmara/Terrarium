@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class SPGrowthController : PlantController 
 {
-	// spawn information
-	[SerializeField] private List<GameObject> _spawnables = new List<GameObject>();
-	public List<GameObject> Spawnables { get { return _spawnables; } }
-
 	protected List<Animator> _childAnimators = new List<Animator>();
 
 	protected float _spawnRadius = 2.5f;
@@ -81,43 +77,7 @@ public class SPGrowthController : PlantController
 		{
 			child.enabled = false;
 		}
-
-		PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
 	}
-
-	//********************************
-	// PLANT SPAWN FUNCTIONS
-	//********************************
-
-//	public override GameObject SpawnChildPlant()
-//	{
-//		GameObject newPlant = null;
-//		if( _spawnables.Count != 0 )
-//		{
-//			//what kind of radius do i want
-//			Vector2 randomPoint = _myPlant.GetRandomPoint( _innerMeshRadius, _outerSpawnRadius );
-//			Vector3 spawnPoint = new Vector3( randomPoint.x, .1f, randomPoint.y ) + transform.position;
-//			Vector3 direction = ( spawnPoint - transform.position ).normalized * ( _innerMeshRadius );
-//			spawnPoint += direction;
-//			spawnPoint = new Vector3( spawnPoint.x, .1f, spawnPoint.z );
-//
-//			newPlant = (GameObject)Instantiate( _spawnables[Random.Range( 0, _spawnables.Count)], spawnPoint, Quaternion.identity );
-//		}
-//
-//		_minisSpawned++;
-//
-//		if( _minisSpawned < _maxMinisSpawned )
-//		{
-//			PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
-//		}
-//
-//		if( newPlant == null )
-//		{
-//			Debug.Log("spawning minis plant messed up ");
-//		}
-//
-//		return newPlant;
-//	}
 				
 	//********************************
 	// INTERACTIONS

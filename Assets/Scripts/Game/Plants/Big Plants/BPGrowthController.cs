@@ -56,8 +56,29 @@ public class BPGrowthController : PlantController
 	protected const float _timeBetweenSpawns = 5.0f;
 
 	// small plants
-	[SerializeField] List<GameObject> _spawnables = new List<GameObject>();
-	public List<GameObject> Spawnables { get { return _spawnables; } }
+	public List<GameObject> _smallSpawnables = new List<GameObject>();
+	public List<GameObject> _mediumSpawnables = new List<GameObject>();
+
+	[SerializeField] Vector2 _smallSpawnRadRange = new Vector2( 1f, 3f );
+	[SerializeField] Vector2 _numSmallPlants = new Vector2( 8, 15 );
+	[SerializeField] Vector2 _mediumSpawnRadRange = new Vector2( 3f, 4.5f );
+	[SerializeField] Vector2 _numMedPlants = new Vector2( 4, 6 );
+
+	int _spawnedMediums = 0;
+	public int SpawnedMediums { get { return _spawnedMediums; } set { _spawnedMediums = value; }}
+	int _spawnedSmalls = 0;
+	public int SpawnedSmalls { get { return _spawnedSmalls; } set { _spawnedSmalls = value; }}
+	int _maxSmalls = 0;
+	int _maxMediums = 0;
+
+	public SpawningState spawnState = SpawningState.NotSpawning;
+
+	public enum SpawningState
+	{
+		NotSpawning,
+		SmallSpawning,
+		MediumSpawning
+	};
 
 	// ambient creatures
 	protected const float CREATURE_BASE_SPAWNODDS = 0.5f;	// Higher number is LESS LIKELY ( checks if random val is greater than )
@@ -65,13 +86,15 @@ public class BPGrowthController : PlantController
 
 	public override void Init()
 	{
-		_myPlant = GetComponent<BasePlant>();
 		_controllerType = ControllerType.Growth;
 
 		Vector2 ratio = _scaleRatios[ Random.Range( 0, _scaleRatios.Count - 1 ) ];
 		float multiplier = Random.Range( _scaleMultiplierRange.x, _scaleMultiplierRange.y);
 		_maxHeight = ratio.y * multiplier;
 		_maxWidth = ratio.x * multiplier;
+
+		_maxSmalls = (int)Random.Range( _numSmallPlants.x, _numSmallPlants.y );
+		_maxMediums = (int)Random.Range( _numMedPlants.x, _numMedPlants.y );
 	}
 
 	public override void StartState()
@@ -200,7 +223,7 @@ public class BPGrowthController : PlantController
 
 		if( _curStage == GrowthStage.Sapling )
 		{
-			PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
+			SpawnPlant();
 		}
 
 		if( _curStage == GrowthStage.Final )
@@ -251,10 +274,40 @@ public class BPGrowthController : PlantController
 	//********************************
 	// PLANT SPAWN FUNCTIONS
 	//********************************
-//
+
+	public void SpawnPlant()
+	{
+		if( spawnState == SpawningState.NotSpawning && _spawnedSmalls <= 0 )
+		{
+			spawnState = SpawningState.SmallSpawning;
+			PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
+		}
+		else if( spawnState == SpawningState.SmallSpawning )
+		{
+			if( _spawnedSmalls >= _maxSmalls )
+			{
+				spawnState = SpawningState.MediumSpawning;
+			}
+			
+			PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
+		}
+		else if( spawnState == SpawningState.MediumSpawning )
+		{
+			if( _spawnedMediums >= _maxMediums )
+			{
+				spawnState = SpawningState.NotSpawning;
+			}
+			else
+			{
+				PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
+			}
+		}
+	}
+
+
 	public override GameObject DropFruit()
 	{
-		Vector2 randomPoint = _myPlant.GetRandomPoint();//( _innerMeshRadius, _outerSpawnRadius );
+		Vector2 randomPoint = GetRandomPoint(true);
 		Vector3 spawnPoint = new Vector3( randomPoint.x, _myPlant.SpawnHeight, randomPoint.y ) + transform.position;
 		GameObject newPlant = (GameObject)Instantiate( _droppingItems[Random.Range( 0, _droppingItems.Count)], spawnPoint, Quaternion.identity );  
 
@@ -340,6 +393,11 @@ public class BPGrowthController : PlantController
 		// take biggest component as radius size 
 		_myPlant.InnerRadius = size.x > size.z ? size.x : size.z;
 		_myPlant.InnerRadius *= .5f;
+
+		if( _myPlant.InnerRadius < .5f )
+		{
+			_myPlant.InnerRadius = .5f;
+		}
 	}
 
 	void OnDrawGizmos() 
@@ -350,5 +408,39 @@ public class BPGrowthController : PlantController
 //			Gizmos.DrawWireSphere( _myPlant.transform.position, _neededDistance[(int) _curStage ] );
 		}
 	}
+	public Vector2 GetRandomPoint( bool fruitDrop = false )
+	{
+		Vector2 randomPoint = Random.insideUnitCircle;
+		float inner = 1.0f;
+		float outer = 2.0f;
+
+		if( fruitDrop )
+		{
+			inner = _myPlant.InnerRadius;
+			outer = _myPlant.OuterRadius;
+		}
+		else if( spawnState == SpawningState.SmallSpawning )
+		{
+			inner = _smallSpawnRadRange.x;
+			outer = _smallSpawnRadRange.y;
+		}
+		else if( spawnState == SpawningState.MediumSpawning )
+		{
+			inner = _mediumSpawnRadRange.x;
+			outer = _mediumSpawnRadRange.y;
+		}
+		
+		float xRand = Random.Range( inner, outer );
+		float yRand = Random.Range( inner, outer );
+		randomPoint = new Vector2( Mathf.Sign( randomPoint.x ) * xRand +  randomPoint.x, randomPoint.y + yRand * Mathf.Sign( randomPoint.y ) );
+	
+		return randomPoint;
+	}
+
+	public void ForceSpawnMediums()
+	{
+		_spawnedSmalls = _maxSmalls;
+	}
+
 	#endregion Helper Functions
 }

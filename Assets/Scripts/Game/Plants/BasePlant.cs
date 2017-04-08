@@ -5,7 +5,7 @@ public class BasePlant : MonoBehaviour
 {
 	[SerializeField] protected BasePlantAssetKey _pAssetKey = BasePlantAssetKey.NONE;
 	public BasePlantAssetKey PAssetKey { get { return _pAssetKey; } set { _pAssetKey = value; } }
-	protected float _innerMeshRadius = 0.0f;
+	protected float _innerMeshRadius = 0.3f;
 	public float InnerRadius { get { return _innerMeshRadius; } set { _innerMeshRadius = value;} }
 
 	protected float _outerSpawnRadius = 2.5f;
@@ -133,17 +133,6 @@ public class BasePlant : MonoBehaviour
 			StopCoroutine( _decayReturnRoutine );
 			_decayReturnRoutine = null;
 		}
-	}
-
-	public Vector2 GetRandomPoint()
-	{
-
-		Vector2 randomPoint = Random.insideUnitCircle;
-		float xRand = Random.Range( _innerMeshRadius, _outerSpawnRadius );
-		float yRand = Random.Range( _innerMeshRadius, _outerSpawnRadius );
-		randomPoint = new Vector2( Mathf.Sign( randomPoint.x ) * xRand +  randomPoint.x, randomPoint.y + yRand * Mathf.Sign( randomPoint.y ) );
-	
-		return randomPoint;
 	}
 
 	public IEnumerator DelayedReturnDecayRate( float returnTime )
