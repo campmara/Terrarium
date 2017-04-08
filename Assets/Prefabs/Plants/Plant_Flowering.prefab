@@ -439,7 +439,7 @@ MonoBehaviour:
   _scaleRatios:
   - {x: 3, y: 1}
   - {x: 1, y: 1}
-  - {x: 0.5, y: 2}
+  - {x: 0.5, y: 1.5}
   _wateredGrowthRate: 0.001
   _curStage: 0
   _droppingItems:
