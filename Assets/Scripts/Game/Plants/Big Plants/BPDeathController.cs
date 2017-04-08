@@ -27,7 +27,7 @@ public class BPDeathController : PlantController
 
 	List<Material> _componentMaterials = new List<Material>();
 	Color[] _originalColors = new Color[3];
-	Color[] _interpColors = new Color[3];
+	Color[] _interpColors = new Color[6];
 	int[] _shaderIDs = new int[3];
 
 	ParticleSystem _essenceParticleSystem;
@@ -56,12 +56,11 @@ public class BPDeathController : PlantController
 	{
 		_myPlant.CurDecayRate = _myPlant.BaseDecayRate;
 
-		if (_essenceParticleSystem)
-		{
-			_essenceParticleSystem.Play();
-		}
-
 		GetComponentMaterials();
+
+		_interpColors[0] = _originalColors[0]; 
+		_interpColors[1] = _originalColors[1];
+		_interpColors[2] = _originalColors[2];
 
 		ColorManager.ExecutePaletteChange += HandlePalatteChange;
 	}
@@ -115,10 +114,11 @@ public class BPDeathController : PlantController
 		{
 			_curState = DeathState.Fading;
 
+			_essenceParticleSystem.Play();
+
 			DOTween.To(()=> _cutoffValue, x=> _cutoffValue = x, 1f, _fadeTime)
 				.SetEase(Ease.InExpo)
 				.OnComplete(OnDeath);
-			//GroundManager.instance.EmitDirtParticles(transform.position, 1f);
 		}
 	}
 
@@ -133,7 +133,7 @@ public class BPDeathController : PlantController
 	{
 		for (int i = 0; i < _componentMaterials.Count; i++)
 		{
-			_componentMaterials[i].SetFloat("_Cutoff", _cutoffValue);
+			_componentMaterials[i].SetFloat("_Dissolve", _cutoffValue);
 		}
 
 		if (_essenceParticleSystem != null)
@@ -251,22 +251,50 @@ public class BPDeathController : PlantController
 
 			foreach( Material mat in _componentMaterials )
 			{
-				if( mat.name == "GroundLeaf" )	// TODO make a new leaf material ?
+				if( mat.name == "GroundLeaf" || mat.name == "GroundLeaf (Instance)" )	// TODO make a new leaf material ?
 				{
-					mat.SetColor( _shaderIDs[0], Colorx.Slerp( prevPalette.leafyGroundPlantLeaf.Evaluate(0.0f), newPalette.leafyGroundPlantLeaf.Evaluate(0.0f), timer / transitionTime ) );
-					mat.SetColor( _shaderIDs[1], Colorx.Slerp( prevPalette.leafyGroundPlantLeaf.Evaluate(0.5f), newPalette.leafyGroundPlantLeaf.Evaluate(0.5f), timer / transitionTime ) );
-					mat.SetColor( _shaderIDs[2], Colorx.Slerp( prevPalette.leafyGroundPlantLeaf.Evaluate(1.0f), newPalette.leafyGroundPlantLeaf.Evaluate(1.0f), timer / transitionTime ) );
+					_interpColors[0] = Colorx.Slerp( prevPalette.leafyGroundPlantLeaf.Evaluate(0.0f), newPalette.leafyGroundPlantLeaf.Evaluate(0.0f), timer / transitionTime );
+					_interpColors[1] = Colorx.Slerp( prevPalette.leafyGroundPlantLeaf.Evaluate(0.5f), newPalette.leafyGroundPlantLeaf.Evaluate(0.5f), timer / transitionTime );
+					_interpColors[2] = Colorx.Slerp( prevPalette.leafyGroundPlantLeaf.Evaluate(1.0f), newPalette.leafyGroundPlantLeaf.Evaluate(1.0f), timer / transitionTime );
+
+					mat.SetColor( _shaderIDs[0], _interpColors[0] );
+					mat.SetColor( _shaderIDs[1], _interpColors[1] );
+					mat.SetColor( _shaderIDs[2], _interpColors[2] );
 				}
-				else if( mat.name == "Fruit" )
+				else if( mat.name == "Fruit" || mat.name == "Fruit (Instance)" )
 				{
-					mat.SetColor( _shaderIDs[0], Colorx.Slerp( prevPalette.leafyGroundPlantBulb.Evaluate(0.0f), newPalette.leafyGroundPlantBulb.Evaluate(0.0f), timer / transitionTime ) );
-					mat.SetColor( _shaderIDs[1], Colorx.Slerp( prevPalette.leafyGroundPlantBulb.Evaluate(0.5f), newPalette.leafyGroundPlantBulb.Evaluate(0.5f), timer / transitionTime ) );
-					mat.SetColor( _shaderIDs[2], Colorx.Slerp( prevPalette.leafyGroundPlantBulb.Evaluate(1.0f), newPalette.leafyGroundPlantBulb.Evaluate(1.0f), timer / transitionTime ) );
+					_interpColors[3] = Colorx.Slerp( prevPalette.leafyGroundPlantBulb.Evaluate(0.0f), newPalette.leafyGroundPlantBulb.Evaluate(0.0f), timer / transitionTime );
+					_interpColors[4] = Colorx.Slerp( prevPalette.leafyGroundPlantBulb.Evaluate(0.5f), newPalette.leafyGroundPlantBulb.Evaluate(0.5f), timer / transitionTime );
+					_interpColors[5] = Colorx.Slerp( prevPalette.leafyGroundPlantBulb.Evaluate(1.0f), newPalette.leafyGroundPlantBulb.Evaluate(1.0f), timer / transitionTime );
+
+					mat.SetColor( _shaderIDs[0], _interpColors[3] );
+					mat.SetColor( _shaderIDs[1], _interpColors[4] );
+					mat.SetColor( _shaderIDs[2], _interpColors[5] );
 				}
 			}
 
 			yield return 0;
 		}
 	}
+
+	void LateUpdateLeafyColors()
+	{
+		foreach( Material mat in _componentMaterials )
+		{
+			if( mat.name == "GroundLeaf" || mat.name == "GroundLeaf (Instance)" )	// TODO make a new leaf material ?
+			{
+				mat.SetColor( _shaderIDs[0], _interpColors[0] );
+				mat.SetColor( _shaderIDs[1], _interpColors[1] );
+				mat.SetColor( _shaderIDs[2], _interpColors[2] );
+			}
+			else if( mat.name == "Fruit" || mat.name == "Fruit (Instance)" )
+			{
+				mat.SetColor( _shaderIDs[0], _interpColors[3] );
+				mat.SetColor( _shaderIDs[1], _interpColors[4] );
+				mat.SetColor( _shaderIDs[2], _interpColors[5] );
+			}
+		}			
+	}
+
 }
 

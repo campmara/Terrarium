@@ -313,6 +313,8 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	/// </summary>
 	private IEnumerator PondReturnPan()
 	{
+		PlayerManager.instance.Player.ControlManager.SetActiveController<InactiveController>();
+
         yield return new WaitForSeconds( RollerConstants.instance.RitualCompleteWait );
 
         Transform pondTransform = PondManager.instance.Pond.transform;
@@ -333,10 +335,14 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 
         _focusPoint = pondTransform.position;
         _focusOffset = _focusPoint;
+
+		PlayerManager.instance.Player.ControlManager.SetActiveController<RollerController>();
 	}
 
 	private IEnumerator PondIntroPan()
 	{
+		PlayerManager.instance.Player.ControlManager.SetActiveController<InactiveController>();
+
 		yield return new WaitForSeconds(INTRO_PAN_PREWAIT_TIME);
 
 		Transform pondTransform = PondManager.instance.Pond.transform;
@@ -357,6 +363,8 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 
         _focusPoint = pondTransform.position;
         _focusOffset = _focusPoint;
+
+		PlayerManager.instance.Player.ControlManager.SetActiveController<RollerController>();
 	}
 
     /// <summary>

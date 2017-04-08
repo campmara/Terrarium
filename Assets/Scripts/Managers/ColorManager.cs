@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -19,7 +19,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 
 		[Header("Terrain colors"), Space(5)]
 		public Color terrainColor;
-		public Gradient pondRockGradient;
+		public Color pondRockColor;
 		public Color terrainRockColor;
 		public Color terrainMossRockColor;
 
@@ -30,21 +30,21 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 
 		// GRADIENTS GO TOP TO BOTTOM (0 is top, 1 is bottom)
 		[Header("Plant colors"), Space(5)]
-        [Header("Class 1")]
+		[Header("Class 1")]
 		public Gradient mossPlantSeed;
-        public Gradient mossPlant;
+		public Gradient mossPlant;
 		public Gradient pointPlantSeed;
-        public Gradient pointPlantStem;
-        public Gradient pointPlantLeaf;
+		public Gradient pointPlantStem;
+		public Gradient pointPlantLeaf;
 		[Header("Class 2"), Space(5)]
-        public Gradient leafyGroundPlantBulb;
-        public Gradient leafyGroundPlantLeaf;
+		public Gradient leafyGroundPlantBulb;
+		public Gradient leafyGroundPlantLeaf;
 		[Header("Class 3"), Space(5)]
 		public Gradient twistPlant;
 		public Gradient cappPlant;
-		
+
 	}
-		
+
 	public static event Action<EnvironmentPalette, EnvironmentPalette> ExecutePaletteChange;
 
 	[SerializeField] int _paletteIndex = 0;
@@ -89,17 +89,6 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 		isInitialized = true;
 	}
 
-    void AdvanceActivePalatte()
-    {
-        _paletteIndex++;
-        if ( _paletteIndex >= _environmentPaletteList.Count )
-        {
-            _paletteIndex = 0;
-        }
-
-		UpdatePalette( _paletteIndex );
-    }
-
 	void UpdatePalette( int newPalatteIndex )
 	{
 		EnvironmentPalette prevPalatte = _activePalette;
@@ -132,7 +121,8 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 				terrainMaterial.SetColor( "_Color", _activePalette.terrainColor );
 			}
 
-			ApplyThreePartGradient( pondRockMat, _activePalette.pondRockGradient );
+			pondRockMat.SetColor( "_Color", _activePalette.pondRockColor );
+			//ApplyThreePartGradient( pondRockMat, _activePalette.pondRockGradient );
 
 			ApplyThreePartGradient( mossPlantSeedMat, _activePalette.mossPlantSeed );
 			ApplyThreePartGradient( mossPlantMat, _activePalette.mossPlant );
@@ -143,8 +133,8 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 			ApplyThreePartGradient( leafyGroundPlantLeafMat, _activePalette.leafyGroundPlantLeaf );
 
 			ApplyTwoPartGradient( twistPlantMat, _activePalette.twistPlant );			
-			ApplyTwoPartGradient( cappPlantMat, _activePalette.pointPlantLeaf );
-						  
+			ApplyTwoPartGradient( cappPlantMat, _activePalette.cappPlant );
+
 		}
 		else
 		{
@@ -153,7 +143,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 
 			GeneralTransitionColors( prevPalatte );
 
-			TransitionThreePartGradient( pondRockMat, _activePalette.pondRockGradient );
+			//TransitionThreePartGradient( pondRockMat, _activePalette.pondRockGradient );
 
 			TransitionThreePartGradient( mossPlantSeedMat, _activePalette.mossPlantSeed );
 			TransitionThreePartGradient( mossPlantMat, _activePalette.mossPlant );
@@ -164,11 +154,11 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 			TransitionThreePartGradient( leafyGroundPlantLeafMat, _activePalette.leafyGroundPlantLeaf );
 
 			TransitionTwoPartGradient( twistPlantMat, _activePalette.twistPlant );			
-			TransitionTwoPartGradient( cappPlantMat, _activePalette.pointPlantLeaf );
+			TransitionTwoPartGradient( cappPlantMat, _activePalette.cappPlant );
 
 			//StartCoroutine( DelayedUpdatePalatteEvent() );
 		}
-		     
+
 		if (ExecutePaletteChange != null)
 		{
 			ExecutePaletteChange( _activePalette, prevPalatte );
@@ -205,6 +195,8 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 			terrainMaterial.SetColor( "_Color", Colorx.Slerp( prevPalette.terrainColor, _activePalette.terrainColor, timer / duration ) );						
 			terrainRockMat.SetColor( "_Color", Colorx.Slerp( prevPalette.terrainRockColor, _activePalette.terrainRockColor, timer / duration ) );
 			terrainMossRockMat.SetColor( "_Color", Colorx.Slerp( prevPalette.terrainMossRockColor, _activePalette.terrainMossRockColor, timer / duration ) );
+
+			pondRockMat.SetColor( "_Color", Colorx.Slerp( prevPalette.pondRockColor, _activePalette.pondRockColor, timer / duration ) );
 
 			yield return 0;
 		}
@@ -251,7 +243,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 		while( timer < transitionTime )
 		{
 			timer +=  Time.deltaTime;
-					
+
 			objectMaterial.SetColor("_ColorTop", Colorx.Slerp( topColor, gradient.Evaluate(0f), timer / transitionTime ) );
 			objectMaterial.SetColor("_ColorMid", Colorx.Slerp( midColor, gradient.Evaluate(.5f), timer / transitionTime ) );
 			objectMaterial.SetColor("_ColorBot", Colorx.Slerp( botColor, gradient.Evaluate(1f), timer / transitionTime ) );		
@@ -293,10 +285,10 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 
 		UpdatePalette( _paletteIndex );
 
-//		if( _paletteIndex != _environmentPaletteList.FindIndex( x => x.title == _activePalette.title ) )    // Should be b a better way to do this
-//		{
-//			
-//		}
+		//		if( _paletteIndex != _environmentPaletteList.FindIndex( x => x.title == _activePalette.title ) )    // Should be b a better way to do this
+		//		{
+		//			
+		//		}
 
 	}
 }
