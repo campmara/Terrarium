@@ -12,7 +12,7 @@
 			"_GrabTexture"
 		}*/
 
-		Tags { "RenderType"="Transparent" }
+		Tags { "RenderType"="Geometry" }
 		LOD 200
 		Cull off 
 		CGPROGRAM
