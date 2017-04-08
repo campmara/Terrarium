@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour
 
 	void Update()
 	{
+		HandleScreenShot();
 
 		switch(_state)
 		{
@@ -80,6 +81,14 @@ public class GameManager : MonoBehaviour
 		if( Input.GetKey(KeyCode.I) && Input.GetKey(KeyCode.O) && Input.GetKey(KeyCode.P ) )
 		{
 			SceneManager.LoadScene(0);
+		}
+	}
+
+	void HandleScreenShot()
+	{
+		if (Input.GetKeyDown(KeyCode.P))
+		{
+			Application.CaptureScreenshot("latest.png", 4);
 		}
 	}
 

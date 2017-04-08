@@ -5,6 +5,10 @@ using DG.Tweening;
 
 public class BPDeathController : PlantController 
 {	
+	[SerializeField] private ParticleSystem _essenceSystemPrefab;
+	ParticleSystem _essenceParticleSystem;
+	ParticleSystem.NoiseModule _essenceNoise;
+
 	// TODO REMOVE THIS ADDE MORE SCRIPTS GDI
 	public enum BigPlantType : int 
 	{
@@ -30,8 +34,7 @@ public class BPDeathController : PlantController
 	Color[] _interpColors = new Color[6];
 	int[] _shaderIDs = new int[3];
 
-	ParticleSystem _essenceParticleSystem;
-	ParticleSystem.NoiseModule _essenceNoise;
+	
 
 	private float _fadeTime;
 	private float _cutoffValue;
@@ -40,16 +43,13 @@ public class BPDeathController : PlantController
 	{
 		_myPlant = GetComponent<BasePlant>();
 
-		if (GetComponentInChildren<ParticleSystem>())
+		if (_essenceSystemPrefab != null)
 		{
-			_essenceParticleSystem = GetComponentInChildren<ParticleSystem>();
+			_essenceParticleSystem = Instantiate(_essenceSystemPrefab, transform.position, Quaternion.identity) as ParticleSystem;
 			_essenceNoise = _essenceParticleSystem.noise;
 		}
 
 		_controllerType = ControllerType.Death;
-
-		_fadeTime = Random.Range(5f, 7f);
-		_cutoffValue = 0f;
 	}
 
 	public override void StartState()
@@ -114,7 +114,13 @@ public class BPDeathController : PlantController
 		{
 			_curState = DeathState.Fading;
 
+			ParticleSystem.MinMaxGradient essenceTrailColor = _essenceParticleSystem.trails.colorOverLifetime;
+			essenceTrailColor.color = _componentMaterials[0].GetColor(_shaderIDs[1]);
+
 			_essenceParticleSystem.Play();
+
+			_cutoffValue = 0f;
+			_fadeTime = Random.Range(5f, 7f);
 
 			DOTween.To(()=> _cutoffValue, x=> _cutoffValue = x, 1f, _fadeTime)
 				.SetEase(Ease.InExpo)
@@ -126,6 +132,9 @@ public class BPDeathController : PlantController
 	{
 		// Fully decayed and therefore no longer visible.
 		_essenceParticleSystem.Stop();
+		_essenceParticleSystem.GetComponent<EssenceParticles>().MarkForDestroy(5f);
+		
+
 		PlantManager.instance.DeleteLargePlant(_myPlant);
 	}
 
