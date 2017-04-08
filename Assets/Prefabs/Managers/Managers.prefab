@@ -647,7 +647,7 @@ MonoBehaviour:
     groundColorSecondary: {r: 0.3952735, g: 0.4852941, b: 0.2747621, a: 0}
     groundDecalTint: {r: 0.6691177, g: 0.6691177, b: 0.6691177, a: 1}
     terrainColor: {r: 0.8161765, g: 0.68638283, b: 0.5221129, a: 0}
-    pondRockGradient: {r: 0.45588237, g: 0.44455466, b: 0.43241784, a: 0}
+    pondRockColor: {r: 0, g: 0, b: 0, a: 0}
     terrainRockColor: {r: 0.49411765, g: 0.49411765, b: 0.49411765, a: 1}
     terrainMossRockColor: {r: 0.49411765, g: 0.49411765, b: 0.49411765, a: 1}
     fogColor: {r: 0.9044118, g: 0.8420386, b: 0.6384083, a: 0}
@@ -919,7 +919,7 @@ MonoBehaviour:
     groundColorSecondary: {r: 0.36385873, g: 0.5588235, b: 0.23010379, a: 0}
     groundDecalTint: {r: 0.7794118, g: 0.7794118, b: 0.7794118, a: 1}
     terrainColor: {r: 0.3696475, g: 0.37725586, b: 0.3897059, a: 0}
-    pondRockGradient: {r: 0.53676474, g: 0.53676474, b: 0.53676474, a: 0}
+    pondRockColor: {r: 0, g: 0, b: 0, a: 0}
     terrainRockColor: {r: 0.33088237, g: 0.30411983, b: 0.30411983, a: 0}
     terrainMossRockColor: {r: 0.41176468, g: 0.41176468, b: 0.41176468, a: 0}
     fogColor: {r: 0.75194633, g: 0.79895896, b: 0.83823526, a: 0}
@@ -1191,7 +1191,7 @@ MonoBehaviour:
     groundColorSecondary: {r: 0.7205882, g: 0.57398576, b: 0.54044116, a: 0}
     groundDecalTint: {r: 0.7794118, g: 0.7794118, b: 0.7794118, a: 1}
     terrainColor: {r: 0.974645, g: 1, b: 0.8161765, a: 0}
-    pondRockGradient: {r: 0.66176474, g: 0.64109296, b: 0.55471456, a: 0}
+    pondRockColor: {r: 0, g: 0, b: 0, a: 0}
     terrainRockColor: {r: 0.74264705, g: 0.65527683, b: 0.65527683, a: 0}
     terrainMossRockColor: {r: 0.88235295, g: 0.73313147, b: 0.73313147, a: 0}
     fogColor: {r: 0.75735295, g: 0.88955384, b: 1, a: 0}
@@ -1463,7 +1463,7 @@ MonoBehaviour:
     groundColorSecondary: {r: 0.7941176, g: 0.2714174, b: 0.1518166, a: 0}
     groundDecalTint: {r: 0.6911765, g: 0.6911765, b: 0.6911765, a: 1}
     terrainColor: {r: 0.26275954, g: 0.4801486, b: 0.66176474, a: 0}
-    pondRockGradient: {r: 0.5147059, g: 0.50583166, b: 0.47685987, a: 0}
+    pondRockColor: {r: 0, g: 0, b: 0, a: 0}
     terrainRockColor: {r: 0.40873703, g: 0.43577734, b: 0.5147059, a: 0}
     terrainMossRockColor: {r: 0.375, g: 0.375, b: 0.375, a: 0}
     fogColor: {r: 0.093263395, g: 0.34290746, b: 0.5514706, a: 0}
@@ -2683,7 +2683,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdf67534fde86f9418177ce0dc8a2c37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _windInterp: 0.225
+  _windInterp: 0
   _waveDir: {x: 1, y: 0, z: 0}
 --- !u!114 &114613613601675322
 MonoBehaviour:

@@ -286,7 +286,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 75.600006, y: 1.9180001, z: -44.04}
 --- !u!1001 &784892484
 Prefab:
@@ -2834,17 +2834,17 @@ Prefab:
     - target: {fileID: 198777316632145236, guid: f3fe1fdb9da654f72ae8ff06711f4a80,
         type: 2}
       propertyPath: InitialModule.startColor.maxColor.r
-      value: 0.21488248
+      value: 0.17212707
       objectReference: {fileID: 0}
     - target: {fileID: 198777316632145236, guid: f3fe1fdb9da654f72ae8ff06711f4a80,
         type: 2}
       propertyPath: InitialModule.startColor.maxColor.g
-      value: 0.27551904
+      value: 0.30011898
       objectReference: {fileID: 0}
     - target: {fileID: 198777316632145236, guid: f3fe1fdb9da654f72ae8ff06711f4a80,
         type: 2}
       propertyPath: InitialModule.startColor.maxColor.b
-      value: 0.13370776
+      value: 0.18889841
       objectReference: {fileID: 0}
     - target: {fileID: 198777316632145236, guid: f3fe1fdb9da654f72ae8ff06711f4a80,
         type: 2}
@@ -3139,7 +3139,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4705559918519402, guid: 35fbf4ec3e610419aa354f7eecbeebe8, type: 2}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 114705503488462458, guid: 35fbf4ec3e610419aa354f7eecbeebe8,
         type: 2}
