@@ -106,9 +106,7 @@ public class MoundGrowthController : PlantController
 			_myPlant.SwitchController( this );
 		}
 	}
-
-	public override GameObject SpawnChildPlant(){ return null; }
-
+		
 	public override void WaterPlant()
 	{
 		_germinationRate = _wateredRate;
