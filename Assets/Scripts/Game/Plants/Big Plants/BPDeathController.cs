@@ -165,11 +165,6 @@ public class BPDeathController : PlantController
 	public override void TouchPlant(){}
 	public override void GrabPlant(){}
 	public override void StompPlant(){}
-	public override GameObject SpawnChildPlant()
-	{
-		//don't do SHEET!
-		return null;
-	}
 
 	void OnDestroy()
 	{

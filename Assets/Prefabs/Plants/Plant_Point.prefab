@@ -456,12 +456,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseGrowthRate: 0.0325
+  _scaleMultiplierRange: {x: 8, y: 18}
+  _scaleRatios:
+  - {x: 1, y: 1}
   _wateredGrowthRate: 0.04
   _curStage: 0
   _droppingItems:
   - {fileID: 1631419253260572, guid: e7e4ccc23b3b8416c994f33a1840c8c6, type: 2}
-  _spawnables:
+  _smallSpawnables:
+  - {fileID: 1969664330500318, guid: 267f161e8216446fd8bd51c9ff2019f2, type: 2}
+  - {fileID: 1863841682442650, guid: fa18cc17991d646178faacbf71f38a50, type: 2}
+  _mediumSpawnables:
   - {fileID: 1957489743728246, guid: 83b5e0e2c650c804e98215001deaed97, type: 2}
+  _smallSpawnRadRange: {x: 0.05, y: 2.5}
+  _numSmallPlants: {x: 8, y: 15}
+  _mediumSpawnRadRange: {x: 2.5, y: 4.5}
+  _numMedPlants: {x: 4, y: 6}
+  spawnState: 0
   _bStemRoot: {fileID: 4508866319713756}
   _leafPrefab: {fileID: 1543003685192774, guid: 3b7612a57e8103346becf09c2a9c5c95,
     type: 2}
@@ -493,7 +504,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48546a37106ae474c9854776c588eedc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _type: 1
+  _type: -1
   _deathColors:
   - {r: 0.654902, g: 0.60784316, b: 0.5058824, a: 0}
   - {r: 0.5058824, g: 0.43529412, b: 0.33333334, a: 0}

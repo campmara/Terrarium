@@ -85,7 +85,7 @@ public class GroundPlantGrowthController : SPGrowthController
 		curFruit.transform.parent = transform;
 		curFruit.transform.localScale = preserveScale;
 
-		StartCoroutine( TweenLocalScale( curFruit.transform, Vector3.zero, curFruit.transform.localScale, 7.0f * _growthRate));
+		StartCoroutine( TweenLocalScale( curFruit.transform, Vector3.zero, curFruit.transform.localScale, 3.5f * _growthRate));
 	}
 
 	IEnumerator TweenLocalScale( Transform focusTransform, Vector3 startScale, Vector3 endScale, float moveTime )
@@ -129,11 +129,11 @@ public class GroundPlantGrowthController : SPGrowthController
 		if( !_waiting )
 		{
 			_lastAnim = _childAnimators[ _childAnimators.Count - 1 ];
-			PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
+			//PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
 			//_lastClip = _lastAnim.runtimeAnimatorController.animationClips[0];
 			AnimatorStateInfo state = _lastAnim.GetCurrentAnimatorStateInfo(0);
 			_endTimeStamp =  state.length;//_lastClip.length - .04f;
-			PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
+			//PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
 			StartCoroutine( WaitForLastLeaf() );
 		}
 	}

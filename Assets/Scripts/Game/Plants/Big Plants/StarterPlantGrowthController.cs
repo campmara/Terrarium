@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class StarterPlantGrowthController : BPGrowthController
@@ -95,13 +94,13 @@ public class StarterPlantGrowthController : BPGrowthController
 			_leafSpawnRoutine = StartCoroutine( SpawnLeaves() );
 		}
 
-		if( _lastAnim )
-		{
-			if( _endTimeStamp >= _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime )
-			{
-				_myPlant.SwitchController( this );
-			}
-		}
+//		if( _lastAnim )
+//		{
+//			if( _endTimeStamp >= _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime )
+//			{
+//				_myPlant.SwitchController( this );
+//			}
+//		}
 	}
 
 	protected override void CustomStopGrowth()
@@ -111,7 +110,7 @@ public class StarterPlantGrowthController : BPGrowthController
 			_lastAnim = _childAnimators[ _childAnimators.Count - 1 ];
 			//_lastClip = _lastAnim.runtimeAnimatorController.animationClips[0];
 			AnimatorStateInfo state = _lastAnim.GetCurrentAnimatorStateInfo(0);
-			_endTimeStamp =  state.length / state.speed ;//_lastClip.length - .04f;
+			_endTimeStamp =  state.length - .04f;
 
 			StartCoroutine( WaitForLastLeaf() );
 		}
@@ -120,8 +119,13 @@ public class StarterPlantGrowthController : BPGrowthController
 	private IEnumerator WaitForLastLeaf()
 	{
 		_waiting = true;
-		while( _endTimeStamp > _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime )
+		float curTime = _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime;
+		float len = _lastAnim.GetCurrentAnimatorStateInfo(0).length;
+		float percent = curTime / len;
+		while( percent < .99f )
 		{
+			curTime = _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime;
+			percent = curTime / len;
 			yield return null;
 		}
 

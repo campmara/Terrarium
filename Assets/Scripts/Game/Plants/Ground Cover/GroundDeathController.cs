@@ -93,7 +93,10 @@ public class GroundDeathController : PlantController
 
 	void OnTriggerEnter( Collider col)
 	{
-		StompPlant();
+		if( col.GetComponent<Player>() )
+		{
+				StompPlant();
+		}
 	}
 
 	public override void StompPlant()
