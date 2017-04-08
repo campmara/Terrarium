@@ -2,7 +2,7 @@
 
 public class CarryState : RollerState 
 {
-	bool canDrop = false;
+	float canDropTimer = 0.0f;
 
     public override void Enter( P_ControlState prevState )
 	{
@@ -17,7 +17,7 @@ public class CarryState : RollerState
                 break;
 		}
 
-		canDrop = false;
+		canDropTimer = 0.0f;
 	}
 
 	public override void Exit( P_ControlState nextState )
@@ -37,12 +37,12 @@ public class CarryState : RollerState
 	public override void HandleInput( InputCollection input )
 	{
 		// Makin sure ppl release button to drop the Thing they are carrying.
-		if( !canDrop && input.AButton.WasReleased )
+		// TODO: Fix this by makin this check in Update Not Fixed Update
+		if( canDropTimer < 0.1f )
 		{
-			canDrop = true;
+			canDropTimer += Time.deltaTime;
 		}
-
-		if( canDrop && RollerParent.CurrentHeldObject != null )
+		else if( RollerParent.CurrentHeldObject != null )
 		{
 			RollerParent.IKMovement( Mathf.Lerp( RollerConstants.instance.CarrySpeed, 0.0f, _roller.CurrentHeldObject.GrabberBurdenInterp ),
 				RollerConstants.instance.WalkAcceleration,
@@ -76,6 +76,10 @@ public class CarryState : RollerState
 				{
 					_roller.ChangeState( P_ControlState.WALKING );	
 				}
+			}
+			if( input.BButton.WasPressed )
+			{
+				_roller.ChangeState( P_ControlState.WALKING );
 			}
 		}
 

@@ -23,19 +23,19 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
 
     // Speed of wind oscillation
     const float WAVESPEED_MIN = 0.25f;
-    const float WAVESPEED_MAX = 2f;
+    const float WAVESPEED_MAX = 2.5f;
 
     // Scale of the noise in oscillation of wind
     const float WAVENOISE_MIN = 0.5f;
-    const float WAVENOISE_MAX = 1f;
+    const float WAVENOISE_MAX = 1.25f;
 
     // Scale of the oscillation of the wind
     const float WAVESCALE_MIN = 0.5f;
-    const float WAVESCALE_MAX = 0.5f;
+    const float WAVESCALE_MAX = 0.6f;
 
     // Amount wind effect is scaled overall
     const float WAVEAMOUNT_MIN = 0.25f;
-    const float WAVEAMOUNT_MAX = 0.5f;
+    const float WAVEAMOUNT_MAX = 0.65f;
 
     // Different goal values for a wind loop
 	float[] _windStateInterpValues = new float[] { 0.0f, /*0.25f, 0.5f, 0.75f, */1.0f };
