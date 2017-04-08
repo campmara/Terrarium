@@ -50,7 +50,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 	[SerializeField] int _paletteIndex = 0;
 	EnvironmentPalette _activePalette;
 	public EnvironmentPalette ActivePalatte { get { return _activePalette; } }
-	public const float PALATTE_TRANSITIONTIME = 5.0f;
+	public const float PALATTE_TRANSITIONTIME = 0.01f;
 
 
 	[SerializeField, Space(5)] List<EnvironmentPalette> _environmentPaletteList = new List<EnvironmentPalette>();
