@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class ScreenshotTech : MonoBehaviour {
 
-	int _screenshotIndex = 0;
-
 	Coroutine _screenshotRoutine = null;
 	const float SCREENSHOT_TIMER = 30.0f;
 	const string SCREENSHOT_INDEXSAVEKEY = "ScreenshotIndex";
@@ -14,9 +12,7 @@ public class ScreenshotTech : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () 
-	{
-		_screenshotIndex = PlayerPrefs.GetInt( SCREENSHOT_INDEXSAVEKEY );
-
+	{		
 
 		#if !UNITY_EDITOR
 		if( !Directory.Exists( Application.dataPath + "/" + SCREENSHOT_SAVEFOLDERNAME ) )
@@ -57,12 +53,12 @@ public class ScreenshotTech : MonoBehaviour {
 		}
 	}
 
-	void HandleScreenShot()
+	void HandleScreenShot( int screenshotDetail = 4 )
 	{	
 		#if UNITY_STANDALONE && !UNITY_EDITOR	
-		Application.CaptureScreenshot(Application.dataPath + "/" + SCREENSHOT_SAVEFOLDERNAME + "/" + "Screenshot_" + _screenshotIndex.ToString() + ".png", 4);
+		Application.CaptureScreenshot( Application.dataPath + "/" + SCREENSHOT_SAVEFOLDERNAME + "/" + "Screenshot_" + System.DateTime.Now.ToString() + ".png", screenshotDetail );
 		#else
-		Application.CaptureScreenshot( Application.dataPath + "/../" + SCREENSHOT_SAVEFOLDERNAME + "/" + "Screenshot_" + _screenshotIndex.ToString() + ".png", 4);
+		Application.CaptureScreenshot( Application.dataPath + "/../" + SCREENSHOT_SAVEFOLDERNAME + "/" + "Screenshot_" + System.DateTime.Now.ToString() + ".png", screenshotDetail );
 		#endif
 	}
 
@@ -70,10 +66,7 @@ public class ScreenshotTech : MonoBehaviour {
 	{
 		yield return new WaitForSeconds( SCREENSHOT_TIMER );
 
-		HandleScreenShot();
-
-		_screenshotIndex++;
-		PlayerPrefs.SetInt( SCREENSHOT_INDEXSAVEKEY, _screenshotIndex );
+		HandleScreenShot( 2 );
 
 		_screenshotRoutine = StartCoroutine( DelayedCaptureScreenshot() );
 	}
