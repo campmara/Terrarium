@@ -68,6 +68,7 @@ Material:
     - _CutoffEdgeScale: 0.45
     - _CutoffNoiseScale: 10
     - _DetailNormalMapScale: 1
+    - _Dissolve: 0
     - _DstBlend: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
@@ -91,9 +92,9 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorBot: {r: 1, g: 0.38235295, b: 0.38235295, a: 1}
-    - _ColorMid: {r: 0.4705882, g: 0.47750863, b: 0.47750863, a: 1}
-    - _ColorTop: {r: 0, g: 0, b: 0, a: 1}
+    - _ColorBot: {r: 0.39607844, g: 0.26666668, b: 0.26666668, a: 1}
+    - _ColorMid: {r: 0.5529412, g: 0.62352943, b: 0.34509805, a: 1}
+    - _ColorTop: {r: 0.84705883, g: 0.7882353, b: 0.019607844, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _ShadowColor: {r: 1, g: 1, b: 1, a: 1}
     - _WaveDir: {r: 1, g: 0, b: 1, a: 0}
