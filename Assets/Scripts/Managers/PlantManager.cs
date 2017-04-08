@@ -189,6 +189,6 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		Vector3 pos = plant.transform.position;
 		Vector3 spawnPoint = new Vector3( pos.x + randomPoint.x, .2f/*plant.SpawnHeight*/, pos.z + randomPoint.y );
 
-		return new Vector3( spawnPoint.x, .2f, spawnPoint.z );
+		return new Vector3( spawnPoint.x, .05f, spawnPoint.z );
 	}
 }
