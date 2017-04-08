@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public enum P_ControlState
 {
@@ -418,5 +419,43 @@ public class RollerController : ControllerBase
         _ik.SetState( PlayerIKControl.WalkState.WALK );        
 
         AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_TRANSITIONFX, 1 );
+	}
+
+	public void HandleOutOfBounds()
+	{
+		// Put ourselves in the right state of mind: the pond state.
+		BecomeWalker();
+		ChangeState(P_ControlState.POND);
+
+		// Tell the pond we're comin' home!
+		PondManager.instance.HandlePondReturn();
+	}
+
+	public void HandlePondReturn()
+	{
+		Coroutine returnRoutine = StartCoroutine(PondReturnRoutine());
+	}
+
+	private IEnumerator PondReturnRoutine()
+	{
+		// Handle all the object deactivation and state change we require.
+		_mesh.SetActive(false);
+		_face.gameObject.SetActive(false);
+		_ik.SetState(PlayerIKControl.WalkState.POND_RETURN);
+
+		// ! BOOM !
+		_explodeParticleSystem.Play();
+
+		// Wait for the boom to finish.
+		while(_explodeParticleSystem.isPlaying)
+		{
+			yield return null;
+		}
+
+		// Put ourselves in the right state of mind: the pond state.
+		ChangeState(P_ControlState.POND);
+
+		// Tell the pond we're comin' home!
+		PondManager.instance.HandlePondReturn(); 
 	}
 }

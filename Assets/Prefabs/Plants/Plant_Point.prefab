@@ -499,7 +499,6 @@ MonoBehaviour:
   - {r: 0.5058824, g: 0.43529412, b: 0.33333334, a: 0}
   - {r: 0.30980393, g: 0.26666668, b: 0.14901961, a: 0}
   _waterDecayReturnTime: 20
-  windEffect: 30
 --- !u!114 &114635785287040538
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -631,7 +630,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
   randomSeed: -1917965014
