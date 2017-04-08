@@ -22,23 +22,23 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
     public Vector3 WindForce { get { return _waveDir * _windForceScalar; } } 
 
     // Speed of wind oscillation
-    const float WAVESPEED_MIN = 0.5f;
-    const float WAVESPEED_MAX = 6f;
+    const float WAVESPEED_MIN = 0.25f;
+    const float WAVESPEED_MAX = 2f;
 
     // Scale of the noise in oscillation of wind
-    const float WAVENOISE_MIN = 1f;
-    const float WAVENOISE_MAX = 2f;
+    const float WAVENOISE_MIN = 0.5f;
+    const float WAVENOISE_MAX = 1f;
 
     // Scale of the oscillation of the wind
     const float WAVESCALE_MIN = 0.5f;
-    const float WAVESCALE_MAX = 0.15f;
+    const float WAVESCALE_MAX = 0.5f;
 
     // Amount wind effect is scaled overall
     const float WAVEAMOUNT_MIN = 0.25f;
-    const float WAVEAMOUNT_MAX = 2.5f;
+    const float WAVEAMOUNT_MAX = 0.5f;
 
     // Different goal values for a wind loop
-    float[] _windStateInterpValues = new float[] { 0.25f, 0.5f/*, 0.75f, 1.0f */};
+	float[] _windStateInterpValues = new float[] { 0.0f, /*0.25f, 0.5f, 0.75f, */1.0f };
 
     Coroutine _windWaitRoutine = null;
     Tween _windChangeTween = null;
@@ -70,7 +70,7 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
         UpdateWindShaderValues();
         UpdateWindDirection();
 
-        //HandleWindWait( true );
+        HandleWindWait( true );
 
         isInitialized = true;
     }
@@ -101,9 +101,12 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
 		float timer = 0.0f;
 		float duration = Random.Range( WINDRISE_MINTIME, WINDRISE_MAXTIME );
 		float startInterp = _windInterp;
-		float endInterp = endTrough ? _windStateInterpValues[Random.Range( 0, _windStateInterpValues.Length )] : 0.0f;
+		float endInterp = endTrough ? Random.value/*_windStateInterpValues[Random.Range( 0, _windStateInterpValues.Length )] */: 0.0f;
 
-		UpdateWindDirection();
+		if( endTrough )
+		{
+			UpdateWindDirection();	
+		}
 
 		while ( timer < duration )
 		{
