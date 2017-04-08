@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class PlantManager : SingletonBehaviour<PlantManager>
 {
-	[SerializeField] int _maxLargePlants = 10;
+	[SerializeField] int _maxLargePlants = 20;
 	[SerializeField] int _maxMediumPlants = 40;
-	[SerializeField] int _maxSmallPlants = 120;
+	[SerializeField] int _maxSmallPlants = 200;
 
 	List<Seed> _seeds = new List<Seed>();
 	List<GroundCover> _smallPlants = new List<GroundCover>();   
@@ -134,7 +134,7 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		Collider[] hitColliders;
 		bool insideObject = false;
 
-		int allowedAttempts = 10;
+		int allowedAttempts = 25;
 		int attempts = 0;
 		while( newPlant == null && allowedAttempts >= attempts  )
 		{
@@ -144,7 +144,7 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 
 			foreach( Collider col in hitColliders )
 			{
-				if( col.GetComponent<SPGrowthController>() || col.GetComponent<BPGrowthController>() || col.GetComponent<PondTech>() || col.GetComponent<RockTag>() )
+				if( col.GetComponent<BPDeathController>() || col.GetComponent<SPGrowthController>() || col.GetComponent<BPGrowthController>() || col.GetComponent<PondTech>() || col.GetComponent<RockTag>() )
 				//col.GetComponent<BasePlant>()
 				{
 					insideObject = true;

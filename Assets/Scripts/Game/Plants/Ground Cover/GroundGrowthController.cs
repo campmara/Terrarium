@@ -18,7 +18,7 @@ public class GroundGrowthController : PlantController
 		_controllerType = ControllerType.Growth;
 		_anim = GetComponentInChildren<Animator>();
 
-		_myPlant.InnerRadius = .2f;
+		_myPlant.InnerRadius = .05f;
 
 		float randomMult = Random.Range( _scaleRange.x, _scaleRange.y );
 		transform.localScale = new Vector3(transform.localScale.x * randomMult, transform.localScale.y * randomMult, transform.localScale.z * randomMult );

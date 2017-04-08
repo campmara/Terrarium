@@ -23,7 +23,8 @@ public class SPGrowthController : PlantController
 		_myPlant = GetComponent<BasePlant>();
 		_controllerType = ControllerType.Growth;
 
-		_myPlant.InnerRadius = 2.0f;
+		float innerRad = GetComponent<BoxCollider>().bounds.size.x;
+		_myPlant.InnerRadius = innerRad;
 		_myPlant.OuterRadius = 2.5f;
 		_myPlant.SpawnHeight = .1f;
 	}
@@ -124,5 +125,11 @@ public class SPGrowthController : PlantController
 		{
 			_myPlant.InnerRadius = _defaultInnerRadiusSize;
 		}
+	}
+
+		void OnDrawGizmos() 
+	{
+		Gizmos.color = Color.yellow;
+		Gizmos.DrawCube( transform.position, new Vector3( _myPlant.InnerRadius, _myPlant.InnerRadius, _myPlant.InnerRadius));
 	}
 }

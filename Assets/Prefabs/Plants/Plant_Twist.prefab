@@ -187,4 +187,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lifetime: 10
-  _heightRange: {x: 0.3, y: 1}
+  _scaleRange: {x: 0.4, y: 1.2}

@@ -170,7 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lifetime: 600
-  _heightRange: {x: 0.3, y: 0.8}
+  _scaleRange: {x: 0.3, y: 1}
 --- !u!114 &114652376991900496
 MonoBehaviour:
   m_ObjectHideFlags: 1

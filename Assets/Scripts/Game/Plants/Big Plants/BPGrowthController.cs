@@ -392,12 +392,7 @@ public class BPGrowthController : PlantController
 
 		// take biggest component as radius size 
 		_myPlant.InnerRadius = size.x > size.z ? size.x : size.z;
-		_myPlant.InnerRadius *= .5f;
-
-		if( _myPlant.InnerRadius < .5f )
-		{
-			_myPlant.InnerRadius = .5f;
-		}
+		_myPlant.InnerRadius *= .5f * _maxWidth;
 	}
 
 	void OnDrawGizmos() 

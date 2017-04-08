@@ -456,7 +456,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseGrowthRate: 0.0325
-  _scaleMultiplierRange: {x: 3, y: 18}
+  _scaleMultiplierRange: {x: 8, y: 18}
   _scaleRatios:
   - {x: 1, y: 1}
   _wateredGrowthRate: 0.04
@@ -468,9 +468,9 @@ MonoBehaviour:
   - {fileID: 1863841682442650, guid: fa18cc17991d646178faacbf71f38a50, type: 2}
   _mediumSpawnables:
   - {fileID: 1957489743728246, guid: 83b5e0e2c650c804e98215001deaed97, type: 2}
-  _smallSpawnRadRange: {x: 1, y: 3}
+  _smallSpawnRadRange: {x: 0.05, y: 2.5}
   _numSmallPlants: {x: 8, y: 15}
-  _mediumSpawnRadRange: {x: 3, y: 4.5}
+  _mediumSpawnRadRange: {x: 2.5, y: 4.5}
   _numMedPlants: {x: 4, y: 6}
   spawnState: 0
   _bStemRoot: {fileID: 4508866319713756}
