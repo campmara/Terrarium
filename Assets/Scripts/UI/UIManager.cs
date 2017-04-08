@@ -50,33 +50,38 @@ public class UIManager : SingletonBehaviour<UIManager>
 
 	void Awake()
 	{
-		MakeMeAPersistentSingleton();
+		//MakeMeAPersistentSingleton();
 	}
 
 	public override void Initialize()
 	{
-		foreach(PanelBase panel in GetComponentsInChildren<PanelBase>(true))
+		foreach( PanelBase panel in GetComponentsInChildren<PanelBase>(true) )
 		{
-			if(_typeToPanelListMap.ContainsKey(panel.GetType()))
-				_typeToPanelListMap[panel.GetType()].Add(panel);
+			if( _typeToPanelListMap.ContainsKey( panel.GetType() ) )
+            {
+                _typeToPanelListMap[panel.GetType()].Add( panel );
+            }                
 			else
 			{
 				List<PanelBase> newPanelList = new List<PanelBase>();
-				newPanelList.Add(panel);
+                newPanelList.Add( panel );
 
-				_typeToPanelListMap.Add(panel.GetType(), newPanelList);
+                _typeToPanelListMap.Add( panel.GetType(), newPanelList );
 			}
 
-			panel.Disable();
+            panel.InitializePanel();
+
+            if( panel.DisableOnLoad )
+            {
+                panel.Disable();
+            }
+			
 		}
 			
 		isInitialized = true;
 	}
 
-	void Start()
-	{
-	}
-		
+	
 	public static T GetPanelOfType<T>() where T : PanelBase
 	{
 		return (T)instance._typeToPanelListMap[typeof(T)].FirstOrDefault();

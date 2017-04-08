@@ -16,7 +16,7 @@ public static class ScriptableObjectUtility
 		if (path == "") 
 			path = "Assets/Resources";
 		
-		string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath (path + "/New " + typeof(T).ToString() + ".asset");
+		string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath (path + "/" + typeof(T).ToString() + ".asset");
 		
 		AssetDatabase.CreateAsset (asset, assetPathAndName);
 		

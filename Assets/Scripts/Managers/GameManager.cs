@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour 
+public class GameManager : MonoBehaviour
 {
 	public static GameManager Instance = null;
 
@@ -20,7 +20,9 @@ public class GameManager : MonoBehaviour
 		NONE = 0,
 		INIT,
 		INTRO,			// Wait for player input to start match
-		MAIN
+		MAIN,
+        POND_RETURN,    // When Player transitions back to Pond
+        POND_POP       // When Player pops out of Pond (respawns)
 	}
 
 	[SerializeField] private GameState _state;
@@ -43,10 +45,10 @@ public class GameManager : MonoBehaviour
 			Destroy(gameObject);
 		}
 
-		DontDestroyOnLoad(gameObject);
+		//DontDestroyOnLoad(gameObject);
 
 
-		#if !UNITY_EDITOR 
+		#if !UNITY_EDITOR
 		Cursor.visible = false;
 		#else
 		Application.targetFrameRate = 60;	// MAKES IOS VERSION CRASH
@@ -55,7 +57,7 @@ public class GameManager : MonoBehaviour
 		// Have to add safeguards for when NONE isn't selected
 		if( _state == GameState.NONE )
 		{
-			ChangeGameState(GameState.INIT);	
+			ChangeGameState(GameState.INIT);
 		}
 	}
 
@@ -65,20 +67,19 @@ public class GameManager : MonoBehaviour
 			Instance = null;
 	}
 
-	void Start()
-	{
-		
-	}
-
 	void Update()
-	{
-
+	{		
 		switch(_state)
 		{
 		case GameState.INTRO:
 			break;
 		}
 
+		// rly hacky Restart gdi
+		if( Input.GetKey(KeyCode.I) && Input.GetKey(KeyCode.O) && Input.GetKey(KeyCode.P ) )
+		{
+			SceneManager.LoadScene(0);
+		}
 	}
 
 	public void ChangeGameState(GameState newState)
@@ -108,24 +109,28 @@ public class GameManager : MonoBehaviour
 		bool newSceneLoaded = false;
 		int newSceneIndex = 0;
 
-		if(newState != prevState)
+		if( newState != prevState )
 		{
-			switch(newState)
+			switch( newState )
 			{
 			case GameState.INIT:			// Only for game launch
 				Initialize();
 				break;
-			case GameState.INTRO:           
-				break;
+			case GameState.INTRO:
+				CameraManager.instance.ChangeCameraState(CameraManager.CameraState.INTRO);
+                break;
 			default:
 				break;
 			}
 			_state = newState;
 
-			StartCoroutine(DelayedCompleteChangeScene(newSceneLoaded, newSceneIndex));
+            StartCoroutine( DelayedCompleteChangeScene( newSceneLoaded, newSceneIndex ) );
 
 			if(GameStateChanged != null)
-				GameStateChanged(_state, prevState);
+            {
+                GameStateChanged( _state, prevState );
+            }
+				
 		}
 
 		Debug.Log("Transitioned from: " + prevState.ToString() + " to " + newState.ToString());
@@ -146,7 +151,6 @@ public class GameManager : MonoBehaviour
 
 	private void RestartGame()
 	{
-		
 	}
 
 	private void Initialize()
@@ -156,7 +160,15 @@ public class GameManager : MonoBehaviour
 
 	IEnumerator DelayedInitialize()
 	{
-		UIManager.instance.Initialize();
+        AssetManager.instance.Initialize();
+
+        yield return new WaitUntil( () => AssetManager.instance.IsInitialized );
+
+        SaveManager.instance.Initialize();
+
+        yield return new WaitUntil( () => SaveManager.instance.IsInitialized );
+
+        UIManager.instance.Initialize();
 
 		yield return new WaitUntil( () => UIManager.instance.IsInitialized );
 
@@ -168,7 +180,15 @@ public class GameManager : MonoBehaviour
 
 		yield return new WaitUntil( () => PlayerManager.instance.IsInitialized );
 
-		AudioManager.instance.Initialize();
+        TimeManager.instance.Initialize();
+
+        yield return new WaitUntil( () => TimeManager.instance.IsInitialized );
+
+        PlantManager.instance.Initialize();
+
+        yield return new WaitUntil( () => PlantManager.instance.IsInitialized );
+
+        AudioManager.instance.Initialize();
 
 		yield return new WaitUntil( () => AudioManager.instance.IsInitialized );
 
@@ -176,8 +196,19 @@ public class GameManager : MonoBehaviour
 
 		yield return new WaitUntil( () => CameraManager.instance.IsInitialized );
 
-        ChangeGameState(GameState.MAIN);
+        PondManager.instance.Initialize();
 
+        yield return new WaitUntil( () => PondManager.instance.IsInitialized );
+
+        WeatherManager.instance.Initialize();
+
+        yield return new WaitUntil( () => WeatherManager.instance.IsInitialized );
+
+        CreatureManager.instance.Initialize();
+
+        yield return new WaitUntil( () => CreatureManager.instance.IsInitialized );
+
+        ChangeGameState( GameState.INTRO );
 	}
 
 	IEnumerator RestartScene(int sceneNum, float waitTime)

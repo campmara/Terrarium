@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Character 1
+  - Character 2
+  - ShowCursor
   layers:
   - Default
   - TransparentFX
@@ -13,13 +16,13 @@ TagManager:
   - UI
   - 
   - 
-  - GridSpace
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - HeldObject
+  - Player
+  - Clouds
+  - PlayerBodyParts
+  - Touchable
+  - Ground
+  - Splatmap
   - 
   - 
   - 

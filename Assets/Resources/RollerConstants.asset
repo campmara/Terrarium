@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d6f144f5dbb545a2885002538ed874c, type: 3}
+  m_Name: RollerConstants
+  m_EditorClassIdentifier: 
+  InputDeadzone: 0.3
+  WalkSpeed: 3
+  CarrySpeed: 3
+  SingWalkSpeed: 2
+  WalkAcceleration: 0.05
+  WalkDeceleration: 4
+  WalkTurnDampening: 0.025
+  BodyMinMoveSpeed: 2.5
+  IdleSittingTimer: 30
+  WalkTurnSpeed: 5
+  CarryTurnSpeed: 7
+  WalkTurnAngleMin: 0.5
+  WalkTurnAngleMax: 60
+  RollSpeed: 10
+  RollMaxSpeed: 13
+  ReverseRollSpeed: 6
+  RollAcceleration: 1
+  RollDeceleration: 10
+  RollSphereSpin: 1250
+  TurnSpeed: 125
+  ReverseTurnSpeed: 100
+  TurnAcceleration: 15
+  TurnDeceleration: 700
+  TurnMinSpeed: 25
+  PickupCheckHeight: 0.5
+  PickupCheckRadius: 1
+  PickupForwardScalarPart1: 0.58
+  PickupUpScalarPart1: 0.5
+  PickupForwardScalarPart2: 0.08
+  PickupUpScalarPart2: 2
+  PickupTime: 0.75
+  IdleMaxMag: 0.01
+  IdleWaitTime: 0.1
+  TransitionTime: 1
+  TransitionDeceleration: 20
+  RitualTime: 0.15
+  RitualTurnSpeed: 2000
+  RitualCompleteWait: 2
+  PlantingTime: 0.75
+  PlantingEndY: 0
+  PlantingEndX: 1.25
+  SingingReturnTime: 0.6
+  PitchLerpSpeed: 7
+  IKTargetWorldScalar: 35
+  IKReachCheckRadius: 8
+  IKReachWaitMin: 1.5
+  IKReachWaitMax: 10

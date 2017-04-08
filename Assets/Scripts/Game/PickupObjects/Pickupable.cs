@@ -2,26 +2,53 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pickupable : MonoBehaviour 
+[RequireComponent(typeof(Rigidbody))]
+public class Pickupable : MonoBehaviour
 {
-	protected Rigidbody rigidbody;
+    protected Rigidbody _rigidbody;
+    protected Transform _grabTransform;
+
+    [SerializeField] protected bool _carryable = false;
+    public bool Carryable { get { return _carryable; } }
+
+    [SerializeField, ReadOnlyAttribute] protected bool _grabbed = false;
+    public bool Grabbed { get { return _grabbed; } }
+
+    protected float _grabberBurdenInterp = 0.0f;
+    public float GrabberBurdenInterp { get { return _grabberBurdenInterp; } }
 
     protected virtual void Awake()
     {
-        rigidbody = GetComponent(typeof(Rigidbody)) as Rigidbody;
+        _rigidbody = GetComponent( typeof( Rigidbody ) ) as Rigidbody;
     }
 
     // This gets called when we pick up the object. Pickupable controls its own rigidbody.
-    public virtual void OnPickup()
+    public virtual void OnPickup( Transform grabTransform )
     {
-        rigidbody.useGravity = false;
-        rigidbody.isKinematic = true;
+        _grabbed = true;
+        _grabTransform = grabTransform;
+        _grabberBurdenInterp = 0.0f;
+        _rigidbody.useGravity = false;
+        _rigidbody.isKinematic = true;
+
+        if( this.GetComponent<PickupCollider>() != null )
+        {
+            this.GetComponent<PickupCollider>().LockedRotation = false;
+        }
     }
 
     public virtual void DropSelf()
     {
+        _grabbed = false;
+        _grabTransform = null;
+        _grabberBurdenInterp = 0.0f;
         transform.parent = null;
-        rigidbody.useGravity = true;
-        rigidbody.isKinematic = false;
+        _rigidbody.useGravity = true;
+        _rigidbody.isKinematic = false;
+
+        if( this.GetComponent<PickupCollider>() != null )
+        {
+            this.GetComponent<PickupCollider>().LockedRotation = true;
+        }
     }
 }
