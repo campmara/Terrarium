@@ -1846,6 +1846,307 @@ MonoBehaviour:
       m_Mode: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
+  - title: Watercolor Night
+    groundColorPrimary: {r: 1, g: 0.5588235, b: 0.3602941, a: 0}
+    groundColorSecondary: {r: 0.39705884, g: 0.38900492, b: 0.3240701, a: 0}
+    groundDecalTint: {r: 0.6911765, g: 0.6911765, b: 0.6911765, a: 1}
+    terrainColor: {r: 0.4705882, g: 0.46581548, b: 0.40138406, a: 0}
+    pondRockGradient:
+      serializedVersion: 2
+      key0: {r: 0.09411766, g: 0.34117648, b: 0.5529412, a: 1}
+      key1: {r: 0.10196079, g: 0.3372549, b: 0.5529412, a: 1}
+      key2: {r: 0.09411766, g: 0.34117648, b: 0.5529412, a: 1}
+      key3: {r: 0.8088235, g: 0.7851987, b: 0.59472317, a: 0}
+      key4: {r: 1, g: 1, b: 1, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 21843
+      ctime1: 43686
+      ctime2: 65535
+      ctime3: 65535
+      ctime4: 16577
+      ctime5: 65535
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 32768
+      atime2: 65535
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 1
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 3
+    terrainRockColor: {r: 0.32352942, g: 0.32352942, b: 0.32352942, a: 0}
+    terrainMossRockColor: {r: 0.375, g: 0.375, b: 0.375, a: 0}
+    terrainMossColor: {r: 0, g: 0, b: 0, a: 0}
+    fogColor: {r: 0.23982815, g: 0.23788926, b: 0.29411763, a: 0}
+    skyColor: {r: 0.43793252, g: 0.4716024, b: 0.5514706, a: 0}
+    cloudRimColor: {r: 1, g: 1, b: 1, a: 0}
+    mossPlantSeed:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 0.52335644, g: 0.64705884, b: 0.54980314, a: 1}
+      key2: {r: 0.58823526, g: 0.575349, b: 0.47145325, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 21627
+      ctime1: 43253
+      ctime2: 65535
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 1
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 2
+    mossPlant:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 0.52335644, g: 0.64705884, b: 0.54980314, a: 1}
+      key2: {r: 0.58823526, g: 0.575349, b: 0.47145325, a: 0}
+      key3: {r: 0.58823526, g: 0.575349, b: 0.47145325, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 21627
+      ctime1: 43253
+      ctime2: 65535
+      ctime3: 65535
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 1
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 2
+    pointPlantSeed:
+      serializedVersion: 2
+      key0: {r: 1, g: 0.98904663, b: 0.60294116, a: 1}
+      key1: {r: 0.8567258, g: 0.9468038, b: 1, a: 1}
+      key2: {r: 0.8088235, g: 0.7851987, b: 0.59472317, a: 0}
+      key3: {r: 0.8088235, g: 0.7851987, b: 0.59472317, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 21627
+      ctime1: 43253
+      ctime2: 64186
+      ctime3: 65535
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 1
+      m_NumColorKeys: 4
+      m_NumAlphaKeys: 2
+    pointPlantStem:
+      serializedVersion: 2
+      key0: {r: 0.5397924, g: 0.6397059, b: 0.53622407, a: 1}
+      key1: {r: 0.8014706, g: 0.7627789, b: 0.60110295, a: 1}
+      key2: {r: 0.57952064, g: 0.5955882, b: 0.42917386, a: 0}
+      key3: {r: 0.8088235, g: 0.7851987, b: 0.59472317, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 21627
+      ctime1: 43253
+      ctime2: 65535
+      ctime3: 65535
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 1
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 2
+    pointPlantLeaf:
+      serializedVersion: 2
+      key0: {r: 1, g: 0.98904663, b: 0.60294116, a: 1}
+      key1: {r: 0.8567258, g: 0.9468038, b: 1, a: 1}
+      key2: {r: 0.8088235, g: 0.7851987, b: 0.59472317, a: 0}
+      key3: {r: 0.8088235, g: 0.7851987, b: 0.59472317, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 21627
+      ctime1: 43253
+      ctime2: 64186
+      ctime3: 65535
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 1
+      m_NumColorKeys: 4
+      m_NumAlphaKeys: 2
+    leafyGroundPlantBulb:
+      serializedVersion: 2
+      key0: {r: 0.9852941, g: 0.96780664, b: 0.94907004, a: 1}
+      key1: {r: 1, g: 0.7900813, b: 0.35813147, a: 1}
+      key2: {r: 1, g: 0.8722363, b: 0.45512545, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 21627
+      ctime1: 43253
+      ctime2: 65535
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 1
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 2
+    leafyGroundPlantLeaf:
+      serializedVersion: 2
+      key0: {r: 0.88235295, g: 0.82329077, b: 0.6682526, a: 1}
+      key1: {r: 0.8308824, g: 0.6454928, b: 0.5254109, a: 1}
+      key2: {r: 0.58823526, g: 0.575349, b: 0.47145325, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 21627
+      ctime1: 43253
+      ctime2: 65535
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 1
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 2
+    twistPlant:
+      serializedVersion: 2
+      key0: {r: 0.88235295, g: 0.82329077, b: 0.6682526, a: 1}
+      key1: {r: 0.8308824, g: 0.6454928, b: 0.5254109, a: 1}
+      key2: {r: 0.58823526, g: 0.575349, b: 0.47145325, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 21627
+      ctime1: 43253
+      ctime2: 65535
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 1
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 2
+    cappPlant:
+      serializedVersion: 2
+      key0: {r: 0.88235295, g: 0.82329077, b: 0.6682526, a: 1}
+      key1: {r: 0.8308824, g: 0.6454928, b: 0.5254109, a: 1}
+      key2: {r: 0.58823526, g: 0.575349, b: 0.47145325, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 21627
+      ctime1: 43253
+      ctime2: 65535
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 1
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 2
   terrainMaterial: {fileID: 2100000, guid: be1f84fcd12c8814fb81989242a6b5ed, type: 2}
   groundSplatDecal: {fileID: 0}
   terrainRockMat: {fileID: 2100000, guid: ab8ff36f194754c40ad100a76aad9791, type: 2}
