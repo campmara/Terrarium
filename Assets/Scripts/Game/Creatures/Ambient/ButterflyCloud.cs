@@ -189,7 +189,9 @@ public class ButterflyCloud : AmbientCreature {
 		// This was deprecated in 5.6 and doesn't work. Using StartPlayback for now but I have no idea if it actually works.
 		//anim.SetTime(0.0f);
 
-		anim.StartPlayback();
+        anim.Play("Take 001");
+
+		//anim.StartPlayback();
 	}
 
 	// Worried about mem leak, need to look into disposing of non Mono classes

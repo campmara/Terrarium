@@ -684,9 +684,9 @@ MonoBehaviour:
     cloudRimColor: {r: 1, g: 0.9843813, b: 0.9191176, a: 0}
     mossPlantSeed:
       serializedVersion: 2
-      key0: {r: 0, g: 0, b: 0, a: 1}
-      key1: {r: 0.4705882, g: 0.47750863, b: 0.47750863, a: 1}
-      key2: {r: 1, g: 0.38235295, b: 0.38235295, a: 0}
+      key0: {r: 0.7647059, g: 1, b: 0.96105474, a: 1}
+      key1: {r: 1, g: 0.8750507, b: 0.35294116, a: 1}
+      key2: {r: 0.8088235, g: 0.7851987, b: 0.59472317, a: 0}
       key3: {r: 1, g: 1, b: 1, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
@@ -713,9 +713,9 @@ MonoBehaviour:
       m_NumAlphaKeys: 2
     mossPlant:
       serializedVersion: 2
-      key0: {r: 0.99264705, g: 0.42333475, b: 0.42333475, a: 1}
-      key1: {r: 0.08855971, g: 0.5735294, b: 0.19224286, a: 1}
-      key2: {r: 0.39188644, g: 0.3382353, b: 0.6764706, a: 0}
+      key0: {r: 0.7647059, g: 1, b: 0.96105474, a: 1}
+      key1: {r: 1, g: 0.8750507, b: 0.35294116, a: 1}
+      key2: {r: 0.8088235, g: 0.7851987, b: 0.59472317, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
@@ -742,9 +742,9 @@ MonoBehaviour:
       m_NumAlphaKeys: 2
     pointPlantSeed:
       serializedVersion: 2
-      key0: {r: 0, g: 0, b: 0, a: 1}
-      key1: {r: 0.4705882, g: 0.47750863, b: 0.47750863, a: 1}
-      key2: {r: 1, g: 0.38235295, b: 0.38235295, a: 0}
+      key0: {r: 0.5218336, g: 0.71323526, b: 0.4300389, a: 1}
+      key1: {r: 0.82264197, g: 0.9264706, b: 0.34742647, a: 1}
+      key2: {r: 0.65249, g: 0.74264705, b: 0.39862674, a: 0}
       key3: {r: 1, g: 1, b: 1, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
@@ -771,9 +771,9 @@ MonoBehaviour:
       m_NumAlphaKeys: 2
     pointPlantStem:
       serializedVersion: 2
-      key0: {r: 0, g: 0, b: 0, a: 1}
-      key1: {r: 0.4705882, g: 0.47750863, b: 0.47750863, a: 1}
-      key2: {r: 1, g: 0.38235295, b: 0.38235295, a: 0}
+      key0: {r: 0.5218336, g: 0.71323526, b: 0.4300389, a: 1}
+      key1: {r: 0.82264197, g: 0.9264706, b: 0.34742647, a: 1}
+      key2: {r: 0.42087165, g: 0.44852942, b: 0.34299308, a: 0}
       key3: {r: 1, g: 1, b: 1, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
@@ -800,9 +800,9 @@ MonoBehaviour:
       m_NumAlphaKeys: 2
     pointPlantLeaf:
       serializedVersion: 2
-      key0: {r: 0, g: 0, b: 0, a: 1}
-      key1: {r: 0.4705882, g: 0.47750863, b: 0.47750863, a: 1}
-      key2: {r: 1, g: 0.38235295, b: 0.38235295, a: 0}
+      key0: {r: 0.5218336, g: 0.71323526, b: 0.4300389, a: 1}
+      key1: {r: 0.82264197, g: 0.9264706, b: 0.34742647, a: 1}
+      key2: {r: 0.42087165, g: 0.44852942, b: 0.34299308, a: 0}
       key3: {r: 1, g: 1, b: 1, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
@@ -829,16 +829,16 @@ MonoBehaviour:
       m_NumAlphaKeys: 2
     leafyGroundPlantBulb:
       serializedVersion: 2
-      key0: {r: 0, g: 0, b: 0, a: 1}
-      key1: {r: 0.4705882, g: 0.47750863, b: 0.47750863, a: 1}
-      key2: {r: 1, g: 0.38235295, b: 0.38235295, a: 0}
+      key0: {r: 1, g: 0.972549, b: 0.023529412, a: 1}
+      key1: {r: 0.8392157, g: 0.15294118, b: 0.6784314, a: 1}
+      key2: {r: 0.2509804, g: 0.2509804, b: 0.2509804, a: 1}
       key3: {r: 1, g: 1, b: 1, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 21627
-      ctime1: 43253
+      ctime0: 21843
+      ctime1: 43686
       ctime2: 65535
       ctime3: 65535
       ctime4: 0
@@ -846,8 +846,8 @@ MonoBehaviour:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
-      atime2: 0
+      atime1: 32768
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
@@ -855,19 +855,19 @@ MonoBehaviour:
       atime7: 0
       m_Mode: 1
       m_NumColorKeys: 3
-      m_NumAlphaKeys: 2
+      m_NumAlphaKeys: 3
     leafyGroundPlantLeaf:
       serializedVersion: 2
-      key0: {r: 0, g: 0, b: 0, a: 1}
-      key1: {r: 0.4705882, g: 0.47750863, b: 0.47750863, a: 1}
-      key2: {r: 1, g: 0.38235295, b: 0.38235295, a: 0}
+      key0: {r: 0.84705883, g: 0.7882353, b: 0.019607844, a: 1}
+      key1: {r: 0.5529412, g: 0.62352943, b: 0.34509805, a: 1}
+      key2: {r: 0.39607844, g: 0.26666668, b: 0.26666668, a: 1}
       key3: {r: 1, g: 1, b: 1, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 21627
-      ctime1: 43253
+      ctime0: 21843
+      ctime1: 43686
       ctime2: 65535
       ctime3: 65535
       ctime4: 0
@@ -875,8 +875,8 @@ MonoBehaviour:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
-      atime2: 0
+      atime1: 32768
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
@@ -884,7 +884,7 @@ MonoBehaviour:
       atime7: 0
       m_Mode: 1
       m_NumColorKeys: 3
-      m_NumAlphaKeys: 2
+      m_NumAlphaKeys: 3
     twistPlant:
       serializedVersion: 2
       key0: {r: 0.39040872, g: 0.6397059, b: 0.4230753, a: 1}
@@ -977,25 +977,25 @@ MonoBehaviour:
       m_Mode: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
-    terrainRockColor: {r: 0, g: 0, b: 0, a: 0}
-    terrainMossRockColor: {r: 0, g: 0, b: 0, a: 0}
-    terrainMossColor: {r: 0, g: 0, b: 0, a: 0}
+    terrainRockColor: {r: 0.33088237, g: 0.30411983, b: 0.30411983, a: 0}
+    terrainMossRockColor: {r: 0.41176468, g: 0.41176468, b: 0.41176468, a: 0}
+    terrainMossColor: {r: 0.38235295, g: 0.38235295, b: 0.38235295, a: 0}
     fogColor: {r: 0.75194633, g: 0.79895896, b: 0.83823526, a: 0}
     skyColor: {r: 0.3897059, g: 0.77271783, b: 1, a: 0}
     cloudRimColor: {r: 0.9191176, g: 0.99665314, b: 1, a: 0}
     mossPlantSeed:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 0.7647059, g: 1, b: 0.96105474, a: 1}
+      key1: {r: 1, g: 0.8750507, b: 0.35294116, a: 1}
+      key2: {r: 0.8088235, g: 0.7851987, b: 0.59472317, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 0
-      ctime1: 65535
-      ctime2: 0
+      ctime0: 21627
+      ctime1: 43253
+      ctime2: 65535
       ctime3: 0
       ctime4: 0
       ctime5: 0
@@ -1009,22 +1009,22 @@ MonoBehaviour:
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
-      m_NumColorKeys: 2
+      m_Mode: 1
+      m_NumColorKeys: 3
       m_NumAlphaKeys: 2
     mossPlant:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 0.7647059, g: 1, b: 0.96105474, a: 1}
+      key1: {r: 1, g: 0.8750507, b: 0.35294116, a: 1}
+      key2: {r: 0.8088235, g: 0.7851987, b: 0.59472317, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 0
-      ctime1: 65535
-      ctime2: 0
+      ctime0: 21627
+      ctime1: 43253
+      ctime2: 65535
       ctime3: 0
       ctime4: 0
       ctime5: 0
@@ -1038,22 +1038,22 @@ MonoBehaviour:
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
-      m_NumColorKeys: 2
+      m_Mode: 1
+      m_NumColorKeys: 3
       m_NumAlphaKeys: 2
     pointPlantSeed:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 0.5218336, g: 0.71323526, b: 0.4300389, a: 1}
+      key1: {r: 0.82264197, g: 0.9264706, b: 0.34742647, a: 1}
+      key2: {r: 0.42087165, g: 0.44852942, b: 0.34299308, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 0
-      ctime1: 65535
-      ctime2: 0
+      ctime0: 21627
+      ctime1: 43253
+      ctime2: 65535
       ctime3: 0
       ctime4: 0
       ctime5: 0
@@ -1067,22 +1067,22 @@ MonoBehaviour:
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
-      m_NumColorKeys: 2
+      m_Mode: 1
+      m_NumColorKeys: 3
       m_NumAlphaKeys: 2
     pointPlantStem:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 0.5218336, g: 0.71323526, b: 0.4300389, a: 1}
+      key1: {r: 0.82264197, g: 0.9264706, b: 0.34742647, a: 1}
+      key2: {r: 0.42087165, g: 0.44852942, b: 0.34299308, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 0
-      ctime1: 65535
-      ctime2: 0
+      ctime0: 21627
+      ctime1: 43253
+      ctime2: 65535
       ctime3: 0
       ctime4: 0
       ctime5: 0
@@ -1096,22 +1096,22 @@ MonoBehaviour:
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
-      m_NumColorKeys: 2
+      m_Mode: 1
+      m_NumColorKeys: 3
       m_NumAlphaKeys: 2
     pointPlantLeaf:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 0.5218336, g: 0.71323526, b: 0.4300389, a: 1}
+      key1: {r: 0.82264197, g: 0.9264706, b: 0.34742647, a: 1}
+      key2: {r: 0.42087165, g: 0.44852942, b: 0.34299308, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 0
-      ctime1: 65535
-      ctime2: 0
+      ctime0: 21627
+      ctime1: 43253
+      ctime2: 65535
       ctime3: 0
       ctime4: 0
       ctime5: 0
@@ -1125,125 +1125,125 @@ MonoBehaviour:
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
-      m_NumColorKeys: 2
+      m_Mode: 1
+      m_NumColorKeys: 3
       m_NumAlphaKeys: 2
     leafyGroundPlantBulb:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 1, g: 0.972549, b: 0.023529412, a: 1}
+      key1: {r: 0.8392157, g: 0.15294118, b: 0.6784314, a: 1}
+      key2: {r: 0.2509804, g: 0.2509804, b: 0.2509804, a: 1}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 0
-      ctime1: 65535
-      ctime2: 0
+      ctime0: 21843
+      ctime1: 43686
+      ctime2: 65535
       ctime3: 0
       ctime4: 0
       ctime5: 0
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
-      atime2: 0
+      atime1: 32768
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
-      m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
+      m_Mode: 1
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 3
     leafyGroundPlantLeaf:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 0.84705883, g: 0.7882353, b: 0.019607844, a: 1}
+      key1: {r: 0.5529412, g: 0.62352943, b: 0.34509805, a: 1}
+      key2: {r: 0.39607844, g: 0.26666668, b: 0.26666668, a: 1}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 0
-      ctime1: 65535
-      ctime2: 0
+      ctime0: 21843
+      ctime1: 43686
+      ctime2: 65535
       ctime3: 0
       ctime4: 0
       ctime5: 0
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
-      atime2: 0
+      atime1: 32768
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
-      m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
+      m_Mode: 1
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 3
     twistPlant:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 0.84705883, g: 0.7882353, b: 0.019607844, a: 1}
+      key1: {r: 0.5529412, g: 0.62352943, b: 0.34509805, a: 1}
+      key2: {r: 0.39607844, g: 0.26666668, b: 0.26666668, a: 1}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 0
-      ctime1: 65535
-      ctime2: 0
+      ctime0: 21843
+      ctime1: 43686
+      ctime2: 65535
       ctime3: 0
       ctime4: 0
       ctime5: 0
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
-      atime2: 0
+      atime1: 32768
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
-      m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
+      m_Mode: 1
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 3
     cappPlant:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 1, g: 0, b: 0, a: 1}
+      key1: {r: 0.93333334, g: 1, b: 0.3019608, a: 1}
+      key2: {r: 1, g: 0.84705883, b: 0, a: 1}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 0
-      ctime1: 65535
-      ctime2: 0
+      ctime0: 21843
+      ctime1: 43686
+      ctime2: 65535
       ctime3: 0
       ctime4: 0
       ctime5: 0
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
-      atime2: 0
+      atime1: 32768
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
-      m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
+      m_Mode: 1
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 3
   - title: Abzu
     groundColorPrimary: {r: 0.04411763, g: 0.802231, b: 1, a: 0}
     groundColorSecondary: {r: 0.7205882, g: 0.57398576, b: 0.54044116, a: 0}
@@ -1278,55 +1278,55 @@ MonoBehaviour:
       m_Mode: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
-    terrainRockColor: {r: 0, g: 0, b: 0, a: 0}
-    terrainMossRockColor: {r: 0, g: 0, b: 0, a: 0}
-    terrainMossColor: {r: 0, g: 0, b: 0, a: 0}
+    terrainRockColor: {r: 0.74264705, g: 0.65527683, b: 0.65527683, a: 0}
+    terrainMossRockColor: {r: 0.88235295, g: 0.73313147, b: 0.73313147, a: 0}
+    terrainMossColor: {r: 1, g: 1, b: 1, a: 0}
     fogColor: {r: 0.75735295, g: 0.88955384, b: 1, a: 0}
     skyColor: {r: 1, g: 1, b: 1, a: 0}
     cloudRimColor: {r: 0.9191176, g: 0.99665314, b: 1, a: 0}
     mossPlantSeed:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
-      key3: {r: 0, g: 0, b: 0, a: 0}
-      key4: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 0.7647059, g: 1, b: 0.96105474, a: 1}
+      key1: {r: 1, g: 0.8750507, b: 0.35294116, a: 1}
+      key2: {r: 0.8088235, g: 0.7851987, b: 0.59472317, a: 1}
+      key3: {r: 0.5372549, g: 0.5372549, b: 0.5372549, a: 0}
+      key4: {r: 1, g: 1, b: 1, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 0
-      ctime1: 65535
-      ctime2: 0
-      ctime3: 0
-      ctime4: 0
-      ctime5: 0
+      ctime0: 21627
+      ctime1: 43253
+      ctime2: 65535
+      ctime3: 9059
+      ctime4: 16577
+      ctime5: 65535
       ctime6: 0
       ctime7: 0
       atime0: 0
       atime1: 65535
-      atime2: 0
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
-      m_NumColorKeys: 2
+      m_Mode: 1
+      m_NumColorKeys: 3
       m_NumAlphaKeys: 2
     mossPlant:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
-      key3: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 1, g: 0.98904663, b: 0.60294116, a: 1}
+      key1: {r: 0.8567258, g: 0.9468038, b: 1, a: 1}
+      key2: {r: 0.8088235, g: 0.7851987, b: 0.59472317, a: 0}
+      key3: {r: 0.8088235, g: 0.7851987, b: 0.59472317, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 0
-      ctime1: 65535
-      ctime2: 0
-      ctime3: 0
+      ctime0: 21627
+      ctime1: 43253
+      ctime2: 64186
+      ctime3: 65535
       ctime4: 0
       ctime5: 0
       ctime6: 0
@@ -1339,23 +1339,23 @@ MonoBehaviour:
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
-      m_NumColorKeys: 2
+      m_Mode: 1
+      m_NumColorKeys: 4
       m_NumAlphaKeys: 2
     pointPlantSeed:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
-      key3: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 1, g: 0.98904663, b: 0.60294116, a: 1}
+      key1: {r: 0.8567258, g: 0.9468038, b: 1, a: 1}
+      key2: {r: 0.8088235, g: 0.7851987, b: 0.59472317, a: 0}
+      key3: {r: 0.8088235, g: 0.7851987, b: 0.59472317, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 0
-      ctime1: 65535
-      ctime2: 0
-      ctime3: 0
+      ctime0: 21627
+      ctime1: 43253
+      ctime2: 64186
+      ctime3: 65535
       ctime4: 0
       ctime5: 0
       ctime6: 0
@@ -1368,23 +1368,23 @@ MonoBehaviour:
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
-      m_NumColorKeys: 2
+      m_Mode: 1
+      m_NumColorKeys: 4
       m_NumAlphaKeys: 2
     pointPlantStem:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
-      key3: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 0.71323526, g: 1, b: 0.7864097, a: 1}
+      key1: {r: 1, g: 0.9117647, b: 0.9975659, a: 1}
+      key2: {r: 0.8583477, g: 0.9264706, b: 0.87291193, a: 0}
+      key3: {r: 0.726157, g: 0.8161765, b: 0.7454025, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 0
-      ctime1: 65535
-      ctime2: 0
-      ctime3: 0
+      ctime0: 21627
+      ctime1: 43253
+      ctime2: 65535
+      ctime3: 65535
       ctime4: 0
       ctime5: 0
       ctime6: 0
@@ -1397,8 +1397,8 @@ MonoBehaviour:
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
-      m_NumColorKeys: 2
+      m_Mode: 1
+      m_NumColorKeys: 3
       m_NumAlphaKeys: 2
     pointPlantLeaf:
       serializedVersion: 2
@@ -1431,17 +1431,17 @@ MonoBehaviour:
       m_NumAlphaKeys: 2
     leafyGroundPlantBulb:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 1, g: 0.88640976, b: 0.7647059, a: 1}
+      key1: {r: 0.9264706, g: 0.7970372, b: 0.9229, a: 1}
+      key2: {r: 1, g: 0.45512545, b: 0.8496897, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 0
-      ctime1: 65535
-      ctime2: 0
+      ctime0: 21627
+      ctime1: 43253
+      ctime2: 65535
       ctime3: 0
       ctime4: 0
       ctime5: 0
@@ -1455,22 +1455,22 @@ MonoBehaviour:
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
-      m_NumColorKeys: 2
+      m_Mode: 1
+      m_NumColorKeys: 3
       m_NumAlphaKeys: 2
     leafyGroundPlantLeaf:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 1, g: 0.88640976, b: 0.7647059, a: 1}
+      key1: {r: 0.9264706, g: 0.7970372, b: 0.9229, a: 1}
+      key2: {r: 1, g: 0.45512545, b: 0.8496897, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 0
-      ctime1: 65535
-      ctime2: 0
+      ctime0: 21627
+      ctime1: 43253
+      ctime2: 65535
       ctime3: 0
       ctime4: 0
       ctime5: 0
@@ -1484,22 +1484,22 @@ MonoBehaviour:
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
-      m_NumColorKeys: 2
+      m_Mode: 1
+      m_NumColorKeys: 3
       m_NumAlphaKeys: 2
     twistPlant:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 0.71323526, g: 0.9406693, b: 1, a: 1}
+      key1: {r: 0.9264706, g: 0.7970372, b: 0.9229, a: 1}
+      key2: {r: 0.726157, g: 0.8161765, b: 0.7454025, a: 1}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 0
-      ctime1: 65535
-      ctime2: 0
+      ctime0: 21627
+      ctime1: 43253
+      ctime2: 65535
       ctime3: 0
       ctime4: 0
       ctime5: 0
@@ -1507,28 +1507,28 @@ MonoBehaviour:
       ctime7: 0
       atime0: 0
       atime1: 65535
-      atime2: 0
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
-      m_NumColorKeys: 2
+      m_Mode: 1
+      m_NumColorKeys: 3
       m_NumAlphaKeys: 2
     cappPlant:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 1, g: 0.88640976, b: 0.7647059, a: 1}
+      key1: {r: 0.9264706, g: 0.7970372, b: 0.9229, a: 1}
+      key2: {r: 1, g: 0.45512545, b: 0.8496897, a: 1}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 0
-      ctime1: 65535
-      ctime2: 0
+      ctime0: 21627
+      ctime1: 43253
+      ctime2: 65535
       ctime3: 0
       ctime4: 0
       ctime5: 0
@@ -1536,51 +1536,51 @@ MonoBehaviour:
       ctime7: 0
       atime0: 0
       atime1: 65535
-      atime2: 0
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
-      m_NumColorKeys: 2
+      m_Mode: 1
+      m_NumColorKeys: 3
       m_NumAlphaKeys: 2
   - title: Red Moon
-    groundColorPrimary: {r: 0.8897059, g: 0.36634946, b: 0.36634946, a: 0}
+    groundColorPrimary: {r: 1, g: 0.3897059, b: 0.3897059, a: 0}
     groundColorSecondary: {r: 0.7941176, g: 0.2714174, b: 0.1518166, a: 0}
-    groundDecalTint: {r: 0.7794118, g: 0.7794118, b: 0.7794118, a: 1}
+    groundDecalTint: {r: 0.6911765, g: 0.6911765, b: 0.6911765, a: 1}
     terrainColor: {r: 0.26275954, g: 0.4801486, b: 0.66176474, a: 0}
     pondRockGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
-      key3: {r: 0, g: 0, b: 0, a: 0}
-      key4: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 0.09411766, g: 0.34117648, b: 0.5529412, a: 1}
+      key1: {r: 0.10196079, g: 0.3372549, b: 0.5529412, a: 1}
+      key2: {r: 0.09411766, g: 0.34117648, b: 0.5529412, a: 1}
+      key3: {r: 0.8088235, g: 0.7851987, b: 0.59472317, a: 0}
+      key4: {r: 1, g: 1, b: 1, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 0
-      ctime1: 65535
-      ctime2: 0
-      ctime3: 0
-      ctime4: 0
-      ctime5: 0
+      ctime0: 21843
+      ctime1: 43686
+      ctime2: 65535
+      ctime3: 65535
+      ctime4: 16577
+      ctime5: 65535
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
-      atime2: 0
+      atime1: 32768
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
-      m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
-    terrainRockColor: {r: 0, g: 0, b: 0, a: 0}
-    terrainMossRockColor: {r: 0, g: 0, b: 0, a: 0}
+      m_Mode: 1
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 3
+    terrainRockColor: {r: 0.40873703, g: 0.43577734, b: 0.5147059, a: 0}
+    terrainMossRockColor: {r: 0.375, g: 0.375, b: 0.375, a: 0}
     terrainMossColor: {r: 0, g: 0, b: 0, a: 0}
     fogColor: {r: 0.093263395, g: 0.34290746, b: 0.5514706, a: 0}
     skyColor: {r: 0.9411765, g: 0.4844291, b: 0.4844291, a: 0}

@@ -10,21 +10,29 @@ ModelImporter:
     100004: Teapot001
     100006: Sphere001
     100008: Torus Knot001
+    100010: Teapot003
+    100012: Torus Knot002
     400000: //RootNode
     400002: Box001
     400004: Teapot001
     400006: Sphere001
     400008: Torus Knot001
+    400010: Teapot003
+    400012: Torus Knot002
     2300000: //RootNode
     2300002: Box001
     2300004: Teapot001
     2300006: Sphere001
     2300008: Torus Knot001
+    2300010: Teapot003
+    2300012: Torus Knot002
     3300000: //RootNode
     3300002: Box001
     3300004: Teapot001
     3300006: Sphere001
     3300008: Torus Knot001
+    3300010: Teapot003
+    3300012: Torus Knot002
     4300000: GeoSphere001
     4300002: Teapot001
     4300004: Box001
@@ -32,6 +40,8 @@ ModelImporter:
     4300008: Torus Knot001
     4300010: Teapot002
     4300012: Group5732
+    4300014: Teapot003
+    4300016: Torus Knot002
     9500000: //RootNode
   materials:
     importMaterials: 1

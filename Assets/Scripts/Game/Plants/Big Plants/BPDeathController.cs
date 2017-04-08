@@ -56,11 +56,6 @@ public class BPDeathController : PlantController
 	{
 		_myPlant.CurDecayRate = _myPlant.BaseDecayRate;
 
-		if (_essenceParticleSystem)
-		{
-			_essenceParticleSystem.Play();
-		}
-
 		GetComponentMaterials();
 
 		_interpColors[0] = _originalColors[0]; 
@@ -119,10 +114,11 @@ public class BPDeathController : PlantController
 		{
 			_curState = DeathState.Fading;
 
+			_essenceParticleSystem.Play();
+
 			DOTween.To(()=> _cutoffValue, x=> _cutoffValue = x, 1f, _fadeTime)
 				.SetEase(Ease.InExpo)
 				.OnComplete(OnDeath);
-			//GroundManager.instance.EmitDirtParticles(transform.position, 1f);
 		}
 	}
 
@@ -137,7 +133,7 @@ public class BPDeathController : PlantController
 	{
 		for (int i = 0; i < _componentMaterials.Count; i++)
 		{
-			_componentMaterials[i].SetFloat("_Cutoff", _cutoffValue);
+			_componentMaterials[i].SetFloat("_Dissolve", _cutoffValue);
 		}
 
 		if (_essenceParticleSystem != null)

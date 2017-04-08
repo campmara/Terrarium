@@ -36,11 +36,16 @@ public class PondManager : SingletonBehaviour<PondManager>
     // Update is called once per frame
     private void Update()
     {
+        HandleOutOfBounds();
+    }
+
+    void HandleOutOfBounds()
+    {
         if( GameManager.Instance.State == GameManager.GameState.MAIN )
         {           
            if ( Mathf.Abs( ( transform.position - _playerTrans.position ).magnitude ) > PLAYER_MAXDISTANCE )
            {
-                HandlePondReturn();
+               PlayerManager.instance.Player.GetComponent<RollerController>().HandleOutOfBounds();
            }
         }
     }
