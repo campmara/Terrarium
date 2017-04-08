@@ -13,7 +13,7 @@
 	{
 		if (_plant)
 		{
-			PlantManager.instance.SpawnMini( _plant );
+			PlantManager.instance.SpawnMini( _plant, TimeUntilExecution );
 		}
 	}
 }

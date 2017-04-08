@@ -6,15 +6,13 @@ public class SPGrowthController : PlantController
 {
 	// spawn information
 	[SerializeField] private List<GameObject> _spawnables = new List<GameObject>();
+	public List<GameObject> Spawnables { get { return _spawnables; } }
+
 	protected List<Animator> _childAnimators = new List<Animator>();
-	protected const int _maxMinisSpawned = 5;
-	protected int _minisSpawned = 0;
 
 	protected float _spawnRadius = 2.5f;
 	protected const float _timeBetweenSpawns = 5.0f;
 
-	protected float _innerMeshRadius = 2.0f;
-	protected float _outerSpawnRadius = 2.5f;
 	[SerializeField] const float _defaultInnerRadiusSize = 1.0f; // use for items you can't easily calculate the mesh size
 
 	// plant n' growth vars
@@ -28,6 +26,10 @@ public class SPGrowthController : PlantController
 	{
 		_myPlant = GetComponent<BasePlant>();
 		_controllerType = ControllerType.Growth;
+
+		_myPlant.InnerRadius = 2.0f;
+		_myPlant.OuterRadius = 2.5f;
+		_myPlant.SpawnHeight = .1f;
 	}
 
 	public override void StartState()
@@ -87,35 +89,35 @@ public class SPGrowthController : PlantController
 	// PLANT SPAWN FUNCTIONS
 	//********************************
 
-	public override GameObject SpawnChildPlant()
-	{
-		GameObject newPlant = null;
-		if( _spawnables.Count != 0 )
-		{
-			//what kind of radius do i want
-			Vector2 randomPoint = _myPlant.GetRandomPoint( _innerMeshRadius, _outerSpawnRadius );
-			Vector3 spawnPoint = new Vector3( randomPoint.x, .1f, randomPoint.y ) + transform.position;
-			Vector3 direction = ( spawnPoint - transform.position ).normalized * ( _innerMeshRadius );
-			spawnPoint += direction;
-			spawnPoint = new Vector3( spawnPoint.x, .1f, spawnPoint.z );
-
-			newPlant = (GameObject)Instantiate( _spawnables[Random.Range( 0, _spawnables.Count)], spawnPoint, Quaternion.identity );
-		}
-
-		_minisSpawned++;
-
-		if( _minisSpawned < _maxMinisSpawned )
-		{
-			PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
-		}
-
-		if( newPlant == null )
-		{
-			Debug.Log("spawning minis plant messed up ");
-		}
-
-		return newPlant;
-	}
+//	public override GameObject SpawnChildPlant()
+//	{
+//		GameObject newPlant = null;
+//		if( _spawnables.Count != 0 )
+//		{
+//			//what kind of radius do i want
+//			Vector2 randomPoint = _myPlant.GetRandomPoint( _innerMeshRadius, _outerSpawnRadius );
+//			Vector3 spawnPoint = new Vector3( randomPoint.x, .1f, randomPoint.y ) + transform.position;
+//			Vector3 direction = ( spawnPoint - transform.position ).normalized * ( _innerMeshRadius );
+//			spawnPoint += direction;
+//			spawnPoint = new Vector3( spawnPoint.x, .1f, spawnPoint.z );
+//
+//			newPlant = (GameObject)Instantiate( _spawnables[Random.Range( 0, _spawnables.Count)], spawnPoint, Quaternion.identity );
+//		}
+//
+//		_minisSpawned++;
+//
+//		if( _minisSpawned < _maxMinisSpawned )
+//		{
+//			PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
+//		}
+//
+//		if( newPlant == null )
+//		{
+//			Debug.Log("spawning minis plant messed up ");
+//		}
+//
+//		return newPlant;
+//	}
 				
 	//********************************
 	// INTERACTIONS
@@ -151,16 +153,16 @@ public class SPGrowthController : PlantController
 
 			if( size.x > size.z )
 			{
-				_innerMeshRadius = size.x * transform.GetChild(0).localScale.x;
+				_myPlant.InnerRadius = size.x * transform.GetChild(0).localScale.x;
 			}
 			else
 			{
-				_innerMeshRadius = size.z * transform.GetChild(0).localScale.x;
+				_myPlant.InnerRadius = size.z * transform.GetChild(0).localScale.x;
 			}
 		}
 		else
 		{
-			_innerMeshRadius = _defaultInnerRadiusSize;
+			_myPlant.InnerRadius = _defaultInnerRadiusSize;
 		}
 	}
 }

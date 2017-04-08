@@ -29,14 +29,11 @@ public class BPGrowthController : PlantController
 	//****************
 
 	const float _numGrowStages = 3;
-	float _innerMeshRadius = 0.0f;
-	protected float _outerSpawnRadius = 2.5f;
-
 	[SerializeField] GrowthStage _curStage = GrowthStage.Seed;
 	public GrowthStage CurStage { get { return _curStage; } }
 
 	float [] _neededDistance = new float[] { 4.0f, 5.0f, 8.5f, 15.0f }; // how much room each stage need to grow, first element doesnt matter
-	float [] _spawnRadii = new float[] { 4.0f, 6.0f, 8.0f, 11.0f };  
+	float [] _spawnRadii = new float[] { 3.5f, 4.0f, 4.5f, 5.0f };  
 	bool _hardStopGrowth = false;
 
 	public enum GrowthStage : int
@@ -54,14 +51,13 @@ public class BPGrowthController : PlantController
 
 	//fruits
 	[SerializeField] List<GameObject> _droppingItems = null;  
-	float _fruitDropHeight = 8.0f;
+
 	const float _timeBetweenFruitDrops = 30.0f;
-	protected const float _timeBetweenSpawns = 15.0f;
+	protected const float _timeBetweenSpawns = 5.0f;
 
 	// small plants
 	[SerializeField] List<GameObject> _spawnables = new List<GameObject>();
-	protected const int _maxMinisSpawned = 5;
-	protected int _minisSpawned = 0;
+	public List<GameObject> Spawnables { get { return _spawnables; } }
 
 	// ambient creatures
 	protected const float CREATURE_BASE_SPAWNODDS = 0.5f;	// Higher number is LESS LIKELY ( checks if random val is greater than )
@@ -104,7 +100,7 @@ public class BPGrowthController : PlantController
 		if( !IsOverlappingPlants() )
 		{
 			_curStage = GrowthStage.Sprout;
-			_outerSpawnRadius = _spawnRadii[ (int)_curStage ];
+			_myPlant.OuterRadius = _spawnRadii[ (int)_curStage ];
 		}
 		else
 		{
@@ -255,12 +251,11 @@ public class BPGrowthController : PlantController
 	//********************************
 	// PLANT SPAWN FUNCTIONS
 	//********************************
-
+//
 	public override GameObject DropFruit()
 	{
-		Vector2 randomPoint = _myPlant.GetRandomPoint( _innerMeshRadius, _outerSpawnRadius );
-		Vector3 spawnPoint = new Vector3( randomPoint.x, _fruitDropHeight, randomPoint.y ) + transform.position;
-
+		Vector2 randomPoint = _myPlant.GetRandomPoint();//( _innerMeshRadius, _outerSpawnRadius );
+		Vector3 spawnPoint = new Vector3( randomPoint.x, _myPlant.SpawnHeight, randomPoint.y ) + transform.position;
 		GameObject newPlant = (GameObject)Instantiate( _droppingItems[Random.Range( 0, _droppingItems.Count)], spawnPoint, Quaternion.identity );  
 
 		Seed seed = newPlant.GetComponent<Seed>();
@@ -275,42 +270,6 @@ public class BPGrowthController : PlantController
 		{
 			Debug.Log("dropping seed plant messed up ");
 		}
-
-		return newPlant;
-	}
-
-	public override GameObject SpawnChildPlant()
-	{
-		GameObject newPlant = null;
-
-		if ( _myPlant != null )
-		{
-			if( _spawnables.Count != 0 )
-			{
-				Vector2 randomPoint = _myPlant.GetRandomPoint( _innerMeshRadius, _outerSpawnRadius );
-				Vector3 spawnPoint = new Vector3( randomPoint.x, .1f, randomPoint.y ) + transform.position;
-				spawnPoint = new Vector3( spawnPoint.x, .05f, spawnPoint.z );
-
-				newPlant = (GameObject)Instantiate( _spawnables[Random.Range( 0, _spawnables.Count)], spawnPoint, Quaternion.identity );
-			}
-
-			_minisSpawned++;
-
-			if( _minisSpawned < _maxMinisSpawned )
-			{
-				PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
-			}
-
-			if( newPlant == null )
-			{
-				Debug.Log("spawning minis plant messed up ");
-			}
-		}
-		else
-		{
-			Debug.Log("Tryna Spawn Mini WHile Destroyed");
-		}
-
 
 		return newPlant;
 	}
@@ -362,15 +321,15 @@ public class BPGrowthController : PlantController
 			child.speed = newRate;
 		}
 	}
-
+		
 	void UpdateNewStageData()
 	{
-		_outerSpawnRadius = _spawnRadii[ (int)_curStage ]; // this is a greater value to manage how big things grow
+		_myPlant.OuterRadius = _spawnRadii[ (int)_curStage ]; // this is a greater value to manage how big things grow
 		GetSetMeshRadius();
 
 		_growthRate = _baseGrowthRate;
 		_plantAnim.speed = _growthRate;
-		_fruitDropHeight = _myPlant.transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().bounds.size.y * ( _numGrowStages + 1 );
+		_myPlant.SpawnHeight = _myPlant.transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().bounds.size.y * ( _numGrowStages + 1 );
 	}
 
 	protected void GetSetMeshRadius()
@@ -379,8 +338,8 @@ public class BPGrowthController : PlantController
 		Vector3 size = _myPlant.transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().bounds.size;
 
 		// take biggest component as radius size 
-		_innerMeshRadius = size.x > size.z ? size.x : size.z;
-		_innerMeshRadius *= .5f;
+		_myPlant.InnerRadius = size.x > size.z ? size.x : size.z;
+		_myPlant.InnerRadius *= .5f;
 	}
 
 	void OnDrawGizmos() 

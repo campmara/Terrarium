@@ -1,11 +1,18 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BasePlant : MonoBehaviour
 {
 	[SerializeField] protected BasePlantAssetKey _pAssetKey = BasePlantAssetKey.NONE;
 	public BasePlantAssetKey PAssetKey { get { return _pAssetKey; } set { _pAssetKey = value; } }
+	protected float _innerMeshRadius = 0.0f;
+	public float InnerRadius { get { return _innerMeshRadius; } set { _innerMeshRadius = value;} }
+
+	protected float _outerSpawnRadius = 2.5f;
+	public float OuterRadius { get { return _outerSpawnRadius; } set { _outerSpawnRadius = value;} }
+
+	protected float _spawnHeight = 8.0f;
+	public float SpawnHeight { get { return _spawnHeight; } set { _spawnHeight = value;} }
 
     // *************
     // DEATH VARS
@@ -112,11 +119,6 @@ public class BasePlant : MonoBehaviour
 		_activeController.StompPlant();
 	}
 
-	public virtual GameObject SpawnChildPlant()
-	{
-		return _activeController.SpawnChildPlant();
-	}
-
 	public virtual GameObject DropFruit()
 	{
 		return _activeController.DropFruit();
@@ -133,14 +135,14 @@ public class BasePlant : MonoBehaviour
 		}
 	}
 
-	//helper function
-	public Vector2 GetRandomPoint( float minDist, float maxDist)
+	public Vector2 GetRandomPoint()
 	{
-		Vector2 randomPoint = Random.insideUnitCircle;
-		float yOffset = Random.Range( minDist, maxDist );
-		float xOffset = Random.Range( minDist, maxDist );
-		randomPoint = new Vector2( Mathf.Sign(randomPoint.x) * xOffset +  randomPoint.x, randomPoint.y + yOffset * Mathf.Sign(randomPoint.y) );
 
+		Vector2 randomPoint = Random.insideUnitCircle;
+		float xRand = Random.Range( _innerMeshRadius, _outerSpawnRadius );
+		float yRand = Random.Range( _innerMeshRadius, _outerSpawnRadius );
+		randomPoint = new Vector2( Mathf.Sign( randomPoint.x ) * xRand +  randomPoint.x, randomPoint.y + yRand * Mathf.Sign( randomPoint.y ) );
+	
 		return randomPoint;
 	}
 

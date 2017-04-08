@@ -14,8 +14,6 @@ public class SPDeathController : PlantController
 	public override void StopState(){}
 	public override void StartState(){}
 
-	public override GameObject SpawnChildPlant(){ return null; }
-
 	public override void WaterPlant(){}
 	public override void TouchPlant(){}
 	public override void GrabPlant(){}
