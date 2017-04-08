@@ -292,7 +292,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 			_paletteIndex = _paletteOrderList.Count - 1;
 		}
 
-		UpdatePalette( _paletteIndex );
+		UpdatePalette( _paletteOrderList[_paletteIndex] );
 
 		//		if( _paletteIndex != _environmentPaletteList.FindIndex( x => x.title == _activePalette.title ) )    // Should be b a better way to do this
 		//		{

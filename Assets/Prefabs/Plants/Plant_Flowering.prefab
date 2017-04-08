@@ -386,6 +386,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _essenceSystemPrefab: {fileID: 198300462505096804, guid: f9d0ee3e3519f4709aa9409c6c902457,
     type: 2}
+  _essenceMesh: {fileID: 137425570155143246}
   _type: -1
   _deathColors:
   - {r: 0.7647059, g: 0.6934825, b: 0.29238755, a: 0.07980764}
@@ -438,7 +439,7 @@ MonoBehaviour:
   _scaleRatios:
   - {x: 3, y: 1}
   - {x: 1, y: 1}
-  - {x: 0.5, y: 2}
+  - {x: 0.5, y: 1.5}
   _wateredGrowthRate: 0.001
   _curStage: 0
   _droppingItems:
