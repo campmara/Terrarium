@@ -30,8 +30,8 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
     const float WAVENOISE_MAX = 1.25f;
 
     // Scale of the oscillation of the wind
-    const float WAVESCALE_MIN = 0.5f;
-    const float WAVESCALE_MAX = 0.6f;
+    const float WAVESCALE_MIN = 0.15f;
+    const float WAVESCALE_MAX = 0.3f;
 
     // Amount wind effect is scaled overall
     const float WAVEAMOUNT_MIN = 0.25f;
@@ -47,8 +47,8 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
     const float WINDTROUGH_WAITMIN = 5.0f;
     const float WINDTROUGH_WAITMAX = 30.0f;
 
-    const float WINDPEAK_WAITMIN = 5.0f;
-    const float WINDPEAK_WAITMAX = 10.0f;
+    const float WINDPEAK_WAITMIN = 15.0f;
+    const float WINDPEAK_WAITMAX = 20.0f;
 
     const float WINDRISE_MINTIME = 0.5f;
     const float WINDRISE_MAXTIME = 2.0f;
@@ -105,6 +105,7 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
 
 		if( endTrough )
 		{
+			_waveTime = 0.0f;
 			UpdateWindDirection();	
 		}
 
