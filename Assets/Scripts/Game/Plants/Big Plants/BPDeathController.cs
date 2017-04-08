@@ -133,7 +133,7 @@ public class BPDeathController : PlantController
 	{
 		for (int i = 0; i < _componentMaterials.Count; i++)
 		{
-			_componentMaterials[i].SetFloat("_Cutoff", _cutoffValue);
+			_componentMaterials[i].SetFloat("_Dissolve", _cutoffValue);
 		}
 
 		if (_essenceParticleSystem != null)

@@ -17,7 +17,7 @@
 		_Sensitivity("Height Sensitivity to Wind", Range(.000001, 1000)) = 15
 
 		[Header(Cutoff Values)]
-		_Cutoff("Alpha Cutoff", Range(0, 1)) = 0
+		_Dissolve("Dissolve Amount", Range(0, 1)) = 0
 		_CutoffNoiseScale("Cutoff Noise Scale", float) = 10
 		_CutoffEdgeScale("Cutoff Edge Scale", Range(.4,.5)) = .45
 
@@ -65,7 +65,7 @@
 
 		float _CutoffEdgeScale;
 		float _CutoffNoiseScale;
-		float _Cutoff;
+		float _Dissolve;
 
 		fixed4 _ColorTop;
 		fixed4 _ColorMid;
@@ -142,10 +142,10 @@
 			gradient += lerp(_ColorMid, _ColorTop, (IN.uv_MainTex.y - _Middle) / (1 - _Middle)) * step(_Middle, IN.uv_MainTex.y);
 
 			//crispy edges for fading
-			gradient = lerp(gradient, _ColorMid, round(1 - (alpha - _Cutoff + _CutoffEdgeScale)));
+			gradient = lerp(gradient, _ColorMid, round(1 - (alpha - _Dissolve + _CutoffEdgeScale)));
 
 			o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb * gradient;
-			o.Alpha = alpha - _Cutoff;
+			o.Alpha = alpha - _Dissolve;
 
 			//code for fading from the top of the mesh
 			//o.Alpha = lerp(0, 1, ((1 - IN.uv_MainTex.y) * 2) - (_CutoffPos + color.r/4 * _CutoffPos));
