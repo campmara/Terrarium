@@ -475,6 +475,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _essenceSystemPrefab: {fileID: 198300462505096804, guid: f9d0ee3e3519f4709aa9409c6c902457,
     type: 2}
+  _essenceMesh: {fileID: 137172006984509768}
   _type: -1
   _deathColors:
   - {r: 0.654902, g: 0.60784316, b: 0.5058824, a: 0}
