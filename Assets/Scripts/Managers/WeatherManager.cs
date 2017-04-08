@@ -44,8 +44,8 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
     Tween _windChangeTween = null;
 
     // How long of a wait there is between wind picking up again
-    const float WINDTROUGH_WAITMIN = 5.0f;
-    const float WINDTROUGH_WAITMAX = 30.0f;
+    const float WINDTROUGH_WAITMIN = 2.0f;
+    const float WINDTROUGH_WAITMAX = 10.0f;
 
     const float WINDPEAK_WAITMIN = 15.0f;
     const float WINDPEAK_WAITMAX = 20.0f;
@@ -104,8 +104,7 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
 		float endInterp = endTrough ? Random.value/*_windStateInterpValues[Random.Range( 0, _windStateInterpValues.Length )] */: 0.0f;
 
 		if( endTrough )
-		{
-			_waveTime = 0.0f;
+		{			
 			UpdateWindDirection();	
 		}
 
