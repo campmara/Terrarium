@@ -51,10 +51,14 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 	EnvironmentPalette _activePalette;
 	public EnvironmentPalette ActivePalatte { get { return _activePalette; } }
 	public const float PALATTE_TRANSITIONTIME = 5.0f;
+	const float PALATTE_ADVANCETIMER = 600.0f;
 
 
 	[SerializeField, Space(5)] List<EnvironmentPalette> _environmentPaletteList = new List<EnvironmentPalette>();
 	public List<EnvironmentPalette> PalletteList { get { return _environmentPaletteList; } set { _environmentPaletteList = value; } }
+
+	[SerializeField, Space(5)]
+	List<int> _paletteOrderList = new List<int>();
 
 	// TODO make as many of these global shader things as possible?
 	[Header("Global Materials"), Space(5)]
@@ -78,13 +82,18 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 
 	[SerializeField] Material cappPlantMat;
 
-
-	void Awake () 
+	void Start()
 	{
+		_paletteIndex = 0;
+		UpdatePalette( _paletteOrderList[_paletteIndex] );	
+
+		StartCoroutine( PaletteChangeTimer() );
 	}
 
 	public override void Initialize ()
 	{
+		
+
 
 		isInitialized = true;
 	}
@@ -92,7 +101,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 	void UpdatePalette( int newPalatteIndex )
 	{
 		EnvironmentPalette prevPalatte = _activePalette;
-		_activePalette = _environmentPaletteList[_paletteIndex];
+		_activePalette = _environmentPaletteList[newPalatteIndex];
 
 		if( !Application.isPlaying )
 		{
@@ -278,9 +287,9 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 		{
 			_paletteIndex = 0;
 		}
-		else if( _paletteIndex >= _environmentPaletteList.Count )
+		else if( _paletteIndex >= _paletteOrderList.Count )
 		{
-			_paletteIndex = _environmentPaletteList.Count - 1;
+			_paletteIndex = _paletteOrderList.Count - 1;
 		}
 
 		UpdatePalette( _paletteIndex );
@@ -290,5 +299,22 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 		//			
 		//		}
 
+	}
+
+	IEnumerator PaletteChangeTimer()
+	{
+		yield return new WaitForSeconds( PALATTE_ADVANCETIMER );
+
+		_paletteIndex++;
+		if( _paletteIndex >= _paletteOrderList.Count )
+		{
+			_paletteIndex = 0;
+		}
+
+		UpdatePalette( _paletteOrderList[_paletteIndex] );
+
+		yield return new WaitForSeconds( PALATTE_TRANSITIONTIME );
+
+		StartCoroutine( PaletteChangeTimer() );
 	}
 }
