@@ -1730,6 +1730,7 @@ MonoBehaviour:
       m_Mode: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
+  _paletteOrderList: 00000000010000000200000003000000
   terrainMaterial: {fileID: 2100000, guid: be1f84fcd12c8814fb81989242a6b5ed, type: 2}
   groundSplatDecal: {fileID: 0}
   terrainRockMat: {fileID: 2100000, guid: ab8ff36f194754c40ad100a76aad9791, type: 2}
