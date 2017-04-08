@@ -12,6 +12,7 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
 
     // World direction of wind
     [ReadOnlyAttribute, SerializeField] Vector3 _waveDir = Vector3.right;
+	float _waveTime = 0.0f;
 
     // Force range applied to objects
     const float WINDFORCE_MIN = 0.0f;
@@ -74,6 +75,12 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
         isInitialized = true;
     }
 
+	void Update()
+	{
+		_waveTime = Time.deltaTime * Mathf.Lerp( WAVESPEED_MIN, WAVESPEED_MAX, _windInterp );
+		Shader.SetGlobalFloat( "_WaveTime", _waveTime );
+	}
+
     private void HandleWindEnterPeak()
     {
         StartCoroutine( WindChangeRoutine( true ) );
@@ -91,37 +98,31 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
 
     IEnumerator WindChangeRoutine( bool endTrough )
     {
-        if ( endTrough )
-        {
-            // If ending the trough time to tween to Peak
-            //_windChangeTween = DOTween.To( () => _windInterp, x => _windInterp = x, _windStateInterpValues[Random.Range( 0, _windStateInterpValues.Length )], Random.Range( WINDRISE_MINTIME, WINDRISE_MAXTIME ) );
-            //_windChangeTween.SetEase( Ease.OutBack );
+		float timer = 0.0f;
+		float duration = Random.Range( WINDRISE_MINTIME, WINDRISE_MAXTIME );
+		float startInterp = _windInterp;
+		float endInterp = endTrough ? _windStateInterpValues[Random.Range( 0, _windStateInterpValues.Length )] : 0.0f;
 
-            _windInterp = _windStateInterpValues[Random.Range( 0, _windStateInterpValues.Length )];
-        }
-        else
-        {
-            // Else transition back to no wind
-            //_windChangeTween = DOTween.To( () => _windInterp, x => _windInterp = x, 0.0f, Random.Range( WINDEND_MINTIME, WINDEND_MAXTIME ) );
-            //_windChangeTween.SetEase( Ease.Linear );
-            _windInterp = 0.0f;
-        }
+		UpdateWindDirection();
 
-        //while ( _windChangeTween.IsPlaying() )
-        //{
-        //    UpdateWindShaderValues();
-        //    yield return 0;
-        //}
+		while ( timer < duration )
+		{
+			timer += Time.deltaTime;
 
-        UpdateWindShaderValues();
-        UpdateWindDirection();
+			_windInterp = Mathf.Lerp( startInterp, endInterp, timer / duration );
 
+			UpdateWindShaderValues();
+
+			yield return 0;
+		}
+
+		_windInterp = endInterp;
+
+		//_windInterp = _windStateInterpValues[Random.Range( 0, _windStateInterpValues.Length )];
+		    
         yield return 0;
-
-        //_windChangeTween.Kill();
-
+		        
         HandleWindWait( !endTrough );
-
     }
 
     IEnumerator WindWaitRoutine( bool isTrough )
