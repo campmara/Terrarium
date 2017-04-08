@@ -22,7 +22,6 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 		public Gradient pondRockGradient;
 		public Color terrainRockColor;
 		public Color terrainMossRockColor;
-		public Color terrainMossColor;
 
 		[Header("Sky / Fog colors"), Space(5)]
 		public Color fogColor;
@@ -121,7 +120,6 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 
 			terrainRockMat.SetColor( "_Color", _activePalette.terrainRockColor);
 			terrainMossRockMat.SetColor( "_Color", _activePalette.terrainMossRockColor );
-			terrainMossRockMat.SetColor( "_MeltColor", _activePalette.terrainMossColor );
 
 			//skybox
 			RenderSettings.fogColor = _activePalette.fogColor;
@@ -207,7 +205,6 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 			terrainMaterial.SetColor( "_Color", Colorx.Slerp( prevPalette.terrainColor, _activePalette.terrainColor, timer / duration ) );						
 			terrainRockMat.SetColor( "_Color", Colorx.Slerp( prevPalette.terrainRockColor, _activePalette.terrainRockColor, timer / duration ) );
 			terrainMossRockMat.SetColor( "_Color", Colorx.Slerp( prevPalette.terrainMossRockColor, _activePalette.terrainMossRockColor, timer / duration ) );
-			terrainMossRockMat.SetColor( "_MeltColor", Colorx.Slerp( prevPalette.terrainMossColor, _activePalette.terrainMossColor, timer / duration ) );
 
 			yield return 0;
 		}
