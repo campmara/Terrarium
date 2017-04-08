@@ -415,7 +415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48546a37106ae474c9854776c588eedc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _type: 0
+  _type: -1
   _deathColors:
   - {r: 0.7647059, g: 0.6934825, b: 0.29238755, a: 0.07980764}
   - {r: 0.58823526, g: 0.46948567, b: 0.22923875, a: 0.07980764}
@@ -463,12 +463,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseGrowthRate: 0.0025
+  _scaleMultiplierRange: {x: 3, y: 18}
+  _scaleRatios:
+  - {x: 3, y: 1}
+  - {x: 1, y: 1}
+  - {x: 0.5, y: 2}
   _wateredGrowthRate: 0
   _curStage: 0
   _droppingItems:
   - {fileID: 1356359172527236, guid: bbfef1f81afcefc438cf9d537e7f0931, type: 2}
-  _spawnables:
+  _smallSpawnables:
+  - {fileID: 1969664330500318, guid: 267f161e8216446fd8bd51c9ff2019f2, type: 2}
+  - {fileID: 1863841682442650, guid: fa18cc17991d646178faacbf71f38a50, type: 2}
+  _mediumSpawnables:
   - {fileID: 1957489743728246, guid: 83b5e0e2c650c804e98215001deaed97, type: 2}
+  _smallSpawnRadRange: {x: 0.1, y: 1.5}
+  _numSmallPlants: {x: 15, y: 20}
+  _mediumSpawnRadRange: {x: 1.5, y: 4.5}
+  _numMedPlants: {x: 4, y: 6}
+  spawnState: 0
   _bStemRoot: {fileID: 4521704662299462}
   _leafPrefab: {fileID: 1248963832722794, guid: a0521c65f58601b43975af7e8620d049,
     type: 2}
