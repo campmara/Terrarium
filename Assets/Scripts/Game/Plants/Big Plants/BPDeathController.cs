@@ -127,8 +127,6 @@ public class BPDeathController : PlantController
 
 	void FadeEssence()
 	{
-		Debug.Log("Fading Essence");
-
 		for (int i = 0; i < _componentMaterials.Count; i++)
 		{
 			_componentMaterials[i].SetFloat("_Dissolve", _cutoffValue);
