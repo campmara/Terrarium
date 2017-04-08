@@ -15,7 +15,7 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 8
   m_Fog: 0
-  m_FogColor: {r: 0.093263395, g: 0.34290746, b: 0.5514706, a: 0}
+  m_FogColor: {r: 0.9044118, g: 0.8420386, b: 0.6384083, a: 0}
   m_FogMode: 3
   m_FogDensity: 0.0325
   m_LinearFogStart: 0
@@ -2880,17 +2880,17 @@ Prefab:
     - target: {fileID: 198777316632145236, guid: f3fe1fdb9da654f72ae8ff06711f4a80,
         type: 2}
       propertyPath: InitialModule.startColor.maxColor.r
-      value: 0.61894464
+      value: 0.21488248
       objectReference: {fileID: 0}
     - target: {fileID: 198777316632145236, guid: f3fe1fdb9da654f72ae8ff06711f4a80,
         type: 2}
       propertyPath: InitialModule.startColor.maxColor.g
-      value: 0.21154593
+      value: 0.27551904
       objectReference: {fileID: 0}
     - target: {fileID: 198777316632145236, guid: f3fe1fdb9da654f72ae8ff06711f4a80,
         type: 2}
       propertyPath: InitialModule.startColor.maxColor.b
-      value: 0.118327655
+      value: 0.13370776
       objectReference: {fileID: 0}
     - target: {fileID: 198777316632145236, guid: f3fe1fdb9da654f72ae8ff06711f4a80,
         type: 2}
@@ -3073,11 +3073,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114374224506587848, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
-        type: 2}
-      propertyPath: groundSplatDecal
-      value: 
-      objectReference: {fileID: 1293482411}
     - target: {fileID: 114536147130075368, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
         type: 2}
       propertyPath: _pond
@@ -3093,6 +3088,11 @@ Prefab:
       propertyPath: _mask
       value: 
       objectReference: {fileID: 1017378814}
+    - target: {fileID: 114374224506587848, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
+        type: 2}
+      propertyPath: groundSplatDecal
+      value: 
+      objectReference: {fileID: 1293482411}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 17e7204e7259943eaa4ae4fd5f6f0e54, type: 2}
   m_IsPrefabParent: 0

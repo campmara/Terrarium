@@ -13,6 +13,7 @@ Shader "Custom/Waterball"
 {
 	Properties
 	{
+		[Header(Color)]
 		//gradient plus
 		_ColorTop("Top Color", Color) = (1,1,1,1)
 		_ColorMid("Mid Color", Color) = (1,1,1,1)
@@ -20,25 +21,30 @@ Shader "Custom/Waterball"
 		_Middle("Middle", Range(0.001, 0.999)) = 0.5
 		_MainTex("Albedo (RGB)", 2D) = "white" {}
 
+		[Header(Rim Lighting)]
 		// Rim Lighting
 		_RimColor ("Rim Color", Color) = (0.26,0.19,0.16,0.0)
       	_RimPower ("Rim Power", Range(0.5,8.0)) = 0.9
 		
+		[Header(Distortion)]
 		//distortion
 		_DistAmt("Distortion", range(0,128)) = 13
 		_ColorFog("Fogginess", range(0, 1)) = 0.78
 
+		[Header(Smear)]
 		//delay stuff
-		_Position("Position", Vector) = (0, 0, 0, 0)
-		_PrevPosition("Prev Position", Vector) = (0, 0, 0, 0)
+		[HideInInspector]_Position("Position", Vector) = (0, 0, 0, 0)
+		[HideInInspector]_PrevPosition("Prev Position", Vector) = (0, 0, 0, 0)
 		_SmearNoiseScale("Smear Noise Scale", Float) = 1
 		_SmearNoiseHeight("Smear Noise Height", Float) = 1.3
 
+		[Header(Constant Noise)]
 		//general noise stuff
 		_MainNoiseScale("Main Noise Scale", Float) = 1
 		_MainNoiseHeight("Main Noise Height", Float) = 0
 		_NoiseOffset("Noise Offset", Vector) = (0,0,0,0)
 
+		[Header(Melt)]
 		//conewars melt
 		_MeltY("Melt Y", Float) = 0.0
 		_MeltDistance("Melt Distance", Float) = 1.0
