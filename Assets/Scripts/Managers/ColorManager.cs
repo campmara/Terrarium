@@ -19,7 +19,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 
 		[Header("Terrain colors"), Space(5)]
 		public Color terrainColor;
-		public Color pondRockGradient;
+		public Color pondRockColor;
 		public Color terrainRockColor;
 		public Color terrainMossRockColor;
 
@@ -121,7 +121,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 				terrainMaterial.SetColor( "_Color", _activePalette.terrainColor );
 			}
 
-			pondRockMat.SetColor( "_Color", _activePalette.pondRockGradient );
+			pondRockMat.SetColor( "_Color", _activePalette.pondRockColor );
 			//ApplyThreePartGradient( pondRockMat, _activePalette.pondRockGradient );
 
 			ApplyThreePartGradient( mossPlantSeedMat, _activePalette.mossPlantSeed );
@@ -196,7 +196,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 			terrainRockMat.SetColor( "_Color", Colorx.Slerp( prevPalette.terrainRockColor, _activePalette.terrainRockColor, timer / duration ) );
 			terrainMossRockMat.SetColor( "_Color", Colorx.Slerp( prevPalette.terrainMossRockColor, _activePalette.terrainMossRockColor, timer / duration ) );
 
-			pondRockMat.SetColor( "_Color", Colorx.Slerp( prevPalette.pondRockGradient, _activePalette.pondRockGradient, timer / duration ) );
+			pondRockMat.SetColor( "_Color", Colorx.Slerp( prevPalette.pondRockColor, _activePalette.pondRockColor, timer / duration ) );
 
 			yield return 0;
 		}
