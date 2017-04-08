@@ -99,9 +99,6 @@ public class BPDeathController : PlantController
 			}
 		}
 
-		
-		
-
 		if( _componentMaterials.Count > 0 )
 		{
 			_shaderIDs[0] = Shader.PropertyToID( "_ColorTop");
