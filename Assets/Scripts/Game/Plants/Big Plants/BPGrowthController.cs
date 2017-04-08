@@ -88,13 +88,24 @@ public class BPGrowthController : PlantController
 	{
 		_controllerType = ControllerType.Growth;
 
-		Vector2 ratio = _scaleRatios[ Random.Range( 0, _scaleRatios.Count - 1 ) ];
+		Vector2 ratio = _scaleRatios[ Random.Range( 0, _scaleRatios.Count ) ];
 		float multiplier = Random.Range( _scaleMultiplierRange.x, _scaleMultiplierRange.y);
 		_maxHeight = ratio.y * multiplier;
 		_maxWidth = ratio.x * multiplier;
 
 		_maxSmalls = (int)Random.Range( _numSmallPlants.x, _numSmallPlants.y );
 		_maxMediums = (int)Random.Range( _numMedPlants.x, _numMedPlants.y );
+
+		Collider[] cols = Physics.OverlapSphere( transform.position, 1.0f );
+		foreach( Collider col in cols)
+		{
+			if( col.GetComponent<PondTech>() )
+			{
+				PlantManager.instance.DeleteLargePlant( GetComponent<BasePlant>() );
+				break;
+			}
+		}
+
 	}
 
 	public override void StartState()
@@ -193,7 +204,7 @@ public class BPGrowthController : PlantController
 				BPGrowthController otherPlant = col.GetComponent<BPGrowthController>();
 				if( otherPlant && col.gameObject != _myPlant.gameObject )
 				{
-					if( FillsOverlapCondition( otherPlant ) )
+					if( FillsOverlapCondition( otherPlant ) || col.GetComponent<PondTech>() )
 					{
 						return true;
 					}
