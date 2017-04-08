@@ -37,7 +37,12 @@ public class GroundGrowthController : PlantController
 			_curTimer += Time.deltaTime;
 		}
 	}
-				
+
+	void LateUpdate()
+	{
+		
+	}
+
 	void OnTriggerEnter( Collider col )
 	{
 		_squishing = true;

@@ -156,9 +156,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pAssetKey: -1
   _deathDuration: 0
-  _DeathDurationRange: {x: 15, y: 20}
+  _DeathDurationRange: {x: 300, y: 400}
   _DeathTimer: 0
-  _baseDecayRate: 2
+  _baseDecayRate: 1
   _curDecayRate: 0
 --- !u!114 &114253032095435784
 MonoBehaviour:
@@ -186,4 +186,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5254b8b933ba47d69ab5b96eaa66bef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lifetime: 10
+  _lifetime: 1
