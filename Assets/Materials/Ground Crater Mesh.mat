@@ -81,18 +81,5 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - first:
-        name: _Color
-      second: {r: 0.974645, g: 1, b: 0.8161765, a: 0}
-    - first:
-        name: _ColorBot
-      second: {r: 0.1781351, g: 0.27205884, b: 0.08801904, a: 1}
-    - first:
-        name: _ColorMid
-      second: {r: 0.3823887, g: 0.4705882, b: 0.24221453, a: 1}
-    - first:
-        name: _ColorTop
-      second: {r: 0.5588235, g: 0.5128028, b: 0.44377163, a: 1}
-    - first:
-        name: _EmissionColor
-      second: {r: 0, g: 0, b: 0, a: 1}
+    - _Color: {r: 0.33823532, g: 0.33823532, b: 0.33823532, a: 1}
+    - first: {r: 0, g: 1, b: 0, a: 0}
