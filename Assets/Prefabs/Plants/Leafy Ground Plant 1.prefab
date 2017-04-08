@@ -85,7 +85,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pAssetKey: -1
+  _deathDuration: 0
   _DeathDurationRange: {x: 550, y: 600}
+  _DeathTimer: 0
   _baseDecayRate: 1
   _curDecayRate: 0
 --- !u!114 &114200887993625748
@@ -112,7 +114,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spawnables:
   - {fileID: 1863841682442650, guid: fa18cc17991d646178faacbf71f38a50, type: 2}
-  - {fileID: 1211071532307350, guid: 267f161e8216446fd8bd51c9ff2019f2, type: 2}
+  - {fileID: 1969664330500318, guid: 267f161e8216446fd8bd51c9ff2019f2, type: 2}
   _growthRate: 0.1
   _baseGrowthRate: 0.4
   _scaleRange: {x: 3, y: 9}
@@ -129,11 +131,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48546a37106ae474c9854776c588eedc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _type: 2
   _deathColors:
   - {r: 0.6544118, g: 0.6070897, b: 0.5052444, a: 0}
   - {r: 0.50735295, g: 0.43721884, b: 0.33201775, a: 0}
   - {r: 0.30882353, g: 0.26497433, b: 0.14987023, a: 0}
   _waterDecayReturnTime: 20
+  windEffect: 30
 --- !u!114 &114956479723811758
 MonoBehaviour:
   m_ObjectHideFlags: 1
