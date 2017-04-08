@@ -8,7 +8,7 @@ using DG.Tweening;
 public class PanelIntro : PanelBase {
 
     [SerializeField] RawImage _introCover = null;
-    const float INTRO_FADETIME = 0.0f;
+    const float INTRO_FADETIME = 1.0f;
 
     const float START_SCALE = 5.0f;
 
@@ -57,7 +57,7 @@ public class PanelIntro : PanelBase {
 
         yield return coverAlphaTween.WaitForCompletion();
 
-        PondManager.instance.HandlePondReturn();
+        //PondManager.instance.HandlePondReturn();
 
         _disablePrepped = true;
     }

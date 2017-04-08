@@ -2,36 +2,34 @@
 {
 	Properties
 	{
+		[Header(Colors)]
 		_MainTex("Base (RGB)", 2D) = "white" {}
-		_SecondaryTex("Secondary (RGB)", 2D) = "white" {}
-		_NormalTex("Normal Map", 2D) = "bump" {}
-
 		_ColorTop("Top Color", Color) = (1,1,1,1)
 		_ColorMid("Mid Color", Color) = (1,1,1,1)
 		_ColorBot("Bot Color", Color) = (1,1,1,1)
 		_Middle("Middle", Range(0.001, 0.999)) = 0.5
 
+		[Header(Light Values)]
 		_Hardness("Hardness", Range(.25, 1)) = 0.5
 
-		_Sensitivity("Height Sensitivity", Range(.000001, 1000)) = 15
+		[Header(Wind Values)]
+		[Toggle]_WindEnabled("Wind Enabled", float) = 1
+		_Sensitivity("Height Sensitivity to Wind", Range(.000001, 1000)) = 15
 
-		_NoiseFade("Noise Fade Amount", Range(0, 1)) = 0
+		[Header(Cutoff Values)]
+		_Dissolve("Dissolve Amount", Range(0, 1)) = 0
+		_CutoffNoiseScale("Cutoff Noise Scale", float) = 10
+		_CutoffEdgeScale("Cutoff Edge Scale", Range(.4,.5)) = .45
 
-		//these values are made uniform lower in the shader
-		//I kept them in for debugging later on.
-			//_WaveDir("Wind Direction", Vector) = (0,0,0,0)
-			//_WaveNoise("Wind Noisiness", float) = 0
-			//_WaveScale("Wind Scale", float) = 0 
-			//_WaveAmount("Wind Amount", float) = 0
-
+		//_CutoffPos("Cutoff Position", Range(0,1)) = 1. for vanishing from top
 	}
 	SubShader
 	{
 		Tags{ "Queue" = "Geometry" }
-		//Cull Off
+		Cull Off
 		CGPROGRAM
 		
-		#pragma surface surf WrapLambert vertex:vert addshadow
+		#pragma surface surf WrapLambert vertex:vert addshadow alphatest:zero
 		#include "Noise.cginc"
 
 		half _Hardness;
@@ -58,14 +56,16 @@
 		struct Input 
 		{
 			float2 uv_MainTex;
-			float2 uv_SecondaryTex;
-			float2 uv_NormalTex;
-			float4 color : COLOR;
+			//float4 color : COLOR;
+			float3 localPos;
+			float3 localNormal;
 		};
 
 		sampler2D _MainTex;
-		sampler2D _SecondaryTex;
-		sampler2D _NormalTex;
+
+		float _CutoffEdgeScale;
+		float _CutoffNoiseScale;
+		float _Dissolve;
 
 		fixed4 _ColorTop;
 		fixed4 _ColorMid;
@@ -73,10 +73,8 @@
 		float  _Middle;
 
 		//wind
+		float _WindEnabled;
 		float _Sensitivity;
-
-		// Noisy Fade Effect
-		float _NoiseFade;
 
 		//these values are uniform so that they'll work globally
 		uniform fixed4 _WaveDir;
@@ -85,11 +83,16 @@
 		uniform float _WaveScale;
 		uniform float _WaveTime;
 
-		void vert(inout appdata_full v) 
+		void vert(inout appdata_base v, out Input o) 
 		{
 
+			UNITY_INITIALIZE_OUTPUT(Input, o);
+
+			o.localPos = v.vertex;
+			o.localNormal = v.normal;
+
 			//this effect causes the material to disappear if the amount is 0, this won't run the code if that's the case
-			if (_WaveAmount == 0 || _WaveDir.x == 0 && _WaveDir.y == 0 && _WaveDir.z == 0) { return; }
+			if (_WindEnabled == 0 || _WaveAmount == 0 || _WaveDir.x == 0 && _WaveDir.y == 0 && _WaveDir.z == 0) { return; }
 			
 			//put it in world space
 			float4 worldPos = mul(unity_ObjectToWorld, v.vertex);
@@ -111,25 +114,44 @@
 			//take it back to object space
 			float4 objectSpaceVertex = mul(unity_WorldToObject, worldPos);
 			v.vertex = objectSpaceVertex;
-		
-			/*
-			v.color.r = wind;
-			v.color.g = wind;
-			v.color.b = wind; 
-			*/
 		}
 
 		void surf(Input IN, inout SurfaceOutput o) 
 		{
+
+			//...
+			//https://github.com/keijiro/TriplanarPBS/blob/master/Assets/TriplanarPBS/Shaders/TriplanarPBS.shader#L69
+			// Calculate a blend factor for triplanar mapping.
+			float3 bf = normalize(abs(IN.localNormal));
+			bf /= dot(bf, (float3)1);
+
+			// Get texture coordinates.
+			float2 tx = IN.localPos.yz * _CutoffNoiseScale;
+			float2 ty = IN.localPos.zx * _CutoffNoiseScale;
+			float2 tz = IN.localPos.xy * _CutoffNoiseScale;
+
+			// Base color
+			half4 cx = wnoise(float3(tx,0)) * bf.x;
+			half4 cy = wnoise(float3(ty,0)) * bf.y;
+			half4 cz = wnoise(float3(tz,0)) * bf.z;
+			half4 color = (cx + cy + cz);
+			float alpha = color.r;
+			//...
+
 			fixed4 gradient = lerp(_ColorBot, _ColorMid, IN.uv_MainTex.y / _Middle) * step(IN.uv_MainTex.y, _Middle);
 			gradient += lerp(_ColorMid, _ColorTop, (IN.uv_MainTex.y - _Middle) / (1 - _Middle)) * step(_Middle, IN.uv_MainTex.y);
 
-			o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb * tex2D(_SecondaryTex, IN.uv_SecondaryTex).rgb * gradient;
-			//o.Albedo = IN.color.r;
-			o.Normal = UnpackNormal(tex2D(_NormalTex, IN.uv_NormalTex));
+			//crispy edges for fading
+			gradient = lerp(gradient, _ColorMid, round(1 - (alpha - _Dissolve + _CutoffEdgeScale)));
+
+			o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb * gradient;
+			o.Alpha = alpha - _Dissolve;
+
+			//code for fading from the top of the mesh
+			//o.Alpha = lerp(0, 1, ((1 - IN.uv_MainTex.y) * 2) - (_CutoffPos + color.r/4 * _CutoffPos));
 		}
 
 		ENDCG
 	}
-	FallBack "Standard"
+	FallBack "Transparent/Cutout/Diffuse"
 }

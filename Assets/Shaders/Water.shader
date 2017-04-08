@@ -1,4 +1,6 @@
-﻿Shader "Custom/Water"
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Custom/Water"
 {
 	Properties
 	{
@@ -78,7 +80,7 @@
 
 			//https://forum.unity3d.com/threads/refraction-example.78750/
 			//refraction distorting uvs
-			float4 oPos = mul(UNITY_MATRIX_MVP, v.vertex);
+			float4 oPos = UnityObjectToClipPos(v.vertex);
 			#if UNITY_UV_STARTS_AT_TOP
 				float scale = -1.0;
 			#else

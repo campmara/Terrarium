@@ -6,7 +6,7 @@ public class ControllerBase : MonoBehaviour
 {
 	protected InputCollection _input;
 
-	public void UpdateController()
+	public void FixedUpdateController()
 	{
 		_input = ControlManager.instance.getInput();
 		HandleInput();

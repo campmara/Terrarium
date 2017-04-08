@@ -21,9 +21,10 @@ public class GroundPlantGrowthController : SPGrowthController
 	{
 		base.InitPlant();
 		StartGrowth();
+
 	}
 
-	void StartGrowth()
+    void StartGrowth()
 	{
 		for( int _layerIndex = 0; _layerIndex < _layerCount; _layerIndex++ )
 		{
@@ -148,4 +149,5 @@ public class GroundPlantGrowthController : SPGrowthController
 		_waiting = false;
 		_myPlant.SwitchController( this );
 	}
+		
 }

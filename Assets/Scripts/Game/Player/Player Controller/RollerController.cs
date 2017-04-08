@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public enum P_ControlState
 {
@@ -223,7 +224,7 @@ public class RollerController : ControllerBase
 		// Left Stick Movement
 		Vector3 vec = new Vector3(_input.LeftStickX, 0f, _input.LeftStickY);
 
-		if(vec.magnitude > RollerConstants.instance.IDLE_MAXMAG)
+		if(vec.magnitude > RollerConstants.instance.IdleMaxMag)
 		{
 			if(_idleWaitRoutine != null)
 			{
@@ -266,7 +267,7 @@ public class RollerController : ControllerBase
 		{
 		    if( _idleWaitRoutine == null )
 			{
-				_idleWaitRoutine = StartCoroutine( JohnTech.WaitFunction(RollerConstants.instance.IDLE_WAITTIME, () => HandleBeginIdle() ) );
+				_idleWaitRoutine = StartCoroutine( JohnTech.WaitFunction(RollerConstants.instance.IdleWaitTime, () => HandleBeginIdle() ) );
 			}
 		}
 	}
@@ -278,7 +279,7 @@ public class RollerController : ControllerBase
 		// Left Stick Movement
 		Vector3 vec = new Vector3(_input.LeftStickX, 0f, _input.LeftStickY);
 
-		if( vec.magnitude > RollerConstants.instance.IDLE_MAXMAG )
+		if( vec.magnitude > RollerConstants.instance.IdleMaxMag )
 		{
 			if( _idleWaitRoutine != null )
 			{
@@ -326,10 +327,10 @@ public class RollerController : ControllerBase
 		{
 			if( _idleWaitRoutine == null )
 			{
-				_idleWaitRoutine = StartCoroutine( JohnTech.WaitFunction(RollerConstants.instance.IDLE_WAITTIME, () => HandleBeginIdle() ) );
+				_idleWaitRoutine = StartCoroutine( JohnTech.WaitFunction(RollerConstants.instance.IdleWaitTime, () => HandleBeginIdle() ) );
 			}
 		}
-		_ik.UpdateMovementData( _velocity, transform.position + (transform.forward * _inputVec.magnitude * _velocity * RollerConstants.instance.IK_TARGETWORLDSCALAR * Time.deltaTime), transform.rotation );
+		_ik.UpdateMovementData( _velocity, transform.position + (transform.forward * _inputVec.magnitude * _velocity * RollerConstants.instance.IKTargetWorldScalar * Time.deltaTime), transform.rotation );
 
 		// Hmm
 		// yeah hmmm
@@ -356,12 +357,20 @@ public class RollerController : ControllerBase
 			_velocity = Mathf.Sign(_velocity) * max;
 		}
 
-        _velocity -= RollerConstants.instance.WALK_TURNDAMPENING * Mathf.InverseLerp( RollerConstants.instance.WALK_TURNANGLE_MIN, RollerConstants.instance.WALK_TURNANGLE_MAX, _targetRotAngle );
+        _velocity -= RollerConstants.instance.WalkTurnDampening * Mathf.InverseLerp( RollerConstants.instance.WalkTurnAngleMin, RollerConstants.instance.WalkTurnAngleMax, _targetRotAngle );
 
 		if( _velocity < 0.0f )
 		{
 			_velocity = 0.0f;
 		}
+    }
+
+    /// <summary>
+    /// Zeros out Velocity
+    /// </summary>
+    public void StopPlayer()
+    {
+        _velocity = 0.0f;
     }
 
 	public void HandleBeginIdle()
@@ -410,5 +419,43 @@ public class RollerController : ControllerBase
         _ik.SetState( PlayerIKControl.WalkState.WALK );        
 
         AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_TRANSITIONFX, 1 );
+	}
+
+	public void HandleOutOfBounds()
+	{
+		// Put ourselves in the right state of mind: the pond state.
+		BecomeWalker();
+		ChangeState(P_ControlState.POND);
+
+		// Tell the pond we're comin' home!
+		PondManager.instance.HandlePondReturn();
+	}
+
+	public void HandlePondReturn()
+	{
+		Coroutine returnRoutine = StartCoroutine(PondReturnRoutine());
+	}
+
+	private IEnumerator PondReturnRoutine()
+	{
+		// Handle all the object deactivation and state change we require.
+		_mesh.SetActive(false);
+		_face.gameObject.SetActive(false);
+		_ik.SetState(PlayerIKControl.WalkState.POND_RETURN);
+
+		// ! BOOM !
+		_explodeParticleSystem.Play();
+
+		// Wait for the boom to finish.
+		while(_explodeParticleSystem.isPlaying)
+		{
+			yield return null;
+		}
+
+		// Put ourselves in the right state of mind: the pond state.
+		ChangeState(P_ControlState.POND);
+
+		// Tell the pond we're comin' home!
+		PondManager.instance.HandlePondReturn(); 
 	}
 }

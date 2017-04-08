@@ -135,7 +135,7 @@ public class PlayerIKControl : MonoBehaviour
     {
 		_parentController = this.transform.parent.GetComponent<RollerController>();
 
-		_lookAt.fixTransforms = false;	 // So we can do more w/ our Big Babby's Head
+		//_lookAt.fixTransforms = false;	 // So we can do more w/ our Big Babby's Head
 
 		_baseHeadY = _lookAt.transform.position.y;
 
