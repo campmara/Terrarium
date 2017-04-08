@@ -6,6 +6,7 @@ using DG.Tweening;
 public class BPDeathController : PlantController 
 {	
 	[SerializeField] private ParticleSystem _essenceSystemPrefab;
+	[SerializeField] private SkinnedMeshRenderer _essenceMesh;
 	ParticleSystem _essenceParticleSystem;
 	ParticleSystem.NoiseModule _essenceNoise;
 
@@ -46,6 +47,7 @@ public class BPDeathController : PlantController
 		if (_essenceSystemPrefab != null)
 		{
 			_essenceParticleSystem = Instantiate(_essenceSystemPrefab, transform.position, Quaternion.identity) as ParticleSystem;
+			_essenceParticleSystem.Stop();
 			_essenceNoise = _essenceParticleSystem.noise;
 		}
 
@@ -78,6 +80,27 @@ public class BPDeathController : PlantController
 		{
 			_componentMaterials.Add( renderer.material );
 		}
+
+		ParticleSystem.ShapeModule shape = _essenceParticleSystem.shape;
+		if (_essenceMesh)
+		{
+			shape.skinnedMeshRenderer = _essenceMesh;
+		}
+		else
+		{
+			
+			if (renderers[0])
+			{
+				shape.skinnedMeshRenderer = renderers[0];
+			}
+			else if (otherRenderers[0])
+			{
+				shape.meshRenderer = otherRenderers[0];
+			}
+		}
+
+		
+		
 
 		if( _componentMaterials.Count > 0 )
 		{
