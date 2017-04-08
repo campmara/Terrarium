@@ -35,7 +35,8 @@ public class RitualState : RollerState
 	{
 		if (!hasExploded && ritualTimer > RollerConstants.instance.RitualTime)
 		{
-			StartCoroutine(Explode());
+			hasExploded = true;
+			_roller.HandlePondReturn();
 		}
 		else if (!hasExploded)
 		{
@@ -54,31 +55,5 @@ public class RitualState : RollerState
 				_roller.ChangeState(P_ControlState.WALKING);
 			}
 		}
-	}
-
-	private IEnumerator Explode()
-	{
-		// Set this for our input update above.
-		hasExploded = true;
-
-		// Handle all the object deactivation and state change we require.
-		_roller.Mesh.SetActive(false);
-		_roller.Face.gameObject.SetActive(false);
-		_roller.IK.SetState(PlayerIKControl.WalkState.POND_RETURN);
-
-		// ! BOOM !
-		_roller.ExplodeParticleSystem.Play();
-
-		// Wait for the boom to finish.
-		while(_roller.ExplodeParticleSystem.isPlaying)
-		{
-			yield return null;
-		}
-
-		// Tell the pond we're comin' home!
-		PondManager.instance.HandlePondReturn(); 
-
-		// Put ourselves in the right state of mind: the pond state.
-		_roller.ChangeState(P_ControlState.POND);
 	}
 }
