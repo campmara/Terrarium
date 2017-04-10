@@ -205,20 +205,25 @@ public class RollerController : ControllerBase
 
 	protected override void HandleInput()
 	{
+        _currentState.HandleInput( _input );	
+	}
+
+    protected override void HandleFixedInput()
+    {
         // Always keep this at zero because the rigidbody's velocity is never needed and bumping into things
         // makes the character go nuts.
         _rigidbody.velocity = Vector3.zero;
-		_rigidbody.angularVelocity = Vector3.zero;
+        _rigidbody.angularVelocity = Vector3.zero;
 
-		_currentState.HandleInput(_input);
-	}
+        _currentState.HandleFixedInput( _input );
+    }
 
-	// ======================
-	// BASIC CONTROLLER STUFF
-	// ======================
+    // ======================
+    // BASIC CONTROLLER STUFF
+    // ======================
 
     /// IS NO LONGER BEING USED, PLEASE LOOK AT IK MOVEMENT METHOD ///
-	public void StandardMovement(float maxMoveSpeed, float moveAcceleration, float moveDeceleration,
+    public void StandardMovement(float maxMoveSpeed, float moveAcceleration, float moveDeceleration,
 								 float maxTurnSpeed)
 	{
 		// Left Stick Movement

@@ -72,8 +72,9 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	Vector2 zoomXRange = new Vector2( 2.25f, 8.0f );	// Min & Max zoom x value (x is min)
 	Vector2 zoomYRange = new Vector2( 1.0f, 10.0f );	// Min & Max zoom y values (x is min)
     const float ZOOM_DELTASPEED = 15.0f;    // How quickly camOffset moves towards new zoom values
+    const float CAMERA_MINY = 0.25f;
 
-	const float LOCKED_ZOOMINTERP = 0.15f;
+    const float LOCKED_ZOOMINTERP = 0.15f;
 
     #endregion
 
@@ -127,7 +128,8 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	{
 		if( _mainCam == null )
 		{
-			_mainCam = FindObjectOfType<Camera>();
+            _mainCam = Camera.main;
+            //_mainCam = FindObjectOfType<Camera>();
 
 			if( _mainCam == null)
 			{
@@ -237,9 +239,9 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 
                 // Move towards new focus center
 				_mainCam.transform.position = Vector3.Lerp( _mainCam.transform.position, _focusPoint + _camOffset, CAM_FOLLOWSPEED * Time.fixedDeltaTime );
-                if (_mainCam.transform.position.y < 0.0f)
+                if ( _mainCam.transform.position.y < CAMERA_MINY )
                 {
-                    _mainCam.transform.SetPosY( 0.0f );
+                    _mainCam.transform.SetPosY( CAMERA_MINY );
                 }
 
                 // Rotate Around Camera around player if Right stick horizontal movement
