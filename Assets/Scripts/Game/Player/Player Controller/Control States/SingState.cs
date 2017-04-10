@@ -20,7 +20,7 @@ public class SingState : RollerState
 		RollerParent.Idling = false;
 	}
 
-	public override void HandleInput (InputCollection input)
+	public override void HandleFixedInput(InputCollection input)
 	{
 		RollerParent.IKMovement(RollerConstants.instance.SingWalkSpeed, 
 									  RollerConstants.instance.WalkAcceleration, 

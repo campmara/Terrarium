@@ -45,9 +45,4 @@ public class PickupState : RollerState
 		Debug.Log("EXIT PICKUP STATE");
 	}
 
-	public override void HandleInput( InputCollection input )
-	{
-
-	}
-
 }
