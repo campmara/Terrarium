@@ -82,8 +82,8 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	const float INTRO_PAN_PREWAIT_TIME = 2f;
 	const float INTRO_PAN_TIME = 2f;
 
-    const float PONDRETURN_FORWARD = 4f;
-    const float PONDRETURN_UP = 5f;    
+    const float PONDRETURN_FORWARD = 4.5f;
+    const float PONDRETURN_UP = 2.0f;    
     const float PONDRETURN_TRANSITIONTIME = 2f;
 
     //const float PLAYERPOP_FORWARDPOS = 5.0f;
