@@ -108,7 +108,7 @@ public class RollerState : MonoBehaviour
 		AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_ACTIONFX, 1 );
 	}
 
-	protected void HandleBothArmRelease()
+	public void HandleBothArmRelease()
 	{
 		_roller.IK.LetGoBothArms();
 
