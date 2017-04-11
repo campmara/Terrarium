@@ -54,14 +54,14 @@ public class PlantingState : RollerState
         if (!input.AButton.IsPressed)
         {
             // Return to Carry State
-            _roller.ChangeState( P_ControlState.CARRYING);
+            _roller.ChangeState( P_ControlState.CARRYING );
         }
 
         // B BUTTON
         if (input.BButton.IsPressed)
         {
             // Drop Seed
-            _roller.ChangeState( P_ControlState.WALKING);
+            _roller.ChangeState( P_ControlState.WALKING );
         }
 
     }

@@ -12,7 +12,7 @@
 			"_GrabTexture"
 		}*/
 
-		Tags { "RenderType"="Transparent" }
+		Tags { "RenderType"="Geometry" }
 		LOD 200
 		Cull off 
 		CGPROGRAM
@@ -26,6 +26,7 @@
 
 		struct Input {
 			float2 uv_MainTex;
+			float4 color : COLOR;
 			float4 proj : TEXCOORD;
 			float4 grabPos : TEXCOORD1;
 		};
@@ -33,6 +34,7 @@
 		struct appdata
 		{
 			float4 vertex : POSITION;
+			float4 color : COLOR;
 			float4 texcoord : TEXCOORD0;
 			float3 normal : NORMAL;
 		};
@@ -47,30 +49,18 @@
 			c.a = s.Alpha;
 			return c;
 		}
-		/*
+		
 		void vert(inout appdata v, out Input o)
 		{
 			UNITY_INITIALIZE_OUTPUT(Input, o);
-
-			//https://forum.unity3d.com/threads/refraction-example.78750/
-			//refraction distorting uvs
-			float4 oPos = mul(UNITY_MATRIX_MVP, v.vertex);
-			#if UNITY_UV_STARTS_AT_TOP
-				float scale = -1.0;
-			#else
-				float scale = 1.0;
-			#endif
-			o.proj.xy = (float2(oPos.x, oPos.y*scale) + oPos.w) * .5;
-			o.proj.zw = oPos.zw;
-
-			o.grabPos = ComputeGrabScreenPos(v.vertex);
-		}*/
+			o.color = v.color;
+		}
 
 		void surf (Input IN, inout SurfaceOutput o) {
-			fixed4 c = tex2D (_MainTex, IN.uv_MainTex);
+			fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
 			//float4 uv = float4(IN.uv_MainTex.x, IN.uv_MainTex.y, IN.uv_MainTex.y, IN.uv_MainTex.y);
-			o.Albedo = _Color;// * tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(IN.proj) * uv).rgb;
-			o.Alpha = c.a;
+			o.Albedo = _Color;//_Color;// * tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(IN.proj) * uv).rgb;
+			o.Alpha = c.a * IN.color.a; // * IN.color.a
 		}
 		ENDCG
 	}

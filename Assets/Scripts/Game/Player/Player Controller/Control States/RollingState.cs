@@ -45,14 +45,19 @@ public class RollingState : RollerState
 	    }
 	}
 
-	public override void HandleInput(InputCollection input)
-	{
-		// B BUTTON
-		if (!input.BButton.IsPressed)
-		{
-			_roller.ChangeState( P_ControlState.WALKING);
-		}
+    public override void HandleInput( InputCollection input )
+    {
+        // B BUTTON
+        if (!input.BButton.IsPressed)
+        {
+            _roller.ChangeState( P_ControlState.WALKING );
+        }
 
+        _roller.InputVec = new Vector3( input.LeftStickX, 0f, input.LeftStickY );
+    }
+
+    public override void HandleFixedInput( InputCollection input )
+	{
 		/*
 		// X BUTTON
 		if (input.XButton.IsPressed)
@@ -62,17 +67,11 @@ public class RollingState : RollerState
 		*/
 
 		// MOVEMENT HANDLING
-		_roller.InputVec = new Vector3(
-			input.LeftStickX,
-			0f,
-			input.LeftStickY
-		);
-
 		HandleRolling(input);
 		HandleTurning(input);
 
 		// Update the ground paint!
-		if (_grounded)
+		if ( _grounded )
 		{
 			GroundManager.instance.Ground.DrawSplatDecal(transform.position, 1f);
 			//GroundManager.instance.Ground.DrawOnPosition(transform.position, 4f);

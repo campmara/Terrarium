@@ -51,7 +51,8 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 	EnvironmentPalette _activePalette;
 	public EnvironmentPalette ActivePalatte { get { return _activePalette; } }
 	public const float PALATTE_TRANSITIONTIME = 5.0f;
-	const float PALATTE_ADVANCETIMER = 600.0f;
+	const float PALATTE_ADVANCETIMER_MIN = 90.0f;
+	const float PALATE_ADVANCETIMER_MAX = 120.0f;
 
 
 	[SerializeField, Space(5)] List<EnvironmentPalette> _environmentPaletteList = new List<EnvironmentPalette>();
@@ -292,7 +293,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 			_paletteIndex = _paletteOrderList.Count - 1;
 		}
 
-		UpdatePalette( _paletteIndex );
+		UpdatePalette( _paletteOrderList[_paletteIndex] );
 
 		//		if( _paletteIndex != _environmentPaletteList.FindIndex( x => x.title == _activePalette.title ) )    // Should be b a better way to do this
 		//		{
@@ -303,7 +304,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 
 	IEnumerator PaletteChangeTimer()
 	{
-		yield return new WaitForSeconds( PALATTE_ADVANCETIMER );
+		yield return new WaitForSeconds( UnityEngine.Random.Range( PALATTE_ADVANCETIMER_MIN, PALATE_ADVANCETIMER_MAX ) );
 
 		_paletteIndex++;
 		if( _paletteIndex >= _paletteOrderList.Count )
