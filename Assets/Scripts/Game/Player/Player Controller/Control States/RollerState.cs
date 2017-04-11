@@ -19,7 +19,8 @@ public class RollerState : MonoBehaviour
 	public virtual void Enter( P_ControlState prevState ) {}
 	public virtual void Exit( P_ControlState nextState ) {}
 
-	public virtual void HandleInput(InputCollection input) {}
+	public virtual void HandleFixedInput( InputCollection input ) {}
+    public virtual void HandleInput( InputCollection input ) { }
 
 	// ==========================
 	// H E L P E R  M E T H O D S
