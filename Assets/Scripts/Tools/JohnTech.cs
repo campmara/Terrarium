@@ -142,9 +142,60 @@ public static class JohnTech
 			t * t * p2;
 	}
 
-#region CoRoutine Helpers
+    #region Vector Methods
 
-	public delegate void TweenEndFunction();
+    public static Vector3 SetPosX( this Vector3 vec, float value )
+    {
+        vec.x = value;
+        return vec;
+    }
+
+    public static Vector3 SetPosY( this Vector3 vec, float value )
+    {
+        vec.y = value;
+        return vec;
+    }
+
+    public static Vector3 SetPosZ( this Vector3 vec, float value )
+    {
+        vec.z = value;
+        return vec;
+    }
+
+    #endregion
+
+    #region Color Methods
+
+    public static Color SetR( this Color col, float value )
+    {
+        col.r = value;
+        return col;
+    }
+
+    public static Color SetG( this Color col, float value )
+    {
+        col.g = value;
+        return col;
+    }
+
+    public static Color SetB( this Color col, float value )
+    {
+        col.b = value;
+        return col;
+    }
+
+    public static Color SetAlpha( this Color col, float value )
+    {
+        col.a = value;
+        return col;
+    }
+
+
+    #endregion
+
+    #region CoRoutine Helpers
+
+    public delegate void TweenEndFunction();
 	public delegate void WaitFunctionDelegate();
 
 	public static IEnumerator TweenCameraZoom(Camera cam, float endZoom, float moveTime, TweenEndFunction endFunction = null)

@@ -1,66 +1,76 @@
-﻿using System;
-using System.Reflection;
-using UnityEngine;
-using UnityEditor;
-
-public static class RollerConstants 
+﻿public class RollerConstants : ScriptableObjectSingleton<RollerConstants>
 {
 	// INPUT
-	public const float INPUT_DEADZONE = 0.3f;
+	public float InputDeadzone = 0.3f;
 
 	// WALK
-	public const float WALK_SPEED = 4f;
-	public const float CARRY_SPEED = 3f;
-	public const float SING_WALK_SPEED = 2f;
-	public const float WALK_ACCELERATION = 0.25f;
-	public const float WALK_DECELERATION = 13f;
+	public float WalkSpeed = 3f;
+	public float CarrySpeed = 3f;
+	public float SingWalkSpeed = 2f;
+	public float WalkAcceleration = 0.05f;
+	public float WalkDeceleration = 4.0f;
+    public float WalkTurnDampening = 0.025f;   // Used to dampen velocity when turning really hard
+    public float BodyMinMoveSpeed = 2.5f;
+	public float IdleSittingTimer = 30f;
 
 	// WALK TURNING
-	public const float WALK_TURN_SPEED = 5f;
-	public const float CARRY_TURN_SPEED = 7f;
+	public float WalkTurnSpeed = 5f;
+	public float CarryTurnSpeed = 7f;
+    public float WalkTurnAngleMin = 0.5f;
+    public float WalkTurnAngleMax = 60.0f;
 
 	// ROLL
-	public const float ROLL_SPEED = 10f;
-	public const float ROLL_MAX_SPEED = 13f;
-	public const float REVERSE_ROLL_SPEED = 6f;
-	public const float ROLL_ACCELERATION = 1f;
-	public const float ROLL_DECELERATION = 10f;
-	public const float ROLL_SPHERE_SPIN = 1250f;
+	public float RollSpeed = 10f;
+	public float RollMaxSpeed = 13f;
+	public float ReverseRollSpeed = 6f;
+	public float RollAcceleration = 1f;
+	public float RollDeceleration = 10f;
+	public float RollSphereSpin = 1250f;
 
 	// ROLL TURNING
-	public const float TURN_SPEED = 125f;
-	public const float REVERSE_TURN_SPEED = 100f;
-	public const float TURN_ACCELERATION = 15f;
-	public const float TURN_DECELERATION = 700f;
-    public const float TURN_MINSPEED = 25.0f;
+	public float TurnSpeed = 125f;
+	public float ReverseTurnSpeed = 100f;
+	public float TurnAcceleration = 15f;
+	public float TurnDeceleration = 700f;
+    public float TurnMinSpeed = 25.0f;
 
     // PICKUP
-    public const float PICKUP_CHECKHEIGHT = 0.5f;
-	public const float PICKUP_CHECKRADIUS = 1.0f;
-	public const float PICKUP_FORWARDSCALAR = 0.8f;
-	public const float PICKUP_UPSCALAR = 0.65f;
-	public const float PICKUP_TIME = 0.75f;
+    public float PickupCheckHeight = 0.5f;
+	public float PickupCheckRadius = 1.0f;
+    public float PickupForwardScalarPart1 = 0.58f;
+    public float PickupUpScalarPart1 = 0.5f;
+    public float PickupForwardScalarPart2 = 0.08f;
+	public float PickupUpScalarPart2 = 2.0f;
+	public float PickupTime = 0.75f;    
 
-	// IDLE
-	public const float IDLE_MAXMAG = 0.01f;
-	public const float IDLE_WAITTIME = 0.1f;
+    // IDLE
+    public float IdleMaxMag = 0.01f;
+	public float IdleWaitTime = 0.1f;
 
 	// TRANSITIONS
-	public const float TRANSITION_TIME = 1f;
-	public const float TRANSITION_DECELERATION = 20f;
+	public float TransitionTime = 1f;
+	public float TransitionDeceleration = 20f;
 
 	// RITUAL DANCE
-	public const float RITUAL_TIME = 5.5f;
-	public const float RITUAL_TURN_SPEED = 2000f;
-    public const float RITUAL_COMPLETEWAIT = 1.0f;
+	public float RitualTime = 0.25f;
+	public float RitualTurnSpeed = 2000f;
+    public float RitualCompleteWait = 2f;
 
 	// PLANTING
-	public const float PLANTING_TIME = 0.75f;
-	public const float PLANTING_ENDY = 0f;
+	public float PlantingTime = 0.75f;
+	public float PlantingEndY = 0f;
+    public float PlantingEndX = 1.25f;
 
-	// SINGING
-	public const float SINGING_RETURN_TIME = 0.6f;
-    public const float PITCH_LERP_SPEED = 7f;
+    // SINGING
+    public float SingingReturnTime = 0.6f;
+    public float PitchLerpSpeed = 7f;
+
+    public float IKTargetWorldScalar = 35.0f;
+
+    // IK
+    public float IKReachCheckRadius = 8.0f;
+    public float IKReachWaitMin = 1.5f;
+    public float IKReachWaitMax = 10.0f;
 }
 
 

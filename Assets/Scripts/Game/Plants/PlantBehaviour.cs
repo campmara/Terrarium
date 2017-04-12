@@ -13,16 +13,21 @@ public class PlantBehaviour : MonoBehaviour
 
 	const float _scaleDownRate = .22f;
 	const float _scaleUpRate = .015f;
-	const float _minScale = 1.0f;
+	protected float _minScale = 1.0f;
+	const float _spinMax = 5.0f;
+	const float _spinMin = 1.0f;
 
+	float _spinSpeed = 0.0f;
 	float _origScale = 0.0f;
 	float _interpVal = 0.5f;
 	float _curScale = 0.0f;
+
 	ScaleStatus _status = ScaleStatus.NotScaling;
 
 	void Start()
 	{
 		_origScale = transform.localScale.x;
+		_spinSpeed = Random.Range( _spinMin, _spinMax );
 	}
 
 	void Update()
@@ -67,7 +72,7 @@ public class PlantBehaviour : MonoBehaviour
 	{
 		if( col.GetComponent<Player>() )
 		{
-			_status = ScaleStatus.ScalingDown;
+			ReactToPlayerEntrance();
 		}
 	}
 
@@ -75,7 +80,17 @@ public class PlantBehaviour : MonoBehaviour
 	{
 		if( col.GetComponent<Player>() )
 		{
-			_status = ScaleStatus.ScalingUp;
+			ReactToPlayerExit();
 		}
+	} 
+
+	protected virtual void ReactToPlayerEntrance()
+	{
+		_status = ScaleStatus.ScalingDown;
+	}
+
+	protected virtual void ReactToPlayerExit()
+	{
+		_status = ScaleStatus.ScalingUp;
 	}
 }

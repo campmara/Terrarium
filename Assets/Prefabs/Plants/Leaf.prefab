@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 54680868840589950}
   - component: {fileID: 114724291587492668}
   - component: {fileID: 114166597009318348}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Leaf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,6 +122,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b72dcf70bdf22401ab72dcf8e5f8b6de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _carryable: 1
+  _grabbed: 0
 --- !u!136 &136688170780881116
 CapsuleCollider:
   m_ObjectHideFlags: 1

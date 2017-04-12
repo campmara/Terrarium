@@ -8,13 +8,25 @@ public class PlayerAnimationController : MonoBehaviour {
 
     Animator _animator = null;
 
-    const string WALK_ANIM = "WalkAnim";
-    const string ROLL_ANIM = "RollAnim";
-    const string IDLE_ANIM = "IdleAnim";
-	const string CARRYIDLE_ANIM = "IdleAnim";
+    #region Parameter Names
 
-	const string WALKTOROLL_ANIM = "WalkToRoll";
-	const string ROLLTOWALK_ANIM = "RollToWalk";
+    const string PLAYERSPEED_PARAM = "Velocity";
+    int _velocityParamHash = 0;
+
+    const string SITTING_PARAM = "Sitting";
+    int _sittingParamHash = 0;
+    public bool Sitting { get { return _animator.GetBool( _sittingParamHash ); } }
+
+    const string WALK_ANIMSTATE = "Walking Blend Tree";
+    int _walkAnimStateHash = 0;
+
+    const string SIT_ANIMSTATE = "MC_Sit";
+    int _sitAnimStateHash = 0;
+
+    const string STAND_ANIMSTATE = "MC_Stand";
+    int _standAnimStateHash = 0;
+
+    #endregion
 
     public void Initialize()
     {
@@ -24,37 +36,31 @@ public class PlayerAnimationController : MonoBehaviour {
 	void Awake()
     {
         _animator = this.GetComponent<Animator>();
-	}
+
+        _velocityParamHash = Animator.StringToHash( PLAYERSPEED_PARAM );
+        _sittingParamHash = Animator.StringToHash( SITTING_PARAM );
+        _walkAnimStateHash = Animator.StringToHash( WALK_ANIMSTATE );
+        _sitAnimStateHash = Animator.StringToHash( SIT_ANIMSTATE );
+        _standAnimStateHash = Animator.StringToHash( STAND_ANIMSTATE );
+    }
 	
-    public void PlayIdleAnim()
-    {     
-        _animator.Play( IDLE_ANIM );
-    }
-
-	public void PlayCarryIdleAnim()
-	{     
-		_animator.Play( CARRYIDLE_ANIM );
-	}
-
-    public void PlayWalkAnim()
+    public void SetPlayerSpeed(float speed)
     {
-        _animator.Play( WALK_ANIM );
+        _animator.SetFloat( _velocityParamHash, speed );
     }
 
-    public void PlayRollAnim()
+    public void SetSitting(bool isSitting)
     {
-        _animator.Play( ROLL_ANIM );
+        _animator.SetBool(_sittingParamHash, isSitting);
+    }    
+
+    public bool CheckCancelSitting()
+    {
+        if( !Sitting && ( _animator.GetCurrentAnimatorStateInfo(0).fullPathHash == _sitAnimStateHash && _animator.GetCurrentAnimatorStateInfo(0).fullPathHash != _standAnimStateHash ) )
+        {
+            return true;
+        }
+
+        return false;
     }
-
-	// Transitions to WALK animation in the animation controller
-	public void PlayRollToWalkAnim()
-	{
-		_animator.Play( ROLLTOWALK_ANIM );
-	}
-
-	// No transition to a roll anim yet, just a SPHERE
-	public void PlayWalkToRollAnim()
-	{
-		_animator.Play( WALKTOROLL_ANIM );
-	}
 }

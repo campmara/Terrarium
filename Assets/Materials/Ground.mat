@@ -157,7 +157,7 @@ Material:
       second: {r: 0, g: 0, b: 0, a: 0}
     - first:
         name: _Color
-      second: {r: 0.7352941, g: 0.7352941, b: 0.7352941, a: 1}
+      second: {r: 0.7205882, g: 0.57398576, b: 0.54044116, a: 0}
     - first:
         name: _ColorBot
       second: {r: 0.3372549, g: 0.6117647, b: 0.40784317, a: 1}
@@ -172,10 +172,10 @@ Material:
       second: {r: 0, g: 0, b: 0, a: 1}
     - first:
         name: _GrassColor
-      second: {r: 0.6544118, g: 0.5036877, b: 0.31277034, a: 1}
+      second: {r: 0.41259998, g: 0.5588235, b: 0.31228372, a: 1}
     - first:
         name: _GroundColor
-      second: {r: 0.75, g: 0.57231236, b: 0.34742647, a: 1}
+      second: {r: 0.33955377, g: 0.45588237, b: 0.22794119, a: 1}
     - first:
         name: _ShadowColor
       second: {r: 1, g: 1, b: 1, a: 1}

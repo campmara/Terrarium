@@ -2,9 +2,13 @@
 
 public class CarryState : RollerState 
 {
+	float canDropTimer = 0.0f;
+
     public override void Enter( P_ControlState prevState )
 	{
 		Debug.Log("ENTER CARRY STATE");
+
+		_roller.Face.BecomeEncumbered();
 
 		switch( prevState )
 		{
@@ -12,6 +16,8 @@ public class CarryState : RollerState
                 RollerParent.HandleEndIdle();
                 break;
 		}
+
+		canDropTimer = 0.0f;
 	}
 
 	public override void Exit( P_ControlState nextState )
@@ -21,29 +27,60 @@ public class CarryState : RollerState
         switch( nextState )
         {
             case P_ControlState.WALKING:
-                HandleDropHeldObject();
+                HandleBothArmRelease();
                 break;
         }
-
+			
 		RollerParent.Idling = false;
 	}
 
-	public override void HandleInput(InputCollection input)
+    public override void HandleInput( InputCollection input )
+    {
+        if (RollerParent.CurrentHeldObject != null)
+        {
+            if (!RollerParent.CurrentHeldObject.Carryable)
+            {
+                if (RollerParent.CurrentHeldObject.GetComponent<SmallPlantPickupable>())
+                {
+                    if (RollerParent.InputVec.magnitude > 0.1f)
+                    {
+                        RollerParent.CurrentHeldObject.GetComponent<SmallPlantPickupable>().IncrementTug();
+                    }
+                    else
+                    {
+                        RollerParent.CurrentHeldObject.GetComponent<SmallPlantPickupable>().ResetTug();
+                    }
+
+                }
+            }
+
+            if (input.AButton.WasPressed)
+            {
+                // NOTE: Should only happen for seeds ?
+                if (RollerParent.CurrentHeldObject.GetComponent<Seed>() != null)
+                {
+                    _roller.ChangeState( P_ControlState.PLANTING );
+                }
+                else
+                {
+                    _roller.ChangeState( P_ControlState.WALKING );
+                }
+            }
+
+            if (input.BButton.WasPressed)
+            {
+                _roller.ChangeState( P_ControlState.WALKING );
+            }
+        }
+    
+    }
+
+    public override void HandleFixedInput( InputCollection input )
 	{
-		RollerParent.StandardMovement(RollerConstants.CARRY_SPEED,
-									  RollerConstants.WALK_ACCELERATION,
-									  RollerConstants.WALK_DECELERATION,
-									  RollerConstants.CARRY_TURN_SPEED);
-
-        if (input.AButton.IsPressed)
-		{
-            // NOTE: Should only happen for seeds ?
-			_roller.ChangeState( P_ControlState.CARRYING, P_ControlState.PLANTING );
-		}
-
-		if (input.BButton.IsPressed)
-		{
-			_roller.ChangeState( P_ControlState.CARRYING, P_ControlState.WALKING );
-		}		
+        // Makin sure ppl release button to drop the Thing they are carrying.                
+        RollerParent.IKMovement( Mathf.Lerp( RollerConstants.instance.CarrySpeed, 0.0f, _roller.CurrentHeldObject.GrabberBurdenInterp ),
+            RollerConstants.instance.WalkAcceleration,
+            RollerConstants.instance.WalkDeceleration,
+            RollerConstants.instance.CarryTurnSpeed );      
 	}
 }

@@ -9,6 +9,8 @@ public class PlantingState : RollerState
     {
         Debug.Log( "ENTER PLANTING STATE" );
 
+		_roller.Face.BecomeFeisty();
+
         // Handle transition
         switch ( prevState )
         {
@@ -32,14 +34,15 @@ public class PlantingState : RollerState
             case P_ControlState.WALKING:
                 if( _plantTween == null || !_plantTween.IsComplete() )
                 {
-                    HandleDropHeldObject();
+                    HandleBothArmRelease();
                 }                
                 break;
         }
 
+		_roller.Face.BecomeIdle();
+
         if (_plantTween != null)
         {
-			_plantTween.Complete();
             _plantTween.Kill();
             _plantTween = null;
         }
@@ -51,14 +54,14 @@ public class PlantingState : RollerState
         if (!input.AButton.IsPressed)
         {
             // Return to Carry State
-            _roller.ChangeState( P_ControlState.PLANTING, P_ControlState.CARRYING );
+            _roller.ChangeState( P_ControlState.CARRYING );
         }
 
         // B BUTTON
         if (input.BButton.IsPressed)
         {
             // Drop Seed
-            _roller.ChangeState( P_ControlState.PLANTING, P_ControlState.WALKING );
+            _roller.ChangeState( P_ControlState.WALKING );
         }
 
     }
@@ -69,8 +72,12 @@ public class PlantingState : RollerState
         if ( _roller.CurrentHeldObject != null )
         {
 			if( _roller.CurrentHeldObject.GetComponent<Seed>() ) 
-			{       
-				_plantTween = _roller.CurrentHeldObject.transform.DOMoveY(RollerConstants.PLANTING_ENDY, RollerConstants.PLANTING_TIME ).OnComplete( () => HandlePlantingEnd() ).SetAutoKill( false ).SetEase(Ease.InBack); 
+			{
+                Vector3 plantPos = this.transform.position;
+                plantPos.y = RollerConstants.instance.PlantingEndY;  
+                plantPos += transform.forward * RollerConstants.instance.PlantingEndX;
+
+				_plantTween = _roller.CurrentHeldObject.transform.DOMove(plantPos, RollerConstants.instance.PlantingTime ).OnComplete( () => HandlePlantingEnd() ).SetAutoKill( false ).SetEase(Ease.InBack); 
 			}      
 			else 
 			{ 
@@ -89,7 +96,7 @@ public class PlantingState : RollerState
 			seed.TryPlanting();
 		}
 
-        HandleDropHeldObject();
-        _roller.ChangeState( P_ControlState.PLANTING, P_ControlState.WALKING );
+        HandleBothArmRelease();
+        _roller.ChangeState( P_ControlState.WALKING);
     }
 }

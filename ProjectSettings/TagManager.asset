@@ -18,11 +18,11 @@ TagManager:
   - 
   - HeldObject
   - Player
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Clouds
+  - PlayerBodyParts
+  - Touchable
+  - Ground
+  - Splatmap
   - 
   - 
   - 

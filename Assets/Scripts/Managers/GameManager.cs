@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
 			Destroy(gameObject);
 		}
 
-		DontDestroyOnLoad(gameObject);
+		//DontDestroyOnLoad(gameObject);
 
 
 		#if !UNITY_EDITOR
@@ -67,20 +67,19 @@ public class GameManager : MonoBehaviour
 			Instance = null;
 	}
 
-	void Start()
-	{
-
-	}
-
 	void Update()
-	{
-
+	{		
 		switch(_state)
 		{
 		case GameState.INTRO:
 			break;
 		}
 
+		// rly hacky Restart gdi
+		if( Input.GetKey(KeyCode.I) && Input.GetKey(KeyCode.O) && Input.GetKey(KeyCode.P ) )
+		{
+			SceneManager.LoadScene(0);
+		}
 	}
 
 	public void ChangeGameState(GameState newState)
@@ -118,7 +117,7 @@ public class GameManager : MonoBehaviour
 				Initialize();
 				break;
 			case GameState.INTRO:
-                UIManager.GetPanelOfType<PanelIntro>().Disable();
+				CameraManager.instance.ChangeCameraState(CameraManager.CameraState.INTRO);
                 break;
 			default:
 				break;

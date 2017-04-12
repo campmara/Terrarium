@@ -20,7 +20,7 @@ public class TimeManager : SingletonBehaviour<TimeManager>
     public DateTime RealWorldTime { get { return _realWorldTime; } }
     public DateTime RealWorldNow { get { return DateTime.Now; } }
 
-	List<GameEvent> _eventQueue;
+	List<GameEvent> _eventQueue = new List<GameEvent>();
 
 	public delegate void MinuteDelegate();
 	public MinuteDelegate MinuteCallback;
@@ -98,19 +98,20 @@ public class TimeManager : SingletonBehaviour<TimeManager>
 	    GameEvent curEvent = null;
 	    float eventTime = 0.0f;
 
-	    if( _eventQueue.Count != 0 )
-	    {
-	        curEvent = _eventQueue[0];
-	        eventTime = _eventQueue[0].GameTimeExecution;
-	    }
-
-		while( _eventQueue.Count != 0  &&  eventTime <= _curTime )
+		while( _eventQueue.Count != 0 )
 		{
-		    curEvent = _eventQueue[0];
-		    eventTime = _eventQueue[0].GameTimeExecution;
+			curEvent = _eventQueue[0];
+			eventTime = _eventQueue[0].GameTimeExecution;
 
-		    _eventQueue.Remove( curEvent );
-			curEvent.Execute();
+			if( eventTime > _curTime )
+			{
+				break;
+			}
+			else
+			{
+				_eventQueue.Remove( curEvent );
+				curEvent.Execute();
+			}
 		}
 	}
 		
@@ -123,7 +124,6 @@ public class TimeManager : SingletonBehaviour<TimeManager>
 			_eventQueue = _eventQueue.OrderBy( e => e.GameTimeExecution ).ToList();
 		}
 	}
-
 
 	public void ChangeState( TimeState newState )
 	{

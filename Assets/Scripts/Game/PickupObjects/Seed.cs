@@ -1,24 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Seed : Pickupable 
 {
     [SerializeField] protected SeedAssetKey _assetKey = SeedAssetKey.NONE;
     public SeedAssetKey AssetKey { get { return _assetKey; } set { _assetKey = value; } }
 
-    [SerializeField] GameObject _plantPrefab = null;
+    [SerializeField] GameObject _moundPrefab = null;
+
 	float _timeSinceLastPickup = 0.0f;
 	float _timePassedTillDestroy = 60.0f;
-	bool _isPickedUp = false;
-	const float _shootForce = 30.0f;
+	bool _hasFallen = false;
+
+	const int  _selfPlantProbability = 75;
 	const float _searchRadius = 30.0f;
+
+	Tween _sinkTween = null;
 
 	void Update()
 	{
-		if( !_isPickedUp )
+		if( !_grabbed )
 		{
-			if( _timeSinceLastPickup >= _timePassedTillDestroy )
+			if( _timeSinceLastPickup >= _timePassedTillDestroy && PlantManager.instance.GetActiveSeedCount() > 2 )
 			{
 				Destroy( gameObject );
 			}
@@ -29,48 +34,61 @@ public class Seed : Pickupable
 		}
 	}
 
-    public override void OnPickup()
+    public override void OnPickup( Transform grabTransform )
 	{
-		base.OnPickup();
-		_isPickedUp = true;
+		if (_sinkTween != null)
+		{
+			_sinkTween.Rewind();
+		}
+
+		base.OnPickup( grabTransform );
 	}
 
 	public override void DropSelf()
 	{
 		base.DropSelf();
 		_timeSinceLastPickup = 0.0f;
-		_isPickedUp = false;
-
-		_rigidbody.AddForce( Vector3.up * _shootForce );
 	}
 
 	public void TryPlanting()
 	{
-		if( !FoundPlantsCloseBy() )
-		{
-			Vector3 plantPos = new Vector3( transform.position.x, 0.0f, transform.position.z ); 
-			GameObject newPlant = Instantiate( _plantPrefab, plantPos, Quaternion.identity ) as GameObject; 
-			PlantManager.instance.AddBigPlant( newPlant.GetComponent<Growable>()  );
-			gameObject.SetActive(false);
-		}
+		Vector3 plantPos = new Vector3( transform.position.x, 0.0f, transform.position.z ); 
+		GameObject mound = Instantiate( _moundPrefab, plantPos, Quaternion.identity ) as GameObject; 
+		PlantManager.instance.AddMound( mound.GetComponent<BasePlant>()  );
+		GroundManager.instance.EmitDirtParticles(plantPos);
+		gameObject.SetActive(false);
 	}
 
-	bool FoundPlantsCloseBy()
+	void BeginSelfPlant()
 	{
-		Collider[] foundObjects = Physics.OverlapSphere( transform.position, _searchRadius );
-		foreach( Collider col in foundObjects ) 
+		Transform child = transform.GetChild(0);
+		Vector3 endPos = child.position + (Vector3.down * 0.36f);
+		float sinkTime = Random.Range(10f, 20f);
+
+		_sinkTween = child.DOMove(endPos, sinkTime).OnComplete(EndSelfPlant);
+	}
+
+	void EndSelfPlant()
+	{
+		TryPlanting();
+	}
+
+	void OnCollisionEnter( Collision col ) 
+	{
+		if( !_hasFallen )
 		{
-			Plantable plant = col.gameObject.GetComponent<Plantable>();
-			if( plant )
+			if( col.gameObject.GetComponent<GroundDisc>() )
 			{
-				float distance = ( col.gameObject.transform.position - transform.position ).magnitude;
-				if( distance <= plant.MinDistAway )
+
+				int dieRoll = (int)Random.Range( 0, 100 );
+
+				if( dieRoll <= _selfPlantProbability )
 				{
-					return true;
+					BeginSelfPlant();
 				}
+
+				_hasFallen = true;
 			}
 		}
-
-		return false;
 	}
 }

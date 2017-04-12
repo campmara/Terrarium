@@ -1,20 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class SpawnMiniPlantEvent : GameEvent
+﻿public class SpawnMiniPlantEvent : GameEvent
 {
-	Plantable _plant = null;
+	BPGrowthController _plant = null;
 
 	public SpawnMiniPlantEvent(){}
 
-	public SpawnMiniPlantEvent( Plantable parent, float timeUntilSpawn ) : base( timeUntilSpawn )
+	public SpawnMiniPlantEvent( BPGrowthController parent, float timeUntilSpawn ) : base( timeUntilSpawn )
 	{
 		_plant = parent;
 	}
 
 	public override void Execute()
 	{
-		PlantManager.instance.SpawnMini( _plant );
+		if (_plant)
+		{
+			PlantManager.instance.SpawnMini( _plant, TimeUntilExecution );
+		}
 	}
 }

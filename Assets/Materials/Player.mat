@@ -75,7 +75,7 @@ Material:
       second: 1
     - first:
         name: _ColorFog
-      second: 0.78
+      second: 0.612
     - first:
         name: _Cutoff
       second: 0.5
@@ -84,7 +84,7 @@ Material:
       second: 1
     - first:
         name: _DistAmt
-      second: 13
+      second: 85
     - first:
         name: _DstBlend
       second: 0
@@ -99,10 +99,22 @@ Material:
       second: 1
     - first:
         name: _MainNoiseHeight
-      second: 0
+      second: 0.05
     - first:
         name: _MainNoiseScale
-      second: 1
+      second: 0.9
+    - first:
+        name: _MeltAmount
+      second: 0.702
+    - first:
+        name: _MeltCurve
+      second: 10
+    - first:
+        name: _MeltDistance
+      second: 1.57
+    - first:
+        name: _MeltY
+      second: -0.38
     - first:
         name: _Metallic
       second: 0
@@ -129,7 +141,7 @@ Material:
       second: 0.02
     - first:
         name: _RimPower
-      second: 0.9
+      second: 3.89
     - first:
         name: _SmearNoiseHeight
       second: 1.3
@@ -157,13 +169,13 @@ Material:
       second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _ColorBot
-      second: {r: 0.44290656, g: 0.72895056, b: 0.9411765, a: 1}
+      second: {r: 0.32082614, g: 0.399296, b: 0.50735295, a: 1}
     - first:
         name: _ColorMid
-      second: {r: 0.37370238, g: 0.6139396, b: 0.7941176, a: 1}
+      second: {r: 0.33607268, g: 0.4549555, b: 0.5441177, a: 1}
     - first:
         name: _ColorTop
-      second: {r: 0.5902898, g: 0.68822336, b: 0.75735295, a: 1}
+      second: {r: 0.7182093, g: 0.7627073, b: 0.7941176, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
@@ -178,4 +190,4 @@ Material:
       second: {r: 0, g: 0, b: 0, a: 0}
     - first:
         name: _RimColor
-      second: {r: 0, g: 0.087154016, b: 0.19117647, a: 1}
+      second: {r: 0.125, g: 0.125, b: 0.125, a: 1}

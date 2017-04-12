@@ -25,6 +25,13 @@ public class InputCollection : PlayerActionSet
 	public PlayerOneAxisAction RightStickX;
 	public PlayerOneAxisAction RightStickY;
 
+	public PlayerAction LeftTrigger;
+	public PlayerAction RightTrigger;
+
+    public PlayerAction LeftBumper;
+    public PlayerAction RightBumper;
+
+	public PlayerAction LeftStickButton;
     public PlayerAction RightStickButton;
 
 	public InputCollection()
@@ -49,6 +56,13 @@ public class InputCollection : PlayerActionSet
 		RightStickX = CreateOneAxisPlayerAction(RightStickLeft, RightStickRight);
 		RightStickY = CreateOneAxisPlayerAction(RightStickDown, RightStickUp);
 
+		LeftTrigger = CreatePlayerAction( "Left Trigger" );
+		RightTrigger = CreatePlayerAction( "Right Trigger" );
+
+        LeftBumper = CreatePlayerAction( "Left Bumper" );
+        RightBumper = CreatePlayerAction( " Right Bumper" );
+
+		LeftStickButton = CreatePlayerAction("Left Stick Click");
         RightStickButton = CreatePlayerAction("Right Stick Button");
 
         // ADD BINDINGS
@@ -67,13 +81,20 @@ public class InputCollection : PlayerActionSet
 		RightStickDown.AddDefaultBinding(InputControlType.RightStickDown);
 		RightStickUp.AddDefaultBinding(InputControlType.RightStickUp);
 
+		LeftTrigger.AddDefaultBinding( InputControlType.LeftTrigger );
+		RightTrigger.AddDefaultBinding( InputControlType.RightTrigger );
+
+        LeftBumper.AddDefaultBinding( InputControlType.LeftBumper );
+        RightBumper.AddDefaultBinding( InputControlType.RightBumper );
+
+        LeftStickButton.AddDefaultBinding(InputControlType.LeftStickButton);
         RightStickButton.AddDefaultBinding(InputControlType.RightStickButton);
 
 		// Keyboard Controls
-		AButton.AddDefaultBinding(Key.X);
-		BButton.AddDefaultBinding(Key.Z);
-        XButton.AddDefaultBinding( Key.E );
-        YButton.AddDefaultBinding( Key.R );
+		AButton.AddDefaultBinding(Key.E);
+		BButton.AddDefaultBinding(Key.LeftShift);
+		XButton.AddDefaultBinding(Key.Space);
+		YButton.AddDefaultBinding(Key.F);
 
         LeftStickLeft.AddDefaultBinding(Key.A);
         LeftStickRight.AddDefaultBinding(Key.D);
@@ -84,6 +105,12 @@ public class InputCollection : PlayerActionSet
         RightStickRight.AddDefaultBinding(Key.RightArrow);
         RightStickUp.AddDefaultBinding(Key.UpArrow);
         RightStickDown.AddDefaultBinding(Key.DownArrow);
+
+		LeftTrigger.AddDefaultBinding( Key.Q );
+		RightTrigger.AddDefaultBinding( Key.Q );
+
+		LeftTrigger.Sensitivity = 0.0025f;
+		RightTrigger.Sensitivity = 0.0025f;
     }
 }
 
@@ -128,7 +155,7 @@ public class ControlManager : SingletonBehaviour<ControlManager>
 
 	public override void Initialize()
 	{
-		MakeMeAPersistentSingleton();
+		//MakeMeAPersistentSingleton();
 
 		foreach(InputDevice device in InputManager.Devices)
 		{
@@ -138,10 +165,14 @@ public class ControlManager : SingletonBehaviour<ControlManager>
 		isInitialized = true;
 	}
 
-	// Update is called once per frame
-	void Update () 
+	public void Vibrate( float intensity )
 	{
-		
+		InputManager.ActiveDevice.Vibrate( intensity );
+	}
+
+	public void Vibrate( float leftMotorIntensity, float rightMotorIntensity )
+	{
+		InputManager.ActiveDevice.Vibrate( leftMotorIntensity, rightMotorIntensity );
 	}
 
 	/// <summary>

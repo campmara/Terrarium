@@ -4,86 +4,56 @@ using UnityEngine;
 
 public class RitualState : RollerState
 {
-    //private Tween _tween;
 	private float ritualTimer = 0f;
-	float currentTurnSpeed = 0f;
+	private bool hasExploded = false;
 
 	public override void Enter(P_ControlState prevState)
 	{
 		Debug.Log("ENTER RITUAL STATE");
-        //_tween = transform.DOScaleY( 0.1f, RollerConstants.RITUAL_TIME ).OnComplete( OnCompleteRitual );
-		_roller.IK.SetState(PlayerIKControl.WalkState.RITUAL);
+        _roller.IK.SetState( PlayerIKControl.WalkState.RITUAL );
 		ritualTimer = 0f;
-	    //PlayerManager.instance.Player.AnimationController.PlayIdleAnim();
+		hasExploded = false;
 
-		AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_ACTIONFX, 2 );
+		_roller.Face.BecomeDesirous();
 	}
 
 	public override void Exit(P_ControlState nextState)
 	{
 		Debug.Log("EXIT RITUAL STATE");
-		_roller.IK.SetState(PlayerIKControl.WalkState.IDLE);
-		/*
-	    if (_tween != null)
-	    {
-	        _tween.Kill();
-	        _tween = null;
-	    }
-	    transform.localScale = Vector3.one;
-	    */
 
-		AudioManager.instance.StopController( AudioManager.AudioControllerNames.PLAYER_ACTIONFX );
+		if (nextState == P_ControlState.WALKING)
+		{
+			_roller.IK.SetState( PlayerIKControl.WalkState.WALK );
+			_roller.Face.BecomeIdle();
+			AudioManager.instance.StopController( AudioManager.AudioControllerNames.PLAYER_ACTIONFX );
+		}
+        
+		_roller.ExplodeParticleSystem.Stop();
 	}
 
-	public override void HandleInput(InputCollection input)
+	public override void HandleFixedInput(InputCollection input)
 	{
-	    //bool isComplete = _tween.IsComplete();
-		ritualTimer += Time.deltaTime;
-		if (ritualTimer > RollerConstants.RITUAL_TIME)
+		if (!hasExploded && ritualTimer > RollerConstants.instance.RitualTime)
 		{
-			OnCompleteRitual();
+			hasExploded = true;
+			_roller.HandlePondReturn();
 		}
-
-		currentTurnSpeed = Mathf.Lerp(0, RollerConstants.RITUAL_TURN_SPEED, ritualTimer / RollerConstants.RITUAL_TIME);
-		transform.Rotate(0f, currentTurnSpeed * Time.deltaTime, 0f);
-
-	    if (/*!isComplete &&*/ !input.XButton.IsPressed)
+		else if (!hasExploded)
 		{
-		    _roller.ChangeState(P_ControlState.RITUAL, P_ControlState.WALKING);
+			ritualTimer += Time.deltaTime;
+
+			// Update how far the arms are reaching
+			_roller.UpdateArmReachIK( input.LeftTrigger.Value, input.RightTrigger.Value );
+
+			_roller.IKMovement(RollerConstants.instance.WalkSpeed, 
+										RollerConstants.instance.WalkAcceleration, 
+										RollerConstants.instance.WalkDeceleration, 
+										RollerConstants.instance.WalkTurnSpeed);
+
+			if (!input.XButton.IsPressed)
+			{
+				_roller.ChangeState(P_ControlState.WALKING);
+			}
 		}
 	}
-		
-    private void OnCompleteRitual()
-    {
-        GameManager.Instance.ChangeGameState( GameManager.GameState.POND_RETURN );
-
-        transform.DOMoveY( -5.0f, 0.5f );
-
-        StartCoroutine( DelayedCompleteRitual() );        
-    }
-
-    IEnumerator DelayedCompleteRitual()
-    {
-		float timer = 0f;
-		float totalTime = RollerConstants.RITUAL_COMPLETEWAIT;
-		float currentPaintSize = 0f;
-		float maxPaintSize = 30f;
-		Vector3 pos = transform.position;
-
-		Tween paint = DOTween.To(()=> currentPaintSize, x=> currentPaintSize = x, maxPaintSize, totalTime);
-		while(paint.IsPlaying())
-		{
-			GroundManager.instance.Ground.DrawOnPosition(pos, currentPaintSize);
-			yield return null;
-		}
-
-		yield return paint.WaitForCompletion();
-
-		//yield return new WaitForSeconds(totalTime);
-
-        // TODO: implement plant watering here
-        transform.localScale = Vector3.one;
-
-        PondManager.instance.HandlePondReturn();
-    }
 }

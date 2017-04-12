@@ -15,7 +15,7 @@ public class SaveManager : SingletonBehaviour<SaveManager> {
 
     public override void Initialize()
     {
-        MakeMeAPersistentSingleton();
+        //MakeMeAPersistentSingleton();
        
 		// Save & Load on Initialize
         if ( ES2.Exists( Application.persistentDataPath + SAVE_PATH ) )   // Check if save data exists
@@ -117,10 +117,10 @@ public class PlantSaveData
     public List<SeedData> _seedData = new List<SeedData>();
     public int _groundCoverCount = 0;
     public List<GroundCoverData> _groundCoverData = new List<GroundCoverData>();
-    public int _growableCount = 0;
-    public List<GrowableData> _growableData = new List<GrowableData>();
+    public int _BasePlantCount = 0;
+	public List<BasePlantData> _BasePlantData = new List<BasePlantData>();
     public int _plantableCount = 0;
-    public List<PlantableData> _plantableData = new List<PlantableData>();
+	public List<SmallPlantData> _plantableData = new List<SmallPlantData>();
 
     public PlantSaveData()
     {
@@ -156,21 +156,21 @@ public class GroundCoverData
     }
 }
 // TODO: Need a system to pull and process the animator/leaf data from the plants
-public class GrowableData
+public class BasePlantData
 {
-    public GrowableAssetKey _assetKey = GrowableAssetKey.NONE;
+	public BasePlantAssetKey _assetKey = BasePlantAssetKey.NONE;
 
-    Growable.GrowthStage _growthStage = Growable.GrowthStage.Sprout;
+	//BPGrowthController.GrowthStage _growthStage = BPGrowthController.GrowthStage.Sprout;
 
-    public GrowableData()
+	public BasePlantData()
     {
 
     }
 }
 
-public class PlantableData
+public class SmallPlantData
 {
-    public PlantableAssetKey _assetKey = PlantableAssetKey.NONE;
+	public SmallPlantAssetKey _assetKey = SmallPlantAssetKey.NONE;
 
     public Vector3 _plantablePosition = Vector3.zero;
     public Quaternion _plantableRotation = Quaternion.identity;
@@ -179,7 +179,7 @@ public class PlantableData
     public float _curGrowthRate = 0.0f;
 
 
-    public PlantableData()
+	public SmallPlantData()
     {
 
     }

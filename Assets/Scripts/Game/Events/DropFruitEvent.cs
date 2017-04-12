@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class DropFruitEvent : GameEvent
 {
-	Growable _tree;
+	BPGrowthController _tree;
 
-	public DropFruitEvent( Growable tree, float timeUntilDrop ) : base(timeUntilDrop)
+	public DropFruitEvent( BPGrowthController tree, float timeUntilDrop ) : base( timeUntilDrop )
 	{
 		_tree = tree;
 	}
