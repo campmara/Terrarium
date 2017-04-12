@@ -1,16 +1,94 @@
 fileFormatVersion: 2
-guid: 38a557edda7421b418aeed365199e393
-timeCreated: 1486841911
+guid: 08fbc6b6a0b598a4aa5e4e93e4ba5dd7
+timeCreated: 1492020546
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: pSphere1
+    100000: body
+    100002: character_root
+    100004: core
+    100006: head
+    100008: ikHandle1
+    100010: ikHandle2
+    100012: l_arm1
+    100014: l_arm2
+    100016: l_arm3
+    100018: l_arm4
+    100020: l_arm5
+    100022: L_Foot
+    100024: l_foot
+    100026: l_hip
+    100028: L_IK
+    100030: l_leg1
+    100032: l_leg2
+    100034: l_leg3
+    100036: l_leg4
+    100038: l_leg5
+    100040: l_shoulder
+    100042: l_wrist
+    100044: //RootNode
+    100046: pCube1
+    100048: r_arm1
+    100050: r_arm2
+    100052: r_arm3
+    100054: r_arm4
+    100056: r_arm5
+    100058: R_Foot
+    100060: r_foot
+    100062: r_hip
+    100064: R_IK
+    100066: r_leg1
+    100068: r_leg2
+    100070: r_leg3
+    100072: r_leg4
+    100074: r_leg5
+    100076: r_shoulder
+    100078: r_wrist
+    400000: body
+    400002: character_root
+    400004: core
+    400006: head
+    400008: ikHandle1
+    400010: ikHandle2
+    400012: l_arm1
+    400014: l_arm2
+    400016: l_arm3
+    400018: l_arm4
+    400020: l_arm5
+    400022: L_Foot
+    400024: l_foot
+    400026: l_hip
+    400028: L_IK
+    400030: l_leg1
+    400032: l_leg2
+    400034: l_leg3
+    400036: l_leg4
+    400038: l_leg5
+    400040: l_shoulder
+    400042: l_wrist
+    400044: //RootNode
+    400046: pCube1
+    400048: r_arm1
+    400050: r_arm2
+    400052: r_arm3
+    400054: r_arm4
+    400056: r_arm5
+    400058: R_Foot
+    400060: r_foot
+    400062: r_hip
+    400064: R_IK
+    400066: r_leg1
+    400068: r_leg2
+    400070: r_leg3
+    400072: r_leg4
+    400074: r_leg5
+    400076: r_shoulder
+    400078: r_wrist
+    4300000: pCube1
+    7400000: Take 001
     9500000: //RootNode
+    13700000: pCube1
   materials:
     importMaterials: 1
     materialName: 0
@@ -21,6 +99,8 @@ ModelImporter:
     resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -35,7 +115,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 10
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
