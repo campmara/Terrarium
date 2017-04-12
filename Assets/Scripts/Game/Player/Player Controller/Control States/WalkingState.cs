@@ -151,6 +151,7 @@ public class WalkingState : RollerState
             // Left Stick Button
             if (input.LeftStickButton.IsPressed)
             {
+                _roller.Player.AnimationController.SitButtonPress();
                 _roller.ChangeState(P_ControlState.SIT);
             }
         }
