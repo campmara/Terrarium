@@ -36,7 +36,7 @@ public class PondManager : SingletonBehaviour<PondManager>
     // Update is called once per frame
     private void Update()
     {
-        HandleOutOfBounds();
+        //HandleOutOfBounds();
     }
 
     void HandleOutOfBounds()

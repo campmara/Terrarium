@@ -90,41 +90,45 @@ public class RollerController : ControllerBase
 	void Awake()
 	{
 		//Debug.Log("Added Test Controller to Player Control Manager");
-        _player = this.GetComponent<Player>();
-		_rigidbody = GetComponent<Rigidbody>();
-	    _ik = GetComponentInChildren<PlayerIKControl>();
-	    _face = GetComponentInChildren<FaceManager>();
-		_mesh = GetComponentInChildren<SkinnedMeshRenderer>().gameObject;
+		_player = GetComponent(typeof(Player)) as Player;
+		_rigidbody = GetComponent(typeof(Rigidbody)) as Rigidbody;
+	    _ik = GetComponentInChildren(typeof(PlayerIKControl)) as PlayerIKControl;
+	    _face = GetComponentInChildren(typeof(FaceManager)) as FaceManager;
+		_explodeParticleSystem = GetComponentInChildren(typeof(ParticleSystem)) as ParticleSystem;
+
+		SkinnedMeshRenderer smr = GetComponentInChildren(typeof(SkinnedMeshRenderer)) as SkinnedMeshRenderer;
+		_mesh = smr.gameObject;
+
 		_rig = transform.GetChild(0).gameObject;
 		_rollSphere = transform.GetChild(2).gameObject;
-		_explodeParticleSystem = GetComponentInChildren<ParticleSystem>();
+		
 
 		// Add State Controller, Set parent to This Script, set to inactive
-		_walking = this.gameObject.AddComponent<WalkingState>();
+		_walking = this.gameObject.AddComponent(typeof(WalkingState)) as WalkingState;
 		_walking.RollerParent = this;
 
-		_rolling = this.gameObject.AddComponent<RollingState>();
+		_rolling = this.gameObject.AddComponent(typeof(RollingState)) as RollingState;
 		_rolling.RollerParent = this;
 
-		_pickup = this.gameObject.AddComponent<PickupState>();
+		_pickup = this.gameObject.AddComponent(typeof(PickupState)) as PickupState;
 		_pickup.RollerParent = this;
 
-		_carrying = this.gameObject.AddComponent<CarryState>();
+		_carrying = this.gameObject.AddComponent(typeof(CarryState)) as CarryState;
 		_carrying.RollerParent = this;
 
-		_ritual = this.gameObject.AddComponent<RitualState>();
+		_ritual = this.gameObject.AddComponent(typeof(RitualState)) as RitualState;
 		_ritual.RollerParent = this;
 
-        _planting = this.gameObject.AddComponent<PlantingState>();
+        _planting = this.gameObject.AddComponent(typeof(PlantingState)) as PlantingState;
         _planting.RollerParent = this;
 
-		_singing = this.gameObject.AddComponent<SingState>();
+		_singing = this.gameObject.AddComponent(typeof(SingState)) as SingState;
 		_singing.RollerParent = this;
 
-		_sitting = this.gameObject.AddComponent<SittingState>();
+		_sitting = this.gameObject.AddComponent(typeof(SittingState)) as SittingState;
 		_sitting.RollerParent = this;
 
-		_ponding = this.gameObject.AddComponent<PondState>();
+		_ponding = this.gameObject.AddComponent(typeof(PondState)) as PondState;
 		_ponding.RollerParent = this;
 
         // Set state to default (walking for now)
@@ -205,20 +209,25 @@ public class RollerController : ControllerBase
 
 	protected override void HandleInput()
 	{
+        _currentState.HandleInput( _input );	
+	}
+
+    protected override void HandleFixedInput()
+    {
         // Always keep this at zero because the rigidbody's velocity is never needed and bumping into things
         // makes the character go nuts.
         _rigidbody.velocity = Vector3.zero;
-		_rigidbody.angularVelocity = Vector3.zero;
+        _rigidbody.angularVelocity = Vector3.zero;
 
-		_currentState.HandleInput(_input);
-	}
+        _currentState.HandleFixedInput( _input );
+    }
 
-	// ======================
-	// BASIC CONTROLLER STUFF
-	// ======================
+    // ======================
+    // BASIC CONTROLLER STUFF
+    // ======================
 
     /// IS NO LONGER BEING USED, PLEASE LOOK AT IK MOVEMENT METHOD ///
-	public void StandardMovement(float maxMoveSpeed, float moveAcceleration, float moveDeceleration,
+    public void StandardMovement(float maxMoveSpeed, float moveAcceleration, float moveDeceleration,
 								 float maxTurnSpeed)
 	{
 		// Left Stick Movement

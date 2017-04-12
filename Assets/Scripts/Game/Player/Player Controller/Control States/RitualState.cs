@@ -31,7 +31,7 @@ public class RitualState : RollerState
 		_roller.ExplodeParticleSystem.Stop();
 	}
 
-	public override void HandleInput(InputCollection input)
+	public override void HandleFixedInput(InputCollection input)
 	{
 		if (!hasExploded && ritualTimer > RollerConstants.instance.RitualTime)
 		{

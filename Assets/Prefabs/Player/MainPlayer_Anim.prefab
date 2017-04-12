@@ -630,6 +630,7 @@ GameObject:
   - component: {fileID: 114272656922806230}
   - component: {fileID: 114104806924290988}
   - component: {fileID: 114259314273431226}
+  - component: {fileID: 114231865148419828}
   m_Layer: 9
   m_Name: MainPlayer_Anim
   m_TagString: Untagged
@@ -1169,7 +1170,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1778099418724052}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0.854568}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4475774604273800}
@@ -1942,6 +1943,17 @@ MonoBehaviour:
   _armTargetPos: {x: 0, y: 0, z: 0}
   _armGrabSpeed: 20
   _armReachInterp: 0
+--- !u!114 &114231865148419828
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1888846475258438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 072f4a59ad9b0ad40808bf08e794dd97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114259314273431226
 MonoBehaviour:
   m_ObjectHideFlags: 1
