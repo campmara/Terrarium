@@ -82,7 +82,7 @@ ModelImporter:
     400072: r_shoulder
     400074: r_wrist
     4300000: pCube1
-    7400000: Walk3
+    7400000: MC_Walk3
     9500000: //RootNode
     13700000: pCube1
   materials:
@@ -109,7 +109,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: Walk3
+      name: MC_Walk3
       takeName: Take 001
       firstFrame: 1
       lastFrame: 24.900002

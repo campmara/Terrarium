@@ -76,13 +76,9 @@ public class WalkingState : RollerState
                 StopCoroutine( _reachCoroutine );
                 _reachCoroutine = null;
             }
-            /*
-                        if( !_roller.IK.ArmsIdle )
-                        {
-                            HandleBothArmRelease();
-                        }
-            */
+
             HandlePickup( PlayerArmIK.ArmType.BOTH );
+
             if ( _roller.IK.ArmFocus != null )
             {
                 HandleGrabObject();
