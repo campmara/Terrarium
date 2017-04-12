@@ -1,4 +1,4 @@
-﻿Shader "InsideWrap/Hardness (Half Lambert) with Gradient and Wind"
+﻿Shader "TerrariumPlant/Standard"
 {
 	Properties
 	{
@@ -19,7 +19,7 @@
 		[Header(Cutoff Values)]
 		_Dissolve("Dissolve Amount", Range(0, 1)) = 0
 		_CutoffNoiseScale("Cutoff Noise Scale", float) = 10
-		_CutoffEdgeScale("Cutoff Edge Scale", Range(.4,.5)) = .45
+		_CutoffEdgeScale("Cutoff Edge Scale", Range(0,.5)) = .45
 
 		//_CutoffPos("Cutoff Position", Range(0,1)) = 1. for vanishing from top
 	}
@@ -35,17 +35,16 @@
 		half _Hardness;
 		half4 _ShadowColor;
 
-		half4 LightingWrapLambert(SurfaceOutput s, half3 lightDir, half atten) 
+		half4 LightingWrapLambert(SurfaceOutput s, half3 lightDir, half3 viewDir, half atten)
 		{
 			s.Normal = normalize(s.Normal);
-
 			half distAtten;
 			if (_WorldSpaceLightPos0.w == 0.0)
 				distAtten = 1.0;
 			else
 				distAtten = saturate(1.0 / length(lightDir));
 
-			half diff = (max(0, dot(s.Normal, lightDir)) * atten + 1 - _Hardness) * _Hardness; ;
+			half diff = (max(0, dot(s.Normal, lightDir)) * atten + 1 - _Hardness) * _Hardness;
 
 			half4 c;
 			c.rgb = (s.Albedo * diff * _LightColor0) * distAtten;
@@ -142,7 +141,7 @@
 			gradient += lerp(_ColorMid, _ColorTop, (IN.uv_MainTex.y - _Middle) / (1 - _Middle)) * step(_Middle, IN.uv_MainTex.y);
 
 			//crispy edges for fading
-			gradient = lerp(gradient, _ColorMid, round(1 - (alpha - _Dissolve + _CutoffEdgeScale)));
+			gradient = lerp(gradient, _ColorMid, _Dissolve * round(1 - (alpha - _Dissolve + _CutoffEdgeScale)));
 
 			o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb * gradient;
 			o.Alpha = alpha - _Dissolve;

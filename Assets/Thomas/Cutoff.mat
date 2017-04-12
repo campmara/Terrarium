@@ -74,10 +74,11 @@ Material:
     - _BottomScale: 2
     - _BumpScale: 1
     - _Cutoff: 0
-    - _CutoffEdgeScale: 0.45
+    - _CutoffEdgeScale: 0.5
     - _CutoffNoiseScale: 10
     - _CutoffPos: 0
     - _DetailNormalMapScale: 1
+    - _Dissolve: 0
     - _DstBlend: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
@@ -101,8 +102,8 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color2: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorBot: {r: 0.058823526, g: 0.058823526, b: 0.058823526, a: 1}
+    - _ColorBot: {r: 0.4852941, g: 0.431769, b: 0.431769, a: 1}
     - _ColorMid: {r: 0.6068339, g: 0.8455882, b: 0.5471453, a: 1}
-    - _ColorTop: {r: 1, g: 0.25, b: 0.91724133, a: 1}
+    - _ColorTop: {r: 1, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
