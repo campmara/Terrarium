@@ -19,6 +19,8 @@ public class Bibi : Pickupable
 	Vector3 desiredLocation;
 	float sleepTimer = 0f;
 
+	AudioSource bibiAudioSource;
+
     private enum BibiState
 	{
 		BURROWING,
@@ -84,6 +86,8 @@ public class Bibi : Pickupable
 	protected override void Awake()
 	{
 		base.Awake();
+
+		bibiAudioSource = GetComponent(typeof(AudioSource)) as AudioSource;
 
 		ChangeState(BibiState.BURROWING);
 	}
@@ -194,10 +198,15 @@ public class Bibi : Pickupable
 		}
 
 		desiredLocation.y = 0f;
+
+
+		// Start the bibi sound
+		bibiAudioSource.Play();
 	}
 	private void OnExitEscaping()
 	{
-
+		// Stop the bibi sound.
+		bibiAudioSource.Stop();
 	}
 
 	private void OnEnterSleeping()
