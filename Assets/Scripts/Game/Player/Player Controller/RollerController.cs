@@ -434,7 +434,13 @@ public class RollerController : ControllerBase
 	{
 		// Put ourselves in the right state of mind: the pond state.
 		BecomeWalker();
-		ChangeState(P_ControlState.POND);
+
+        if (_currentHeldObject != null)
+        {
+            _currentState.HandleBothArmRelease();
+        }
+
+        ChangeState(P_ControlState.POND);
 
 		// Tell the pond we're comin' home!
 		PondManager.instance.HandlePondReturn();

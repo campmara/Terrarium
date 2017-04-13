@@ -17,7 +17,7 @@ MonoBehaviour:
   SingWalkSpeed: 2
   WalkAcceleration: 0.05
   WalkDeceleration: 4
-  WalkTurnDampening: 0.025
+  WalkTurnDampening: 0
   BodyMinMoveSpeed: 2.5
   IdleSittingTimer: 30
   WalkTurnSpeed: 5
