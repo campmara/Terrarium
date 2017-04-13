@@ -124,7 +124,8 @@ public class PlayerIKControl : MonoBehaviour
 				_rightLegAtDest = true;
 				_leftLegAtDest = true;
                 break;	
-			case WalkState.POND_RETURN:				
+			case WalkState.POND_RETURN:
+                				
 				break;
         }
 

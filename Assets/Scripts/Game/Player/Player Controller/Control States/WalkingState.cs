@@ -76,13 +76,9 @@ public class WalkingState : RollerState
                 StopCoroutine( _reachCoroutine );
                 _reachCoroutine = null;
             }
-            /*
-                        if( !_roller.IK.ArmsIdle )
-                        {
-                            HandleBothArmRelease();
-                        }
-            */
+
             HandlePickup( PlayerArmIK.ArmType.BOTH );
+
             if ( _roller.IK.ArmFocus != null )
             {
                 HandleGrabObject();
@@ -151,6 +147,7 @@ public class WalkingState : RollerState
             // Left Stick Button
             if (input.LeftStickButton.IsPressed)
             {
+                _roller.Player.AnimationController.SitButtonPress();
                 _roller.ChangeState(P_ControlState.SIT);
             }
         }
