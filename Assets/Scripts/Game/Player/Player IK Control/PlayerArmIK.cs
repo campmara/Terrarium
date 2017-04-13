@@ -40,7 +40,8 @@ public class PlayerArmIK : MonoBehaviour {
         GESTURING,     // Trigger reach state but no target
         AMBIENT_REACHING,   // Auto Reach State
         TARGET_REACHING,    // When triggers are pressed
-        GRABBING           // Entered through Target Reaching (when triggers are both all the way pressed down)
+        GRABBING,           // Entered through Target Reaching (when triggers are both all the way pressed down)
+        IK_OFF
     }
     [SerializeField, ReadOnlyAttribute] ArmIKState _armState = ArmIKState.IDLE;
     public ArmIKState ArmState { get { return _armState; } }
@@ -115,7 +116,10 @@ public class PlayerArmIK : MonoBehaviour {
 	// Update is called once per frame
 	public void UpdateArmIK () 
 	{
-		 _armIK.solver.IKPosition = Vector3.Lerp( _armIK.solver.IKPosition, _armTargetPos, _armIKLerpSpeed );
+        if( _armState != ArmIKState.IK_OFF )
+        {
+            _armIK.solver.IKPosition = Vector3.Lerp( _armIK.solver.IKPosition, _armTargetPos, _armIKLerpSpeed );
+        }        
 	}
 
     public void SetArmState( ArmIKState newState )
