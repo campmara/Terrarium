@@ -82,7 +82,7 @@ ModelImporter:
     400072: r_shoulder
     400074: r_wrist
     4300000: pCube1
-    7400000: MCWalk
+    7400000: MC_Walk2
     9500000: //RootNode
     13700000: pCube1
   materials:
@@ -95,6 +95,8 @@ ModelImporter:
     resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -107,10 +109,10 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: MCWalk
+      name: MC_Walk2
       takeName: Take 001
       firstFrame: 1
-      lastFrame: 24
+      lastFrame: 24.900002
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

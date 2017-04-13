@@ -119,7 +119,7 @@ public class RollerState : MonoBehaviour
 		bibi.OnPickup();
 	}
 
-	protected void HandleBothArmRelease()
+	public void HandleBothArmRelease()
 	{
 		_roller.IK.LetGoBothArms();
 

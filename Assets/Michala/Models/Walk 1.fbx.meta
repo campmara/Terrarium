@@ -82,7 +82,7 @@ ModelImporter:
     400072: R_Foot
     400074: R_IK
     4300000: pCube1
-    7400000: Take 001
+    7400000: Walk1
     9500000: //RootNode
     13700000: pCube1
   materials:
@@ -95,6 +95,8 @@ ModelImporter:
     resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -107,10 +109,10 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: Take 001
+      name: Walk1
       takeName: Take 001
       firstFrame: 1
-      lastFrame: 24
+      lastFrame: 25
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
