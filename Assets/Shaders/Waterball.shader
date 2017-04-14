@@ -44,6 +44,10 @@ Shader "Custom/Waterball"
 		_MainNoiseHeight("Main Noise Height", Float) = 0
 		_NoiseOffset("Noise Offset", Vector) = (0,0,0,0)
 
+		[Header(Wind Values)]
+		[Toggle]_WindEnabled("Wind Enabled", float) = 1
+		_Sensitivity("Height Sensitivity to Wind", Range(.000001, 1000)) = 15
+
 		[Header(Melt)]
 		//conewars melt
 		_MeltY("Melt Y", Float) = 0.0
@@ -99,6 +103,17 @@ Shader "Custom/Waterball"
 		sampler2D _GrabTexture;
 		float4 _GrabTexture_TexelSize;
 
+		//wind
+		float _WindEnabled;
+		float _Sensitivity;
+
+		//these values are uniform so that they'll work globally
+		uniform fixed4 _WaveDir;
+		uniform float _WaveNoise;
+		uniform float _WaveAmount;
+		uniform float _WaveScale;
+		uniform float _WaveTime;
+
 		//melting variables from conewars
 		half _MeltY;
 		half _MeltDistance;
@@ -118,7 +133,7 @@ Shader "Custom/Waterball"
 		float4 getNewVertPosition(float4 objectSpacePosition, float3 objectSpaceNormal)
 		{
 			//Vertex extrusion-
-			objectSpacePosition.xyz += objectSpaceNormal * abs(cnoise(objectSpaceNormal * _MainNoiseScale + _NoiseOffset)) * _MainNoiseHeight; // * _MainNoiseHeight _MainNoiseScale
+			objectSpacePosition.xyz += objectSpaceNormal * abs(cnoise(objectSpaceNormal * _MainNoiseScale + _NoiseOffset)) * _MainNoiseHeight;
 			//--
 
 			//Chris's smear-
@@ -136,6 +151,26 @@ Shader "Custom/Waterball"
 
 			fixed3 smearOffset = -worldOffset.xyz * lerp(1, cnoise(worldSpacePosition * _SmearNoiseScale), step(0, _SmearNoiseScale));
 			worldSpacePosition.xyz += smearOffset;
+			//--
+
+			//Wind-
+			if (_WindEnabled == 0 || _WaveAmount == 0 || _WaveDir.x == 0 && _WaveDir.y == 0 && _WaveDir.z == 0) {
+			}
+			else {
+				//Chris's wind function modified to take in to account world height and more directional wind
+				//.......................
+
+				float noiseOffset = cnoise(worldSpacePosition.xyz) * _WaveNoise;
+				//clamped to prevent extreme results at higher branches, needs tweaking, it would be nice if lower plants shook more in here
+				float heightSensitivity = clamp(worldSpacePosition.y * worldSpacePosition.y, 0, _Sensitivity) / _Sensitivity;
+				//oscillation value adds on to the direction of the wind, it's length is measured with _WaveScale
+				float4 oscillation = sin(_WaveTime + noiseOffset  * heightSensitivity) * _WaveScale * normalize(_WaveDir) * heightSensitivity; // * v.color.r
+				//wave direction and oscillation combined are then scaled overall by the _WaveAmount
+				float4 wind = (normalize(_WaveDir) + oscillation) * _WaveAmount * heightSensitivity; //* v.color.r
+
+				worldSpacePosition += wind;
+				//''''''''''''''''''''''
+			}
 			//--
 
 			//conewars melt-
@@ -179,50 +214,6 @@ Shader "Custom/Waterball"
 			o.proj.xy = (float2(oPos.x, oPos.y*scale) + oPos.w) * 0.5;
 			o.proj.zw = oPos.zw;
 		}
-
-
-		//old vertex function
-		//delete whenever we're comfortable getting rid of it
-		//restore if the new normal recalc method is too demanding
-		/*
-		void vert(inout appdata_base v, out Input o)
-		{
-			UNITY_INITIALIZE_OUTPUT(Input, o);
-
-			fixed3 originalvert = v.vertex.xyz;
-
-			//Vertex extrusion
-			v.vertex.xyz += v.normal * cnoise(v.normal * _MainNoiseScale + _NoiseOffset) * _MainNoiseHeight; // * _MainNoiseHeight _MainNoiseScale
-
-			//Chris's smear
-			fixed4 worldPos = mul(unity_ObjectToWorld, v.vertex);
-
-			fixed3 worldOffset = _Position.xyz - _PrevPosition.xyz; // -5
-			fixed3 localOffset = worldPos.xyz - _Position.xyz; // -5
-
-			// World offset should only be behind swing
-			float dirDot = dot(normalize(worldOffset), normalize(localOffset));
-			fixed3 unitVec = fixed3(1, 1, 1) * _SmearNoiseHeight;
-			worldOffset = clamp(worldOffset, unitVec * -1, unitVec);
-			worldOffset *= -clamp(dirDot, -1, 0) * lerp(1, 0, step(length(worldOffset), 0));
-
-			fixed3 smearOffset = -worldOffset.xyz * lerp(1, cnoise(worldPos * _SmearNoiseScale), step(0, _SmearNoiseScale));
-			worldPos.xyz += smearOffset;
-			v.vertex = mul(unity_WorldToObject, worldPos);
-
-			o.extrudeAmount = distance(v.vertex.xyz, originalvert.xyz);
-
-			//https://forum.unity3d.com/threads/refraction-example.78750/
-			//refraction distorting uvs
-			float4 oPos = mul(UNITY_MATRIX_MVP, v.vertex);
-			#if UNITY_UV_STARTS_AT_TOP
-				float scale = -1.0;
-			#else
-				float scale = 1.0;
-			#endif
-			o.proj.xy = (float2(oPos.x, oPos.y*scale) + oPos.w) * 0.5;
-			o.proj.zw = oPos.zw;
-		} */
 
 		void surf(Input IN, inout SurfaceOutput o)
 		{
