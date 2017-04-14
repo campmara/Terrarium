@@ -1,4 +1,4 @@
-﻿Shader "InsideWrap/Hardness (Half Lambert) with Gradient and Wind"
+﻿Shader "TerrariumPlant/Standard"
 {
 	Properties
 	{
@@ -16,10 +16,14 @@
 		[Toggle]_WindEnabled("Wind Enabled", float) = 1
 		_Sensitivity("Height Sensitivity to Wind", Range(.000001, 1000)) = 15
 
+		[Header(Splatmap Values)]
+		[Toggle]_SplatmapEnabled("Splatmap Enabled", float) = 0
+		_ImprintAmount("Imprint Amount", Range(-3, 3)) = 1
+
 		[Header(Cutoff Values)]
 		_Dissolve("Dissolve Amount", Range(0, 1)) = 0
 		_CutoffNoiseScale("Cutoff Noise Scale", float) = 10
-		_CutoffEdgeScale("Cutoff Edge Scale", Range(.4,.5)) = .45
+		_CutoffEdgeScale("Cutoff Edge Scale", Range(0,.5)) = .45
 
 		//_CutoffPos("Cutoff Position", Range(0,1)) = 1. for vanishing from top
 	}
@@ -35,17 +39,16 @@
 		half _Hardness;
 		half4 _ShadowColor;
 
-		half4 LightingWrapLambert(SurfaceOutput s, half3 lightDir, half atten) 
+		half4 LightingWrapLambert(SurfaceOutput s, half3 lightDir, half3 viewDir, half atten)
 		{
 			s.Normal = normalize(s.Normal);
-
 			half distAtten;
 			if (_WorldSpaceLightPos0.w == 0.0)
 				distAtten = 1.0;
 			else
 				distAtten = saturate(1.0 / length(lightDir));
 
-			half diff = (max(0, dot(s.Normal, lightDir)) * atten + 1 - _Hardness) * _Hardness; ;
+			half diff = (max(0, dot(s.Normal, lightDir)) * atten + 1 - _Hardness) * _Hardness;
 
 			half4 c;
 			c.rgb = (s.Albedo * diff * _LightColor0) * distAtten;
@@ -62,26 +65,39 @@
 		};
 
 		sampler2D _MainTex;
-
+		//...cutoff...
 		float _CutoffEdgeScale;
 		float _CutoffNoiseScale;
 		float _Dissolve;
+		//.....
 
+		//...gradient...
 		fixed4 _ColorTop;
 		fixed4 _ColorMid;
 		fixed4 _ColorBot;
 		float  _Middle;
+		//......
 
-		//wind
+		//...wind...
 		float _WindEnabled;
 		float _Sensitivity;
 
-		//these values are uniform so that they'll work globally
 		uniform fixed4 _WaveDir;
 		uniform float _WaveNoise;
 		uniform float _WaveAmount;
 		uniform float _WaveScale;
 		uniform float _WaveTime;
+		//......
+
+		//...splatmap...
+		float _ImprintAmount;
+		float _SplatmapEnabled;
+
+		uniform sampler2D _ClipEdges;
+		uniform sampler2D _SplatMap;
+		uniform float3 _CameraWorldPos;
+		uniform float _OrthoCameraScale;
+		//..............
 
 		void vert(inout appdata_base v, out Input o) 
 		{
@@ -90,30 +106,46 @@
 
 			o.localPos = v.vertex;
 			o.localNormal = v.normal;
-
-			//this effect causes the material to disappear if the amount is 0, this won't run the code if that's the case
-			if (_WindEnabled == 0 || _WaveAmount == 0 || _WaveDir.x == 0 && _WaveDir.y == 0 && _WaveDir.z == 0) { return; }
-			
-			//put it in world space
 			float4 worldPos = mul(unity_ObjectToWorld, v.vertex);
+			float4 worldNormal = mul(unity_ObjectToWorld, float4(v.normal, 0));
 
 			//Chris's wind function modified to take in to account world height and more directional wind
 			//.......................
-
-			float noiseOffset = cnoise(worldPos.xyz) * _WaveNoise;
-			//clamped to prevent extreme results at higher branches, needs tweaking, it would be nice if lower plants shook more in here
-			float heightSensitivity = clamp(worldPos.y * worldPos.y, 0, _Sensitivity) / _Sensitivity;
-			//oscillation value adds on to the direction of the wind, it's length is measured with _WaveScale
-			float4 oscillation = sin(_WaveTime + noiseOffset  * heightSensitivity) * _WaveScale * normalize(_WaveDir) * heightSensitivity; // * v.color.r
-			//wave direction and oscillation combined are then scaled overall by the _WaveAmount
-			float4 wind = (normalize(_WaveDir) + oscillation) * _WaveAmount * heightSensitivity; //* v.color.r
-
-			worldPos += wind;
+			//this effect causes the material to disappear if the amount is 0, this won't run the code if that's the case
+			if (_WindEnabled != 0 && _WaveAmount != 0 && length(_WaveDir != 0)) {
+				float noiseOffset = cnoise(worldPos.xyz) * _WaveNoise;
+				//clamped to prevent extreme results at higher branches, needs tweaking, it would be nice if lower plants shook more in here
+				float heightSensitivity = clamp(worldPos.y * worldPos.y, 0, _Sensitivity) / _Sensitivity;
+				//oscillation value adds on to the direction of the wind, it's length is measured with _WaveScale
+				float4 oscillation = sin(_WaveTime + noiseOffset  * heightSensitivity) * _WaveScale * normalize(_WaveDir) * heightSensitivity; // * v.color.r																																   //wave direction and oscillation combined are then scaled overall by the _WaveAmount
+				float4 wind = (normalize(_WaveDir) + oscillation) * _WaveAmount * heightSensitivity; //* v.color.r
+				worldPos += wind;
+			}
 			//''''''''''''''''''''''
 
-			//take it back to object space
-			float4 objectSpaceVertex = mul(unity_WorldToObject, worldPos);
-			v.vertex = objectSpaceVertex;
+			//splatmap deformation
+			//...........
+			if (_SplatmapEnabled != 0) {
+				_OrthoCameraScale *= 2;
+				float2 worldUV = float2(((worldPos.x - _CameraWorldPos.x) / _OrthoCameraScale + .5f), ((worldPos.z - _CameraWorldPos.z) / _OrthoCameraScale + .5f)); //find a way to center this
+				float4 border = tex2Dlod(_ClipEdges, float4(worldUV, 0, 0)).rgba;
+				float4 d = (tex2Dlod(_SplatMap, float4(worldUV, 0, 0)));
+
+				d.a = clamp(d.a - border.a, 0, 1);
+				d.rg = (d.rg - .5f) * d.a;
+				d.b *= d.a;
+
+				worldPos.x -= d.r;
+				worldPos.y -= (d.b) * _ImprintAmount;
+				worldPos.z += d.g;
+
+				worldNormal.xz += d.rg;
+			}
+			//......
+
+			//o.worldUV = worldUV;
+			v.vertex = mul(unity_WorldToObject, worldPos);
+			v.normal = mul(unity_WorldToObject, worldNormal.xyz);
 		}
 
 		void surf(Input IN, inout SurfaceOutput o) 
@@ -142,7 +174,7 @@
 			gradient += lerp(_ColorMid, _ColorTop, (IN.uv_MainTex.y - _Middle) / (1 - _Middle)) * step(_Middle, IN.uv_MainTex.y);
 
 			//crispy edges for fading
-			gradient = lerp(gradient, _ColorMid, round(1 - (alpha - _Dissolve + _CutoffEdgeScale)));
+			gradient = lerp(gradient, _ColorMid, _Dissolve * round(1 - (alpha - _Dissolve + _CutoffEdgeScale)));
 
 			o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb * gradient;
 			o.Alpha = alpha - _Dissolve;
