@@ -76,12 +76,11 @@
 		fixed4 worldUp = mul(transpose(unity_ObjectToWorld), float4(0, 1, 0, 1));
 		v.normal = worldUp;
 
-		_OrthoCameraScale *= 2;
 		float4 worldPos = mul(unity_ObjectToWorld, v.vertex);
 		float4 worldNormal = mul(unity_ObjectToWorld, float4(v.normal, 0));
-
+		
+		_OrthoCameraScale *= 2;
 		float2 worldUV = float2(((worldPos.x - _CameraWorldPos.x) / _OrthoCameraScale + .5f), ((worldPos.z - _CameraWorldPos.z) / _OrthoCameraScale + .5f)); //find a way to center this
-
 		float4 border = tex2Dlod(_ClipEdges, float4(worldUV, 0, 0)).rgba;
 		float4 d = (tex2Dlod(_SplatMap, float4(worldUV, 0, 0)));
 
@@ -110,7 +109,7 @@
 		fixed4 c = tex2D(_MainTex, IN.uv_MainTex);
 		c.rgb = lerp(_GroundColorPrimary, _GroundColorSecondary, c.r);
 		ao.b *= 1 - ao.a; 
-		//c.rgb -= ao.b * 1;
+		c.rgb -= ao.b * .1;
 		//c.rgb = ao.b;
 		//o.Albedo = clamp(c.rgb - border.a, 0, 1);
 		o.Albedo = c.rgb;

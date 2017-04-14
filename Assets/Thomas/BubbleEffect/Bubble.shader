@@ -12,9 +12,9 @@
 			"_GrabTexture"
 		}*/
 
-		Tags { "RenderType"="Geometry" }
+		Tags { "RenderType"="Transparent" "Queue" = "Transparent" }
 		LOD 200
-		Cull off 
+		//Cull off 
 		CGPROGRAM
 		// Physically based Standard lighting model, and enable shadows on all light types
 		#pragma surface surf NoLighting fullforwardshadows alphatest:_Cutoff //vertex:vert
