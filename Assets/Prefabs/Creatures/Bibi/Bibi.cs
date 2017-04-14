@@ -11,15 +11,20 @@ public class Bibi : Pickupable
 	[SerializeField] private GameObject ringC;
 	[SerializeField] private ParticleSystem sleepBubbles;
 
-	const float MOVE_SPEED = 5f;
-	const float CLOSE_ENOUGH = 0.5f;
-	const float AWAKE_TIME = 40f;
-	const float SLEEP_TIME = 50f;
+	[HeaderAttribute("Faces"), SerializeField] private Sprite regFace;
+	[SerializeField] private Sprite sleepFace;
+	[SerializeField] private Sprite madFace;
 
-	Vector3 desiredLocation;
-	float sleepTimer = 0f;
+	private const float MOVE_SPEED = 5f;
+	private const float CLOSE_ENOUGH = 0.5f;
+	private const float AWAKE_TIME = 40f;
+	private const float SLEEP_TIME = 50f;
 
-	AudioSource bibiAudioSource;
+	private Vector3 desiredLocation;
+	private float sleepTimer = 0f;
+
+	private AudioSource bibiAudioSource;
+	private SpriteRenderer face;
 
     private enum BibiState
 	{
@@ -88,11 +93,12 @@ public class Bibi : Pickupable
 		base.Awake();
 
 		bibiAudioSource = GetComponent(typeof(AudioSource)) as AudioSource;
+		face = GetComponentInChildren(typeof(SpriteRenderer)) as SpriteRenderer;
 
 		ChangeState(BibiState.BURROWING);
 	}
 
-	private void Update()
+	private void FixedUpdate()
 	{
 		if (state == BibiState.BURROWING)
 		{
@@ -121,10 +127,13 @@ public class Bibi : Pickupable
 	{
 		float ringY = -0.02f;
 		float headY = 0f;
+		float faceY = 0.05f;
 
 		float duration = Random.Range(0.5f, 1);
 
 		head.transform.DOMoveY(headY, duration)
+			.SetEase(Ease.OutQuint);
+		face.transform.DOMoveY(faceY, duration)
 			.SetEase(Ease.OutQuint);
 
 		ringA.transform.DOMoveY(ringY, duration)
@@ -134,6 +143,8 @@ public class Bibi : Pickupable
 		ringC.transform.DOMoveY(ringY, duration)
 			.SetEase(Ease.OutQuint)
 			.OnComplete(BurrowTweenComplete);
+
+		face.sprite = regFace;
 	}
 	private void BurrowTweenComplete()
 	{
@@ -159,10 +170,13 @@ public class Bibi : Pickupable
 		float yB = 0.50f;
 		float yC = 0.25f;
 		float headY = 1f;
+		float faceY = 1.05f;
 
 		float duration = Random.Range(0.5f, 1);
 
 		head.transform.DOMoveY(headY, duration)
+			.SetEase(Ease.OutQuint);
+		face.transform.DOMoveY(faceY, duration)
 			.SetEase(Ease.OutQuint);
 
 		ringA.transform.DOMoveY(yA, duration)
@@ -172,6 +186,8 @@ public class Bibi : Pickupable
 		ringC.transform.DOMoveY(yC, duration)
 			.SetEase(Ease.OutQuint)
 			.OnComplete(DisruptTweenComplete);
+
+		face.sprite = regFace;
 	}
 	private void DisruptTweenComplete()
 	{
@@ -184,21 +200,23 @@ public class Bibi : Pickupable
 
 	private void OnEnterEscaping()
 	{
-		desiredLocation = Random.insideUnitCircle * 32f;
+		desiredLocation = Random.insideUnitCircle * 28f;
 
 		while (desiredLocation == Vector3.zero)
 		{
-			desiredLocation = Random.insideUnitCircle * 32f;
+			desiredLocation = Random.insideUnitCircle * 28f;
 		}
 
 		while ((desiredLocation - transform.position).magnitude < 15f)
 		{
-			desiredLocation = Random.insideUnitCircle * 32f;
+			desiredLocation = Random.insideUnitCircle * 28f;
 			desiredLocation.y = 0f;
 		}
 
 		desiredLocation.y = 0f;
 
+		// GRRRRR
+		face.sprite = madFace;
 
 		// Start the bibi sound
 		bibiAudioSource.Play();
@@ -213,6 +231,7 @@ public class Bibi : Pickupable
 	{
 		sleepTimer = 0f;
 
+		face.sprite = sleepFace;
 		sleepBubbles.Play();
 	}
 	private void OnExitSleeping()
