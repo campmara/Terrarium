@@ -74,6 +74,7 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Hardness: 0.436
+    - _ImprintAmount: 1
     - _Metallic: 0
     - _Middle: 0.5
     - _Mode: 0
@@ -82,6 +83,7 @@ Material:
     - _Sensitivity: 15
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
+    - _SplatmapEnabled: 0
     - _SrcBlend: 1
     - _UVSec: 0
     - _WindEnabled: 1
