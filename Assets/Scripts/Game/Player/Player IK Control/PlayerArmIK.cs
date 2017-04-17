@@ -62,9 +62,10 @@ public class PlayerArmIK : MonoBehaviour {
     [SerializeField, ReadOnlyAttribute] private float _armReachInterp = 0.0f;
     public float ArmReachInterp { get { return _armReachInterp; } set { _armReachInterp = value; } }
     
-    private const float ARM_IDLE_OUT = 0.75f;
+    private const float ARM_IDLE_OUT = 0.5f;
+    private const float ARM_IDLE_UP = 0.65f;
 
-	// Ambient Reaching Variables
+    // Ambient Reaching Variables
     private const float ARM_REACHDISTMAX = 8.0f;
     private const float ARM_REACHDISTMIN = 0.75f;
     private const float ARM_REACHANGLEMAX = 90.0f;
@@ -149,13 +150,13 @@ public class PlayerArmIK : MonoBehaviour {
         if( _armType == ArmType.LEFT )
         {
             _armSpring.connectedAnchor = Vector3.Lerp( _armSpring.connectedAnchor, 
-				_parentIKController.transform.parent.position - ( _parentIKController.transform.parent.right * ARM_IDLE_OUT ), 
+				_parentIKController.transform.parent.position + ( -_parentIKController.transform.parent.right * ARM_IDLE_OUT ) + ( _parentIKController.transform.parent.up * ARM_IDLE_UP ), 
 				_armTargetLerpSpeed * Time.deltaTime);
         }
         else
         {
             _armSpring.connectedAnchor = Vector3.Lerp( _armSpring.connectedAnchor, 
-				_parentIKController.transform.parent.position - ( -_parentIKController.transform.parent.right * ARM_IDLE_OUT ), 
+				_parentIKController.transform.parent.position + ( _parentIKController.transform.parent.right * ARM_IDLE_OUT ) + ( _parentIKController.transform.parent.up * ARM_IDLE_UP ), 
 				_armTargetLerpSpeed * Time.deltaTime);
         }
 
