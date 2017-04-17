@@ -332,8 +332,19 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
     }
 
     public float GetCurrentMusicPitch()
-    {        
-        _audioControllerList[(int) AudioControllerNames.MUSIC].Source.GetSpectrumData(_singData, 0, FFTWindow.Rectangular);
+    {      
+        if(_audioControllerList[(int)AudioControllerNames.FULL_MUSIC].Source.isPlaying )
+        {
+            _audioControllerList[(int)AudioControllerNames.FULL_MUSIC].Source.GetSpectrumData( _singData, 0, FFTWindow.Rectangular );
+        }    
+        else if(_audioControllerList[(int)AudioControllerNames.SUBTLE_MUSIC].Source.isPlaying)
+        {
+            _audioControllerList[(int)AudioControllerNames.SUBTLE_MUSIC].Source.GetSpectrumData( _singData, 0, FFTWindow.Rectangular );
+        }   
+        else
+        {
+            _audioControllerList[(int)AudioControllerNames.AMBIENCE].Source.GetSpectrumData( _singData, 0, FFTWindow.Rectangular );
+        }
 
         float maxV = 0f;
         int maxN = 0;
