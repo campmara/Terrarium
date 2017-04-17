@@ -69,13 +69,7 @@ public class RollingState : RollerState
 		// MOVEMENT HANDLING
 		HandleRolling(input);
 		HandleTurning(input);
-
-		// Update the ground paint!
-		if ( _grounded )
-		{
-			GroundManager.instance.Ground.DrawSplatDecal(transform.position, 1f);
-			//GroundManager.instance.Ground.DrawOnPosition(transform.position, 4f);
-		}
+		
 	}
 
 	private void HandleRolling(InputCollection input)
@@ -84,11 +78,11 @@ public class RollingState : RollerState
 		{
 			if (_roller.InputVec.z >= 0f)
 			{
-				_roller.Accelerate(RollerConstants.instance.RollMaxSpeed, RollerConstants.instance.RollAcceleration, _roller.InputVec.z);
+				_roller.Accelerate( Mathf.Lerp( RollerConstants.instance.RollSpeed, RollerConstants.instance.RollMaxSpeed, _roller.InputVec.magnitude ), RollerConstants.instance.RollAcceleration, _roller.InputVec.z);
 			}
 			else
 			{
-				_roller.Accelerate(RollerConstants.instance.ReverseRollSpeed, RollerConstants.instance.RollAcceleration);
+				_roller.Accelerate( Mathf.Lerp( RollerConstants.instance.RollSpeed, RollerConstants.instance.ReverseRollSpeed, _roller.InputVec.magnitude ), RollerConstants.instance.RollAcceleration);
 			}
 		}
 		else
@@ -107,16 +101,13 @@ public class RollingState : RollerState
 		_roller.RollSphere.transform.position = spherePos;
 
 		_roller.LastInputVec = _roller.InputVec.normalized;
-		/*
-		else if (velocity != 0f)
-		{
-			// Slowdown
-			velocity -= Mathf.Sign(velocity) * ROLL_DECELERATION * Time.deltaTime;
-			Vector3 slowDownPos = roller.transform.position + (roller.transform.forward * velocity * Time.deltaTime);
-			roller.rigidbody.MovePosition(slowDownPos);
-		}
-		*/
-	}
+
+        // Update the ground paint!
+        if (_grounded)
+        {
+            GroundManager.instance.Ground.DrawSplatDecal( transform.position, Mathf.Lerp( RollerConstants.instance.RollPaintSize.x, RollerConstants.instance.RollPaintSize.y, Mathf.InverseLerp( RollerConstants.instance.ReverseRollSpeed, RollerConstants.instance.RollMaxSpeed, _roller.Velocity ) ) );            
+        }
+    }
 
 	private void HandleTurning(InputCollection input)
 	{

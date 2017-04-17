@@ -14,6 +14,12 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 	List<BasePlant> _mounds = new List<BasePlant>();
 
 
+	// temporary public accessor
+	public List<BasePlant> GetNumLargePlants()
+	{
+		return _largePlants;
+	}
+
 	public static event System.Action ExecuteGrowth;
 
     private void Awake()
@@ -59,6 +65,10 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 	public void AddBasePlant( BasePlant BasePlant )
 	{
 		_largePlants.Add( BasePlant );
+
+		// Maybe make this more general/decoupled...
+		AudioManager.instance.PlantAdded(_largePlants.Count + _smallPlants.Count);
+
 	}
 
 	public void AddSeed( Seed seed )
@@ -91,11 +101,13 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		{
 			if( newPlant.GetComponent<SPGrowthController>() )
 			{
+				AudioManager.instance.PlantAdded(_largePlants.Count + _smallPlants.Count + _mediumPlants.Count);
 				_mediumPlants.Add( newPlant.GetComponent<BasePlant>() );
 				plant.SpawnedMediums = plant.SpawnedMediums + 1;
 			}
 			else
 			{
+				AudioManager.instance.PlantAdded(_largePlants.Count + _smallPlants.Count + _mediumPlants.Count);
 				_smallPlants.Add( newPlant.GetComponent<GroundCover>() );
 				plant.SpawnedSmalls = plant.SpawnedSmalls + 1;
 			}
