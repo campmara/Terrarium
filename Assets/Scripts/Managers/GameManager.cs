@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
 		INIT,
 		INTRO,			// Wait for player input to start match
 		MAIN,
+        POND_WAIT,
         POND_RETURN,    // When Player transitions back to Pond
         POND_POP       // When Player pops out of Pond (respawns)
 	}
