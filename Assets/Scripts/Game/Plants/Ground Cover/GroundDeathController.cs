@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class GroundDeathController : PlantController 
 {
+	public enum GroundPlantType : int 
+	{
+		NONE = -1,
+		TWIST,
+		CAPP
+	}
+	[SerializeField]GroundPlantType _type = GroundPlantType.NONE;
+
 	Animator _anim = null;
 	Material _mat = null;
 
@@ -40,7 +48,6 @@ public class GroundDeathController : PlantController
 		}
 	}
 
-
 	protected virtual void Decay()
 	{
 		if( _myPlant.DeathTimer < _myPlant.DeathDuration )
@@ -61,6 +68,11 @@ public class GroundDeathController : PlantController
 
 		_originalColors[0] = _mat.GetColor( _shaderIDs[0] );
 		_originalColors[1] = _mat.GetColor( _shaderIDs[1] );
+
+		_interpColors[0] = _originalColors[0]; 
+		_interpColors[1] = _originalColors[1];
+
+		ColorManager.ExecutePaletteChange += HandlePalatteChange;
 	}
 
 	public override void StopState()
@@ -72,16 +84,19 @@ public class GroundDeathController : PlantController
 	{
 		//iterate through all items and move their color
 		//THIS IS HARD CODED AS HELL!
-		_interpColors[0] = Color.Lerp( _originalColors[0], _deathColors[0], _myPlant.DeathTimer / _myPlant.DeathDuration );
-		_interpColors[1] = Color.Lerp( _originalColors[1], _deathColors[1], _myPlant.DeathTimer / _myPlant.DeathDuration );
-
-		_mat.SetColor( _shaderIDs[0], _interpColors[0] );
-		_mat.SetColor( _shaderIDs[1], _interpColors[1] );
+//		_interpColors[0] = Color.Lerp( _originalColors[0], _deathColors[0], _myPlant.DeathTimer / _myPlant.DeathDuration );
+//		_interpColors[1] = Color.Lerp( _originalColors[1], _deathColors[1], _myPlant.DeathTimer / _myPlant.DeathDuration );
+//
+//		_mat.SetColor( _shaderIDs[0], _interpColors[0] );
+//		_mat.SetColor( _shaderIDs[1], _interpColors[1] );
 	}
 
 	void OnTriggerEnter( Collider col)
 	{
-		StompPlant();
+		if( col.GetComponent<Player>() )
+		{
+				StompPlant();
+		}
 	}
 
 	public override void StompPlant()
@@ -92,4 +107,53 @@ public class GroundDeathController : PlantController
 	public override void WaterPlant(){}
 	public override void TouchPlant(){}
 	public override void GrabPlant(){}
+
+	void OnDestroy()
+	{
+		ColorManager.ExecutePaletteChange -= HandlePalatteChange;
+	}
+
+	void HandlePalatteChange( ColorManager.EnvironmentPalette newPalette, ColorManager.EnvironmentPalette prevPalette )
+	{
+		// TODO make coroutine to change colors, remove fading color changes
+
+		Debug.Log( "Transitioning Ground Cover Color" );
+
+		switch( _type )
+		{
+		case GroundPlantType.TWIST:
+			StartCoroutine( DelayedTransitionColors( newPalette.twistPlant ) );
+			break;		
+		case GroundPlantType.CAPP:
+			StartCoroutine( DelayedTransitionColors( newPalette.cappPlant ) );
+			break;		
+		default:
+			break;
+		}
+	}
+
+	IEnumerator DelayedTransitionColors( Gradient newGradient, float transitionTime = ColorManager.PALATTE_TRANSITIONTIME )
+	{
+		float timer = 0.0f;
+		Color topColor = _mat.GetColor( _shaderIDs[0] );
+		Color midColor = _mat.GetColor( _shaderIDs[1] );
+
+		while( timer < transitionTime )
+		{
+			timer +=  Time.deltaTime;
+
+			_interpColors[0] = Colorx.Slerp( topColor, newGradient.Evaluate(0.0f), timer / transitionTime );
+			_interpColors[1] = Colorx.Slerp( midColor, newGradient.Evaluate(0.5f), timer / transitionTime );
+
+			LateUpdateColors();
+
+			yield return 0;
+		}	
+	}
+
+	public void LateUpdateColors()
+	{
+		_mat.SetColor( _shaderIDs[0], _interpColors[0] );
+		_mat.SetColor( _shaderIDs[1], _interpColors[1] );
+	}
 }

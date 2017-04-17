@@ -15,12 +15,21 @@ public class PlayerControlManager : MonoBehaviour
 		SetActiveController<InactiveController>();
 	}
 
+    private void Update()
+    {
+        if( _activeController != null )
+        {
+            // Process Input on Active Controller
+            _activeController.UpdateController();
+        }
+    }
+
 	void FixedUpdate () 
 	{
 		if (_activeController != null)
 		{
 			// Process Input on Active Controller
-			_activeController.UpdateController();	
+			_activeController.FixedUpdateController();	
 		}
 	}
 

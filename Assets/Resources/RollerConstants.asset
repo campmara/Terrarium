@@ -17,7 +17,7 @@ MonoBehaviour:
   SingWalkSpeed: 2
   WalkAcceleration: 0.05
   WalkDeceleration: 4
-  WalkTurnDampening: 0.025
+  WalkTurnDampening: 0
   BodyMinMoveSpeed: 2.5
   IdleSittingTimer: 30
   WalkTurnSpeed: 5
@@ -48,11 +48,11 @@ MonoBehaviour:
   TransitionDeceleration: 20
   RitualTime: 0.15
   RitualTurnSpeed: 2000
-  RitualCompleteWait: 1
+  RitualCompleteWait: 2
   PlantingTime: 0.75
   PlantingEndY: 0
   PlantingEndX: 1.25
-  SingingReturnTime: 0.6
+  SingingReturnTime: 0.15
   PitchLerpSpeed: 7
   IKTargetWorldScalar: 35
   IKReachCheckRadius: 8

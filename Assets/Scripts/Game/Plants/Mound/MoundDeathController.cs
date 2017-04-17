@@ -25,9 +25,7 @@ public class MoundDeathController : PlantController
 	{
 		PlantManager.instance.DeleteMound( _myPlant );
 	}
-
-	public override GameObject SpawnChildPlant(){ return null; }
-
+		
 	public override void WaterPlant()
 	{
 		StopState();

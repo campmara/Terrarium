@@ -19,7 +19,8 @@ public class RollerState : MonoBehaviour
 	public virtual void Enter( P_ControlState prevState ) {}
 	public virtual void Exit( P_ControlState nextState ) {}
 
-	public virtual void HandleInput(InputCollection input) {}
+	public virtual void HandleFixedInput( InputCollection input ) {}
+    public virtual void HandleInput( InputCollection input ) { }
 
 	// ==========================
 	// H E L P E R  M E T H O D S
@@ -92,6 +93,12 @@ public class RollerState : MonoBehaviour
 
 	private void PickUpObject( Pickupable pickup )
 	{
+		if (pickup.GetComponent<Bibi>())
+		{
+			HandleBibiPickup(pickup as Bibi);
+			return;
+		}
+
 		_roller.IK.HandleArmsGrab();
 
 		_roller.CurrentHeldObject = pickup;
@@ -107,7 +114,12 @@ public class RollerState : MonoBehaviour
 		AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_ACTIONFX, 1 );
 	}
 
-	protected void HandleBothArmRelease()
+	void HandleBibiPickup(Bibi bibi)
+	{
+		bibi.OnPickup();
+	}
+
+	public void HandleBothArmRelease()
 	{
 		_roller.IK.LetGoBothArms();
 

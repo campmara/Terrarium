@@ -1,61 +1,70 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class BPDeathController : PlantController 
 {	
+	[SerializeField] private ParticleSystem _essenceSystemPrefab;
+	[SerializeField] private SkinnedMeshRenderer _essenceMesh;
+	ParticleSystem _essenceParticleSystem;
+	ParticleSystem.NoiseModule _essenceNoise;
+
+	// TODO REMOVE THIS ADDE MORE SCRIPTS GDI
+	public enum BigPlantType : int 
+	{
+		NONE = -1,
+		POINT,
+		MOSS,
+		LEAFY
+	}
+	[SerializeField] BigPlantType _type = BigPlantType.NONE;
+
 	[SerializeField] Color[] _deathColors = new Color[3];
 	[SerializeField] float _waterDecayReturnTime = 20.0f;
 
-	DeathState _curState = DeathState.Dying;
+	enum DeathState
+	{
+		Decaying,
+		Fading
+	}
+	DeathState _curState = DeathState.Decaying;
 
 	List<Material> _componentMaterials = new List<Material>();
 	Color[] _originalColors = new Color[3];
-	Color[] _interpColors = new Color[3];
+	Color[] _interpColors = new Color[6];
 	int[] _shaderIDs = new int[3];
 
-	enum FlyState
-	{
-		PLUCK,
-		SLOWDOWN,
-		FLOAT
-	}
-	private FlyState _currentFlyState = FlyState.PLUCK;
+	
 
-	private Rigidbody _rb;
-	private float _flyTimer = 0f;
-	private float _flyPluckTime;
-
-	[SerializeField] private float windEffect = 30f;
-
-	const float PLUCK_FORCE = 17f;
-	const float ASCEND_FORCE = 2.25f;
-
-	const float PLUCK_MIN_TIME = 0.05f;
-	const float PLUCK_MAX_TIME = 0.15f;
-	const float SLOWDOWN_TIME = 1.1f;
-
-	const float KILL_Y = 100f;
-
-	enum DeathState
-	{
-		Flying,
-		Dying
-	}
-
+	private float _fadeTime;
+	private float _cutoffValue;
+	
 	public override void Init()
 	{
 		_myPlant = GetComponent<BasePlant>();
-		_rb = GetComponent<Rigidbody>();
-		_controllerType = ControllerType.Death;
 
-		_flyPluckTime = Random.Range(PLUCK_MIN_TIME, PLUCK_MAX_TIME);
+		if (_essenceSystemPrefab != null)
+		{
+			_essenceParticleSystem = Instantiate(_essenceSystemPrefab, transform.position, Quaternion.identity) as ParticleSystem;
+			_essenceParticleSystem.Stop();
+			_essenceNoise = _essenceParticleSystem.noise;
+		}
+
+		_controllerType = ControllerType.Death;
 	}
 
 	public override void StartState()
 	{
 		_myPlant.CurDecayRate = _myPlant.BaseDecayRate;
+
 		GetComponentMaterials();
+
+		_interpColors[0] = _originalColors[0]; 
+		_interpColors[1] = _originalColors[1];
+		_interpColors[2] = _originalColors[2];
+
+		ColorManager.ExecutePaletteChange += HandlePalatteChange;
 	}
 
 	void GetComponentMaterials()
@@ -72,6 +81,24 @@ public class BPDeathController : PlantController
 			_componentMaterials.Add( renderer.material );
 		}
 
+		ParticleSystem.ShapeModule shape = _essenceParticleSystem.shape;
+		if (_essenceMesh)
+		{
+			shape.skinnedMeshRenderer = _essenceMesh;
+		}
+		else
+		{
+			
+			if (renderers[0])
+			{
+				shape.skinnedMeshRenderer = renderers[0];
+			}
+			else if (otherRenderers[0])
+			{
+				shape.meshRenderer = otherRenderers[0];
+			}
+		}
+
 		if( _componentMaterials.Count > 0 )
 		{
 			_shaderIDs[0] = Shader.PropertyToID( "_ColorTop");
@@ -86,13 +113,13 @@ public class BPDeathController : PlantController
 
 	public override void UpdateState()
 	{
-		if( _curState == DeathState.Dying )
+		if( _curState == DeathState.Decaying )
 		{
 			Decay();
 		}
 		else
 		{
-			FlyAway();
+			FadeEssence();
 		}
 	}
 
@@ -100,86 +127,49 @@ public class BPDeathController : PlantController
 	{
 		if( _myPlant.DeathTimer < _myPlant.DeathDuration )
 		{
-			FadeColor();
+			// Increment the decay timer.
 			_myPlant.DeathTimer += Time.deltaTime * _myPlant.CurDecayRate;
 		}
 		else
 		{
-			_curState = DeathState.Flying;
-			GroundManager.instance.EmitDirtParticles(transform.position, 1f);
+			_curState = DeathState.Fading;
+
+			ParticleSystem.MinMaxGradient essenceTrailColor = _essenceParticleSystem.trails.colorOverLifetime;
+			essenceTrailColor.color = _componentMaterials[0].GetColor(_shaderIDs[1]);
+
+			_essenceParticleSystem.Play();
+
+			_cutoffValue = 0f;
+			_fadeTime = Random.Range(5f, 7f);
+
+			DOTween.To(()=> _cutoffValue, x=> _cutoffValue = x, 1f, _fadeTime)
+				.SetEase(Ease.InExpo)
+				.OnComplete(OnDeath);
 		}
 	}
 
-	protected virtual void FlyAway()
+	protected virtual void OnDeath()
 	{
-		CheckForKill();
-		HandleFlyStateChanges();
-
-		_rb.isKinematic = false;
-		Vector3 upDir = ( ( Vector3.up * 5f ) + ( WeatherManager.instance.WindForce ) ).normalized;
-
-		// Apply an upward force.
-		if ( _currentFlyState == FlyState.FLOAT )
-		{
-			_rb.AddForce( upDir * ASCEND_FORCE * Time.deltaTime, ForceMode.Impulse );
-		}
-		else if ( _currentFlyState == FlyState.PLUCK )
-		{
-			_rb.AddForce( upDir * PLUCK_FORCE * Time.deltaTime, ForceMode.Impulse );
-		}
-		else if ( _currentFlyState == FlyState.SLOWDOWN )
-		{
-			_rb.AddForce( upDir * Mathf.Lerp( PLUCK_FORCE, ASCEND_FORCE, _flyTimer / SLOWDOWN_TIME ) * Time.deltaTime, ForceMode.Impulse );
-		}
+		// Fully decayed and therefore no longer visible.
+		_essenceParticleSystem.Stop();
+		_essenceParticleSystem.GetComponent<EssenceParticles>().MarkForDestroy(5f);
 		
-		// Apply a weird constant random rotation.
-		_rb.AddTorque(WeatherManager.instance.WindForce * windEffect * Time.deltaTime);
+
+		PlantManager.instance.DeleteLargePlant(_myPlant);
 	}
 
-	void CheckForKill()
+	void FadeEssence()
 	{
-		if (transform.position.y > KILL_Y)
+		for (int i = 0; i < _componentMaterials.Count; i++)
 		{
-			PlantManager.instance.DeleteLargePlant(_myPlant);
-		}
-	}
-
-	void HandleFlyStateChanges()
-	{
-		if (_currentFlyState == FlyState.FLOAT)
-		{
-			return;
+			_componentMaterials[i].SetFloat("_Dissolve", _cutoffValue);
 		}
 
-		// increment the fly flyTimer
-		_flyTimer += Time.deltaTime;
-
-		if (_currentFlyState == FlyState.PLUCK && _flyTimer >= _flyPluckTime)
+		if (_essenceParticleSystem != null)
 		{
-			_currentFlyState = FlyState.SLOWDOWN;
-			_flyTimer = 0f;
-		}
-
-		if (_currentFlyState == FlyState.SLOWDOWN && _flyTimer >= SLOWDOWN_TIME)
-		{
-			_currentFlyState = FlyState.FLOAT;
-			_flyTimer = 0f;
-		}
-	}
-
-	void FadeColor()
-	{
-		//iterate through all items and move their color
-		//THIS IS HARD CODED AS HELL!
-		_interpColors[0] = Color.Lerp( _originalColors[0], _deathColors[0], _myPlant.DeathTimer / _myPlant.DeathDuration );
-		_interpColors[1] = Color.Lerp( _originalColors[1], _deathColors[1], _myPlant.DeathTimer / _myPlant.DeathDuration );
-		_interpColors[2] = Color.Lerp( _originalColors[2], _deathColors[2], _myPlant.DeathTimer / _myPlant.DeathDuration );
-
-		foreach( Material mat in _componentMaterials )
-		{
-			mat.SetColor( _shaderIDs[0], _interpColors[0] );
-			mat.SetColor( _shaderIDs[1], _interpColors[1] );
-			mat.SetColor( _shaderIDs[2], _interpColors[2] );
+			_essenceNoise.strengthXMultiplier = WeatherManager.instance.WindForce.x;
+			_essenceNoise.strengthYMultiplier = WeatherManager.instance.WindForce.y;
+			_essenceNoise.strengthZMultiplier = WeatherManager.instance.WindForce.z;
 		}
 	}
 
@@ -204,9 +194,136 @@ public class BPDeathController : PlantController
 	public override void TouchPlant(){}
 	public override void GrabPlant(){}
 	public override void StompPlant(){}
-	public override GameObject SpawnChildPlant()
+
+	void OnDestroy()
 	{
-		//don't do SHEET!
-		return null;
+		ColorManager.ExecutePaletteChange -= HandlePalatteChange;
 	}
+
+	void HandlePalatteChange( ColorManager.EnvironmentPalette newPalette, ColorManager.EnvironmentPalette prevPalette  )
+	{		
+		Debug.Log( "transitionin a dyin plant color ");
+
+		switch( _type )
+		{
+		case BigPlantType.POINT:
+			StartCoroutine( DelayedTransitionPointColors( newPalette, prevPalette ) );
+			break;
+		case BigPlantType.MOSS:
+			StartCoroutine( DelayedTransitionMossColors( newPalette.mossPlant ) );
+			break;
+		case BigPlantType.LEAFY:
+			StartCoroutine( DelayedTransitionLeafyColors( newPalette, prevPalette ) );
+			break;
+		default:
+			break;
+		}
+	}
+		
+	IEnumerator DelayedTransitionPointColors(ColorManager.EnvironmentPalette newPalette, ColorManager.EnvironmentPalette prevPalette, float transitionTime = ColorManager.PALATTE_TRANSITIONTIME )
+	{
+		float timer = 0.0f;
+
+		while( timer < transitionTime )
+		{
+			timer +=  Time.deltaTime;
+
+			foreach( Material mat in _componentMaterials )
+			{
+				if( mat.name == "GroundLeaf" )
+				{
+					mat.SetColor( _shaderIDs[0], Colorx.Slerp( prevPalette.pointPlantLeaf.Evaluate(0.0f), newPalette.pointPlantLeaf.Evaluate(0.0f), timer / transitionTime ) );
+					mat.SetColor( _shaderIDs[1], Colorx.Slerp( prevPalette.pointPlantLeaf.Evaluate(0.5f), newPalette.pointPlantLeaf.Evaluate(0.5f), timer / transitionTime ) );
+					mat.SetColor( _shaderIDs[2], Colorx.Slerp( prevPalette.pointPlantLeaf.Evaluate(1.0f), newPalette.pointPlantLeaf.Evaluate(1.0f), timer / transitionTime ) );
+				}
+				else if( mat.name == "GreenGradient")
+				{
+					mat.SetColor( _shaderIDs[0], Colorx.Slerp( prevPalette.pointPlantStem.Evaluate(0.0f), newPalette.pointPlantStem.Evaluate(0.0f), timer / transitionTime ) );
+					mat.SetColor( _shaderIDs[1], Colorx.Slerp( prevPalette.pointPlantStem.Evaluate(0.5f), newPalette.pointPlantStem.Evaluate(0.5f), timer / transitionTime ) );
+					mat.SetColor( _shaderIDs[2], Colorx.Slerp( prevPalette.pointPlantStem.Evaluate(1.0f), newPalette.pointPlantStem.Evaluate(1.0f), timer / transitionTime ) );
+				}
+			}
+
+			yield return 0;
+		}
+	}
+
+	IEnumerator DelayedTransitionMossColors( Gradient newGradient, float transitionTime = ColorManager.PALATTE_TRANSITIONTIME )
+	{
+		float timer = 0.0f;
+		Color topColor = _componentMaterials[0].GetColor( _shaderIDs[0] );
+		Color midColor = _componentMaterials[0].GetColor( _shaderIDs[1] );
+		Color botColor = _componentMaterials[0].GetColor( _shaderIDs[2] );
+
+		while( timer < transitionTime )
+		{
+			timer +=  Time.deltaTime;
+
+			foreach( Material mat in _componentMaterials )
+			{
+				mat.SetColor( _shaderIDs[0], Colorx.Slerp( topColor, newGradient.Evaluate(0.0f), timer / transitionTime ) );
+				mat.SetColor( _shaderIDs[1], Colorx.Slerp( midColor, newGradient.Evaluate(0.5f), timer / transitionTime ) );
+				mat.SetColor( _shaderIDs[2], Colorx.Slerp( botColor, newGradient.Evaluate(1.0f), timer / transitionTime ) );;
+			}
+
+			yield return 0;
+		}	
+	}
+
+	IEnumerator DelayedTransitionLeafyColors( ColorManager.EnvironmentPalette newPalette, ColorManager.EnvironmentPalette prevPalette, float transitionTime = ColorManager.PALATTE_TRANSITIONTIME ) 
+	{
+		float timer = 0.0f;
+
+		while( timer < transitionTime )
+		{
+			timer +=  Time.deltaTime;
+
+			foreach( Material mat in _componentMaterials )
+			{
+				if( mat.name == "GroundLeaf" || mat.name == "GroundLeaf (Instance)" )	// TODO make a new leaf material ?
+				{
+					_interpColors[0] = Colorx.Slerp( prevPalette.leafyGroundPlantLeaf.Evaluate(0.0f), newPalette.leafyGroundPlantLeaf.Evaluate(0.0f), timer / transitionTime );
+					_interpColors[1] = Colorx.Slerp( prevPalette.leafyGroundPlantLeaf.Evaluate(0.5f), newPalette.leafyGroundPlantLeaf.Evaluate(0.5f), timer / transitionTime );
+					_interpColors[2] = Colorx.Slerp( prevPalette.leafyGroundPlantLeaf.Evaluate(1.0f), newPalette.leafyGroundPlantLeaf.Evaluate(1.0f), timer / transitionTime );
+
+					mat.SetColor( _shaderIDs[0], _interpColors[0] );
+					mat.SetColor( _shaderIDs[1], _interpColors[1] );
+					mat.SetColor( _shaderIDs[2], _interpColors[2] );
+				}
+				else if( mat.name == "Fruit" || mat.name == "Fruit (Instance)" )
+				{
+					_interpColors[3] = Colorx.Slerp( prevPalette.leafyGroundPlantBulb.Evaluate(0.0f), newPalette.leafyGroundPlantBulb.Evaluate(0.0f), timer / transitionTime );
+					_interpColors[4] = Colorx.Slerp( prevPalette.leafyGroundPlantBulb.Evaluate(0.5f), newPalette.leafyGroundPlantBulb.Evaluate(0.5f), timer / transitionTime );
+					_interpColors[5] = Colorx.Slerp( prevPalette.leafyGroundPlantBulb.Evaluate(1.0f), newPalette.leafyGroundPlantBulb.Evaluate(1.0f), timer / transitionTime );
+
+					mat.SetColor( _shaderIDs[0], _interpColors[3] );
+					mat.SetColor( _shaderIDs[1], _interpColors[4] );
+					mat.SetColor( _shaderIDs[2], _interpColors[5] );
+				}
+			}
+
+			yield return 0;
+		}
+	}
+
+	void LateUpdateLeafyColors()
+	{
+		foreach( Material mat in _componentMaterials )
+		{
+			if( mat.name == "GroundLeaf" || mat.name == "GroundLeaf (Instance)" )	// TODO make a new leaf material ?
+			{
+				mat.SetColor( _shaderIDs[0], _interpColors[0] );
+				mat.SetColor( _shaderIDs[1], _interpColors[1] );
+				mat.SetColor( _shaderIDs[2], _interpColors[2] );
+			}
+			else if( mat.name == "Fruit" || mat.name == "Fruit (Instance)" )
+			{
+				mat.SetColor( _shaderIDs[0], _interpColors[3] );
+				mat.SetColor( _shaderIDs[1], _interpColors[4] );
+				mat.SetColor( _shaderIDs[2], _interpColors[5] );
+			}
+		}			
+	}
+
 }
+

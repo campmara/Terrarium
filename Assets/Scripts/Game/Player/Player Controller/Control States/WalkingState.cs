@@ -50,32 +50,25 @@ public class WalkingState : RollerState
 		RollerParent.Idling = false;
     }
 
-	public override void HandleInput(InputCollection input)
-	{
+    public override void HandleInput( InputCollection input )
+    {
         // Check for sitting after idling for a while.
-        IdleTimer(input);
+        IdleTimer( input );
 
-        if( input.LeftBumper.WasPressed )
+        if (input.LeftBumper.WasPressed)
         {
             _idleTimer = 0f;
             IncrementLeftArmGesture();
         }
-        if( input.RightBumper.WasPressed )
+
+        if ( input.RightBumper.WasPressed )
         {
             _idleTimer = 0f;
             IncrementRightArmGesture();
         }
 
-
-		// A BUTTON 
-		// THIS MAKES FIRST TIME YOU PRESS A BUTTON NOT WORK
-		// have to figure out a way to deal Incontrol detecting double button presserino between frames
-		if( !canPickup && input.AButton.WasReleased )
-		{
-			canPickup = true;	
-		}
-          
-		if ( canPickup && input.AButton.WasPressed )
+        // A BUTTON 
+        if ( input.AButton.WasPressed )
         {
             // End coroutine waiting to see if the player should auto reach if the player inputs for arms  
             if ( _reachCoroutine != null )
@@ -83,20 +76,16 @@ public class WalkingState : RollerState
                 StopCoroutine( _reachCoroutine );
                 _reachCoroutine = null;
             }
-/*
-			if( !_roller.IK.ArmsIdle )
-			{
-				HandleBothArmRelease();
-			}
-*/
-			HandlePickup( PlayerArmIK.ArmType.BOTH );
-			if( _roller.IK.ArmFocus != null )
-			{
-				HandleGrabObject();	
-			}
+
+            HandlePickup( PlayerArmIK.ArmType.BOTH );
+
+            if ( _roller.IK.ArmFocus != null )
+            {
+                HandleGrabObject();
+            }
         }
 
-		if( _roller.IK.ArmsIdle )
+        if ( _roller.IK.ArmsIdle )
         {
             if ( _reachCoroutine == null )
             {
@@ -107,32 +96,40 @@ public class WalkingState : RollerState
         // Update how far the arms are reaching
         _roller.UpdateArmReachIK( input.LeftTrigger.Value, input.RightTrigger.Value );
 
+        if (_tween != null && _tween.IsPlaying())
+        {
+            return;
+        }
+
+        // B BUTTON
+        if (input.BButton.IsPressed)
+        {
+            if ( GameManager.Instance.State == GameManager.GameState.MAIN )
+            {
+                _roller.ChangeState( P_ControlState.ROLLING );
+            }
+        }
+        else if ( input.XButton.IsPressed )   // X BUTTON
+        {
+            _roller.ChangeState( P_ControlState.RITUAL );
+        }
+        else if ( input.YButton.WasPressed )  // Y BUTTON
+        {
+            _roller.Player.PlayerSingController.BeginSinging();
+            //_roller.ChangeState( P_ControlState.SING);
+        }
+        else if ( input.YButton.WasReleased )
+        {
+            _roller.Player.PlayerSingController.StopSinging();
+        }
+    }
+
+    public override void HandleFixedInput(InputCollection input)
+	{	
 		_roller.IKMovement(RollerConstants.instance.WalkSpeed, 
 									  RollerConstants.instance.WalkAcceleration, 
 									  RollerConstants.instance.WalkDeceleration, 
 									  RollerConstants.instance.WalkTurnSpeed);
-
-		if ( _tween != null && _tween.IsPlaying() )
-		{
-			return;
-		}
-
-        // B BUTTON
-		if (input.BButton.IsPressed)
-        {
-            if ( GameManager.Instance.State == GameManager.GameState.MAIN )
-            {
-                _roller.ChangeState( P_ControlState.ROLLING);
-            }
-        }        
-        else if (input.XButton.IsPressed)   // X BUTTON
-        {
-            _roller.ChangeState( P_ControlState.RITUAL);
-        }			
-		else if (input.YButton.IsPressed)	// Y BUTTON
-		{
-			_roller.ChangeState( P_ControlState.SING);
-		}
     }
 
     void IdleTimer(InputCollection input)
@@ -150,6 +147,7 @@ public class WalkingState : RollerState
             // Left Stick Button
             if (input.LeftStickButton.IsPressed)
             {
+                _roller.Player.AnimationController.SitButtonPress();
                 _roller.ChangeState(P_ControlState.SIT);
             }
         }
