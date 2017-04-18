@@ -129,11 +129,8 @@ public class GroundPlantGrowthController : SPGrowthController
 		if( !_waiting )
 		{
 			_lastAnim = _childAnimators[ _childAnimators.Count - 1 ];
-			//PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
-			//_lastClip = _lastAnim.runtimeAnimatorController.animationClips[0];
 			AnimatorStateInfo state = _lastAnim.GetCurrentAnimatorStateInfo(0);
 			_endTimeStamp =  state.length;//_lastClip.length - .04f;
-			//PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
 			StartCoroutine( WaitForLastLeaf() );
 		}
 	}
@@ -145,9 +142,7 @@ public class GroundPlantGrowthController : SPGrowthController
 		{
 			yield return null;
 		}
-		//PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
 		_waiting = false;
 		_myPlant.SwitchController( this );
-	}
-		
+	}	
 }

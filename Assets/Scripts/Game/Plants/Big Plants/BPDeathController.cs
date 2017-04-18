@@ -9,18 +9,6 @@ public class BPDeathController : PlantController
 	[SerializeField] private SkinnedMeshRenderer _essenceMesh;
 	ParticleSystem _essenceParticleSystem;
 	ParticleSystem.NoiseModule _essenceNoise;
-
-	// TODO REMOVE THIS ADDE MORE SCRIPTS GDI
-	public enum BigPlantType : int 
-	{
-		NONE = -1,
-		POINT,
-		MOSS,
-		LEAFY
-	}
-	[SerializeField] BigPlantType _type = BigPlantType.NONE;
-
-	[SerializeField] Color[] _deathColors = new Color[3];
 	[SerializeField] float _waterDecayReturnTime = 20.0f;
 
 	enum DeathState
@@ -155,7 +143,7 @@ public class BPDeathController : PlantController
 		_essenceParticleSystem.GetComponent<EssenceParticles>().MarkForDestroy(5f);
 		
 
-		PlantManager.instance.DeleteLargePlant(_myPlant);
+		PlantManager.instance.DeleteLargePlant( _myPlant.GetComponent<BPBasePlant>() );
 	}
 
 	void FadeEssence()
@@ -203,16 +191,16 @@ public class BPDeathController : PlantController
 	void HandlePalatteChange( ColorManager.EnvironmentPalette newPalette, ColorManager.EnvironmentPalette prevPalette  )
 	{		
 		Debug.Log( "transitionin a dyin plant color ");
-
+		BPBasePlant.BigPlantType _type = _myPlant.GetComponent<BPBasePlant>().PlantType;
 		switch( _type )
 		{
-		case BigPlantType.POINT:
+		case BPBasePlant.BigPlantType.POINT:
 			StartCoroutine( DelayedTransitionPointColors( newPalette, prevPalette ) );
 			break;
-		case BigPlantType.MOSS:
+		case BPBasePlant.BigPlantType.FLOWERING:
 			StartCoroutine( DelayedTransitionMossColors( newPalette.mossPlant ) );
 			break;
-		case BigPlantType.LEAFY:
+		case BPBasePlant.BigPlantType.LEAFY:
 			StartCoroutine( DelayedTransitionLeafyColors( newPalette, prevPalette ) );
 			break;
 		default:
