@@ -34,6 +34,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	Vector3 _camOffset = Vector3.zero;      // Direction from focus to Camera
 	Vector3 _camTargetPos = Vector3.zero;
 
+	public Vector3 FocusPoint { get { return _focusPoint; } }
     Vector3 _focusPoint = Vector3.zero;    	// Center of focal point following player
     Vector3 _focusOffset = Vector3.zero;    
     float _centerDist = 0.0f;               // Current distance of focusCenter from transform
