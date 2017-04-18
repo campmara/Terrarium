@@ -96,7 +96,6 @@ public class RollerState : MonoBehaviour
 		if (pickup.GetComponent<Bibi>())
 		{
 			HandleBibiPickup(pickup as Bibi);
-            HandleBothArmRelease();
             return;
 		}
 
@@ -118,6 +117,7 @@ public class RollerState : MonoBehaviour
 	void HandleBibiPickup(Bibi bibi)
 	{
 		bibi.OnPickup();
+		_roller.IK.LetGoBothArms();
 	}
 
 	public void HandleBothArmRelease()
