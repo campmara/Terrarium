@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4766687266315788}
   - component: {fileID: 114548184982639564}
-  - component: {fileID: 114410962151157372}
+  - component: {fileID: 114192825424011462}
   m_Layer: 0
   m_Name: WeatherManager
   m_TagString: Untagged
@@ -586,6 +586,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2465305cd947f4ff2a7056f57561c11c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114192825424011462
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1071704960912508}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6e624f71dc76894aa1b9f01dc9293b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  presets: 0
+  lerpSpeed: 1
+  _WaveTime: 0
+  _WaveDir: {x: 1, y: 0, z: 0}
+  idealWaveDir: {x: 1, y: 0, z: 0}
+  _WaveSpeed: 1
+  idealWaveSpeed: 1
+  _WaveNoise: 1
+  idealWaveNoise: 1
+  _WaveScale: 0.5
+  idealWaveScale: 0.5
+  _WaveAmount: 0.5
+  idealWaveAmount: 0.5
 --- !u!114 &114255189836694920
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2577,30 +2601,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d042cd139e6314882ae6708dcad2fa8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114410962151157372
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1071704960912508}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6e624f71dc76894aa1b9f01dc9293b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  presets: 0
-  lerpSpeed: 1
-  _WaveTime: 0
-  _WaveDir: {x: 1, y: 0, z: 0}
-  idealWaveDir: {x: 1, y: 0, z: 0}
-  _WaveSpeed: 1
-  idealWaveSpeed: 1
-  _WaveNoise: 1
-  idealWaveNoise: 1
-  _WaveScale: 0.5
-  idealWaveScale: 0.5
-  _WaveAmount: 0.5
-  idealWaveAmount: 0.5
 --- !u!114 &114481791995722538
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2739,12 +2739,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1be11ad8078254297b992a08b3455340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subtleMusicThreshold: 1
+  fullMusicThreshold: 4
   _audioControllerList:
   - _audioClipList:
-    - {fileID: 8300000, guid: 52e9d624a18d71f4b96210a81ec25066, type: 3}
-    - {fileID: 8300000, guid: aae1b11547aadb04185ae788818cddb4, type: 3}
-    - {fileID: 8300000, guid: b14a529db5d2edb4a888758cc8c39551, type: 3}
-    - {fileID: 8300000, guid: f01292d5f2a59407099d46281692757a, type: 3}
+    - {fileID: 8300000, guid: 7e97712348a1c48898f7328491deadeb, type: 3}
+    - {fileID: 8300000, guid: 7e97712348a1c48898f7328491deadeb, type: 3}
+    - {fileID: 8300000, guid: 7e97712348a1c48898f7328491deadeb, type: 3}
+    - {fileID: 8300000, guid: 7e97712348a1c48898f7328491deadeb, type: 3}
     _mixerGroup: {fileID: 243411483671750552, guid: 30f3aa683f5543d469208f1bb641c945,
       type: 2}
     _volume: 1
@@ -2803,6 +2805,45 @@ MonoBehaviour:
       type: 2}
     _volume: 1
     _playOnAwake: 0
+    _loop: 0
+    _pitch: 1
+  - _audioClipList:
+    - {fileID: 8300000, guid: 2a8c1eb347e144cddb8969b4e72f9ff3, type: 3}
+    - {fileID: 8300000, guid: 397eae12cd16a494ca14e31840bd7f35, type: 3}
+    _mixerGroup: {fileID: 243810991957295566, guid: 30f3aa683f5543d469208f1bb641c945,
+      type: 2}
+    _volume: 1
+    _playOnAwake: 1
+    _loop: 1
+    _pitch: 1
+  - _audioClipList:
+    - {fileID: 8300000, guid: 0386c7f49836d42f68ba6161a063b537, type: 3}
+    - {fileID: 8300000, guid: f2c4bfe66b913433980b735c67c5020d, type: 3}
+    - {fileID: 8300000, guid: a33ed84885b2b4f4994f89327f638f9b, type: 3}
+    _mixerGroup: {fileID: 243411483671750552, guid: 30f3aa683f5543d469208f1bb641c945,
+      type: 2}
+    _volume: 1
+    _playOnAwake: 1
+    _loop: 0
+    _pitch: 1
+  - _audioClipList:
+    - {fileID: 8300000, guid: cf34a5fedf5944c5b8b2562e39d8552c, type: 3}
+    - {fileID: 8300000, guid: 44a426f2b46114bcaaf2c63757827f63, type: 3}
+    - {fileID: 8300000, guid: f01292d5f2a59407099d46281692757a, type: 3}
+    _mixerGroup: {fileID: 243411483671750552, guid: 30f3aa683f5543d469208f1bb641c945,
+      type: 2}
+    _volume: 1
+    _playOnAwake: 1
+    _loop: 0
+    _pitch: 1
+  - _audioClipList:
+    - {fileID: 8300000, guid: c0099ff4c49094637a6dfa97c8ad772b, type: 3}
+    - {fileID: 8300000, guid: 52e9d624a18d71f4b96210a81ec25066, type: 3}
+    - {fileID: 8300000, guid: b14a529db5d2edb4a888758cc8c39551, type: 3}
+    _mixerGroup: {fileID: 243411483671750552, guid: 30f3aa683f5543d469208f1bb641c945,
+      type: 2}
+    _volume: 1
+    _playOnAwake: 1
     _loop: 0
     _pitch: 1
 --- !u!114 &114804556110679380

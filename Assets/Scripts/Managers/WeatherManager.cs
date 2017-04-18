@@ -68,7 +68,7 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
     public override void Initialize()
     {
         UpdateWindShaderValues();
-        UpdateWindDirection();
+        UpdateWindDirection(0.0f);
 
         HandleWindWait( true );
 
@@ -105,7 +105,7 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
 
 		if( endTrough )
 		{			
-			UpdateWindDirection();	
+			UpdateWindDirection( duration );	
 		}
 
 		while ( timer < duration )
@@ -149,13 +149,34 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
 
     }
 
-    private void UpdateWindDirection()
+    private void UpdateWindDirection( float duration )
     {
-        _waveDir.x = Random.insideUnitCircle.x;
-        _waveDir.y = 0.0f;  // zero out wind y for now
-        _waveDir.z = Random.insideUnitCircle.y;
-        _waveDir.Normalize();
+        StartCoroutine( DelayedUpdateWindDir( duration ) );
+    }
 
+    IEnumerator DelayedUpdateWindDir( float duration )
+    {
+        float timer = 0.0f;
+
+        Vector3 startDir = _waveDir;
+
+        Vector3 endDir = Vector3.zero;    
+        endDir.x = Random.insideUnitCircle.x;        
+        endDir.z = Random.insideUnitCircle.y;
+        endDir.Normalize();
+
+        while( timer < duration )
+        {
+            timer += Time.deltaTime;
+
+            _waveDir = Vector3.Slerp( startDir, endDir, timer / duration );
+
+            Shader.SetGlobalVector( "_WaveDir", _waveDir );
+
+            yield return 0;
+        }
+
+        _waveDir = endDir;
         Shader.SetGlobalVector( "_WaveDir", _waveDir );
     }
 

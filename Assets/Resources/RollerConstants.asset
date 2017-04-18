@@ -35,6 +35,7 @@ MonoBehaviour:
   TurnAcceleration: 15
   TurnDeceleration: 700
   TurnMinSpeed: 25
+  RollPaintSize: {x: 0.35, y: 1}
   PickupCheckHeight: 0.5
   PickupCheckRadius: 1
   PickupForwardScalarPart1: 0.58

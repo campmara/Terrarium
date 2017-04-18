@@ -421,7 +421,8 @@ public class RollerController : ControllerBase
 		_rig.SetActive(true);
 		_rollSphere.SetActive(false);
 
-        _targetMovePosition = this.transform.position;
+        _targetMovePosition = this.transform.position;        
+        this._player.AnimationController.SetPlayerSpeed( 0.0f );
 
         _ik.ResetLegs();
 
@@ -462,7 +463,7 @@ public class RollerController : ControllerBase
 		_explodeParticleSystem.Play();
 
 		// Wait for the boom to finish.
-		while(_explodeParticleSystem.isPlaying)
+		while( _explodeParticleSystem.isPlaying )
 		{
 			yield return null;
 		}
@@ -470,7 +471,8 @@ public class RollerController : ControllerBase
 		// Put ourselves in the right state of mind: the pond state.
 		ChangeState(P_ControlState.POND);
 
-		// Tell the pond we're comin' home!
-		PondManager.instance.HandlePondReturn(); 
-	}
+        // Tell the pond we're comin' home!
+        //PondManager.instance.HandlePondReturn(); 
+        PondManager.instance.HandlePondWait();
+    }
 }
