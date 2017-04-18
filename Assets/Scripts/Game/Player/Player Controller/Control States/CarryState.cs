@@ -64,8 +64,7 @@ public class CarryState : RollerState
                 // NOTE: Should only happen for seeds ?
                 if (RollerParent.CurrentHeldObject.GetComponent<Seed>() != null)
                 {
-                    //_roller.ChangeState( P_ControlState.PLANTING );
-                    _roller.ChangeState( P_ControlState.WALKING );
+                    _roller.ChangeState( P_ControlState.PLANTING );                    
                 }
                 else
                 {
