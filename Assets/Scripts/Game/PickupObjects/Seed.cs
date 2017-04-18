@@ -19,7 +19,7 @@ public class Seed : Pickupable
 
 	Tween _sinkTween = null;
 
-    const float WIND_FORCESCALAR = 0.25f;
+    const float WIND_FORCESCALAR = 0.5f;
 
 	void Update()
 	{
@@ -38,7 +38,7 @@ public class Seed : Pickupable
 
     private void FixedUpdate()
     {
-        _rigidbody.velocity = WeatherManager.instance.WindForce * WIND_FORCESCALAR;
+        _rigidbody.AddForce( WeatherManager.instance.WindForce * WIND_FORCESCALAR * Time.deltaTime );
     }
 
     public override void OnPickup( Transform grabTransform )

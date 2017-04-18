@@ -96,7 +96,8 @@ public class RollerState : MonoBehaviour
 		if (pickup.GetComponent<Bibi>())
 		{
 			HandleBibiPickup(pickup as Bibi);
-			return;
+            HandleBothArmRelease();
+            return;
 		}
 
 		_roller.IK.HandleArmsGrab();

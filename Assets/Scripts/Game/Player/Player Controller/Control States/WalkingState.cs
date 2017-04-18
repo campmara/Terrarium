@@ -9,8 +9,6 @@ public class WalkingState : RollerState
 
     Coroutine _reachCoroutine = null;
 
-	bool canPickup = false;
-
     public override void Enter( P_ControlState prevState )
 	{
 		Debug.Log("ENTER WALKING STATE");
@@ -26,8 +24,7 @@ public class WalkingState : RollerState
             break;
         }
 
-        _idleTimer = 0f;
-		canPickup = false;
+        _idleTimer = 0f;		
         //PlayerManager.instance.Player.AnimationController.PlayWalkAnim();
 	}
 
