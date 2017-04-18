@@ -3,16 +3,31 @@ using UnityEngine;
 
 public class PlantManager : SingletonBehaviour<PlantManager>
 {
-	[SerializeField] int _maxLargePlants = 20;
-	[SerializeField] int _maxMediumPlants = 40;
-	[SerializeField] int _maxSmallPlants = 200;
+	// ******* BIG PLANTS *********** ( per species )
+	public Vector2 LrgTotalPlantsRange = new Vector2( 3, 12 );
+	
+	// ******** MEDIUM PLANTS *********	( per all )
+	public Vector2 MedTotalPlantsRange = new Vector2( 0, 25 );
+	public Vector2 MedSpawnRadRange = new Vector2( 3f, 4.5f );
+	public  Vector2 MedNumPerPlant = new Vector2( 4, 6 );
 
+	// ******** SMALL PLANTS *********	( per all )
+	public Vector2 SmTotalPlantsRange = new Vector2( 0, 50 );
+	public Vector2 SmSpawnRadRange = new Vector2( 1f, 3f );
+	public Vector2 SmNumPerPlant = new Vector2( 8, 15 );
+
+
+	// ******* UPDATE THESE FOR NEW BIG PLANTS *************
+	[SerializeField] GameObject _pointSeed = null;
+	List<BasePlant> _pointPlants = new List<BasePlant>();
+	[SerializeField] GameObject _floweringSeed = null;
+	List<BasePlant> _floweringPlants = new List<BasePlant>();
+
+	// ******   TRACKER LISTS   *************
 	List<Seed> _seeds = new List<Seed>();
 	List<GroundCover> _smallPlants = new List<GroundCover>();   
 	List<BasePlant> _mediumPlants = new List<BasePlant>();
-	List<BasePlant> _largePlants = new List<BasePlant>();
 	List<BasePlant> _mounds = new List<BasePlant>();
-
 
 	public static event System.Action ExecuteGrowth;
 
@@ -34,7 +49,7 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 
 	public void RequestSpawnMini( BPGrowthController plant, float timeUntil )
 	{
-		if( _mediumPlants.Count < _maxMediumPlants && _smallPlants.Count < _maxSmallPlants )
+		if( _mediumPlants.Count < MedTotalPlantsRange.x && _smallPlants.Count < MedTotalPlantsRange.y )
 		{
 			SpawnMiniPlantEvent spawnEvent = new SpawnMiniPlantEvent( plant, timeUntil );
 			TimeManager.instance.AddEvent( spawnEvent );
@@ -43,7 +58,7 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 
 	public void RequestDropFruit( BPGrowthController plant, float timeUntil )
 	{
-		if( _largePlants.Count < _maxLargePlants )
+		if( GetTotalLargePlants() < LrgTotalPlantsRange.y )
 		{
 	    	DropFruitEvent dropGameEvent = new DropFruitEvent( plant, timeUntil );
 			TimeManager.instance.AddEvent( dropGameEvent );
@@ -56,9 +71,19 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		Destroy( oldSeed.gameObject );
 	}
 
-	public void AddBasePlant( BasePlant BasePlant )
+	public void AddBasePlant( BPBasePlant plant )
 	{
-		_largePlants.Add( BasePlant );
+		if( plant )
+		{
+			if( plant.PlantType == BPBasePlant.BigPlantType.FLOWERING )
+			{
+				_floweringPlants.Add( plant );
+			}
+			else if( plant.PlantType == BPBasePlant.BigPlantType.POINT )
+			{
+				_pointPlants.Add( plant );
+			}
+		}
 	}
 
 	public void AddSeed( Seed seed )
@@ -77,9 +102,30 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		Destroy( mound.gameObject );
 	}
 
-	public void DeleteLargePlant(BasePlant plant)
+	public void DeleteLargePlant( BPBasePlant plant )
 	{
-		_largePlants.Remove(plant);
+		if( plant )
+		{
+			if( plant.PlantType == BPBasePlant.BigPlantType.FLOWERING )
+			{
+				_floweringPlants.Remove(plant);
+
+				if( !IsPopulationStable( plant ) )
+				{
+					DropSeed( plant.transform.position, BPBasePlant.BigPlantType.FLOWERING );
+				}
+			}
+			else if( plant.PlantType == BPBasePlant.BigPlantType.POINT )
+			{
+				_pointPlants.Remove(plant);
+				
+				if( !IsPopulationStable( plant ) )
+				{
+					DropSeed( plant.transform.position, BPBasePlant.BigPlantType.POINT );
+				}
+			}
+		}
+		
 		Destroy(plant.gameObject);
 	}
 
@@ -116,12 +162,33 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 
     void HandleLoad(){}
 
+	int GetTotalLargePlants()
+	{
+		int largePlants = 0;
+		largePlants += _pointPlants.Count;
+		largePlants += _floweringPlants.Count;
+		return largePlants;
+	}
     private void OnDestroy()
     {
         SaveManager.PrepSave -= HandleSave;
         SaveManager.CompleteLoad -= HandleLoad;
     }
 
+	void DropSeed( Vector3 spawnPoint, BPBasePlant.BigPlantType plantType )
+	{
+		GameObject seed = null;
+		if( plantType == BPBasePlant.BigPlantType.FLOWERING )
+		{
+			seed = Instantiate( _floweringSeed, spawnPoint, Quaternion.identity );
+		}
+		else if( plantType == BPBasePlant.BigPlantType.POINT )
+		{
+			seed = Instantiate( _pointSeed, spawnPoint, Quaternion.identity );
+		}
+
+		_seeds.Add( seed.GetComponent<Seed>() );
+	}
 
 	GameObject SpawnNonClippingPlant( BPGrowthController parent )
 	{
@@ -190,5 +257,24 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		Vector3 spawnPoint = new Vector3( pos.x + randomPoint.x, .2f/*plant.SpawnHeight*/, pos.z + randomPoint.y );
 
 		return new Vector3( spawnPoint.x, .05f, spawnPoint.z );
+	}
+
+	public bool IsPopulationStable( BPBasePlant plant )
+	{
+		bool result = false;
+		if( plant )
+		{
+			if( plant.PlantType == BPBasePlant.BigPlantType.FLOWERING )
+			{
+				 result = _floweringPlants.Count >= LrgTotalPlantsRange.x;
+
+			}
+			else if( plant.PlantType == BPBasePlant.BigPlantType.POINT )
+			{
+				result = _pointPlants.Count >= LrgTotalPlantsRange.x;
+			}
+		}
+
+		return result;
 	}
 }
