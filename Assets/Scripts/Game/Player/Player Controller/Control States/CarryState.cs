@@ -2,7 +2,6 @@
 
 public class CarryState : RollerState 
 {
-	float canDropTimer = 0.0f;
 
     public override void Enter( P_ControlState prevState )
 	{
@@ -19,7 +18,6 @@ public class CarryState : RollerState
                 break;
 		}
 
-		canDropTimer = 0.0f;
 	}
 
 	public override void Exit( P_ControlState nextState )
@@ -58,12 +56,13 @@ public class CarryState : RollerState
                 }
             }
 
-            if (input.AButton.WasPressed)
+            if ( input.AButton.WasReleased || !input.AButton.IsPressed )
             {
                 // NOTE: Should only happen for seeds ?
                 if (RollerParent.CurrentHeldObject.GetComponent<Seed>() != null)
                 {
-                    _roller.ChangeState( P_ControlState.PLANTING );
+                    //_roller.ChangeState( P_ControlState.PLANTING );
+                    _roller.ChangeState( P_ControlState.WALKING );
                 }
                 else
                 {
