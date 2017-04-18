@@ -13,6 +13,7 @@ public class Seed : Pickupable
 	float _timeSinceLastPickup = 0.0f;
 	float _timePassedTillDestroy = 60.0f;
 	bool _hasFallen = false;
+	bool _wasRitualed = false;
 
 	const int  _selfPlantProbability = 50;
 	const float _searchRadius = 30.0f;
@@ -57,6 +58,12 @@ public class Seed : Pickupable
 		_timeSinceLastPickup = 0.0f;
 	}
 
+	public void DropOnRitual()
+	{
+		base.DropSelf();
+		_wasRitualed = true;
+	}
+
 	public void TryPlanting()
 	{
 		Vector3 plantPos = new Vector3( transform.position.x, 0.0f, transform.position.z ); 
@@ -96,6 +103,11 @@ public class Seed : Pickupable
 
 				_hasFallen = true;
 			}
+		}
+		
+		if (_wasRitualed == true)
+		{
+			TryPlanting();
 		}
 	}
 }

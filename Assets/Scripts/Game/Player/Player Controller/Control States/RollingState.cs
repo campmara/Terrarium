@@ -12,22 +12,22 @@ public class RollingState : RollerState
 	{
 		Debug.Log("ENTER ROLLING STATE");
 
-        // Handle Transition from PrevState
-        switch ( prevState )
-        {
-            case P_ControlState.WALKING:
-                CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_LOCKED );
-				//PlayerManager.instance.Player.AnimationController.PlayWalkToRollAnim();
-				_roller.BecomeBall();
-				_grounded = false;
-				_tween = _roller.RollSphere.transform.DOMoveY(0.375f, 0.5f)
-					.SetEase(Ease.OutBounce)
-					.OnComplete(GroundHit);
+        // Handle Transition from Walking State
+		if (prevState == P_ControlState.WALKING)
+		{
+			CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_LOCKED );
 
-				
-                break;
-        }
+			_roller.BecomeBall();
+			_grounded = true;
+			/*
+			_grounded = false;
 
+			_tween.Kill();
+			_tween = _roller.RollSphere.transform.DOMoveY(PondManager.instance.Pond.GetPondY(transform.position) + 0.375f, 0.5f)
+				.SetEase(Ease.InOutQuint)
+				.OnComplete(GroundHit);
+			*/
+		}
     }
 
 	private void GroundHit()
@@ -38,17 +38,15 @@ public class RollingState : RollerState
 	public override void Exit(P_ControlState nextState)
 	{
 		Debug.Log("EXIT ROLLING STATE");
-		if (_tween != null)
-	    {
-	        _tween.Kill();
-	        _tween = null;
-	    }
+		
+		_tween.Kill();
+		_tween = null;
 	}
 
     public override void HandleInput( InputCollection input )
     {
         // B BUTTON
-        if (!input.BButton.IsPressed)
+        if (!input.BButton.IsPressed /*&& _grounded == true*/)
         {
             _roller.ChangeState( P_ControlState.WALKING );
         }

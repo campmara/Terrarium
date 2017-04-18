@@ -31,6 +31,9 @@ public class CarryState : RollerState
             case P_ControlState.WALKING:
                 HandleBothArmRelease();
                 break;
+            case P_ControlState.ROLLING:
+                HandleBothArmRelease();
+                break;
         }
 			
 		RollerParent.Idling = false;
@@ -74,8 +77,12 @@ public class CarryState : RollerState
             {
                 _roller.ChangeState( P_ControlState.WALKING );
             }
+
+            if (input.XButton.WasPressed)
+            {
+                _roller.ChangeState(P_ControlState.RITUAL);
+            }
         }
-    
     }
 
     public override void HandleFixedInput( InputCollection input )
