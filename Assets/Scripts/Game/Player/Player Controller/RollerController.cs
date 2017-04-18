@@ -419,6 +419,8 @@ public class RollerController : ControllerBase
 		_face.gameObject.SetActive(true);
 		_mesh.SetActive(true);
 		_rig.SetActive(true);
+
+		_rollSphere.transform.localPosition = Vector3.up * 1.5f;
 		_rollSphere.SetActive(false);
 
         _targetMovePosition = this.transform.position;        
