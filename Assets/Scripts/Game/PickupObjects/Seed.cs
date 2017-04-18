@@ -14,10 +14,12 @@ public class Seed : Pickupable
 	float _timePassedTillDestroy = 60.0f;
 	bool _hasFallen = false;
 
-	const int  _selfPlantProbability = 75;
+	const int  _selfPlantProbability = 50;
 	const float _searchRadius = 30.0f;
 
 	Tween _sinkTween = null;
+
+    const float WIND_FORCESCALAR = 0.5f;
 
 	void Update()
 	{
@@ -33,6 +35,11 @@ public class Seed : Pickupable
 			}
 		}
 	}
+
+    private void FixedUpdate()
+    {
+        _rigidbody.AddForce( WeatherManager.instance.WindForce * WIND_FORCESCALAR * Time.deltaTime );
+    }
 
     public override void OnPickup( Transform grabTransform )
 	{

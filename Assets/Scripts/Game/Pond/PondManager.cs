@@ -36,7 +36,7 @@ public class PondManager : SingletonBehaviour<PondManager>
     // Update is called once per frame
     private void Update()
     {
-        HandleOutOfBounds();
+        //HandleOutOfBounds();
     }
 
     void HandleOutOfBounds()
@@ -50,13 +50,21 @@ public class PondManager : SingletonBehaviour<PondManager>
         }
     }
 
-    public void HandlePondReturn()
+    public void HandlePondWait()
     {
         // Transport player to pond pop point.
         // Tell the Camera to pan back to the pond.      
         PlayerManager.instance.PutPlayerInPond();
 
-		GameManager.Instance.ChangeGameState( GameManager.GameState.POND_RETURN );
+        GameManager.Instance.ChangeGameState( GameManager.GameState.POND_WAIT );
+        CameraManager.instance.ChangeCameraState( CameraManager.CameraState.POND_WAIT );
+    }
+
+    public void HandlePondReturn()
+    {
+        PlayerManager.instance.PutPlayerInPond();
+
+        GameManager.Instance.ChangeGameState( GameManager.GameState.POND_RETURN );
         CameraManager.instance.ChangeCameraState( CameraManager.CameraState.POND_RETURNPAN );       
     }
 

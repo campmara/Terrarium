@@ -9,8 +9,6 @@ public class WalkingState : RollerState
 
     Coroutine _reachCoroutine = null;
 
-	bool canPickup = false;
-
     public override void Enter( P_ControlState prevState )
 	{
 		Debug.Log("ENTER WALKING STATE");
@@ -26,8 +24,7 @@ public class WalkingState : RollerState
             break;
         }
 
-        _idleTimer = 0f;
-		canPickup = false;
+        _idleTimer = 0f;		
         //PlayerManager.instance.Player.AnimationController.PlayWalkAnim();
 	}
 
@@ -76,13 +73,9 @@ public class WalkingState : RollerState
                 StopCoroutine( _reachCoroutine );
                 _reachCoroutine = null;
             }
-            /*
-                        if( !_roller.IK.ArmsIdle )
-                        {
-                            HandleBothArmRelease();
-                        }
-            */
+
             HandlePickup( PlayerArmIK.ArmType.BOTH );
+
             if ( _roller.IK.ArmFocus != null )
             {
                 HandleGrabObject();
@@ -151,6 +144,7 @@ public class WalkingState : RollerState
             // Left Stick Button
             if (input.LeftStickButton.IsPressed)
             {
+                _roller.Player.AnimationController.SitButtonPress();
                 _roller.ChangeState(P_ControlState.SIT);
             }
         }

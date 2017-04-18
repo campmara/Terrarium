@@ -17,7 +17,7 @@ MonoBehaviour:
   SingWalkSpeed: 2
   WalkAcceleration: 0.05
   WalkDeceleration: 4
-  WalkTurnDampening: 0.025
+  WalkTurnDampening: 0
   BodyMinMoveSpeed: 2.5
   IdleSittingTimer: 30
   WalkTurnSpeed: 5
@@ -35,6 +35,7 @@ MonoBehaviour:
   TurnAcceleration: 15
   TurnDeceleration: 700
   TurnMinSpeed: 25
+  RollPaintSize: {x: 0.35, y: 1}
   PickupCheckHeight: 0.5
   PickupCheckRadius: 1
   PickupForwardScalarPart1: 0.58

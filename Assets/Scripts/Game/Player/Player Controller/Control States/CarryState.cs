@@ -2,13 +2,14 @@
 
 public class CarryState : RollerState 
 {
-	float canDropTimer = 0.0f;
 
     public override void Enter( P_ControlState prevState )
 	{
 		Debug.Log("ENTER CARRY STATE");
 
 		_roller.Face.BecomeEncumbered();
+
+        _roller.Player.AnimationController.SetCarrying( true );
 
 		switch( prevState )
 		{
@@ -17,14 +18,15 @@ public class CarryState : RollerState
                 break;
 		}
 
-		canDropTimer = 0.0f;
 	}
 
 	public override void Exit( P_ControlState nextState )
 	{
 		Debug.Log("EXIT CARRY STATE");
-        
-        switch( nextState )
+
+        _roller.Player.AnimationController.SetCarrying( false );
+
+        switch ( nextState )
         {
             case P_ControlState.WALKING:
                 HandleBothArmRelease();
@@ -54,12 +56,13 @@ public class CarryState : RollerState
                 }
             }
 
-            if (input.AButton.WasPressed)
+            if ( input.AButton.WasReleased || !input.AButton.IsPressed )
             {
                 // NOTE: Should only happen for seeds ?
                 if (RollerParent.CurrentHeldObject.GetComponent<Seed>() != null)
                 {
-                    _roller.ChangeState( P_ControlState.PLANTING );
+                    //_roller.ChangeState( P_ControlState.PLANTING );
+                    _roller.ChangeState( P_ControlState.WALKING );
                 }
                 else
                 {

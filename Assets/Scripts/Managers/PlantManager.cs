@@ -137,11 +137,13 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		{
 			if( newPlant.GetComponent<SPGrowthController>() )
 			{
+				AudioManager.instance.PlantAdded(_largePlants.Count + _smallPlants.Count + _mediumPlants.Count);
 				_mediumPlants.Add( newPlant.GetComponent<BasePlant>() );
 				plant.SpawnedMediums = plant.SpawnedMediums + 1;
 			}
 			else
 			{
+				AudioManager.instance.PlantAdded(_largePlants.Count + _smallPlants.Count + _mediumPlants.Count);
 				_smallPlants.Add( newPlant.GetComponent<GroundCover>() );
 				plant.SpawnedSmalls = plant.SpawnedSmalls + 1;
 			}
