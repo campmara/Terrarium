@@ -77,7 +77,7 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
 
 	void Update()
 	{
-		_waveTime = Time.deltaTime * Mathf.Lerp( WAVESPEED_MIN, WAVESPEED_MAX, _windInterp );
+		_waveTime += Time.deltaTime * Mathf.Lerp( WAVESPEED_MIN, WAVESPEED_MAX, _windInterp );
 		Shader.SetGlobalFloat( "_WaveTime", _waveTime );
 	}
 

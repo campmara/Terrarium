@@ -25,6 +25,11 @@ Shader "Custom/Waterball"
 		// Rim Lighting
 		_RimColor ("Rim Color", Color) = (0.26,0.19,0.16,0.0)
       	_RimPower ("Rim Power", Range(0.5,8.0)) = 0.9
+
+		[Header(Specular Lighting)]
+		// Rim Lighting
+		_SpecularColor("Specular Color", Color) = (0.26,0.19,0.16,0.0)
+		_SpecularPower("Specular Power", float) = 128
 		
 		[Header(Distortion)]
 		//distortion
@@ -63,7 +68,7 @@ Shader "Custom/Waterball"
 		Tags{ "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Opaque" }
 		LOD 200
 		CGPROGRAM
-#pragma surface surf NoLighting vertex:vert addshadow
+#pragma surface surf WaterPlayer vertex:vert addshadow
 #pragma target 3.0
 
 		#include "Noise.cginc"
@@ -80,6 +85,9 @@ Shader "Custom/Waterball"
 
 		float4 _RimColor;
 	    float _RimPower;
+
+		float4 _SpecularColor;
+		float _SpecularPower;
 
 		fixed4 _ColorTop;
 		fixed4 _ColorMid;
@@ -120,10 +128,18 @@ Shader "Custom/Waterball"
 		half _MeltCurve;
 		half _MeltAmount;
 
-		fixed4 LightingNoLighting(SurfaceOutput s, fixed3 lightDir, fixed atten)
+		fixed4 LightingWaterPlayer(SurfaceOutput s, fixed3 lightDir, fixed atten, fixed3 viewDir)
 		{
 			fixed4 c;
-			c.rgb = s.Albedo;
+
+			half3 h = normalize(lightDir + viewDir);
+
+			half diff = max(0, dot(s.Normal, lightDir));
+
+			float nh = max(0, dot(s.Normal, h));
+			float spec = pow(nh, _SpecularPower);
+
+			c.rgb = s.Albedo + spec*_SpecularColor;
 			c.a = s.Alpha;
 			return c;
 		}
@@ -186,6 +202,7 @@ Shader "Custom/Waterball"
 
 		void vert(inout appdata_full v, out Input o) {
 			UNITY_INITIALIZE_OUTPUT(Input, o);
+			
 			//calculate normals and apply deformation
 			//...............
 			float4 vertPosition = getNewVertPosition(v.vertex, v.normal);
@@ -203,6 +220,7 @@ Shader "Custom/Waterball"
 			//..............
 
 			o.worldPos.xyz = mul(unity_ObjectToWorld, v.vertex.xyz);
+
 			//https://forum.unity3d.com/threads/refraction-example.78750/
 			//refraction distorting uvs
 			float4 oPos = UnityObjectToClipPos(v.vertex);
@@ -232,8 +250,9 @@ Shader "Custom/Waterball"
 			fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * finalCol;
 
 			//rim lighting
-			half rim = 1 - saturate(dot (normalize(IN.viewDir), normalize(o.Normal)));
+			half rim = 1 - clamp(saturate(dot (normalize(IN.viewDir), normalize(o.Normal))),0,1);
 			float3 rimInfluence = _RimColor.rgb*pow(rim, _RimPower); // 
+			//rimInfluence = 0;
 
 			//I might use this later to darken near the ground
 			/*
