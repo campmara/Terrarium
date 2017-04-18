@@ -7,7 +7,6 @@ public class BPGrowthController : PlantController
 	//****************
 	// ANIMATION VARIABLES
 	//****************
-
 	protected Animator _plantAnim = null;
 	protected List<Animator> _childAnimators = new List<Animator>();
 	float [] growthTime = new float[4]; // time splits initialized based on our animation
@@ -16,7 +15,6 @@ public class BPGrowthController : PlantController
 	[SerializeField] protected Vector2 _scaleMultiplierRange = new Vector2( 3.0f, 18.0f );
 	[SerializeField] protected List<Vector2> _scaleRatios = new List<Vector2>();
 	[SerializeField] protected float _wateredGrowthRate = 0.0f;
-
 	protected float _growthRate = 0.0f;
 	protected float _animEndTime = 0.0f;
 	protected float _curPercentAnimated = 0.0f;
@@ -59,11 +57,6 @@ public class BPGrowthController : PlantController
 	public List<GameObject> _smallSpawnables = new List<GameObject>();
 	public List<GameObject> _mediumSpawnables = new List<GameObject>();
 
-	[SerializeField] Vector2 _smallSpawnRadRange = new Vector2( 1f, 3f );
-	[SerializeField] Vector2 _numSmallPlants = new Vector2( 8, 15 );
-	[SerializeField] Vector2 _mediumSpawnRadRange = new Vector2( 3f, 4.5f );
-	[SerializeField] Vector2 _numMedPlants = new Vector2( 4, 6 );
-
 	int _spawnedMediums = 0;
 	public int SpawnedMediums { get { return _spawnedMediums; } set { _spawnedMediums = value; }}
 	int _spawnedSmalls = 0;
@@ -93,15 +86,15 @@ public class BPGrowthController : PlantController
 		_maxHeight = ratio.y * multiplier;
 		_maxWidth = ratio.x * multiplier;
 
-		_maxSmalls = (int)Random.Range( _numSmallPlants.x, _numSmallPlants.y );
-		_maxMediums = (int)Random.Range( _numMedPlants.x, _numMedPlants.y );
+		_maxSmalls = (int)Random.Range( PlantManager.instance.SmNumPerPlant.x, PlantManager.instance.SmNumPerPlant.y );
+		_maxMediums = (int)Random.Range( PlantManager.instance.MedNumPerPlant.x, PlantManager.instance.MedNumPerPlant.y );
 
 		Collider[] cols = Physics.OverlapSphere( transform.position, 1.0f );
 		foreach( Collider col in cols)
 		{
 			if( col.GetComponent<PondTech>() )
 			{
-				PlantManager.instance.DeleteLargePlant( GetComponent<BasePlant>() );
+				PlantManager.instance.DeleteLargePlant( GetComponent<BPBasePlant>() );
 				break;
 			}
 		}
@@ -315,7 +308,6 @@ public class BPGrowthController : PlantController
 		}
 	}
 
-
 	public override GameObject DropFruit()
 	{
 		Vector2 randomPoint = GetRandomPoint(true);
@@ -427,13 +419,13 @@ public class BPGrowthController : PlantController
 		}
 		else if( spawnState == SpawningState.SmallSpawning )
 		{
-			inner = _smallSpawnRadRange.x;
-			outer = _smallSpawnRadRange.y;
+			inner = PlantManager.instance.SmSpawnRadRange.x;
+			outer = PlantManager.instance.SmSpawnRadRange.y;
 		}
 		else if( spawnState == SpawningState.MediumSpawning )
 		{
-			inner = _mediumSpawnRadRange.x;
-			outer = _mediumSpawnRadRange.y;
+			inner = PlantManager.instance.MedSpawnRadRange.x;
+			outer = PlantManager.instance.MedSpawnRadRange.y;
 		}
 		
 		float xRand = Random.Range( inner, outer );

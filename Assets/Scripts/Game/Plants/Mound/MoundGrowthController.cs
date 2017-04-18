@@ -4,7 +4,7 @@ using DG.Tweening;
 
 public class MoundGrowthController : PlantController
 {
-	[SerializeField] GameObject _BasePlantPrefab = null;
+	[SerializeField] GameObject _basePlantPrefab = null;
 	[SerializeField] bool _starterMound = false;
 
 	Vector2 _sproutGrowthRange = new Vector2( .75f, 5.0f);
@@ -54,13 +54,20 @@ public class MoundGrowthController : PlantController
 
 	void SpinLifeLottery()
 	{
-		int dieRoll = (int)Random.Range( 0.0f, 100.0f );
-
-		if( dieRoll < _deathProbability && !_starterMound )
+		if( StablePlantPopulation() )
 		{
-			_canLive = false;
-			StopState();
+			int dieRoll = (int)Random.Range( 0.0f, 100.0f );
+			if( dieRoll < _deathProbability && !_starterMound )
+			{
+				_canLive = false;
+				StopState();
+			}
 		}
+	}
+
+	bool StablePlantPopulation()
+	{
+		return PlantManager.instance.IsPopulationStable( _basePlantPrefab.GetComponent<BPBasePlant>() );
 	}
 
 	public override void UpdateState()
@@ -81,7 +88,7 @@ public class MoundGrowthController : PlantController
 	{
 		Vector3 plantPos = _sprout.position;
 		plantPos = plantPos.SetPosY( 0.0f );
-		BasePlant plant = ( (GameObject)Instantiate( _BasePlantPrefab, plantPos, Quaternion.identity ) ).GetComponent<BasePlant>();
+		BPBasePlant plant = ( (GameObject)Instantiate( _basePlantPrefab, plantPos, Quaternion.identity ) ).GetComponent<BPBasePlant>();
 
 		StarterPlantGrowthController sPlant = plant.GetComponent<StarterPlantGrowthController>();
 		if( sPlant )
