@@ -6,14 +6,19 @@ Shader "Custom/Water"
 	{
 		_Color1("Color 1", Color) = (1,1,1,1)
 		_Color2("Color 2", Color) = (1,1,1,1)
-		_MainTex("Albedo (RGB)", 2D) = "white" {}
-		
+		//_MainTex("Albedo (RGB)", 2D) = "white" {}
+		_SpecTex("Specular (R)", 2D) = "white" {}
+
 		//distortion
 		_DistAmt("Distortion", range(0,128)) = 13
 		_ColorFog("Fogginess", range(0, 1)) = 0.78
 
 		// depth
 		_DepthClip("Depth Clip", Range(0, 1)) = 0.1
+
+		[Header(Splatmap Values)]
+		[Toggle]_SplatmapEnabled("Splatmap Enabled", float) = 0
+		_ImprintAmount("Imprint Amount", Range(-3, 3)) = 1
 	}
 
 	SubShader
@@ -31,6 +36,7 @@ Shader "Custom/Water"
 		#include "Noise.cginc"
 
 		sampler2D _MainTex;
+		sampler2D _SpecTex;
 		sampler2D _CameraDepthTexture;
 
 		fixed4 _Color1;
@@ -79,9 +85,22 @@ Shader "Custom/Water"
 			return c;
 		}
 
+		//...splatmap...
+		float _ImprintAmount;
+		float _SplatmapEnabled;
+
+		uniform sampler2D _ClipEdges;
+		uniform sampler2D _SplatMap;
+		uniform float3 _CameraWorldPos;
+		uniform float _OrthoCameraScale;
+		//..............
+
 		void vert(inout appdata v, out Input o)
 		{
 			UNITY_INITIALIZE_OUTPUT(Input, o);
+
+			float4 worldPos = mul(unity_ObjectToWorld, v.vertex);
+			float4 worldNormal = mul(unity_ObjectToWorld, float4(v.normal, 0));
 
 			//https://forum.unity3d.com/threads/refraction-example.78750/
 			//refraction distorting uvs
@@ -93,6 +112,30 @@ Shader "Custom/Water"
 			#endif
 			o.proj.xy = (float2(oPos.x, oPos.y*scale) + oPos.w) * 0.5;
 			o.proj.zw = oPos.zw;
+
+			//splatmap deformation
+			//...........
+			if (_SplatmapEnabled != 0) {
+				_OrthoCameraScale *= 2;
+				float2 worldUV = float2(((worldPos.x - _CameraWorldPos.x) / _OrthoCameraScale + .5f), ((worldPos.z - _CameraWorldPos.z) / _OrthoCameraScale + .5f)); //find a way to center this
+				float4 border = tex2Dlod(_ClipEdges, float4(worldUV, 0, 0)).rgba;
+				float4 d = (tex2Dlod(_SplatMap, float4(worldUV, 0, 0)));
+
+				d.a = clamp(d.a - border.a, 0, 1);
+				d.rg = (d.rg - .5f) * d.a;
+				d.b *= d.a;
+
+				worldPos.x -= d.r;
+				worldPos.y -= (d.b) * _ImprintAmount;
+				worldPos.z += d.g;
+
+				worldNormal.xz += d.rg;
+			}
+			//......
+
+			//o.worldUV = worldUV;
+			v.vertex = mul(unity_WorldToObject, worldPos);
+			v.normal = mul(unity_WorldToObject, worldNormal.xyz);
 
 			o.grabPos = ComputeGrabScreenPos(v.vertex);
 		}
@@ -120,9 +163,11 @@ Shader "Custom/Water"
 
 			float2 warpUV = lerp(IN.uv_MainTex, cnoise(IN.worldPos*10 + _Time), 0.005);
 
-			float spec = step(.5f + sin(_Time * 5)*.05f, 1-tex2D(_MainTex, warpUV).r).r;
+			float spec = step(.5f + sin(_Time * 5)*.05f, 1-tex2D(_SpecTex, warpUV).r).r;
+			float4 mainTex = tex2D(_MainTex, warpUV);
 
 			fixed4 finalCol = lerp(gradient, col * gradient, _ColorFog);
+			//finalCol = lerp(finalCol, mainTex, mainTex.a);
 			fixed4 c = finalCol;
 			//c = depth;
 			o.Albedo = c.rgb;
