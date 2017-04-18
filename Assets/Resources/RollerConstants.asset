@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Name: RollerConstants
   m_EditorClassIdentifier: 
   InputDeadzone: 0.3
-  WalkSpeed: 3
-  CarrySpeed: 3
+  WalkSpeed: 5.5
+  CarrySpeed: 2
   SingWalkSpeed: 2
-  WalkAcceleration: 0.05
-  WalkDeceleration: 4
+  WalkAcceleration: 0.2
+  WalkDeceleration: 3
   WalkTurnDampening: 0
   BodyMinMoveSpeed: 2.5
   IdleSittingTimer: 30
