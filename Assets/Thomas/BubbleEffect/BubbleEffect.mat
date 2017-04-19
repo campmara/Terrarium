@@ -91,11 +91,12 @@ Material:
     - _SmearNoiseScale: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
+    - _SpecularPower: 148
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 0
     m_Colors:
-    - _Color: {r: 0.38830018, g: 0.3981193, b: 0.46323532, a: 1}
+    - _Color: {r: 0.44993514, g: 0.4613129, b: 0.53676474, a: 1}
     - _Color2: {r: 1, g: 1, b: 1, a: 1}
     - _ColorBot: {r: 0.4615052, g: 0.63170266, b: 0.64705884, a: 1}
     - _ColorMid: {r: 0.42333478, g: 0.6397059, b: 0.6397059, a: 1}
@@ -105,4 +106,5 @@ Material:
     - _Position: {r: 0, g: 0, b: 0, a: 0}
     - _PrevPosition: {r: 0, g: 0, b: 0, a: 0}
     - _RimColor: {r: 0.26, g: 0.19, b: 0.16, a: 0}
+    - _SpecularColor: {r: 0.31617647, g: 0.31617647, b: 0.31617647, a: 1}
     - _TintColor: {r: 0.75735295, g: 0.95983773, b: 1, a: 1}

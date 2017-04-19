@@ -65,6 +65,7 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Hardness: 0.5
+    - _ImprintAmount: 1
     - _Metallic: 0
     - _Middle: 0.184
     - _Mode: 0
@@ -73,13 +74,14 @@ Material:
     - _Sensitivity: 15
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
+    - _SplatmapEnabled: 0
     - _SrcBlend: 1
     - _UVSec: 0
     - _WindEnabled: 0
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorBot: {r: 0.20588237, g: 0.17518795, b: 0.14230105, a: 1}
-    - _ColorMid: {r: 0.4044118, g: 0.4044118, b: 0.4044118, a: 1}
-    - _ColorTop: {r: 0.34553418, g: 0.5661765, b: 0.38357595, a: 1}
+    - _ColorBot: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorMid: {r: 0.765081, g: 0.9044118, b: 0.6982591, a: 1}
+    - _ColorTop: {r: 0.69485295, g: 0.84518254, b: 0.875, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

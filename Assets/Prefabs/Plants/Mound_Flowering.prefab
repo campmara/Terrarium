@@ -428,6 +428,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &33894413890589668
 MeshFilter:
@@ -474,7 +475,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bc04f77afdbb48febc5d63bbd38f15d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _BasePlantPrefab: {fileID: 1028824138140006, guid: b116cff499e3a4c14b3a2b78496f3139,
+  _basePlantPrefab: {fileID: 1028824138140006, guid: b116cff499e3a4c14b3a2b78496f3139,
     type: 2}
   _starterMound: 0
 --- !u!114 &114731697741026298
@@ -489,7 +490,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pAssetKey: -1
+  _deathDuration: 0
   _DeathDurationRange: {x: 12, y: 15}
+  _DeathTimer: 0
   _baseDecayRate: 0
   _curDecayRate: 0
 --- !u!135 &135363004299402988
@@ -546,6 +549,7 @@ SkinnedMeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   serializedVersion: 2
   m_Quality: 0

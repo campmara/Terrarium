@@ -8,7 +8,7 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: Water
   m_Shader: {fileID: 4800000, guid: 55d8315b171fe457ebd412284e4cfdb1, type: 3}
-  m_ShaderKeywords: _EMISSION
+  m_ShaderKeywords: _EMISSION _SPLATMAPENABLED_ON
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_CustomRenderQueue: -1
@@ -53,6 +53,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SpecTex:
+        m_Texture: {fileID: 2800000, guid: 849133fdfa4884a42a2d8d6a299471b7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
     - _ColorFog: 0.425
@@ -64,6 +68,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _ImprintAmount: -0.5
     - _MainNoiseHeight: 0
     - _MainNoiseScale: 1
     - _Metallic: 0
@@ -75,6 +80,7 @@ Material:
     - _SmearNoiseScale: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
+    - _SplatmapEnabled: 1
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
