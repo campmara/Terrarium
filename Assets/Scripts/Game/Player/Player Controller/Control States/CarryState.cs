@@ -58,6 +58,10 @@ public class CarryState : RollerState
 
                 }
             }
+			else
+			{
+				_roller.CarryPositionObject.transform.position = _roller.transform.position + _roller.CarryPosOffset;
+			}
 
             if ( input.AButton.WasReleased || !input.AButton.IsPressed )
             {

@@ -34,6 +34,8 @@ public class PlayerIKControl : MonoBehaviour
     public bool ArmsGrabbing { get { return _leftArmIK.ArmState == PlayerArmIK.ArmIKState.GRABBING && _rightArmIK.ArmState == PlayerArmIK.ArmIKState.GRABBING; } }
     public bool ArmsTargetReaching { get { return _leftArmIK.ArmState == PlayerArmIK.ArmIKState.TARGET_REACHING && _rightArmIK.ArmState == PlayerArmIK.ArmIKState.TARGET_REACHING; } }
 
+	public Vector3 ArmTipMidpoint { get { return JohnTech.Midpoint( _leftArmIK.ArmTipPosition, _rightArmIK.ArmTipPosition ); } }
+
     [Header("Leg Properties")]
     [SerializeField] private AnimationCurve _legYCurve;
     [SerializeField] private AnimationCurve _legXCurve;
@@ -159,6 +161,18 @@ public class PlayerIKControl : MonoBehaviour
         _rightArmIK.enabled = true;
         _lookAt.enabled = true;
     }
+
+	public void DisableArmIK()
+	{
+		_leftArmIK.SetIKOff();
+		_rightArmIK.SetIKOff();
+	}
+
+	public void EnableArmIK()
+	{
+		_leftArmIK.SetIKOn();
+		_rightArmIK.SetIKOn();
+	}
 
     private void FixedUpdate()
     {
