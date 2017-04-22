@@ -49,7 +49,7 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 
 	public void RequestSpawnMini( BPGrowthController plant, float timeUntil )
 	{
-		if( _mediumPlants.Count < MedTotalPlantsRange.x && _smallPlants.Count < MedTotalPlantsRange.y )
+		if( _mediumPlants.Count < MedTotalPlantsRange.y && _smallPlants.Count < SmTotalPlantsRange.y )
 		{
 			SpawnMiniPlantEvent spawnEvent = new SpawnMiniPlantEvent( plant, timeUntil );
 			TimeManager.instance.AddEvent( spawnEvent );

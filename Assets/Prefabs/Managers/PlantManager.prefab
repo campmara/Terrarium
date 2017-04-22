@@ -51,3 +51,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddeb98e6373474e668dc3e8a3f719e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LrgTotalPlantsRange: {x: 3, y: 12}
+  MedTotalPlantsRange: {x: 0, y: 25}
+  MedSpawnRadRange: {x: 3, y: 4.5}
+  MedNumPerPlant: {x: 4, y: 6}
+  SmTotalPlantsRange: {x: 0, y: 50}
+  SmSpawnRadRange: {x: 1, y: 3}
+  SmNumPerPlant: {x: 8, y: 15}
+  _pointSeed: {fileID: 1631419253260572, guid: e7e4ccc23b3b8416c994f33a1840c8c6, type: 2}
+  _floweringSeed: {fileID: 1356359172527236, guid: bbfef1f81afcefc438cf9d537e7f0931,
+    type: 2}
