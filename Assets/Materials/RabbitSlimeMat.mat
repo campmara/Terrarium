@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: wbox1
+  m_Name: RabbitSlimeMat
   m_Shader: {fileID: 4800000, guid: dc7beb685dd9dff40992228f9b7aed24, type: 3}
   m_ShaderKeywords: _EMISSION _WINDENABLED_ON
   m_LightmapFlags: 1
@@ -74,10 +74,10 @@ Material:
     - _Hardness: 0.863
     - _MainNoiseHeight: 0
     - _MainNoiseScale: 1
-    - _MeltAmount: 0.5
+    - _MeltAmount: 0.65
     - _MeltCurve: 5
     - _MeltDistance: 1
-    - _MeltY: -0.25
+    - _MeltY: -0.15
     - _Metallic: 0
     - _Middle: 0.5
     - _Mode: 0

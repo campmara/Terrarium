@@ -52,6 +52,8 @@ public class RabbitMound : MonoBehaviour
     [SerializeField] float RABBIT_HOPHEIGHT = 1.0f;
     [SerializeField] float RABBIT_HOPWAIT = 0.25f;
     [SerializeField] float RABBIT_YPOS = 1.0f;
+    [SerializeField]
+    float RABBIT_RAYCAST_YOFFSET = 7.0f;
 
 	[SerializeField, Space(10)] float RABBIT_EVADESPEED_MIN = 0.25f;
 	[SerializeField] float RABBIT_EVADESPEED_MAX = 0.5f;
@@ -59,8 +61,12 @@ public class RabbitMound : MonoBehaviour
 	[SerializeField] float RABBIT_EVADEHEIGHT = 1.0f;
 	[SerializeField] float RABBIT_EVADEWAIT = 0.025f;
 	[SerializeField] float RABBIT_EVADEANGLE = 45f;
+    [SerializeField]
+    float RABBIT_MINEVADEDIST = 2f;
+    [SerializeField]
+    float RABBIT_MAXEVADEDIST = 7f;
 
-	[SerializeField, Space(10)] float RABBIT_IDLETIME_MIN = 1.0f;
+    [SerializeField, Space(10)] float RABBIT_IDLETIME_MIN = 1.0f;
     [SerializeField] float RABBIT_IDLETIME_MAX = 5.0f;
 
 	[SerializeField, Space(10)] float RABBIT_SPAWNTIME_MIN = 1.0f;
@@ -71,7 +77,9 @@ public class RabbitMound : MonoBehaviour
 	[SerializeField, Space(10)] float RABBIT_MAXMOVEDIST = 2.0f;
     [SerializeField] float RABBIT_MINMOVEDIST = 0.25f;
 
-	const float RABBIT_PLAYERCHECKSIZE = 1.0f;
+	[SerializeField] float RABBIT_PLAYERCHECKSIZE = 1.0f;
+
+    RaycastHit yPosRay;
 
     // Use this for initialization
     void Awake ()
@@ -109,12 +117,21 @@ public class RabbitMound : MonoBehaviour
 
         rabbit.RabbitTransform.position = _rabbitMoundObject.transform.position;
 
-        Vector2 spawnPos = UnityEngine.Random.insideUnitCircle;
+        Vector2 spawnPos = UnityEngine.Random.insideUnitCircle * 1.75f;
         Vector3 jumpEndPos = new Vector3( spawnPos.x, RABBIT_YPOS, spawnPos.y );
 
         jumpEndPos += rabbit.RabbitTransform.position;
 
-        rabbit.MoveTween = rabbit.RabbitTransform.DOJump( jumpEndPos, RABBIT_SPAWNHOPHEIGHT, 1, RABBIT_SPAWNHOPTIME ).OnComplete( () => ChangeRabbitState( rabbit, RabbitState.WALKING ) );
+        if ( Physics.Raycast( jumpEndPos, Vector3.down, out yPosRay, 7.0f, 1 << LayerMask.NameToLayer( "Ground" ) ) )
+        {
+            jumpEndPos.y = yPosRay.point.y + RABBIT_YPOS;
+        }
+        else
+        {
+            jumpEndPos.y = RABBIT_YPOS;
+        }
+
+        rabbit.MoveTween = rabbit.RabbitTransform.DOJump( jumpEndPos, RABBIT_SPAWNHOPHEIGHT, 1, RABBIT_SPAWNHOPTIME ).OnComplete( () => ChangeRabbitState( rabbit, RabbitState.IDLE ) );
     }
 
 	// Update is called once per frame
@@ -137,6 +154,8 @@ public class RabbitMound : MonoBehaviour
                     if( currRabbitData.HopWaitTimer < RABBIT_HOPWAIT )
                     {
                         currRabbitData.HopWaitTimer += Time.deltaTime;
+
+                        CheckRabbitSurroundings( currRabbitData );
                     }
                     else
                     {
@@ -158,6 +177,10 @@ public class RabbitMound : MonoBehaviour
 					}
 				}
 			}
+            else if( currRabbitData.rState == RabbitState.IDLE )
+            {
+                CheckRabbitSurroundings( currRabbitData );
+            }
 
         }
     }
@@ -166,6 +189,15 @@ public class RabbitMound : MonoBehaviour
     {
         Vector2 spawnPos = UnityEngine.Random.insideUnitCircle;
         Vector3 movePos = _rabbitMoundObject.transform.position + ( new Vector3( spawnPos.x, 0.0f, spawnPos.y ) * UnityEngine.Random.Range( RABBIT_MINMOVEDIST, RABBIT_MAXMOVEDIST ) );
+
+        if ( Physics.Raycast( movePos + Vector3.up * RABBIT_RAYCAST_YOFFSET, Vector3.down, out yPosRay, 15.0f, 1 << LayerMask.NameToLayer( "Ground" ) ) )
+        {
+            movePos.y = yPosRay.point.y + RABBIT_YPOS;
+        }
+        else
+        {
+            movePos.y = RABBIT_YPOS;
+        }
 
         rabbit.MoveDirection = ( movePos - rabbit.RabbitTransform.position ).normalized;
 
@@ -200,11 +232,6 @@ public class RabbitMound : MonoBehaviour
         rabbit.MoveTween.Kill();
         rabbit.MoveTween = null;
         rabbit.HopWaitTimer = 0.0f;
-
-		if( rabbit.rState == RabbitState.WALKING )
-		{
-			CheckRabbitSurroundings( rabbit );
-		}
     }
 
     void StartIdling( RabbitData rabbit )
@@ -232,7 +259,12 @@ public class RabbitMound : MonoBehaviour
 				SetRabbitMoveDestination( rabbit );
                 break;
 			case RabbitState.EVADE:
-				rabbit.HopSpeed = UnityEngine.Random.Range( RABBIT_EVADESPEED_MIN, RABBIT_EVADESPEED_MAX );			
+                if( rabbit.rState == RabbitState.IDLE && rabbit.IdleRoutine != null )
+                {
+                    StopCoroutine( rabbit.IdleRoutine );
+                    rabbit.IdleRoutine = null;
+                }
+                rabbit.HopSpeed = UnityEngine.Random.Range( RABBIT_EVADESPEED_MIN, RABBIT_EVADESPEED_MAX );			
 				break;
         }
 
@@ -254,7 +286,7 @@ public class RabbitMound : MonoBehaviour
 
     }
 
-	void CheckRabbitSurroundings( RabbitData rabbit )
+	bool CheckRabbitSurroundings( RabbitData rabbit )
 	{
 		Collider[] rabbitSurroundings = Physics.OverlapSphere( rabbit.RabbitTransform.position, RABBIT_PLAYERCHECKSIZE, 1 << LayerMask.NameToLayer( "Player" ) );
 
@@ -262,23 +294,36 @@ public class RabbitMound : MonoBehaviour
 		{
 			Rigidbody _playerRb = rabbitSurroundings[0].attachedRigidbody;
 
-			if( Vector3.Distance( _playerRb.transform.position, rabbit.RabbitTransform.position ) < RABBIT_PLAYERCHECKSIZE )
+			if( Vector3.Distance( _playerRb.transform.position, rabbit.RabbitTransform.position ) < RABBIT_PLAYERCHECKSIZE && _playerRb.velocity.magnitude > 0.025f )
 			{
 				ChangeRabbitState( rabbit, RabbitState.EVADE );
 							
 				StartRabbitEvade( rabbit, _playerRb );
+
+                return true;
 			}
 		}
+
+        return false;
 	}
 
 	void StartRabbitEvade( RabbitData rabbit, Rigidbody evadeRB )
 	{
 		Vector3 rbMoveDir = evadeRB.velocity.normalized;
-		rbMoveDir = Quaternion.Euler(0.0f, UnityEngine.Random.Range( -RABBIT_EVADEANGLE, RABBIT_EVADEANGLE ), 0.0f ) * rbMoveDir;
+		//rbMoveDir = Quaternion.Euler(0.0f, UnityEngine.Random.Range( -RABBIT_EVADEANGLE, RABBIT_EVADEANGLE ), 0.0f ) * rbMoveDir;
 
-		rabbit.TargetMovePosition = rabbit.RabbitTransform.position + ( rbMoveDir * UnityEngine.Random.Range( RABBIT_MINMOVEDIST, RABBIT_MAXMOVEDIST ) );
+		rabbit.TargetMovePosition = rabbit.RabbitTransform.position + ( rbMoveDir * UnityEngine.Random.Range( RABBIT_MINEVADEDIST, RABBIT_MAXEVADEDIST ) );
 
-		rabbit.MoveDirection = rabbit.TargetMovePosition - rabbit.RabbitTransform.position;
+        if (Physics.Raycast( rabbit.TargetMovePosition + Vector3.up * RABBIT_RAYCAST_YOFFSET, Vector3.down, out yPosRay, 15.0f, 1 << LayerMask.NameToLayer( "Ground" ) ))
+        {
+            rabbit.TargetMovePosition.y = yPosRay.point.y + RABBIT_YPOS;
+        }
+        else
+        {
+            rabbit.TargetMovePosition.y = RABBIT_YPOS;
+        }
+
+        rabbit.MoveDirection = (rabbit.TargetMovePosition - rabbit.RabbitTransform.position).normalized;
 
 		UpdateRabbitEvade( rabbit ); 
 	}
@@ -296,10 +341,8 @@ public class RabbitMound : MonoBehaviour
 	}
 
 	void EndEvade( RabbitData rabbit )
-	{
-		CheckRabbitSurroundings( rabbit );
-
-		if( rabbit.rState != RabbitState.EVADE )
+	{		
+		if( !CheckRabbitSurroundings( rabbit ) )
 		{
 			rabbit.HopSpeed = UnityEngine.Random.Range( RABBIT_HOPSPEED_MIN, RABBIT_HOPSPEED_MAX );
 
@@ -307,4 +350,19 @@ public class RabbitMound : MonoBehaviour
 		}
 	}
 
+    void OnDrawGizmos()
+    {
+        for (int i = 0; i < _rabbitList.Count; i++)
+        {
+            if( _rabbitList[i].RabbitTransform.gameObject.activeSelf )
+            {
+                Gizmos.color = Color.grey;
+                Gizmos.DrawWireSphere( _rabbitList[i].TargetMovePosition, 0.5f );
+
+                Gizmos.color = Color.green;
+                Gizmos.DrawWireSphere( _rabbitList[i].RabbitTransform.position, RABBIT_PLAYERCHECKSIZE );
+                Gizmos.DrawLine( _rabbitList[i].RabbitTransform.position, _rabbitList[i].RabbitTransform.position + _rabbitList[i].MoveDirection );
+            }
+        }
+    }
 }
