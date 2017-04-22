@@ -46,28 +46,38 @@ public class RabbitMound : MonoBehaviour
 
     const int RABBIT_COUNT = 7;
 
-    [SerializeField] float RABBIT_HOPSPEED_MIN = 1.0f;
+	[SerializeField, Space(10)] float RABBIT_HOPSPEED_MIN = 1.0f;
     [SerializeField] float RABBIT_HOPSPEED_MAX = 1.0f;
     [SerializeField] float RABBIT_MAXHOPDIST = 1.0f;
     [SerializeField] float RABBIT_HOPHEIGHT = 1.0f;
     [SerializeField] float RABBIT_HOPWAIT = 0.25f;
     [SerializeField] float RABBIT_YPOS = 1.0f;
 
-    [SerializeField] float RABBIT_IDLETIME_MIN = 1.0f;
+	[SerializeField, Space(10)] float RABBIT_EVADESPEED_MIN = 0.25f;
+	[SerializeField] float RABBIT_EVADESPEED_MAX = 0.5f;
+	[SerializeField] float RABBIT_MAXEVADEHOPDIST = 1.25f;
+	[SerializeField] float RABBIT_EVADEHEIGHT = 1.0f;
+	[SerializeField] float RABBIT_EVADEWAIT = 0.025f;
+	[SerializeField] float RABBIT_EVADEANGLE = 45f;
+
+	[SerializeField, Space(10)] float RABBIT_IDLETIME_MIN = 1.0f;
     [SerializeField] float RABBIT_IDLETIME_MAX = 5.0f;
 
-    [SerializeField] float RABBIT_SPAWNTIME_MIN = 1.0f;
+	[SerializeField, Space(10)] float RABBIT_SPAWNTIME_MIN = 1.0f;
     [SerializeField] float RABBIT_SPAWNTIME_MAX = 2.0f;
     [SerializeField] float RABBIT_SPAWNHOPTIME = 0.5f;
     [SerializeField] float RABBIT_SPAWNHOPHEIGHT = 2.0f;
 
-    [SerializeField] float RABBIT_MAXMOVEDIST = 2.0f;
+	[SerializeField, Space(10)] float RABBIT_MAXMOVEDIST = 2.0f;
     [SerializeField] float RABBIT_MINMOVEDIST = 0.25f;
+
+	const float RABBIT_PLAYERCHECKSIZE = 1.0f;
 
     // Use this for initialization
     void Awake ()
     {
         InitializeRabbits();
+
 	}
 	
     void InitializeRabbits()
@@ -134,6 +144,21 @@ public class RabbitMound : MonoBehaviour
                     }
                 }          
             }
+			else if( currRabbitData.rState == RabbitState.EVADE )
+			{
+				if( currRabbitData.MoveTween == null )
+				{
+					if( currRabbitData.HopWaitTimer < RABBIT_EVADEWAIT )
+					{
+						currRabbitData.HopWaitTimer += Time.deltaTime;
+					}
+					else
+					{
+						UpdateRabbitEvade( currRabbitData );
+					}
+				}
+			}
+
         }
     }
 
@@ -157,6 +182,8 @@ public class RabbitMound : MonoBehaviour
 
     void StartRabbitHop( RabbitData rabbit )
     {
+		CheckRabbitSurroundings( rabbit );
+
         if ( Vector3.Distance( rabbit.TargetMovePosition, rabbit.RabbitTransform.position ) > RABBIT_MAXHOPDIST )
         {
             rabbit.MoveTween = rabbit.RabbitTransform.DOJump( rabbit.RabbitTransform.position + ( rabbit.MoveDirection * RABBIT_MAXHOPDIST ), RABBIT_HOPHEIGHT, 1, rabbit.HopSpeed ).OnComplete( () => EndHop( rabbit ) );
@@ -173,6 +200,11 @@ public class RabbitMound : MonoBehaviour
         rabbit.MoveTween.Kill();
         rabbit.MoveTween = null;
         rabbit.HopWaitTimer = 0.0f;
+
+		if( rabbit.rState == RabbitState.WALKING )
+		{
+			CheckRabbitSurroundings( rabbit );
+		}
     }
 
     void StartIdling( RabbitData rabbit )
@@ -196,9 +228,12 @@ public class RabbitMound : MonoBehaviour
             case RabbitState.IDLE:
                 StartIdling( rabbit );
                 break;
-            case RabbitState.WALKING:
-                SetRabbitMoveDestination( rabbit );
+            case RabbitState.WALKING:				
+				SetRabbitMoveDestination( rabbit );
                 break;
+			case RabbitState.EVADE:
+				rabbit.HopSpeed = UnityEngine.Random.Range( RABBIT_EVADESPEED_MIN, RABBIT_EVADESPEED_MAX );			
+				break;
         }
 
         rabbit.rState = newState;
@@ -218,4 +253,58 @@ public class RabbitMound : MonoBehaviour
         }
 
     }
+
+	void CheckRabbitSurroundings( RabbitData rabbit )
+	{
+		Collider[] rabbitSurroundings = Physics.OverlapSphere( rabbit.RabbitTransform.position, RABBIT_PLAYERCHECKSIZE, 1 << LayerMask.NameToLayer( "Player" ) );
+
+		if( rabbitSurroundings.Length > 0 )
+		{
+			Rigidbody _playerRb = rabbitSurroundings[0].attachedRigidbody;
+
+			if( Vector3.Distance( _playerRb.transform.position, rabbit.RabbitTransform.position ) < RABBIT_PLAYERCHECKSIZE )
+			{
+				ChangeRabbitState( rabbit, RabbitState.EVADE );
+							
+				StartRabbitEvade( rabbit, _playerRb );
+			}
+		}
+	}
+
+	void StartRabbitEvade( RabbitData rabbit, Rigidbody evadeRB )
+	{
+		Vector3 rbMoveDir = evadeRB.velocity.normalized;
+		rbMoveDir = Quaternion.Euler(0.0f, UnityEngine.Random.Range( -RABBIT_EVADEANGLE, RABBIT_EVADEANGLE ), 0.0f ) * rbMoveDir;
+
+		rabbit.TargetMovePosition = rabbit.RabbitTransform.position + ( rbMoveDir * UnityEngine.Random.Range( RABBIT_MINMOVEDIST, RABBIT_MAXMOVEDIST ) );
+
+		rabbit.MoveDirection = rabbit.TargetMovePosition - rabbit.RabbitTransform.position;
+
+		UpdateRabbitEvade( rabbit ); 
+	}
+
+	void UpdateRabbitEvade( RabbitData rabbit )
+	{
+		if ( Vector3.Distance( rabbit.TargetMovePosition, rabbit.RabbitTransform.position ) > RABBIT_MAXEVADEHOPDIST )
+		{
+			rabbit.MoveTween = rabbit.RabbitTransform.DOJump( rabbit.RabbitTransform.position + ( rabbit.MoveDirection * RABBIT_MAXEVADEHOPDIST ), RABBIT_EVADEHEIGHT, 1, rabbit.HopSpeed ).OnComplete( () => EndHop( rabbit ) );
+		}
+		else
+		{
+			rabbit.MoveTween = rabbit.RabbitTransform.DOJump( rabbit.TargetMovePosition, RABBIT_EVADEHEIGHT, 1, rabbit.HopSpeed ).OnComplete( () => EndEvade( rabbit ) );
+		}
+	}
+
+	void EndEvade( RabbitData rabbit )
+	{
+		CheckRabbitSurroundings( rabbit );
+
+		if( rabbit.rState != RabbitState.EVADE )
+		{
+			rabbit.HopSpeed = UnityEngine.Random.Range( RABBIT_HOPSPEED_MIN, RABBIT_HOPSPEED_MAX );
+
+			ChangeRabbitState( rabbit, RabbitState.IDLE );
+		}
+	}
+
 }
