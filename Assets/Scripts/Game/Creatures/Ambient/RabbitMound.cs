@@ -122,14 +122,14 @@ public class RabbitMound : MonoBehaviour
 
         jumpEndPos += rabbit.RabbitTransform.position;
 
-        if ( Physics.Raycast( jumpEndPos, Vector3.down, out yPosRay, 7.0f, 1 << LayerMask.NameToLayer( "Ground" ) ) )
-        {
-            jumpEndPos.y = yPosRay.point.y + RABBIT_YPOS;
-        }
-        else
-        {
-            jumpEndPos.y = RABBIT_YPOS;
-        }
+//        if ( Physics.Raycast( jumpEndPos, Vector3.down, out yPosRay, 7.0f, 1 << LayerMask.NameToLayer( "Ground" ) ) )
+//        {
+//            jumpEndPos.y = yPosRay.point.y + RABBIT_YPOS;
+//        }
+//        else
+//        {
+//            jumpEndPos.y = RABBIT_YPOS;
+//        }
 
         rabbit.MoveTween = rabbit.RabbitTransform.DOJump( jumpEndPos, RABBIT_SPAWNHOPHEIGHT, 1, RABBIT_SPAWNHOPTIME ).OnComplete( () => ChangeRabbitState( rabbit, RabbitState.IDLE ) );
     }
@@ -189,15 +189,16 @@ public class RabbitMound : MonoBehaviour
     {
         Vector2 spawnPos = UnityEngine.Random.insideUnitCircle;
         Vector3 movePos = _rabbitMoundObject.transform.position + ( new Vector3( spawnPos.x, 0.0f, spawnPos.y ) * UnityEngine.Random.Range( RABBIT_MINMOVEDIST, RABBIT_MAXMOVEDIST ) );
+		movePos.y = RABBIT_YPOS;
 
-        if ( Physics.Raycast( movePos + Vector3.up * RABBIT_RAYCAST_YOFFSET, Vector3.down, out yPosRay, 15.0f, 1 << LayerMask.NameToLayer( "Ground" ) ) )
-        {
-            movePos.y = yPosRay.point.y + RABBIT_YPOS;
-        }
-        else
-        {
-            movePos.y = RABBIT_YPOS;
-        }
+//        if ( Physics.Raycast( movePos + Vector3.up * RABBIT_RAYCAST_YOFFSET, Vector3.down, out yPosRay, 15.0f, 1 << LayerMask.NameToLayer( "Ground" ) ) )
+//        {
+//            movePos.y = yPosRay.point.y + RABBIT_YPOS;
+//        }
+//        else
+//        {
+//            movePos.y = RABBIT_YPOS;
+//        }
 
         rabbit.MoveDirection = ( movePos - rabbit.RabbitTransform.position ).normalized;
 
@@ -315,17 +316,18 @@ public class RabbitMound : MonoBehaviour
 		//rbMoveDir = Quaternion.Euler(0.0f, UnityEngine.Random.Range( -RABBIT_EVADEANGLE, RABBIT_EVADEANGLE ), 0.0f ) * rbMoveDir;
 
 		Vector3 movePos = rabbit.RabbitTransform.position + ( rbMoveDir * UnityEngine.Random.Range( RABBIT_MINEVADEDIST, RABBIT_MAXEVADEDIST ) );
+		movePos.y = RABBIT_YPOS;
 
 		rabbit.TargetMovePosition = movePos;
 
-        if (Physics.Raycast( rabbit.TargetMovePosition + Vector3.up * RABBIT_RAYCAST_YOFFSET, Vector3.down, out yPosRay, 15.0f, 1 << LayerMask.NameToLayer( "Ground" ) ))
-        {
-            rabbit.TargetMovePosition.y = yPosRay.point.y + RABBIT_YPOS;
-        }
-        else
-        {
-            rabbit.TargetMovePosition.y = RABBIT_YPOS;
-        }
+//        if (Physics.Raycast( rabbit.TargetMovePosition + Vector3.up * RABBIT_RAYCAST_YOFFSET, Vector3.down, out yPosRay, 15.0f, 1 << LayerMask.NameToLayer( "Ground" ) ))
+//        {
+//            rabbit.TargetMovePosition.y = yPosRay.point.y + RABBIT_YPOS;
+//        }
+//        else
+//        {
+//            rabbit.TargetMovePosition.y = RABBIT_YPOS;
+//        }
 
         rabbit.MoveDirection = (rabbit.TargetMovePosition - rabbit.RabbitTransform.position).normalized;
 
