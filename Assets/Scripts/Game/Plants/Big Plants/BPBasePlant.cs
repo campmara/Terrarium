@@ -8,7 +8,9 @@ public class BPBasePlant : BasePlant
 		NONE = -1,
 		POINT,
 		FLOWERING,
-		LEAFY
+		LEAFY,
+		PBUSH,
+		LIMBER
 	}
 	[SerializeField] BigPlantType _type = BigPlantType.NONE;
 	public BigPlantType PlantType { get { return _type; } }
