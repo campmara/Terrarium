@@ -41,13 +41,13 @@ public class SingState : RollerState
 	    }
 
 	    //float desiredPitch = 1.0f + _roller.InputVec.magnitude;
-	    float desiredPitch = AudioManager.instance.GetCurrentMusicPitch();
-	    _singPitch = Mathf.Lerp(_singPitch, desiredPitch, RollerConstants.instance.PitchLerpSpeed * Time.deltaTime);
+	    //float desiredPitch = AudioManager.instance.GetCurrentMusicPitch();
+	    //_singPitch = Mathf.Lerp(_singPitch, desiredPitch, RollerConstants.instance.PitchLerpSpeed * Time.deltaTime);
 
 	    // Y BUTTON
 	    if (input.YButton.IsPressed)
 	    {
-	        AudioManager.instance.PlaySing(_singPitch);
+	        AudioManager.instance.PlaySing(0f);
 			_roller.Face.Sing();
 	        _waitToReturnTimer = 0f;
 	    }
