@@ -17,6 +17,8 @@ public class Pickupable : MonoBehaviour
     protected float _grabberBurdenInterp = 0.0f;
     public float GrabberBurdenInterp { get { return _grabberBurdenInterp; } }
 
+    float _lowVelocity = 6.5f;
+
     protected virtual void Awake()
     {
         _rigidbody = GetComponent( typeof( Rigidbody ) ) as Rigidbody;
@@ -51,4 +53,22 @@ public class Pickupable : MonoBehaviour
             this.GetComponent<PickupCollider>().LockedRotation = true;
         }
     }
+
+    protected virtual void HandleCollision( Collision col )
+    {
+        _rigidbody.constraints = RigidbodyConstraints.FreezeRotation;//FreezeAll;
+    }
+
+    void OnCollisionEnter( Collision col )
+	{
+		//once you touch the ground 
+		if( col.gameObject.GetComponent<GroundDisc>() || col.gameObject.GetComponent<GroundCover>() )
+		{
+			float vel = _rigidbody.velocity.magnitude;
+			if( _rigidbody.velocity.magnitude <= _lowVelocity )
+			{
+				HandleCollision( col );//FreezeRotation;//All;
+			}
+		}
+	}
 }

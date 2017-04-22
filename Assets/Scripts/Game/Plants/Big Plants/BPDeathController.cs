@@ -143,7 +143,7 @@ public class BPDeathController : PlantController
 		_essenceParticleSystem.GetComponent<EssenceParticles>().MarkForDestroy(5f);
 		
 
-		PlantManager.instance.DeleteLargePlant( _myPlant.GetComponent<BPBasePlant>() );
+		PlantManager.instance.DeleteLargePlant( _myPlant.GetComponent<BasePlant>() );
 	}
 
 	void FadeEssence()
@@ -191,16 +191,16 @@ public class BPDeathController : PlantController
 	void HandlePalatteChange( ColorManager.EnvironmentPalette newPalette, ColorManager.EnvironmentPalette prevPalette  )
 	{		
 		Debug.Log( "transitionin a dyin plant color ");
-		BPBasePlant.BigPlantType _type = _myPlant.GetComponent<BPBasePlant>().PlantType;
+		BasePlant.PlantType _type = _myPlant.GetComponent<BasePlant>().MyPlantType;
 		switch( _type )
 		{
-		case BPBasePlant.BigPlantType.POINT:
+		case BasePlant.PlantType.POINT:
 			StartCoroutine( DelayedTransitionPointColors( newPalette, prevPalette ) );
 			break;
-		case BPBasePlant.BigPlantType.FLOWERING:
+		case BasePlant.PlantType.FLOWERING:
 			StartCoroutine( DelayedTransitionMossColors( newPalette.mossPlant ) );
 			break;
-		case BPBasePlant.BigPlantType.LEAFY:
+		case BasePlant.PlantType.LEAFY:
 			StartCoroutine( DelayedTransitionLeafyColors( newPalette, prevPalette ) );
 			break;
 		default:
