@@ -194,7 +194,7 @@ public class PlayerArmIK : MonoBehaviour {
     private void SummonAtObject()
     {
         RaycastHit hit; 
-        if( Physics.Raycast( transform.parent.position, transform.parent.forward, out hit, 5.0f) )
+        if( Physics.Raycast( transform.parent.position, transform.parent.forward, out hit, 6.0f) )
         {
             if( hit.collider.GetComponent<StarterPlantGrowthController>() )
             {

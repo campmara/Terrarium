@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,7 +13,7 @@ public class BPGrowthController : PlantController
 
 	[SerializeField] protected float _baseGrowthRate = 0.0f;
 	[SerializeField] protected Vector2 _scaleMultiplierRange = new Vector2( 3.0f, 18.0f );
-	[SerializeField] protected List<Vector2> _scaleRatios = new List<Vector2>();
+	[SerializeField] protected List<Vector2> _scaleRatios = new List<Vector2>(){ Vector2.one };
 	[SerializeField] protected float _wateredGrowthRate = 0.0f;
 	protected float _growthRate = 0.0f;
 	protected float _animEndTime = 0.0f;
@@ -474,6 +474,7 @@ public class BPGrowthController : PlantController
 		_growthRate = _baseGrowthRate;
 		_plantAnim.speed = _growthRate;
 		_myPlant.SpawnHeight = _myPlant.transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().bounds.size.y * ( _numGrowStages + 1 );
+		_myPlant.SpawnHeight = _myPlant.SpawnHeight > 20.0f ? 20.0f : _myPlant.SpawnHeight;
 	}
 
 	protected void GetSetMeshRadius()
