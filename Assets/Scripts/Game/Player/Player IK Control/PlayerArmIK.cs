@@ -187,6 +187,24 @@ public class PlayerArmIK : MonoBehaviour {
         {
             SetArmState( ArmIKState.IDLE );
         }
+
+        SummonAtObject();
+    }
+
+    private void SummonAtObject()
+    {
+        RaycastHit hit; 
+        if( Physics.Raycast( transform.parent.position, transform.parent.forward, out hit, 6.0f) )
+        {
+            if( hit.collider.GetComponent<StarterPlantGrowthController>() )
+            {
+                hit.collider.GetComponent<StarterPlantGrowthController>().SummonSeed( new Vector2( transform.position.x, transform.position.z ) );
+            }
+            else if ( hit.collider.GetComponent<PointPlantGrowthController>() )
+            {
+                hit.collider.GetComponent<PointPlantGrowthController>().SummonSeed( new Vector2( transform.position.x, transform.position.z ) );
+            }
+        }
     }
 
     public void IncrementGestureIndex()
