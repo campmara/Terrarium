@@ -2,30 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//this should be moved to a more appropriate document
-//new way to deal with parenting
-public class LeafTransformations
+public class LimberPlantGrowthController : BPGrowthController
 {
-    public Transform leaf;
-    public Transform leafParent;
-
-    public Vector3 scaleOffset;
-    public Vector3 positionOffset;
-    public Quaternion rotationOffset;
-
-    public LeafTransformations()
-    {
-        leaf = null;
-        leafParent = null;
-
-        scaleOffset = Vector3.zero;
-        positionOffset = Vector3.zero;
-        rotationOffset = Quaternion.identity;
-    }
-}
-
-public class PointPlantGrowthController : BPGrowthController
-{
+    
     [SerializeField]
     private Transform _bStemRoot = null;
     [SerializeField]
@@ -52,17 +31,13 @@ public class PointPlantGrowthController : BPGrowthController
     Animator _lastAnim = null;
     bool _waiting = false;
 
-    List<LeafTransformations> _leafTransformations;
-
     void Awake()
     {
         _myPlant = GetComponent<BasePlant>();
         _controllerType = ControllerType.Growth;
-        _leafTransformations = new List<LeafTransformations>();
-    
     }
 
-    
+
     protected override void InitPlant()
     {
         base.InitPlant();
@@ -73,10 +48,7 @@ public class PointPlantGrowthController : BPGrowthController
         AnimatorStateInfo info = _plantAnim.GetCurrentAnimatorStateInfo(0);
         _timeBetweenLeafSpawns = (info.length / _baseGrowthRate) / _numChildren;
 
-        for (int i = 0; i < _plantAnim.layerCount; i++)
-        {
-            _plantAnim.SetLayerWeight(i, Random.Range(0, 2));
-        }
+        SetRandomLayerWeight(_plantAnim);
     }
 
     private IEnumerator SpawnLeaves()
@@ -85,18 +57,21 @@ public class PointPlantGrowthController : BPGrowthController
         _currentParent = _bones[_curChildSpawned];
 
         _offset = Random.Range(0, 100);
-        _ringNumber = Random.Range(5, 8);
-
-        for (int i = 0; i < _ringNumber; i++)
+        yield return new WaitForSeconds(_timeBetweenLeafSpawns);
+        if(_curChildSpawned > 2 && _curChildSpawned < 4)
         {
-            SetupLeaf(i);
-            yield return new WaitForSeconds((_timeBetweenLeafSpawns - .1f) / _ringNumber);
+            SetupLeaf(0);
         }
-
-        //yield return new WaitForSeconds(_timeBetweenLeafSpawns);
-
         _curChildSpawned++;
         _leafSpawnRoutine = null;
+    }
+
+    void SetRandomLayerWeight(Animator anim)
+    {
+        for (int i = 0; i < anim.layerCount; i++)
+        {
+            anim.SetLayerWeight(i, Random.Range(.05f, 1));
+        }
     }
 
     void SetupLeaf(int index)
@@ -106,20 +81,15 @@ public class PointPlantGrowthController : BPGrowthController
         Animator anim = leaf.GetComponent<Animator>();
         _childAnimators.Add(anim);
 
+        SetRandomLayerWeight(anim);
         leaf.transform.parent = _currentParent;
-
-        LeafTransformations transformedLeaf = new LeafTransformations();
-        transformedLeaf.leaf = leaf.transform;
-        transformedLeaf.leafParent = _currentParent;
-        transformedLeaf.positionOffset = -leaf.transform.forward * 0 * transform.localScale.x;
-        transformedLeaf.rotationOffset = Quaternion.Euler(new Vector3((index * 360 / _ringNumber + _offset), 0, 90));
-        transformedLeaf.rotationOffset *= Quaternion.Euler(new Vector3((_curChildSpawned * 3f) + 60,0,0));
-        transformedLeaf.scaleOffset = Vector3.one * .125f; //_currentParent.localScale * _curChildSpawned * .1f;
+        leaf.transform.position = _currentParent.position;
+        leaf.transform.localPosition += leaf.transform.up * 0.015f;// * .25f * transform.localScale.x;
+        leaf.transform.rotation = Quaternion.Euler(new Vector3(Random.Range(0,360), 0, 90));
+        leaf.transform.rotation *= Quaternion.Euler(new Vector3(Random.Range(-180, 180), 0, 0));
+        leaf.transform.localScale = Vector3.one * .250f * Random.Range(.25f,1) + _currentParent.localScale * _curChildSpawned * .1f;
 
         anim.speed *= _plantAnim.GetComponent<Animator>().speed * 2f;
-
-        _leafTransformations.Add(transformedLeaf);
-		UpdateLeafTransforms();
     }
 
     protected override void CustomPlantGrowth()
@@ -142,21 +112,6 @@ public class PointPlantGrowthController : BPGrowthController
             }
         }
 
-        //this is new!!
-        UpdateLeafTransforms();
-    }
-
-    private void UpdateLeafTransforms()
-    {
-        for(int i = 0; i < _leafTransformations.Count; i++)
-        {
-            Transform currentLeaf = _leafTransformations[i].leaf;
-            Transform currentLeafParent = _leafTransformations[i].leafParent;
-
-            currentLeaf.localScale =_leafTransformations[i].scaleOffset; // currentLeafParent.localScale + 
-            currentLeaf.rotation = currentLeafParent.rotation * _leafTransformations[i].rotationOffset;
-            currentLeaf.position = currentLeafParent.position + _leafTransformations[i].positionOffset;
-        }
     }
 
     protected override void CustomStopGrowth()
