@@ -60,7 +60,8 @@ public class CarryState : RollerState
             }
 			else
 			{
-				_roller.CarryPositionObject.transform.position = _roller.transform.position + _roller.CarryPosOffset;
+				_roller.CarryPositionObject.transform.position = _roller.IK.ArmTipMidpoint;
+				_roller.CurrentHeldObject.transform.localPosition = Vector3.zero;
 			}
 
             if ( input.AButton.WasReleased || !input.AButton.IsPressed )

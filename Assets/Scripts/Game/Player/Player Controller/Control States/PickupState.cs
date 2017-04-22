@@ -60,6 +60,7 @@ public class PickupState : RollerState
 		if( _startLiftTracking )
 		{
 			_roller.CarryPositionObject.transform.position = _roller.IK.ArmTipMidpoint;	
+			_roller.CurrentHeldObject.transform.localPosition = Vector3.zero;
 		}
 
     }
