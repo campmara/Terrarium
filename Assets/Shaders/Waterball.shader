@@ -250,7 +250,7 @@ Shader "Custom/Waterball"
 			fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * finalCol;
 
 			//rim lighting
-			half rim = 1 - clamp(saturate(dot (normalize(IN.viewDir), normalize(o.Normal))),0,1);
+			half rim = 1 - saturate(dot (IN.viewDir, normalize(o.Normal)));
 			float3 rimInfluence = _RimColor.rgb*pow(rim, _RimPower); // 
 			//rimInfluence = 0;
 

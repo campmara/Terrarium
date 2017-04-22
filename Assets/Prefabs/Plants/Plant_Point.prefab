@@ -346,7 +346,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1822985385187290}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -1.3373089, y: 0.01, z: 10.411591}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4508866319713756}
@@ -436,7 +436,7 @@ MonoBehaviour:
   - {fileID: 1969664330500318, guid: 267f161e8216446fd8bd51c9ff2019f2, type: 2}
   - {fileID: 1863841682442650, guid: fa18cc17991d646178faacbf71f38a50, type: 2}
   _mediumSpawnables:
-  - {fileID: 1957489743728246, guid: 83b5e0e2c650c804e98215001deaed97, type: 2}
+  - {fileID: 1707615311191734, guid: 8dfc9a0bcd8e34740bcb66139389cbdd, type: 2}
   spawnState: 0
   _bStemRoot: {fileID: 4508866319713756}
   _leafPrefab: {fileID: 1543003685192774, guid: 3b7612a57e8103346becf09c2a9c5c95,
