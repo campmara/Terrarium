@@ -394,7 +394,7 @@ MonoBehaviour:
   _DeathTimer: 0
   _baseDecayRate: 1
   _curDecayRate: 0
-  _type: 0
+  _type: 4
 --- !u!135 &135463749521474956
 SphereCollider:
   m_ObjectHideFlags: 1
