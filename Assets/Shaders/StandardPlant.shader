@@ -62,6 +62,7 @@
 			//float4 color : COLOR;
 			float3 localPos;
 			float3 localNormal;
+			//float4 turbulence;
 		};
 
 		sampler2D _MainTex;
@@ -87,6 +88,8 @@
 		uniform float _WaveAmount;
 		uniform float _WaveScale;
 		uniform float _WaveTime;
+		uniform float3 _WaveTimeVec;
+		uniform sampler2D _WindTex;
 		//......
 
 		//...splatmap...
@@ -119,7 +122,11 @@
 				//oscillation value adds on to the direction of the wind, it's length is measured with _WaveScale
 				float4 oscillation = sin(_WaveTime + noiseOffset  * heightSensitivity) * _WaveScale * normalize(_WaveDir) * heightSensitivity; // * v.color.r																																   //wave direction and oscillation combined are then scaled overall by the _WaveAmount
 				float4 wind = (normalize(_WaveDir) + oscillation) * _WaveAmount * heightSensitivity; //* v.color.r
+				float turbulenceScale = .025;
+				float4 turbulence = tex2Dlod(_WindTex, (float4(worldPos.x, worldPos.z, 0, 0) + float4(_WaveTimeVec.x, _WaveTimeVec.z, 0,0)) * .025);
+				wind *= turbulence;
 				worldPos += wind;
+				//o.turbulence = turbulence;
 			}
 			//''''''''''''''''''''''
 
@@ -179,6 +186,7 @@
 			o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb * gradient;
 			o.Alpha = alpha - _Dissolve;
 
+			//o.Albedo = IN.turbulence.rgb;
 			//code for fading from the top of the mesh
 			//o.Alpha = lerp(0, 1, ((1 - IN.uv_MainTex.y) * 2) - (_CutoffPos + color.r/4 * _CutoffPos));
 		}

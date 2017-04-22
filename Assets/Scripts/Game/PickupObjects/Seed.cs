@@ -45,7 +45,11 @@ public class Seed : Pickupable
 
     private void FixedUpdate()
     {
-        _rigidbody.AddForce( WeatherManager.instance.WindForce * WIND_FORCESCALAR * Time.deltaTime );
+		if( !_grabbed )
+		{
+			_rigidbody.AddForce( WeatherManager.instance.WindForce * WIND_FORCESCALAR * Time.deltaTime );	
+		}
+
     }
 
     public override void OnPickup( Transform grabTransform )
@@ -56,6 +60,8 @@ public class Seed : Pickupable
 		}
 
 		base.OnPickup( grabTransform );
+
+		_rigidbody.velocity = Vector3.zero;
 	}
 
 	public override void DropSelf()
