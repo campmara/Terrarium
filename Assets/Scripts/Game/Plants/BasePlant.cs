@@ -14,6 +14,16 @@ public class BasePlant : MonoBehaviour
 	protected float _spawnHeight = 8.0f;
 	public float SpawnHeight { get { return _spawnHeight; } set { _spawnHeight = value;} }
 
+	public enum PlantType : int 
+	{
+		NONE = -1,
+		POINT,
+		FLOWERING,
+		LEAFY
+	}
+	[SerializeField] PlantType _type = PlantType.NONE;
+	public PlantType MyPlantType { get { return _type; } }
+
     // *************
     // DEATH VARS
     // **************

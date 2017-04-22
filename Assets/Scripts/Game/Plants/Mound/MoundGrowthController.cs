@@ -67,7 +67,7 @@ public class MoundGrowthController : PlantController
 
 	bool StablePlantPopulation()
 	{
-		return PlantManager.instance.IsPopulationStable( _basePlantPrefab.GetComponent<BPBasePlant>() );
+		return PlantManager.instance.IsPopulationStable( _basePlantPrefab.GetComponent<BasePlant>() );
 	}
 
 	public override void UpdateState()
@@ -88,7 +88,7 @@ public class MoundGrowthController : PlantController
 	{
 		Vector3 plantPos = _sprout.position;
 		plantPos = plantPos.SetPosY( 0.0f );
-		BPBasePlant plant = ( (GameObject)Instantiate( _basePlantPrefab, plantPos, Quaternion.identity ) ).GetComponent<BPBasePlant>();
+		BasePlant plant = ( (GameObject)Instantiate( _basePlantPrefab, plantPos, Quaternion.identity ) ).GetComponent<BasePlant>();
 
 		StarterPlantGrowthController sPlant = plant.GetComponent<StarterPlantGrowthController>();
 		if( sPlant )

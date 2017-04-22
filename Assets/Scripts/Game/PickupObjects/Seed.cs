@@ -9,7 +9,7 @@ public class Seed : Pickupable
     public SeedAssetKey AssetKey { get { return _assetKey; } set { _assetKey = value; } }
 
     [SerializeField] GameObject _moundPrefab = null;
-
+	BasePlant.PlantType _moundType = BasePlant.PlantType.NONE;
 	float _timeSinceLastPickup = 0.0f;
 	float _timePassedTillDestroy = 60.0f;
 	bool _hasFallen = false;
@@ -22,13 +22,19 @@ public class Seed : Pickupable
 
     const float WIND_FORCESCALAR = 0.5f;
 
+
+	void Awake()
+	{
+		base.Awake();
+		_moundType = _moundPrefab.GetComponent<BasePlant>().MyPlantType;
+	}
 	void Update()
 	{
 		if( !_grabbed )
 		{
 			if( _timeSinceLastPickup >= _timePassedTillDestroy && PlantManager.instance.GetActiveSeedCount() > 2 )
-			{
-				Destroy( gameObject );
+			{			
+				PlantManager.instance.DestroySeed( this, _moundType );
 			}
 			else
 			{
@@ -85,9 +91,10 @@ public class Seed : Pickupable
 	void EndSelfPlant()
 	{
 		TryPlanting();
+		PlantManager.instance.DestroySeed( this, _moundType );
 	}
 
-	void OnCollisionEnter( Collision col ) 
+    protected override void HandleCollision( Collision col )
 	{
 		if( !_hasFallen )
 		{

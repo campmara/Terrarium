@@ -6,8 +6,8 @@ public class PickupCollider : MonoBehaviour
 {
 	[ReadOnly] public Pickupable parentPickupable;
 	[SerializeField] bool _lockedRotation = true;
-	public bool LockedRotation { get { return _lockedRotation; } set { _lockedRotation = value; } }
 
+	public bool LockedRotation { get { return _lockedRotation; } set { _lockedRotation = value; } }
 	void Awake()
 	{
 		parentPickupable = this.GetComponent(typeof(Pickupable)) as Pickupable;
