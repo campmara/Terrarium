@@ -48,10 +48,7 @@ public class LimberPlantGrowthController : BPGrowthController
         AnimatorStateInfo info = _plantAnim.GetCurrentAnimatorStateInfo(0);
         _timeBetweenLeafSpawns = (info.length / _baseGrowthRate) / _numChildren;
 
-        for (int i = 0; i < _plantAnim.layerCount; i++)
-        {
-            _plantAnim.SetLayerWeight(i, Random.Range(0, 2));
-        }
+        SetRandomLayerWeight(_plantAnim);
     }
 
     private IEnumerator SpawnLeaves()
@@ -60,13 +57,21 @@ public class LimberPlantGrowthController : BPGrowthController
         _currentParent = _bones[_curChildSpawned];
 
         _offset = Random.Range(0, 100);
-        _ringNumber = Random.Range(5, 8);
-
-        yield return new WaitForSeconds(0);
-
-        SetupLeaf(0);
+        yield return new WaitForSeconds(_timeBetweenLeafSpawns);
+        if(_curChildSpawned > 2 && _curChildSpawned < 4)
+        {
+            SetupLeaf(0);
+        }
         _curChildSpawned++;
         _leafSpawnRoutine = null;
+    }
+
+    void SetRandomLayerWeight(Animator anim)
+    {
+        for (int i = 0; i < anim.layerCount; i++)
+        {
+            anim.SetLayerWeight(i, Random.Range(.05f, 1));
+        }
     }
 
     void SetupLeaf(int index)
@@ -76,13 +81,13 @@ public class LimberPlantGrowthController : BPGrowthController
         Animator anim = leaf.GetComponent<Animator>();
         _childAnimators.Add(anim);
 
+        SetRandomLayerWeight(anim);
         leaf.transform.parent = _currentParent;
-
-        leaf.transform.parent = _currentParent;
-        leaf.transform.position = -leaf.transform.forward * 0 * transform.localScale.x;
-        leaf.transform.rotation = Quaternion.Euler(new Vector3((index * 360 / _ringNumber + _offset), 0, 90));
-        leaf.transform.rotation *= Quaternion.Euler(new Vector3((_curChildSpawned * 3f) + 60, 0, 0));
-        leaf.transform.localScale = Vector3.one * .125f; //_currentParent.localScale * _curChildSpawned * .1f;
+        leaf.transform.position = _currentParent.position;
+        leaf.transform.localPosition += leaf.transform.up * 0.015f;// * .25f * transform.localScale.x;
+        leaf.transform.rotation = Quaternion.Euler(new Vector3(Random.Range(0,360), 0, 90));
+        leaf.transform.rotation *= Quaternion.Euler(new Vector3(Random.Range(-180, 180), 0, 0));
+        leaf.transform.localScale = Vector3.one * .250f * Random.Range(.25f,1) + _currentParent.localScale * _curChildSpawned * .1f;
 
         anim.speed *= _plantAnim.GetComponent<Animator>().speed * 2f;
     }

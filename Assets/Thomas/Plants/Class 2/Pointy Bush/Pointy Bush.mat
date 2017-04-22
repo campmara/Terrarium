@@ -60,7 +60,7 @@ Material:
     - _CutoffEdgeScale: 0.45
     - _CutoffNoiseScale: 10
     - _Debug: 0
-    - _Deformation: 0
+    - _Deformation: 1
     - _DetailNormalMapScale: 1
     - _Dissolve: 0
     - _DstBlend: 0
@@ -68,7 +68,7 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Hardness: 0.347
-    - _ImprintAmount: 2.25
+    - _ImprintAmount: 1
     - _Metallic: 0
     - _Middle: 0.5
     - _Mode: 0

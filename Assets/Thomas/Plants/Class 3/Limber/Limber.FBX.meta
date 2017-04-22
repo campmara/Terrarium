@@ -58,7 +58,7 @@ ModelImporter:
       name: Limber Grow 1
       takeName: Take 001
       firstFrame: 0
-      lastFrame: 19
+      lastFrame: 18
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -104,7 +104,7 @@ ModelImporter:
       name: Limber Grow 2
       takeName: Take 001
       firstFrame: 20
-      lastFrame: 39
+      lastFrame: 38
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -150,7 +150,7 @@ ModelImporter:
       name: Limber Grow 3
       takeName: Take 001
       firstFrame: 40
-      lastFrame: 59
+      lastFrame: 58
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

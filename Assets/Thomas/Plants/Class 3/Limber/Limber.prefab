@@ -323,9 +323,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c199f129b387a64d8b2a9dffa2d0302, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseGrowthRate: 1
-  _scaleMultiplierRange: {x: 3, y: 18}
-  _scaleRatios: []
+  _baseGrowthRate: 0.0075
+  _scaleMultiplierRange: {x: 5, y: 8}
+  _scaleRatios:
+  - {x: 1, y: 1}
   _wateredGrowthRate: 1
   _curStage: -1
   _droppingItems: []
@@ -333,7 +334,8 @@ MonoBehaviour:
   _mediumSpawnables: []
   spawnState: 0
   _bStemRoot: {fileID: 4472274860220978}
-  _leafPrefab: {fileID: 100014, guid: bd821ab742864354f9de00b832dd4609, type: 3}
+  _leafPrefab: {fileID: 1390895212263054, guid: 334fe26cc79fd3e46823de4095ef5e1a,
+    type: 2}
 --- !u!114 &114123700980455626
 MonoBehaviour:
   m_ObjectHideFlags: 1
