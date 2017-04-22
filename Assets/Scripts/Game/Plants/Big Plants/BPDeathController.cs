@@ -203,10 +203,10 @@ public class BPDeathController : PlantController
 		case BasePlant.PlantType.LEAFY:
 			StartCoroutine( DelayedTransitionLeafyColors( newPalette, prevPalette ) );
 			break;
-		case BPBasePlant.BigPlantType.LIMBER:
+		case BasePlant.PlantType.LIMBER:
 			StartCoroutine( DelayedTransitionLimberColors( newPalette.limberPlant ) );
 			break;
-		case BPBasePlant.BigPlantType.PBUSH:
+		case BasePlant.PlantType.PBUSH:
 			StartCoroutine( DelayedTransitionPBushColors( newPalette.pointyBush ) );
 			break;
 		default:

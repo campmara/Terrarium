@@ -19,7 +19,9 @@ public class BasePlant : MonoBehaviour
 		NONE = -1,
 		POINT,
 		FLOWERING,
-		LEAFY
+		LEAFY,
+		LIMBER,
+		PBUSH
 	}
 	[SerializeField] PlantType _type = PlantType.NONE;
 	public PlantType MyPlantType { get { return _type; } }
