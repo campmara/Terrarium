@@ -327,9 +327,20 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
     // Player Sing
     public void PlaySing(float pitch)
     {
-        _audioControllerList[(int) AudioControllerNames.PLAYER_SING].Pitch = pitch;
-        _audioControllerList[(int) AudioControllerNames.PLAYER_SING].PlayAudioSource();
+		if (!_audioControllerList[(int) AudioControllerNames.PLAYER_SING].Source.isPlaying)
+		{
+        	_audioControllerList[(int) AudioControllerNames.PLAYER_SING].Pitch = pitch;
+        	_audioControllerList[(int) AudioControllerNames.PLAYER_SING].PlayAudioSource();
+		}
     }
+
+	public void StopSing()
+	{
+		if (_audioControllerList[(int) AudioControllerNames.PLAYER_SING].Source.isPlaying)
+		{
+        	_audioControllerList[(int) AudioControllerNames.PLAYER_SING].StopAudioSource();
+		}
+	}
 
     public float GetCurrentMusicPitch()
     {      
