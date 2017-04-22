@@ -572,9 +572,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddeb98e6373474e668dc3e8a3f719e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxLargePlants: 20
-  _maxMediumPlants: 40
-  _maxSmallPlants: 200
+  LrgTotalPlantsRange: {x: 3, y: 12}
+  MedTotalPlantsRange: {x: 0, y: 25}
+  MedSpawnRadRange: {x: 3, y: 4.5}
+  MedNumPerPlant: {x: 4, y: 6}
+  SmTotalPlantsRange: {x: 0, y: 50}
+  SmSpawnRadRange: {x: 1, y: 3}
+  SmNumPerPlant: {x: 8, y: 15}
+  _pointSeed: {fileID: 0}
+  _floweringSeed: {fileID: 0}
 --- !u!114 &114162013853216408
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2687,6 +2693,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdf67534fde86f9418177ce0dc8a2c37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _windTex: {fileID: 2800000, guid: 2cc782fcca24a3a48810b9e6a20c3aa1, type: 3}
   _windInterp: 0
   _waveDir: {x: 1, y: 0, z: 0}
 --- !u!114 &114613613601675322

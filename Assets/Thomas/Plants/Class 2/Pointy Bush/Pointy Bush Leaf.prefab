@@ -9,16 +9,16 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1021470313894024}
+  m_RootGameObject: {fileID: 1098472853343288}
   m_IsPrefabParent: 1
---- !u!1 &1021470313894024
+--- !u!1 &1098472853343288
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4187378533565866}
+  - component: {fileID: 4579220737363896}
   m_Layer: 0
   m_Name: Pointy Bush Leaf
   m_TagString: Untagged
@@ -26,57 +26,57 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1949666827928088
+--- !u!1 &1731318622561154
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4494602004180084}
-  - component: {fileID: 33330956388389912}
-  - component: {fileID: 23858218160179002}
-  - component: {fileID: 95864325703336492}
+  - component: {fileID: 4705389479172032}
+  - component: {fileID: 33406012238247052}
+  - component: {fileID: 23177595033704952}
+  - component: {fileID: 95113289963618392}
   m_Layer: 0
-  m_Name: bushleaf
+  m_Name: Pointy Bush Leaf Geometry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4187378533565866
+--- !u!4 &4579220737363896
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1021470313894024}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.849, z: -4.651}
+  m_GameObject: {fileID: 1098472853343288}
+  m_LocalRotation: {x: -0.70710677, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0.24363127, y: 0.441, z: 11.768}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4494602004180084}
+  - {fileID: 4705389479172032}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4494602004180084
+--- !u!4 &4705389479172032
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1949666827928088}
-  m_LocalRotation: {x: -0.70710677, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.09100008, z: 0.951}
+  m_GameObject: {fileID: 1731318622561154}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.98300076, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children: []
-  m_Father: {fileID: 4187378533565866}
+  m_Father: {fileID: 4579220737363896}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: 0}
---- !u!23 &23858218160179002
+--- !u!23 &23177595033704952
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1949666827928088}
+  m_GameObject: {fileID: 1731318622561154}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -104,23 +104,23 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33330956388389912
+--- !u!33 &33406012238247052
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1949666827928088}
+  m_GameObject: {fileID: 1731318622561154}
   m_Mesh: {fileID: 4300008, guid: d6b48dcd5887ce84988e65ebf36c34f2, type: 3}
---- !u!95 &95864325703336492
+--- !u!95 &95113289963618392
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1949666827928088}
+  m_GameObject: {fileID: 1731318622561154}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: d6b48dcd5887ce84988e65ebf36c34f2, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2544febc60413474a8165ef05fb7d3c9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

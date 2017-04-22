@@ -90,6 +90,8 @@ Shader "TerrariumPlant/vColorBlendshape"{
 	uniform float _WaveAmount;
 	uniform float _WaveScale;
 	uniform float _WaveTime;
+	uniform float3 _WaveTimeVec;
+	uniform sampler2D _WindTex;
 	//......
 
 	//...splatmap...
@@ -148,6 +150,9 @@ Shader "TerrariumPlant/vColorBlendshape"{
 			//oscillation value adds on to the direction of the wind, it's length is measured with _WaveScale
 			float4 oscillation = sin(_WaveTime + noiseOffset  * heightSensitivity) * _WaveScale * normalize(_WaveDir) * heightSensitivity; // * v.color.r																																   //wave direction and oscillation combined are then scaled overall by the _WaveAmount
 			float4 wind = (normalize(_WaveDir) + oscillation) * _WaveAmount * heightSensitivity; //* v.color.r
+			float turbulenceScale = .025;
+			float4 turbulence = tex2Dlod(_WindTex, (float4(worldPos.x, worldPos.z, 0, 0) + float4(_WaveTimeVec.x, _WaveTimeVec.z, 0, 0)) * .025);
+			wind *= turbulence;
 			worldPos += wind;
 		}
 		//''''''''''''''''''''''
