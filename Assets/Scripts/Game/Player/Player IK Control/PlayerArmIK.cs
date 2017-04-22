@@ -194,12 +194,15 @@ public class PlayerArmIK : MonoBehaviour {
     private void SummonAtObject()
     {
         RaycastHit hit; 
-        if( Physics.Raycast( transform.parent.position, transform.parent.forward, out hit, 8.0f) )
+        if( Physics.Raycast( transform.parent.position, transform.parent.forward, out hit, 5.0f) )
         {
-            BPGrowthController controller = hit.collider.GetComponent<StarterPlantGrowthController>();
-            if( controller )
+            if( hit.collider.GetComponent<StarterPlantGrowthController>() )
             {
-                controller.SummonSeed( new Vector2( transform.position.x, transform.position.z ) );
+                hit.collider.GetComponent<StarterPlantGrowthController>().SummonSeed( new Vector2( transform.position.x, transform.position.z ) );
+            }
+            else if ( hit.collider.GetComponent<PointPlantGrowthController>() )
+            {
+                hit.collider.GetComponent<PointPlantGrowthController>().SummonSeed( new Vector2( transform.position.x, transform.position.z ) );
             }
         }
     }
