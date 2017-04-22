@@ -75,7 +75,7 @@ Material:
     - _MainNoiseHeight: 0
     - _MainNoiseScale: 1
     - _MeltAmount: 0.65
-    - _MeltCurve: 5
+    - _MeltCurve: 3
     - _MeltDistance: 1
     - _MeltY: -0.15
     - _Metallic: 0
@@ -96,13 +96,13 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorBot: {r: 0.7509121, g: 0.8308824, b: 0.38489407, a: 1}
-    - _ColorMid: {r: 0.7509121, g: 0.8308824, b: 0.38489407, a: 1}
-    - _ColorTop: {r: 0.7509121, g: 0.8308824, b: 0.38489407, a: 1}
+    - _ColorBot: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
+    - _ColorMid: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
+    - _ColorTop: {r: 0.75, g: 0.393, b: 0.6515172, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _NoiseOffset: {r: 0, g: 0, b: 0, a: 0}
     - _Position: {r: 0, g: 0, b: 0, a: 0}
     - _PrevPosition: {r: 0, g: 0, b: 0, a: 0}
-    - _RimColor: {r: 0.26, g: 0.19, b: 0.16, a: 0}
+    - _RimColor: {r: 0.28129098, g: 0.23496972, b: 0.30147058, a: 0}
     - _ShadowColor: {r: 1, g: 1, b: 1, a: 1}
-    - _SpecularColor: {r: 0.26, g: 0.19, b: 0.16, a: 0}
+    - _SpecularColor: {r: 0.28235295, g: 0.23529412, b: 0.3019608, a: 0}

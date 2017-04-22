@@ -209,6 +209,8 @@ public class RabbitMound : MonoBehaviour
 
         rabbit.TargetMovePosition = movePos;       
 
+		rabbit.RabbitTransform.LookAt( movePos.SetPosY( rabbit.RabbitTransform.position.y ) );
+
         StartRabbitHop( rabbit );
     }
 
@@ -312,7 +314,9 @@ public class RabbitMound : MonoBehaviour
 		Vector3 rbMoveDir = evadeRB.velocity.normalized;
 		//rbMoveDir = Quaternion.Euler(0.0f, UnityEngine.Random.Range( -RABBIT_EVADEANGLE, RABBIT_EVADEANGLE ), 0.0f ) * rbMoveDir;
 
-		rabbit.TargetMovePosition = rabbit.RabbitTransform.position + ( rbMoveDir * UnityEngine.Random.Range( RABBIT_MINEVADEDIST, RABBIT_MAXEVADEDIST ) );
+		Vector3 movePos = rabbit.RabbitTransform.position + ( rbMoveDir * UnityEngine.Random.Range( RABBIT_MINEVADEDIST, RABBIT_MAXEVADEDIST ) );
+
+		rabbit.TargetMovePosition = movePos;
 
         if (Physics.Raycast( rabbit.TargetMovePosition + Vector3.up * RABBIT_RAYCAST_YOFFSET, Vector3.down, out yPosRay, 15.0f, 1 << LayerMask.NameToLayer( "Ground" ) ))
         {
@@ -324,6 +328,8 @@ public class RabbitMound : MonoBehaviour
         }
 
         rabbit.MoveDirection = (rabbit.TargetMovePosition - rabbit.RabbitTransform.position).normalized;
+
+		rabbit.RabbitTransform.LookAt( movePos.SetPosY( rabbit.RabbitTransform.position.y ) );
 
 		UpdateRabbitEvade( rabbit ); 
 	}
