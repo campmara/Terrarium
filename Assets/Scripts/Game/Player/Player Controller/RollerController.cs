@@ -426,6 +426,16 @@ public class RollerController : ControllerBase
         _targetMovePosition = this.transform.position;        
         this._player.AnimationController.SetPlayerSpeed( 0.0f );
 
+		if (InputVec.magnitude > RollerConstants.instance.IdleMaxMag)
+		{
+			// dooooo nothing?
+		}
+		else
+		{
+			_velocity = 0f;
+		}
+		
+
         _ik.ResetLegs();
 
         _ik.SetState( PlayerIKControl.WalkState.WALK );        
