@@ -70,19 +70,19 @@ public class BPDeathController : PlantController
 		}
 
 		ParticleSystem.ShapeModule shape = _essenceParticleSystem.shape;
-		if (_essenceMesh)
+		if ( _essenceMesh != null )
 		{
 			shape.skinnedMeshRenderer = _essenceMesh;
 		}
 		else
 		{
 			
-			if (renderers[0])
+			if ( renderers.Length > 0 && renderers[0] != null )
 			{
 				shape.skinnedMeshRenderer = renderers[0];
 			}
-			else if (otherRenderers[0])
-			{
+			else if (otherRenderers.Length > 0 && otherRenderers[0] != null )
+            {
 				shape.meshRenderer = otherRenderers[0];
 			}
 		}
