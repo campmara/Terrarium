@@ -9,8 +9,6 @@ public class CarryState : RollerState
 
 		_roller.Face.BecomeEncumbered();
 
-        _roller.Player.AnimationController.SetCarrying( true );
-
 		switch( prevState )
 		{
 		    case P_ControlState.PICKINGUP:
@@ -25,6 +23,7 @@ public class CarryState : RollerState
 		Debug.Log("EXIT CARRY STATE");
 
         _roller.Player.AnimationController.SetCarrying( false );
+        _roller.Player.AnimationController.SetLifting( false );
 
         switch ( nextState )
         {

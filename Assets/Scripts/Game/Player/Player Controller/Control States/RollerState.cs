@@ -109,7 +109,7 @@ public class RollerState : MonoBehaviour
 			_roller.CurrentHeldObject.gameObject.layer = LayerMask.NameToLayer("HeldObject");
 
 			_roller.Player.AnimationController.SetLifting( true );
-			_roller.IK.DisableIK();
+			_roller.IK.DisableArmIK();
 		}        
 
 		_roller.ChangeState( P_ControlState.PICKINGUP );		

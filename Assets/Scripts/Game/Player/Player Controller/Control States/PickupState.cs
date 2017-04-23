@@ -20,14 +20,23 @@ public class PickupState : RollerState
 		if( !_roller.CurrentHeldObject.Carryable )
 		{
 			_roller.CurrentHeldObject.OnPickup( this.transform );
+
             TransitionToCarrying();
 		}
+        else
+        {
+            Vector3 heldObjPos = _roller.CurrentHeldObject.transform.position;
+            heldObjPos.y = _roller.transform.position.y;
+            _roller.transform.LookAt( heldObjPos );
+        }
 
 	}
 
 	public void TransitionToCarrying()
 	{
-		_roller.ChangeState(P_ControlState.CARRYING);
+        _roller.Player.AnimationController.SetCarrying( true );
+
+        _roller.ChangeState(P_ControlState.CARRYING);
 	}
 
 	public override void Exit( P_ControlState nextState )
@@ -37,6 +46,7 @@ public class PickupState : RollerState
         switch (nextState)
         {
             case P_ControlState.WALKING:
+                _roller.Player.AnimationController.TriggerLiftCancel();
                 HandleBothArmRelease();                
                 break;
 		case P_ControlState.CARRYING:
@@ -67,7 +77,7 @@ public class PickupState : RollerState
 
 	public void StartLifting()
 	{
-		if( _roller.CurrentHeldObject.Carryable )
+		if( _roller.CurrentHeldObject != null && _roller.CurrentHeldObject.Carryable )
 		{
 			_roller.CurrentHeldObject.transform.parent = _roller.CarryPositionObject.transform;     
 

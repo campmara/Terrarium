@@ -147,7 +147,7 @@ public class PlayerArmIK : MonoBehaviour {
 					_ambientReachTimer = 0.0f;
 					break;
 				case ArmIKState.IK_OFF:
-					_armIK.enabled = true;
+					_armIK.enabled = false;
 					break;
 				default:
                     break;

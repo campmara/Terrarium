@@ -25,6 +25,9 @@ public class PlayerAnimationController : MonoBehaviour {
 	int _liftParamHash = 0;
 	public bool Lifting { get { return _animator.GetBool( _liftParamHash ); } }
 
+    const string LIFTCANCEL_PARAM = "LiftCancel";
+    int _liftCancelTriggerHash = 0;
+
     const string WALK_ANIMSTATE = "Walking Blend Tree";
     int _walkAnimStateHash = 0;
 
@@ -55,6 +58,7 @@ public class PlayerAnimationController : MonoBehaviour {
         _sittingParamHash = Animator.StringToHash( SITTING_PARAM );
         _carryingParamHash = Animator.StringToHash( CARRYING_PARAM );
 		_liftParamHash = Animator.StringToHash( LIFT_PARAM );
+        _liftCancelTriggerHash = Animator.StringToHash( LIFTCANCEL_PARAM );
 
         _walkAnimStateHash = Animator.StringToHash( WALK_ANIMSTATE );
         _carryWalkAnimHash = Animator.StringToHash( CARRYWALK_ANIMSTATE );
@@ -88,7 +92,12 @@ public class PlayerAnimationController : MonoBehaviour {
     {
         _animator.Play( _sitPressAnimHash );
     }
-		
+
+    public void TriggerLiftCancel()
+    {
+        _animator.SetTrigger( _liftCancelTriggerHash );
+    }
+
     public bool CheckCancelSitting()
     {
         if( !Sitting && ( _animator.GetCurrentAnimatorStateInfo(0).fullPathHash == _sitAnimStateHash && _animator.GetCurrentAnimatorStateInfo(0).fullPathHash != _standAnimStateHash ) )

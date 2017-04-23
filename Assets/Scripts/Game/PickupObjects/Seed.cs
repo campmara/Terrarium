@@ -51,6 +51,8 @@ public class Seed : Pickupable
 		if (_sinkTween != null)
 		{
 			_sinkTween.Rewind();
+            _sinkTween.Kill();
+            _sinkTween = null;
 		}
 
 		base.OnPickup( grabTransform );
@@ -61,6 +63,7 @@ public class Seed : Pickupable
 	public override void DropSelf()
 	{
 		base.DropSelf();
+        BeginSelfPlant();
 		_timeSinceLastPickup = 0.0f;
 	}
 
@@ -81,11 +84,11 @@ public class Seed : Pickupable
 
 	void BeginSelfPlant()
 	{
-		Transform child = transform.GetChild(0);
-		Vector3 endPos = child.position + (Vector3.down * 0.36f);
+		//Transform child = transform.GetChild(0);
+		Vector3 endPos = this.transform.position + (Vector3.down * 0.36f);
 		float sinkTime = Random.Range(10f, 20f);
 
-		_sinkTween = child.DOMove(endPos, sinkTime).OnComplete(EndSelfPlant);
+		_sinkTween = this.transform.DOMove( endPos, sinkTime ).OnComplete( EndSelfPlant );
 	}
 
 	void EndSelfPlant()
