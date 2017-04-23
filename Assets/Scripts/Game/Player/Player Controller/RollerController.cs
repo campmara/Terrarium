@@ -63,6 +63,11 @@ public class RollerController : ControllerBase
     public float HeadMoveInterp { get { return _headMoveSpeedInterp; } set { _headMoveSpeedInterp = value; } }
 	float _currMaxVelocity = 0.0f;
 
+	[SerializeField] GameObject _carryPositionObject = null;
+	public GameObject CarryPositionObject { get { return _carryPositionObject; } }
+	private Vector3 _carryPosOffset = Vector3.zero;
+	public Vector3 CarryPosOffset { get { return _carryPosOffset; } set { _carryPosOffset = value; } } 
+
 	private Quaternion _targetRotation = Quaternion.identity;
     private float _targetRotAngle = 0.0f;
 	private Coroutine _idleWaitRoutine = null;
