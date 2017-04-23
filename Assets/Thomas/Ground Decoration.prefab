@@ -3963,7 +3963,6 @@ GameObject:
   - component: {fileID: 33379794350223430}
   - component: {fileID: 23959392907758490}
   - component: {fileID: 95420608530660096}
-  - component: {fileID: 65137988425324192}
   m_Layer: 13
   m_Name: rock (11)
   m_TagString: Untagged
@@ -43128,18 +43127,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.604887, y: 1.5952845, z: 1.3296844}
   m_Center: {x: 0.15747148, y: -0.034838933, z: 0.0077909674}
---- !u!65 &65137988425324192
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1388761196766056}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.6048862, y: 1.595284, z: 1.3296837}
-  m_Center: {x: 0.15747154, y: -0.034838926, z: 0.0077909273}
 --- !u!65 &65139144673222022
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -43390,8 +43377,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.6048862, y: 1.5952842, z: 1.3296843}
-  m_Center: {x: 0.15747166, y: -0.03483916, z: 0.0077908086}
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: -0.44, z: 0}
 --- !u!65 &65745708163170468
 BoxCollider:
   m_ObjectHideFlags: 1

@@ -32,6 +32,8 @@ public class WalkingState : RollerState
 	{
 		Debug.Log("EXIT WALKING STATE");
 
+        _roller.Player.PlayerSingController.StopSinging();
+
         if (_tween != null)
 	    {
 	        _tween.Kill();
