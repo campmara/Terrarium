@@ -74,6 +74,10 @@ public class PlayerArmIK : MonoBehaviour {
 	private const float AMBIENTREACH_MINTIME = 2.0f;
 	private const float AMBIENTREACH_MAXTIME = 10.0f;
 
+	[SerializeField, Space(10)]
+	Transform _armTipTransform = null;
+	public Vector3 ArmTipPosition { get { return _armTipTransform.position; } }
+
 	// Use this for initialization
 	void Awake () 
 	{
@@ -108,7 +112,9 @@ public class PlayerArmIK : MonoBehaviour {
                 HandleGrabbing();
                 break;
             case ArmIKState.SITTING:
-                break;            
+                break;    
+			case ArmIKState.IK_OFF:
+				break;
             default:
                 break;
         }
@@ -127,13 +133,21 @@ public class PlayerArmIK : MonoBehaviour {
     {
         if( newState != _armState )
         {
-            switch( newState )
+			if( _armState == ArmIKState.IK_OFF )
+			{
+				_armIK.enabled = true;
+			}
+
+			switch( newState )
             {
                 case ArmIKState.IDLE:
                     _armSpring.GetComponent<Rigidbody>().isKinematic = false;
                     break;
 				case ArmIKState.AMBIENT_REACHING:
 					_ambientReachTimer = 0.0f;
+					break;
+				case ArmIKState.IK_OFF:
+					_armIK.enabled = false;
 					break;
 				default:
                     break;
@@ -186,6 +200,24 @@ public class PlayerArmIK : MonoBehaviour {
         if( _armReachInterp <= 0.0f )
         {
             SetArmState( ArmIKState.IDLE );
+        }
+
+        SummonAtObject();
+    }
+
+    private void SummonAtObject()
+    {
+        RaycastHit hit; 
+        if( Physics.Raycast( transform.parent.position, transform.parent.forward, out hit, 6.0f) )
+        {
+            if( hit.collider.GetComponent<StarterPlantGrowthController>() )
+            {
+                hit.collider.GetComponent<StarterPlantGrowthController>().SummonSeed( new Vector2( transform.position.x, transform.position.z ) );
+            }
+            else if ( hit.collider.GetComponent<PointPlantGrowthController>() )
+            {
+                hit.collider.GetComponent<PointPlantGrowthController>().SummonSeed( new Vector2( transform.position.x, transform.position.z ) );
+            }
         }
     }
 
@@ -316,5 +348,14 @@ public class PlayerArmIK : MonoBehaviour {
         SetArmState( ArmIKState.GRABBING );
     }
 
+	public void SetIKOff()
+	{
+		SetArmState( ArmIKState.IK_OFF );
+	}
+
+	public void SetIKOn()
+	{
+		SetArmState( ArmIKState.IDLE );
+	}
 
 }

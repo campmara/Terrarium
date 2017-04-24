@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 135113451896205310}
   - component: {fileID: 114092344845318102}
   - component: {fileID: 114169642532466072}
-  - component: {fileID: 114955905695107818}
+  - component: {fileID: 114965072194174498}
   m_Layer: 12
   m_Name: Plant_Flowering
   m_TagString: Untagged
@@ -422,11 +422,14 @@ MonoBehaviour:
   _curStage: 0
   _droppingItems:
   - {fileID: 1356359172527236, guid: bbfef1f81afcefc438cf9d537e7f0931, type: 2}
+  _punishObject: {fileID: 1884083101344492, guid: 888d79063e07f4951aaa8eaee32addcc,
+    type: 2}
   _smallSpawnables:
   - {fileID: 1969664330500318, guid: 267f161e8216446fd8bd51c9ff2019f2, type: 2}
   - {fileID: 1863841682442650, guid: fa18cc17991d646178faacbf71f38a50, type: 2}
   _mediumSpawnables:
   - {fileID: 1957489743728246, guid: 83b5e0e2c650c804e98215001deaed97, type: 2}
+  - {fileID: 1707615311191734, guid: 8dfc9a0bcd8e34740bcb66139389cbdd, type: 2}
   spawnState: 0
   _bStemRoot: {fileID: 4521704662299462}
   _leafPrefab: {fileID: 1248963832722794, guid: a0521c65f58601b43975af7e8620d049,
@@ -455,7 +458,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentPickupable: {fileID: 0}
   _lockedRotation: 1
---- !u!114 &114955905695107818
+--- !u!114 &114965072194174498
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -463,16 +466,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1028824138140006}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7a629fe13d1240b3a4cd8bb4487908f, type: 3}
+  m_Script: {fileID: 11500000, guid: 383399452f6ba4461be2a59e661615d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _pAssetKey: -1
+  _type: 1
   _deathDuration: 0
   _DeathDurationRange: {x: 170, y: 230}
   _DeathTimer: 0
   _baseDecayRate: 1
   _curDecayRate: 0
-  _type: 1
 --- !u!135 &135113451896205310
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -45,6 +45,7 @@ public class ExplodeParticleManager : MonoBehaviour
 	{
 		Collider[] cols = Physics.OverlapSphere( pos, searchRadius );
 		BasePlant plant = null;
+		Seed seed = null;
 		if( cols.Length > 0 )
 		{
 			foreach( Collider col in cols )
@@ -55,6 +56,14 @@ public class ExplodeParticleManager : MonoBehaviour
 					plant.WaterPlant();
 
 					plant = null;
+				}
+
+				seed = col.GetComponent<Seed>();
+				if (seed != null)
+				{
+					seed.TryPlanting();
+
+					seed = null;
 				}
 			}
 		}

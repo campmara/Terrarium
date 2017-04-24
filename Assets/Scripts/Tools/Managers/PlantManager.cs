@@ -49,7 +49,7 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 
 	public void RequestSpawnMini( BPGrowthController plant, float timeUntil )
 	{
-		if( _mediumPlants.Count < MedTotalPlantsRange.x && _smallPlants.Count < MedTotalPlantsRange.y )
+		if( _mediumPlants.Count < MedTotalPlantsRange.y && _smallPlants.Count < SmTotalPlantsRange.y )
 		{
 			SpawnMiniPlantEvent spawnEvent = new SpawnMiniPlantEvent( plant, timeUntil );
 			TimeManager.instance.AddEvent( spawnEvent );
@@ -65,21 +65,28 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		}
 	}
 		
-	public void DestroySeed( Seed oldSeed )
+	public void DestroySeed( Seed oldSeed, BasePlant.PlantType seedType )
 	{
-		_seeds.Remove( oldSeed );
-		Destroy( oldSeed.gameObject );
+		if( IsPopulationStable( seedType ) )
+		{
+			_seeds.Remove( oldSeed );
+			Destroy( oldSeed.gameObject );
+		}
+		else
+		{
+			Debug.Log( "NOT KILLING SEED. POPULATION IS UNSTABLE" );
+		}
 	}
 
-	public void AddBasePlant( BPBasePlant plant )
+	public void AddBasePlant( BasePlant plant )
 	{
 		if( plant )
 		{
-			if( plant.PlantType == BPBasePlant.BigPlantType.FLOWERING )
+			if( plant.MyPlantType == BasePlant.PlantType.FLOWERING )
 			{
 				_floweringPlants.Add( plant );
 			}
-			else if( plant.PlantType == BPBasePlant.BigPlantType.POINT )
+			else if( plant.MyPlantType == BasePlant.PlantType.POINT )
 			{
 				_pointPlants.Add( plant );
 			}
@@ -102,26 +109,26 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		Destroy( mound.gameObject );
 	}
 
-	public void DeleteLargePlant( BPBasePlant plant )
+	public void DeleteLargePlant( BasePlant plant )
 	{
 		if( plant )
 		{
-			if( plant.PlantType == BPBasePlant.BigPlantType.FLOWERING )
+			if( plant.MyPlantType == BasePlant.PlantType.FLOWERING )
 			{
 				_floweringPlants.Remove(plant);
 
 				if( !IsPopulationStable( plant ) )
 				{
-					DropSeed( plant.transform.position, BPBasePlant.BigPlantType.FLOWERING );
+					DropSeed( plant.transform.position, BasePlant.PlantType.FLOWERING );
 				}
 			}
-			else if( plant.PlantType == BPBasePlant.BigPlantType.POINT )
+			else if( plant.MyPlantType == BasePlant.PlantType.POINT )
 			{
 				_pointPlants.Remove(plant);
 				
 				if( !IsPopulationStable( plant ) )
 				{
-					DropSeed( plant.transform.position, BPBasePlant.BigPlantType.POINT );
+					DropSeed( plant.transform.position, BasePlant.PlantType.POINT );
 				}
 			}
 		}
@@ -177,14 +184,14 @@ public class PlantManager : SingletonBehaviour<PlantManager>
         SaveManager.CompleteLoad -= HandleLoad;
     }
 
-	void DropSeed( Vector3 spawnPoint, BPBasePlant.BigPlantType plantType )
+	void DropSeed( Vector3 spawnPoint, BasePlant.PlantType plantType )
 	{
 		GameObject seed = null;
-		if( plantType == BPBasePlant.BigPlantType.FLOWERING )
+		if( plantType == BasePlant.PlantType.FLOWERING )
 		{
 			seed = Instantiate( _floweringSeed, spawnPoint, Quaternion.identity );
 		}
-		else if( plantType == BPBasePlant.BigPlantType.POINT )
+		else if( plantType == BasePlant.PlantType.POINT )
 		{
 			seed = Instantiate( _pointSeed, spawnPoint, Quaternion.identity );
 		}
@@ -261,20 +268,29 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		return new Vector3( spawnPoint.x, .05f, spawnPoint.z );
 	}
 
-	public bool IsPopulationStable( BPBasePlant plant )
+	public bool IsPopulationStable( BasePlant plant )
 	{
-		bool result = false;
 		if( plant )
 		{
-			if( plant.PlantType == BPBasePlant.BigPlantType.FLOWERING )
-			{
-				 result = _floweringPlants.Count >= LrgTotalPlantsRange.x;
+			return IsPopulationStable( plant.MyPlantType );
+		}
+		else
+		{
+			return false;
+		}
+	}
 
-			}
-			else if( plant.PlantType == BPBasePlant.BigPlantType.POINT )
-			{
-				result = _pointPlants.Count >= LrgTotalPlantsRange.x;
-			}
+	public bool IsPopulationStable( BasePlant.PlantType _plantType )
+	{
+		bool result = false;
+		if( _plantType == BasePlant.PlantType.FLOWERING )
+		{
+			 result = _floweringPlants.Count >= LrgTotalPlantsRange.x;
+
+		}
+		else if( _plantType == BasePlant.PlantType.POINT )
+		{
+			result = _pointPlants.Count >= LrgTotalPlantsRange.x;			
 		}
 
 		return result;
