@@ -15,6 +15,9 @@ public class FlyingSquirrel : MonoBehaviour
 	*/
 
 	private const float START_DISTANCE = 300f;
+    private const float FLY_TIME = 200f;
+
+    [SerializeField] private Vector2 _flyWaitRange = new Vector2( 400f, 750f );
 
 	private Vector3 euler;
 
@@ -44,17 +47,17 @@ public class FlyingSquirrel : MonoBehaviour
 		transform.eulerAngles = euler;
 
 		float timer = 0f;
-		float totalTime = 100f;
+		
 
-		while (timer < totalTime)
+		while (timer < FLY_TIME)
 		{
 			timer += Time.deltaTime;
 
-			transform.position = Vector3.Lerp(startPos, endPos, timer / totalTime);
+			transform.position = Vector3.Lerp(startPos, endPos, timer / FLY_TIME );
 			yield return null;
 		}
 
-		yield return new WaitForSeconds(Random.Range(600f, 900f));
+		yield return new WaitForSeconds(Random.Range( _flyWaitRange.x, _flyWaitRange.y ) );
 
 		StartCoroutine(FlyRoutine());
 	}

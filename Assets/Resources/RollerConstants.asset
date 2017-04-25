@@ -50,7 +50,7 @@ MonoBehaviour:
   RitualTime: 0.15
   RitualTurnSpeed: 2000
   RitualCompleteWait: 2
-  PlantingTime: 0.75
+  PlantingTime: 0.5
   PlantingEndY: 0
   PlantingEndX: 1.25
   SingingReturnTime: 0.15
