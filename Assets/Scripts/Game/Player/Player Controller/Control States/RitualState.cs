@@ -31,12 +31,24 @@ public class RitualState : RollerState
 		_roller.ExplodeParticleSystem.Stop();
 	}
 
-	public override void HandleInput(InputCollection input)
+	public override void HandleFixedInput(InputCollection input)
 	{
 		if (!hasExploded && ritualTimer > RollerConstants.instance.RitualTime)
 		{
 			hasExploded = true;
 			_roller.HandlePondReturn();
+
+			if (_roller.CurrentHeldObject != null)
+			{
+				Seed seed = _roller.CurrentHeldObject.GetComponent<Seed>();
+				if( seed != null )
+				{
+					seed.DropOnRitual();
+				}
+
+				_roller.IK.LetGoBothArms();
+				_roller.CurrentHeldObject = null;
+			}
 		}
 		else if (!hasExploded)
 		{

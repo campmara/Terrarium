@@ -12,6 +12,13 @@ public class PondTech : MonoBehaviour
         pos.y = 0f;
         float dist = (pos - transform.position).magnitude;
 
-        return _pondWalkCurve.Evaluate(dist / APPROX_POND_RADIUS) * POND_MIN_Y;
+        if (dist < 20f)
+        {
+            return _pondWalkCurve.Evaluate(dist / APPROX_POND_RADIUS) * POND_MIN_Y;
+        }
+        else
+        {
+            return Terrain.activeTerrain.SampleHeight(pos) - 4.65f;
+        }
     }
 }

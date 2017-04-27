@@ -17,28 +17,42 @@ public class PondState : RollerState
 
 		_roller.Mesh.SetActive(true);
 		_roller.Face.gameObject.SetActive(true);
-	}
+    }
 
-	public override void HandleInput(InputCollection input)
-	{
-		if (input.AButton.IsPressed || 
-			input.BButton.IsPressed || 
-			input.XButton.IsPressed || 
-			input.YButton.IsPressed)
-		{
-			PondManager.instance.PopPlayerFromPond();
-		}
+    public override void HandleInput( InputCollection input )
+    {
+        if ( input.AButton.IsPressed ||
+               input.BButton.IsPressed ||
+               input.XButton.IsPressed ||
+               input.YButton.IsPressed )
+        {
+            if (CameraManager.instance.CamState == CameraManager.CameraState.POND_WAIT)
+            {
+                PondManager.instance.HandlePondReturn();
+            }
+            else
+            {
+                PondManager.instance.PopPlayerFromPond();
+            }
 
-		if (input.AButton.WasReleased || input.BButton.WasReleased || input.XButton.WasReleased || input.YButton.WasReleased)
-		{
-			_roller.ChangeState(P_ControlState.WALKING);
-		}
+            _roller.ChangeState( P_ControlState.WALKING );
+        }
 
-		if (input.LeftStickX.Value > RollerConstants.instance.IdleMaxMag ||
-			input.LeftStickY.Value > RollerConstants.instance.IdleMaxMag)
-		{
-			PondManager.instance.PopPlayerFromPond();
-			_roller.ChangeState(P_ControlState.WALKING);
-		}
-	}
+        if ( input.LeftStickX.Value > RollerConstants.instance.IdleMaxMag ||
+            input.LeftStickY.Value > RollerConstants.instance.IdleMaxMag )
+        {
+            if( CameraManager.instance.CamState == CameraManager.CameraState.POND_WAIT )
+            {
+                PondManager.instance.HandlePondReturn();
+            }
+            else
+            {
+                PondManager.instance.PopPlayerFromPond();
+            }
+
+            _roller.ChangeState( P_ControlState.WALKING );
+        }
+
+    }
+
 }

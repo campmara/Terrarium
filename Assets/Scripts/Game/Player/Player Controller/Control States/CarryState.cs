@@ -2,7 +2,6 @@
 
 public class CarryState : RollerState 
 {
-	bool canDrop = false;
 
     public override void Enter( P_ControlState prevState )
 	{
@@ -17,16 +16,21 @@ public class CarryState : RollerState
                 break;
 		}
 
-		canDrop = false;
 	}
 
 	public override void Exit( P_ControlState nextState )
 	{
 		Debug.Log("EXIT CARRY STATE");
-        
-        switch( nextState )
+
+        _roller.Player.AnimationController.SetCarrying( false );
+        _roller.Player.AnimationController.SetLifting( false );
+
+        switch ( nextState )
         {
             case P_ControlState.WALKING:
+                HandleBothArmRelease();
+                break;
+            case P_ControlState.ROLLING:
                 HandleBothArmRelease();
                 break;
         }
@@ -34,50 +38,62 @@ public class CarryState : RollerState
 		RollerParent.Idling = false;
 	}
 
-	public override void HandleInput( InputCollection input )
+    public override void HandleInput( InputCollection input )
+    {
+        if (RollerParent.CurrentHeldObject != null)
+        {
+            if (!RollerParent.CurrentHeldObject.Carryable)
+            {
+                if (RollerParent.CurrentHeldObject.GetComponent<SmallPlantPickupable>())
+                {
+                    if (RollerParent.InputVec.magnitude > 0.1f)
+                    {
+                        RollerParent.CurrentHeldObject.GetComponent<SmallPlantPickupable>().IncrementTug();
+                    }
+                    else
+                    {
+                        RollerParent.CurrentHeldObject.GetComponent<SmallPlantPickupable>().ResetTug();
+                    }
+
+                }
+            }
+			else
+			{
+				_roller.CarryPositionObject.transform.position = _roller.IK.ArmTipMidpoint;
+				_roller.CurrentHeldObject.transform.localPosition = Vector3.zero;
+			}
+
+            if ( input.AButton.WasReleased || !input.AButton.IsPressed )
+            {
+                // NOTE: Should only happen for seeds ?
+                if (RollerParent.CurrentHeldObject.GetComponent<Seed>() != null)
+                {
+                    _roller.ChangeState( P_ControlState.PLANTING );                    
+                }
+                else
+                {
+                    _roller.ChangeState( P_ControlState.WALKING );
+                }
+            }
+
+            if (input.BButton.WasPressed)
+            {
+                _roller.ChangeState( P_ControlState.WALKING );
+            }
+
+            if (input.XButton.WasPressed)
+            {
+                _roller.ChangeState(P_ControlState.RITUAL);
+            }
+        }
+    }
+
+    public override void HandleFixedInput( InputCollection input )
 	{
-		// Makin sure ppl release button to drop the Thing they are carrying.
-		if( !canDrop && input.AButton.WasReleased )
-		{
-			canDrop = true;
-		}
-
-		if( canDrop && RollerParent.CurrentHeldObject != null )
-		{
-			RollerParent.IKMovement( Mathf.Lerp( RollerConstants.instance.CarrySpeed, 0.0f, _roller.CurrentHeldObject.GrabberBurdenInterp ),
-				RollerConstants.instance.WalkAcceleration,
-				RollerConstants.instance.WalkDeceleration,
-				RollerConstants.instance.CarryTurnSpeed );
-
-			if( !RollerParent.CurrentHeldObject.Carryable )
-			{
-				if( RollerParent.CurrentHeldObject.GetComponent<SmallPlantPickupable>() )
-				{
-					if( RollerParent.InputVec.magnitude > 0.1f )
-					{
-						RollerParent.CurrentHeldObject.GetComponent<SmallPlantPickupable>().IncrementTug();	
-					}
-					else
-					{
-						RollerParent.CurrentHeldObject.GetComponent<SmallPlantPickupable>().ResetTug();
-					}
-
-				}
-			}
-
-			if ( input.AButton.WasPressed )
-			{
-				// NOTE: Should only happen for seeds ?
-				if( RollerParent.CurrentHeldObject.GetComponent<Seed>() != null )
-				{					
-					_roller.ChangeState( P_ControlState.PLANTING );
-				}
-				else
-				{
-					_roller.ChangeState( P_ControlState.WALKING );	
-				}
-			}
-		}
-
+        // Makin sure ppl release button to drop the Thing they are carrying.                
+        RollerParent.IKMovement( Mathf.Lerp( RollerConstants.instance.CarrySpeed, 0.0f, _roller.CurrentHeldObject.GrabberBurdenInterp ),
+            RollerConstants.instance.WalkAcceleration,
+            RollerConstants.instance.WalkDeceleration,
+            RollerConstants.instance.CarryTurnSpeed );      
 	}
 }

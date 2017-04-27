@@ -1,10 +1,10 @@
 ﻿public class SpawnMiniPlantEvent : GameEvent
 {
-	PlantController _plant = null;
+	BPGrowthController _plant = null;
 
 	public SpawnMiniPlantEvent(){}
 
-	public SpawnMiniPlantEvent( PlantController parent, float timeUntilSpawn ) : base( timeUntilSpawn )
+	public SpawnMiniPlantEvent( BPGrowthController parent, float timeUntilSpawn ) : base( timeUntilSpawn )
 	{
 		_plant = parent;
 	}
@@ -13,7 +13,7 @@
 	{
 		if (_plant)
 		{
-			PlantManager.instance.SpawnMini( _plant );
+			PlantManager.instance.SpawnMini( _plant, TimeUntilExecution );
 		}
 	}
 }

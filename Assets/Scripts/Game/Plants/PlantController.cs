@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public abstract class PlantController : MonoBehaviour
 {
 	protected BasePlant _myPlant = null;
 	protected ControllerType _controllerType = ControllerType.Unassigned;
 	public ControllerType ControlType { get { return _controllerType; } }
+
+	// ** SPAWN VARS ** // 
 
 	public enum ControllerType
 	{
@@ -20,7 +23,6 @@ public abstract class PlantController : MonoBehaviour
 	public abstract void StopState();
 	public abstract void StartState();
 
-	public virtual GameObject SpawnChildPlant(){ return null; }
 	public virtual GameObject DropFruit(){ return null; }
 
 	public abstract void WaterPlant();

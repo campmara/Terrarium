@@ -69,7 +69,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Hardness: 1
+    - _Hardness: 0.377
     - _Metallic: 0
     - _Middle: 0.001
     - _Mode: 0
@@ -81,5 +81,5 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.33823532, g: 0.33823532, b: 0.33823532, a: 1}
+    - _Color: {r: 0.6397059, g: 0.6397059, b: 0.6397059, a: 0}
     - first: {r: 0, g: 1, b: 0, a: 0}

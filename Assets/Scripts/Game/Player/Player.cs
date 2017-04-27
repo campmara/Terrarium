@@ -9,11 +9,16 @@ public class Player : MonoBehaviour
     PlayerAnimationController _playerAnimationController = null;
     public PlayerAnimationController AnimationController { get { return _playerAnimationController; } }
 
+    SingController _playerSingManager = null;
+    public SingController PlayerSingController { get { return _playerSingManager; } }
+
+
     // Use this for initialization
     private void Awake() 
 	{
         _playerControlManager = this.GetComponent<PlayerControlManager>();
         _playerAnimationController = this.GetComponent<PlayerAnimationController>();
+        _playerSingManager = this.GetComponent<SingController>();
     }
 
 	public void Initialize()

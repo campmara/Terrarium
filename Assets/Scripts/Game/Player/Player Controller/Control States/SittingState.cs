@@ -27,22 +27,30 @@ public class SittingState : RollerState
 		CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
 	}
 
-	public override void HandleInput (InputCollection input)
-	{
-		Vector3 vec = new Vector3(input.LeftStickX, 0f, input.LeftStickY);
+    public override void HandleInput( InputCollection input )
+    {
+        Vector3 vec = new Vector3( input.LeftStickX, 0f, input.LeftStickY );
 
-		if ( input.ActiveDevice.AnyButtonIsPressed || vec.magnitude >= 0.75f )
-		{
-			// TRIGGER SITTING OFF.
-			_roller.Player.AnimationController.SetSitting(false);
+        if ( input.YButton.WasPressed )   // Y BUTTON
+        {
+            _roller.Player.PlayerSingController.BeginSinging();
+            //_roller.ChangeState( P_ControlState.SING);
+        }
+        else if ( input.YButton.WasReleased )
+        {
+            _roller.Player.PlayerSingController.StopSinging();
+        }
+        else if ( !input.YButton.IsPressed && ( input.ActiveDevice.AnyButtonIsPressed || vec.magnitude >= 0.75f ) )
+        {
+            // TRIGGER SITTING OFF.
+            _roller.Player.AnimationController.SetSitting( false );
 
-            if( !_onGround )
+            if (!_onGround)
             {
                 OnStandingUpComplete();
-            }            
-		}
-
-	}
+            }
+        }
+    }
 
 	public void OnStandingUpComplete()
 	{

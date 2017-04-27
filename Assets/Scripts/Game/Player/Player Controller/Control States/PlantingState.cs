@@ -51,17 +51,17 @@ public class PlantingState : RollerState
     public override void HandleInput( InputCollection input )
     {
         // A BUTTON
-        if (!input.AButton.IsPressed)
-        {
-            // Return to Carry State
-            _roller.ChangeState( P_ControlState.CARRYING);
-        }
+//        if (!input.AButton.IsPressed)
+//        {
+//            // Return to Carry State
+//            _roller.ChangeState( P_ControlState.CARRYING );
+//        }
 
         // B BUTTON
         if (input.BButton.IsPressed)
         {
             // Drop Seed
-            _roller.ChangeState( P_ControlState.WALKING);
+            _roller.ChangeState( P_ControlState.WALKING );
         }
 
     }

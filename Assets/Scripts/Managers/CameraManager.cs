@@ -12,10 +12,12 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 		FOLLOWPLAYER_FREE,
 		FOLLOWPLAYER_LOCKED,
 		TRANSITION,
+        POND_WAIT,
         POND_RETURNPAN,
 		SITTING
 	}
 	CameraState _state = CameraState.NONE;
+    public CameraState CamState { get { return _state; } }
 
 	[SerializeField, ReadOnlyAttribute] Camera _mainCam = null;
 	public Camera Main { get { return _mainCam; } }
@@ -32,6 +34,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	Vector3 _camOffset = Vector3.zero;      // Direction from focus to Camera
 	Vector3 _camTargetPos = Vector3.zero;
 
+	public Vector3 FocusPoint { get { return _focusPoint; } }
     Vector3 _focusPoint = Vector3.zero;    	// Center of focal point following player
     Vector3 _focusOffset = Vector3.zero;    
     float _centerDist = 0.0f;               // Current distance of focusCenter from transform
@@ -72,8 +75,9 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	Vector2 zoomXRange = new Vector2( 2.25f, 8.0f );	// Min & Max zoom x value (x is min)
 	Vector2 zoomYRange = new Vector2( 1.0f, 10.0f );	// Min & Max zoom y values (x is min)
     const float ZOOM_DELTASPEED = 15.0f;    // How quickly camOffset moves towards new zoom values
+    const float CAMERA_MINY = 0.25f;
 
-	const float LOCKED_ZOOMINTERP = 0.15f;
+    const float LOCKED_ZOOMINTERP = 0.15f;
 
     #endregion
 
@@ -82,8 +86,8 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	const float INTRO_PAN_PREWAIT_TIME = 2f;
 	const float INTRO_PAN_TIME = 2f;
 
-    const float PONDRETURN_FORWARD = 4f;
-    const float PONDRETURN_UP = 5f;    
+    const float PONDRETURN_FORWARD = 4.5f;
+    const float PONDRETURN_UP = 2.0f;    
     const float PONDRETURN_TRANSITIONTIME = 2f;
 
     //const float PLAYERPOP_FORWARDPOS = 5.0f;
@@ -127,7 +131,8 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	{
 		if( _mainCam == null )
 		{
-			_mainCam = FindObjectOfType<Camera>();
+            _mainCam = Camera.main;
+            //_mainCam = FindObjectOfType<Camera>();
 
 			if( _mainCam == null)
 			{
@@ -156,7 +161,11 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 			SittingCameraRotate();
 			HandleFreePlayerCamera();
 			break;
-		default:
+        case CameraState.POND_WAIT:
+            SittingCameraRotate();
+            //HandleFreePlayerCamera();
+            break;
+	    default:
 			break;
 		}
 	}
@@ -237,9 +246,9 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 
                 // Move towards new focus center
 				_mainCam.transform.position = Vector3.Lerp( _mainCam.transform.position, _focusPoint + _camOffset, CAM_FOLLOWSPEED * Time.fixedDeltaTime );
-                if (_mainCam.transform.position.y < 0.0f)
+                if ( _mainCam.transform.position.y < CAMERA_MINY )
                 {
-                    _mainCam.transform.SetPosY( 0.0f );
+                    _mainCam.transform.SetPosY( CAMERA_MINY );
                 }
 
                 // Rotate Around Camera around player if Right stick horizontal movement
@@ -337,6 +346,8 @@ public class CameraManager : SingletonBehaviour<CameraManager>
         _focusOffset = _focusPoint;
 
 		PlayerManager.instance.Player.ControlManager.SetActiveController<RollerController>();
+
+        PondManager.instance.PopPlayerFromPond();
 	}
 
 	private IEnumerator PondIntroPan()

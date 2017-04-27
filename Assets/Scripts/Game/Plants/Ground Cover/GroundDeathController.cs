@@ -48,7 +48,6 @@ public class GroundDeathController : PlantController
 		}
 	}
 
-
 	protected virtual void Decay()
 	{
 		if( _myPlant.DeathTimer < _myPlant.DeathDuration )
@@ -69,6 +68,9 @@ public class GroundDeathController : PlantController
 
 		_originalColors[0] = _mat.GetColor( _shaderIDs[0] );
 		_originalColors[1] = _mat.GetColor( _shaderIDs[1] );
+
+		_interpColors[0] = _originalColors[0]; 
+		_interpColors[1] = _originalColors[1];
 
 		ColorManager.ExecutePaletteChange += HandlePalatteChange;
 	}
@@ -91,7 +93,10 @@ public class GroundDeathController : PlantController
 
 	void OnTriggerEnter( Collider col)
 	{
-		StompPlant();
+		if( col.GetComponent<Player>() )
+		{
+				StompPlant();
+		}
 	}
 
 	public override void StompPlant()
@@ -137,10 +142,18 @@ public class GroundDeathController : PlantController
 		{
 			timer +=  Time.deltaTime;
 
-			_mat.SetColor( _shaderIDs[0], Colorx.Slerp( topColor, newGradient.Evaluate(0.0f), timer / transitionTime ) );
-			_mat.SetColor( _shaderIDs[1], Colorx.Slerp( midColor, newGradient.Evaluate(0.5f), timer / transitionTime ) );
+			_interpColors[0] = Colorx.Slerp( topColor, newGradient.Evaluate(0.0f), timer / transitionTime );
+			_interpColors[1] = Colorx.Slerp( midColor, newGradient.Evaluate(0.5f), timer / transitionTime );
+
+			LateUpdateColors();
 
 			yield return 0;
 		}	
+	}
+
+	public void LateUpdateColors()
+	{
+		_mat.SetColor( _shaderIDs[0], _interpColors[0] );
+		_mat.SetColor( _shaderIDs[1], _interpColors[1] );
 	}
 }

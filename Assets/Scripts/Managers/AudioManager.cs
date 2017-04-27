@@ -125,7 +125,9 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 
 	[SerializeField] private List<AudioController> _audioControllerList = new List<AudioController>();
 
-	void Awake () 
+    float[] _singData = new float[1024];
+
+    void Awake () 
 	{
 		SetupAudioControllers();
 	}
@@ -325,30 +327,51 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
     // Player Sing
     public void PlaySing(float pitch)
     {
-        _audioControllerList[(int) AudioControllerNames.PLAYER_SING].Pitch = pitch;
-        _audioControllerList[(int) AudioControllerNames.PLAYER_SING].PlayAudioSource();
+		if (!_audioControllerList[(int) AudioControllerNames.PLAYER_SING].Source.isPlaying)
+		{
+        	_audioControllerList[(int) AudioControllerNames.PLAYER_SING].Pitch = pitch;
+        	_audioControllerList[(int) AudioControllerNames.PLAYER_SING].PlayAudioSource();
+		}
     }
 
+	public void StopSing()
+	{
+		if (_audioControllerList[(int) AudioControllerNames.PLAYER_SING].Source.isPlaying)
+		{
+        	_audioControllerList[(int) AudioControllerNames.PLAYER_SING].StopAudioSource();
+		}
+	}
+
     public float GetCurrentMusicPitch()
-    {
-        float[] data = new float[1024];
-        _audioControllerList[(int) AudioControllerNames.MUSIC].Source.GetSpectrumData(data, 0, FFTWindow.Rectangular);
+    {      
+        if(_audioControllerList[(int)AudioControllerNames.FULL_MUSIC].Source.isPlaying )
+        {
+            _audioControllerList[(int)AudioControllerNames.FULL_MUSIC].Source.GetSpectrumData( _singData, 0, FFTWindow.Rectangular );
+        }    
+        else if(_audioControllerList[(int)AudioControllerNames.SUBTLE_MUSIC].Source.isPlaying)
+        {
+            _audioControllerList[(int)AudioControllerNames.SUBTLE_MUSIC].Source.GetSpectrumData( _singData, 0, FFTWindow.Rectangular );
+        }   
+        else
+        {
+            _audioControllerList[(int)AudioControllerNames.AMBIENCE].Source.GetSpectrumData( _singData, 0, FFTWindow.Rectangular );
+        }
 
         float maxV = 0f;
         int maxN = 0;
         for (int i = 0; i < 1024; i++)
         {
-            if (!(data[i] > maxV) || !(data[i] > 0.02f))
+            if (!(_singData[i] > maxV) || !(_singData[i] > 0.02f))
                 continue;
 
-            maxV = data[i];
+            maxV = _singData[i];
             maxN = i;
         }
         float freqN = (float) maxN;
         if (maxN > 0 && maxN < 1024 - 1)
         {
-            float dL = data[maxN - 1] / data[maxN];
-            float dR = data[maxN + 1] / data[maxN];
+            float dL = _singData[maxN - 1] / _singData[maxN];
+            float dR = _singData[maxN + 1] / _singData[maxN];
             freqN += 0.5f * (dR * dR - dL * dL);
         }
         return freqN * ((float)AudioSettings.outputSampleRate / 2f) / 1024 / 1024;

@@ -53,11 +53,6 @@ namespace UnityStandardAssets.ImageEffects
 
             Camera cam = GetComponent<Camera>();
             Transform camtr = cam.transform;
-            /*if (!RenderSettings.fog)
-            {
-                RenderSettings.fogColor = setFogColor;
-            }*/
-            //this is now done in environment color manager
 
             Vector3[] frustumCorners = new Vector3[4];
             cam.CalculateFrustumCorners(new Rect(0, 0, 1, 1), cam.farClipPlane, cam.stereoActiveEye, frustumCorners);

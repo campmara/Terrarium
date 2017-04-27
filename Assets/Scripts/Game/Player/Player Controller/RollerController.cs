@@ -63,6 +63,11 @@ public class RollerController : ControllerBase
     public float HeadMoveInterp { get { return _headMoveSpeedInterp; } set { _headMoveSpeedInterp = value; } }
 	float _currMaxVelocity = 0.0f;
 
+	[SerializeField] GameObject _carryPositionObject = null;
+	public GameObject CarryPositionObject { get { return _carryPositionObject; } }
+	private Vector3 _carryPosOffset = Vector3.zero;
+	public Vector3 CarryPosOffset { get { return _carryPosOffset; } set { _carryPosOffset = value; } } 
+
 	private Quaternion _targetRotation = Quaternion.identity;
     private float _targetRotAngle = 0.0f;
 	private Coroutine _idleWaitRoutine = null;
@@ -90,41 +95,45 @@ public class RollerController : ControllerBase
 	void Awake()
 	{
 		//Debug.Log("Added Test Controller to Player Control Manager");
-        _player = this.GetComponent<Player>();
-		_rigidbody = GetComponent<Rigidbody>();
-	    _ik = GetComponentInChildren<PlayerIKControl>();
-	    _face = GetComponentInChildren<FaceManager>();
-		_mesh = GetComponentInChildren<SkinnedMeshRenderer>().gameObject;
+		_player = GetComponent(typeof(Player)) as Player;
+		_rigidbody = GetComponent(typeof(Rigidbody)) as Rigidbody;
+	    _ik = GetComponentInChildren(typeof(PlayerIKControl)) as PlayerIKControl;
+	    _face = GetComponentInChildren(typeof(FaceManager)) as FaceManager;
+		_explodeParticleSystem = GetComponentInChildren(typeof(ParticleSystem)) as ParticleSystem;
+
+		SkinnedMeshRenderer smr = GetComponentInChildren(typeof(SkinnedMeshRenderer)) as SkinnedMeshRenderer;
+		_mesh = smr.gameObject;
+
 		_rig = transform.GetChild(0).gameObject;
 		_rollSphere = transform.GetChild(2).gameObject;
-		_explodeParticleSystem = GetComponentInChildren<ParticleSystem>();
+		
 
 		// Add State Controller, Set parent to This Script, set to inactive
-		_walking = this.gameObject.AddComponent<WalkingState>();
+		_walking = this.gameObject.AddComponent(typeof(WalkingState)) as WalkingState;
 		_walking.RollerParent = this;
 
-		_rolling = this.gameObject.AddComponent<RollingState>();
+		_rolling = this.gameObject.AddComponent(typeof(RollingState)) as RollingState;
 		_rolling.RollerParent = this;
 
-		_pickup = this.gameObject.AddComponent<PickupState>();
+		_pickup = this.gameObject.AddComponent(typeof(PickupState)) as PickupState;
 		_pickup.RollerParent = this;
 
-		_carrying = this.gameObject.AddComponent<CarryState>();
+		_carrying = this.gameObject.AddComponent(typeof(CarryState)) as CarryState;
 		_carrying.RollerParent = this;
 
-		_ritual = this.gameObject.AddComponent<RitualState>();
+		_ritual = this.gameObject.AddComponent(typeof(RitualState)) as RitualState;
 		_ritual.RollerParent = this;
 
-        _planting = this.gameObject.AddComponent<PlantingState>();
+        _planting = this.gameObject.AddComponent(typeof(PlantingState)) as PlantingState;
         _planting.RollerParent = this;
 
-		_singing = this.gameObject.AddComponent<SingState>();
+		_singing = this.gameObject.AddComponent(typeof(SingState)) as SingState;
 		_singing.RollerParent = this;
 
-		_sitting = this.gameObject.AddComponent<SittingState>();
+		_sitting = this.gameObject.AddComponent(typeof(SittingState)) as SittingState;
 		_sitting.RollerParent = this;
 
-		_ponding = this.gameObject.AddComponent<PondState>();
+		_ponding = this.gameObject.AddComponent(typeof(PondState)) as PondState;
 		_ponding.RollerParent = this;
 
         // Set state to default (walking for now)
@@ -205,20 +214,25 @@ public class RollerController : ControllerBase
 
 	protected override void HandleInput()
 	{
+        _currentState.HandleInput( _input );	
+	}
+
+    protected override void HandleFixedInput()
+    {
         // Always keep this at zero because the rigidbody's velocity is never needed and bumping into things
         // makes the character go nuts.
         _rigidbody.velocity = Vector3.zero;
-		_rigidbody.angularVelocity = Vector3.zero;
+        _rigidbody.angularVelocity = Vector3.zero;
 
-		_currentState.HandleInput(_input);
-	}
+        _currentState.HandleFixedInput( _input );
+    }
 
-	// ======================
-	// BASIC CONTROLLER STUFF
-	// ======================
+    // ======================
+    // BASIC CONTROLLER STUFF
+    // ======================
 
     /// IS NO LONGER BEING USED, PLEASE LOOK AT IK MOVEMENT METHOD ///
-	public void StandardMovement(float maxMoveSpeed, float moveAcceleration, float moveDeceleration,
+    public void StandardMovement(float maxMoveSpeed, float moveAcceleration, float moveDeceleration,
 								 float maxTurnSpeed)
 	{
 		// Left Stick Movement
@@ -410,9 +424,22 @@ public class RollerController : ControllerBase
 		_face.gameObject.SetActive(true);
 		_mesh.SetActive(true);
 		_rig.SetActive(true);
+
+		_rollSphere.transform.localPosition = Vector3.up * 1.5f;
 		_rollSphere.SetActive(false);
 
-        _targetMovePosition = this.transform.position;
+        _targetMovePosition = this.transform.position;        
+        this._player.AnimationController.SetPlayerSpeed( 0.0f );
+
+		if (InputVec.magnitude > RollerConstants.instance.IdleMaxMag)
+		{
+			// dooooo nothing?
+		}
+		else
+		{
+			_velocity = 0f;
+		}
+		
 
         _ik.ResetLegs();
 
@@ -425,7 +452,13 @@ public class RollerController : ControllerBase
 	{
 		// Put ourselves in the right state of mind: the pond state.
 		BecomeWalker();
-		ChangeState(P_ControlState.POND);
+
+        if (_currentHeldObject != null)
+        {
+            _currentState.HandleBothArmRelease();
+        }
+
+        ChangeState(P_ControlState.POND);
 
 		// Tell the pond we're comin' home!
 		PondManager.instance.HandlePondReturn();
@@ -447,7 +480,7 @@ public class RollerController : ControllerBase
 		_explodeParticleSystem.Play();
 
 		// Wait for the boom to finish.
-		while(_explodeParticleSystem.isPlaying)
+		while( _explodeParticleSystem.isPlaying )
 		{
 			yield return null;
 		}
@@ -455,7 +488,8 @@ public class RollerController : ControllerBase
 		// Put ourselves in the right state of mind: the pond state.
 		ChangeState(P_ControlState.POND);
 
-		// Tell the pond we're comin' home!
-		PondManager.instance.HandlePondReturn(); 
-	}
+        // Tell the pond we're comin' home!
+        //PondManager.instance.HandlePondReturn(); 
+        PondManager.instance.HandlePondWait();
+    }
 }

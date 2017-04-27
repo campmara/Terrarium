@@ -8,162 +8,90 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: Water
   m_Shader: {fileID: 4800000, guid: 55d8315b171fe457ebd412284e4cfdb1, type: 3}
-  m_ShaderKeywords: _EMISSION
+  m_ShaderKeywords: _EMISSION _SPLATMAPENABLED_ON
   m_LightmapFlags: 1
+  m_EnableInstancingVariants: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
+  disabledShaderPasses: []
   m_SavedProperties:
-    serializedVersion: 2
+    serializedVersion: 3
     m_TexEnvs:
-    - first:
-        name: _BumpMap
-      second:
+    - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _DetailAlbedoMap
-      second:
+    - _DetailAlbedoMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _DetailMask
-      second:
+    - _DetailMask:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _DetailNormalMap
-      second:
+    - _DetailNormalMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _EmissionMap
-      second:
+    - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _MainTex
-      second:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 849133fdfa4884a42a2d8d6a299471b7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _MetallicGlossMap
-      second:
+    - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _OcclusionMap
-      second:
+    - _ParallaxMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _ParallaxMap
-      second:
-        m_Texture: {fileID: 0}
+    - _SpecTex:
+        m_Texture: {fileID: 2800000, guid: 849133fdfa4884a42a2d8d6a299471b7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - first:
-        name: _BumpScale
-      second: 1
-    - first:
-        name: _ColorFog
-      second: 0.734
-    - first:
-        name: _Cutoff
-      second: 0.5
-    - first:
-        name: _DepthClip
-      second: 0.1
-    - first:
-        name: _DetailNormalMapScale
-      second: 1
-    - first:
-        name: _DistAmt
-      second: 10.1
-    - first:
-        name: _DstBlend
-      second: 0
-    - first:
-        name: _GlossMapScale
-      second: 1
-    - first:
-        name: _Glossiness
-      second: 0.5
-    - first:
-        name: _GlossyReflections
-      second: 1
-    - first:
-        name: _MainNoiseHeight
-      second: 0
-    - first:
-        name: _MainNoiseScale
-      second: 1
-    - first:
-        name: _Metallic
-      second: 0
-    - first:
-        name: _Middle
-      second: 0.5
-    - first:
-        name: _Mode
-      second: 0
-    - first:
-        name: _OcclusionStrength
-      second: 1
-    - first:
-        name: _Parallax
-      second: 0.02
-    - first:
-        name: _SmearNoiseHeight
-      second: 1.3
-    - first:
-        name: _SmearNoiseScale
-      second: 1
-    - first:
-        name: _SmoothnessTextureChannel
-      second: 0
-    - first:
-        name: _SpecularHighlights
-      second: 1
-    - first:
-        name: _SrcBlend
-      second: 1
-    - first:
-        name: _UVSec
-      second: 0
-    - first:
-        name: _ZWrite
-      second: 1
+    - _BumpScale: 1
+    - _ColorFog: 0.425
+    - _Cutoff: 0.5
+    - _DepthClip: 0.1
+    - _DetailNormalMapScale: 1
+    - _DistAmt: 10.1
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _ImprintAmount: -0.5
+    - _MainNoiseHeight: 0
+    - _MainNoiseScale: 1
+    - _Metallic: 0
+    - _Middle: 0.5
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _SmearNoiseHeight: 1.3
+    - _SmearNoiseScale: 1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SplatmapEnabled: 1
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _ZWrite: 1
     m_Colors:
-    - first:
-        name: _Color
-      second: {r: 0.4749135, g: 0.722378, b: 0.89705884, a: 1}
-    - first:
-        name: _ColorBot
-      second: {r: 0.33607268, g: 0.4549555, b: 0.5441177, a: 1}
-    - first:
-        name: _ColorMid
-      second: {r: 0.39857265, g: 0.5309479, b: 0.71323526, a: 1}
-    - first:
-        name: _ColorTop
-      second: {r: 0.5902898, g: 0.68822336, b: 0.75735295, a: 1}
-    - first:
-        name: _EmissionColor
-      second: {r: 0, g: 0, b: 0, a: 1}
-    - first:
-        name: _NoiseOffset
-      second: {r: 0, g: 0, b: 0, a: 0}
-    - first:
-        name: _Position
-      second: {r: 0, g: 0, b: 0, a: 0}
-    - first:
-        name: _PrevPosition
-      second: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 0.4749135, g: 0.722378, b: 0.89705884, a: 1}
+    - _Color1: {r: 0.375, g: 0.6413793, b: 0.75, a: 1}
+    - _Color2: {r: 0.6715487, g: 0.6708478, b: 0.6911765, a: 1}
+    - _ColorBot: {r: 0.33607268, g: 0.4549555, b: 0.5441177, a: 1}
+    - _ColorMid: {r: 0.21804716, g: 0.24076931, b: 0.27205884, a: 1}
+    - _ColorTop: {r: 0.3455882, g: 0.3455882, b: 0.3455882, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _NoiseOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _Position: {r: 0, g: 0, b: 0, a: 0}
+    - _PrevPosition: {r: 0, g: 0, b: 0, a: 0}

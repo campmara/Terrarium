@@ -6,11 +6,17 @@ public class ControllerBase : MonoBehaviour
 {
 	protected InputCollection _input;
 
+    public void UpdateController()
+    {
+        _input = ControlManager.instance.getInput();
+        HandleInput();
+    }
+
 	public void FixedUpdateController()
-	{
-		_input = ControlManager.instance.getInput();
-		HandleInput();
+	{		
+		HandleFixedInput();
 	}
 
 	protected virtual void HandleInput() {}
+    protected virtual void HandleFixedInput() {}
 }
