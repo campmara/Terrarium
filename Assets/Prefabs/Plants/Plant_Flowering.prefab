@@ -429,7 +429,6 @@ MonoBehaviour:
   - {fileID: 1863841682442650, guid: fa18cc17991d646178faacbf71f38a50, type: 2}
   _mediumSpawnables:
   - {fileID: 1957489743728246, guid: 83b5e0e2c650c804e98215001deaed97, type: 2}
-  - {fileID: 1707615311191734, guid: 8dfc9a0bcd8e34740bcb66139389cbdd, type: 2}
   spawnState: 0
   _bStemRoot: {fileID: 4521704662299462}
   _leafPrefab: {fileID: 1248963832722794, guid: a0521c65f58601b43975af7e8620d049,
