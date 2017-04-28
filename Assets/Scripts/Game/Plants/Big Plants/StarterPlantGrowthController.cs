@@ -84,10 +84,10 @@ public class StarterPlantGrowthController : BPGrowthController
 
 	protected override void CustomPlantGrowth()
 	{
-		if( transform.localScale.x < _maxScale.x )
-		{
-			transform.localScale = Vector3.Lerp( _minScale, _maxScale, Mathf.SmoothStep( 0, 1, _curPercentAnimated ) );
-		}
+		//if( transform.localScale.x < _maxScale.x )
+	//	{
+	///		transform.localScale = Vector3.Lerp( _minScale, _maxScale, Mathf.SmoothStep( 0, 1, _curPercentAnimated ) );
+	//	}
 			
 		if( _leafSpawnRoutine == null && _curChildSpawned < _numChildren )
 		{

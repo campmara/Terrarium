@@ -34,6 +34,8 @@ public class BPGrowthController : PlantController
 	float [] _spawnRadii = new float[] { 3.5f, 4.0f, 4.5f, 5.0f };  
 	bool _hardStopGrowth = false;
 
+	float _origScale;
+
 	public enum GrowthStage : int
 	{
 		Seed = -1,
@@ -101,7 +103,7 @@ public class BPGrowthController : PlantController
 		Collider[] cols = Physics.OverlapSphere( transform.position, 1.0f );
 		foreach( Collider col in cols)
 		{
-			if( col.GetComponent<PondTech>() )
+			if( col.GetComponent<PondTech>() || col.GetComponent<Rock>() )
 			{
 				PlantManager.instance.DeleteLargePlant( GetComponent<BasePlant>() );
 				break;
@@ -130,7 +132,11 @@ public class BPGrowthController : PlantController
 
 		SetGrowthTransitionPoints();
 	}
-		
+	
+	public void UpdateToMoundScale( float moundScale )
+	{
+		_origScale = moundScale;
+	}
 	void DetermineGrowth()
 	{
 		if( !IsOverlappingPlants() )
@@ -177,8 +183,8 @@ public class BPGrowthController : PlantController
 
 	void UpdateScale()
 	{
-		float width = Mathf.Lerp( 1.0f, _maxWidth, _curPercentAnimated );
-		transform.localScale = new Vector3( width, Mathf.Lerp( 1.0f, _maxHeight, _curPercentAnimated ), width );
+		float width = Mathf.Lerp( _origScale, _maxWidth, _curPercentAnimated );
+		transform.localScale = new Vector3( width, Mathf.Lerp( _origScale, _maxHeight, _curPercentAnimated ), width );
 	}
 
 	void UpdateSummonsData()
