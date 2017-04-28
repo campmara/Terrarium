@@ -18,21 +18,31 @@ public class RollingState : RollerState
 			CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_LOCKED );
 
 			_roller.BecomeBall();
-			_grounded = true;
-			/*
 			_grounded = false;
 
 			_tween.Kill();
 			_tween = _roller.RollSphere.transform.DOMoveY(PondManager.instance.Pond.GetPondY(transform.position) + 0.375f, 0.5f)
 				.SetEase(Ease.InOutQuint)
 				.OnComplete(GroundHit);
-			*/
+
+			Invoke("StartJiggling", 0.3f);
 		}
     }
 
 	private void GroundHit()
 	{
 		_grounded = true;
+	}
+
+	private void StartJiggling()
+	{
+		float duration = 0.4f;
+		Vector3 strength = new Vector3(0.5f, -0.5f, 0f);
+		int vibrato = 10;
+		float randomness = 0f;
+		bool fadeOut = true;
+
+		Tween jiggle = _roller.RollSphere.transform.DOShakeScale(duration, strength, vibrato, randomness, fadeOut);
 	}
 
 	public override void Exit(P_ControlState nextState)
@@ -67,7 +77,6 @@ public class RollingState : RollerState
 		// MOVEMENT HANDLING
 		HandleRolling(input);
 		HandleTurning(input);
-		
 	}
 
 	private void HandleRolling(InputCollection input)
@@ -93,17 +102,17 @@ public class RollingState : RollerState
 		// Roll the Roll Sphere
 		_roller.RollSphere.transform.Rotate(RollerConstants.instance.RollSphereSpin * Time.deltaTime, 0f, 0f);
 
-		// Set the sphere y based on distance to pond.
-		Vector3 spherePos = _roller.RollSphere.transform.position;
-		spherePos.y = 0.375f + PondManager.instance.Pond.GetPondY(spherePos);
-		_roller.RollSphere.transform.position = spherePos;
-
 		_roller.LastInputVec = _roller.InputVec.normalized;
 
         // Update the ground paint!
         if (_grounded)
         {
-            GroundManager.instance.Ground.DrawSplatDecal( transform.position, Mathf.Lerp( RollerConstants.instance.RollPaintSize.x, RollerConstants.instance.RollPaintSize.y, Mathf.InverseLerp( RollerConstants.instance.ReverseRollSpeed, RollerConstants.instance.RollMaxSpeed, _roller.Velocity ) ) );            
+			// Terrain checking.
+			Vector3 spherePos = _roller.RollSphere.transform.position;
+			spherePos.y = 0.375f + PondManager.instance.Pond.GetPondY(spherePos);
+			_roller.RollSphere.transform.position = spherePos;
+
+            GroundManager.instance.Ground.DrawSplatDecal( spherePos, Mathf.Lerp( RollerConstants.instance.RollPaintSize.x, RollerConstants.instance.RollPaintSize.y, Mathf.InverseLerp( RollerConstants.instance.ReverseRollSpeed, RollerConstants.instance.RollMaxSpeed, _roller.Velocity ) ) );            
         }
     }
 
