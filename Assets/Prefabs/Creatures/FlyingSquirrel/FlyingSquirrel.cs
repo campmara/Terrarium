@@ -17,7 +17,7 @@ public class FlyingSquirrel : MonoBehaviour
 	private const float START_DISTANCE = 300f;
     private const float FLY_TIME = 200f;
 
-    [SerializeField] private Vector2 _flyWaitRange = new Vector2( 400f, 750f );
+    [SerializeField] private Vector2 _flyWaitRange = new Vector2( 240f, 480f );
 
 	private Vector3 euler;
 

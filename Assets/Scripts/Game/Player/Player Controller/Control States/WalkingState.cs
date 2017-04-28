@@ -17,16 +17,20 @@ public class WalkingState : RollerState
         switch ( prevState )
         {
         case P_ControlState.ROLLING:            
-            CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
+                CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
                 //PlayerManager.instance.Player.AnimationController.PlayRollToWalkAnim();
-                _roller.BecomeWalker();
-                _tween = _roller.RollSphere.transform.DOMoveY( 1.5f, 0.5f ).SetEase( Ease.OutQuint );           
+                _tween = _roller.RollSphere.transform.DOMoveY( 1.5f, 0.3f ).SetEase( Ease.OutCubic ).OnComplete(TransitionFromRollComplete);           
             break;
         }
 
         _idleTimer = 0f;		
         //PlayerManager.instance.Player.AnimationController.PlayWalkAnim();
 	}
+
+    void TransitionFromRollComplete()
+    {
+        _roller.BecomeWalker();
+    }
 
 	public override void Exit(P_ControlState nextState)
 	{
