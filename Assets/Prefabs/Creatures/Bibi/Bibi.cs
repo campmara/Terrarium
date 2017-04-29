@@ -200,20 +200,23 @@ public class Bibi : Pickupable
 
 	private void OnEnterEscaping()
 	{
-		desiredLocation = Random.insideUnitCircle * 28f;
+		desiredLocation = new Vector3(Random.Range(-28f, 28f), 0f, Random.Range(-28f, 28f));
+		//desiredLocation = Random.insideUnitCircle * 28f;
 
 		while (desiredLocation == Vector3.zero)
 		{
-			desiredLocation = Random.insideUnitCircle * 28f;
+			desiredLocation = new Vector3(Random.Range(-28f, 28f), 0f, Random.Range(-28f, 28f));
+			//desiredLocation = Random.insideUnitCircle * 28f;
 		}
 
 		while ((desiredLocation - transform.position).magnitude < 15f)
 		{
-			desiredLocation = Random.insideUnitCircle * 28f;
-			desiredLocation.y = 0f;
+			desiredLocation = new Vector3(Random.Range(-28f, 28f), 0f, Random.Range(-28f, 28f));
+			//desiredLocation = Random.insideUnitCircle * 28f;
+			//desiredLocation.y = 0f;
 		}
 
-		desiredLocation.y = 0f;
+		//desiredLocation.y = 0f;
 
 		// GRRRRR
 		face.sprite = madFace;
@@ -223,6 +226,8 @@ public class Bibi : Pickupable
 	}
 	private void OnExitEscaping()
 	{
+		desiredLocation = Vector3.zero;
+
 		// Stop the bibi sound.
 		bibiAudioSource.Stop();
 	}
