@@ -12,10 +12,12 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 		FOLLOWPLAYER_FREE,
 		FOLLOWPLAYER_LOCKED,
 		TRANSITION,
+        POND_WAIT,
         POND_RETURNPAN,
 		SITTING
 	}
 	CameraState _state = CameraState.NONE;
+    public CameraState CamState { get { return _state; } }
 
 	[SerializeField, ReadOnlyAttribute] Camera _mainCam = null;
 	public Camera Main { get { return _mainCam; } }
@@ -32,6 +34,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	Vector3 _camOffset = Vector3.zero;      // Direction from focus to Camera
 	Vector3 _camTargetPos = Vector3.zero;
 
+	public Vector3 FocusPoint { get { return _focusPoint; } }
     Vector3 _focusPoint = Vector3.zero;    	// Center of focal point following player
     Vector3 _focusOffset = Vector3.zero;    
     float _centerDist = 0.0f;               // Current distance of focusCenter from transform
@@ -158,7 +161,11 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 			SittingCameraRotate();
 			HandleFreePlayerCamera();
 			break;
-		default:
+        case CameraState.POND_WAIT:
+            SittingCameraRotate();
+            //HandleFreePlayerCamera();
+            break;
+	    default:
 			break;
 		}
 	}
@@ -339,6 +346,8 @@ public class CameraManager : SingletonBehaviour<CameraManager>
         _focusOffset = _focusPoint;
 
 		PlayerManager.instance.Player.ControlManager.SetActiveController<RollerController>();
+
+        PondManager.instance.PopPlayerFromPond();
 	}
 
 	private IEnumerator PondIntroPan()

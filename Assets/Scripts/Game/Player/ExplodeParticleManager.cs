@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ExplodeParticleManager : MonoBehaviour 
 {
+	[SerializeField] private GameObject splashImprintPrefab;
+
 	private ParticleSystem pSystem;
     private List<ParticleCollisionEvent> collisionEvents;
 
@@ -26,14 +28,24 @@ public class ExplodeParticleManager : MonoBehaviour
 			GroundManager.instance.Ground.DrawSplatDecal(pos, paintSize);
 			WaterPlantsCloseBy(paintSize, pos);
 
+			// instantiate a splash quad
+			SpawnSplashImprint(pos);
+
             i++;
         }
     }
+
+	void SpawnSplashImprint(Vector3 pos)
+	{
+		GameObject quad = Instantiate(splashImprintPrefab) as GameObject;
+		quad.transform.position = pos + (Vector3.down * 3f);
+	}
 
 	void WaterPlantsCloseBy( float searchRadius, Vector3 pos )
 	{
 		Collider[] cols = Physics.OverlapSphere( pos, searchRadius );
 		BasePlant plant = null;
+		Seed seed = null;
 		if( cols.Length > 0 )
 		{
 			foreach( Collider col in cols )
@@ -44,6 +56,14 @@ public class ExplodeParticleManager : MonoBehaviour
 					plant.WaterPlant();
 
 					plant = null;
+				}
+
+				seed = col.GetComponent<Seed>();
+				if (seed != null)
+				{
+					seed.TryPlanting();
+
+					seed = null;
 				}
 			}
 		}

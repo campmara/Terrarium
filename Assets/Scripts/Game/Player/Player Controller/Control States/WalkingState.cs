@@ -9,8 +9,6 @@ public class WalkingState : RollerState
 
     Coroutine _reachCoroutine = null;
 
-	bool canPickup = false;
-
     public override void Enter( P_ControlState prevState )
 	{
 		Debug.Log("ENTER WALKING STATE");
@@ -19,21 +17,26 @@ public class WalkingState : RollerState
         switch ( prevState )
         {
         case P_ControlState.ROLLING:            
-            CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
+                CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
                 //PlayerManager.instance.Player.AnimationController.PlayRollToWalkAnim();
-                _roller.BecomeWalker();
-                _tween = _roller.RollSphere.transform.DOMoveY( 1.5f, 0.5f ).SetEase( Ease.OutQuint );           
+                _tween = _roller.RollSphere.transform.DOMoveY( 1.5f, 0.3f ).SetEase( Ease.OutCubic ).OnComplete(TransitionFromRollComplete);           
             break;
         }
 
-        _idleTimer = 0f;
-		canPickup = false;
+        _idleTimer = 0f;		
         //PlayerManager.instance.Player.AnimationController.PlayWalkAnim();
 	}
+
+    void TransitionFromRollComplete()
+    {
+        _roller.BecomeWalker();
+    }
 
 	public override void Exit(P_ControlState nextState)
 	{
 		Debug.Log("EXIT WALKING STATE");
+
+        _roller.Player.PlayerSingController.StopSinging();
 
         if (_tween != null)
 	    {
@@ -76,13 +79,9 @@ public class WalkingState : RollerState
                 StopCoroutine( _reachCoroutine );
                 _reachCoroutine = null;
             }
-            /*
-                        if( !_roller.IK.ArmsIdle )
-                        {
-                            HandleBothArmRelease();
-                        }
-            */
+
             HandlePickup( PlayerArmIK.ArmType.BOTH );
+
             if ( _roller.IK.ArmFocus != null )
             {
                 HandleGrabObject();
@@ -151,6 +150,7 @@ public class WalkingState : RollerState
             // Left Stick Button
             if (input.LeftStickButton.IsPressed)
             {
+                _roller.Player.AnimationController.SitButtonPress();
                 _roller.ChangeState(P_ControlState.SIT);
             }
         }

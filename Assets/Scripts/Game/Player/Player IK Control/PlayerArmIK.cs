@@ -40,7 +40,8 @@ public class PlayerArmIK : MonoBehaviour {
         GESTURING,     // Trigger reach state but no target
         AMBIENT_REACHING,   // Auto Reach State
         TARGET_REACHING,    // When triggers are pressed
-        GRABBING           // Entered through Target Reaching (when triggers are both all the way pressed down)
+        GRABBING,           // Entered through Target Reaching (when triggers are both all the way pressed down)
+        IK_OFF
     }
     [SerializeField, ReadOnlyAttribute] ArmIKState _armState = ArmIKState.IDLE;
     public ArmIKState ArmState { get { return _armState; } }
@@ -61,9 +62,10 @@ public class PlayerArmIK : MonoBehaviour {
     [SerializeField, ReadOnlyAttribute] private float _armReachInterp = 0.0f;
     public float ArmReachInterp { get { return _armReachInterp; } set { _armReachInterp = value; } }
     
-    private const float ARM_IDLE_OUT = 0.75f;
+    private const float ARM_IDLE_OUT = 0.5f;
+    private const float ARM_IDLE_UP = 0.65f;
 
-	// Ambient Reaching Variables
+    // Ambient Reaching Variables
     private const float ARM_REACHDISTMAX = 8.0f;
     private const float ARM_REACHDISTMIN = 0.75f;
     private const float ARM_REACHANGLEMAX = 90.0f;
@@ -71,6 +73,10 @@ public class PlayerArmIK : MonoBehaviour {
 	private float _ambientReachTimer = 0.0f;
 	private const float AMBIENTREACH_MINTIME = 2.0f;
 	private const float AMBIENTREACH_MAXTIME = 10.0f;
+
+	[SerializeField, Space(10)]
+	Transform _armTipTransform = null;
+	public Vector3 ArmTipPosition { get { return _armTipTransform.position; } }
 
 	// Use this for initialization
 	void Awake () 
@@ -106,7 +112,9 @@ public class PlayerArmIK : MonoBehaviour {
                 HandleGrabbing();
                 break;
             case ArmIKState.SITTING:
-                break;            
+                break;    
+			case ArmIKState.IK_OFF:
+				break;
             default:
                 break;
         }
@@ -115,20 +123,31 @@ public class PlayerArmIK : MonoBehaviour {
 	// Update is called once per frame
 	public void UpdateArmIK () 
 	{
-		 _armIK.solver.IKPosition = Vector3.Lerp( _armIK.solver.IKPosition, _armTargetPos, _armIKLerpSpeed );
+        if( _armState != ArmIKState.IK_OFF )
+        {
+            _armIK.solver.IKPosition = Vector3.Lerp( _armIK.solver.IKPosition, _armTargetPos, _armIKLerpSpeed );
+        }        
 	}
 
     public void SetArmState( ArmIKState newState )
     {
         if( newState != _armState )
         {
-            switch( newState )
+			if( _armState == ArmIKState.IK_OFF )
+			{
+				_armIK.enabled = true;
+			}
+
+			switch( newState )
             {
                 case ArmIKState.IDLE:
                     _armSpring.GetComponent<Rigidbody>().isKinematic = false;
                     break;
 				case ArmIKState.AMBIENT_REACHING:
 					_ambientReachTimer = 0.0f;
+					break;
+				case ArmIKState.IK_OFF:
+					_armIK.enabled = false;
 					break;
 				default:
                     break;
@@ -145,13 +164,13 @@ public class PlayerArmIK : MonoBehaviour {
         if( _armType == ArmType.LEFT )
         {
             _armSpring.connectedAnchor = Vector3.Lerp( _armSpring.connectedAnchor, 
-				_parentIKController.transform.parent.position - ( _parentIKController.transform.parent.right * ARM_IDLE_OUT ), 
+				_parentIKController.transform.parent.position + ( -_parentIKController.transform.parent.right * ARM_IDLE_OUT ) + ( _parentIKController.transform.parent.up * ARM_IDLE_UP ), 
 				_armTargetLerpSpeed * Time.deltaTime);
         }
         else
         {
             _armSpring.connectedAnchor = Vector3.Lerp( _armSpring.connectedAnchor, 
-				_parentIKController.transform.parent.position - ( -_parentIKController.transform.parent.right * ARM_IDLE_OUT ), 
+				_parentIKController.transform.parent.position + ( _parentIKController.transform.parent.right * ARM_IDLE_OUT ) + ( _parentIKController.transform.parent.up * ARM_IDLE_UP ), 
 				_armTargetLerpSpeed * Time.deltaTime);
         }
 
@@ -181,6 +200,24 @@ public class PlayerArmIK : MonoBehaviour {
         if( _armReachInterp <= 0.0f )
         {
             SetArmState( ArmIKState.IDLE );
+        }
+
+        SummonAtObject();
+    }
+
+    private void SummonAtObject()
+    {
+        RaycastHit hit; 
+        if( Physics.Raycast( transform.parent.position, transform.parent.forward, out hit, 6.0f) )
+        {
+            if( hit.collider.GetComponent<StarterPlantGrowthController>() )
+            {
+                hit.collider.GetComponent<StarterPlantGrowthController>().SummonSeed( new Vector2( transform.position.x, transform.position.z ) );
+            }
+            else if ( hit.collider.GetComponent<PointPlantGrowthController>() )
+            {
+                hit.collider.GetComponent<PointPlantGrowthController>().SummonSeed( new Vector2( transform.position.x, transform.position.z ) );
+            }
         }
     }
 
@@ -311,5 +348,14 @@ public class PlayerArmIK : MonoBehaviour {
         SetArmState( ArmIKState.GRABBING );
     }
 
+	public void SetIKOff()
+	{
+		SetArmState( ArmIKState.IK_OFF );
+	}
+
+	public void SetIKOn()
+	{
+		SetArmState( ArmIKState.IDLE );
+	}
 
 }

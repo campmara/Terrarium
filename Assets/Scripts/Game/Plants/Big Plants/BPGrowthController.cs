@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,16 +7,14 @@ public class BPGrowthController : PlantController
 	//****************
 	// ANIMATION VARIABLES
 	//****************
-
 	protected Animator _plantAnim = null;
 	protected List<Animator> _childAnimators = new List<Animator>();
 	float [] growthTime = new float[4]; // time splits initialized based on our animation
 
 	[SerializeField] protected float _baseGrowthRate = 0.0f;
 	[SerializeField] protected Vector2 _scaleMultiplierRange = new Vector2( 3.0f, 18.0f );
-	[SerializeField] protected List<Vector2> _scaleRatios = new List<Vector2>();
+	[SerializeField] protected List<Vector2> _scaleRatios = new List<Vector2>(){ Vector2.one };
 	[SerializeField] protected float _wateredGrowthRate = 0.0f;
-
 	protected float _growthRate = 0.0f;
 	protected float _animEndTime = 0.0f;
 	protected float _curPercentAnimated = 0.0f;
@@ -51,18 +49,20 @@ public class BPGrowthController : PlantController
 
 	//fruits
 	[SerializeField] List<GameObject> _droppingItems = null;  
-
+	[SerializeField] GameObject _punishObject = null;
 	const float _timeBetweenFruitDrops = 30.0f;
-	protected const float _timeBetweenSpawns = 5.0f;
+	const float _timeBetweenSummonDrops = 20.0f;
+	const float _timeBetweenGoodSummonDrops = 5.0f;
+	protected const float _timeBetweenSpawns = 3.0f;
+
+	const int _maxSeedDrops = 3; // 3 seeds before you get rocks 
+	bool _droppedRock = false;
+	int _seedsSummoned = 0;
+	float _summonTimer = 0.0f;
 
 	// small plants
 	public List<GameObject> _smallSpawnables = new List<GameObject>();
 	public List<GameObject> _mediumSpawnables = new List<GameObject>();
-
-	[SerializeField] Vector2 _smallSpawnRadRange = new Vector2( 1f, 3f );
-	[SerializeField] Vector2 _numSmallPlants = new Vector2( 8, 15 );
-	[SerializeField] Vector2 _mediumSpawnRadRange = new Vector2( 3f, 4.5f );
-	[SerializeField] Vector2 _numMedPlants = new Vector2( 4, 6 );
 
 	int _spawnedMediums = 0;
 	public int SpawnedMediums { get { return _spawnedMediums; } set { _spawnedMediums = value; }}
@@ -70,6 +70,8 @@ public class BPGrowthController : PlantController
 	public int SpawnedSmalls { get { return _spawnedSmalls; } set { _spawnedSmalls = value; }}
 	int _maxSmalls = 0;
 	int _maxMediums = 0;
+	
+	bool _summoningSeed = false;
 
 	public SpawningState spawnState = SpawningState.NotSpawning;
 
@@ -93,8 +95,8 @@ public class BPGrowthController : PlantController
 		_maxHeight = ratio.y * multiplier;
 		_maxWidth = ratio.x * multiplier;
 
-		_maxSmalls = (int)Random.Range( _numSmallPlants.x, _numSmallPlants.y );
-		_maxMediums = (int)Random.Range( _numMedPlants.x, _numMedPlants.y );
+		_maxSmalls = (int)Random.Range( PlantManager.instance.SmNumPerPlant.x, PlantManager.instance.SmNumPerPlant.y );
+		_maxMediums = (int)Random.Range( PlantManager.instance.MedNumPerPlant.x, PlantManager.instance.MedNumPerPlant.y );
 
 		Collider[] cols = Physics.OverlapSphere( transform.position, 1.0f );
 		foreach( Collider col in cols)
@@ -168,7 +170,7 @@ public class BPGrowthController : PlantController
 			else
 			{
 				CustomPlantGrowth();
-				UpdateScale();
+				BaseUpdate();
 			}
 		}
 	}
@@ -178,6 +180,30 @@ public class BPGrowthController : PlantController
 		float width = Mathf.Lerp( 1.0f, _maxWidth, _curPercentAnimated );
 		transform.localScale = new Vector3( width, Mathf.Lerp( 1.0f, _maxHeight, _curPercentAnimated ), width );
 	}
+
+	void UpdateSummonsData()
+	{
+		if( _maxSeedDrops <= _seedsSummoned )
+		{
+			if( _summonTimer >= _timeBetweenGoodSummonDrops )
+			{
+				_seedsSummoned = 0;
+				_summonTimer = 0.0f;
+				_droppedRock = false;
+			}
+			else
+			{
+				_summonTimer += Time.deltaTime;
+			}
+		} 
+	}
+	void BaseUpdate()
+	{
+		UpdateScale();
+		UpdateSummonsData();
+	}
+
+
 
 	protected virtual void CustomPlantGrowth(){}
 
@@ -315,20 +341,41 @@ public class BPGrowthController : PlantController
 		}
 	}
 
-
 	public override GameObject DropFruit()
 	{
-		Vector2 randomPoint = GetRandomPoint(true);
-		Vector3 spawnPoint = new Vector3( randomPoint.x, _myPlant.SpawnHeight, randomPoint.y ) + transform.position;
-		GameObject newPlant = (GameObject)Instantiate( _droppingItems[Random.Range( 0, _droppingItems.Count)], spawnPoint, Quaternion.identity );  
+		GameObject newPlant = SpawnFruit( Vector2.zero, null );
+
+		PlantManager.instance.RequestDropFruit( this, _timeBetweenFruitDrops );
+
+		return newPlant;
+	}
+
+	GameObject SpawnFruit( Vector2 playerPos, GameObject obj )
+	{
+		Vector3 spawnPoint;
+		if( playerPos != Vector2.zero )
+		{
+			spawnPoint = new Vector3( playerPos.x, _myPlant.SpawnHeight, playerPos.y );
+		}
+		else
+		{
+			Vector2 randomPoint = GetRandomPoint(true);
+			spawnPoint = new Vector3( randomPoint.x, _myPlant.SpawnHeight - 1.0f, randomPoint.y ) + transform.position;
+		}
+
+		if( !obj )
+		{
+			obj = _droppingItems[Random.Range( 0, _droppingItems.Count)];
+		}
+		
+		GameObject newPlant = (GameObject)Instantiate( obj, spawnPoint, Quaternion.identity );  
 
 		Seed seed = newPlant.GetComponent<Seed>();
+
 		if( seed )
 		{
 			PlantManager.instance.AddSeed( seed );
 		}
-
-		PlantManager.instance.RequestDropFruit( this, _timeBetweenFruitDrops );
 
 		if( newPlant == null )
 		{
@@ -336,6 +383,39 @@ public class BPGrowthController : PlantController
 		}
 
 		return newPlant;
+
+	}
+
+	public void SummonSeed( Vector2 playerPos)
+	{
+		if( !_summoningSeed && _curStage == GrowthStage.Final )
+		{
+			// if you've used too many summons, summon a rock
+			if( _seedsSummoned >= _maxSeedDrops )
+			{
+				if( !_droppedRock )
+				{
+					StartCoroutine( SeedSummonCooldown( playerPos, _punishObject ) );
+					_droppedRock = true;
+				}
+
+				_summonTimer = 0.0f;
+
+			}
+			else
+			{
+				StartCoroutine( SeedSummonCooldown( playerPos, null ) );
+				_seedsSummoned++;
+			}
+		}
+	}
+
+	IEnumerator SeedSummonCooldown( Vector2 playerPos, GameObject summonObj )
+	{
+		_summoningSeed = true;
+		SpawnFruit( playerPos, summonObj );
+		yield return new WaitForSeconds( _timeBetweenSpawns );
+		_summoningSeed = false;
 	}
 
 	public virtual void SpawnAmbientCreature()
@@ -394,6 +474,7 @@ public class BPGrowthController : PlantController
 		_growthRate = _baseGrowthRate;
 		_plantAnim.speed = _growthRate;
 		_myPlant.SpawnHeight = _myPlant.transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().bounds.size.y * ( _numGrowStages + 1 );
+		_myPlant.SpawnHeight = _myPlant.SpawnHeight > 20.0f ? 20.0f : _myPlant.SpawnHeight;
 	}
 
 	protected void GetSetMeshRadius()
@@ -427,13 +508,13 @@ public class BPGrowthController : PlantController
 		}
 		else if( spawnState == SpawningState.SmallSpawning )
 		{
-			inner = _smallSpawnRadRange.x;
-			outer = _smallSpawnRadRange.y;
+			inner = PlantManager.instance.SmSpawnRadRange.x;
+			outer = PlantManager.instance.SmSpawnRadRange.y;
 		}
 		else if( spawnState == SpawningState.MediumSpawning )
 		{
-			inner = _mediumSpawnRadRange.x;
-			outer = _mediumSpawnRadRange.y;
+			inner = PlantManager.instance.MedSpawnRadRange.x;
+			outer = PlantManager.instance.MedSpawnRadRange.y;
 		}
 		
 		float xRand = Random.Range( inner, outer );

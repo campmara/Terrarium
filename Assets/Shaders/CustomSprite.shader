@@ -4,10 +4,13 @@
 		_Color2 ("Color 2", Color) = (1,1,1,1)
 
 		_MainTex ("Albedo (RGB)", 2D) = "white" {}
+
 		_Columns("Columns", int) = 8
 		_Rows("Rows", int) = 3
+
 		_FrameNumber ("Frame Number", int) = 0
 		_TotalFrames ("Total Number of Frames", int) = 1
+		//_FrameScale ("Frame Scale (for testing)", float) = 1
 		_Cutoff ("Alpha Cutoff", Range(0,1)) = 1
 		[MaterialToggle] _ToggleBillboard("Toggle Billboard Effect", Float) = 0
 	}
@@ -35,6 +38,7 @@
 		fixed4 _Color2;
 		int _FrameNumber;
 		int _TotalFrames;
+		float _FrameScale;
 		float _ToggleBillboard;
 
 		void vert(inout appdata_base v)
@@ -68,22 +72,23 @@
 		void surf (Input IN, inout SurfaceOutput o) {
 			float frame = clamp(_FrameNumber, 0, _TotalFrames);
 
-			float xOffPerFrame = (1 / (float)_Columns);
-			float yOffPerFrame = (1 / (float)_Rows);
+			float2 offPerFrame = float2((1 / (float)_Columns), (1 / (float)_Rows));
 
 			float2 spriteSize = IN.uv_MainTex;
 			spriteSize.x = (spriteSize.x / _Columns);
 			spriteSize.y = (spriteSize.y / _Rows);
 
-			float2 currentSprite = float2(0,  1 - yOffPerFrame);
-			currentSprite.x += frame * xOffPerFrame;
+			float2 currentSprite = float2(0,  1 - offPerFrame.y);
+			currentSprite.x += frame * offPerFrame.x;
 			
 			float rowIndex;
 			float mod = modf(frame / (float)_Columns, rowIndex);
-			currentSprite.y -= rowIndex * yOffPerFrame;
-			currentSprite.x -= rowIndex * _Columns * xOffPerFrame;
+			currentSprite.y -= rowIndex * offPerFrame.y;
+			currentSprite.x -= rowIndex * _Columns * offPerFrame.x;
+			
+			float2 spriteUV = (spriteSize + currentSprite); // * _FrameScale
 
-			fixed4 c = tex2D (_MainTex, spriteSize + currentSprite) * _Color;
+			fixed4 c = tex2D (_MainTex, spriteUV) * _Color;
 			c.rgb = lerp(_Color, _Color2, c.r);
 
 			o.Albedo = c.rgb;

@@ -146,8 +146,8 @@ GameObject:
   - component: {fileID: 114377923989409856}
   - component: {fileID: 114635785287040538}
   - component: {fileID: 114334575975064900}
-  - component: {fileID: 114340508108867142}
   - component: {fileID: 114112665346417312}
+  - component: {fileID: 114923182294347610}
   m_Layer: 12
   m_Name: Plant_Point
   m_TagString: Untagged
@@ -432,36 +432,17 @@ MonoBehaviour:
   _curStage: 0
   _droppingItems:
   - {fileID: 1631419253260572, guid: e7e4ccc23b3b8416c994f33a1840c8c6, type: 2}
+  _punishObject: {fileID: 1884083101344492, guid: 888d79063e07f4951aaa8eaee32addcc,
+    type: 2}
   _smallSpawnables:
   - {fileID: 1969664330500318, guid: 267f161e8216446fd8bd51c9ff2019f2, type: 2}
   - {fileID: 1863841682442650, guid: fa18cc17991d646178faacbf71f38a50, type: 2}
   _mediumSpawnables:
-  - {fileID: 1957489743728246, guid: 83b5e0e2c650c804e98215001deaed97, type: 2}
-  _smallSpawnRadRange: {x: 0.05, y: 2.5}
-  _numSmallPlants: {x: 8, y: 15}
-  _mediumSpawnRadRange: {x: 2.5, y: 4.5}
-  _numMedPlants: {x: 4, y: 6}
+  - {fileID: 1707615311191734, guid: 8dfc9a0bcd8e34740bcb66139389cbdd, type: 2}
   spawnState: 0
   _bStemRoot: {fileID: 4508866319713756}
   _leafPrefab: {fileID: 1543003685192774, guid: 3b7612a57e8103346becf09c2a9c5c95,
     type: 2}
---- !u!114 &114340508108867142
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1822985385187290}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 383399452f6ba4461be2a59e661615d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _pAssetKey: -1
-  _deathDuration: 0
-  _DeathDurationRange: {x: 160, y: 215}
-  _DeathTimer: 0
-  _baseDecayRate: 1
-  _curDecayRate: 0
 --- !u!114 &114377923989409856
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -476,11 +457,6 @@ MonoBehaviour:
   _essenceSystemPrefab: {fileID: 198300462505096804, guid: f9d0ee3e3519f4709aa9409c6c902457,
     type: 2}
   _essenceMesh: {fileID: 137172006984509768}
-  _type: -1
-  _deathColors:
-  - {r: 0.654902, g: 0.60784316, b: 0.5058824, a: 0}
-  - {r: 0.5058824, g: 0.43529412, b: 0.33333334, a: 0}
-  - {r: 0.30980393, g: 0.26666668, b: 0.14901961, a: 0}
   _waterDecayReturnTime: 20
 --- !u!114 &114635785287040538
 MonoBehaviour:
@@ -495,6 +471,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentPickupable: {fileID: 0}
   _lockedRotation: 1
+--- !u!114 &114923182294347610
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1822985385187290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 383399452f6ba4461be2a59e661615d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pAssetKey: -1
+  _type: 0
+  _deathDuration: 0
+  _DeathDurationRange: {x: 160, y: 215}
+  _DeathTimer: 0
+  _baseDecayRate: 1
+  _curDecayRate: 0
 --- !u!135 &135396582005101958
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -505,8 +499,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.04
-  m_Center: {x: 0, y: 0.025, z: 0}
+  m_Radius: 0.03
+  m_Center: {x: 0, y: 0.03, z: 0}
 --- !u!137 &137172006984509768
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

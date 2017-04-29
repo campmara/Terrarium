@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Name: RollerConstants
   m_EditorClassIdentifier: 
   InputDeadzone: 0.3
-  WalkSpeed: 3
-  CarrySpeed: 3
+  WalkSpeed: 5.5
+  CarrySpeed: 2
   SingWalkSpeed: 2
-  WalkAcceleration: 0.05
-  WalkDeceleration: 4
-  WalkTurnDampening: 0.025
+  WalkAcceleration: 0.2
+  WalkDeceleration: 3
+  WalkTurnDampening: 0
   BodyMinMoveSpeed: 2.5
   IdleSittingTimer: 30
   WalkTurnSpeed: 5
@@ -35,6 +35,7 @@ MonoBehaviour:
   TurnAcceleration: 15
   TurnDeceleration: 700
   TurnMinSpeed: 25
+  RollPaintSize: {x: 0.45, y: 1}
   PickupCheckHeight: 0.5
   PickupCheckRadius: 1
   PickupForwardScalarPart1: 0.58
@@ -49,7 +50,7 @@ MonoBehaviour:
   RitualTime: 0.15
   RitualTurnSpeed: 2000
   RitualCompleteWait: 2
-  PlantingTime: 0.75
+  PlantingTime: 0.5
   PlantingEndY: 0
   PlantingEndX: 1.25
   SingingReturnTime: 0.15
