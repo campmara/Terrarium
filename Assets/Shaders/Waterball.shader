@@ -59,6 +59,11 @@ Shader "Custom/Waterball"
 		_MeltDistance("Melt Distance", Float) = 1.0
 		_MeltCurve("Melt Curve", Range(1.0,10.0)) = 2.0
 		_MeltAmount("Melt Amount", Range(0.0, 1.0)) = 1.0
+
+		[Header(Spherification)]
+		_SphereCenter("Center", vector) = (0,0,0,0)
+		_SphereScale("Sphere Scale", float) = 1
+		_Spherification("Spherify Amount", Range(0,1)) = 0
 	}
 
 	SubShader
@@ -127,6 +132,11 @@ Shader "Custom/Waterball"
 		half _MeltDistance;
 		half _MeltCurve;
 		half _MeltAmount;
+
+		//spherification values
+		float _Spherification;
+		float _SphereScale;
+		float4 _SphereCenter;
 
 		fixed4 LightingWaterPlayer(SurfaceOutput s, fixed3 lightDir, fixed atten, fixed3 viewDir)
 		{
@@ -203,6 +213,12 @@ Shader "Custom/Waterball"
 		void vert(inout appdata_full v, out Input o) {
 			UNITY_INITIALIZE_OUTPUT(Input, o);
 			
+			//spherification
+			float3 directionToCenter = normalize(_SphereCenter + v.vertex.xyz);
+			float3 pointOnSphere = directionToCenter * _SphereScale;
+			v.vertex.xyz = lerp(v.vertex.xyz, pointOnSphere, _Spherification);
+			v.normal = lerp(v.normal, directionToCenter, _Spherification);
+
 			//calculate normals and apply deformation
 			//...............
 			float4 vertPosition = getNewVertPosition(v.vertex, v.normal);
