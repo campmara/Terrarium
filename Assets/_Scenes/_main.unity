@@ -427,6 +427,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cc920336e0ee7f2409a0a2680b1b903d, type: 2}
   m_IsPrefabParent: 0
+--- !u!4 &751792551 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4462481883547834, guid: cc920336e0ee7f2409a0a2680b1b903d,
+    type: 2}
+  m_PrefabInternal: {fileID: 751792550}
 --- !u!1001 &784892484
 Prefab:
   m_ObjectHideFlags: 0
@@ -677,7 +682,7 @@ Transform:
   - {fileID: 530992892}
   - {fileID: 336153191}
   - {fileID: 133336280}
-  - {fileID: 2006507409}
+  - {fileID: 751792551}
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -998,100 +1003,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8a17b272cd2c34275b1172a188e9c529, type: 2}
   m_IsPrefabParent: 0
---- !u!1001 &1725923753
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 400034, guid: efb808604a453f2469840233be65b370, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400034, guid: efb808604a453f2469840233be65b370, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400034, guid: efb808604a453f2469840233be65b370, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400034, guid: efb808604a453f2469840233be65b370, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400034, guid: efb808604a453f2469840233be65b370, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400034, guid: efb808604a453f2469840233be65b370, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400034, guid: efb808604a453f2469840233be65b370, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 400034, guid: efb808604a453f2469840233be65b370, type: 3}
-      propertyPath: m_RootOrder
-      value: 12
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: efb808604a453f2469840233be65b370, type: 3}
-  m_IsPrefabParent: 0
---- !u!1 &1725923754 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 100034, guid: efb808604a453f2469840233be65b370, type: 3}
-  m_PrefabInternal: {fileID: 1725923753}
---- !u!4 &1725923755 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 400002, guid: efb808604a453f2469840233be65b370, type: 3}
-  m_PrefabInternal: {fileID: 1725923753}
---- !u!137 &1725923756
-SkinnedMeshRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1725923754}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_Materials:
-  - {fileID: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  serializedVersion: 2
-  m_Quality: 0
-  m_UpdateWhenOffscreen: 0
-  m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 4300000, guid: efb808604a453f2469840233be65b370, type: 3}
-  m_Bones: []
-  m_BlendShapeWeights: []
-  m_RootBone: {fileID: 1725923755}
-  m_AABB:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
-  m_DirtyAABB: 1
 --- !u!114 &2028772720 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114053893828834242, guid: 729a7e306b18e428280ad642238a823a,
