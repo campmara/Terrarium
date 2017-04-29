@@ -427,6 +427,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cc920336e0ee7f2409a0a2680b1b903d, type: 2}
   m_IsPrefabParent: 0
+--- !u!4 &751792551 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4462481883547834, guid: cc920336e0ee7f2409a0a2680b1b903d,
+    type: 2}
+  m_PrefabInternal: {fileID: 751792550}
 --- !u!1001 &784892484
 Prefab:
   m_ObjectHideFlags: 0
@@ -677,7 +682,7 @@ Transform:
   - {fileID: 530992892}
   - {fileID: 336153191}
   - {fileID: 133336280}
-  - {fileID: 2006507409}
+  - {fileID: 751792551}
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -998,11 +1003,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8a17b272cd2c34275b1172a188e9c529, type: 2}
   m_IsPrefabParent: 0
---- !u!4 &2006507409 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 4462481883547834, guid: cc920336e0ee7f2409a0a2680b1b903d,
-    type: 2}
-  m_PrefabInternal: {fileID: 751792550}
 --- !u!114 &2028772720 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114053893828834242, guid: 729a7e306b18e428280ad642238a823a,
