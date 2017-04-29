@@ -63,6 +63,11 @@ public class RollerController : ControllerBase
     public float HeadMoveInterp { get { return _headMoveSpeedInterp; } set { _headMoveSpeedInterp = value; } }
 	float _currMaxVelocity = 0.0f;
 
+	[SerializeField] GameObject _carryPositionObject = null;
+	public GameObject CarryPositionObject { get { return _carryPositionObject; } }
+	private Vector3 _carryPosOffset = Vector3.zero;
+	public Vector3 CarryPosOffset { get { return _carryPosOffset; } set { _carryPosOffset = value; } } 
+
 	private Quaternion _targetRotation = Quaternion.identity;
     private float _targetRotAngle = 0.0f;
 	private Coroutine _idleWaitRoutine = null;
@@ -419,9 +424,22 @@ public class RollerController : ControllerBase
 		_face.gameObject.SetActive(true);
 		_mesh.SetActive(true);
 		_rig.SetActive(true);
+
+		_rollSphere.transform.localPosition = Vector3.up * 1.5f;
 		_rollSphere.SetActive(false);
 
-        _targetMovePosition = this.transform.position;
+        _targetMovePosition = this.transform.position;        
+        this._player.AnimationController.SetPlayerSpeed( 0.0f );
+
+		if (InputVec.magnitude > RollerConstants.instance.IdleMaxMag)
+		{
+			// dooooo nothing?
+		}
+		else
+		{
+			_velocity = 0f;
+		}
+		
 
         _ik.ResetLegs();
 
@@ -434,7 +452,13 @@ public class RollerController : ControllerBase
 	{
 		// Put ourselves in the right state of mind: the pond state.
 		BecomeWalker();
-		ChangeState(P_ControlState.POND);
+
+        if (_currentHeldObject != null)
+        {
+            _currentState.HandleBothArmRelease();
+        }
+
+        ChangeState(P_ControlState.POND);
 
 		// Tell the pond we're comin' home!
 		PondManager.instance.HandlePondReturn();
@@ -456,7 +480,7 @@ public class RollerController : ControllerBase
 		_explodeParticleSystem.Play();
 
 		// Wait for the boom to finish.
-		while(_explodeParticleSystem.isPlaying)
+		while( _explodeParticleSystem.isPlaying )
 		{
 			yield return null;
 		}
@@ -464,7 +488,8 @@ public class RollerController : ControllerBase
 		// Put ourselves in the right state of mind: the pond state.
 		ChangeState(P_ControlState.POND);
 
-		// Tell the pond we're comin' home!
-		PondManager.instance.HandlePondReturn(); 
-	}
+        // Tell the pond we're comin' home!
+        //PondManager.instance.HandlePondReturn(); 
+        PondManager.instance.HandlePondWait();
+    }
 }

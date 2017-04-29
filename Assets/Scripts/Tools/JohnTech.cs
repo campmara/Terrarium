@@ -127,8 +127,7 @@ public static class JohnTech
 
 	public static Vector3 Midpoint(Vector3 a, Vector3 b)
 	{
-		Vector3 midPoint = new Vector3((a.x + b.x) / 2.0f, (a.y + b.y) / 2.0f, (a.z + b.z) / 2.0f);
-		return midPoint;
+		return new Vector3((a.x + b.x) / 2.0f, (a.y + b.y) / 2.0f, (a.z + b.z) / 2.0f);
 	}
 
 	// 3 point quadratic curve lerpy thing

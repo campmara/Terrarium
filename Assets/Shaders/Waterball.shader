@@ -25,6 +25,11 @@ Shader "Custom/Waterball"
 		// Rim Lighting
 		_RimColor ("Rim Color", Color) = (0.26,0.19,0.16,0.0)
       	_RimPower ("Rim Power", Range(0.5,8.0)) = 0.9
+
+		[Header(Specular Lighting)]
+		// Rim Lighting
+		_SpecularColor("Specular Color", Color) = (0.26,0.19,0.16,0.0)
+		_SpecularPower("Specular Power", float) = 128
 		
 		[Header(Distortion)]
 		//distortion
@@ -44,12 +49,21 @@ Shader "Custom/Waterball"
 		_MainNoiseHeight("Main Noise Height", Float) = 0
 		_NoiseOffset("Noise Offset", Vector) = (0,0,0,0)
 
+		[Header(Wind Values)]
+		[Toggle]_WindEnabled("Wind Enabled", float) = 1
+		_Sensitivity("Height Sensitivity to Wind", Range(.000001, 1000)) = 15
+
 		[Header(Melt)]
 		//conewars melt
 		_MeltY("Melt Y", Float) = 0.0
 		_MeltDistance("Melt Distance", Float) = 1.0
 		_MeltCurve("Melt Curve", Range(1.0,10.0)) = 2.0
 		_MeltAmount("Melt Amount", Range(0.0, 1.0)) = 1.0
+
+		[Header(Spherification)]
+		_SphereCenter("Center", vector) = (0,0,0,0)
+		_SphereScale("Sphere Scale", float) = 1
+		_Spherification("Spherify Amount", Range(0,1)) = 0
 	}
 
 	SubShader
@@ -59,7 +73,7 @@ Shader "Custom/Waterball"
 		Tags{ "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Opaque" }
 		LOD 200
 		CGPROGRAM
-#pragma surface surf NoLighting vertex:vert addshadow
+#pragma surface surf WaterPlayer vertex:vert addshadow
 #pragma target 3.0
 
 		#include "Noise.cginc"
@@ -76,6 +90,9 @@ Shader "Custom/Waterball"
 
 		float4 _RimColor;
 	    float _RimPower;
+
+		float4 _SpecularColor;
+		float _SpecularPower;
 
 		fixed4 _ColorTop;
 		fixed4 _ColorMid;
@@ -99,16 +116,40 @@ Shader "Custom/Waterball"
 		sampler2D _GrabTexture;
 		float4 _GrabTexture_TexelSize;
 
+		//wind
+		float _WindEnabled;
+		float _Sensitivity;
+
+		//these values are uniform so that they'll work globally
+		uniform fixed4 _WaveDir;
+		uniform float _WaveNoise;
+		uniform float _WaveAmount;
+		uniform float _WaveScale;
+		uniform float _WaveTime;
+
 		//melting variables from conewars
 		half _MeltY;
 		half _MeltDistance;
 		half _MeltCurve;
 		half _MeltAmount;
 
-		fixed4 LightingNoLighting(SurfaceOutput s, fixed3 lightDir, fixed atten)
+		//spherification values
+		float _Spherification;
+		float _SphereScale;
+		float4 _SphereCenter;
+
+		fixed4 LightingWaterPlayer(SurfaceOutput s, fixed3 lightDir, fixed atten, fixed3 viewDir)
 		{
 			fixed4 c;
-			c.rgb = s.Albedo;
+
+			half3 h = normalize(lightDir + viewDir);
+
+			half diff = max(0, dot(s.Normal, lightDir));
+
+			float nh = max(0, dot(s.Normal, h));
+			float spec = pow(nh, _SpecularPower);
+
+			c.rgb = s.Albedo + spec*_SpecularColor;
 			c.a = s.Alpha;
 			return c;
 		}
@@ -118,7 +159,7 @@ Shader "Custom/Waterball"
 		float4 getNewVertPosition(float4 objectSpacePosition, float3 objectSpaceNormal)
 		{
 			//Vertex extrusion-
-			objectSpacePosition.xyz += objectSpaceNormal * abs(cnoise(objectSpaceNormal * _MainNoiseScale + _NoiseOffset)) * _MainNoiseHeight; // * _MainNoiseHeight _MainNoiseScale
+			objectSpacePosition.xyz += objectSpaceNormal * abs(cnoise(objectSpaceNormal * _MainNoiseScale + _NoiseOffset)) * _MainNoiseHeight;
 			//--
 
 			//Chris's smear-
@@ -138,6 +179,26 @@ Shader "Custom/Waterball"
 			worldSpacePosition.xyz += smearOffset;
 			//--
 
+			//Wind-
+			if (_WindEnabled == 0 || _WaveAmount == 0 || _WaveDir.x == 0 && _WaveDir.y == 0 && _WaveDir.z == 0) {
+			}
+			else {
+				//Chris's wind function modified to take in to account world height and more directional wind
+				//.......................
+
+				float noiseOffset = cnoise(worldSpacePosition.xyz) * _WaveNoise;
+				//clamped to prevent extreme results at higher branches, needs tweaking, it would be nice if lower plants shook more in here
+				float heightSensitivity = clamp(worldSpacePosition.y * worldSpacePosition.y, 0, _Sensitivity) / _Sensitivity;
+				//oscillation value adds on to the direction of the wind, it's length is measured with _WaveScale
+				float4 oscillation = sin(_WaveTime + noiseOffset  * heightSensitivity) * _WaveScale * normalize(_WaveDir) * heightSensitivity; // * v.color.r
+				//wave direction and oscillation combined are then scaled overall by the _WaveAmount
+				float4 wind = (normalize(_WaveDir) + oscillation) * _WaveAmount * heightSensitivity; //* v.color.r
+
+				worldSpacePosition += wind;
+				//''''''''''''''''''''''
+			}
+			//--
+
 			//conewars melt-
 			// these could cause problems in the future with differences in elevation
 			float melt = ( worldSpacePosition.y - _MeltY ) / _MeltDistance;
@@ -151,6 +212,13 @@ Shader "Custom/Waterball"
 
 		void vert(inout appdata_full v, out Input o) {
 			UNITY_INITIALIZE_OUTPUT(Input, o);
+			
+			//spherification
+			float3 directionToCenter = normalize(_SphereCenter + v.vertex.xyz);
+			float3 pointOnSphere = directionToCenter * _SphereScale;
+			v.vertex.xyz = lerp(v.vertex.xyz, pointOnSphere, _Spherification);
+			v.normal = lerp(v.normal, directionToCenter, _Spherification);
+
 			//calculate normals and apply deformation
 			//...............
 			float4 vertPosition = getNewVertPosition(v.vertex, v.normal);
@@ -168,6 +236,7 @@ Shader "Custom/Waterball"
 			//..............
 
 			o.worldPos.xyz = mul(unity_ObjectToWorld, v.vertex.xyz);
+
 			//https://forum.unity3d.com/threads/refraction-example.78750/
 			//refraction distorting uvs
 			float4 oPos = UnityObjectToClipPos(v.vertex);
@@ -179,50 +248,6 @@ Shader "Custom/Waterball"
 			o.proj.xy = (float2(oPos.x, oPos.y*scale) + oPos.w) * 0.5;
 			o.proj.zw = oPos.zw;
 		}
-
-
-		//old vertex function
-		//delete whenever we're comfortable getting rid of it
-		//restore if the new normal recalc method is too demanding
-		/*
-		void vert(inout appdata_base v, out Input o)
-		{
-			UNITY_INITIALIZE_OUTPUT(Input, o);
-
-			fixed3 originalvert = v.vertex.xyz;
-
-			//Vertex extrusion
-			v.vertex.xyz += v.normal * cnoise(v.normal * _MainNoiseScale + _NoiseOffset) * _MainNoiseHeight; // * _MainNoiseHeight _MainNoiseScale
-
-			//Chris's smear
-			fixed4 worldPos = mul(unity_ObjectToWorld, v.vertex);
-
-			fixed3 worldOffset = _Position.xyz - _PrevPosition.xyz; // -5
-			fixed3 localOffset = worldPos.xyz - _Position.xyz; // -5
-
-			// World offset should only be behind swing
-			float dirDot = dot(normalize(worldOffset), normalize(localOffset));
-			fixed3 unitVec = fixed3(1, 1, 1) * _SmearNoiseHeight;
-			worldOffset = clamp(worldOffset, unitVec * -1, unitVec);
-			worldOffset *= -clamp(dirDot, -1, 0) * lerp(1, 0, step(length(worldOffset), 0));
-
-			fixed3 smearOffset = -worldOffset.xyz * lerp(1, cnoise(worldPos * _SmearNoiseScale), step(0, _SmearNoiseScale));
-			worldPos.xyz += smearOffset;
-			v.vertex = mul(unity_WorldToObject, worldPos);
-
-			o.extrudeAmount = distance(v.vertex.xyz, originalvert.xyz);
-
-			//https://forum.unity3d.com/threads/refraction-example.78750/
-			//refraction distorting uvs
-			float4 oPos = mul(UNITY_MATRIX_MVP, v.vertex);
-			#if UNITY_UV_STARTS_AT_TOP
-				float scale = -1.0;
-			#else
-				float scale = 1.0;
-			#endif
-			o.proj.xy = (float2(oPos.x, oPos.y*scale) + oPos.w) * 0.5;
-			o.proj.zw = oPos.zw;
-		} */
 
 		void surf(Input IN, inout SurfaceOutput o)
 		{
@@ -241,8 +266,9 @@ Shader "Custom/Waterball"
 			fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * finalCol;
 
 			//rim lighting
-			half rim = 1 - saturate(dot (normalize(IN.viewDir), normalize(o.Normal)));
+			half rim = 1 - saturate(dot (IN.viewDir, normalize(o.Normal)));
 			float3 rimInfluence = _RimColor.rgb*pow(rim, _RimPower); // 
+			//rimInfluence = 0;
 
 			//I might use this later to darken near the ground
 			/*

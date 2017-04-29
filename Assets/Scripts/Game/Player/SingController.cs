@@ -38,15 +38,17 @@ public class SingController : MonoBehaviour {
         // Y BUTTON
         if ( _state == SingState.SINGING )
         {
-            float desiredPitch = AudioManager.instance.GetCurrentMusicPitch();
-            _singPitch = Mathf.Lerp( _singPitch, desiredPitch, RollerConstants.instance.PitchLerpSpeed * Time.deltaTime );
+            //float desiredPitch = AudioManager.instance.GetCurrentMusicPitch();
+            //_singPitch = Mathf.Lerp( _singPitch, desiredPitch, RollerConstants.instance.PitchLerpSpeed * Time.deltaTime );
 
-            AudioManager.instance.PlaySing( _singPitch );
+            AudioManager.instance.PlaySing(Random.Range(0.75f, 1.25f));
             _face.Sing();
         }
         else if ( _state == SingState.STOPPING )
         {
             _singStopTimer += Time.deltaTime;
+
+            AudioManager.instance.StopSing();
 
             if ( _singStopTimer < RollerConstants.instance.SingingReturnTime )
             {

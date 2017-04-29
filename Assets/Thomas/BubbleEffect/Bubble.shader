@@ -2,22 +2,18 @@
 	Properties {
 		_Color ("Color", Color) = (1,1,1,1)
 		_MainTex ("Albedo (RGB)", 2D) = "white" {}
-		_Glossiness ("Smoothness", Range(0,1)) = 0.5
-		_Metallic ("Metallic", Range(0,1)) = 0.0
+		_SpecularColor ("Specular Color", Color) = (0.25,0.25,0.25,1)
+		_SpecularPower ("Specular Power", float) = 148
 		_Cutoff ("Cutoff", Range(0,1)) = 1
 	}
 	SubShader {
-		/*	GrabPass
-		{
-			"_GrabTexture"
-		}*/
 
-		Tags { "RenderType"="Geometry" }
+		Tags { "RenderType"="Transparent" "Queue" = "Transparent" }
 		LOD 200
-		Cull off 
+		//Cull off 
 		CGPROGRAM
 		// Physically based Standard lighting model, and enable shadows on all light types
-		#pragma surface surf NoLighting fullforwardshadows alphatest:_Cutoff //vertex:vert
+		#pragma surface surf Water fullforwardshadows alphatest:_Cutoff //vertex:vert
 
 		// Use shader model 3.0 target, to get nicer looking lighting
 		#pragma target 3.0
@@ -40,12 +36,20 @@
 		};
 
 		fixed4 _Color;
-		//sampler2D _GrabTexture;
+		float _SpecularPower;
 
-		fixed4 LightingNoLighting(SurfaceOutput s, fixed3 lightDir, fixed atten)
+		fixed4 LightingWater(SurfaceOutput s, fixed3 lightDir, half3 viewDir, fixed atten)
 		{
 			fixed4 c;
+			half3 h = normalize(lightDir + viewDir);
+
+			half diff = max(0, dot(s.Normal, lightDir));
+
+			float nh = max(0, dot(s.Normal, h));
+			float spec = pow(nh, _SpecularPower) * 1;
+
 			c.rgb = s.Albedo;
+			c.rgb += spec * s.Specular;
 			c.a = s.Alpha;
 			return c;
 		}
@@ -56,11 +60,13 @@
 			o.color = v.color;
 		}
 
+		float4 _SpecularColor;
+
 		void surf (Input IN, inout SurfaceOutput o) {
 			fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
-			//float4 uv = float4(IN.uv_MainTex.x, IN.uv_MainTex.y, IN.uv_MainTex.y, IN.uv_MainTex.y);
-			o.Albedo = _Color;//_Color;// * tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(IN.proj) * uv).rgb;
+			o.Albedo = _Color;// * tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(IN.proj)).rgb;
 			o.Alpha = c.a * IN.color.a; // * IN.color.a
+			o.Specular = _SpecularColor;
 		}
 		ENDCG
 	}

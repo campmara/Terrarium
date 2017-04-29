@@ -9,23 +9,32 @@ public class Seed : Pickupable
     public SeedAssetKey AssetKey { get { return _assetKey; } set { _assetKey = value; } }
 
     [SerializeField] GameObject _moundPrefab = null;
-
+	BasePlant.PlantType _moundType = BasePlant.PlantType.NONE;
 	float _timeSinceLastPickup = 0.0f;
 	float _timePassedTillDestroy = 60.0f;
 	bool _hasFallen = false;
+	bool _wasRitualed = false;
 
-	const int  _selfPlantProbability = 75;
+	const int  _selfPlantProbability = 50;
 	const float _searchRadius = 30.0f;
 
 	Tween _sinkTween = null;
 
+    const float WIND_FORCESCALAR = 0.5f;
+
+
+	void Awake()
+	{
+		base.Awake();
+		_moundType = _moundPrefab.GetComponent<BasePlant>().MyPlantType;
+	}
 	void Update()
 	{
 		if( !_grabbed )
 		{
 			if( _timeSinceLastPickup >= _timePassedTillDestroy && PlantManager.instance.GetActiveSeedCount() > 2 )
-			{
-				Destroy( gameObject );
+			{			
+				PlantManager.instance.DestroySeed( this, _moundType );
 			}
 			else
 			{
@@ -34,20 +43,40 @@ public class Seed : Pickupable
 		}
 	}
 
+    private void FixedUpdate()
+    {
+		if( !_grabbed )
+		{
+			_rigidbody.AddForce( WeatherManager.instance.WindForce * WIND_FORCESCALAR * Time.deltaTime );	
+		}
+
+    }
+
     public override void OnPickup( Transform grabTransform )
 	{
 		if (_sinkTween != null)
 		{
 			_sinkTween.Rewind();
+            _sinkTween.Kill();
+            _sinkTween = null;
 		}
 
 		base.OnPickup( grabTransform );
+
+		_rigidbody.velocity = Vector3.zero;
 	}
 
 	public override void DropSelf()
 	{
 		base.DropSelf();
+        BeginSelfPlant();
 		_timeSinceLastPickup = 0.0f;
+	}
+
+	public void DropOnRitual()
+	{
+		base.DropSelf();
+		_wasRitualed = true;
 	}
 
 	public void TryPlanting()
@@ -61,19 +90,20 @@ public class Seed : Pickupable
 
 	void BeginSelfPlant()
 	{
-		Transform child = transform.GetChild(0);
-		Vector3 endPos = child.position + (Vector3.down * 0.36f);
+		//Transform child = transform.GetChild(0);
+		Vector3 endPos = this.transform.position + (Vector3.down * 0.36f);
 		float sinkTime = Random.Range(10f, 20f);
 
-		_sinkTween = child.DOMove(endPos, sinkTime).OnComplete(EndSelfPlant);
+		_sinkTween = this.transform.DOMove( endPos, sinkTime ).OnComplete( EndSelfPlant );
 	}
 
 	void EndSelfPlant()
 	{
 		TryPlanting();
+		PlantManager.instance.DestroySeed( this, _moundType );
 	}
 
-	void OnCollisionEnter( Collision col ) 
+    protected override void HandleCollision( Collision col )
 	{
 		if( !_hasFallen )
 		{
@@ -89,6 +119,11 @@ public class Seed : Pickupable
 
 				_hasFallen = true;
 			}
+		}
+		
+		if (_wasRitualed == true)
+		{
+			TryPlanting();
 		}
 	}
 }

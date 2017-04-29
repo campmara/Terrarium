@@ -1,4 +1,4 @@
-﻿﻿using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -39,9 +39,12 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 		[Header("Class 2"), Space(5)]
 		public Gradient leafyGroundPlantBulb;
 		public Gradient leafyGroundPlantLeaf;
+		public Gradient pointyBush;
+		public Gradient bumblePlant;
 		[Header("Class 3"), Space(5)]
 		public Gradient twistPlant;
 		public Gradient cappPlant;
+		public Gradient limberPlant;
 
 	}
 
@@ -82,6 +85,10 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 	[SerializeField] Material twistPlantMat;
 
 	[SerializeField] Material cappPlantMat;
+
+	[SerializeField] Material bumbleMat;
+	[SerializeField] Material limberMat;
+	[SerializeField] Material pointyBushMat;
 
 	void Start()
 	{
@@ -141,6 +148,9 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 			ApplyThreePartGradient( pointPlantStemMat, _activePalette.pointPlantStem );
 			ApplyThreePartGradient( leafyGroundPlantBulbMat, _activePalette.leafyGroundPlantBulb );
 			ApplyThreePartGradient( leafyGroundPlantLeafMat, _activePalette.leafyGroundPlantLeaf );
+			ApplyThreePartGradient( bumbleMat, _activePalette.bumblePlant );
+			ApplyThreePartGradient( pointyBushMat, _activePalette.pointyBush );
+			ApplyThreePartGradient( limberMat, _activePalette.limberPlant );
 
 			ApplyTwoPartGradient( twistPlantMat, _activePalette.twistPlant );			
 			ApplyTwoPartGradient( cappPlantMat, _activePalette.cappPlant );
@@ -162,6 +172,9 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 			TransitionThreePartGradient( pointPlantStemMat, _activePalette.pointPlantStem );
 			TransitionThreePartGradient( leafyGroundPlantBulbMat, _activePalette.leafyGroundPlantBulb );
 			TransitionThreePartGradient( leafyGroundPlantLeafMat, _activePalette.leafyGroundPlantLeaf );
+			TransitionThreePartGradient( bumbleMat, _activePalette.bumblePlant );
+			TransitionThreePartGradient( pointyBushMat, _activePalette.pointyBush );
+			TransitionThreePartGradient( limberMat, _activePalette.limberPlant );
 
 			TransitionTwoPartGradient( twistPlantMat, _activePalette.twistPlant );			
 			TransitionTwoPartGradient( cappPlantMat, _activePalette.cappPlant );
