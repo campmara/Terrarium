@@ -41,7 +41,7 @@ public class SingController : MonoBehaviour {
             //float desiredPitch = AudioManager.instance.GetCurrentMusicPitch();
             //_singPitch = Mathf.Lerp( _singPitch, desiredPitch, RollerConstants.instance.PitchLerpSpeed * Time.deltaTime );
 
-            AudioManager.instance.PlaySing(Random.Range(0.75f, 1.25f));
+            AudioManager.instance.PlaySing(Random.Range(0.25f, 2f));
             _face.Sing();
         }
         else if ( _state == SingState.STOPPING )
