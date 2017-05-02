@@ -44,7 +44,7 @@ public class RollerController : ControllerBase
 	public ParticleSystem ExplodeParticleSystem { get { return _explodeParticleSystem; } }
 
 	// These have accessors in the RollerState
-	[ReadOnly] Pickupable _currentHeldObject = null;
+	[ReadOnly, SerializeField] Pickupable _currentHeldObject = null;
     public Pickupable CurrentHeldObject { get { return _currentHeldObject; } set { _currentHeldObject = value; } }
 	[ReadOnly] Vector3 _inputVec = Vector3.zero;
     public Vector3 InputVec { get { return _inputVec; } set { _inputVec = value; } }
