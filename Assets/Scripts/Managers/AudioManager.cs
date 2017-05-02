@@ -113,7 +113,8 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 		AMBIENCE,
 		OPENING_CHORD,
 		SUBTLE_MUSIC,
-		FULL_MUSIC
+		FULL_MUSIC,
+		WIND
 	}
 
 
@@ -166,6 +167,7 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
         CalculateMusicTimeState();
 		_audioControllerList[(int)AudioControllerNames.OPENING_CHORD].PlayRandomClip();
 		_audioControllerList[(int)AudioControllerNames.AMBIENCE].PlayAudioSource();
+		_audioControllerList[(int)AudioControllerNames.WIND].PlayAudioSource();
 		_audioControllerList[(int)AudioControllerNames.AMBIENCE].Loop = true;
         _audioControllerList[(int)AudioControllerNames.MUSIC].PlayAudioSource(); 
 
