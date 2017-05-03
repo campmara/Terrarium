@@ -93,11 +93,13 @@ public class RollerState : MonoBehaviour
 
 	private void PickUpObject( Pickupable pickup )
 	{
+		/*
 		if (pickup.GetComponent<Bibi>())
 		{
 			HandleBibiPickup(pickup as Bibi);
             return;
 		}
+		*/
 
 		_roller.IK.HandleArmsGrab();
 
@@ -117,11 +119,13 @@ public class RollerState : MonoBehaviour
 		AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_ACTIONFX, 1 );
 	}
 
+	/*
 	void HandleBibiPickup(Bibi bibi)
 	{
 		bibi.OnPickup();
 		_roller.IK.LetGoBothArms();
 	}
+	*/
 
 	public void HandleBothArmRelease()
 	{

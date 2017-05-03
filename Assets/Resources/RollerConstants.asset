@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InputDeadzone: 0.3
   WalkSpeed: 5.5
-  CarrySpeed: 2
+  CarrySpeed: 4
   SingWalkSpeed: 2
   WalkAcceleration: 0.2
   WalkDeceleration: 3
