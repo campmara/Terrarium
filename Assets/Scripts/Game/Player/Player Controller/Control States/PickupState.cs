@@ -62,7 +62,7 @@ public class PickupState : RollerState
 
     public override void HandleInput( InputCollection input )
     {
-        if( input.AButton.WasReleased )
+        if( input.AButton.WasReleased || _roller.CurrentHeldObject == null )
         {
             _roller.ChangeState( P_ControlState.WALKING );
         }
