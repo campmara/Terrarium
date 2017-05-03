@@ -70,7 +70,7 @@ Material:
     - _MeltDistance: 1.57
     - _MeltY: -0.22
     - _Metallic: 0
-    - _Middle: 0.5
+    - _Middle: 0.234
     - _Mode: 0
     - _NoiseGrain: 1
     - _NoiseHeight: 1.3
