@@ -55,6 +55,12 @@ public class RollingState : RollerState
 
     public override void HandleInput( InputCollection input )
     {
+		// Ensure we don't move when we roll into an object.
+		if (_roller.CollidedWithObject)
+		{
+			return;
+		}
+
         // B BUTTON
         if (!input.BButton.IsPressed /*&& _grounded == true*/)
         {
@@ -66,13 +72,11 @@ public class RollingState : RollerState
 
     public override void HandleFixedInput( InputCollection input )
 	{
-		/*
-		// X BUTTON
-		if (input.XButton.IsPressed)
+		// Ensure we don't move when we roll into an object.
+		if (_roller.CollidedWithObject)
 		{
-			_roller.ChangeState(P_ControlState.ROLLING, P_ControlState.RITUAL);
+			return;
 		}
-		*/
 
 		// MOVEMENT HANDLING
 		HandleRolling(input);
