@@ -90,6 +90,8 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SpecularPower: 128
+    - _SphereScale: 1
+    - _Spherification: 0
     - _SrcBlend: 1
     - _UVSec: 0
     - _WindEnabled: 1
@@ -98,7 +100,7 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorBot: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
     - _ColorMid: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
-    - _ColorTop: {r: 0.75, g: 0.393, b: 0.6515172, a: 1}
+    - _ColorTop: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _NoiseOffset: {r: 0, g: 0, b: 0, a: 0}
     - _Position: {r: 0, g: 0, b: 0, a: 0}
@@ -106,3 +108,4 @@ Material:
     - _RimColor: {r: 0.28129098, g: 0.23496972, b: 0.30147058, a: 0}
     - _ShadowColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecularColor: {r: 0.28235295, g: 0.23529412, b: 0.3019608, a: 0}
+    - _SphereCenter: {r: 0, g: 0, b: 0, a: 0}
