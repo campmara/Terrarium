@@ -412,7 +412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 080f0cb5dcfc64ee99d5d9ac47120a21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseGrowthRate: 0.038
+  _baseGrowthRate: 0.0038
   _scaleMultiplierRange: {x: 8, y: 18}
   _scaleRatios:
   - {x: 3, y: 1}

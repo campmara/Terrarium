@@ -26,6 +26,7 @@ public class AudioController
 		Debug.Assert( index >= 0 && index < _audioClipList.Count );
 		_source.clip = _audioClipList[index];
 	}
+	public int ClipCount { get { return _audioClipList.Count; } }
 
 	[SerializeField] private AudioMixerGroup _mixerGroup = null;
 	public AudioMixerGroup MixerGroup { set { _mixerGroup = value; _source.outputAudioMixerGroup = _mixerGroup; } }
@@ -93,6 +94,16 @@ public class AudioController
             _source.Play();
         }
 
+	}
+
+	public void PlaySpecificClip(int clipIndex)
+	{
+		if (!_source.isPlaying)
+		{
+			clipIndex = Mathf.Clamp(clipIndex, 0, _audioClipList.Count);
+			_source.clip = _audioClipList[clipIndex];
+			_source.Play();
+		}
 	}
 
 	#endregion
@@ -327,14 +338,19 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 
 
     // Player Sing
-    public void PlaySing(float pitch)
+    public void PlaySing(int clipIndex, float pitch)
     {
 		if (!_audioControllerList[(int) AudioControllerNames.PLAYER_SING].Source.isPlaying)
 		{
         	_audioControllerList[(int) AudioControllerNames.PLAYER_SING].Pitch = pitch;
-        	_audioControllerList[(int) AudioControllerNames.PLAYER_SING].PlayAudioSource();
+        	_audioControllerList[(int) AudioControllerNames.PLAYER_SING].PlaySpecificClip(clipIndex);
 		}
     }
+
+	public int GetSingingClipCount()
+	{
+		return _audioControllerList[(int) AudioControllerNames.PLAYER_SING].ClipCount;
+	}
 
 	public void StopSing()
 	{

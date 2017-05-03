@@ -424,7 +424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c89c16775a3ab6747bd06c3a52a18944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseGrowthRate: 0.038
+  _baseGrowthRate: 0.0038
   _scaleMultiplierRange: {x: 8, y: 18}
   _scaleRatios:
   - {x: 1, y: 1}
