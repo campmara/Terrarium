@@ -21,6 +21,8 @@ public class SingController : MonoBehaviour {
 
     float _singStopTimer = 0.0f;
 
+    const float SING_EFFECT_RADIUS = 10f;
+
 	void Awake ()
     {
         _face = this.GetComponentInChildren<FaceManager>();
@@ -62,6 +64,8 @@ public class SingController : MonoBehaviour {
         if( _state != SingState.SINGING )
         {
             _state = SingState.SINGING;
+
+            CastSingSphere();
         }        
     }
 
@@ -78,5 +82,24 @@ public class SingController : MonoBehaviour {
     {
         _state = SingState.IDLE;
         _face.BecomeIdle();    
+    }
+
+    void CastSingSphere()
+    {
+        // do a spherecast and disrupt Singables
+        Collider[] cols = Physics.OverlapSphere( transform.position, SING_EFFECT_RADIUS );
+        Singable singable = null;
+        if( cols.Length > 0 )
+        {
+            foreach( Collider col in cols )
+            {
+                singable = col.GetComponent<Singable>();
+                if (singable != null)
+                {
+                    singable.OnAffectedBySinging();
+                    singable = null;
+                }
+            }
+        }
     }
 }

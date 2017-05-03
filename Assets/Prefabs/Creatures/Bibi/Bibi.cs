@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class Bibi : Pickupable 
+public class Bibi : Singable
 {
 	[SerializeField] private GameObject head;
 	[SerializeField] private GameObject ringA;
@@ -25,6 +25,7 @@ public class Bibi : Pickupable
 
 	private AudioSource bibiAudioSource;
 	private SpriteRenderer face;
+	private Rigidbody _rigidbody;
 
     private enum BibiState
 	{
@@ -79,6 +80,7 @@ public class Bibi : Pickupable
 		}
 	}
 
+	/*
 	public void OnPickup()
 	{
 		// AhhH!!!! BIBIBIBIBIBIBIBIBIBIBIBIBI.
@@ -87,13 +89,22 @@ public class Bibi : Pickupable
 			ChangeState(BibiState.DISRUPTED);
 		}
 	}
+	*/
 
-	protected override void Awake()
+	public override void OnAffectedBySinging()
 	{
-		base.Awake();
+		// AhhH!!!! BIBIBIBIBIBIBIBIBIBIBIBIBI.
+		if (state == BibiState.UNDERGROUND || state == BibiState.SLEEPING)
+		{
+			ChangeState(BibiState.DISRUPTED);
+		}
+	}
 
+	private void Awake()
+	{
 		bibiAudioSource = GetComponent(typeof(AudioSource)) as AudioSource;
 		face = GetComponentInChildren(typeof(SpriteRenderer)) as SpriteRenderer;
+		_rigidbody = GetComponent(typeof(Rigidbody)) as Rigidbody;
 
 		ChangeState(BibiState.BURROWING);
 	}

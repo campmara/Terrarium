@@ -23,10 +23,9 @@ public class BPDeathController : PlantController
 	Color[] _interpColors = new Color[6];
 	int[] _shaderIDs = new int[3];
 
-	
-
 	private float _fadeTime;
 	private float _cutoffValue;
+	private bool _markedForDeath;
 	
 	public override void Init()
 	{
@@ -76,7 +75,6 @@ public class BPDeathController : PlantController
 		}
 		else
 		{
-			
 			if ( renderers.Length > 0 && renderers[0] != null )
 			{
 				shape.skinnedMeshRenderer = renderers[0];
@@ -120,19 +118,25 @@ public class BPDeathController : PlantController
 		}
 		else
 		{
-			_curState = DeathState.Fading;
+			//ParticleSystem.MinMaxGradient essenceTrailColor = _essenceParticleSystem.trails.colorOverLifetime;
+			//essenceTrailColor.color = _componentMaterials[0].GetColor(_shaderIDs[1]);
 
-			ParticleSystem.MinMaxGradient essenceTrailColor = _essenceParticleSystem.trails.colorOverLifetime;
-			essenceTrailColor.color = _componentMaterials[0].GetColor(_shaderIDs[1]);
-
-			_essenceParticleSystem.Play();
-
+			// DEFINE SOME VALUES
 			_cutoffValue = 0f;
 			_fadeTime = Random.Range(5f, 7f);
 
+			ParticleSystem.MainModule essenceMain = _essenceParticleSystem.main;
+			essenceMain.startColor = _componentMaterials[0].GetColor(_shaderIDs[1]);
+			essenceMain.duration = _fadeTime;
+
+			_essenceParticleSystem.Play();
+
+			// Fade the cutoff in a tween.
 			DOTween.To(()=> _cutoffValue, x=> _cutoffValue = x, 1f, _fadeTime)
 				.SetEase(Ease.InExpo)
 				.OnComplete(OnDeath);
+
+			_curState = DeathState.Fading;
 		}
 	}
 
@@ -141,13 +145,18 @@ public class BPDeathController : PlantController
 		// Fully decayed and therefore no longer visible.
 		_essenceParticleSystem.Stop();
 		_essenceParticleSystem.GetComponent<EssenceParticles>().MarkForDestroy(5f);
-		
 
-		PlantManager.instance.DeleteLargePlant( _myPlant.GetComponent<BasePlant>() );
+		_markedForDeath = true;
 	}
 
 	void FadeEssence()
 	{
+		if (_markedForDeath && !_essenceParticleSystem.IsAlive())
+		{
+			// Delete me!!! Bye bye!!!
+			PlantManager.instance.DeleteLargePlant( _myPlant.GetComponent<BasePlant>() );
+		}
+
 		for (int i = 0; i < _componentMaterials.Count; i++)
 		{
 			_componentMaterials[i].SetFloat("_Dissolve", _cutoffValue);

@@ -67,12 +67,11 @@ public class PickupState : RollerState
             _roller.ChangeState( P_ControlState.WALKING );
         }
 
-		if( _startLiftTracking )
+		if( _startLiftTracking && _roller.CurrentHeldObject )
 		{
 			_roller.CarryPositionObject.transform.position = _roller.IK.ArmTipMidpoint;	
 			_roller.CurrentHeldObject.transform.localPosition = Vector3.zero;
 		}
-
     }
 
 	public void StartLifting()

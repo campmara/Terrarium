@@ -1265,6 +1265,7 @@ Transform:
   - {fileID: 4815251541518152}
   - {fileID: 4024618773212700}
   - {fileID: 4389537134339662}
+  - {fileID: 4857222150329876}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1681,8 +1682,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a1b474957ddd469c97838072a0ad1be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentHeldObject: {fileID: 0}
   _velocity: 0
-  _carryPositionObject: {fileID: 1520392162359884}
+  _carryPositionObject: {fileID: 0}
 --- !u!114 &114087498708826506
 MonoBehaviour:
   m_ObjectHideFlags: 1
