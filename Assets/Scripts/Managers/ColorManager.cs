@@ -46,6 +46,9 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 		public Gradient cappPlant;
 		public Gradient limberPlant;
 
+        [Header( "Creatures" ), Space( 5 )]
+        public Gradient rabbitGradient;
+        public Gradient butterflyGradient;
 	}
 
 	public static event Action<EnvironmentPalette, EnvironmentPalette> ExecutePaletteChange;
@@ -89,6 +92,8 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 	[SerializeField] Material bumbleMat;
 	[SerializeField] Material limberMat;
 	[SerializeField] Material pointyBushMat;
+
+    [SerializeField] Material rabbitMat;
 
 	void Start()
 	{
@@ -139,7 +144,9 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 			}
 
 			pondRockMat.SetColor( "_Color", _activePalette.pondRockColor );
-			//ApplyThreePartGradient( pondRockMat, _activePalette.pondRockGradient );
+            //ApplyThreePartGradient( pondRockMat, _activePalette.pondRockGradient );
+
+            ApplyThreePartGradient( rabbitMat, _activePalette.rabbitGradient );
 
 			ApplyThreePartGradient( mossPlantSeedMat, _activePalette.mossPlantSeed );
 			ApplyThreePartGradient( mossPlantMat, _activePalette.mossPlant );
@@ -163,9 +170,11 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 
 			GeneralTransitionColors( prevPalatte );
 
-			//TransitionThreePartGradient( pondRockMat, _activePalette.pondRockGradient );
+            //TransitionThreePartGradient( pondRockMat, _activePalette.pondRockGradient );
 
-			TransitionThreePartGradient( mossPlantSeedMat, _activePalette.mossPlantSeed );
+           TransitionThreePartGradient( rabbitMat, _activePalette.rabbitGradient );
+
+            TransitionThreePartGradient( mossPlantSeedMat, _activePalette.mossPlantSeed );
 			TransitionThreePartGradient( mossPlantMat, _activePalette.mossPlant );
 			TransitionThreePartGradient( pointPlantSeedMat, _activePalette.pointPlantSeed );			
 			TransitionThreePartGradient( pointPlantLeafMat, _activePalette.pointPlantLeaf );
