@@ -478,6 +478,7 @@ public class RollerController : ControllerBase
 		_ik.SetState(PlayerIKControl.WalkState.POND_RETURN);
 
 		// ! BOOM !
+		AudioManager.instance.PlayClipAtIndex(AudioManager.AudioControllerNames.PLAYER_ACTIONFX, 3);
 		_explodeParticleSystem.Play();
 
 		// Wait for the boom to finish.
