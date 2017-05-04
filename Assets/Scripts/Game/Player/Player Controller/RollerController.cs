@@ -526,4 +526,18 @@ public class RollerController : ControllerBase
 			}
 		}
 	}
+
+	private void OnTriggerEnter(Collider other)
+	{
+		if (_currentState == _rolling)
+		{
+			SeedSlug slug = null;
+			slug = other.GetComponent(typeof(SeedSlug)) as SeedSlug;
+			if (slug != null)
+			{
+				slug.OnHitWithRoll();
+				slug = null;
+			}
+		}
+	}
 }
