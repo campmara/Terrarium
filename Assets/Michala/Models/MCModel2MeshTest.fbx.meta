@@ -72,6 +72,7 @@ ModelImporter:
     100128: pasted__r_shoulder
     100130: hip
     100132: hip1
+    100134: head
     400000: body
     400002: core
     400004: group
@@ -139,6 +140,7 @@ ModelImporter:
     400128: pasted__r_shoulder
     400130: hip
     400132: hip1
+    400134: head
     4300000: pCube1
     9500000: //RootNode
     13700000: pCube1
