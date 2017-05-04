@@ -67,15 +67,15 @@
 			localPos += _Scale;
 
 			//https://forum.unity3d.com/threads/free-fake-window-shader.394971/
-			//half scale = (1 - _Scale);
+					//half scale = (1 - _Scale);
 			half coeff = dot(abs(normalize(IN.viewDir)), IN.normal);
-			//half3 offset = (IN.viewDir)* scale / 2 * (2 - coeff);
-			//half2 uv = half2(localPos.x*_Scale + scale / 2 - offset.x, localPos.z*_Scale + scale / 2 - offset.y);
+					//half3 offset = (IN.viewDir)* scale / 2 * (2 - coeff);
+					//half2 uv = half2(localPos.x*_Scale + scale / 2 - offset.x, localPos.z*_Scale + scale / 2 - offset.y);
 
-			//half2 uv = localPos.xz + IN.viewDir*_Scale;
-			//uv = IN.viewDir + localPos.xz;
+					//half2 uv = localPos.xz + IN.viewDir*_Scale;
+					//uv = IN.viewDir + localPos.xz;
 
-			//half4 color = lerp(_Color1, _Color2, tex2D(_MainTex, uv).r);
+					//half4 color = lerp(_Color1, _Color2, tex2D(_MainTex, uv).r);
 			half4 color = lerp(_Color1, _Color2, pow(coeff, 1));
 			o.Albedo = color.rgb * _MainColor.rgb;
 			o.Alpha = 1-color.r*.5f;
