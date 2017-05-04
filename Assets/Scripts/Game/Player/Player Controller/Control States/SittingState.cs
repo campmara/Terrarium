@@ -29,6 +29,9 @@ public class SittingState : RollerState
 
     public override void HandleInput( InputCollection input )
     {
+        _roller.BreathTimer += Time.deltaTime * RollerConstants.instance.BreathSpeed;
+        _roller.Spherify = Mathf.PingPong( _roller.BreathTimer, RollerConstants.instance.BreathSpherize );
+
         Vector3 vec = new Vector3( input.LeftStickX, 0f, input.LeftStickY );
 
         if ( input.YButton.WasPressed )   // Y BUTTON

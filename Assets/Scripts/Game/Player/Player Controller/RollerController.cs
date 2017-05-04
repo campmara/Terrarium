@@ -82,6 +82,9 @@ public class RollerController : ControllerBase
     public float SpherifyScale { get { return _bodyRenderer.material.GetFloat( _spherifyScalePropertyHash ); } set { _bodyRenderer.material.SetFloat( _spherifyScalePropertyHash, value ); } }
     public float Spherify { get { return _bodyRenderer.material.GetFloat( _spherifyPropertyHash ); } set { _bodyRenderer.material.SetFloat( _spherifyPropertyHash, value ); } }
 
+    float _breathTimer = 0.0f;
+    public float BreathTimer { get { return _breathTimer; } set { _breathTimer = value; } }
+
     // ===========
     // S T A T E S
     // ===========

@@ -23,6 +23,11 @@ public class RollerConstants : ScriptableObjectSingleton<RollerConstants>
     public float WalkTurnAngleMin = 0.5f;
     public float WalkTurnAngleMax = 60.0f;
 
+    // BREATHING VARIABLES
+    public float BreathSpeed = 0.3f;
+    public float BreathSpherizeScale = 3.0f;
+    public float BreathSpherize = 0.05f;
+
     // ROLL
     [Header( "Roll Variables" ), Space( 10 )]
     public float RollSpeed = 10f;
