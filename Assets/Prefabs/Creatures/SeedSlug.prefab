@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33137038741621168}
   - component: {fileID: 23337802323965232}
   - component: {fileID: 114040625112747650}
+  - component: {fileID: 135424958687033272}
   m_Layer: 0
   m_Name: SeedSlug
   m_TagString: Untagged
@@ -96,3 +97,15 @@ MonoBehaviour:
   _moveTime: 200
   _curveSpeed: 0.1
   _moveTimer: 0
+--- !u!135 &135424958687033272
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1281975156705842}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.69
+  m_Center: {x: 0, y: 0.42, z: -0.3}
