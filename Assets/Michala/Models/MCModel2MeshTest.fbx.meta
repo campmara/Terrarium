@@ -39,6 +39,39 @@ ModelImporter:
     100062: r_leg5
     100064: r_shoulder
     100066: r_wrist
+    100068: pasted__body
+    100070: pasted__core
+    100072: pasted__joint1
+    100074: pasted__l_arm1
+    100076: pasted__l_arm2
+    100078: pasted__l_arm3
+    100080: pasted__l_arm4
+    100082: pasted__l_arm5
+    100084: pasted__l_foot
+    100086: pasted__l_hip
+    100088: pasted__l_leg1
+    100090: pasted__l_leg2
+    100092: pasted__l_leg3
+    100094: pasted__l_leg4
+    100096: pasted__l_leg5
+    100098: pasted__l_shoulder
+    100100: pasted__l_wrist
+    100102: pasted__r_arm1
+    100104: pasted__r_arm2
+    100106: pasted__r_arm3
+    100108: pasted__r_arm4
+    100110: pasted__r_arm5
+    100112: pasted__r_arm_end
+    100114: pasted__r_foot
+    100116: pasted__r_hip
+    100118: pasted__r_leg1
+    100120: pasted__r_leg2
+    100122: pasted__r_leg3
+    100124: pasted__r_leg4
+    100126: pasted__r_leg5
+    100128: pasted__r_shoulder
+    100130: hip
+    100132: hip1
     400000: body
     400002: core
     400004: group
@@ -73,6 +106,39 @@ ModelImporter:
     400062: r_leg5
     400064: r_shoulder
     400066: r_wrist
+    400068: pasted__body
+    400070: pasted__core
+    400072: pasted__joint1
+    400074: pasted__l_arm1
+    400076: pasted__l_arm2
+    400078: pasted__l_arm3
+    400080: pasted__l_arm4
+    400082: pasted__l_arm5
+    400084: pasted__l_foot
+    400086: pasted__l_hip
+    400088: pasted__l_leg1
+    400090: pasted__l_leg2
+    400092: pasted__l_leg3
+    400094: pasted__l_leg4
+    400096: pasted__l_leg5
+    400098: pasted__l_shoulder
+    400100: pasted__l_wrist
+    400102: pasted__r_arm1
+    400104: pasted__r_arm2
+    400106: pasted__r_arm3
+    400108: pasted__r_arm4
+    400110: pasted__r_arm5
+    400112: pasted__r_arm_end
+    400114: pasted__r_foot
+    400116: pasted__r_hip
+    400118: pasted__r_leg1
+    400120: pasted__r_leg2
+    400122: pasted__r_leg3
+    400124: pasted__r_leg4
+    400126: pasted__r_leg5
+    400128: pasted__r_shoulder
+    400130: hip
+    400132: hip1
     4300000: pCube1
     9500000: //RootNode
     13700000: pCube1
