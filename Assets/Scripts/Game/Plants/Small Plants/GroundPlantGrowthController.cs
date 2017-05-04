@@ -12,8 +12,6 @@ public class GroundPlantGrowthController : SPGrowthController
 
 	float _waitTime = 0.0f;
 	float _leafScale = 0.0f;
-
-	float _endTimeStamp = 0.0f;
 	Animator _lastAnim = null;
 	bool _waiting = false;
 
@@ -112,10 +110,9 @@ public class GroundPlantGrowthController : SPGrowthController
 
 	private IEnumerator WaitToSpawnChild()
 	{
-		float _animEndTime = _lastAnim.GetCurrentAnimatorStateInfo(0).length;
 		float _curTimeAnimated = _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime; // Mathf.Lerp(0.0f, _animEndTime, _plantAnim.GetCurrentAnimatorStateInfo(0).normalizedTime ); // i am x percent of the way through anim
 
-		while( _curTimeAnimated < _animEndTime )
+		while( _curTimeAnimated < 1.0f )
 		{
 			//update
 			_curTimeAnimated = _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime; 
@@ -129,8 +126,6 @@ public class GroundPlantGrowthController : SPGrowthController
 		if( !_waiting )
 		{
 			_lastAnim = _childAnimators[ _childAnimators.Count - 1 ];
-			AnimatorStateInfo state = _lastAnim.GetCurrentAnimatorStateInfo(0);
-			_endTimeStamp =  state.length;//_lastClip.length - .04f;
 			StartCoroutine( WaitForLastLeaf() );
 		}
 	}
@@ -138,7 +133,7 @@ public class GroundPlantGrowthController : SPGrowthController
 	private IEnumerator WaitForLastLeaf()
 	{
 		_waiting = true;
-		while( _endTimeStamp > _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime )
+		while( _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f )
 		{
 			yield return null;
 		}

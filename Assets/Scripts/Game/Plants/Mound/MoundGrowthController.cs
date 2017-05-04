@@ -89,12 +89,17 @@ public class MoundGrowthController : PlantController
 		Vector3 plantPos = _sprout.position;
 		plantPos = plantPos.SetPosY( 0.0f );
 		BasePlant plant = ( (GameObject)Instantiate( _basePlantPrefab, plantPos, Quaternion.identity ) ).GetComponent<BasePlant>();
-
-		StarterPlantGrowthController sPlant = plant.GetComponent<StarterPlantGrowthController>();
-		if( sPlant )
+		BPGrowthController controller = plant.GetComponent<BPGrowthController>();
+		if ( controller )
 		{
-			sPlant.MinScale = new Vector3( _scaleInterp, _scaleInterp, _scaleInterp );
+			controller.UpdateToMoundScale( _sprout.transform.localScale.x );
 		}
+
+		//StarterPlantGrowthController sPlant = plant.GetComponent<StarterPlantGrowthController>();
+		//if( sPlant )
+		//{
+		//	sPlant.MinScale = new Vector3( _scaleInterp, _scaleInterp, _scaleInterp );
+		//}
 
 		PlantManager.instance.AddBasePlant( plant );
 
