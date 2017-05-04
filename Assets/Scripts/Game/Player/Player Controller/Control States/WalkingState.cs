@@ -71,7 +71,8 @@ public class WalkingState : RollerState
         else
         {
             _roller.BreathTimer += Time.deltaTime * RollerConstants.instance.BreathSpeed;
-            _roller.Spherify = Mathf.PingPong( _roller.BreathTimer, RollerConstants.instance.BreathSpherize );
+            _roller.Spherify = 1.0f - Mathf.Pow(Mathf.Abs(Mathf.Sin(Mathf.PI * _roller.BreathTimer / 2.0f)), 0.5f)* RollerConstants.instance.BreathSpherize;
+            //_roller.Spherify = Mathf.PingPong( _roller.BreathTimer, RollerConstants.instance.BreathSpherize );
         }
 
         // Check for sitting after idling for a while.
