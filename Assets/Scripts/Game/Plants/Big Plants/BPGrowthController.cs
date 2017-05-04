@@ -33,8 +33,8 @@ public class BPGrowthController : PlantController
 	float [] _neededDistance = new float[] { 4.0f, 5.0f, 8.5f, 15.0f }; // how much room each stage need to grow, first element doesnt matter
 	float [] _spawnRadii = new float[] { 3.5f, 4.0f, 4.5f, 5.0f };  
 	bool _hardStopGrowth = false;
-
-	float _origScale;
+	bool _stemDoneGrowing = false;
+	float _origScale = 1.0f;
 
 	public enum GrowthStage : int
 	{
@@ -166,10 +166,7 @@ public class BPGrowthController : PlantController
 	//********************************
 	public override void UpdateState()
 	{
-		if( _curStage != GrowthStage.Final )
-		{
-			_curPercentAnimated = _plantAnim.GetCurrentAnimatorStateInfo(0).normalizedTime / _animEndTime;
-			if( _curPercentAnimated >= growthTime[ (int)_curStage ] )
+			if( _plantAnim.GetCurrentAnimatorStateInfo(0).normalizedTime >= growthTime[ (int)_curStage ] && !_stemDoneGrowing )
 			{
 				TryTransitionStages();
 			}
@@ -178,7 +175,7 @@ public class BPGrowthController : PlantController
 				CustomPlantGrowth();
 				BaseUpdate();
 			}
-		}
+		//}
 	}
 
 	void UpdateScale()
@@ -205,17 +202,16 @@ public class BPGrowthController : PlantController
 	}
 	void BaseUpdate()
 	{
+		_curPercentAnimated = _plantAnim.GetCurrentAnimatorStateInfo(0).normalizedTime;
 		UpdateScale();
 		UpdateSummonsData();
 	}
-
-
 
 	protected virtual void CustomPlantGrowth(){}
 
 	void TryTransitionStages()
 	{
-		if( IsOverlappingPlants() )
+		if( _curStage != GrowthStage.Final && IsOverlappingPlants() )
 		{
 			StopState();
 		}
@@ -274,6 +270,7 @@ public class BPGrowthController : PlantController
 			PlantManager.instance.RequestDropFruit( this, _timeBetweenFruitDrops );
 			SpawnAmbientCreature();
 			StopState();
+			_stemDoneGrowing = true;
 		}
 
 		ChangeGrowthRate( _baseGrowthRate );

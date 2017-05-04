@@ -22,8 +22,6 @@ public class StarterPlantGrowthController : BPGrowthController
 
 	Transform _currentParent = null;
 	Coroutine _leafSpawnRoutine = null;
-
-	float _endTimeStamp = 0.0f;
 	Animator _lastAnim = null;
 	bool _waiting = false;
 
@@ -84,23 +82,15 @@ public class StarterPlantGrowthController : BPGrowthController
 
 	protected override void CustomPlantGrowth()
 	{
-		//if( transform.localScale.x < _maxScale.x )
-	//	{
-	///		transform.localScale = Vector3.Lerp( _minScale, _maxScale, Mathf.SmoothStep( 0, 1, _curPercentAnimated ) );
-	//	}
+		if( transform.localScale.x < _maxScale.x )
+		{
+			transform.localScale = Vector3.Lerp( _minScale, _maxScale, Mathf.SmoothStep( 0, 1, _curPercentAnimated ) );
+		}
 			
 		if( _leafSpawnRoutine == null && _curChildSpawned < _numChildren )
 		{
 			_leafSpawnRoutine = StartCoroutine( SpawnLeaves() );
 		}
-
-//		if( _lastAnim )
-//		{
-//			if( _endTimeStamp >= _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime )
-//			{
-//				_myPlant.SwitchController( this );
-//			}
-//		}
 	}
 
 	protected override void CustomStopGrowth()
@@ -108,10 +98,6 @@ public class StarterPlantGrowthController : BPGrowthController
 		if( !_waiting )
 		{
 			_lastAnim = _childAnimators[ _childAnimators.Count - 1 ];
-			//_lastClip = _lastAnim.runtimeAnimatorController.animationClips[0];
-			AnimatorStateInfo state = _lastAnim.GetCurrentAnimatorStateInfo(0);
-			_endTimeStamp =  state.length - .04f;
-
 			StartCoroutine( WaitForLastLeaf() );
 		}
 	}
@@ -119,13 +105,8 @@ public class StarterPlantGrowthController : BPGrowthController
 	private IEnumerator WaitForLastLeaf()
 	{
 		_waiting = true;
-		float curTime = _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime;
-		float len = _lastAnim.GetCurrentAnimatorStateInfo(0).length;
-		float percent = curTime / len;
-		while( percent < .99f )
+		while( _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f )
 		{
-			curTime = _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime;
-			percent = curTime / len;
 			yield return null;
 		}
 
