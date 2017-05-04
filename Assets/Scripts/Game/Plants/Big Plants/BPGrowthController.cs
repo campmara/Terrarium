@@ -175,7 +175,6 @@ public class BPGrowthController : PlantController
 				CustomPlantGrowth();
 				BaseUpdate();
 			}
-		//}
 	}
 
 	void UpdateScale()
