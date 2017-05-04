@@ -55,6 +55,17 @@ public class WalkingState : RollerState
 
     public override void HandleInput( InputCollection input )
     {
+        if( _roller.Spherify > 0.0f )
+        {
+            _roller.Spherify -= Time.deltaTime * RollerConstants.instance.RitualDeflateSpeed;
+
+            if( _roller.Spherify < 0.0f )
+            {
+                _roller.Spherify = 0.0f;
+                _roller.SpherifyScale = 1.0f;
+            }
+        }
+
         // Check for sitting after idling for a while.
         IdleTimer( input );
 

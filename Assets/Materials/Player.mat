@@ -84,7 +84,7 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SpecularPower: 128
-    - _SphereScale: 0.4
+    - _SphereScale: 1
     - _Spherification: 0
     - _SrcBlend: 1
     - _UVSec: 0
