@@ -23,6 +23,11 @@ public class RollerConstants : ScriptableObjectSingleton<RollerConstants>
     public float WalkTurnAngleMin = 0.5f;
     public float WalkTurnAngleMax = 60.0f;
 
+    // BREATHING VARIABLES
+    public float BreathSpeed = 0.3f;
+    public float BreathSpherizeScale = 3.0f;
+    public float BreathSpherize = 0.05f;
+
     // ROLL
     [Header( "Roll Variables" ), Space( 10 )]
     public float RollSpeed = 10f;
@@ -41,6 +46,10 @@ public class RollerConstants : ScriptableObjectSingleton<RollerConstants>
 
     // ROLL PAINTING
     public Vector2 RollPaintSize = new Vector2( 0.5f, 1.0f );
+
+    // ROLL TRANSITION
+    public float RollSpherizeScale = 1.0f;
+    public float RollSpherizeMaxSize = 1.0f;
 
     // PICKUP
     [Header( "Pickup Variables" ), Space( 10 )]
@@ -65,8 +74,11 @@ public class RollerConstants : ScriptableObjectSingleton<RollerConstants>
     // RITUAL DANCE
     [Header( "Ritual Variables" ), Space( 10 )]
     public float RitualTime = 0.25f;
-	public float RitualTurnSpeed = 2000f;
+    public AnimationCurve RitualPopCurve;
     public float RitualCompleteWait = 2f;
+    public float RitualSphereizeScale = 5.0f;
+    public float RitualMaxSpherize = 0.1f;
+    public float RitualDeflateSpeed = 2.0f;
 
     // PLANTING
     [Header( "Planting Variables" ), Space( 10 )]

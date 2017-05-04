@@ -14,6 +14,9 @@ public class RitualState : RollerState
 		ritualTimer = 0f;
 		hasExploded = false;
 
+        _roller.Spherify = 0.0f;
+        _roller.SpherifyScale = RollerConstants.instance.RitualSphereizeScale;
+
 		_roller.Face.BecomeDesirous();
 	}
 
@@ -27,13 +30,15 @@ public class RitualState : RollerState
 			_roller.Face.BecomeIdle();
 			AudioManager.instance.StopController( AudioManager.AudioControllerNames.PLAYER_ACTIONFX );
 		}
-        
-		_roller.ExplodeParticleSystem.Stop();
+
+        // TODO: make this lerp back!
+
+        _roller.ExplodeParticleSystem.Stop();
 	}
 
 	public override void HandleFixedInput(InputCollection input)
 	{
-		if (!hasExploded && ritualTimer > RollerConstants.instance.RitualTime)
+		if ( !hasExploded && ritualTimer > RollerConstants.instance.RitualTime )
 		{
 			hasExploded = true;
 			_roller.HandlePondReturn();
@@ -50,7 +55,7 @@ public class RitualState : RollerState
 				_roller.CurrentHeldObject = null;
 			}
 		}
-		else if (!hasExploded)
+		else if ( !hasExploded )
 		{
 			ritualTimer += Time.deltaTime;
 
@@ -62,7 +67,9 @@ public class RitualState : RollerState
 										RollerConstants.instance.WalkDeceleration, 
 										RollerConstants.instance.WalkTurnSpeed);
 
-			if (!input.XButton.IsPressed)
+            _roller.Spherify = Mathf.Lerp( 0.0f, RollerConstants.instance.RitualMaxSpherize, RollerConstants.instance.RitualPopCurve.Evaluate( ritualTimer / RollerConstants.instance.RitualTime ) );
+
+            if (!input.XButton.IsPressed)
 			{
 				_roller.ChangeState(P_ControlState.WALKING);
 			}

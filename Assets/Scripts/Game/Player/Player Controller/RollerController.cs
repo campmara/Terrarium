@@ -72,12 +72,25 @@ public class RollerController : ControllerBase
     private float _targetRotAngle = 0.0f;
 	private Coroutine _idleWaitRoutine = null;
 
-	// ===========
-	// S T A T E S
-	// ===========
+    [SerializeField]
+    SkinnedMeshRenderer _bodyRenderer = null;
+    public SkinnedMeshRenderer BodyRenderer { get { return _bodyRenderer; } }
+    private const string SPHERIFYSCALE_SHADERPROP = "_SphereScale";
+    private const string SPHERIFY_SHADERPROP = "_Spherification";
+    int _spherifyPropertyHash = 0;
+    int _spherifyScalePropertyHash = 0;
+    public float SpherifyScale { get { return _bodyRenderer.material.GetFloat( _spherifyScalePropertyHash ); } set { _bodyRenderer.material.SetFloat( _spherifyScalePropertyHash, value ); } }
+    public float Spherify { get { return _bodyRenderer.material.GetFloat( _spherifyPropertyHash ); } set { _bodyRenderer.material.SetFloat( _spherifyPropertyHash, value ); } }
 
-	// STATE MACHINE
-	RollerState _currentState;
+    float _breathTimer = 0.0f;
+    public float BreathTimer { get { return _breathTimer; } set { _breathTimer = value; } }
+
+    // ===========
+    // S T A T E S
+    // ===========
+
+    // STATE MACHINE
+    RollerState _currentState;
 
 	protected P_ControlState _controlState = P_ControlState.NONE;
 	public P_ControlState State { get { return _controlState; } set { _controlState = value; } }
@@ -106,10 +119,12 @@ public class RollerController : ControllerBase
 
 		_rig = transform.GetChild(0).gameObject;
 		_rollSphere = transform.GetChild(2).gameObject;
-		
 
-		// Add State Controller, Set parent to This Script, set to inactive
-		_walking = this.gameObject.AddComponent(typeof(WalkingState)) as WalkingState;
+        _spherifyPropertyHash = Shader.PropertyToID( SPHERIFY_SHADERPROP );
+        _spherifyScalePropertyHash = Shader.PropertyToID( SPHERIFYSCALE_SHADERPROP );
+
+        // Add State Controller, Set parent to This Script, set to inactive
+        _walking = this.gameObject.AddComponent(typeof(WalkingState)) as WalkingState;
 		_walking.RollerParent = this;
 
 		_rolling = this.gameObject.AddComponent(typeof(RollingState)) as RollingState;
