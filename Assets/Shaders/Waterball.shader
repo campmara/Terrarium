@@ -59,6 +59,11 @@ Shader "Custom/Waterball"
 		_MeltDistance("Melt Distance", Float) = 1.0
 		_MeltCurve("Melt Curve", Range(1.0,10.0)) = 2.0
 		_MeltAmount("Melt Amount", Range(0.0, 1.0)) = 1.0
+
+		[Header(Spherification)]
+		_SphereCenter("Center", vector) = (0,0,0,0)
+		_SphereScale("Sphere Scale", float) = 1
+		_Spherification("Spherify Amount", Range(0,1)) = 0
 	}
 
 	SubShader
@@ -80,7 +85,7 @@ Shader "Custom/Waterball"
 			float2 uv_MainTex; // for gradient
 			float3 viewDir; // for rim lighting
 			float4 proj : TEXCOORD; // for refraction
-			float3 worldPos; // for melt
+			float3 pos; // for melt and gradient
 		};
 
 		float4 _RimColor;
@@ -127,6 +132,11 @@ Shader "Custom/Waterball"
 		half _MeltDistance;
 		half _MeltCurve;
 		half _MeltAmount;
+
+		//spherification values
+		float _Spherification;
+		float _SphereScale;
+		float4 _SphereCenter;
 
 		fixed4 LightingWaterPlayer(SurfaceOutput s, fixed3 lightDir, fixed atten, fixed3 viewDir)
 		{
@@ -200,9 +210,15 @@ Shader "Custom/Waterball"
 			return mul(unity_WorldToObject, worldSpacePosition);
 		}
 
-		void vert(inout appdata_full v, out Input o) {
+		void vert(inout appdata_tan v, out Input o) {
 			UNITY_INITIALIZE_OUTPUT(Input, o);
 			
+			//spherification
+			float3 directionToCenter = normalize(_SphereCenter + v.vertex.xyz);
+			float3 pointOnSphere = directionToCenter * _SphereScale;
+			v.vertex.xyz = lerp(v.vertex.xyz, pointOnSphere, _Spherification);
+			v.normal = lerp(v.normal, directionToCenter, _Spherification);
+
 			//calculate normals and apply deformation
 			//...............
 			float4 vertPosition = getNewVertPosition(v.vertex, v.normal);
@@ -218,8 +234,9 @@ Shader "Custom/Waterball"
 			v.normal = cross(newTangent, newBitangent);
 			v.vertex = vertPosition; 
 			//..............
-
-			o.worldPos.xyz = mul(unity_ObjectToWorld, v.vertex.xyz);
+			
+			o.pos = v.vertex;
+			//o.worldPos.xyz = mul(unity_ObjectToWorld, v.vertex.xyz);
 
 			//https://forum.unity3d.com/threads/refraction-example.78750/
 			//refraction distorting uvs
@@ -235,6 +252,13 @@ Shader "Custom/Waterball"
 
 		void surf(Input IN, inout SurfaceOutput o)
 		{
+			float4 worldPos = mul(unity_ObjectToWorld, float4(IN.pos,0));
+
+			float4 mainTex = tex2D(_MainTex, IN.uv_MainTex);
+
+			//grad uv
+			float gradUV = IN.pos.y*.5 + .5;
+
 			//refraction from above url
 			half3 nor = cnoise((o.Normal) + _Time);
 			float2 offset = nor  * _DistAmt * _GrabTexture_TexelSize.xy;
@@ -242,8 +266,8 @@ Shader "Custom/Waterball"
 			half4 col = tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(IN.proj));
 			
 			//murray's gradient
-			fixed4 gradient = lerp(_ColorBot, _ColorMid, IN.uv_MainTex.y / _Middle) * step(IN.uv_MainTex.y, _Middle);
-			gradient += lerp(_ColorMid, _ColorTop, (IN.uv_MainTex.y - _Middle) / (1 - _Middle)) * step(_Middle, IN.uv_MainTex.y);
+			fixed4 gradient = lerp(_ColorBot, _ColorMid, gradUV / _Middle) * step(gradUV, _Middle);
+			gradient += lerp(_ColorMid, _ColorTop, (gradUV - _Middle) / (1 - _Middle)) * step(_Middle, gradUV);
 
 			//mix em'
 			fixed4 finalCol = lerp(gradient, col * gradient, _ColorFog);
@@ -262,8 +286,7 @@ Shader "Custom/Waterball"
 			*/
 
 			//put it all together and make the rim lighting ramp up from the ground
-			o.Albedo = c + rimInfluence * clamp(IN.worldPos.y,0,.1)*10;//+ melt*gradient
-
+			o.Albedo = (c + rimInfluence * clamp(worldPos.y,0,.1)*10)*mainTex;//+ melt*gradient
 			o.Alpha = c.a;
 		}
 		ENDCG

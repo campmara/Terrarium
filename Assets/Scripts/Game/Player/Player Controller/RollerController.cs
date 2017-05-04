@@ -44,7 +44,7 @@ public class RollerController : ControllerBase
 	public ParticleSystem ExplodeParticleSystem { get { return _explodeParticleSystem; } }
 
 	// These have accessors in the RollerState
-	[ReadOnly] Pickupable _currentHeldObject = null;
+	[ReadOnly, SerializeField] Pickupable _currentHeldObject = null;
     public Pickupable CurrentHeldObject { get { return _currentHeldObject; } set { _currentHeldObject = value; } }
 	[ReadOnly] Vector3 _inputVec = Vector3.zero;
     public Vector3 InputVec { get { return _inputVec; } set { _inputVec = value; } }
@@ -474,9 +474,11 @@ public class RollerController : ControllerBase
 		// Handle all the object deactivation and state change we require.
 		_mesh.SetActive(false);
 		_face.gameObject.SetActive(false);
+		_rollSphere.SetActive(false);
 		_ik.SetState(PlayerIKControl.WalkState.POND_RETURN);
 
 		// ! BOOM !
+		AudioManager.instance.PlayClipAtIndex(AudioManager.AudioControllerNames.PLAYER_ACTIONFX, 3);
 		_explodeParticleSystem.Play();
 
 		// Wait for the boom to finish.
@@ -492,4 +494,35 @@ public class RollerController : ControllerBase
         //PondManager.instance.HandlePondReturn(); 
         PondManager.instance.HandlePondWait();
     }
+
+	public bool CollidedWithObject { get { return _collidedWithObject; } set { _collidedWithObject = value; } }
+	private bool _collidedWithObject = false;
+	private void OnCollisionEnter(Collision other)
+	{
+		if (!_collidedWithObject && _currentState == _rolling)
+		{
+			// if we collide with something, die.
+			if (other.gameObject.layer != LayerMask.NameToLayer("Ground"))
+			{
+				//CameraManager.instance.ScreenShake(0.25f, 0.25f, 10);
+				_collidedWithObject = true;
+				BecomeWalker();
+				HandlePondReturn();
+			}
+		}
+	}
+
+	private void OnTriggerEnter(Collider other)
+	{
+		if (_currentState == _rolling)
+		{
+			SeedSlug slug = null;
+			slug = other.GetComponent(typeof(SeedSlug)) as SeedSlug;
+			if (slug != null)
+			{
+				slug.OnHitWithRoll();
+				slug = null;
+			}
+		}
+	}
 }

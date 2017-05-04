@@ -17,6 +17,9 @@ public class PondState : RollerState
 
 		_roller.Mesh.SetActive(true);
 		_roller.Face.gameObject.SetActive(true);
+
+        // Ensure that this is false. This is also bad :/ oh well.
+        _roller.CollidedWithObject = false;
     }
 
     public override void HandleInput( InputCollection input )

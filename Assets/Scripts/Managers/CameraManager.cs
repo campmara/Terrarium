@@ -170,6 +170,11 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 		}
 	}
 
+	public void ScreenShake(float duration, float strength, int vibrato)
+	{
+		Main.DOShakePosition(duration, strength, vibrato);
+	}
+
 	public void ChangeCameraState(CameraState newState)
 	{
 		if( newState != _state )

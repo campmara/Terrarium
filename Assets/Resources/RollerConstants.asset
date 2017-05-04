@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InputDeadzone: 0.3
   WalkSpeed: 5.5
-  CarrySpeed: 2
+  CarrySpeed: 4
   SingWalkSpeed: 2
   WalkAcceleration: 0.2
   WalkDeceleration: 3
@@ -49,7 +49,7 @@ MonoBehaviour:
   TransitionDeceleration: 20
   RitualTime: 0.15
   RitualTurnSpeed: 2000
-  RitualCompleteWait: 2
+  RitualCompleteWait: 0.25
   PlantingTime: 0.5
   PlantingEndY: 0
   PlantingEndX: 1.25

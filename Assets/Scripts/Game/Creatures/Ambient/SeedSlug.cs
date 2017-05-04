@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SeedSlug : MonoBehaviour {
-
+public class SeedSlug : MonoBehaviour 
+{
     [SerializeField]
     private float _startDistance = 100.0f;
     [SerializeField]
@@ -75,6 +75,12 @@ public class SeedSlug : MonoBehaviour {
         _xOffsetDir = this.transform.right;
         _currXOffsetGoal = Random.Range( _curveRange.x, _curveRange.y );
         _moveTimer = 0.0f;
+    }
+
+    public void OnHitWithRoll()
+    {
+        Debug.Log("YOU HIT THE SLUG YOU MONSTER.");
+        
     }
 
     private void OnDrawGizmos()

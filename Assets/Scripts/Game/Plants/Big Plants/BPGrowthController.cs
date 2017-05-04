@@ -18,6 +18,7 @@ public class BPGrowthController : PlantController
 	protected float _growthRate = 0.0f;
 	protected float _animEndTime = 0.0f;
 	protected float _curPercentAnimated = 0.0f;
+    public float CurPercentAnimated { get { return _curPercentAnimated; } }
 	protected float _maxHeight = 0.0f;
 	protected float _maxWidth = 0.0f;
 	protected const float WATERED_GROWTHRETURNTIME = 10.0f;
@@ -77,6 +78,8 @@ public class BPGrowthController : PlantController
 
 	public SpawningState spawnState = SpawningState.NotSpawning;
 
+    PlantAudioController _audioController = null;
+
 	public enum SpawningState
 	{
 		NotSpawning,
@@ -110,6 +113,7 @@ public class BPGrowthController : PlantController
 			}
 		}
 
+        _audioController = this.GetComponentInChildren<PlantAudioController>();
 	}
 
 	public override void StartState()
@@ -143,6 +147,10 @@ public class BPGrowthController : PlantController
 		{
 			_curStage = GrowthStage.Sprout;
 			_myPlant.OuterRadius = _spawnRadii[ (int)_curStage ];
+            if( _audioController != null )
+            {
+                _audioController.StartPlayingGrowSound();
+            }
 		}
 		else
 		{

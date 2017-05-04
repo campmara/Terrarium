@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class Bibi : Pickupable 
+public class Bibi : Singable
 {
 	[SerializeField] private GameObject head;
 	[SerializeField] private GameObject ringA;
@@ -25,6 +25,7 @@ public class Bibi : Pickupable
 
 	private AudioSource bibiAudioSource;
 	private SpriteRenderer face;
+	private Rigidbody _rigidbody;
 
     private enum BibiState
 	{
@@ -79,6 +80,7 @@ public class Bibi : Pickupable
 		}
 	}
 
+	/*
 	public void OnPickup()
 	{
 		// AhhH!!!! BIBIBIBIBIBIBIBIBIBIBIBIBI.
@@ -87,13 +89,22 @@ public class Bibi : Pickupable
 			ChangeState(BibiState.DISRUPTED);
 		}
 	}
+	*/
 
-	protected override void Awake()
+	public override void OnAffectedBySinging()
 	{
-		base.Awake();
+		// AhhH!!!! BIBIBIBIBIBIBIBIBIBIBIBIBI.
+		if (state == BibiState.UNDERGROUND || state == BibiState.SLEEPING)
+		{
+			ChangeState(BibiState.DISRUPTED);
+		}
+	}
 
+	private void Awake()
+	{
 		bibiAudioSource = GetComponent(typeof(AudioSource)) as AudioSource;
 		face = GetComponentInChildren(typeof(SpriteRenderer)) as SpriteRenderer;
+		_rigidbody = GetComponent(typeof(Rigidbody)) as Rigidbody;
 
 		ChangeState(BibiState.BURROWING);
 	}
@@ -200,20 +211,23 @@ public class Bibi : Pickupable
 
 	private void OnEnterEscaping()
 	{
-		desiredLocation = Random.insideUnitCircle * 28f;
+		desiredLocation = new Vector3(Random.Range(-28f, 28f), 0f, Random.Range(-28f, 28f));
+		//desiredLocation = Random.insideUnitCircle * 28f;
 
 		while (desiredLocation == Vector3.zero)
 		{
-			desiredLocation = Random.insideUnitCircle * 28f;
+			desiredLocation = new Vector3(Random.Range(-28f, 28f), 0f, Random.Range(-28f, 28f));
+			//desiredLocation = Random.insideUnitCircle * 28f;
 		}
 
 		while ((desiredLocation - transform.position).magnitude < 15f)
 		{
-			desiredLocation = Random.insideUnitCircle * 28f;
-			desiredLocation.y = 0f;
+			desiredLocation = new Vector3(Random.Range(-28f, 28f), 0f, Random.Range(-28f, 28f));
+			//desiredLocation = Random.insideUnitCircle * 28f;
+			//desiredLocation.y = 0f;
 		}
 
-		desiredLocation.y = 0f;
+		//desiredLocation.y = 0f;
 
 		// GRRRRR
 		face.sprite = madFace;
@@ -223,6 +237,8 @@ public class Bibi : Pickupable
 	}
 	private void OnExitEscaping()
 	{
+		desiredLocation = Vector3.zero;
+
 		// Stop the bibi sound.
 		bibiAudioSource.Stop();
 	}

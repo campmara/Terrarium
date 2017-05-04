@@ -17,14 +17,22 @@ public class SingController : MonoBehaviour {
     }
     SingState _state = SingState.IDLE;
 
+    int _currentSingClip = 0;
     float _singPitch = 0.0f;
+    int _numVoices = 1;
 
     float _singStopTimer = 0.0f;
+
+    const float SING_EFFECT_RADIUS = 10f;
 
 	void Awake ()
     {
         _face = this.GetComponentInChildren<FaceManager>();
         _player = this.GetComponent<Player>();
+
+        _numVoices = AudioManager.instance.GetSingingClipCount();
+
+        StartCoroutine(ClipSwitchRoutine());
     }
 	
 	// Update is called once per frame
@@ -32,6 +40,15 @@ public class SingController : MonoBehaviour {
     {
         HandleSinging();	
 	}
+
+    IEnumerator ClipSwitchRoutine()
+    {
+        yield return new WaitForSeconds(Random.Range(20f, 40f));
+
+        _singPitch = Random.Range(0, _numVoices);
+
+        StartCoroutine(ClipSwitchRoutine());
+    }
 
     protected void HandleSinging()
     {
@@ -41,7 +58,7 @@ public class SingController : MonoBehaviour {
             //float desiredPitch = AudioManager.instance.GetCurrentMusicPitch();
             //_singPitch = Mathf.Lerp( _singPitch, desiredPitch, RollerConstants.instance.PitchLerpSpeed * Time.deltaTime );
 
-            AudioManager.instance.PlaySing(Random.Range(0.75f, 1.25f));
+            AudioManager.instance.PlaySing(_currentSingClip, Random.Range(0.25f, 2f));
             _face.Sing();
         }
         else if ( _state == SingState.STOPPING )
@@ -62,6 +79,8 @@ public class SingController : MonoBehaviour {
         if( _state != SingState.SINGING )
         {
             _state = SingState.SINGING;
+
+            CastSingSphere();
         }        
     }
 
@@ -78,5 +97,24 @@ public class SingController : MonoBehaviour {
     {
         _state = SingState.IDLE;
         _face.BecomeIdle();    
+    }
+
+    void CastSingSphere()
+    {
+        // do a spherecast and disrupt Singables
+        Collider[] cols = Physics.OverlapSphere( transform.position, SING_EFFECT_RADIUS );
+        Singable singable = null;
+        if( cols.Length > 0 )
+        {
+            foreach( Collider col in cols )
+            {
+                singable = col.GetComponent<Singable>();
+                if (singable != null)
+                {
+                    singable.OnAffectedBySinging();
+                    singable = null;
+                }
+            }
+        }
     }
 }
