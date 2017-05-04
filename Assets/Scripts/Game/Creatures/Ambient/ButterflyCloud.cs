@@ -207,7 +207,10 @@ public class ButterflyCloud : AmbientCreature {
 
     void HandlePaletteChange( ColorManager.EnvironmentPalette prevPallette, ColorManager.EnvironmentPalette nextPallette )
     {
-        StartCoroutine( TransitionColor( nextPallette.butterflyGradient ) );
+        if( Application.isPlaying )
+        {
+            StartCoroutine( TransitionColor( nextPallette.butterflyGradient ) );
+        }        
     }
 
     IEnumerator TransitionColor( Gradient gradient, float transitionTime = ColorManager.PALATTE_TRANSITIONTIME )

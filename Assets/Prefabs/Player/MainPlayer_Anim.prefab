@@ -1685,6 +1685,7 @@ MonoBehaviour:
   _currentHeldObject: {fileID: 0}
   _velocity: 0
   _carryPositionObject: {fileID: 1520392162359884}
+  _bodyRenderer: {fileID: 137531902433205032}
 --- !u!114 &114087498708826506
 MonoBehaviour:
   m_ObjectHideFlags: 1

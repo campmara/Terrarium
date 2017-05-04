@@ -36,6 +36,8 @@ MonoBehaviour:
   TurnDeceleration: 700
   TurnMinSpeed: 25
   RollPaintSize: {x: 0.45, y: 1}
+  RollSpherizeScale: 1
+  RollSpherizeMaxSize: 1
   PickupCheckHeight: 0.5
   PickupCheckRadius: 1
   PickupForwardScalarPart1: 0.58
@@ -47,9 +49,29 @@ MonoBehaviour:
   IdleWaitTime: 0.1
   TransitionTime: 1
   TransitionDeceleration: 20
-  RitualTime: 0.15
-  RitualTurnSpeed: 2000
-  RitualCompleteWait: 0.25
+  RitualTime: 0.3
+  RitualPopCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  RitualCompleteWait: 2
+  RitualSphereizeScale: 4
+  RitualMaxSpherize: 0.125
+  RitualDeflateSpeed: 0.75
   PlantingTime: 0.5
   PlantingEndY: 0
   PlantingEndX: 1.25
