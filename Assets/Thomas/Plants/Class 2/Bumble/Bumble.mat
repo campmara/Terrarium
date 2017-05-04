@@ -59,7 +59,7 @@ Material:
     - _Cutoff: 0.5
     - _CutoffEdgeScale: 0.45
     - _CutoffNoiseScale: 10
-    - _Deformation: 0
+    - _Deformation: 1
     - _DetailNormalMapScale: 1
     - _Dissolve: 0
     - _DstBlend: 0
@@ -83,7 +83,7 @@ Material:
     - _WindEnabled: 1
     - _ZWrite: 1
     m_Colors:
-    - _BlendOffset: {r: -0.5, g: -0.5, b: 0, a: 0}
+    - _BlendOffset: {r: -0.57, g: -0.5, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorBot: {r: 1, g: 1, b: 1, a: 1}
     - _ColorMid: {r: 1, g: 1, b: 1, a: 1}
