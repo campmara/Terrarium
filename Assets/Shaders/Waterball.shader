@@ -162,10 +162,10 @@ Shader "Custom/Waterball"
 
 		//http://diary.conewars.com/vertex-displacement-shader/ for normal recalculation
 		//deformation function
-		float4 getNewVertPosition(float4 objectSpacePosition, float3 objectSpaceNormal)
+		float4 getNewVertPosition(float4 objectSpacePosition, float3 objectSpaceNormal, float power)
 		{
 			//Vertex extrusion-
-			objectSpacePosition.xyz += objectSpaceNormal * abs(cnoise(objectSpaceNormal * _MainNoiseScale + _NoiseOffset.xyz)) * _MainNoiseHeight;
+			objectSpacePosition.xyz += objectSpaceNormal * abs(cnoise(objectSpaceNormal * _MainNoiseScale + _NoiseOffset.xyz)) * _MainNoiseHeight * power;
 			//--
 
 			//Chris's smear-
@@ -182,7 +182,7 @@ Shader "Custom/Waterball"
 			worldOffset *= -clamp(dirDot, -1, 0) * lerp(1, 0, step(length(worldOffset), 0));
 
 			fixed3 smearOffset = -worldOffset.xyz * lerp(1, cnoise(worldSpacePosition.xyz * _SmearNoiseScale), step(0, _SmearNoiseScale));
-			worldSpacePosition.xyz += smearOffset;
+			worldSpacePosition.xyz += smearOffset * power;
 			//--
 
 			//Wind-
@@ -200,7 +200,7 @@ Shader "Custom/Waterball"
 				//wave direction and oscillation combined are then scaled overall by the _WaveAmount
 				float4 wind = (normalize(_WaveDir) + oscillation) * _WaveAmount * heightSensitivity; //* v.color.r
 
-				worldSpacePosition += wind;
+				worldSpacePosition += wind * power;
 				//''''''''''''''''''''''
 			}
 			//--
@@ -210,7 +210,7 @@ Shader "Custom/Waterball"
 			float melt = ( worldSpacePosition.y - _MeltY ) / _MeltDistance;
 			melt = 1 - saturate(melt);
 			melt = pow(melt, _MeltCurve) * _MeltAmount;
-			worldSpacePosition.xz += worldSpaceNormal.xz * melt;
+			worldSpacePosition.xz += worldSpaceNormal.xz * melt * power;
 			//--
 
 			return mul(unity_WorldToObject, worldSpacePosition);
@@ -219,6 +219,8 @@ Shader "Custom/Waterball"
 		void vert(inout appdata_tan v, out Input o) {
 			UNITY_INITIALIZE_OUTPUT(Input, o);
 			
+			float mainTex = tex2Dlod(_MainTex, v.texcoord);
+
 			//spherification
 			float3 directionToCenter = normalize(_SphereCenter.xyz + v.vertex.xyz);
 			float3 pointOnSphere = directionToCenter * _SphereScale;
@@ -227,13 +229,13 @@ Shader "Custom/Waterball"
 
 			//calculate normals and apply deformation
 			//...............
-			float4 vertPosition = getNewVertPosition(v.vertex, v.normal);
+			float4 vertPosition = getNewVertPosition(v.vertex, v.normal, mainTex.r);
 			float4 bitangent = float4(cross(v.normal, v.tangent), 0);
 
 			float vertOffset = 0.01;
 
-			float4 v1 = getNewVertPosition(v.vertex + v.tangent * vertOffset, v.normal);
-			float4 v2 = getNewVertPosition(v.vertex + bitangent * vertOffset, v.normal);
+			float4 v1 = getNewVertPosition(v.vertex + v.tangent * vertOffset, v.normal, mainTex.r);
+			float4 v2 = getNewVertPosition(v.vertex + bitangent * vertOffset, v.normal, mainTex.r);
 
 			float4 newTangent = v1 - vertPosition;
 			float4 newBitangent = v2 - vertPosition;
