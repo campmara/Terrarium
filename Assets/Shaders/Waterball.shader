@@ -276,6 +276,7 @@ Shader "Custom/Waterball"
 
 			//https://gist.github.com/mandarinx/c7e8f555a48b9f38e852
 			half4 sum = half4(0, 0, 0, 0);
+			_BlurSize *= nor.x;
 			_BlurSize *= mainTex.r;
 
 			#define GRABPIXEL(weight,kernelx) tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(float4(IN.proj.x + _GrabTexture_TexelSize.x * kernelx * _BlurSize, IN.proj.y, IN.proj.z, IN.proj.w))) * weight
