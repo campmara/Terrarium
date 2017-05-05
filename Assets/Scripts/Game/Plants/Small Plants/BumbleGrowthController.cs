@@ -30,7 +30,7 @@ public class BumbleGrowthController : SPGrowthController
             GameObject newLayer = new GameObject();
             SetupLayer(_layerIndex, newLayer);
 
-            for (int _curLeafNum = 0; _curLeafNum < _numLeaves; _curLeafNum++)
+            for (int _curLeafNum = 0; _curLeafNum < _numLeaves; _curLeafNum += (int)Random.Range(1,4))
             {
                 GrowLeaf(_curLeafNum, _layerIndex, newLayer);
             }
@@ -60,7 +60,8 @@ public class BumbleGrowthController : SPGrowthController
         newLeaf.transform.Rotate(new Vector3(0, 0, (layerIndex * _numLeaves * 90) + leafNumber * 360.0f / _numLeaves + leafNumber));
         newLeaf.transform.parent = parentLayer.transform;
         newLeaf.transform.localScale = new Vector3(_leafScale, _leafScale, _leafScale);
-        newLeaf.transform.Rotate(new Vector3(((-layerIndex * 45) / _layerCount) - 30, 0, 0));
+        newLeaf.transform.Rotate(new Vector3(((-layerIndex * 45) / _layerCount) - 10, 0, 0));
+        newLeaf.transform.position += newLeaf.transform.up * Random.Range(.1f,2);
         Animator anim = newLeaf.transform.GetComponentInChildren<Animator>();
         anim.speed *= _growthRate;
         _childAnimators.Add(anim);

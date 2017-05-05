@@ -64,6 +64,9 @@ Shader "Custom/Waterball"
 		_SphereCenter("Center", vector) = (0,0,0,0)
 		_SphereScale("Sphere Scale", float) = 1
 		_Spherification("Spherify Amount", Range(0,1)) = 0
+
+		[Header(Blur)]
+		_BlurSize("Blur Size", float) = 1
 	}
 
 	SubShader
@@ -138,6 +141,9 @@ Shader "Custom/Waterball"
 		float _SphereScale;
 		float4 _SphereCenter;
 
+		//blur values
+		float _BlurSize;
+
 		fixed4 LightingWaterPlayer(SurfaceOutput s, fixed3 lightDir, fixed atten, fixed3 viewDir)
 		{
 			fixed4 c;
@@ -149,7 +155,7 @@ Shader "Custom/Waterball"
 			float nh = max(0, dot(s.Normal, h));
 			float spec = pow(nh, _SpecularPower);
 
-			c.rgb = s.Albedo + spec*_SpecularColor;
+			c.rgb = s.Albedo.rgb + spec*_SpecularColor.rgb;
 			c.a = s.Alpha;
 			return c;
 		}
@@ -159,7 +165,7 @@ Shader "Custom/Waterball"
 		float4 getNewVertPosition(float4 objectSpacePosition, float3 objectSpaceNormal)
 		{
 			//Vertex extrusion-
-			objectSpacePosition.xyz += objectSpaceNormal * abs(cnoise(objectSpaceNormal * _MainNoiseScale + _NoiseOffset)) * _MainNoiseHeight;
+			objectSpacePosition.xyz += objectSpaceNormal * abs(cnoise(objectSpaceNormal * _MainNoiseScale + _NoiseOffset.xyz)) * _MainNoiseHeight;
 			//--
 
 			//Chris's smear-
@@ -175,7 +181,7 @@ Shader "Custom/Waterball"
 			worldOffset = clamp(worldOffset, unitVec * -1, unitVec);
 			worldOffset *= -clamp(dirDot, -1, 0) * lerp(1, 0, step(length(worldOffset), 0));
 
-			fixed3 smearOffset = -worldOffset.xyz * lerp(1, cnoise(worldSpacePosition * _SmearNoiseScale), step(0, _SmearNoiseScale));
+			fixed3 smearOffset = -worldOffset.xyz * lerp(1, cnoise(worldSpacePosition.xyz * _SmearNoiseScale), step(0, _SmearNoiseScale));
 			worldSpacePosition.xyz += smearOffset;
 			//--
 
@@ -214,7 +220,7 @@ Shader "Custom/Waterball"
 			UNITY_INITIALIZE_OUTPUT(Input, o);
 			
 			//spherification
-			float3 directionToCenter = normalize(_SphereCenter + v.vertex.xyz);
+			float3 directionToCenter = normalize(_SphereCenter.xyz + v.vertex.xyz);
 			float3 pointOnSphere = directionToCenter * _SphereScale;
 			v.vertex.xyz = lerp(v.vertex.xyz, pointOnSphere, _Spherification);
 			v.normal = lerp(v.normal, directionToCenter, _Spherification);
@@ -235,7 +241,7 @@ Shader "Custom/Waterball"
 			v.vertex = vertPosition; 
 			//..............
 			
-			o.pos = v.vertex;
+			o.pos = v.vertex.xyz;
 			//o.worldPos.xyz = mul(unity_ObjectToWorld, v.vertex.xyz);
 
 			//https://forum.unity3d.com/threads/refraction-example.78750/
@@ -260,34 +266,48 @@ Shader "Custom/Waterball"
 			float gradUV = IN.pos.y*.5 + .5;
 
 			//refraction from above url
-			half3 nor = cnoise((o.Normal) + _Time);
+			half3 nor = cnoise((o.Normal) + _Time.xyz);
 			float2 offset = nor  * _DistAmt * _GrabTexture_TexelSize.xy;
 			IN.proj.xy = offset * IN.proj.z + IN.proj.xy; 
-			half4 col = tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(IN.proj));
+			float4 projCoords = UNITY_PROJ_COORD(IN.proj);
+			//half4 col = tex2Dproj(_GrabTexture, projCoords); replaced by new blur
+
+			//https://gist.github.com/mandarinx/c7e8f555a48b9f38e852
+			half4 sum = half4(0, 0, 0, 0);
+			_BlurSize *= mainTex.r;
+
+			#define GRABPIXEL(weight,kernelx) tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(float4(IN.proj.x + _GrabTexture_TexelSize.x * kernelx * _BlurSize, IN.proj.y, IN.proj.z, IN.proj.w))) * weight
+
+			sum += GRABPIXEL(0.05, -4.0);
+			sum += GRABPIXEL(0.09, -3.0);
+			sum += GRABPIXEL(0.12, -2.0);
+			sum += GRABPIXEL(0.15, -1.0);
+			sum += GRABPIXEL(0.18, 0.0);
+			sum += GRABPIXEL(0.15, +1.0);
+			sum += GRABPIXEL(0.12, +2.0);
+			sum += GRABPIXEL(0.09, +3.0);
+			sum += GRABPIXEL(0.05, +4.0);
+
+			half4 col = sum;
 			
+			//rim lighting
+			half rim = 1 - saturate(dot(IN.viewDir, normalize(o.Normal)));
+			float4 rimInfluence = _RimColor*pow(rim, _RimPower);
+
 			//murray's gradient
 			fixed4 gradient = lerp(_ColorBot, _ColorMid, gradUV / _Middle) * step(gradUV, _Middle);
 			gradient += lerp(_ColorMid, _ColorTop, (gradUV - _Middle) / (1 - _Middle)) * step(_Middle, gradUV);
 
+			//mix gradient with mouth color
+			gradient = lerp(_ColorBot, gradient, mainTex.r);
+
 			//mix em'
 			fixed4 finalCol = lerp(gradient, col * gradient, _ColorFog);
-			fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * finalCol;
-
-			//rim lighting
-			half rim = 1 - saturate(dot (IN.viewDir, normalize(o.Normal)));
-			float3 rimInfluence = _RimColor.rgb*pow(rim, _RimPower); // 
-			//rimInfluence = 0;
-
-			//I might use this later to darken near the ground
-			/*
-			float melt = (IN.worldPos.y - _MeltY) / _MeltDistance;
-			melt = 1 - saturate(melt);
-			melt = pow(melt, _MeltCurve) * _MeltAmount;
-			*/
+			finalCol = finalCol + rimInfluence * clamp(worldPos.y, 0, .1) * 10;
 
 			//put it all together and make the rim lighting ramp up from the ground
-			o.Albedo = (c + rimInfluence * clamp(worldPos.y,0,.1)*10)*mainTex;//+ melt*gradient
-			o.Alpha = c.a;
+			o.Albedo = finalCol;
+			o.Alpha = finalCol.a;
 		}
 		ENDCG
 	}
