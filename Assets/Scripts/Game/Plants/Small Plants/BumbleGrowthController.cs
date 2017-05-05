@@ -60,8 +60,8 @@ public class BumbleGrowthController : SPGrowthController
         newLeaf.transform.Rotate(new Vector3(0, 0, (layerIndex * _numLeaves * 90) + leafNumber * 360.0f / _numLeaves + leafNumber));
         newLeaf.transform.parent = parentLayer.transform;
         newLeaf.transform.localScale = new Vector3(_leafScale, _leafScale, _leafScale);
-        newLeaf.transform.Rotate(new Vector3(((-layerIndex * 45) / _layerCount) - 10, 0, 0));
-        newLeaf.transform.position += newLeaf.transform.up * Random.Range(.1f,2);
+        newLeaf.transform.Rotate(new Vector3(((-layerIndex * 25) / _layerCount) - 10, 0, 0));
+        newLeaf.transform.position += newLeaf.transform.up * Random.Range(.1f, 2);
         Animator anim = newLeaf.transform.GetComponentInChildren<Animator>();
         anim.speed *= _growthRate;
         _childAnimators.Add(anim);
