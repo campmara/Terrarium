@@ -26,8 +26,6 @@ public class LimberPlantGrowthController : BPGrowthController
 
     Transform _currentParent = null;
     Coroutine _leafSpawnRoutine = null;
-
-    float _endTimeStamp = 0.0f;
     Animator _lastAnim = null;
     bool _waiting = false;
 
@@ -106,7 +104,7 @@ public class LimberPlantGrowthController : BPGrowthController
 
         if (_lastAnim)
         {
-            if (_endTimeStamp >= _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime)
+            if ( _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f )
             {
                 _myPlant.SwitchController(this);
             }
@@ -119,10 +117,6 @@ public class LimberPlantGrowthController : BPGrowthController
         if (!_waiting)
         {
             _lastAnim = _childAnimators[_childAnimators.Count - 1];
-            //_lastClip = _lastAnim.runtimeAnimatorController.animationClips[0];
-            AnimatorStateInfo state = _lastAnim.GetCurrentAnimatorStateInfo(0);
-            _endTimeStamp = state.length / state.speed;//_lastClip.length - .04f;
-
             StartCoroutine(WaitForLastLeaf());
         }
     }
@@ -130,7 +124,7 @@ public class LimberPlantGrowthController : BPGrowthController
     private IEnumerator WaitForLastLeaf()
     {
         _waiting = true;
-        while (_endTimeStamp > _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime)
+        while ( _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f )
         {
             yield return null;
         }

@@ -220,7 +220,11 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 
 			foreach( Collider col in hitColliders )
 			{
-				if( col.GetComponent<BPDeathController>() || col.GetComponent<SPGrowthController>() || col.GetComponent<BPGrowthController>() || col.GetComponent<PondTech>() || col.GetComponent<RockTag>() )
+				if( col.GetComponent<BPDeathController>() 
+				|| col.GetComponent<SPGrowthController>() 
+				|| col.GetComponent<BPGrowthController>() 
+				|| col.GetComponent<PondTech>() 
+				|| col.GetComponent<Rock>() )
 				//col.GetComponent<BasePlant>()
 				{
 					insideObject = true;
