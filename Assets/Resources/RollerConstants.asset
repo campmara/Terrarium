@@ -24,9 +24,9 @@ MonoBehaviour:
   CarryTurnSpeed: 7
   WalkTurnAngleMin: 0.5
   WalkTurnAngleMax: 60
-  BreathSpeed: 0.04
-  BreathSpherizeScale: 2
-  BreathSpherize: 0.075
+  BreathSpeed: 0.6
+  BreathSpherizeScale: 1
+  BreathSpherize: 0.15
   RollSpeed: 10
   RollMaxSpeed: 13
   ReverseRollSpeed: 6
