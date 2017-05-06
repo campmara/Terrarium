@@ -46,6 +46,7 @@ public class ExplodeParticleManager : MonoBehaviour
 		Collider[] cols = Physics.OverlapSphere( pos, searchRadius );
 		BasePlant plant = null;
 		Seed seed = null;
+		Bibi bibi = null;
 		if( cols.Length > 0 )
 		{
 			foreach( Collider col in cols )
@@ -64,6 +65,13 @@ public class ExplodeParticleManager : MonoBehaviour
 					seed.TryPlanting();
 
 					seed = null;
+				}
+
+				bibi = col.GetComponent<Bibi>();
+				if (bibi != null)
+				{
+					bibi.DisruptBibi();
+					bibi = null;
 				}
 			}
 		}

@@ -91,6 +91,15 @@ public class Bibi : Singable
 	}
 	*/
 
+	public void DisruptBibi()
+	{
+		// AhhH!!!! BIBIBIBIBIBIBIBIBIBIBIBIBI.
+		if (state == BibiState.UNDERGROUND || state == BibiState.SLEEPING)
+		{
+			ChangeState(BibiState.DISRUPTED);
+		}
+	}
+
 	public override void OnAffectedBySinging()
 	{
 		// AhhH!!!! BIBIBIBIBIBIBIBIBIBIBIBIBI.
