@@ -23,7 +23,7 @@ public class WalkingState : RollerState
             break;
         }
 
-        _idleTimer = 0f;		
+        _idleTimer = 0f;       
         //PlayerManager.instance.Player.AnimationController.PlayWalkAnim();
 	}
 
@@ -55,6 +55,26 @@ public class WalkingState : RollerState
 
     public override void HandleInput( InputCollection input )
     {
+        // hmm this is bad, scales could b the same lol
+        // yup, it's bad!
+        if( _roller.SpherifyScale == RollerConstants.instance.RitualSphereizeScale && _roller.Spherify > 0.0f )
+        {
+            _roller.Spherify -= Time.deltaTime * RollerConstants.instance.RitualDeflateSpeed;
+
+            if( _roller.Spherify < 0.0f )
+            {
+                _roller.Spherify = 0.0f;
+                _roller.SpherifyScale = RollerConstants.instance.BreathSpherizeScale;
+                _roller.BreathTimer = 0.0f;
+            }
+        }
+        else
+        {
+            _roller.BreathTimer += Time.deltaTime * RollerConstants.instance.BreathSpeed;
+            _roller.Spherify = 1.0f - Mathf.Pow(Mathf.Abs(Mathf.Sin(Mathf.PI * _roller.BreathTimer / 2.0f)), 0.5f)* RollerConstants.instance.BreathSpherize;
+            //_roller.Spherify = Mathf.PingPong( _roller.BreathTimer, RollerConstants.instance.BreathSpherize );
+        }
+
         // Check for sitting after idling for a while.
         IdleTimer( input );
 
@@ -175,4 +195,5 @@ public class WalkingState : RollerState
 
         _reachCoroutine = null;
     }
+
 }
