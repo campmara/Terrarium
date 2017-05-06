@@ -1716,6 +1716,8 @@ MonoBehaviour:
   _mouthDiagonal: {fileID: 21300000, guid: ec37b779374fd9246874f7c6dfa83fe0, type: 3}
   _mouthSad: {fileID: 21300000, guid: 6fb1976ce3d064f4e8107ceb3e4cdfd9, type: 3}
   _mouthVerySad: {fileID: 21300000, guid: 8d1e5d960d7b18047abf2fb13ac01522, type: 3}
+  _mouthSkinnedMesh: {fileID: 137531902433205032}
+  _mouthPoseIndex: 0
 --- !u!114 &114104806924290988
 MonoBehaviour:
   m_ObjectHideFlags: 1
