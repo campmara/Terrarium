@@ -218,6 +218,9 @@ public class BPDeathController : PlantController
 		case BasePlant.PlantType.PBUSH:
 			StartCoroutine( DelayedTransitionPBushColors( newPalette.pointyBush ) );
 			break;
+		case BasePlant.PlantType.BUMBLE:
+			StartCoroutine( DelayedTransitionPBushColors( newPalette.bumblePlant ) );
+			break;
 		default:
 			break;
 		}
