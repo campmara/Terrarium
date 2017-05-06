@@ -85,7 +85,7 @@ Material:
     m_Colors:
     - _BlendOffset: {r: -0.57, g: -0.5, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorBot: {r: 0.58823526, g: 0.575349, b: 0.47145325, a: 1}
-    - _ColorMid: {r: 0.8308824, g: 0.6454928, b: 0.5254109, a: 1}
-    - _ColorTop: {r: 0.88235295, g: 0.82329077, b: 0.6682526, a: 1}
+    - _ColorBot: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorMid: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorTop: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
