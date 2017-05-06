@@ -83,6 +83,9 @@ Material:
     - _SmearNoiseScale: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
+    - _SpecularPower: 128
+    - _SphereScale: 1
+    - _Spherification: 0
     - _SrcBlend: 1
     - _UVSec: 0
     - _WindEnabled: 1
@@ -97,3 +100,5 @@ Material:
     - _Position: {r: 0, g: 0, b: 0, a: 0}
     - _PrevPosition: {r: 0, g: 0, b: 0, a: 0}
     - _RimColor: {r: 0.5661765, g: 0.5661765, b: 0.5661765, a: 1}
+    - _SpecularColor: {r: 0.26, g: 0.19, b: 0.16, a: 0}
+    - _SphereCenter: {r: 0, g: 0, b: 0, a: 0}
