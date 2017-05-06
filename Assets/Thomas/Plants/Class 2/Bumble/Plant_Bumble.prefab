@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pAssetKey: -1
-  _type: 4
+  _type: 5
   _deathDuration: 0
   _DeathDurationRange: {x: 550, y: 600}
   _DeathTimer: 0
