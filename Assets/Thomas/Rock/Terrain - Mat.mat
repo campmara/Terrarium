@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Terrain - Mat
-  m_Shader: {fileID: 4800000, guid: cade45a53f884bf41800371fc8f89e84, type: 3}
+  m_Shader: {fileID: 4800000, guid: b3626806bf23dc04f9c7a2b50d5c0d2c, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
@@ -89,7 +89,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
-    - _Hardness: 0.35
+    - _Hardness: 1
     - _Metallic: 0.187
     - _Mode: 0
     - _OcclusionStrength: 1
