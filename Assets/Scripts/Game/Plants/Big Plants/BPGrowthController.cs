@@ -79,6 +79,7 @@ public class BPGrowthController : PlantController
 	public SpawningState spawnState = SpawningState.NotSpawning;
 
     PlantAudioController _audioController = null;
+    public PlantAudioController pAudioController { get { return _audioController; } }
 
 	public enum SpawningState
 	{
