@@ -91,10 +91,10 @@ public class InputCollection : PlayerActionSet
         RightStickButton.AddDefaultBinding(InputControlType.RightStickButton);
 
 		// Keyboard Controls
-		AButton.AddDefaultBinding(Key.E);
+		AButton.AddDefaultBinding(Key.F);
 		BButton.AddDefaultBinding(Key.LeftShift);
 		XButton.AddDefaultBinding(Key.Space);
-		YButton.AddDefaultBinding(Key.F);
+		YButton.AddDefaultBinding(Key.RightShift);
 
         LeftStickLeft.AddDefaultBinding(Key.A);
         LeftStickRight.AddDefaultBinding(Key.D);
@@ -107,9 +107,15 @@ public class InputCollection : PlayerActionSet
         RightStickDown.AddDefaultBinding(Key.DownArrow);
 
 		LeftTrigger.AddDefaultBinding( Key.Q );
-		RightTrigger.AddDefaultBinding( Key.Q );
+		RightTrigger.AddDefaultBinding( Key.E );
 
-		LeftTrigger.Sensitivity = 0.0025f;
+        LeftBumper.AddDefaultBinding( Key.Key1 );
+        RightBumper.AddDefaultBinding( Key.Key2 );
+
+        LeftStickButton.AddDefaultBinding( Key.T );
+        RightStickButton.AddDefaultBinding( Key.Tab );
+
+        LeftTrigger.Sensitivity = 0.0025f;
 		RightTrigger.Sensitivity = 0.0025f;
     }
 }

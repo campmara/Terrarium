@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Name: MouthPoseManager
   m_EditorClassIdentifier: 
   MouthPoseArray:
-  - _poseName: Mouth WIde
-    WideOpenBlendValue: 100
+  - _poseName: Mouth Closed
+    WideOpenBlendValue: 0
     RightSmileBlendValue: 0
     LeftSmileBlendValue: 0
     LeftFrownBlendValue: 0

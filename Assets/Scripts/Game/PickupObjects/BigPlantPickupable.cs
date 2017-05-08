@@ -57,8 +57,10 @@ public class BigPlantPickupable : Pickupable {
 			_springRoutine = null;
 		}
 
-		// Rotate plant back to being upright
-		_springRoutine = StartCoroutine( DelayedReleaseBigPlant() );
+        // Rotate plant back to being upright
+        this.GetComponent<BPGrowthController>().pAudioController.PlayPlantShakeSound();
+
+        _springRoutine = StartCoroutine( DelayedReleaseBigPlant() );
 	}
 
 	IEnumerator DelayedReleaseBigPlant()
