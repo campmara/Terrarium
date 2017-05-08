@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class BigPlantPickupable : Pickupable {
 
@@ -14,8 +15,8 @@ public class BigPlantPickupable : Pickupable {
     const float BIGPLANT_TUGANGLE_MAX = 0.12f;
     const float BIGPLANT_TUGANGLE_RETURNSPEED = 7.0f;
 
-    const float BIGPLANT_SHIVERDURATION = 0.075f;
-    const float BIGPLANT_SHIVERDURATIONDEC = 0.005f;
+    const float BIGPLANT_SHIVERDURATION = 0.5f;
+    const float BIGPLANT_SHIVERDURATIONDEC = 0.01f;
     const float BIGPLANT_SHIVERDIST = 0.075f;
 
     Coroutine _springRoutine = null;
@@ -113,7 +114,7 @@ public class BigPlantPickupable : Pickupable {
         StartCoroutine( TreeShiverRoutine() );
     }
 
-    IEnumerator TreeShiverRoutine( int shiverCount = 3 )
+    IEnumerator TreeShiverRoutine( int shiverCount = 6 )
     {
         Vector3 randDir;
         Vector3 springDirection;
@@ -153,6 +154,13 @@ public class BigPlantPickupable : Pickupable {
             currShiverDuration -= BIGPLANT_SHIVERDURATIONDEC;
         }
         
+    }
+
+    public void PunchTreeRotation( float strengthScalar = 4.0f, float duration = BIGPLANT_SHIVERDURATION )
+    {
+        Vector3 playerDir = PlayerManager.instance.Player.transform.position - this.transform.position;
+        playerDir.Normalize();
+        this.transform.DOPunchRotation( playerDir * strengthScalar, duration );
     }
 
 }

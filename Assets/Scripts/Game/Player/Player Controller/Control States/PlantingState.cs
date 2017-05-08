@@ -96,7 +96,7 @@ public class PlantingState : RollerState
 			seed.TryPlanting();
 		}
 
-        CheckPlantEffectRadius();
+        CheckPlantEffectRadius();   // Maybe don't let this happen every time? idk
 
         HandleBothArmRelease();
         _roller.ChangeState( P_ControlState.WALKING);
@@ -113,7 +113,9 @@ public class PlantingState : RollerState
                 checkPlant = c.GetComponent<BigPlantPickupable>();
                 if( checkPlant != null )
                 {
-                    checkPlant.ShiverTree();
+                    checkPlant.PunchTreeRotation();
+                    //checkPlant.ShiverTree();
+                    CameraManager.instance.ScreenShake( 0.25f, 0.25f, 5, 15 );
                 }
             }
         }
