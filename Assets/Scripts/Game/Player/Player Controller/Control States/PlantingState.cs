@@ -96,7 +96,27 @@ public class PlantingState : RollerState
 			seed.TryPlanting();
 		}
 
+        CheckPlantEffectRadius();
+
         HandleBothArmRelease();
         _roller.ChangeState( P_ControlState.WALKING);
+    }
+
+    void CheckPlantEffectRadius()
+    {
+        Collider[] colArray = Physics.OverlapSphere( this.transform.position, RollerConstants.instance.PlantingEffectRadius );
+        BigPlantPickupable checkPlant = null;
+        if( colArray.Length > 0 )
+        {
+            foreach( Collider c in colArray )
+            {
+                checkPlant = c.GetComponent<BigPlantPickupable>();
+                if( checkPlant != null )
+                {
+                    checkPlant.ShiverTree();
+                }
+            }
+        }
+        
     }
 }
