@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class BigPlantPickupable : Pickupable {
 
@@ -14,7 +15,11 @@ public class BigPlantPickupable : Pickupable {
     const float BIGPLANT_TUGANGLE_MAX = 0.12f;
     const float BIGPLANT_TUGANGLE_RETURNSPEED = 7.0f;
 
-	Coroutine _springRoutine = null;
+    const float BIGPLANT_SHIVERDURATION = 0.5f;
+    const float BIGPLANT_SHIVERDURATIONDEC = 0.01f;
+    const float BIGPLANT_SHIVERDIST = 0.075f;
+
+    Coroutine _springRoutine = null;
 
 	void FixedUpdate()
 	{
@@ -103,4 +108,59 @@ public class BigPlantPickupable : Pickupable {
 
 		_springRoutine = null;
     }
+
+    public void ShiverTree()
+    {
+        StartCoroutine( TreeShiverRoutine() );
+    }
+
+    IEnumerator TreeShiverRoutine( int shiverCount = 6 )
+    {
+        Vector3 randDir;
+        Vector3 springDirection;
+        Quaternion springTarget;
+        float timer = 0.0f;
+        float currShiverDuration = BIGPLANT_SHIVERDURATION;        
+
+        for (int i = 0; i < shiverCount; ++i )
+        {
+            randDir = JohnTech.GenerateRandomXZDirection();
+            springDirection = Vector3.Reflect( -randDir, Vector3.up );
+            springTarget = Quaternion.FromToRotation( Vector3.up, Vector3.Slerp( Vector3.up, springDirection, BIGPLANT_SHIVERDIST ) );
+            timer = 0.0f;
+
+            while ( timer < currShiverDuration )
+            {
+                timer += Time.deltaTime;
+
+                transform.rotation = Quaternion.Slerp( transform.rotation, springTarget, timer / currShiverDuration );
+
+                yield return 0;
+            }
+
+            springTarget = Quaternion.identity;
+            timer = 0.0f;
+
+            while ( timer < currShiverDuration )
+            {
+                timer += Time.deltaTime;
+
+                transform.rotation = Quaternion.Slerp( transform.rotation, springTarget, timer / currShiverDuration );
+
+                yield return 0;
+            }
+
+            this.transform.rotation = Quaternion.identity;
+            currShiverDuration -= BIGPLANT_SHIVERDURATIONDEC;
+        }
+        
+    }
+
+    public void PunchTreeRotation( float strengthScalar = 4.0f, float duration = BIGPLANT_SHIVERDURATION )
+    {
+        Vector3 playerDir = PlayerManager.instance.Player.transform.position - this.transform.position;
+        playerDir.Normalize();
+        this.transform.DOPunchRotation( playerDir * strengthScalar, duration );
+    }
+
 }

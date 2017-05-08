@@ -43,7 +43,9 @@ public class RitualState : RollerState
 			hasExploded = true;
 			_roller.HandlePondReturn();
 
-			if (_roller.CurrentHeldObject != null)
+            CameraManager.instance.ScreenShake( 0.25f, 0.75f, 10 );
+
+            if (_roller.CurrentHeldObject != null)
 			{
 				Seed seed = _roller.CurrentHeldObject.GetComponent<Seed>();
 				if( seed != null )

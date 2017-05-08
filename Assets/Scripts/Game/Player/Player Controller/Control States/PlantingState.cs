@@ -96,7 +96,29 @@ public class PlantingState : RollerState
 			seed.TryPlanting();
 		}
 
+        CheckPlantEffectRadius();   // Maybe don't let this happen every time? idk
+
         HandleBothArmRelease();
         _roller.ChangeState( P_ControlState.WALKING);
+    }
+
+    void CheckPlantEffectRadius()
+    {
+        Collider[] colArray = Physics.OverlapSphere( this.transform.position, RollerConstants.instance.PlantingEffectRadius );
+        BigPlantPickupable checkPlant = null;
+        if( colArray.Length > 0 )
+        {
+            foreach( Collider c in colArray )
+            {
+                checkPlant = c.GetComponent<BigPlantPickupable>();
+                if( checkPlant != null )
+                {
+                    checkPlant.PunchTreeRotation();
+                    //checkPlant.ShiverTree();
+                    CameraManager.instance.ScreenShake( 0.25f, 0.25f, 5, 15 );
+                }
+            }
+        }
+        
     }
 }

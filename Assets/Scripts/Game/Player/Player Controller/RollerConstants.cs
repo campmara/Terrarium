@@ -85,6 +85,7 @@ public class RollerConstants : ScriptableObjectSingleton<RollerConstants>
     public float PlantingTime = 0.75f;
 	public float PlantingEndY = 0f;
     public float PlantingEndX = 1.25f;
+    public float PlantingEffectRadius = 5.0f;
 
     // SINGING
     [Header( "Singing Variables" ), Space( 10 )]
