@@ -71,8 +71,10 @@ public class WalkingState : RollerState
         else
         {
             _roller.BreathTimer += Time.deltaTime * RollerConstants.instance.BreathSpeed;
-            _roller.Spherify = Mathf.Pow(Mathf.Abs(Mathf.Sin(Mathf.PI * _roller.BreathTimer / 2.0f)), 0.5f)* RollerConstants.instance.BreathSpherize;
-            //_roller.Spherify = Mathf.PingPong( _roller.BreathTimer, RollerConstants.instance.BreathSpherize );
+            
+            // The Spherize Curve is set to PingPong in the Animation Curve.
+            // Max Spherize Size is the value of the second key on the curve
+            _roller.Spherify = RollerConstants.instance.BreathSpherizeCurve.Evaluate( _roller.BreathTimer );
         }
 
         // Check for sitting after idling for a while.

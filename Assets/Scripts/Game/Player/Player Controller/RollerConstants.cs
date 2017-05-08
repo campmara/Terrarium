@@ -26,7 +26,7 @@ public class RollerConstants : ScriptableObjectSingleton<RollerConstants>
     // BREATHING VARIABLES
     public float BreathSpeed = 0.3f;
     public float BreathSpherizeScale = 3.0f;
-    public float BreathSpherize = 0.05f;
+    public AnimationCurve BreathSpherizeCurve;
 
     // ROLL
     [Header( "Roll Variables" ), Space( 10 )]

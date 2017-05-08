@@ -24,9 +24,26 @@ MonoBehaviour:
   CarryTurnSpeed: 7
   WalkTurnAngleMin: 0.5
   WalkTurnAngleMax: 60
-  BreathSpeed: 0.6
+  BreathSpeed: 0.35
   BreathSpherizeScale: 1
-  BreathSpherize: 0.15
+  BreathSpherizeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: -0.008413974
+      outSlope: -0.008413974
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1.0015259
+      value: 0.075
+      inSlope: -0.066878475
+      outSlope: -0.066878475
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 0
+    m_RotationOrder: 0
   RollSpeed: 10
   RollMaxSpeed: 13
   ReverseRollSpeed: 6
