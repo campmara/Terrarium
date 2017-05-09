@@ -50,13 +50,15 @@ MonoBehaviour:
   RollAcceleration: 1
   RollDeceleration: 10
   RollSphereSpin: 1250
+  RollEnterSpeed: 0.5
+  RollExitSpeed: 0.15
   TurnSpeed: 125
   ReverseTurnSpeed: 100
   TurnAcceleration: 15
   TurnDeceleration: 700
   TurnMinSpeed: 25
   RollPaintSize: {x: 0.45, y: 1}
-  RollSpherizeScale: 1
+  RollSpherizeScale: 0.5
   RollSpherizeMaxSize: 1
   PickupCheckHeight: 0.5
   PickupCheckRadius: 1
@@ -95,6 +97,7 @@ MonoBehaviour:
   PlantingTime: 0.5
   PlantingEndY: 0
   PlantingEndX: 1.25
+  PlantingEffectRadius: 5
   SingingReturnTime: 0.15
   PitchLerpSpeed: 7
   IKTargetWorldScalar: 35
