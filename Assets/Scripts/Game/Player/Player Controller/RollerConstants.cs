@@ -36,6 +36,8 @@ public class RollerConstants : ScriptableObjectSingleton<RollerConstants>
 	public float RollAcceleration = 1f;
 	public float RollDeceleration = 10f;
 	public float RollSphereSpin = 1250f;
+    public float RollEnterSpeed = 0.5f;
+    public float RollExitSpeed = 0.15f;
 
     // ROLL TURNING   
     public float TurnSpeed = 125f;
