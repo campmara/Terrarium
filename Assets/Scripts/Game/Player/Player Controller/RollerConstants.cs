@@ -26,7 +26,7 @@ public class RollerConstants : ScriptableObjectSingleton<RollerConstants>
     // BREATHING VARIABLES
     public float BreathSpeed = 0.3f;
     public float BreathSpherizeScale = 3.0f;
-    public float BreathSpherize = 0.05f;
+    public AnimationCurve BreathSpherizeCurve;
 
     // ROLL
     [Header( "Roll Variables" ), Space( 10 )]
@@ -36,6 +36,8 @@ public class RollerConstants : ScriptableObjectSingleton<RollerConstants>
 	public float RollAcceleration = 1f;
 	public float RollDeceleration = 10f;
 	public float RollSphereSpin = 1250f;
+    public float RollEnterSpeed = 0.5f;
+    public float RollExitSpeed = 0.15f;
 
     // ROLL TURNING   
     public float TurnSpeed = 125f;
@@ -85,6 +87,7 @@ public class RollerConstants : ScriptableObjectSingleton<RollerConstants>
     public float PlantingTime = 0.75f;
 	public float PlantingEndY = 0f;
     public float PlantingEndX = 1.25f;
+    public float PlantingEffectRadius = 5.0f;
 
     // SINGING
     [Header( "Singing Variables" ), Space( 10 )]
