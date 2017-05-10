@@ -386,9 +386,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1615228595052666}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7a629fe13d1240b3a4cd8bb4487908f, type: 3}
+  m_Script: {fileID: 11500000, guid: 383399452f6ba4461be2a59e661615d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pAssetKey: -1
+  _type: 3
+  _deathDuration: 0
+  _DeathDurationRange: {x: 550, y: 600}
+  _DeathTimer: 0
+  _baseDecayRate: 1
+  _curDecayRate: 0
 --- !u!135 &135463749521474956
 SphereCollider:
   m_ObjectHideFlags: 1

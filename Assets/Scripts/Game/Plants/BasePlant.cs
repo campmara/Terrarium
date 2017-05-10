@@ -21,7 +21,8 @@ public class BasePlant : MonoBehaviour
 		FLOWERING,
 		LEAFY,
 		LIMBER,
-		PBUSH
+		PBUSH,
+		BUMBLE
 	}
 	[SerializeField] PlantType _type = PlantType.NONE;
 	public PlantType MyPlantType { get { return _type; } }

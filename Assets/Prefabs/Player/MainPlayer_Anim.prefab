@@ -1708,6 +1708,7 @@ MonoBehaviour:
   _eyesSad: {fileID: 21300000, guid: ae18e7ae055c4254cb4d316174a37fef, type: 3}
   _eyesAngry: {fileID: 21300000, guid: 7075cb56eb57106428a0bf909aef0f79, type: 3}
   _eyesAnnoyed: {fileID: 21300000, guid: 6fa7c4455dd5c6242ac31794cc2faea4, type: 3}
+  enableMouthSprite: 1
   _mouthIdle: {fileID: 21300000, guid: 1baa488c2b2d54b409ea6732490e8d0e, type: 3}
   _mouthOh: {fileID: 21300000, guid: fd4214c8cc479b5448f96d8c8194c446, type: 3}
   _mouthD: {fileID: 21300000, guid: 6c3ef1673cba74748829a46375576486, type: 3}
@@ -1716,6 +1717,8 @@ MonoBehaviour:
   _mouthDiagonal: {fileID: 21300000, guid: ec37b779374fd9246874f7c6dfa83fe0, type: 3}
   _mouthSad: {fileID: 21300000, guid: 6fb1976ce3d064f4e8107ceb3e4cdfd9, type: 3}
   _mouthVerySad: {fileID: 21300000, guid: 8d1e5d960d7b18047abf2fb13ac01522, type: 3}
+  _mouthSkinnedMesh: {fileID: 137531902433205032}
+  _mouthPoseIndex: 0
 --- !u!114 &114104806924290988
 MonoBehaviour:
   m_ObjectHideFlags: 1

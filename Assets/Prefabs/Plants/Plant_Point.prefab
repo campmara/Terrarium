@@ -613,6 +613,11 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+  _shakeAudioClipArray:
+  - {fileID: 8300000, guid: d208ca57b5bb441d3ae83d1dfecfd646, type: 3}
+  - {fileID: 8300000, guid: 521dc9a54c0d449c8957f001306efbd9, type: 3}
+  - {fileID: 8300000, guid: 981c8508342064235b092b2571910adb, type: 3}
+  - {fileID: 8300000, guid: e3fdcbb0f1d0a47d8b08a3a2835111a6, type: 3}
 --- !u!114 &114923182294347610
 MonoBehaviour:
   m_ObjectHideFlags: 1
