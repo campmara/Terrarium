@@ -137,6 +137,8 @@ public class GroundDisc : MonoBehaviour
 		pos.y = 0f;
         waterSplatDecalPool.AddDecal( pos, size );
 
+        // TODO: add random circle offset from Drop Point
+        // TODO: add a different method for BIg SPLATS when more flowers should spwan more quickly
         if( Random.value <= flowerSplatOdds )
         {
             flowerSplatDecalPool.AddDecal( pos, size );
