@@ -8,10 +8,14 @@ public class GroundDisc : MonoBehaviour
 	[SerializeField] private GameObject _grassPrefab;
 	[SerializeField] private int _grassDensity = 100;
 
-	[ReadOnly, SerializeField] private GroundDecalPool decalPool;
+	[SerializeField] private GroundDecalPool waterSplatDecalPool;
+    [SerializeField] private GroundDecalPool flowerSplatDecalPool;
 
-	//const float TEXELS_PER_WORLD_UNIT = 6.4f;
-	float TEXELS_PER_WORLD_UNIT = 0f;
+    [SerializeField, Range( 0.0f, 1.0f )]
+    float flowerSplatOdds = 0.25f; 
+
+    //const float TEXELS_PER_WORLD_UNIT = 6.4f;
+    float TEXELS_PER_WORLD_UNIT = 0f;
 
 	private MeshRenderer _mesh;
 
@@ -56,7 +60,7 @@ public class GroundDisc : MonoBehaviour
 	private void Awake()
 	{
 	    //_grassParent = new GameObject {name = "Grass"};
-		decalPool = GetComponentInChildren(typeof(GroundDecalPool)) as GroundDecalPool;
+		//waterSplatDecalPool = GetComponentInChildren(typeof(GroundDecalPool)) as GroundDecalPool;
 
 		/*
 	    for (int i = 0; i < _grassDensity; i++)
@@ -131,8 +135,14 @@ public class GroundDisc : MonoBehaviour
 	public void DrawSplatDecal(Vector3 pos, float size)
 	{
 		pos.y = 0f;
-		decalPool.AddDecal(pos, size);
-	}
+        waterSplatDecalPool.AddDecal( pos, size );
+
+        if( Random.value <= flowerSplatOdds )
+        {
+            flowerSplatDecalPool.AddDecal( pos, size );
+        }        
+
+    }
 
 	/*
 
