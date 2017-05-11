@@ -52,8 +52,8 @@ public class FaceManager : MonoBehaviour
 		BecomeIdle();
 		InitiateBlinkLoop();
 
-		_mouthPoseIndex = MouthPoseManager.instance.StartMouthPoseIndex;
-		SetMouthPose( MouthPoseManager.instance.MouthPoseArray[_mouthPoseIndex] );
+		//_mouthPoseIndex = MouthPoseManager.instance.StartMouthPoseIndex;
+		//SetMouthPose( MouthPoseManager.instance.MouthPoseArray[_mouthPoseIndex] );
 	}
 
 	// ===============
@@ -255,16 +255,16 @@ public class FaceManager : MonoBehaviour
 		_mouthPoseRoutine = null;
 	}
 
-	void OnValidate()
-	{
-		if( Application.isPlaying )
-		{
-			TransitionMouthPose( MouthPoseManager.instance.MouthPoseArray[_mouthPoseIndex] );
-		}
-
-		if( enableMouthSprite != _mouthRenderer.enabled )
-		{
-			_mouthRenderer.enabled = enableMouthSprite;
-		}
-	}
+//	void OnValidate()
+//	{
+//		if( Application.isPlaying )
+//		{
+//			TransitionMouthPose( MouthPoseManager.instance.MouthPoseArray[_mouthPoseIndex] );
+//		}
+//
+//		if( enableMouthSprite != _mouthRenderer.enabled )
+//		{
+//			_mouthRenderer.enabled = enableMouthSprite;
+//		}
+//	}
 }

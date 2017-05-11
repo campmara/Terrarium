@@ -67,6 +67,8 @@ MonoBehaviour:
   PickupForwardScalarPart2: 0.08
   PickupUpScalarPart2: 2
   PickupTime: 0.75
+  HugWidthRange: {x: 6, y: 30}
+  HugLerpSpeed: 10
   IdleMaxMag: 0.01
   IdleWaitTime: 0.1
   TransitionTime: 1

@@ -63,6 +63,10 @@ public class RollerConstants : ScriptableObjectSingleton<RollerConstants>
 	public float PickupUpScalarPart2 = 2.0f;
 	public float PickupTime = 0.75f;
 
+
+	public Vector2 HugWidthRange = new Vector2( 14.0f, 30.0f);
+	public float HugLerpSpeed = 10.0f;
+
     // IDLE
     [Header( "Idle Variables" ), Space( 10 )]
     public float IdleMaxMag = 0.01f;
