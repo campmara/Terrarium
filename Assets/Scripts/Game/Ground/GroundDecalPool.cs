@@ -6,6 +6,18 @@ public class GroundDecalPool : MonoBehaviour
 	private ParticleSystem decalSystem;
 	private ParticleSystem.EmitParams[] decalParticles;
 
+    [SerializeField]
+    bool adjustScale = true;
+    [SerializeField]
+    private Vector2 startSizeOffsetRange = new Vector2( -0.1f, 0.1f );
+
+    [SerializeField]
+    bool adjustStartPos = true;
+    [SerializeField]
+    private float startPosYOffsetScalar = 0.005f;
+
+
+
 	void Awake()
 	{
 		decalSystem = GetComponent(typeof(ParticleSystem)) as ParticleSystem;
@@ -21,11 +33,20 @@ public class GroundDecalPool : MonoBehaviour
 			dataIndex = 0;
 		}
 
-		decalParticles[dataIndex].position = pos + (Vector3.up * 0.005f);
-		decalParticles[dataIndex].startSize = Random.Range(size - 0.1f, size + 0.1f);
+        decalParticles[dataIndex].position = pos;
+        if ( adjustStartPos )
+        {            
+            decalParticles[dataIndex].position += ( Vector3.up * startPosYOffsetScalar );
+        }        
 
+        if ( adjustScale )
+        {
+            decalParticles[dataIndex].startSize = Random.Range( size + startSizeOffsetRange.x, size + startSizeOffsetRange.y );
+        }
+        
 		Vector3 rot = Quaternion.LookRotation(Vector3.down, Vector3.up).eulerAngles;
-		rot.z = Random.Range(0f, 360f);
+        //Vector3 rot = Vector3.zero;
+        rot.z = Random.Range(0f, 360f);
 		decalParticles[dataIndex].rotation3D = rot;
 
 		//decalParticles[dataIndex].startColor = gradient.Evaluate(Random.Range(0f, 1f));

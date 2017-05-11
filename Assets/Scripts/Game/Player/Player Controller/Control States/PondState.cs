@@ -18,6 +18,8 @@ public class PondState : RollerState
 		_roller.Mesh.SetActive(true);
 		_roller.Face.gameObject.SetActive(true);
 
+        _roller.StopPlayer();
+
         // Ensure that this is false. This is also bad :/ oh well.
         _roller.CollidedWithObject = false;
     }
@@ -35,7 +37,7 @@ public class PondState : RollerState
             }
             else
             {
-                PondManager.instance.PopPlayerFromPond();
+                //PondManager.instance.PopPlayerFromPond();
             }
 
             _roller.ChangeState( P_ControlState.WALKING );
