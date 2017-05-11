@@ -48,10 +48,16 @@ public static class JohnTech
         return JohnTech.CoinFlip() ? -1.0f : 1.0f;
     }
 
-	// FROM WADEUTILS lel ;/
-	#region Increment Position Properties
+    public static Vector3 GenerateRandomXZDirection()
+    {
+        Vector2 randomDir = UnityEngine.Random.insideUnitCircle;
+        return new Vector3( randomDir.x, 0.0f, randomDir.y );
+    }
 
-	public static void AddPosX(this Transform t, float newX)
+    // FROM WADEUTILS lel ;/
+    #region Increment Position Properties
+
+    public static void AddPosX(this Transform t, float newX)
 	{
 		t.position = new Vector3(t.position.x + newX, t.position.y, t.position.z);
 	}

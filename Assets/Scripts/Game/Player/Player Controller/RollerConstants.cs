@@ -8,12 +8,12 @@ public class RollerConstants : ScriptableObjectSingleton<RollerConstants>
 
     // WALK
     [Header( "Walk Variables" ), Space( 10 )]
-    public float WalkSpeed = 3f;
-	public float CarrySpeed = 3f;
+    public float WalkSpeed = 5.5f;
+	public float CarrySpeed = 4f;
 	public float SingWalkSpeed = 2f;
-	public float WalkAcceleration = 0.05f;
-	public float WalkDeceleration = 4.0f;
-    public float WalkTurnDampening = 0.025f;   // Used to dampen velocity when turning really hard
+	public float WalkAcceleration = 0.2f;
+	public float WalkDeceleration = 3.0f;
+    public float WalkTurnDampening = 0f;   // Used to dampen velocity when turning really hard
     public float BodyMinMoveSpeed = 2.5f;
 	public float IdleSittingTimer = 30f;
 
@@ -24,9 +24,9 @@ public class RollerConstants : ScriptableObjectSingleton<RollerConstants>
     public float WalkTurnAngleMax = 60.0f;
 
     // BREATHING VARIABLES
-    public float BreathSpeed = 0.3f;
+    public float BreathSpeed = 0.35f;
     public float BreathSpherizeScale = 3.0f;
-    public float BreathSpherize = 0.05f;
+    public AnimationCurve BreathSpherizeCurve;
 
     // ROLL
     [Header( "Roll Variables" ), Space( 10 )]
@@ -36,6 +36,8 @@ public class RollerConstants : ScriptableObjectSingleton<RollerConstants>
 	public float RollAcceleration = 1f;
 	public float RollDeceleration = 10f;
 	public float RollSphereSpin = 1250f;
+    public float RollEnterSpeed = 0.5f;
+    public float RollExitSpeed = 0.15f;
 
     // ROLL TURNING   
     public float TurnSpeed = 125f;
@@ -75,7 +77,7 @@ public class RollerConstants : ScriptableObjectSingleton<RollerConstants>
     [Header( "Ritual Variables" ), Space( 10 )]
     public float RitualTime = 0.25f;
     public AnimationCurve RitualPopCurve;
-    public float RitualCompleteWait = 2f;
+    public float RitualCompleteWait = 0.25f;
     public float RitualSphereizeScale = 5.0f;
     public float RitualMaxSpherize = 0.1f;
     public float RitualDeflateSpeed = 2.0f;
@@ -85,6 +87,7 @@ public class RollerConstants : ScriptableObjectSingleton<RollerConstants>
     public float PlantingTime = 0.75f;
 	public float PlantingEndY = 0f;
     public float PlantingEndX = 1.25f;
+    public float PlantingEffectRadius = 5.0f;
 
     // SINGING
     [Header( "Singing Variables" ), Space( 10 )]

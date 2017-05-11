@@ -30,8 +30,8 @@ public class SittingState : RollerState
     public override void HandleInput( InputCollection input )
     {
         _roller.BreathTimer += Time.deltaTime * RollerConstants.instance.BreathSpeed;
-        _roller.Spherify = Mathf.Pow(Mathf.Abs(Mathf.Sin(Mathf.PI * _roller.BreathTimer / 2.0f)), 0.5f)* RollerConstants.instance.BreathSpherize;
-        //_roller.Spherify = Mathf.PingPong( _roller.BreathTimer, RollerConstants.instance.BreathSpherize );
+        
+        _roller.Spherify = RollerConstants.instance.BreathSpherizeCurve.Evaluate( _roller.BreathTimer );
 
         Vector3 vec = new Vector3( input.LeftStickX, 0f, input.LeftStickY );
 

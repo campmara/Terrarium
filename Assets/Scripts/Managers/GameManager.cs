@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
 		}
 
 		// rly hacky Restart gdi
-		if( Input.GetKey(KeyCode.I) && Input.GetKey(KeyCode.O) && Input.GetKey(KeyCode.P ) )
+		if( Input.GetKey(KeyCode.Alpha0) )
 		{
 			SceneManager.LoadScene(0);
 		}

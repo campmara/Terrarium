@@ -6,33 +6,43 @@ public class RollingState : RollerState
 	private float _turnVelocity = 0f;
 	private bool _grounded = false;
 
-	private Tween _tween;
+	private Tween _rollPosTween;
+    private Tween _rollSpherifyTween;
 
     public override void Enter( P_ControlState prevState ) 
 	{
 		Debug.Log("ENTER ROLLING STATE");
 
         // Handle Transition from Walking State
-		if (prevState == P_ControlState.WALKING)
+		if ( prevState == P_ControlState.WALKING )
 		{
 			CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_LOCKED );
-
-			_roller.BecomeBall();
+			
 			_grounded = false;
 
-			_tween.Kill();
-			_tween = _roller.RollSphere.transform.DOMoveY(PondManager.instance.Pond.GetPondY(transform.position) + 0.375f, 0.5f)
-				.SetEase(Ease.InOutQuint)
+			_rollPosTween.Kill();
+			_rollPosTween = _roller.RollSphere.transform.DOMoveY(PondManager.instance.Pond.GetPondY(transform.position) + 0.375f, RollerConstants.instance.RollEnterSpeed )
+				.SetEase(Ease.OutCubic)
 				.OnComplete(GroundHit);
 
-			Invoke("StartJiggling", 0.3f);
+            _roller.Spherify = 0.0f;
+            _roller.SpherifyScale = RollerConstants.instance.RollSpherizeScale;            
+            if( _rollSpherifyTween != null )
+            {
+                _rollSpherifyTween.Kill();
+            }
+            _rollSpherifyTween = DOTween.To( () => _roller.Spherify, x => _roller.Spherify = x, RollerConstants.instance.RollSpherizeMaxSize, RollerConstants.instance.RollEnterSpeed ).SetEase( Ease.InOutQuint );
+
+
+            Invoke("StartJiggling", 0.3f);
 		}
     }
 
 	private void GroundHit()
 	{
 		_grounded = true;
-	}
+        _roller.BecomeBall();
+    }
 
 	private void StartJiggling()
 	{
@@ -49,8 +59,15 @@ public class RollingState : RollerState
 	{
 		Debug.Log("EXIT ROLLING STATE");
 		
-		_tween.Kill();
-		_tween = null;
+		_rollPosTween.Kill();
+		_rollPosTween = null;
+
+        if( _rollSpherifyTween != null )
+        {
+            //_rollSpherifyTween.SmoothRewind();
+            _rollSpherifyTween.Kill();
+            _rollSpherifyTween = null;
+        }
 	}
 
     public override void HandleInput( InputCollection input )
