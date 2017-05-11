@@ -90,7 +90,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  RitualCompleteWait: 2
+  RitualCompleteWait: 0.25
   RitualSphereizeScale: 4
   RitualMaxSpherize: 0.125
   RitualDeflateSpeed: 0.75
