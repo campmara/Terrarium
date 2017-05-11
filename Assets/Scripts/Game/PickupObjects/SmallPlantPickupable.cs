@@ -14,7 +14,8 @@ public class SmallPlantPickupable : Pickupable {
 	const float TUG_MINVAL = 0.9f;	// How far away the player needs to be to be tugging the plant out of the ground
 	const float SMALLPLANT_DEATHTUGTIME = 1.0f;
 	float _tugTimer = 0.0f;
-
+	float _holdTimer = 0.0f;
+	float _validHoldTime = .35f;
 	void FixedUpdate()
 	{
 		if( _grabbed )
@@ -23,6 +24,12 @@ public class SmallPlantPickupable : Pickupable {
 
 			_grabberBurdenInterp = Mathf.InverseLerp( SMALLPLANT_MINTUGDIST, SMALLPLANT_MAXTUGDIST, _grabberDirection.magnitude );
 
+			_holdTimer += Time.deltaTime;
+
+			if( _holdTimer >= _validHoldTime )
+			{
+				GetComponent<BasePlant>().TouchPlant();
+			}
 			// Gettin rid o this lol
 //			if( _tugTimer > SMALLPLANT_DEATHTUGTIME)
 //			{                
@@ -52,6 +59,7 @@ public class SmallPlantPickupable : Pickupable {
 		_grabTransform = null;
 
 		_grabberDirection = Vector3.zero;
+		_holdTimer = 0.0f;
 
 		if( this.GetComponent<PickupCollider>() != null )
         {

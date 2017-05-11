@@ -123,7 +123,8 @@ public class BasePlant : MonoBehaviour
 
 	public void TouchPlant()
 	{
-		_activeController.TouchPlant();
+		_controllers[0].TouchPlant();
+//		_activeController.TouchPlant();
 	}
 
 	public void StompPlant()
@@ -135,6 +136,8 @@ public class BasePlant : MonoBehaviour
 	{
 		return _activeController.DropFruit();
 	}
+
+	public virtual void HandleSinging( bool playerEnter ){}
 
 	void OnDestroy()
 	{
@@ -152,5 +155,24 @@ public class BasePlant : MonoBehaviour
 		yield return new WaitForSeconds( returnTime );
 
 		_curDecayRate = _baseDecayRate;
+	}
+
+	void OnTriggerStay( Collider col )
+	{
+		CheckReactToPlayer( col, true );
+	}
+
+	void OnTriggerExit( Collider col )
+	{
+		CheckReactToPlayer( col, false );
+	}
+
+	void CheckReactToPlayer( Collider col, bool entering )
+	{
+			if( col.GetComponent<Player>() || col.GetComponentInChildren<Player>() )
+			{
+				//_controllers[0].TouchPlant();
+				_controllers[0].HandleSinging( entering );
+			}
 	}
 }
