@@ -19,8 +19,21 @@ MonoBehaviour:
     LeftFrownBlendValue: 0
     RightFrownBlendValue: 0
     OMouthBlendValue: 0
+  TempMouthBlendList:
+  - _poseName: O Mouth
+    OMouthBlendValue: 100
+    FrownBlendValue: 0
+    SmileBlendValue: 0
+  - _poseName: Frown
+    OMouthBlendValue: 0
+    FrownBlendValue: 100
+    SmileBlendValue: 0
+  - _poseName: Smile
+    OMouthBlendValue: 0
+    FrownBlendValue: 0
+    SmileBlendValue: 100
   StartMouthPoseIndex: 0
-  MouthPoseTransitionTime: 0.5
+  MouthPoseTransitionTime: 0.1
   MouthTransitionAnimCurve:
     serializedVersion: 2
     m_Curve:

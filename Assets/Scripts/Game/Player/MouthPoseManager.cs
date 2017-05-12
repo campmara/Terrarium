@@ -15,9 +15,20 @@ public struct MouthPoseData
 	public float OMouthBlendValue;
 }
 
+[Serializable]
+public struct TempMouthBlendData
+{
+	[SerializeField] private string _poseName;
+	public float OMouthBlendValue;
+	public float FrownBlendValue;
+	public float SmileBlendValue;
+}
+
 public class MouthPoseManager : ScriptableObjectSingleton<MouthPoseManager> 
 {
 	public List<MouthPoseData> MouthPoseArray;
+
+	public List<TempMouthBlendData> TempMouthBlendList;
 
 	public int StartMouthPoseIndex = 0;
 
