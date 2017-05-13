@@ -36,10 +36,12 @@ public class FaceManager : MonoBehaviour
     private Coroutine _blinkRoutine;
     private Coroutine _idleRoutine;
 
+	[SerializeField, Space(10)] SkinnedMeshRenderer _leftEyeSkinnedMesh;
+	[SerializeField] SkinnedMeshRenderer _rightEyeSkinnedMesh;
 	[SerializeField] SkinnedMeshRenderer _mouthSkinnedMesh; 
 	private Coroutine _mouthPoseRoutine;
 	[SerializeField] private int _mouthPoseIndex = 0;
-	private MouthPoseData _currMouthPose;
+	private FacePose _currMouthPose;
 
 
 	void Awake()
@@ -197,19 +199,31 @@ public class FaceManager : MonoBehaviour
         _idleRoutine = null;
     }
 
-	void SetMouthPose( MouthPoseData mouthPose )
+	/// <summary>
+	/// Finds the face pose in the Mouth Pose Manager face pose list
+	/// </summary>
+	/// <returns>The face pose.</returns>
+	/// <param name="poseName">Pose name.</param>
+	FacePose FindFacePose( string poseName )
 	{
-		_mouthSkinnedMesh.SetBlendShapeWeight( 0, mouthPose.WideOpenBlendValue );
-		_mouthSkinnedMesh.SetBlendShapeWeight( 1, mouthPose.RightSmileBlendValue );
-		_mouthSkinnedMesh.SetBlendShapeWeight( 2, mouthPose.LeftSmileBlendValue );
-		_mouthSkinnedMesh.SetBlendShapeWeight( 3, mouthPose.LeftFrownBlendValue );
-		_mouthSkinnedMesh.SetBlendShapeWeight( 4, mouthPose.RightFrownBlendValue );
-		_mouthSkinnedMesh.SetBlendShapeWeight( 5, mouthPose.OMouthBlendValue );
+		FacePose pose = null;
+
+		MouthPoseManager.instance.FacePoseList.Find( x => x != null && x.PoseName == poseName );
+
+		Debug.Assert( pose != null );
+
+		return pose;
+	}
+
+	void SetMouthPose( FacePose mouthPose )
+	{
+		SetRightEyeBlendValues( mouthPose.RightEyePose, 1.0f );
+		SetLeftEyeBlendValues( mouthPose.LeftEyePose, 1.0f );
 
 		_currMouthPose = mouthPose;
 	}
 
-	void TransitionMouthPose( MouthPoseData newPose )
+	void TransitionMouthPose( FacePose newPose )
 	{
 		if( _mouthPoseRoutine != null )
 		{
@@ -222,14 +236,14 @@ public class FaceManager : MonoBehaviour
 	
 	}
 
-	IEnumerator WaitForMouthTransition( MouthPoseData newPose )
+	IEnumerator WaitForMouthTransition( FacePose newPose )
 	{
 		yield return new WaitUntil( () => _mouthPoseRoutine == null );
 
 		_mouthPoseRoutine = StartCoroutine( MouthTransitionRoutine( newPose ) );
 	}
 
-	IEnumerator MouthTransitionRoutine( MouthPoseData newPose )
+	IEnumerator MouthTransitionRoutine( FacePose newPose )
 	{
 		float timer = 0.0f;
 		float mouthTransProgress = 0.0f;
@@ -238,12 +252,9 @@ public class FaceManager : MonoBehaviour
 		{
 			mouthTransProgress = MouthPoseManager.instance.MouthTransitionAnimCurve.Evaluate( timer / MouthPoseManager.instance.MouthPoseTransitionTime );
 
-			_mouthSkinnedMesh.SetBlendShapeWeight( 0, Mathf.Lerp( _currMouthPose.WideOpenBlendValue, newPose.WideOpenBlendValue, mouthTransProgress ) );
-			_mouthSkinnedMesh.SetBlendShapeWeight( 1, Mathf.Lerp( _currMouthPose.RightSmileBlendValue, newPose.RightSmileBlendValue, mouthTransProgress ) );
-			_mouthSkinnedMesh.SetBlendShapeWeight( 2, Mathf.Lerp( _currMouthPose.LeftSmileBlendValue, newPose.LeftSmileBlendValue, mouthTransProgress ) );
-			_mouthSkinnedMesh.SetBlendShapeWeight( 3, Mathf.Lerp( _currMouthPose.LeftFrownBlendValue, newPose.LeftFrownBlendValue, mouthTransProgress ) );
-			_mouthSkinnedMesh.SetBlendShapeWeight( 4, Mathf.Lerp( _currMouthPose.RightFrownBlendValue, newPose.RightFrownBlendValue, mouthTransProgress ) );
-			_mouthSkinnedMesh.SetBlendShapeWeight( 5, Mathf.Lerp( _currMouthPose.OMouthBlendValue, newPose.OMouthBlendValue, mouthTransProgress ) );
+			SetRightEyeBlendValues( newPose.RightEyePose, mouthTransProgress );
+			SetLeftEyeBlendValues( newPose.LeftEyePose, mouthTransProgress );
+			SetMouthBlendValues( newPose.MouthPose, mouthTransProgress );
 
 			timer += Time.deltaTime;
 
@@ -253,6 +264,39 @@ public class FaceManager : MonoBehaviour
 		SetMouthPose( newPose );
 
 		_mouthPoseRoutine = null;
+	}
+
+	void SetRightEyeBlendValues( EyeBlendData newPose, float transitionProgress )
+	{
+		_rightEyeSkinnedMesh.SetBlendShapeWeight( 0, Mathf.Lerp( 0.0f, newPose.DespairBlendValue, transitionProgress ) );
+		_rightEyeSkinnedMesh.SetBlendShapeWeight( 1, Mathf.Lerp( 0.0f, newPose.WideBlendValue, transitionProgress ) );
+		_rightEyeSkinnedMesh.SetBlendShapeWeight( 2, Mathf.Lerp( 0.0f, newPose.AngryBlendValue, transitionProgress ) );
+		_rightEyeSkinnedMesh.SetBlendShapeWeight( 3, Mathf.Lerp( 0.0f, newPose.HalfOpenBlendValue, transitionProgress ) );
+		_rightEyeSkinnedMesh.SetBlendShapeWeight( 4, Mathf.Lerp( 0.0f, newPose.ClosedBlendValue, transitionProgress ) );
+		_rightEyeSkinnedMesh.SetBlendShapeWeight( 5, Mathf.Lerp( 0.0f, newPose.SadBlendValue, transitionProgress ) );
+		_rightEyeSkinnedMesh.SetBlendShapeWeight( 6, Mathf.Lerp( 0.0f, newPose.HappyBlendValue, transitionProgress ) );
+	}
+
+	void SetLeftEyeBlendValues( EyeBlendData newPose, float transitionProgress )
+	{
+		_leftEyeSkinnedMesh.SetBlendShapeWeight( 0, Mathf.Lerp( 0.0f, newPose.DespairBlendValue, transitionProgress ) );
+		_leftEyeSkinnedMesh.SetBlendShapeWeight( 1, Mathf.Lerp( 0.0f, newPose.WideBlendValue, transitionProgress ) );
+		_leftEyeSkinnedMesh.SetBlendShapeWeight( 2, Mathf.Lerp( 0.0f, newPose.AngryBlendValue, transitionProgress ) );
+		_leftEyeSkinnedMesh.SetBlendShapeWeight( 3, Mathf.Lerp( 0.0f, newPose.HalfOpenBlendValue, transitionProgress ) );
+		_leftEyeSkinnedMesh.SetBlendShapeWeight( 4, Mathf.Lerp( 0.0f, newPose.ClosedBlendValue, transitionProgress ) );
+		_leftEyeSkinnedMesh.SetBlendShapeWeight( 5, Mathf.Lerp( 0.0f, newPose.SadBlendValue, transitionProgress ) );
+		_leftEyeSkinnedMesh.SetBlendShapeWeight( 6, Mathf.Lerp( 0.0f, newPose.HappyBlendValue, transitionProgress ) );
+	}
+
+	void SetMouthBlendValues( MouthBlendData newPose, float transitionProgress )
+	{
+//		_mouthSkinnedMesh.SetBlendShapeWeight( 0, Mathf.Lerp( 0.0f, newPose.DespairBlendValue, transitionProgress ) );
+//		_mouthSkinnedMesh.SetBlendShapeWeight( 1, Mathf.Lerp( 0.0f, newPose.WideBlendValue, transitionProgress ) );
+//		_mouthSkinnedMesh.SetBlendShapeWeight( 2, Mathf.Lerp( 0.0f, newPose.AngryBlendValue, transitionProgress ) );
+//		_mouthSkinnedMesh.SetBlendShapeWeight( 3, Mathf.Lerp( 0.0f, newPose.HalfOpenBlendValue, transitionProgress ) );
+//		_mouthSkinnedMesh.SetBlendShapeWeight( 4, Mathf.Lerp( 0.0f, newPose.ClosedBlendValue, transitionProgress ) );
+//		_mouthSkinnedMesh.SetBlendShapeWeight( 5, Mathf.Lerp( 0.0f, newPose.SadBlendValue, transitionProgress ) );
+//		_mouthSkinnedMesh.SetBlendShapeWeight( 6, Mathf.Lerp( 0.0f, newPose.HappyBlendValue, transitionProgress ) );
 	}
 
 //	void OnValidate()
