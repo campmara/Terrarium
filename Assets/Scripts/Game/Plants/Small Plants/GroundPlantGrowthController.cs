@@ -14,7 +14,11 @@ public class GroundPlantGrowthController : SPGrowthController
 	float _leafScale = 0.0f;
 	Animator _lastAnim = null;
 	bool _waiting = false;
+	bool _closingLeaves = false;
+	float _closeSpeed = .32f;
 
+	float _singBufferTime = 1.5f;
+	float _enterTime = 0.0f;
 	protected override void InitPlant()
 	{
 		base.InitPlant();
@@ -140,4 +144,66 @@ public class GroundPlantGrowthController : SPGrowthController
 		_waiting = false;
 		_myPlant.SwitchController( this );
 	}	
+
+	protected override void CustomTouchPlant()
+	{
+		if( !_closingLeaves )
+		{
+			StartCoroutine( CloseLeaves() );
+		}
+	}
+
+	IEnumerator CloseLeaves()
+	{
+		_closingLeaves = true;
+
+		// cycle all through the guys
+		foreach( Animator plant in _childAnimators )
+		{
+			plant.SetBool("isSwaying", false );
+			plant.SetBool("isClosing", true );
+			plant.speed = 3.8f;
+		}
+		_fruit.gameObject.SetActive( false );
+		
+		yield return new WaitForSeconds( .25f );
+
+		PlayerManager.instance.Player.GetComponent<RollerController>().MakeDroopyExplode();
+		yield return new WaitForSeconds( .001f );
+
+		// cycle all through the guys
+		foreach( Animator plant in _childAnimators )
+		{
+			plant.speed = 1.0f;
+			plant.SetBool("isClosing", false );
+		}
+
+		yield return new WaitForSeconds( 45.0f );
+		_closingLeaves = false;
+		_fruit.gameObject.SetActive( true );
+	}
+
+	protected override void CustomizedSingAtPlant( bool entering )
+	{
+		SingController singCtrl = PlayerManager.instance.Player.GetComponent<SingController>();
+		if( singCtrl.State == SingController.SingState.SINGING && entering )
+		{
+			//keep that bool set to true
+			foreach( Animator plant in _childAnimators )
+			{
+				plant.SetBool("isSwaying", true );
+			}
+			_enterTime = Time.time;
+		}
+		else
+		{
+			if( Time.time - _enterTime >= _singBufferTime )
+			{
+				foreach( Animator plant in _childAnimators )
+				{
+					plant.SetBool("isSwaying", false );
+				}
+			}
+		}
+	}
 }

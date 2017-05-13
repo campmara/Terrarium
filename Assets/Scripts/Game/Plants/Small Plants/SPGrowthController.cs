@@ -85,9 +85,25 @@ public class SPGrowthController : PlantController
 	//********************************
 
 	public override void WaterPlant(){}
-	public override void TouchPlant(){}
+	public override void TouchPlant()
+	{
+
+		//close up plant 
+		CustomTouchPlant();
+	}
+	
+	protected virtual void CustomTouchPlant(){}
+
 	public override void GrabPlant(){}
 	public override void StompPlant(){}
+
+	public override void HandleSinging( bool entering )
+	{
+		CustomizedSingAtPlant( entering );
+	}
+
+	protected virtual void CustomizedSingAtPlant( bool entering )
+	{}
 
 	//********************************
 	// HELPER FUNCTIONS

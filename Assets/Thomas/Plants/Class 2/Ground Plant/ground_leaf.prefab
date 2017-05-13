@@ -175,12 +175,13 @@ SkinnedMeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   serializedVersion: 2
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 4300002, guid: 515e1fd637113de4c91f6fc3f8d5a5ff, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 515e1fd637113de4c91f6fc3f8d5a5ff, type: 3}
   m_Bones:
   - {fileID: 4815184122455578}
   - {fileID: 4906225329019444}

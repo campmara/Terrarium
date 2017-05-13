@@ -513,6 +513,13 @@ public class RollerController : ControllerBase
         PondManager.instance.HandlePondWait();
     }
 
+	public void MakeDroopyExplode()
+	{
+		_collidedWithObject = true;
+		BecomeWalker();
+		HandlePondReturn();
+	}
+
 	public bool CollidedWithObject { get { return _collidedWithObject; } set { _collidedWithObject = value; } }
 	private bool _collidedWithObject = false;
 	private void OnCollisionEnter(Collision other)
@@ -526,9 +533,7 @@ public class RollerController : ControllerBase
                 && other.gameObject.layer != LayerMask.NameToLayer( "PlayerHand" ))
 			{
 				//CameraManager.instance.ScreenShake(0.25f, 0.25f, 10);
-				_collidedWithObject = true;
-				BecomeWalker();
-				HandlePondReturn();
+				MakeDroopyExplode();
 			}
 		}
 	}
