@@ -1,8 +1,9 @@
-﻿Shader "InsideWrap/Hardness (Half Lambert)"
+﻿Shader "Custom/Terrain"
 {
 	Properties{
 		_MainTex("Base (RGB)", 2D) = "white" {}
-		_Color("Color", Color) = (1, 1, 1, 1)
+		_DiscRadius("Disc Radius", range(0,1)) = .025
+		_DiscFade("Disc Fade", range(0,250)) = 5
 
 		_Hardness("Hardness", Range(.25, 1)) = 0.5
 	}
@@ -39,6 +40,9 @@
 	};
 
 	sampler2D _MainTex;
+	
+	float _DiscRadius;
+	float _DiscFade;
 
 	half4 _Color;
 	//global variable for ground color
@@ -46,9 +50,14 @@
 	uniform float4 _GroundColorSecondary;
 
 	void surf(Input IN, inout SurfaceOutput o) {
-		float len = length(IN.worldPos * (.025));//*sin(IN.worldPos*.05);
-		len = clamp(pow(len,5), 0, 1);
-		float4 col = lerp(_GroundColorSecondary, _Color, len);
+		float4 mainTex = tex2D(_MainTex, IN.uv_MainTex);
+		float noiseWorld = cnoise(IN.worldPos);
+		float len = length(IN.worldPos * (1  -  _DiscRadius));
+		float4 waveTex = tex2D(_MainTex, float2(len * mainTex.r + _Time.x, len * mainTex.r));
+		len = clamp(pow(len * mainTex.r,_DiscFade), 0, 1);
+
+		float4 outside = lerp(_GroundColorPrimary, unity_FogColor, waveTex.r);
+		float4 col = lerp(_GroundColorSecondary, outside, len);
 		o.Albedo = col.rgb;
 	}
 

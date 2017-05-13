@@ -90,14 +90,14 @@
 
 		//edge and melting
 		float edge = (abs(sin(meltfinal.r))) * 5;
-		float melt = (((IN.worldPos.y) - _MeltY) / _MeltDistance) - (edge - 1.5);
+		float melt = (((IN.worldPos.y) - _MeltY) / _MeltDistance) - (edge - 1.5) * meltfinal;
 		melt = smoothstep(1, 0, melt);
 
 		float4 baseColor = tex2D(_MainTex, IN.uv_MainTex)* _Color;
 
-		float interp = smoothstep(.0, .5,meltfinal.r);
+		//float interp = smoothstep(.0, .5,meltfinal.r);
 		o.Albedo = lerp(baseColor, _MeltColor, (melt * melt));
-		o.Albedo = lerp(baseColor, o.Albedo, interp);
+		//o.Albedo = lerp(baseColor, o.Albedo, interp);
 	}
 
 	ENDCG
