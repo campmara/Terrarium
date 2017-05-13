@@ -165,6 +165,8 @@ public class GroundPlantGrowthController : SPGrowthController
 			plant.speed = 3.8f;
 		}
 		_fruit.gameObject.SetActive( false );
+		
+		yield return new WaitForSeconds( .25f );
 
 		PlayerManager.instance.Player.GetComponent<RollerController>().MakeDroopyExplode();
 		yield return new WaitForSeconds( .001f );
@@ -175,8 +177,6 @@ public class GroundPlantGrowthController : SPGrowthController
 			plant.speed = 1.0f;
 			plant.SetBool("isClosing", false );
 		}
-
-
 
 		yield return new WaitForSeconds( 45.0f );
 		_closingLeaves = false;
