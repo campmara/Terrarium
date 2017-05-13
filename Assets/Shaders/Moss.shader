@@ -18,7 +18,7 @@
 		//cull off
 
 		CGPROGRAM
-#pragma surface surf BlinnPhong vertex:disp nolightmap addshadow fullforwardshadows
+#pragma surface surf BlinnPhong vertex:vert addshadow
 #pragma target 4.6
 
 		struct appdata {
@@ -34,7 +34,7 @@
 	sampler2D _FallOffTex;
 	float _Scale;
 
-	void disp(inout appdata v)
+	void vert(inout appdata v)
 	{
 		//http://diary.conewars.com/melting-shader-part-2/
 		float4 worldPos = mul(unity_ObjectToWorld, v.vertex);
