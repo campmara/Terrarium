@@ -42,7 +42,7 @@ public class Murabbit : MonoBehaviour
 		}
 		else if (state == State.HOP)
 		{
-
+			HandleHopping();
 		}
 		else if (state == State.ESCAPE)
 		{
@@ -92,9 +92,6 @@ public class Murabbit : MonoBehaviour
 	*/
 	private void OnEnterHopping()
 	{
-		//StopCoroutine(escapeRoutine);
-		//jumpTween.Complete();
-
 		hopRoutine = StartCoroutine(HopRoutine());
 	}
 
@@ -108,18 +105,26 @@ public class Murabbit : MonoBehaviour
 		jumpTween = transform.DOJump(jumpPos, Random.Range(0.5f, 1.25f), 1, 0.5f);
 
 		yield return jumpTween.WaitForCompletion();
+		jumpTween.Kill();
+		jumpTween = null;
 
 		hopRoutine = StartCoroutine(HopRoutine());
 	}
 
 	private void HandleHopping()
 	{
+		if (PlayerManager.instance.Player.GetComponent<RollerController>().State != P_ControlState.ROLLING &&
+			PlayerManager.instance.Player.PlayerSingController.State != SingController.SingState.SINGING)
+		{
+			return;
+		}
+
 		sqrDistFromPlayer = (PlayerManager.instance.Player.transform.position - transform.position).sqrMagnitude;
 
-		if (sqrDistFromPlayer < MAX_SCARY_SQR_DISTANCE)
+		if (sqrDistFromPlayer <= MAX_SCARY_SQR_DISTANCE)
 		{
 			// Scarem
-			// SetState(State.ESCAPE);
+			SetState(State.ESCAPE);
 		}
 	}
 
@@ -128,15 +133,36 @@ public class Murabbit : MonoBehaviour
 	*/
 	private void OnEnterEscaping()
 	{
-		StopCoroutine(hopRoutine);
-		jumpTween.Complete();
-
 		escapeRoutine = StartCoroutine(EscapeRoutine());
 	}
 
 	private IEnumerator EscapeRoutine()
 	{
-		yield return null;
+		Vector3 diff = PlayerManager.instance.Player.transform.position - transform.position;
+		sqrDistFromPlayer = diff.sqrMagnitude;
+
+		if (sqrDistFromPlayer > MAX_SCARY_SQR_DISTANCE)
+		{
+			// Scarem
+			SetState(State.HOP);
+			yield return null;
+		}
+		else
+		{
+			diff.y = 0f;
+			diff = -(diff.normalized);
+			Vector3 jumpPos = transform.position + (diff * Random.Range(1.75f, 2.5f));
+			jumpPos.y = 0f;
+			transform.LookAt(jumpPos);
+
+			jumpTween = transform.DOJump(jumpPos, Random.Range(0.5f, 1.25f), 1, 0.5f);
+
+			yield return jumpTween.WaitForCompletion();
+			jumpTween.Kill();
+			jumpTween = null;
+
+			escapeRoutine = StartCoroutine(EscapeRoutine());
+		}
 	}
 
 	/*
