@@ -6,17 +6,17 @@
 		_TerrainTex("Terrain Tex (R)", 2D) = "white" {}
 		_DiscRadius("Disc Radius", range(0,1)) = .025
 		_DiscFade("Disc Fade", range(0,250)) = 5
-			_HeightmapStrength("Heightmap Strength", Float) = 1.0
-			_HeightmapDimX("Heightmap Width", Float) = 2048
-			_HeightmapDimY("Heightmap Height", Float) = 2048
 		_Hardness("Hardness", Range(.25, 1)) = 0.5
+
+		[Toggle]_SplatmapEnabled("Splatmap Enabled", float) = 0
+		_ZeroY("Zero Y", float) = 0
 	}
 		SubShader{
 		Tags{ "Queue" = "Geometry" }
 		//Cull Off
 		CGPROGRAM
 
-		#pragma surface surf WrapLambert vertex:vert
+		#pragma surface surf WrapLambert vertex:vert addshadow
 		#include "noise.cginc"
 
 		half _Hardness;
@@ -45,37 +45,64 @@
 
 	sampler2D _MainTex;
 	sampler2D _WaveTex;
-	sampler2D _TerrainTex;
 	
 	float _DiscRadius;
 	float _DiscFade;
 
 	half4 _Color;
+
 	//global variable for ground color
 	uniform float4 _GroundColorPrimary;
 	uniform float4 _GroundColorSecondary;
 	
-	uniform sampler2D _TerrainHeightMap;
-	uniform float _TerrainHeightMultiplier;
+	//...splatmap...
+	float _ImprintAmount;
+	float _SplatmapEnabled;
 
-	void vert(inout appdata_full v)
+	uniform sampler2D _ClipEdges;
+	uniform sampler2D _SplatMap;
+	uniform float3 _CameraWorldPos;
+	uniform float _OrthoCameraScale;
+	//..............
+
+	//splatmap+
+	float _ZeroY;
+
+	void vert(inout appdata_full v, out Input o)
 	{
-		float3 worldPos = mul(unity_ObjectToWorld, v.vertex);
-		float4 mainTex = tex2Dlod(_TerrainHeightMap, float4(v.texcoord.xy, 0, 0));
-		worldPos.y -= (mainTex.r * _TerrainHeightMultiplier);
+		UNITY_INITIALIZE_OUTPUT(Input, o);
+
+		float4 worldPos = mul(unity_ObjectToWorld, v.vertex);
+		float4 worldNormal = mul(unity_ObjectToWorld, v.normal);
+		//splatmap deformation
+		//...........
+		if (_SplatmapEnabled != 0) {
+			_OrthoCameraScale *= 2;
+			float2 worldUV = float2(((worldPos.x - _CameraWorldPos.x) / _OrthoCameraScale + .5f), ((worldPos.z - _CameraWorldPos.z) / _OrthoCameraScale + .5f)); //find a way to center this
+			float4 border = tex2Dlod(_ClipEdges, float4(worldUV, 0, 0)).rgba;
+			float4 d = (tex2Dlod(_SplatMap, float4(worldUV, 0, 0)));
+
+			d.a = clamp(d.a - border.a, 0, 1);
+			d.rg = (d.rg - .5f) * d.a;
+			d.b *= d.a;
+
+			worldPos.y = lerp(worldPos.y, 0 + _ZeroY, d.b);
+			worldPos.x -= d.r;
+			worldPos.z += d.g;
+			worldNormal.xz += d.rg * 5;
+		}
+		//......
+
 		v.vertex = mul(unity_WorldToObject, worldPos);
+		v.normal = mul(unity_WorldToObject, worldNormal.xyz);
 	}
-
-	float4 mix(float4 x, float4 y, float4 a) {
-		return x * (1 - a) + y * a;
-	}
-
-	float _HeightmapStrength, _HeightmapDimX, _HeightmapDimY;
 
 	void surf(Input IN, inout SurfaceOutput o) {
 
 		float len = length(IN.worldPos * (1  -  _DiscRadius));
 		float4 mainTex = tex2D(_MainTex, IN.uv_MainTex);
+		float4 heightTex = tex2D(_MainTex, IN.uv_MainTex);
+
 
 		float discLen = clamp(pow(len*mainTex.r, _DiscFade), 0, 1);
 		//float4 terrainTex = tex2D(_TerrainTex, float2(len * .5 + _Time.x * 5, len));
@@ -88,33 +115,6 @@
 		float4 fogWaves = lerp(_GroundColorSecondary, unity_FogColor, waveTex.r * mainTex.r);
 		float4 col = fogWaves;
 		o.Albedo = col.rgb;
-
-		//http://polycount.com/discussion/117185/creating-normals-from-alpha-heightmap-inside-a-shader
-		float3 normal = float3(.5,.5,.5);
-
-		float me = tex2D(_TerrainHeightMap, IN.uv_MainTex).x;
-		float n = tex2D(_TerrainHeightMap, float2(IN.uv_MainTex.x, IN.uv_MainTex.y + 1.0 / _HeightmapDimY)).x;
-		float s = tex2D(_TerrainHeightMap, float2(IN.uv_MainTex.x, IN.uv_MainTex.y - 1.0 / _HeightmapDimY)).x;
-		float e = tex2D(_TerrainHeightMap, float2(IN.uv_MainTex.x - 1.0 / _HeightmapDimX, IN.uv_MainTex.y)).x;
-		float w = tex2D(_TerrainHeightMap, float2(IN.uv_MainTex.x + 1.0 / _HeightmapDimX, IN.uv_MainTex.y)).x;
-
-		float3 norm = normal;
-		float3 temp = norm; //a temporary vector that is not parallel to norm
-		if (norm.x == 1)
-			temp.y += 0.5;
-		else
-			temp.x += 0.5;
-
-		//form a basis with norm being one of the axes:
-		float3 perp1 = normalize(cross(norm, temp));
-		float3 perp2 = normalize(cross(norm, perp1));
-
-		//use the basis to move the normal in its own space by the offset
-		float3 normalOffset = -_HeightmapStrength * (((n - me) - (s - me)) * perp1 + ((e - me) - (w - me)) * perp2);
-		norm += normalOffset;
-		norm = normalize(norm);
-
-		o.Normal = norm;
 	}
 
 	ENDCG

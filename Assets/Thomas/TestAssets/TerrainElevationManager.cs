@@ -7,9 +7,11 @@ public class TerrainElevationManager : MonoBehaviour {
 
     public Texture terrainHeightMap;
     public float terrainHeightMultiplier;
+    public float terrainScale;
 
-	void Update () {
+    void Update () {
         Shader.SetGlobalTexture("_TerrainHeightMap", terrainHeightMap);
         Shader.SetGlobalFloat("_TerrainHeightMultiplier", terrainHeightMultiplier);
+        Shader.SetGlobalFloat("_TerrainScale", terrainScale);
     }
 }

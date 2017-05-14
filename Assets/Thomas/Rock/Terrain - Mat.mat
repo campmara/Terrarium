@@ -103,7 +103,7 @@ Material:
     - _Hardness: 1
     - _HeightmapDimX: 512
     - _HeightmapDimY: 512
-    - _HeightmapStrength: 0.25
+    - _HeightmapStrength: 1.76
     - _ImprintAmount: 0
     - _Inset: 6.9
     - _Metallic: 0.187
