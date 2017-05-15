@@ -29,4 +29,6 @@ public abstract class PlantController : MonoBehaviour
 	public abstract void TouchPlant();
 	public abstract void GrabPlant();
 	public abstract void StompPlant();
+
+	public virtual void HandleSinging( bool entering ){}
 }

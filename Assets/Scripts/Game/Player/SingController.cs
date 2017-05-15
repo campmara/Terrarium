@@ -16,6 +16,7 @@ public class SingController : MonoBehaviour {
         STOPPING
     }
     SingState _state = SingState.IDLE;
+    public SingState State { get { return _state; } }
 
     int _currentSingClip = 0;
     float _singPitch = 0.0f;
