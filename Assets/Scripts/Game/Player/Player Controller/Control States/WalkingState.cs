@@ -4,7 +4,8 @@ using DG.Tweening;
 
 public class WalkingState : RollerState
 {
-    private Tween _tween;
+    private Tween _rollPosTween;
+    private Tween _rollSpherifyTween;
     private float _idleTimer = 0f;
 
     Coroutine _reachCoroutine = null;
@@ -19,17 +20,26 @@ public class WalkingState : RollerState
         case P_ControlState.ROLLING:            
                 CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
                 //PlayerManager.instance.Player.AnimationController.PlayRollToWalkAnim();
-                _tween = _roller.RollSphere.transform.DOMoveY( 1.5f, 0.3f ).SetEase( Ease.OutCubic ).OnComplete(TransitionFromRollComplete);           
-            break;
+                _rollPosTween = _roller.RollSphere.transform.DOMoveY( 1.5f, RollerConstants.instance.RollExitSpeed ).SetEase( Ease.OutCubic ).OnComplete(TransitionFromRollComplete);
+                _rollSpherifyTween = DOTween.To( () => _roller.Spherify, x => _roller.Spherify = x, 0.0f, RollerConstants.instance.RollExitSpeed ).SetEase( Ease.OutCubic );
+                break;
         }
 
-        _idleTimer = 0f;       
+        _idleTimer = 0f;        
         //PlayerManager.instance.Player.AnimationController.PlayWalkAnim();
-	}
+    }
 
     void TransitionFromRollComplete()
     {
         _roller.BecomeWalker();
+
+        _rollPosTween.Kill( true );
+        _rollPosTween = null;
+
+        _rollSpherifyTween.Kill( true );
+        _rollSpherifyTween = null;
+
+        _roller.SpherifyScale = RollerConstants.instance.BreathSpherizeScale;
     }
 
 	public override void Exit(P_ControlState nextState)
@@ -38,10 +48,10 @@ public class WalkingState : RollerState
 
         _roller.Player.PlayerSingController.StopSinging();
 
-        if (_tween != null)
+        if ( _rollPosTween != null )
 	    {
-	        _tween.Kill();
-	        _tween = null;
+	        _rollPosTween.Kill();
+	        _rollPosTween = null;
 	    }
 
         if( _reachCoroutine != null )
@@ -55,96 +65,97 @@ public class WalkingState : RollerState
 
     public override void HandleInput( InputCollection input )
     {
-        // hmm this is bad, scales could b the same lol
-        // yup, it's bad!
-        if( _roller.SpherifyScale == RollerConstants.instance.RitualSphereizeScale && _roller.Spherify > 0.0f )
+        if ( _rollPosTween == null )
         {
-            _roller.Spherify -= Time.deltaTime * RollerConstants.instance.RitualDeflateSpeed;
-
-            if( _roller.Spherify < 0.0f )
+            // hmm this is bad, scales could b the same lol
+            // yup, it's bad!
+            if (_roller.SpherifyScale == RollerConstants.instance.RitualSphereizeScale && _roller.Spherify > 0.0f)
             {
-                _roller.Spherify = 0.0f;
-                _roller.SpherifyScale = RollerConstants.instance.BreathSpherizeScale;
-                _roller.BreathTimer = 0.0f;
+                _roller.Spherify -= Time.deltaTime * RollerConstants.instance.RitualDeflateSpeed;
+
+                if (_roller.Spherify < 0.0f)
+                {
+                    _roller.Spherify = 0.0f;
+                    _roller.SpherifyScale = RollerConstants.instance.BreathSpherizeScale;
+                    _roller.BreathTimer = 0.0f;
+                }
             }
-        }
-        else
-        {
-            _roller.BreathTimer += Time.deltaTime * RollerConstants.instance.BreathSpeed;
-            _roller.Spherify = Mathf.Pow(Mathf.Abs(Mathf.Sin(Mathf.PI * _roller.BreathTimer / 2.0f)), 0.5f)* RollerConstants.instance.BreathSpherize;
-            //_roller.Spherify = Mathf.PingPong( _roller.BreathTimer, RollerConstants.instance.BreathSpherize );
-        }
-
-        // Check for sitting after idling for a while.
-        IdleTimer( input );
-
-        if (input.LeftBumper.WasPressed)
-        {
-            _idleTimer = 0f;
-            IncrementLeftArmGesture();
-        }
-
-        if ( input.RightBumper.WasPressed )
-        {
-            _idleTimer = 0f;
-            IncrementRightArmGesture();
-        }
-
-        // A BUTTON 
-        if ( input.AButton.WasPressed )
-        {
-            // End coroutine waiting to see if the player should auto reach if the player inputs for arms  
-            if ( _reachCoroutine != null )
+            else
             {
-                StopCoroutine( _reachCoroutine );
-                _reachCoroutine = null;
+                _roller.BreathTimer += Time.deltaTime * RollerConstants.instance.BreathSpeed;
+
+                // The Spherize Curve is set to PingPong in the Animation Curve.
+                // Max Spherize Size is the value of the second key on the curve
+                _roller.Spherify = RollerConstants.instance.BreathSpherizeCurve.Evaluate( _roller.BreathTimer );
             }
 
-            HandlePickup( PlayerArmIK.ArmType.BOTH );
+            // Check for sitting after idling for a while.
+            IdleTimer( input );
 
-            if ( _roller.IK.ArmFocus != null )
+            if (input.LeftBumper.WasPressed)
             {
-                HandleGrabObject();
+                _idleTimer = 0f;
+                IncrementLeftArmGesture();
+            }
+
+            if (input.RightBumper.WasPressed)
+            {
+                _idleTimer = 0f;
+                IncrementRightArmGesture();
+            }
+
+            // A BUTTON 
+            if (input.AButton.WasPressed)
+            {
+                // End coroutine waiting to see if the player should auto reach if the player inputs for arms  
+                if (_reachCoroutine != null)
+                {
+                    StopCoroutine( _reachCoroutine );
+                    _reachCoroutine = null;
+                }
+
+                HandlePickup( PlayerArmIK.ArmType.BOTH );
+
+                if (_roller.IK.ArmFocus != null)
+                {
+                    HandleGrabObject();
+                }
+            }
+
+            if (_roller.IK.ArmsIdle)
+            {
+                if (_reachCoroutine == null)
+                {
+                    _reachCoroutine = StartCoroutine( ReachWaitRoutine() );
+                }
+            }
+
+            // Update how far the arms are reaching
+            _roller.UpdateArmReachIK( input.LeftTrigger.Value, input.RightTrigger.Value );
+
+            // B BUTTON
+            if (input.BButton.IsPressed)
+            {
+                if (GameManager.Instance.State == GameManager.GameState.MAIN)
+                {
+                    _roller.ChangeState( P_ControlState.ROLLING );
+                }
+            }
+            else if (input.XButton.IsPressed)   // X BUTTON
+            {
+                _roller.ChangeState( P_ControlState.RITUAL );
+            }
+            else if (input.YButton.WasPressed)  // Y BUTTON
+            {
+                _roller.Player.PlayerSingController.BeginSinging();
+                //_roller.ChangeState( P_ControlState.SING);
+            }
+            else if (input.YButton.WasReleased)
+            {
+                _roller.Player.PlayerSingController.StopSinging();
             }
         }
-
-        if ( _roller.IK.ArmsIdle )
-        {
-            if ( _reachCoroutine == null )
-            {
-                _reachCoroutine = StartCoroutine( ReachWaitRoutine() );
-            }
-        }
-
-        // Update how far the arms are reaching
-        _roller.UpdateArmReachIK( input.LeftTrigger.Value, input.RightTrigger.Value );
-
-        if (_tween != null && _tween.IsPlaying())
-        {
-            return;
-        }
-
-        // B BUTTON
-        if (input.BButton.IsPressed)
-        {
-            if ( GameManager.Instance.State == GameManager.GameState.MAIN )
-            {
-                _roller.ChangeState( P_ControlState.ROLLING );
-            }
-        }
-        else if ( input.XButton.IsPressed )   // X BUTTON
-        {
-            _roller.ChangeState( P_ControlState.RITUAL );
-        }
-        else if ( input.YButton.WasPressed )  // Y BUTTON
-        {
-            _roller.Player.PlayerSingController.BeginSinging();
-            //_roller.ChangeState( P_ControlState.SING);
-        }
-        else if ( input.YButton.WasReleased )
-        {
-            _roller.Player.PlayerSingController.StopSinging();
-        }
+        
     }
 
     public override void HandleFixedInput(InputCollection input)

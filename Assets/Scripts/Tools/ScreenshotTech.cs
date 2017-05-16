@@ -20,7 +20,8 @@ public class ScreenshotTech : MonoBehaviour {
 			Directory.CreateDirectory( Application.dataPath + "/" + SCREENSHOT_SAVEFOLDERNAME );
 		}
 
-		_screenshotRoutine = StartCoroutine( DelayedCaptureScreenshot() );
+        // Uncomment to start the game w/ Screenshots Enabled
+		//_screenshotRoutine = StartCoroutine( DelayedCaptureScreenshot() );
 		#else
 		if( !Directory.Exists( Application.dataPath + "/../" + SCREENSHOT_SAVEFOLDERNAME ) )
 		{
@@ -32,25 +33,22 @@ public class ScreenshotTech : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		if (Input.GetKeyDown(KeyCode.P))
-		{
-			if( Input.GetKey( KeyCode.RightShift ) )
-			{
-				if( _screenshotRoutine != null )
-				{
-					StopCoroutine( _screenshotRoutine );
-					_screenshotRoutine = null;
-				}	
-				else
-				{
-					_screenshotRoutine = StartCoroutine( DelayedCaptureScreenshot() );
-				}
-			}
-			else
-			{
-				HandleScreenShot();	
-			}
-		}
+        if ( Input.GetKeyDown( KeyCode.P ) )
+        {
+            HandleScreenShot();
+        }
+        else if ( Input.GetKeyDown( KeyCode.Alpha9 ) )
+        {
+            if (_screenshotRoutine != null)
+            {
+                StopCoroutine( _screenshotRoutine );
+                _screenshotRoutine = null;
+            }
+            else
+            {
+                _screenshotRoutine = StartCoroutine( DelayedCaptureScreenshot() );
+            }
+        }
 	}
 
 	void HandleScreenShot( int screenshotDetail = 4 )

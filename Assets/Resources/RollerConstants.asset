@@ -24,22 +24,41 @@ MonoBehaviour:
   CarryTurnSpeed: 7
   WalkTurnAngleMin: 0.5
   WalkTurnAngleMax: 60
-  BreathSpeed: 0.6
-  BreathSpherizeScale: 1
-  BreathSpherize: 0.15
+  BreathSpeed: 0.35
+  BreathSpherizeScale: 0.9
+  BreathSpherizeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: -0.008413974
+      outSlope: -0.008413974
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1.0015259
+      value: 0.075
+      inSlope: -0.066878475
+      outSlope: -0.066878475
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 0
+    m_RotationOrder: 0
   RollSpeed: 10
   RollMaxSpeed: 13
   ReverseRollSpeed: 6
   RollAcceleration: 1
   RollDeceleration: 10
   RollSphereSpin: 1250
+  RollEnterSpeed: 0.5
+  RollExitSpeed: 0.15
   TurnSpeed: 125
   ReverseTurnSpeed: 100
   TurnAcceleration: 15
   TurnDeceleration: 700
   TurnMinSpeed: 25
   RollPaintSize: {x: 0.45, y: 1}
-  RollSpherizeScale: 1
+  RollSpherizeScale: 0.5
   RollSpherizeMaxSize: 1
   PickupCheckHeight: 0.5
   PickupCheckRadius: 1
@@ -48,6 +67,8 @@ MonoBehaviour:
   PickupForwardScalarPart2: 0.08
   PickupUpScalarPart2: 2
   PickupTime: 0.75
+  HugWidthRange: {x: 6, y: 45}
+  HugLerpSpeed: 10
   IdleMaxMag: 0.01
   IdleWaitTime: 0.1
   TransitionTime: 1
@@ -71,13 +92,14 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  RitualCompleteWait: 2
+  RitualCompleteWait: 0.25
   RitualSphereizeScale: 4
   RitualMaxSpherize: 0.125
   RitualDeflateSpeed: 0.75
   PlantingTime: 0.5
   PlantingEndY: 0
   PlantingEndX: 1.25
+  PlantingEffectRadius: 5
   SingingReturnTime: 0.15
   PitchLerpSpeed: 7
   IKTargetWorldScalar: 35

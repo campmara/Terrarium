@@ -90,9 +90,10 @@ public class RollerController : ControllerBase
     // ===========
 
     // STATE MACHINE
-    RollerState _currentState;
+   RollerState _currentState;
 
-	protected P_ControlState _controlState = P_ControlState.NONE;
+    [SerializeField, ReadOnly]
+    protected P_ControlState _controlState = P_ControlState.NONE;
 	public P_ControlState State { get { return _controlState; } set { _controlState = value; } }
 
 	private WalkingState _walking = null;   
@@ -443,6 +444,8 @@ public class RollerController : ControllerBase
 		_rollSphere.transform.localPosition = Vector3.up * 1.5f;
 		_rollSphere.SetActive(false);
 
+        Spherify = 0.0f;
+
         _targetMovePosition = this.transform.position;        
         this._player.AnimationController.SetPlayerSpeed( 0.0f );
 
@@ -510,6 +513,13 @@ public class RollerController : ControllerBase
         PondManager.instance.HandlePondWait();
     }
 
+	public void MakeDroopyExplode()
+	{
+		_collidedWithObject = true;
+		BecomeWalker();
+		HandlePondReturn();
+	}
+
 	public bool CollidedWithObject { get { return _collidedWithObject; } set { _collidedWithObject = value; } }
 	private bool _collidedWithObject = false;
 	private void OnCollisionEnter(Collision other)
@@ -517,12 +527,13 @@ public class RollerController : ControllerBase
 		if (!_collidedWithObject && _currentState == _rolling)
 		{
 			// if we collide with something, die.
-			if (other.gameObject.layer != LayerMask.NameToLayer("Ground"))
+			if (other.gameObject.layer != LayerMask.NameToLayer("Ground") 
+                && other.gameObject.layer != LayerMask.NameToLayer( "Player" ) 
+                && other.gameObject.layer != LayerMask.NameToLayer( "PlayerBodyParts" ) 
+                && other.gameObject.layer != LayerMask.NameToLayer( "PlayerHand" ))
 			{
 				//CameraManager.instance.ScreenShake(0.25f, 0.25f, 10);
-				_collidedWithObject = true;
-				BecomeWalker();
-				HandlePondReturn();
+				MakeDroopyExplode();
 			}
 		}
 	}

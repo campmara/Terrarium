@@ -43,6 +43,11 @@ public class PlayerAnimationController : MonoBehaviour {
     const string STAND_ANIMSTATE = "MC_Stand";
     int _standAnimStateHash = 0;
 
+	const string HUGWIDTH_PARAM = "HugWidth";
+	int _hugWidthPropertyHash = 0;
+	const string HUGSTATE_PARAM = "HugState";
+	int _hugStatePropertyHash = 0;
+
     #endregion
 
     public void Initialize()
@@ -60,12 +65,15 @@ public class PlayerAnimationController : MonoBehaviour {
 		_liftParamHash = Animator.StringToHash( LIFT_PARAM );
         _liftCancelTriggerHash = Animator.StringToHash( LIFTCANCEL_PARAM );
 
+		_hugStatePropertyHash = Animator.StringToHash( HUGSTATE_PARAM );
+		_hugWidthPropertyHash = Animator.StringToHash( HUGWIDTH_PARAM );
+
         _walkAnimStateHash = Animator.StringToHash( WALK_ANIMSTATE );
         _carryWalkAnimHash = Animator.StringToHash( CARRYWALK_ANIMSTATE );
 
         _sitAnimStateHash = Animator.StringToHash( SIT_ANIMSTATE );
         _sitPressAnimHash = Animator.StringToHash( SIT_BUTTONPRESS_ANIMSTATE );
-        _standAnimStateHash = Animator.StringToHash( STAND_ANIMSTATE );
+        _standAnimStateHash = Animator.StringToHash( STAND_ANIMSTATE );		
     }
 	
     public void SetPlayerSpeed(float speed)
@@ -86,6 +94,16 @@ public class PlayerAnimationController : MonoBehaviour {
 	public void SetLifting( bool isLifting )
 	{
 		_animator.SetBool( _liftParamHash, isLifting );
+	}
+
+	public void SetHugWidth( float hugWidth )
+	{
+		_animator.SetFloat( _hugWidthPropertyHash, hugWidth );
+	}
+		
+	public void SetHugState( float hugState )
+	{
+		_animator.SetFloat( _hugStatePropertyHash, hugState);
 	}
 
     public void SitButtonPress()

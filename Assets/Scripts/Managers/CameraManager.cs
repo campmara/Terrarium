@@ -170,10 +170,10 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 		}
 	}
 
-	public void ScreenShake(float duration, float strength, int vibrato)
+    public void ScreenShake( float duration, float strength, int vibrato, float randomness = 90, bool fadeout = true )
 	{
-		Main.DOShakePosition(duration, strength, vibrato);
-	}
+		Main.DOShakePosition( duration, strength, vibrato, randomness, fadeout ).SetUpdate(UpdateType.Late);
+    }
 
 	public void ChangeCameraState(CameraState newState)
 	{
