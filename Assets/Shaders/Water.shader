@@ -15,6 +15,9 @@ Shader "Custom/Water"
 
 		// depth
 		_DepthClip("Depth Clip", Range(0, 1)) = 0.1
+		
+		//blur
+		_BlurSize("Blur Size", float) = 1
 
 		[Header(Splatmap Values)]
 		[Toggle]_SplatmapEnabled("Splatmap Enabled", float) = 0
@@ -50,6 +53,9 @@ Shader "Custom/Water"
 
 		// depth
 		float _DepthClip;
+
+		//blur
+		float _BlurSize;
 
 		struct appdata 
 		{
@@ -144,8 +150,28 @@ Shader "Custom/Water"
 		{
 			//refraction from above url
 			IN.proj = lerp(IN.proj, cnoise(IN.worldPos + _Time), 0.1);
-			half4 col = tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(IN.proj));
-			
+
+
+			//https://gist.github.com/mandarinx/c7e8f555a48b9f38e852
+			half4 sum = half4(0, 0, 0, 0);
+			//_BlurSize *= nor.x;
+			//_BlurSize *= mainTex.r;
+
+			#define GRABPIXEL(weight,kernelx) tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(float4(IN.proj.x + _GrabTexture_TexelSize.x * kernelx * _BlurSize, IN.proj.y, IN.proj.z, IN.proj.w))) * weight
+
+			sum += GRABPIXEL(0.05, -4.0);
+			sum += GRABPIXEL(0.09, -3.0);
+			sum += GRABPIXEL(0.12, -2.0);
+			sum += GRABPIXEL(0.15, -1.0);
+			sum += GRABPIXEL(0.18, 0.0);
+			sum += GRABPIXEL(0.15, +1.0);
+			sum += GRABPIXEL(0.12, +2.0);
+			sum += GRABPIXEL(0.09, +3.0);
+			sum += GRABPIXEL(0.05, +4.0);
+
+			//half4 col = tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(IN.proj));
+			half4 col = sum;
+
 			float distToCenter = distance(IN.uv_MainTex, float2(.5, .5));
 
 			// Albedo comes from a texture tinted by color
