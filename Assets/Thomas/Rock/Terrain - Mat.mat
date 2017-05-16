@@ -8,7 +8,7 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: Terrain - Mat
   m_Shader: {fileID: 4800000, guid: b3626806bf23dc04f9c7a2b50d5c0d2c, type: 3}
-  m_ShaderKeywords: _EMISSION
+  m_ShaderKeywords: _EMISSION _SPLATMAPENABLED_ON
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_CustomRenderQueue: -1
@@ -112,9 +112,11 @@ Material:
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
+    - _SplatmapEnabled: 1
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
+    - _ZeroY: 0.1
     m_Colors:
-    - _Color: {r: 0.78676474, g: 0.7727211, b: 0.659494, a: 0}
+    - _Color: {r: 0.31617647, g: 0.12321584, b: 0.30286887, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

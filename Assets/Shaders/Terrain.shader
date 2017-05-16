@@ -89,7 +89,7 @@
 			worldPos.y = lerp(worldPos.y, 0 + _ZeroY, d.b);
 			worldPos.x -= d.r;
 			worldPos.z += d.g;
-			worldNormal.xz += d.rg * 10; //this is rough
+			worldNormal.xz += d.rg * 50; //this is rough
 		}
 		//......
 
