@@ -1,0 +1,223 @@
+fileFormatVersion: 2
+guid: 33be0f4a6cd29414ca1bb71cf54798f1
+timeCreated: 1494467740
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: body
+    100002: core
+    100004: joint1
+    100006: l_arm01_CTRL
+    100008: l_arm02_CTRL
+    100010: l_arm03_CTRL
+    100012: l_arm1
+    100014: l_arm2
+    100016: l_arm3
+    100018: l_arm4
+    100020: l_arm5
+    100022: l_arm_cluster_01
+    100024: l_arm_cluster_02
+    100026: l_arm_cluster_03
+    100028: l_armIK
+    100030: l_armIK_curve
+    100032: l_armrig_GRP
+    100034: l_foot
+    100036: l_hip
+    100038: l_leg1
+    100040: l_leg2
+    100042: l_leg3
+    100044: l_leg4
+    100046: l_leg5
+    100048: l_leg_CTRL
+    100050: l_leg_IK
+    100052: l_leg_twist_CTRL
+    100054: l_masterarm_CTRL
+    100056: l_shoulder
+    100058: l_shoulder_cluster
+    100060: l_shoulder_CTRL
+    100062: l_wrist
+    100064: l_wrist_cluster
+    100066: l_wrist_CTRL
+    100068: master_CTRL
+    100070: //RootNode
+    100072: pCube1
+    100074: r_arm02_CTRL
+    100076: r_arm03_CTRL
+    100078: r_arm1
+    100080: r_arm2
+    100082: r_arm3
+    100084: r_arm4
+    100086: r_arm5
+    100088: r_arm_01_CTRL
+    100090: r_arm_cluster_01
+    100092: r_arm_cluster_02
+    100094: r_arm_cluster_03
+    100096: r_armIK
+    100098: r_armIK_curve
+    100100: r_armrig_GRP
+    100102: r_foot
+    100104: r_hip
+    100106: r_leg1
+    100108: r_leg2
+    100110: r_leg3
+    100112: r_leg4
+    100114: r_leg5
+    100116: r_leg_CTRL
+    100118: r_leg_IK
+    100120: r_leg_twist_CTRL
+    100122: r_masterarm_CTRL
+    100124: r_shoulder
+    100126: r_shoulder_cluster
+    100128: r_shoulder_CTRL
+    100130: r_wrist
+    100132: r_wrist_cluster
+    100134: r_wrist_CTRL
+    100136: squash_CTRL
+    100138: waist_CTRL
+    400000: body
+    400002: core
+    400004: joint1
+    400006: l_arm01_CTRL
+    400008: l_arm02_CTRL
+    400010: l_arm03_CTRL
+    400012: l_arm1
+    400014: l_arm2
+    400016: l_arm3
+    400018: l_arm4
+    400020: l_arm5
+    400022: l_arm_cluster_01
+    400024: l_arm_cluster_02
+    400026: l_arm_cluster_03
+    400028: l_armIK
+    400030: l_armIK_curve
+    400032: l_armrig_GRP
+    400034: l_foot
+    400036: l_hip
+    400038: l_leg1
+    400040: l_leg2
+    400042: l_leg3
+    400044: l_leg4
+    400046: l_leg5
+    400048: l_leg_CTRL
+    400050: l_leg_IK
+    400052: l_leg_twist_CTRL
+    400054: l_masterarm_CTRL
+    400056: l_shoulder
+    400058: l_shoulder_cluster
+    400060: l_shoulder_CTRL
+    400062: l_wrist
+    400064: l_wrist_cluster
+    400066: l_wrist_CTRL
+    400068: master_CTRL
+    400070: //RootNode
+    400072: pCube1
+    400074: r_arm02_CTRL
+    400076: r_arm03_CTRL
+    400078: r_arm1
+    400080: r_arm2
+    400082: r_arm3
+    400084: r_arm4
+    400086: r_arm5
+    400088: r_arm_01_CTRL
+    400090: r_arm_cluster_01
+    400092: r_arm_cluster_02
+    400094: r_arm_cluster_03
+    400096: r_armIK
+    400098: r_armIK_curve
+    400100: r_armrig_GRP
+    400102: r_foot
+    400104: r_hip
+    400106: r_leg1
+    400108: r_leg2
+    400110: r_leg3
+    400112: r_leg4
+    400114: r_leg5
+    400116: r_leg_CTRL
+    400118: r_leg_IK
+    400120: r_leg_twist_CTRL
+    400122: r_masterarm_CTRL
+    400124: r_shoulder
+    400126: r_shoulder_cluster
+    400128: r_shoulder_CTRL
+    400130: r_wrist
+    400132: r_wrist_cluster
+    400134: r_wrist_CTRL
+    400136: squash_CTRL
+    400138: waist_CTRL
+    2300000: pCube1
+    3300000: pCube1
+    4300000: pCube1
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: pCube1
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 50
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

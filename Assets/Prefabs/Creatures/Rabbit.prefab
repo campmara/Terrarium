@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33724423774646972}
   - component: {fileID: 23351685319994310}
   - component: {fileID: 135029098022214340}
+  - component: {fileID: 114559108195166766}
   m_Layer: 0
   m_Name: Rabbit
   m_TagString: Untagged
@@ -111,6 +112,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1578994529219012}
   m_Mesh: {fileID: 4300000, guid: ea6028cba6872984f85ba37872d08765, type: 3}
+--- !u!114 &114559108195166766
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1578994529219012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c68fa0ccee6840a3a6acc176ea9b810, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &135029098022214340
 SphereCollider:
   m_ObjectHideFlags: 1
