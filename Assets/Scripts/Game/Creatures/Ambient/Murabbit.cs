@@ -20,10 +20,14 @@ public class Murabbit : MonoBehaviour
 
 	private Coroutine hopRoutine;
 	private Coroutine escapeRoutine;
+	private Coroutine burrowRoutine;
 	private Tween jumpTween;
 
 	private const float MAX_SCARY_SQR_DISTANCE = 25f;
 	private float sqrDistFromPlayer = 0f;
+
+	private float returnTimer = 0f;
+	private float returnTime = 0f;
 
 	public void Setup(MurabbitData data)
 	{
@@ -81,6 +85,8 @@ public class Murabbit : MonoBehaviour
 	*/
 	private void OnEnterSpawn()
 	{
+		returnTime = Random.Range(50f, 60f);
+
 		Vector3 jumpPos = transform.position + (Random.insideUnitSphere * 2f);
 		jumpPos.y = 0f;
 
@@ -92,6 +98,9 @@ public class Murabbit : MonoBehaviour
 	*/
 	private void OnEnterHopping()
 	{
+		jumpTween.Complete();
+		transform.SetPosY(0f);
+
 		hopRoutine = StartCoroutine(HopRoutine());
 	}
 
@@ -113,6 +122,13 @@ public class Murabbit : MonoBehaviour
 
 	private void HandleHopping()
 	{
+		returnTimer += Time.deltaTime;
+		if (returnTimer >= returnTime)
+		{
+			SetState(State.BURROW);
+		}
+
+		// Handle Escape Checking
 		if (PlayerManager.instance.Player.GetComponent<RollerController>().State != P_ControlState.ROLLING &&
 			PlayerManager.instance.Player.PlayerSingController.State != SingController.SingState.SINGING)
 		{
@@ -170,6 +186,23 @@ public class Murabbit : MonoBehaviour
 	*/
 	private void OnEnterBurrowing()
 	{
+		returnTime = 0f;
+		StopAllCoroutines();
+		burrowRoutine = StartCoroutine(BurrowRoutine());
+	}
 
+	private IEnumerator BurrowRoutine()
+	{
+		if (jumpTween != null)
+		{
+			yield return jumpTween.WaitForCompletion();
+			jumpTween.Kill();
+			jumpTween = null;
+		}
+
+		jumpTween = transform.DOJump(data.spawner.transform.position, Random.Range(0.5f, 1.25f), 1, 1f)
+			.OnComplete(() => data.spawner.OnRabbitReturn(this));
+
+		yield return null;
 	}
 }
