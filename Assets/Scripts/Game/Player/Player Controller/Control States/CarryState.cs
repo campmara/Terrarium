@@ -65,7 +65,9 @@ public class CarryState : RollerState
                 }
 				else if( RollerParent.CurrentHeldObject.GetComponent<BigPlantPickupable>() )
 				{
-					_currHugState = Mathf.Lerp( _currHugState, 1.0f, RollerConstants.instance.HugLerpSpeed * Time.deltaTime );
+                    _roller.transform.LookAt( _roller.CurrentHeldObject.transform );
+
+                    _currHugState = Mathf.Lerp( _currHugState, 1.0f, RollerConstants.instance.HugLerpSpeed * Time.deltaTime );
 					_currHugWidth = Mathf.Lerp( _currHugWidth, 1.0f, RollerConstants.instance.HugLerpSpeed * Time.deltaTime );
 					_roller.Player.AnimationController.SetHugState( _currHugState );
 
@@ -110,6 +112,6 @@ public class CarryState : RollerState
         RollerParent.IKMovement( Mathf.Lerp( RollerConstants.instance.CarrySpeed, 0.0f, _roller.CurrentHeldObject.GrabberBurdenInterp ),
             RollerConstants.instance.WalkAcceleration,
             RollerConstants.instance.WalkDeceleration,
-            RollerConstants.instance.CarryTurnSpeed );      
+            Mathf.Lerp( RollerConstants.instance.CarryTurnSpeed, 0.0f, _roller.CurrentHeldObject.GrabberBurdenInterp ) );      
 	}
 }

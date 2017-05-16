@@ -14,7 +14,7 @@ public class Pickupable : MonoBehaviour
     [SerializeField, ReadOnlyAttribute] protected bool _grabbed = false;
     public bool Grabbed { get { return _grabbed; } }
 
-    protected float _grabberBurdenInterp = 0.0f;
+    [SerializeField, ReadOnlyAttribute]protected float _grabberBurdenInterp = 0.0f;
     public float GrabberBurdenInterp { get { return _grabberBurdenInterp; } }
 
     float _lowVelocity = 6.5f;
