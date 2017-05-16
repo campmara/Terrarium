@@ -3,6 +3,10 @@
 public class CarryState : RollerState 
 {
 
+	[SerializeField,ReadOnlyAttribute]float _currHugWidth = 0.0f;
+	[SerializeField,ReadOnlyAttribute]float _currHugState = 0.0f;
+	[SerializeField,ReadOnlyAttribute]float _heldObjWidthInterp = 0.0f;
+
     public override void Enter( P_ControlState prevState )
 	{
 		Debug.Log("ENTER CARRY STATE");
@@ -15,7 +19,8 @@ public class CarryState : RollerState
                 RollerParent.HandleEndIdle();
                 break;
 		}
-
+		_currHugWidth = 0.0f;
+     	_currHugState = 0.0f;
 	}
 
 	public override void Exit( P_ControlState nextState )
@@ -35,18 +40,20 @@ public class CarryState : RollerState
                 break;
         }
 			
+		_roller.Player.AnimationController.SetHugState( 0.0f );
+		_roller.Player.AnimationController.SetHugWidth( 0.0f );
 		RollerParent.Idling = false;
 	}
 
     public override void HandleInput( InputCollection input )
     {
-        if (RollerParent.CurrentHeldObject != null)
+        if ( RollerParent.CurrentHeldObject != null )
         {
-            if (!RollerParent.CurrentHeldObject.Carryable)
+            if ( !RollerParent.CurrentHeldObject.Carryable )
             {
-                if (RollerParent.CurrentHeldObject.GetComponent<SmallPlantPickupable>())
+                if ( RollerParent.CurrentHeldObject.GetComponent<SmallPlantPickupable>() )
                 {
-                    if (RollerParent.InputVec.magnitude > 0.1f)
+                    if ( RollerParent.InputVec.magnitude > 0.1f )
                     {
                         RollerParent.CurrentHeldObject.GetComponent<SmallPlantPickupable>().IncrementTug();
                     }
@@ -56,6 +63,17 @@ public class CarryState : RollerState
                     }
 
                 }
+				else if( RollerParent.CurrentHeldObject.GetComponent<BigPlantPickupable>() )
+				{
+                    _roller.transform.LookAt( _roller.CurrentHeldObject.transform );
+
+                    _currHugState = Mathf.Lerp( _currHugState, 1.0f, RollerConstants.instance.HugLerpSpeed * Time.deltaTime );
+					_currHugWidth = Mathf.Lerp( _currHugWidth, 1.0f, RollerConstants.instance.HugLerpSpeed * Time.deltaTime );
+					_roller.Player.AnimationController.SetHugState( _currHugState );
+
+					_heldObjWidthInterp = Mathf.InverseLerp( RollerConstants.instance.HugWidthRange.x, RollerConstants.instance.HugWidthRange.y, _roller.CurrentHeldObject.transform.localScale.x );
+					_roller.Player.AnimationController.SetHugWidth( Mathf.Lerp( 0.0f, _heldObjWidthInterp, _currHugWidth ) );
+				}
             }
 			else
 			{
@@ -94,6 +112,6 @@ public class CarryState : RollerState
         RollerParent.IKMovement( Mathf.Lerp( RollerConstants.instance.CarrySpeed, 0.0f, _roller.CurrentHeldObject.GrabberBurdenInterp ),
             RollerConstants.instance.WalkAcceleration,
             RollerConstants.instance.WalkDeceleration,
-            RollerConstants.instance.CarryTurnSpeed );      
+            Mathf.Lerp( RollerConstants.instance.CarryTurnSpeed, 0.0f, _roller.CurrentHeldObject.GrabberBurdenInterp ) );      
 	}
 }

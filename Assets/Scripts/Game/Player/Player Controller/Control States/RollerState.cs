@@ -48,9 +48,19 @@ public class RollerState : MonoBehaviour
 					foreach ( Collider col in overlapArray )
 					{
 						pickup = col.gameObject.GetComponent<Pickupable>();
+
 						if ( pickup != null )
 						{
-							break;
+							if( pickup.GetComponent<BigPlantPickupable>() != null 
+								&& (int)pickup.GetComponent<BPGrowthController>().CurStage < 1 )
+							{
+								// Hacky way to check if you can Hug a Tree yet
+								pickup = null;
+							}
+							else
+							{
+								break;	
+							}
 						}
 					}
 				}            
