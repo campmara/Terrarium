@@ -24,6 +24,8 @@ public class MurabbitSpawner : MonoBehaviour
 	[SerializeField] private GameObject holePrefab;
 	[SerializeField] private GameObject rabbitPrefab;
 
+	private GameObject hole;
+
 	// Rabbits all leave the hole. Once they are all done and burrowed in the ground, we set the state to countdown and wait to spawn them again.
 	enum SpawnState
 	{
@@ -50,10 +52,6 @@ public class MurabbitSpawner : MonoBehaviour
 		if (state == SpawnState.COUNT)
 		{
 			HandleCountdown();
-		}
-		else if (state == SpawnState.SPAWN)
-		{
-			HandleSpawning();
 		}
 	}
 
@@ -111,7 +109,7 @@ public class MurabbitSpawner : MonoBehaviour
 	private IEnumerator SpawnRoutine(int rabbitsToSpawn)
 	{
 		// Spawn the hole
-		GameObject hole = Instantiate(holePrefab, transform.position, Quaternion.identity) as GameObject;
+		hole = Instantiate(holePrefab, transform.position, Quaternion.identity) as GameObject;
 		hole.transform.parent = transform.parent;
 		hole.transform.localScale = Vector3.zero;
 		Tween holeTween = hole.transform.DOScale(Vector3.one, 0.75f).SetEase(Ease.Linear);
@@ -137,18 +135,6 @@ public class MurabbitSpawner : MonoBehaviour
 			// WE WAS JUST HANGIN
 			yield return new WaitForSeconds(Random.Range(0.25f, 2f));
 		}
-
-		// Get rid of the hole
-		holeTween = hole.transform.DOScale(Vector3.zero, 0.75f).SetEase(Ease.Linear).OnComplete(() => Destroy(hole));
-	}
-
-	private void HandleSpawning()
-	{
-		if (rabbits.Count <= 0)
-		{
-			// Time to return to the countdown.
-			SetState(SpawnState.COUNT);
-		}
 	}
 
 	public void OnRabbitReturn(Murabbit rab)
@@ -156,5 +142,19 @@ public class MurabbitSpawner : MonoBehaviour
 		rabbits.Remove(rab);
 
 		Destroy(rab.gameObject);
+
+		if (rabbits.Count == 0)
+		{
+			// Get rid of the hole
+			Tween holeTween = hole.transform.DOScale(Vector3.zero, 0.75f).SetEase(Ease.Linear).OnComplete(() => OnAllRabbitsReturned());
+		}
+	}
+
+	private void OnAllRabbitsReturned()
+	{
+		Destroy(hole);
+		hole = null;
+
+		SetState(SpawnState.COUNT);
 	}
 }
