@@ -86,10 +86,13 @@
 
 			float len = length(IN.worldPos - _Center) + cnoise(IN.worldPos) + cnoise(IN.worldPos * 4 + _Time.y);
 			float rad = _Radius * (5 * _ScaleFactor);
+			
 			if (len > rad)
 			{
 				discard;
 			}
+			
+			//o.Alpha = lerp(1, 0, len*.025f);
 		}
 
 		ENDCG
