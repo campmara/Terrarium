@@ -37,7 +37,7 @@ public class PondState : RollerState
             }
             else
             {
-                //PondManager.instance.PopPlayerFromPond();
+                PondManager.instance.PopPlayerFromPond();
             }
 
             _roller.ChangeState( P_ControlState.WALKING );
