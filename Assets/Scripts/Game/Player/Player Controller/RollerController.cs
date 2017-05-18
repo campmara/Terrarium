@@ -524,7 +524,7 @@ public class RollerController : ControllerBase
 	private bool _collidedWithObject = false;
 	private void OnCollisionEnter(Collision other)
 	{
-		if (!_collidedWithObject && _currentState == _rolling)
+		if (!_collidedWithObject && _currentState == _rolling && _input.LeftStickY >= 0.0f )
 		{
 			// if we collide with something, die.
 			if (other.gameObject.layer != LayerMask.NameToLayer("Ground") 
