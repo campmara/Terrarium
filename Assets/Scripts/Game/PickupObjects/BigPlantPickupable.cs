@@ -11,8 +11,9 @@ public class BigPlantPickupable : Pickupable {
 	Vector3 _grabberDirection = Vector3.zero;
 	const float BIGPLANT_TUGANGLE_MAXOFFSET = 2.0f;
 	Quaternion _tugDirection = Quaternion.identity;
+    public Quaternion TugDirection { get { return _tugDirection; } }
 
-    const float BIGPLANT_TUGANGLE_MAX = 0.12f;
+    public const float BIGPLANT_TUGANGLE_MAX = 0.07f;
     const float BIGPLANT_TUGANGLE_RETURNSPEED = 7.0f;
 
     const float BIGPLANT_SHIVERDURATION = 0.5f;
@@ -27,7 +28,7 @@ public class BigPlantPickupable : Pickupable {
 		{
 			_grabberDirection = _grabTransform.position - this.transform.position;             
 
-			_grabberBurdenInterp = Mathf.InverseLerp( BIGPLANT_MINTUGDIST, BIGPLANT_MAXTUGDIST, Vector3.Distance(_grabTransform.position, this.transform.position + (_grabberDirection.normalized * this.GetComponent<BasePlant>().InnerRadius ) ) );
+			//_grabberBurdenInterp = Mathf.InverseLerp( BIGPLANT_MINTUGDIST, BIGPLANT_MAXTUGDIST, Vector3.Distance(_grabTransform.position, this.transform.position + (_grabberDirection.normalized * this.GetComponent<BasePlant>().InnerRadius ) ) );
 
             // TODO: Make max angle be more determined by Plant Health
             _tugDirection = Quaternion.FromToRotation( Vector3.up, Vector3.Slerp( Vector3.up, _grabberDirection, Mathf.Lerp( 0.0f, BIGPLANT_TUGANGLE_MAX, _grabberBurdenInterp ) ) );

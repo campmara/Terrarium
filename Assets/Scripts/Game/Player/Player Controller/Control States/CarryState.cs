@@ -7,6 +7,9 @@ public class CarryState : RollerState
 	[SerializeField,ReadOnlyAttribute]float _currHugState = 0.0f;
 	[SerializeField,ReadOnlyAttribute]float _heldObjWidthInterp = 0.0f;
 
+    BigPlantPickupable _bigPlantPickupable = null;
+    Quaternion _reverseTugRotation = Quaternion.identity;
+
     public override void Enter( P_ControlState prevState )
 	{
 		Debug.Log("ENTER CARRY STATE");
@@ -21,7 +24,10 @@ public class CarryState : RollerState
 		}
 		_currHugWidth = 0.0f;
      	_currHugState = 0.0f;
-	}
+
+        _bigPlantPickupable = RollerParent.CurrentHeldObject.GetComponent<BigPlantPickupable>();
+
+    }
 
 	public override void Exit( P_ControlState nextState )
 	{
@@ -29,6 +35,12 @@ public class CarryState : RollerState
 
         _roller.Player.AnimationController.SetCarrying( false );
         _roller.Player.AnimationController.SetLifting( false );
+
+        if( _bigPlantPickupable != null )
+        {
+            _bigPlantPickupable = null;
+            _roller.StopPlayer();
+        }
 
         switch ( nextState )
         {
@@ -42,8 +54,9 @@ public class CarryState : RollerState
 			
 		_roller.Player.AnimationController.SetHugState( 0.0f );
 		_roller.Player.AnimationController.SetHugWidth( 0.0f );
-		RollerParent.Idling = false;
-	}
+		RollerParent.Idling = false;        
+
+    }
 
     public override void HandleInput( InputCollection input )
     {
@@ -63,7 +76,7 @@ public class CarryState : RollerState
                     }
 
                 }
-				else if( RollerParent.CurrentHeldObject.GetComponent<BigPlantPickupable>() )
+				else if( _bigPlantPickupable )
 				{
                     _roller.transform.LookAt( _roller.CurrentHeldObject.transform );
 
@@ -73,6 +86,24 @@ public class CarryState : RollerState
 
 					_heldObjWidthInterp = Mathf.InverseLerp( RollerConstants.instance.HugWidthRange.x, RollerConstants.instance.HugWidthRange.y, _roller.CurrentHeldObject.transform.localScale.x );
 					_roller.Player.AnimationController.SetHugWidth( Mathf.Lerp( 0.0f, _heldObjWidthInterp, _currHugWidth ) );
+
+                    if( input.LeftStickY < 0.0f )
+                    {
+                        _bigPlantPickupable.GrabberBurdenInterp += RollerConstants.instance.HugLeanSpeed * Time.deltaTime;
+                    }
+                    else
+                    {
+                        _bigPlantPickupable.GrabberBurdenInterp -= ( RollerConstants.instance.HugLeanSpeed + ( input.LeftStickY * 0.5f ) ) * Time.deltaTime;
+                    }
+
+                    // TODO: Needs to be Fixed.
+                    Vector3 rotVec = -this.transform.forward;
+                    rotVec.y = 0;
+
+                    _reverseTugRotation = Quaternion.FromToRotation( Vector3.up, Vector3.Slerp( Vector3.up, rotVec, Mathf.Lerp( 0.0f, BigPlantPickupable.BIGPLANT_TUGANGLE_MAX, _bigPlantPickupable.GrabberBurdenInterp ) ) );
+                    _reverseTugRotation = Quaternion.Euler( _bigPlantPickupable.TugDirection.eulerAngles.x, this.transform.rotation.eulerAngles.y, _bigPlantPickupable.TugDirection.eulerAngles.z );
+                    this.transform.rotation = _reverseTugRotation;
+                    
 				}
             }
 			else
@@ -108,10 +139,13 @@ public class CarryState : RollerState
 
     public override void HandleFixedInput( InputCollection input )
 	{
-        // Makin sure ppl release button to drop the Thing they are carrying.                
-        RollerParent.IKMovement( Mathf.Lerp( RollerConstants.instance.CarrySpeed, 0.0f, _roller.CurrentHeldObject.GrabberBurdenInterp ),
-            RollerConstants.instance.WalkAcceleration,
-            RollerConstants.instance.WalkDeceleration,
-            Mathf.Lerp( RollerConstants.instance.CarryTurnSpeed, 0.0f, _roller.CurrentHeldObject.GrabberBurdenInterp ) );      
-	}
+        if( _bigPlantPickupable == null )
+        {
+            // Makin sure ppl release button to drop the Thing they are carrying.                
+            RollerParent.IKMovement( Mathf.Lerp( RollerConstants.instance.CarrySpeed, 0.0f, _roller.CurrentHeldObject.GrabberBurdenInterp ),
+                RollerConstants.instance.WalkAcceleration,
+                RollerConstants.instance.WalkDeceleration,
+                Mathf.Lerp( RollerConstants.instance.CarryTurnSpeed, 0.0f, _roller.CurrentHeldObject.GrabberBurdenInterp ) );
+        }
+    }
 }

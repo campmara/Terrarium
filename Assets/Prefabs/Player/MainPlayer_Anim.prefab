@@ -2204,26 +2204,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fixTransforms: 1
   solver:
-    IKPosition: {x: 0.0007854062, y: 1.5153698, z: 12.52}
+    IKPosition: {x: -8.64971, y: 3.4923697, z: 1.085}
     IKPositionWeight: 0.679
     root: {fileID: 4344620435199700}
     target: {fileID: 0}
-    spine:
-    - transform: {fileID: 4344620435199700}
-      weight: 0
-      solverPosition: {x: 0, y: 0, z: 0}
-      solverRotation: {x: 0, y: 0, z: 0, w: 0}
-      defaultLocalPosition: {x: 0.00076304114, y: 0.1331459, z: 0}
-      defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
-      length: 0
-      sqrMag: 0
-      axis: {x: 0, y: 0, z: 1}
+    spine: []
     head:
-      transform: {fileID: 0}
+      transform: {fileID: 4344620435199700}
       weight: 0.507
       solverPosition: {x: 0, y: 0, z: 0}
       solverRotation: {x: 0, y: 0, z: 0, w: 1}
-      defaultLocalPosition: {x: -0.0009390864, y: 0.19640306, z: -0.00036690754}
+      defaultLocalPosition: {x: 0.00076304114, y: 0.1331459, z: 0}
       defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
       length: 0
       sqrMag: 0
