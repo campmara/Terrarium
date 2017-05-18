@@ -338,53 +338,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e49d5779d2486426bb51af0d103db082, type: 2}
   m_IsPrefabParent: 0
---- !u!1001 &652874356
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1090900069}
-    m_Modifications:
-    - target: {fileID: 4613454784526766, guid: c435a7d2c7cf97b468da5b08ca9649e1, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4613454784526766, guid: c435a7d2c7cf97b468da5b08ca9649e1, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4613454784526766, guid: c435a7d2c7cf97b468da5b08ca9649e1, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4613454784526766, guid: c435a7d2c7cf97b468da5b08ca9649e1, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4613454784526766, guid: c435a7d2c7cf97b468da5b08ca9649e1, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4613454784526766, guid: c435a7d2c7cf97b468da5b08ca9649e1, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4613454784526766, guid: c435a7d2c7cf97b468da5b08ca9649e1, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4613454784526766, guid: c435a7d2c7cf97b468da5b08ca9649e1, type: 2}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: c435a7d2c7cf97b468da5b08ca9649e1, type: 2}
-  m_IsPrefabParent: 0
---- !u!4 &652874357 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 4613454784526766, guid: c435a7d2c7cf97b468da5b08ca9649e1,
-    type: 2}
-  m_PrefabInternal: {fileID: 652874356}
 --- !u!1001 &751792550
 Prefab:
   m_ObjectHideFlags: 0
@@ -631,7 +584,6 @@ Transform:
   - {fileID: 751792551}
   - {fileID: 307231655}
   - {fileID: 1015337606}
-  - {fileID: 652874357}
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -743,7 +695,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 3
+  MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -772,7 +724,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 2
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
