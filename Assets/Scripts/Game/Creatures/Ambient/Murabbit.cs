@@ -15,6 +15,8 @@ public class Murabbit : MonoBehaviour
 		HOP,
 		ESCAPE_CHECK,
 		ESCAPE_HOP,
+		FOLLOW_CHECK,
+		FOLLOW_HOP,
 		BURROW,
 		MAX
 	}
@@ -23,10 +25,12 @@ public class Murabbit : MonoBehaviour
 	private Coroutine burrowRoutine;
 	private Tween hopTween;
 	private Tween escapeTween;
+	private Tween followTween;
 	private Tween burrowTween;
 
 	private const float HOP_DURATION = 0.5f;
 	private const float MAX_SCARY_DISTANCE = 5f;
+	private const float MAX_GESTURE_DISTANCE = 10f;
 
 	private float sqrDistFromPlayer = 0f;
 
@@ -47,6 +51,11 @@ public class Murabbit : MonoBehaviour
 
 	private void Update()
 	{
+		if (state == State.BURROW)
+		{
+			return;
+		}
+
 		// RETURN TIME HANDLING
 
 		returnTimer += Time.deltaTime;
@@ -83,6 +92,12 @@ public class Murabbit : MonoBehaviour
 				break;
 			case State.ESCAPE_HOP:
 				OnEnterEscapeHop();
+				break;
+			case State.FOLLOW_CHECK:
+				OnEnterFollowCheck();
+				break;
+			case State.FOLLOW_HOP:
+				OnEnterFollowHop();
 				break;
 			case State.BURROW:
 				OnEnterBurrowing();
@@ -121,7 +136,11 @@ public class Murabbit : MonoBehaviour
 			SetState(State.HOP);
 		}
 
-		if (CheckForEscape())
+		if (CheckForFollow())
+		{
+			SetState(State.FOLLOW_HOP);
+		}
+		else if (CheckForEscape())
 		{
 			SetState(State.ESCAPE_HOP);
 		}
@@ -169,7 +188,6 @@ public class Murabbit : MonoBehaviour
 
 	private bool CheckForEscape()
 	{
-		// Handle Escape Checking
 		if (PlayerManager.instance.Player.GetComponent<RollerController>().State != P_ControlState.ROLLING &&
 			PlayerManager.instance.Player.PlayerSingController.State != SingController.SingState.SINGING)
 		{
@@ -186,11 +204,59 @@ public class Murabbit : MonoBehaviour
 	}
 
 	/*
+		FOLLOWING
+	*/
+
+	private void OnEnterFollowCheck()
+	{
+		if (CheckForFollow())
+		{
+			SetState(State.HOP);
+		}
+		else
+		{
+			SetState(State.IDLE);
+		}
+	}
+
+	private void OnEnterFollowHop()
+	{
+		Vector3 diff = PlayerManager.instance.Player.transform.position - transform.position;
+		diff.y = 0f;
+		diff = diff.normalized;
+		Vector3 jumpPos = transform.position + (diff * Random.Range(1.75f, 2.5f));
+		jumpPos.y = 0f;
+		transform.LookAt(jumpPos);
+
+		followTween = transform.DOJump(jumpPos, Random.Range(0.5f, 1.25f), 1, HOP_DURATION)
+			.OnComplete(() => SetState(State.FOLLOW_CHECK));
+	}
+
+	private bool CheckForFollow()
+	{
+		// TODO: This.
+		PlayerIKControl ikRef = PlayerManager.instance.Player.GetComponent<RollerController>().IK;
+		if (ikRef.LeftArm.ArmState != PlayerArmIK.ArmIKState.GESTURING &&
+			ikRef.RightArm.ArmState != PlayerArmIK.ArmIKState.GESTURING)
+		{
+			return false;
+		}
+
+		sqrDistFromPlayer = (PlayerManager.instance.Player.transform.position - transform.position).sqrMagnitude;
+		if (sqrDistFromPlayer <= MAX_GESTURE_DISTANCE * MAX_GESTURE_DISTANCE)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	/*
 		BURROWING
 	*/
 	private void OnEnterBurrowing()
 	{
-		returnTime = 0f;
+		returnTime = Mathf.Infinity;
 
 		burrowRoutine = StartCoroutine(BurrowRoutine());
 	}
@@ -212,7 +278,18 @@ public class Murabbit : MonoBehaviour
 			escapeTween = null;
 		}
 
-		burrowTween = transform.DOJump(data.spawner.transform.position, 1f, 1, HOP_DURATION)
+		if (followTween != null)
+		{
+			yield return followTween.WaitForCompletion();
+			followTween.Kill();
+			followTween = null;
+		}
+
+		Vector3 spawnerPos = data.spawner.transform.position;
+		int numJumps = Mathf.FloorToInt((spawnerPos - transform.position).magnitude / 2f);
+		transform.LookAt(spawnerPos);
+
+		burrowTween = transform.DOJump(spawnerPos, Random.Range(0.5f, 1.25f), numJumps, HOP_DURATION * (float)numJumps)
 			.OnComplete(() => data.spawner.OnRabbitReturn(this));
 
 		yield return burrowTween.WaitForCompletion();
