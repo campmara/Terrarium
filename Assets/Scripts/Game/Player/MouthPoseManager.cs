@@ -21,18 +21,18 @@ public class FacePose
 [Serializable]
 public struct MouthBlendData
 {	
-	public float OMouthBlendValue;
-	public float BigUpsetBlendValue;
-	public float BigFrownBlendValue;
-    public float LittleSmileBlendValue;
-    public float BigHappyBlendValue;
-    public float OvalOBlendValue;
-    public float BigMoodBlendValue;
-    public float LittleUpsetBlendValue;
+	public float LittleHappyBlendValue;
+	public float LittleUpsetBlendValue;
+	public float LittleFrownBlendValue;
     public float LittleOBlendValue;
-    public float SquigglyBlendValue;
-    public float LittleFrownBlendValue;
-    public float LittleHappyBlendValue;
+    public float BigFrownBlendValue;
+    public float SquigglySmileBlendValue;
+    public float BigHappyBlendValue;
+    public float Despair1BlendValue;
+    public float BigUpsetBlendValue;
+    public float LittleSmileBlendValue;
+    public float BigSmileBlendValue;
+    public float OvalOBlendValue;
 }
 
 [Serializable]
