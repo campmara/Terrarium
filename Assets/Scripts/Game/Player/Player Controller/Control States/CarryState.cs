@@ -99,8 +99,10 @@ public class CarryState : RollerState
                     // TODO: Needs to be Fixed.
                     Vector3 rotVec = -this.transform.forward;	// backwards from looking at the tree
                     rotVec.y = 0;	// 0 out y to not effect y rotation
+					float rotAngle = -Vector3.Angle( Vector3.up, Vector3.Slerp( Vector3.up, rotVec, Mathf.Lerp( 0.0f, BigPlantPickupable.BIGPLANT_TUGANGLE_MAX, _bigPlantPickupable.GrabberBurdenInterp ) ) );
 
-					this.transform.Rotate( -Vector3.Angle( Vector3.up, Vector3.Slerp( Vector3.up, rotVec, Mathf.Lerp( 0.0f, BigPlantPickupable.BIGPLANT_TUGANGLE_MAX, _bigPlantPickupable.GrabberBurdenInterp ) ) ), 0.0f, 0.0f );
+					// Rotate Locally on Y Axis
+					this.transform.Rotate( rotAngle, 0.0f, 0.0f );
                     
 				}
             }
