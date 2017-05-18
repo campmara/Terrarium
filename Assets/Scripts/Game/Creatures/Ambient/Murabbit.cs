@@ -21,7 +21,9 @@ public class Murabbit : MonoBehaviour
 	private Coroutine hopRoutine;
 	private Coroutine escapeRoutine;
 	private Coroutine burrowRoutine;
-	private Tween jumpTween;
+	private Tween hopTween;
+	private Tween escapeTween;
+	private Tween burrowTween;
 
 	private const float MAX_SCARY_SQR_DISTANCE = 25f;
 	private float sqrDistFromPlayer = 0f;
@@ -40,26 +42,16 @@ public class Murabbit : MonoBehaviour
 
 	private void Update()
 	{
-		if (state == State.SPAWN)
-		{
-
-		}
-		else if (state == State.HOP)
+		if (state == State.HOP)
 		{
 			HandleHopping();
-		}
-		else if (state == State.ESCAPE)
-		{
-
-		}
-		else if (state == State.BURROW)
-		{
-
 		}
 	}
 
 	private void SetState(State next)
 	{
+		state = next;
+
 		if (next == State.SPAWN)
 		{
 			OnEnterSpawn();
@@ -76,8 +68,6 @@ public class Murabbit : MonoBehaviour
 		{
 			OnEnterBurrowing();
 		}
-
-		state = next;
 	}
 
 	/*
@@ -90,7 +80,7 @@ public class Murabbit : MonoBehaviour
 		Vector3 jumpPos = transform.position + (Random.insideUnitSphere * 2f);
 		jumpPos.y = 0f;
 
-		jumpTween = transform.DOJump(jumpPos, 2f, 1, 0.5f).OnComplete(() => SetState(State.HOP));
+		hopTween = transform.DOJump(jumpPos, 2f, 1, 0.5f).OnComplete(() => SetState(State.HOP));
 	}
 
 	/*
@@ -98,7 +88,7 @@ public class Murabbit : MonoBehaviour
 	*/
 	private void OnEnterHopping()
 	{
-		jumpTween.Complete();
+		hopTween.Complete();
 		transform.SetPosY(0f);
 
 		hopRoutine = StartCoroutine(HopRoutine());
@@ -111,13 +101,13 @@ public class Murabbit : MonoBehaviour
 		Vector3 jumpPos = transform.position + (Random.insideUnitSphere * 2f);
 		jumpPos.y = 0f;
 
-		jumpTween = transform.DOJump(jumpPos, Random.Range(0.5f, 1.25f), 1, 0.5f);
+		hopTween = transform.DOJump(jumpPos, Random.Range(0.5f, 1.25f), 1, 0.5f);
 
-		yield return jumpTween.WaitForCompletion();
-		jumpTween.Kill();
-		jumpTween = null;
+		yield return hopTween.WaitForCompletion();
 
 		hopRoutine = StartCoroutine(HopRoutine());
+
+		hopTween = null;
 	}
 
 	private void HandleHopping()
@@ -157,13 +147,7 @@ public class Murabbit : MonoBehaviour
 		Vector3 diff = PlayerManager.instance.Player.transform.position - transform.position;
 		sqrDistFromPlayer = diff.sqrMagnitude;
 
-		if (sqrDistFromPlayer > MAX_SCARY_SQR_DISTANCE)
-		{
-			// Scarem
-			SetState(State.HOP);
-			yield return null;
-		}
-		else
+		if (sqrDistFromPlayer < MAX_SCARY_SQR_DISTANCE)
 		{
 			diff.y = 0f;
 			diff = -(diff.normalized);
@@ -171,14 +155,20 @@ public class Murabbit : MonoBehaviour
 			jumpPos.y = 0f;
 			transform.LookAt(jumpPos);
 
-			jumpTween = transform.DOJump(jumpPos, Random.Range(0.5f, 1.25f), 1, 0.5f);
+			escapeTween = transform.DOJump(jumpPos, Random.Range(0.5f, 1.25f), 1, 0.5f);
 
-			yield return jumpTween.WaitForCompletion();
-			jumpTween.Kill();
-			jumpTween = null;
+			yield return escapeTween.WaitForCompletion();
 
 			escapeRoutine = StartCoroutine(EscapeRoutine());
 		}
+		else
+		{
+			// Scarem
+			SetState(State.HOP);
+			yield return null;
+		}
+
+		escapeTween = null;
 	}
 
 	/*
@@ -193,16 +183,18 @@ public class Murabbit : MonoBehaviour
 
 	private IEnumerator BurrowRoutine()
 	{
-		if (jumpTween != null)
+		if (hopTween != null)
 		{
-			yield return jumpTween.WaitForCompletion();
-			jumpTween.Kill();
-			jumpTween = null;
+			yield return hopTween.WaitForCompletion();
+			hopTween.Kill();
+			hopTween = null;
 		}
 
-		jumpTween = transform.DOJump(data.spawner.transform.position, Random.Range(0.5f, 1.25f), 1, 1f)
+		burrowTween = transform.DOJump(data.spawner.transform.position, Random.Range(0.5f, 1.25f), 1, 1f)
 			.OnComplete(() => data.spawner.OnRabbitReturn(this));
 
-		yield return null;
+		yield return burrowTween.WaitForCompletion();
+
+		burrowTween = null;
 	}
 }
