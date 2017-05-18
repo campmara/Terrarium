@@ -58,6 +58,7 @@ public class BasePlant : MonoBehaviour
 	// **************
 
 	protected PlantController _activeController = null;
+    public PlantController ActiveController { get { return _activeController; } }
 	PlantController[] _controllers = new PlantController[2];
 
 	protected virtual void Awake()

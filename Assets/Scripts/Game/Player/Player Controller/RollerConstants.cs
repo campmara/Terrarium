@@ -66,6 +66,7 @@ public class RollerConstants : ScriptableObjectSingleton<RollerConstants>
 
 	public Vector2 HugWidthRange = new Vector2( 14.0f, 30.0f);
 	public float HugLerpSpeed = 10.0f;
+    public float HugLeanSpeed = 0.5f;
 
     // IDLE
     [Header( "Idle Variables" ), Space( 10 )]

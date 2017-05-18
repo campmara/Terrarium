@@ -183,11 +183,14 @@ public class FaceManager : MonoBehaviour
 
     void StartReturnIdle()
     {
-        if (_idleRoutine != null)
+        if( this.enabled )
         {
-            StopCoroutine( _idleRoutine );
+            if (_idleRoutine != null)
+            {
+                StopCoroutine( _idleRoutine );
+            }
+            _idleRoutine = StartCoroutine( DelayedDefaultExpression() );
         }
-        _idleRoutine = StartCoroutine( DelayedDefaultExpression() );
     }
 
     IEnumerator DelayedDefaultExpression()

@@ -17,7 +17,7 @@ public class BPGrowthController : PlantController
 	[SerializeField] protected float _wateredGrowthRate = 0.0f;
 	protected float _growthRate = 0.0f;
 	protected float _animEndTime = 0.0f;
-	protected float _curPercentAnimated = 0.0f;
+	[SerializeField, ReadOnly]protected float _curPercentAnimated = 0.0f;
     public float CurPercentAnimated { get { return _curPercentAnimated; } }
 	protected float _maxHeight = 0.0f;
 	protected float _maxWidth = 0.0f;
