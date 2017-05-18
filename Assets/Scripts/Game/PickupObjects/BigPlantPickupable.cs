@@ -5,8 +5,8 @@ using DG.Tweening;
 
 public class BigPlantPickupable : Pickupable {
 
-	const float BIGPLANT_MINTUGDIST = 0.5f;	
-	const float BIGPLANT_MAXTUGDIST = 1.5f;	
+	public const float BIGPLANT_MINTUGDIST = 0.5f;	
+	public const float BIGPLANT_MAXTUGDIST = 0.75f;	
 	
 	Vector3 _grabberDirection = Vector3.zero;
 	const float BIGPLANT_TUGANGLE_MAXOFFSET = 2.0f;

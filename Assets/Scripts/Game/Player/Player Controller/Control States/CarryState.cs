@@ -8,7 +8,7 @@ public class CarryState : RollerState
 	[SerializeField,ReadOnlyAttribute]float _heldObjWidthInterp = 0.0f;
 
     BigPlantPickupable _bigPlantPickupable = null;
-    Quaternion _reverseTugRotation = Quaternion.identity;
+	Vector3 _bigPlantDirection = Vector3.zero;
 
     public override void Enter( P_ControlState prevState )
 	{
@@ -78,8 +78,7 @@ public class CarryState : RollerState
                 }
 				else if( _bigPlantPickupable )
 				{
-                    _roller.transform.LookAt( _roller.CurrentHeldObject.transform );
-
+                    
                     _currHugState = Mathf.Lerp( _currHugState, 1.0f, RollerConstants.instance.HugLerpSpeed * Time.deltaTime );
 					_currHugWidth = Mathf.Lerp( _currHugWidth, 1.0f, RollerConstants.instance.HugLerpSpeed * Time.deltaTime );
 					_roller.Player.AnimationController.SetHugState( _currHugState );
@@ -96,7 +95,8 @@ public class CarryState : RollerState
                         _bigPlantPickupable.GrabberBurdenInterp -= ( RollerConstants.instance.HugLeanSpeed + ( input.LeftStickY * 0.5f ) ) * Time.deltaTime;
                     }
 
-                    // TODO: Needs to be Fixed.
+					_roller.transform.LookAt( _roller.CurrentHeldObject.transform );
+
                     Vector3 rotVec = -this.transform.forward;	// backwards from looking at the tree
                     rotVec.y = 0;	// 0 out y to not effect y rotation
 					float rotAngle = -Vector3.Angle( Vector3.up, Vector3.Slerp( Vector3.up, rotVec, Mathf.Lerp( 0.0f, BigPlantPickupable.BIGPLANT_TUGANGLE_MAX, _bigPlantPickupable.GrabberBurdenInterp ) ) );
@@ -104,6 +104,13 @@ public class CarryState : RollerState
 					// Rotate Locally on Y Axis
 					this.transform.Rotate( rotAngle, 0.0f, 0.0f );
                     
+					// Reposition Closeish to Tree
+					_bigPlantDirection = this.transform.position - _bigPlantPickupable.transform.position;
+					_bigPlantDirection.y = 0.0f;
+					_bigPlantDirection.Normalize();
+									
+					this.transform.position = _bigPlantPickupable.transform.position 
+						+ ( _bigPlantDirection * _bigPlantPickupable.transform.localScale.x * ( _bigPlantPickupable.GetComponent<BasePlant>().MyPlantType == BasePlant.PlantType.POINT ? 0.05f : 0.1f ) );
 				}
             }
 			else
