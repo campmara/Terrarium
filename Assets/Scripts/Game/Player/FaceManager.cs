@@ -293,17 +293,17 @@ public class FaceManager : MonoBehaviour
 
 	void SetMouthBlendValues( MouthBlendData newPose, float transitionProgress )
 	{
-        _mouthSkinnedMesh.SetBlendShapeWeight( 0, Mathf.Lerp( 0.0f, newPose.OMouthBlendValue, transitionProgress ) );
-        _mouthSkinnedMesh.SetBlendShapeWeight( 1, Mathf.Lerp( 0.0f, newPose.BigUpsetBlendValue, transitionProgress ) );
-        _mouthSkinnedMesh.SetBlendShapeWeight( 2, Mathf.Lerp( 0.0f, newPose.BigFrownBlendValue, transitionProgress ) );
-        _mouthSkinnedMesh.SetBlendShapeWeight( 3, Mathf.Lerp( 0.0f, newPose.LittleSmileBlendValue, transitionProgress ) );
-        _mouthSkinnedMesh.SetBlendShapeWeight( 4, Mathf.Lerp( 0.0f, newPose.BigHappyBlendValue, transitionProgress ) );
-        _mouthSkinnedMesh.SetBlendShapeWeight( 5, Mathf.Lerp( 0.0f, newPose.BigMoodBlendValue, transitionProgress ) );
-        _mouthSkinnedMesh.SetBlendShapeWeight( 6, Mathf.Lerp( 0.0f, newPose.LittleUpsetBlendValue, transitionProgress ) );
-        _mouthSkinnedMesh.SetBlendShapeWeight( 7, Mathf.Lerp( 0.0f, newPose.LittleOBlendValue, transitionProgress ) );
-        _mouthSkinnedMesh.SetBlendShapeWeight( 8, Mathf.Lerp( 0.0f, newPose.SquigglyBlendValue, transitionProgress ) );
-        _mouthSkinnedMesh.SetBlendShapeWeight( 9, Mathf.Lerp( 0.0f, newPose.LittleFrownBlendValue, transitionProgress ) );
-        _mouthSkinnedMesh.SetBlendShapeWeight( 10, Mathf.Lerp( 0.0f, newPose.LittleHappyBlendValue, transitionProgress ) );        
+		_mouthSkinnedMesh.SetBlendShapeWeight( 0, Mathf.Lerp( 0.0f, newPose.LittleHappyBlendValue, transitionProgress ) );
+		_mouthSkinnedMesh.SetBlendShapeWeight( 1, Mathf.Lerp( 0.0f, newPose.LittleUpsetBlendValue, transitionProgress ) );
+		_mouthSkinnedMesh.SetBlendShapeWeight( 2, Mathf.Lerp( 0.0f, newPose.LittleFrownBlendValue, transitionProgress ) );
+		_mouthSkinnedMesh.SetBlendShapeWeight( 3, Mathf.Lerp( 0.0f, newPose.LittleOBlendValue, transitionProgress ) );
+		_mouthSkinnedMesh.SetBlendShapeWeight( 4, Mathf.Lerp( 0.0f, newPose.BigFrownBlendValue, transitionProgress ) );
+		_mouthSkinnedMesh.SetBlendShapeWeight( 5, Mathf.Lerp( 0.0f, newPose.SquigglySmileBlendValue, transitionProgress ) );
+		_mouthSkinnedMesh.SetBlendShapeWeight( 6, Mathf.Lerp( 0.0f, newPose.BigHappyBlendValue, transitionProgress ) );
+		_mouthSkinnedMesh.SetBlendShapeWeight( 7, Mathf.Lerp( 0.0f, newPose.Despair1BlendValue, transitionProgress ) );
+		_mouthSkinnedMesh.SetBlendShapeWeight( 8, Mathf.Lerp( 0.0f, newPose.LittleSmileBlendValue, transitionProgress ) );
+        _mouthSkinnedMesh.SetBlendShapeWeight( 9, Mathf.Lerp( 0.0f, newPose.BigSmileBlendValue, transitionProgress ) );
+		_mouthSkinnedMesh.SetBlendShapeWeight( 10, Mathf.Lerp( 0.0f, newPose.OvalOBlendValue, transitionProgress ) );        
     }
 
     void OnValidate()
