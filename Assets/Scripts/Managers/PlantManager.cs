@@ -224,7 +224,7 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 				|| col.GetComponent<SPGrowthController>() 
 				|| col.GetComponent<BPGrowthController>() 
 				|| col.GetComponent<PondTech>() 
-				|| col.GetComponent<Rock>() )
+				|| col.GetComponentInParent<RockTag>() )
 				//col.GetComponent<BasePlant>()
 				{
 					insideObject = true;

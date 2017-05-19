@@ -24,10 +24,10 @@ GameObject:
   - component: {fileID: 54446093939707212}
   - component: {fileID: 114174503958260724}
   - component: {fileID: 114261372939883760}
-  - component: {fileID: 135113451896205310}
   - component: {fileID: 114092344845318102}
   - component: {fileID: 114169642532466072}
   - component: {fileID: 114965072194174498}
+  - component: {fileID: 65254249309108804}
   m_Layer: 12
   m_Name: Plant_Flowering
   m_TagString: Untagged
@@ -265,8 +265,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1028824138140006}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalPosition: {x: 9.59, y: 0.28220177, z: 9.541538}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4521704662299462}
   - {fileID: 4338989222700296}
@@ -387,6 +387,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &65254249309108804
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1028824138140006}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.13, y: 0.23, z: 0.13}
+  m_Center: {x: 0, y: 0.11, z: 0}
 --- !u!82 &82665421538801248
 AudioSource:
   m_ObjectHideFlags: 1
@@ -530,7 +542,7 @@ MonoBehaviour:
   - {x: 3, y: 1}
   - {x: 1, y: 1}
   - {x: 1, y: 1.5}
-  _wateredGrowthRate: 0.001
+  _wateredGrowthRate: 0.03
   _curStage: 0
   _droppingItems:
   - {fileID: 1356359172527236, guid: bbfef1f81afcefc438cf9d537e7f0931, type: 2}
@@ -618,22 +630,10 @@ MonoBehaviour:
   _pAssetKey: -1
   _type: 1
   _deathDuration: 0
-  _DeathDurationRange: {x: 100, y: 200}
+  _DeathDurationRange: {x: 100, y: 120}
   _DeathTimer: 0
   _baseDecayRate: 1
   _curDecayRate: 0
---- !u!135 &135113451896205310
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1028824138140006}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.035
-  m_Center: {x: 0, y: 0.035, z: 0}
 --- !u!137 &137425570155143246
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

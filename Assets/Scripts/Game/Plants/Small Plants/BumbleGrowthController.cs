@@ -102,10 +102,10 @@ public class BumbleGrowthController : SPGrowthController
 
     private IEnumerator WaitToSpawnChild()
     {
-        float _animEndTime = _lastAnim.GetCurrentAnimatorStateInfo(0).length;
+       // float _animEndTime = _lastAnim.GetCurrentAnimatorStateInfo(0).length;
         float _curTimeAnimated = _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime; // Mathf.Lerp(0.0f, _animEndTime, _plantAnim.GetCurrentAnimatorStateInfo(0).normalizedTime ); // i am x percent of the way through anim
 
-        while (_curTimeAnimated < _animEndTime)
+        while( _curTimeAnimated < 1.0f )
         {
             //update
             _curTimeAnimated = _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime;
@@ -128,7 +128,7 @@ public class BumbleGrowthController : SPGrowthController
     private IEnumerator WaitForLastLeaf()
     {
         _waiting = true;
-        while (_endTimeStamp > _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime)
+        while( 1.0f >  _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime)
         {
             yield return null;
         }

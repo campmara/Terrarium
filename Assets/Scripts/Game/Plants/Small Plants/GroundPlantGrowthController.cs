@@ -178,7 +178,7 @@ public class GroundPlantGrowthController : SPGrowthController
 			plant.SetBool("isClosing", false );
 		}
 
-		yield return new WaitForSeconds( 45.0f );
+		yield return new WaitForSeconds( 15.0f );
 		_closingLeaves = false;
 		_fruit.gameObject.SetActive( true );
 	}

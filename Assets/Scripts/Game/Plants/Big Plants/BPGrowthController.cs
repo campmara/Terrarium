@@ -104,16 +104,6 @@ public class BPGrowthController : PlantController
 		_maxSmalls = (int)Random.Range( PlantManager.instance.SmNumPerPlant.x, PlantManager.instance.SmNumPerPlant.y );
 		_maxMediums = (int)Random.Range( PlantManager.instance.MedNumPerPlant.x, PlantManager.instance.MedNumPerPlant.y );
 
-		Collider[] cols = Physics.OverlapSphere( transform.position, 1.0f );
-		foreach( Collider col in cols)
-		{
-			if( col.GetComponent<PondTech>() || col.GetComponent<Rock>() )
-			{
-				PlantManager.instance.DeleteLargePlant( GetComponent<BasePlant>() );
-				break;
-			}
-		}
-
         _audioController = this.GetComponentInChildren<PlantAudioController>();
 	}
 
@@ -144,19 +134,32 @@ public class BPGrowthController : PlantController
 	}
 	void DetermineGrowth()
 	{
-		if( !IsOverlappingPlants() )
+
+		bool conflictingObject = false;
+		Collider[] cols = Physics.OverlapSphere( transform.position, _neededDistance[0] );
+		foreach( Collider col in cols)
 		{
-			_curStage = GrowthStage.Sprout;
-			_myPlant.OuterRadius = _spawnRadii[ (int)_curStage ];
-            if( _audioController != null )
-            {
-                _audioController.StartPlayingGrowSound();
-            }
+			if( col.GetComponent<PondTech>() || col.GetComponentInParent<RockTag>() )
+			{
+				conflictingObject = true;
+				break;
+			}
+		}
+
+		// if something is in the way just destroy it
+		if( conflictingObject || IsOverlappingPlants() )
+		{
+			PlantManager.instance.DeleteLargePlant( GetComponent<BasePlant>() );
 		}
 		else
 		{
-			_hardStopGrowth = true;
-			StopState();
+			_curStage = GrowthStage.Sprout;
+			_myPlant.OuterRadius = _spawnRadii[ (int)_curStage ];
+           
+		    if( _audioController != null )
+            {
+                _audioController.StartPlayingGrowSound();
+            }
 		}
 	}
 
@@ -179,11 +182,12 @@ public class BPGrowthController : PlantController
 			{
 				TryTransitionStages();
 			}
-			else
+			else if( !_stemDoneGrowing ) 
 			{
-				CustomPlantGrowth();
 				BaseUpdate();
 			}
+			
+			CustomPlantGrowth();
 	}
 
 	void UpdateScale()
@@ -219,7 +223,7 @@ public class BPGrowthController : PlantController
 
 	void TryTransitionStages()
 	{
-		if( _curStage != GrowthStage.Final && IsOverlappingPlants() )
+		if( IsOverlappingPlants() )
 		{
 			StopState();
 		}
@@ -281,7 +285,6 @@ public class BPGrowthController : PlantController
 			_stemDoneGrowing = true;
 		}
 
-		ChangeGrowthRate( _baseGrowthRate );
 		UpdateNewStageData();
 	}
 	#endregion Growth Update Functions
@@ -290,7 +293,7 @@ public class BPGrowthController : PlantController
 	{
 		if( _hardStopGrowth )
 		{
-			HardStopAnim();
+			_stemDoneGrowing = true;
 		}
 		else
 		{
@@ -300,23 +303,9 @@ public class BPGrowthController : PlantController
 
 	protected virtual void CustomStopGrowth()
 	{
-		HardStopAnim();
+			_stemDoneGrowing = true;
 	}
 
-	protected void HardStopAnim()
-	{
-		if( _plantAnim )
-		{
-			_plantAnim.enabled = false;
-		}
-
-		foreach( Animator child in _childAnimators )
-		{
-			child.enabled = false;
-		}
-
-		_myPlant.SwitchController( this );
-	}
 
 	#region Spawn Functions
 	//********************************
@@ -442,13 +431,6 @@ public class BPGrowthController : PlantController
 	public override void WaterPlant()
 	{
 		ChangeGrowthRate( _wateredGrowthRate );
-
-		if( _myPlant.GrowReturnRoutine != null )
-		{
-			StopCoroutine( _myPlant.GrowReturnRoutine );
-		}
-
-		_myPlant.GrowReturnRoutine = StartCoroutine( DelayedReturnGrowthRate( WATERED_GROWTHRETURNTIME ) );
 	}
 
 	public override void TouchPlant(){}
@@ -460,22 +442,21 @@ public class BPGrowthController : PlantController
 	// HELPER FUNCTIONS
 	//********************************
 
-	IEnumerator DelayedReturnGrowthRate( float returnTime )
-	{
-		yield return new WaitForSeconds( returnTime );
-
-		ChangeGrowthRate( _baseGrowthRate );
-	}
-
 	void ChangeGrowthRate( float newRate )
 	{
-		_plantAnim.speed = newRate;
+		_growthRate = newRate;
+		_plantAnim.speed = _growthRate;
 
+		float len = _plantAnim.GetCurrentAnimatorStateInfo(0).length;
 		foreach( Animator child in _childAnimators )
 		{
 			child.speed = newRate;
 		}
+
+		OnChangeGrowthRate();
 	}
+
+	protected virtual void OnChangeGrowthRate(){}
 		
 	void UpdateNewStageData()
 	{
