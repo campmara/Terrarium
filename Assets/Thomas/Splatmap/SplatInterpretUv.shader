@@ -10,7 +10,7 @@
 		_Hardness("Hardness", Range(0, 1)) = 1
 		_Cutoff("Alpha Cutoff", Range(0, 1)) = 1
 
-		_ImprintAmount("Imprint Amount", Range(0, 10)) = 1
+		_ImprintAmount("Imprint Amount", Range(-10, 10)) = 1
 	}
 		SubShader
 	{
@@ -69,6 +69,7 @@
 	uniform sampler2D _ClipEdges;
 	uniform sampler2D _SplatMap;
 	uniform float3 _CameraWorldPos;
+	uniform float4 _SplatmapNeutralColor;
 	uniform float _OrthoCameraScale;
 	//..............
 
@@ -88,8 +89,11 @@
 		float2 worldUV = float2(((worldPos.x - _CameraWorldPos.x) / _OrthoCameraScale + .5f), ((worldPos.z - _CameraWorldPos.z) / _OrthoCameraScale + .5f)); //find a way to center this
 		float4 border = tex2Dlod(_ClipEdges, float4(worldUV, 0, 0)).rgba;
 		float4 uv = (tex2Dlod(_SplatMap, float4(worldUV, 0, 0)));
+
 		float4 duv = (tex2Dlod(_SplatTex, float4(uv.xy, 0, 0)));
 		float4 d = duv;
+
+		d = lerp(_SplatmapNeutralColor, d, uv.a);
 
 		d.a = clamp(d.a - border.a, 0, 1);
 		d.rg = (d.rg - .5f) * d.a;
@@ -105,7 +109,7 @@
 		o.worldUV = worldUV;
 		v.vertex = mul(unity_WorldToObject, worldPos);
 		v.normal = mul(unity_WorldToObject, worldNormal.xyz);
-		o.color = duv;
+		o.color = d;
 	}
 
 	void surf(Input IN, inout SurfaceOutput o)
