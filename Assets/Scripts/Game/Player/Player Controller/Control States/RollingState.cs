@@ -33,15 +33,14 @@ public class RollingState : RollerState
             }
             _rollSpherifyTween = DOTween.To( () => _roller.Spherify, x => _roller.Spherify = x, RollerConstants.instance.RollSpherizeMaxSize, RollerConstants.instance.RollEnterSpeed ).SetEase( Ease.InOutQuint );
 
-
-            Invoke("StartJiggling", 0.3f);
+			Invoke( "StartJiggling", RollerConstants.instance.RollEnterSpeed );
 		}
     }
 
 	private void GroundHit()
-	{
+	{		
 		_grounded = true;
-        _roller.BecomeBall();
+		_roller.BecomeBall();	
     }
 
 	private void StartJiggling()
@@ -64,7 +63,11 @@ public class RollingState : RollerState
 
         if( _rollSpherifyTween != null )
         {
-            //_rollSpherifyTween.SmoothRewind();
+//			if( nextState == P_ControlState.POND )
+//			{
+//				_rollSpherifyTween.Rewind();
+//			}
+//            
             _rollSpherifyTween.Kill();
             _rollSpherifyTween = null;
         }
