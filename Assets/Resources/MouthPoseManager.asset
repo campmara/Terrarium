@@ -11,16 +11,99 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76bdd265b492842fd91e4ab2aeee6af6, type: 3}
   m_Name: MouthPoseManager
   m_EditorClassIdentifier: 
-  MouthPoseArray:
-  - _poseName: Mouth Closed
-    WideOpenBlendValue: 0
-    RightSmileBlendValue: 0
-    LeftSmileBlendValue: 0
-    LeftFrownBlendValue: 0
-    RightFrownBlendValue: 0
-    OMouthBlendValue: 0
+  FacePoseList:
+  - PoseName: Idle
+    LeftEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    RightEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    MouthPose:
+      OMouthBlendValue: 0
+      BigUpsetBlendValue: 0
+      BigFrownBlendValue: 0
+      LittleSmileBlendValue: 0
+      BigHappyBlendValue: 0
+      OvalOBlendValue: 0
+      BigMoodBlendValue: 0
+      LittleUpsetBlendValue: 0
+      LittleOBlendValue: 0
+      SquigglyBlendValue: 0
+      LittleFrownBlendValue: 0
+      LittleHappyBlendValue: 0
+  - PoseName: Idle
+    LeftEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    RightEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    MouthPose:
+      OMouthBlendValue: 100
+      BigUpsetBlendValue: 0
+      BigFrownBlendValue: 0
+      LittleSmileBlendValue: 0
+      BigHappyBlendValue: 0
+      OvalOBlendValue: 0
+      BigMoodBlendValue: 0
+      LittleUpsetBlendValue: 0
+      LittleOBlendValue: 0
+      SquigglyBlendValue: 0
+      LittleFrownBlendValue: 0
+      LittleHappyBlendValue: 0
+  - PoseName: Idle
+    LeftEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    RightEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    MouthPose:
+      OMouthBlendValue: 0
+      BigUpsetBlendValue: 0
+      BigFrownBlendValue: 0
+      LittleSmileBlendValue: 0
+      BigHappyBlendValue: 0
+      OvalOBlendValue: 0
+      BigMoodBlendValue: 0
+      LittleUpsetBlendValue: 0
+      LittleOBlendValue: 0
+      SquigglyBlendValue: 0
+      LittleFrownBlendValue: 0
+      LittleHappyBlendValue: 0
   StartMouthPoseIndex: 0
-  MouthPoseTransitionTime: 0.5
+  MouthPoseTransitionTime: 0.15
   MouthTransitionAnimCurve:
     serializedVersion: 2
     m_Curve:

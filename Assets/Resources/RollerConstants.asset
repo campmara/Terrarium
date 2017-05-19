@@ -25,7 +25,7 @@ MonoBehaviour:
   WalkTurnAngleMin: 0.5
   WalkTurnAngleMax: 60
   BreathSpeed: 0.35
-  BreathSpherizeScale: 1
+  BreathSpherizeScale: 0.9
   BreathSpherizeCurve:
     serializedVersion: 2
     m_Curve:
@@ -67,6 +67,9 @@ MonoBehaviour:
   PickupForwardScalarPart2: 0.08
   PickupUpScalarPart2: 2
   PickupTime: 0.75
+  HugWidthRange: {x: 6, y: 45}
+  HugLerpSpeed: 10
+  HugLeanSpeed: 3.5
   IdleMaxMag: 0.01
   IdleWaitTime: 0.1
   TransitionTime: 1

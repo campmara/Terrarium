@@ -7,8 +7,8 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Terrain - Mat
-  m_Shader: {fileID: 4800000, guid: cade45a53f884bf41800371fc8f89e84, type: 3}
-  m_ShaderKeywords: _EMISSION
+  m_Shader: {fileID: 4800000, guid: b3626806bf23dc04f9c7a2b50d5c0d2c, type: 3}
+  m_ShaderKeywords: _EMISSION _SPLATMAPENABLED_ON
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_CustomRenderQueue: -1
@@ -42,7 +42,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 309ea5e29d747b8438d81594294b2490, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -81,24 +81,42 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TerrainTex:
+        m_Texture: {fileID: 2800000, guid: d351870f1e11a0d4aa934a49b25aded7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WaveTex:
+        m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
+    - _DiscFade: 0
+    - _DiscRadius: 0
+    - _Displacement: 7.6
     - _DstBlend: 0
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
-    - _Hardness: 0.35
+    - _Hardness: 1
+    - _HeightmapDimX: 512
+    - _HeightmapDimY: 512
+    - _HeightmapStrength: 1.76
+    - _ImprintAmount: 0
+    - _Inset: 6.9
     - _Metallic: 0.187
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
+    - _SplatmapEnabled: 1
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
+    - _ZeroY: 0.1
     m_Colors:
     - _Color: {r: 0.78676474, g: 0.7727211, b: 0.659494, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

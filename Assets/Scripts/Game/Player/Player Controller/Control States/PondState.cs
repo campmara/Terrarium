@@ -9,6 +9,10 @@ public class PondState : RollerState
 
 		// Zero out velocity.
 		_roller.StopPlayer();
+		if( prevState == P_ControlState.ROLLING )
+		{
+			_roller.BecomeWalker();			
+		}
 	}
 
 	public override void Exit(P_ControlState nextState)
@@ -37,7 +41,7 @@ public class PondState : RollerState
             }
             else
             {
-                //PondManager.instance.PopPlayerFromPond();
+                PondManager.instance.PopPlayerFromPond();
             }
 
             _roller.ChangeState( P_ControlState.WALKING );

@@ -18,6 +18,7 @@ public class PlantAudioController : MonoBehaviour {
     AudioClip _plantGrowthClip = null;
 
     BPGrowthController _growthController = null;
+    BasePlant _basePlant = null;
 
     [SerializeField]
     AnimationCurve _growthSoundCurve;
@@ -29,8 +30,10 @@ public class PlantAudioController : MonoBehaviour {
     void Awake ()
     {
         _source = this.GetComponent<AudioSource>();
+        _basePlant = this.GetComponentInParent<BasePlant>();
         _growthController = this.GetComponentInParent<BPGrowthController>();
-	}
+
+    }
 	
     void Update()
     {
@@ -40,7 +43,7 @@ public class PlantAudioController : MonoBehaviour {
             {
                 _source.volume = _growthSoundCurve.Evaluate( _growthController.CurPercentAnimated * 0.45f );
 
-                if (_growthController.CurPercentAnimated >= 1.0f)
+                if ( _basePlant.ActiveController.ControlType != PlantController.ControllerType.Growth || _growthController.CurPercentAnimated >= 1.0f)
                 {
                     StopPlayGrowSound();
                 }

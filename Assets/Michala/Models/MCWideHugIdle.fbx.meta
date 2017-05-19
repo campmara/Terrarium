@@ -145,6 +145,8 @@ ModelImporter:
     400134: r_wrist_CTRL
     400136: squash_CTRL
     400138: waist_CTRL
+    2300000: pCube1
+    3300000: pCube1
     4300000: pCube1
     7400000: Take 001
     9500000: //RootNode
@@ -171,11 +173,105 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 24
+      lastFrame: 71
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: core
+        weight: 1
+      - path: core/body
+        weight: 1
+      - path: core/body/joint1
+        weight: 1
+      - path: core/l_hip
+        weight: 1
+      - path: core/l_hip/l_leg1
+        weight: 1
+      - path: core/l_hip/l_leg1/l_leg2
+        weight: 1
+      - path: core/l_hip/l_leg1/l_leg2/l_leg3
+        weight: 1
+      - path: core/l_hip/l_leg1/l_leg2/l_leg3/l_leg4
+        weight: 1
+      - path: core/l_hip/l_leg1/l_leg2/l_leg3/l_leg4/l_leg5
+        weight: 1
+      - path: core/l_hip/l_leg1/l_leg2/l_leg3/l_leg4/l_leg5/l_foot
+        weight: 1
+      - path: core/l_shoulder
+        weight: 1
+      - path: core/l_shoulder/l_arm1
+        weight: 1
+      - path: core/l_shoulder/l_arm1/l_arm2
+        weight: 1
+      - path: core/l_shoulder/l_arm1/l_arm2/l_arm3
+        weight: 1
+      - path: core/l_shoulder/l_arm1/l_arm2/l_arm3/l_arm4
+        weight: 1
+      - path: core/l_shoulder/l_arm1/l_arm2/l_arm3/l_arm4/l_arm5
+        weight: 1
+      - path: core/l_shoulder/l_arm1/l_arm2/l_arm3/l_arm4/l_arm5/l_wrist
+        weight: 1
+      - path: core/r_hip
+        weight: 1
+      - path: core/r_hip/r_leg1
+        weight: 1
+      - path: core/r_hip/r_leg1/r_leg2
+        weight: 1
+      - path: core/r_hip/r_leg1/r_leg2/r_leg3
+        weight: 1
+      - path: core/r_hip/r_leg1/r_leg2/r_leg3/r_leg4
+        weight: 1
+      - path: core/r_hip/r_leg1/r_leg2/r_leg3/r_leg4/r_leg5
+        weight: 1
+      - path: core/r_hip/r_leg1/r_leg2/r_leg3/r_leg4/r_leg5/r_foot
+        weight: 1
+      - path: core/r_shoulder
+        weight: 1
+      - path: core/r_shoulder/r_arm1
+        weight: 1
+      - path: core/r_shoulder/r_arm1/r_arm2
+        weight: 1
+      - path: core/r_shoulder/r_arm1/r_arm2/r_arm3
+        weight: 1
+      - path: core/r_shoulder/r_arm1/r_arm2/r_arm3/r_arm4
+        weight: 1
+      - path: core/r_shoulder/r_arm1/r_arm2/r_arm3/r_arm4/r_arm5
+        weight: 1
+      - path: core/r_shoulder/r_arm1/r_arm2/r_arm3/r_arm4/r_arm5/r_wrist
+        weight: 1
+      - path: pCube1
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 50
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
