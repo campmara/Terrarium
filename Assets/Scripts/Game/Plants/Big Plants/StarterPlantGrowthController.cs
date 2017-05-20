@@ -23,7 +23,6 @@ public class StarterPlantGrowthController : BPGrowthController
 	Transform _currentParent = null;
 	Coroutine _leafSpawnRoutine = null;
 	Animator _lastAnim = null;
-	bool _waiting = false;
 
 	void Awake()
 	{
@@ -54,19 +53,25 @@ public class StarterPlantGrowthController : BPGrowthController
 
 		_offset = Random.Range( 0, 100 );
 		_ringNumber = Random.Range( 5, 8 );
+		Animator leafAnim = null;
 
 		for (int i = 0; i < _ringNumber; i++)
 		{
-			SetupLeaf( i );
+			leafAnim = SetupLeaf( i );
 		}
 
 		yield return new WaitForSeconds( _timeBetweenLeafSpawns );
 
 		_curChildSpawned++;
 		_leafSpawnRoutine = null;
+
+		if( _numChildren == _curChildSpawned )
+		{
+			_lastAnim = leafAnim;
+		}
 	}
 		
-	void SetupLeaf( int index )
+	Animator SetupLeaf( int index )
 	{
 		GameObject leaf = Instantiate( _leafPrefab);
 		Animator anim = leaf.GetComponent<Animator>();
@@ -78,40 +83,23 @@ public class StarterPlantGrowthController : BPGrowthController
 		leaf.transform.Rotate(new Vector3(0, index * 360 / _ringNumber + _offset, 0));
 		leaf.transform.position -= leaf.transform.forward * .015f * transform.localScale.x;
 		anim.speed *= _plantAnim.GetComponent<Animator>().speed;
+
+		return anim;
 	}
 
 	protected override void CustomPlantGrowth()
 	{
-		if( transform.localScale.x < _maxScale.x )
-		{
-			transform.localScale = Vector3.Lerp( _minScale, _maxScale, Mathf.SmoothStep( 0, 1, _curPercentAnimated ) );
-		}
-			
 		if( _leafSpawnRoutine == null && _curChildSpawned < _numChildren )
 		{
 			_leafSpawnRoutine = StartCoroutine( SpawnLeaves() );
 		}
-	}
 
-	protected override void CustomStopGrowth()
-	{
-		if( !_waiting )
+		if( _lastAnim )
 		{
-			_lastAnim = _childAnimators[ _childAnimators.Count - 1 ];
-			StartCoroutine( WaitForLastLeaf() );
+			if( _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f )
+			{
+				_myPlant.SwitchController( this );
+			}
 		}
 	}
-
-	private IEnumerator WaitForLastLeaf()
-	{
-		_waiting = true;
-		while( _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f )
-		{
-			yield return null;
-		}
-
-		_waiting = false;
-		_myPlant.SwitchController( this );
-    }
-
 }
