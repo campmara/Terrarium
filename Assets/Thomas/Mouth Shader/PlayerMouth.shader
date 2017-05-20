@@ -5,7 +5,7 @@
 		_Color2("Color 2", Color) = (1,1,1,1)
 
 		_MainTex("Outside Window (RGB)", 2D) = "white" {}
-		_Scale("Simulated Distance", Range(0, 1)) = 0.1
+		_Scale("Simulated Distance", Range(0, 5)) = 0.1
 	}
 	SubShader {
 			GrabPass{}
