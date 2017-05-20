@@ -133,18 +133,27 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 
 
 	// threshold of number of plants to decide whether to play music
-	[SerializeField] private int subtleMusicThreshold = 3;
+	[Header("Values"), SerializeField] private int subtleMusicThreshold = 3;
 
 	[SerializeField] private int fullMusicThreshold = 10;
 
+	[SerializeField] private AnimationCurve lowpassCurve;
 
-	[SerializeField] private List<AudioController> _audioControllerList = new List<AudioController>();
+
+	[Header("Audio Controllers"), SerializeField] private List<AudioController> _audioControllerList = new List<AudioController>();
 
     float[] _singData = new float[1024];
 
     void Awake () 
 	{
 		SetupAudioControllers();
+	}
+
+	private void Update()
+	{
+		// Control the music lowpass interp based on player's distance from the center.
+		AudioMixer mixer = _audioControllerList[(int) AudioControllerNames.FULL_MUSIC].Source.outputAudioMixerGroup.audioMixer;
+		mixer.SetFloat("lowpassFreq", lowpassCurve.Evaluate(PlayerManager.instance.DistanceFromPond));
 	}
 
 	/// <summary>

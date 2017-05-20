@@ -9,6 +9,14 @@ public class PlayerManager : SingletonBehaviour<PlayerManager>
 	[SerializeField] Player _player = null;
 	public Player Player { get { return _player; } }
 
+    public float DistanceFromPond 
+    { 
+        get 
+        {
+            return Mathf.InverseLerp(0f, 78f, Mathf.Abs(Vector3.Distance(_player.transform.position, Vector3.zero)));
+        } 
+    }
+
 	public override void Initialize ()
 	{		
         _player.Initialize();
@@ -36,5 +44,4 @@ public class PlayerManager : SingletonBehaviour<PlayerManager>
         _player.transform.position = PondManager.instance.Pond.transform.position + ( Vector3.down * 3f );
         _player.transform.rotation = Quaternion.identity;
     }
-	
 }

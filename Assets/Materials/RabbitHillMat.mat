@@ -71,7 +71,7 @@ Material:
     - _GlossyReflections: 1
     - _Hardness: 0.5
     - _Metallic: 0
-    - _Middle: 0.73
+    - _Middle: 0.36
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
@@ -82,7 +82,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorBot: {r: 0.37647063, g: 0.37647063, b: 0.33333334, a: 1}
-    - _ColorMid: {r: 0.416, g: 0.27226016, b: 0.37034154, a: 1}
-    - _ColorTop: {r: 0.9632353, g: 0.6303525, b: 0.857631, a: 1}
+    - _ColorBot: {r: 0.5735294, g: 0.5735294, b: 0.18977077, a: 1}
+    - _ColorMid: {r: 0.5808823, g: 0.29471236, b: 0.4899813, a: 1}
+    - _ColorTop: {r: 0.5294118, g: 0, b: 0.3614603, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
