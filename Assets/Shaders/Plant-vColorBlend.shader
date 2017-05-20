@@ -21,6 +21,7 @@ Shader "TerrariumPlant/vColorBlendshape"{
 
 		[Header(Splatmap Values)]
 	[Toggle]_SplatmapEnabled("Splatmap Enabled", float) = 0
+		_SplatTex("Splat Texture (RGBA)", 2D) = "white" {}
 		_ImprintAmount("Imprint Amount", Range(-5, 5)) = 1
 
 		[Header(Cutoff Values)]
@@ -100,9 +101,13 @@ Shader "TerrariumPlant/vColorBlendshape"{
 
 	uniform sampler2D _ClipEdges;
 	uniform sampler2D _SplatMap;
+	uniform float4 _SplatmapNeutralColor;
 	uniform float3 _CameraWorldPos;
 	uniform float _OrthoCameraScale;
 	//..............
+
+	//splatmap+
+	sampler2D _SplatTex;
 
 	//....vcolor blendshape...
 	float _Deformation;
@@ -165,7 +170,11 @@ Shader "TerrariumPlant/vColorBlendshape"{
 			_OrthoCameraScale *= 2;
 			float2 worldUV = float2(((worldPos.x - _CameraWorldPos.x) / _OrthoCameraScale + .5f), ((worldPos.z - _CameraWorldPos.z) / _OrthoCameraScale + .5f)); //find a way to center this
 			float4 border = tex2Dlod(_ClipEdges, float4(worldUV, 0, 0)).rgba;
-			float4 d = (tex2Dlod(_SplatMap, float4(worldUV, 0, 0)));
+			float4 uv = (tex2Dlod(_SplatMap, float4(worldUV, 0, 0)));
+
+			float4 duv = (tex2Dlod(_SplatTex, float4(uv.xy, 0, 0)));
+			float4 d = duv;
+			d = lerp(_SplatmapNeutralColor, d, uv.a);
 
 			d.a = clamp(d.a - border.a, 0, 1);
 			d.rg = (d.rg - .5f) * d.a;
