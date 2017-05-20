@@ -36,13 +36,8 @@ public class MoundGrowthController : PlantController
 		_germinationRate = _baseRate;
 		transform.position = transform.position.SetPosY( _spawnHeight );
 		_sprout = transform.GetChild(0);
-		//_sprout.localScale = new Vector3( _sproutGrowthRange.x, _sproutGrowthRange.x, _sproutGrowthRange.x);
-
-		// scale it down!
-		//transform.localScale = Vector3.zero;
 
 		SpinLifeLottery();
-	//	StartCoroutine(StartPlantRoutine());
 	}
 
 	void SpinLifeLottery()

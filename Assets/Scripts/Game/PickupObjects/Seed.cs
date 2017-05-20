@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-
 public class Seed : Pickupable 
 {
     [SerializeField] protected SeedAssetKey _assetKey = SeedAssetKey.NONE;
@@ -13,11 +12,8 @@ public class Seed : Pickupable
 	float _timeSinceLastPickup = 0.0f;
 	float _timePassedTillDestroy = 60.0f;
 	bool _hasFallen = false;
-	bool _wasRitualed = false;
-
 	const int  _selfPlantProbability = 50;
 	const float _searchRadius = 30.0f;
-
 	Tween _sinkTween = null;
 
     const float WIND_FORCESCALAR = 0.5f;
@@ -27,6 +23,9 @@ public class Seed : Pickupable
 	{
 		base.Awake();
 		_moundType = _moundPrefab.GetComponent<BasePlant>().MyPlantType;
+
+		float endScale = transform.localScale.x;
+		this.transform.DOScale( endScale, 3.0f );//.OnComplete( EndSelfPlant );
 	}
 	void Update()
 	{
@@ -76,7 +75,6 @@ public class Seed : Pickupable
 	public void DropOnRitual()
 	{
 		base.DropSelf();
-		_wasRitualed = true;
 	}
 
 	public void TryPlanting()
@@ -90,11 +88,13 @@ public class Seed : Pickupable
 
 	void BeginSelfPlant()
 	{
-		//Transform child = transform.GetChild(0);
-		Vector3 endPos = this.transform.position + (Vector3.down * 0.36f);
-		float sinkTime = Random.Range(10f, 20f);
+		if( _sinkTween == null )
+		{
+			Vector3 endPos = this.transform.position + (Vector3.down * 0.36f);
+			float sinkTime = Random.Range(10f, 20f);
 
-		_sinkTween = this.transform.DOMove( endPos, sinkTime ).OnComplete( EndSelfPlant );
+			_sinkTween = this.transform.DOMove( endPos, sinkTime ).OnComplete( EndSelfPlant );
+		}
 	}
 
 	void EndSelfPlant()
@@ -119,11 +119,6 @@ public class Seed : Pickupable
 
 				_hasFallen = true;
 			}
-		}
-		
-		if (_wasRitualed == true)
-		{
-			TryPlanting();
 		}
 	}
 }

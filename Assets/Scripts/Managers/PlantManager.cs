@@ -117,12 +117,12 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 			{
 				_floweringPlants.Remove(plant);
 
-				if( !IsPopulationStable( plant ) )
+				if( !IsPopulationStable( plant ) && plant.GetComponent<BPGrowthController>().CurStage >= BPGrowthController.GrowthStage.Sapling )
 				{
 					DropSeed( plant.transform.position, BasePlant.PlantType.FLOWERING );
 				}
 			}
-			else if( plant.MyPlantType == BasePlant.PlantType.POINT )
+			else if( plant.MyPlantType == BasePlant.PlantType.POINT &&  plant.GetComponent<BPGrowthController>().CurStage >= BPGrowthController.GrowthStage.Sapling)
 			{
 				_pointPlants.Remove(plant);
 				
@@ -225,7 +225,6 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 				|| col.GetComponent<BPGrowthController>() 
 				|| col.GetComponent<PondTech>() 
 				|| col.GetComponentInParent<RockTag>() )
-				//col.GetComponent<BasePlant>()
 				{
 					insideObject = true;
 					break;
