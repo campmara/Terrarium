@@ -3845,7 +3845,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 0b88acf3e64864c44af7effbeac17108, type: 3}
     _mixerGroup: {fileID: 243730844136138892, guid: 30f3aa683f5543d469208f1bb641c945,
       type: 2}
-    _volume: 0.5
+    _volume: 0.1
     _playOnAwake: 0
     _loop: 0
     _pitch: 1
