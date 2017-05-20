@@ -73,6 +73,7 @@
 	uniform float _OrthoCameraScale;
 	//..............
 
+	//splatmap+
 	sampler2D _SplatTex;
 
 	void vert(inout appdata_base v, out Input o)
