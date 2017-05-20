@@ -3768,6 +3768,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   subtleMusicThreshold: 1
   fullMusicThreshold: 4
+  lowpassCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 20000
+      inSlope: 0.12472771
+      outSlope: 0.12472771
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.3
+      value: 5000
+      inSlope: -212.65367
+      outSlope: -212.65367
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 100
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
   _audioControllerList:
   - _audioClipList:
     - {fileID: 8300000, guid: 7e97712348a1c48898f7328491deadeb, type: 3}
@@ -3821,7 +3845,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 0b88acf3e64864c44af7effbeac17108, type: 3}
     _mixerGroup: {fileID: 243730844136138892, guid: 30f3aa683f5543d469208f1bb641c945,
       type: 2}
-    _volume: 1
+    _volume: 0.5
     _playOnAwake: 0
     _loop: 0
     _pitch: 1

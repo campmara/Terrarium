@@ -13,7 +13,7 @@ public class PlayerManager : SingletonBehaviour<PlayerManager>
     { 
         get 
         {
-            return Mathf.InverseLerp(0f, 78f, Mathf.Abs(Vector3.Distance(transform.position, Vector3.zero)));
+            return Mathf.InverseLerp(0f, 78f, Mathf.Abs(Vector3.Distance(_player.transform.position, Vector3.zero)));
         } 
     }
 
