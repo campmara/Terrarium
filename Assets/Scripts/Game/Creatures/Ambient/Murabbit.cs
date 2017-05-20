@@ -286,6 +286,7 @@ public class Murabbit : MonoBehaviour
 		}
 
 		Vector3 spawnerPos = data.spawner.transform.position;
+		spawnerPos.y = 0f; // just insurance
 		int numJumps = Mathf.FloorToInt((spawnerPos - transform.position).magnitude / 2f);
 		transform.LookAt(spawnerPos);
 
