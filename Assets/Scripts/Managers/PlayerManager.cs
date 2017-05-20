@@ -9,7 +9,13 @@ public class PlayerManager : SingletonBehaviour<PlayerManager>
 	[SerializeField] Player _player = null;
 	public Player Player { get { return _player; } }
 
-    public float DistanceFromPond { get { return Mathf.Abs(Vector3.Distance(transform.position, Vector3.zero)); } }
+    public float DistanceFromPond 
+    { 
+        get 
+        {
+            return Mathf.InverseLerp(0f, 78f, Mathf.Abs(Vector3.Distance(transform.position, Vector3.zero)));
+        } 
+    }
 
 	public override void Initialize ()
 	{		
