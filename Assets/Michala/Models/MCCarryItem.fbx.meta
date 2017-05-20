@@ -85,6 +85,7 @@ ModelImporter:
     400076: r_wrist
     4300000: pCube1
     7400000: MC_CarryAnim
+    7400002: Take 001
     9500000: //RootNode
     13700000: pCube1
   materials:
