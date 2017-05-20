@@ -79,11 +79,14 @@ public class Seed : Pickupable
 
 	public void TryPlanting()
 	{
-		Vector3 plantPos = new Vector3( transform.position.x, 0.0f, transform.position.z ); 
-		GameObject mound = Instantiate( _moundPrefab, plantPos, Quaternion.identity ) as GameObject; 
-		PlantManager.instance.AddMound( mound.GetComponent<BasePlant>()  );
-		GroundManager.instance.EmitDirtParticles(plantPos);
-		gameObject.SetActive(false);
+		if( _sinkTween == null )
+		{
+			Vector3 plantPos = new Vector3( transform.position.x, 0.0f, transform.position.z ); 
+			GameObject mound = Instantiate( _moundPrefab, plantPos, Quaternion.identity ) as GameObject; 
+			PlantManager.instance.AddMound( mound.GetComponent<BasePlant>()  );
+			GroundManager.instance.EmitDirtParticles(plantPos);
+			gameObject.SetActive(false);
+		}
 	}
 
 	void BeginSelfPlant()
@@ -99,6 +102,7 @@ public class Seed : Pickupable
 
 	void EndSelfPlant()
 	{
+		_sinkTween = null;
 		TryPlanting();
 		PlantManager.instance.DestroySeed( this, _moundType );
 	}
