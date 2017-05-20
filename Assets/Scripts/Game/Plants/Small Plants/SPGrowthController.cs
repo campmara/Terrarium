@@ -143,7 +143,7 @@ public class SPGrowthController : PlantController
 		}
 	}
 
-		void OnDrawGizmos() 
+	void OnDrawGizmos() 
 	{
 		Gizmos.color = Color.yellow;
 		//Gizmos.DrawCube( transform.position, new Vector3( _myPlant.InnerRadius, _myPlant.InnerRadius, _myPlant.InnerRadius));

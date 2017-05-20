@@ -477,7 +477,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _basePlantPrefab: {fileID: 1028824138140006, guid: b116cff499e3a4c14b3a2b78496f3139,
     type: 2}
-  _starterMound: 0
+  _starterMound: 1
 --- !u!114 &114731697741026298
 MonoBehaviour:
   m_ObjectHideFlags: 1
