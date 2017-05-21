@@ -14,7 +14,7 @@ public class PickupState : RollerState
 
 		_startLiftTracking = false;
 
-		_roller.Face.BecomeInterested();
+		_roller.Face.TransitionFacePose( "Pickup" );
 
 		// If Carryable the object should be parented to be moved around
 		if( !_roller.CurrentHeldObject.Carryable )
@@ -47,7 +47,8 @@ public class PickupState : RollerState
         {
             case P_ControlState.WALKING:
                 _roller.Player.AnimationController.TriggerLiftCancel();
-                HandleBothArmRelease();                
+                HandleBothArmRelease(); 
+				_roller.Face.BecomeIdle();
                 break;
 		case P_ControlState.CARRYING:
 			if( _startLiftTracking )

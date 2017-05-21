@@ -452,7 +452,7 @@ MonoBehaviour:
     MouthPose:
       LittleHappyBlendValue: 0
       LittleUpsetBlendValue: 0
-      LittleFrownBlendValue: 75
+      LittleFrownBlendValue: 20
       LittleOBlendValue: 0
       BigFrownBlendValue: 0
       SquigglySmileBlendValue: 0
@@ -460,7 +460,7 @@ MonoBehaviour:
       Despair1BlendValue: 0
       BigUpsetBlendValue: 0
       LittleSmileBlendValue: 0
-      BigSmileBlendValue: 20
+      BigSmileBlendValue: 75
       OvalOBlendValue: 0
   - PoseName: Bibi
     LeftEyePose:
