@@ -31,13 +31,13 @@ public class RollerController : ControllerBase
     [ReadOnly] private FaceManager _face = null;
     public FaceManager Face { get { return _face; } }
 
-	[ReadOnly] private GameObject _mesh = null;
+	[SerializeField] private GameObject _mesh = null;
 	public GameObject Mesh { get { return _mesh; } }
 
-	[ReadOnly] private GameObject _rig = null;
+	[SerializeField] private GameObject _rig = null;
 	public GameObject Rig { get { return _rig; } }
 
-	[ReadOnly] private GameObject _rollSphere = null;
+	[SerializeField] private GameObject _rollSphere = null;
 	public GameObject RollSphere { get { return _rollSphere; } }
 
 	[ReadOnly] private ParticleSystem _explodeParticleSystem = null;
@@ -114,12 +114,6 @@ public class RollerController : ControllerBase
 	    _ik = GetComponentInChildren(typeof(PlayerIKControl)) as PlayerIKControl;
 	    _face = GetComponentInChildren(typeof(FaceManager)) as FaceManager;
 		_explodeParticleSystem = GetComponentInChildren(typeof(ParticleSystem)) as ParticleSystem;
-
-		SkinnedMeshRenderer smr = GetComponentInChildren(typeof(SkinnedMeshRenderer)) as SkinnedMeshRenderer;
-		_mesh = smr.gameObject;
-
-		_rig = transform.GetChild(0).gameObject;
-		_rollSphere = transform.GetChild(2).gameObject;
 
         _spherifyPropertyHash = Shader.PropertyToID( SPHERIFY_SHADERPROP );
         _spherifyScalePropertyHash = Shader.PropertyToID( SPHERIFYSCALE_SHADERPROP );
@@ -427,7 +421,7 @@ public class RollerController : ControllerBase
 	{
 		_ik.SetState(PlayerIKControl.WalkState.IDLE);
 
-		_face.gameObject.SetActive(false);
+		//_face.gameObject.SetActive(false);
 		_mesh.SetActive(false);
 		_rig.SetActive(false);
 		_rollSphere.SetActive(true);
@@ -437,7 +431,7 @@ public class RollerController : ControllerBase
 
 	public void BecomeWalker()
 	{
-		_face.gameObject.SetActive(true);
+		//_face.gameObject.SetActive(true);
 		_mesh.SetActive(true);
 		_rig.SetActive(true);
 
@@ -540,7 +534,7 @@ public class RollerController : ControllerBase
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if (_currentState == _rolling)
+		if ( _controlState == P_ControlState.ROLLING )
 		{
 			SeedSlug slug = null;
 			slug = other.GetComponent(typeof(SeedSlug)) as SeedSlug;
@@ -550,5 +544,13 @@ public class RollerController : ControllerBase
 				slug = null;
 			}
 		}
+		else 
+		{
+			if( other.GetComponent<FlyingSquirrel>() )
+			{
+				_face.TransitionFacePose( "Squirrel", true );
+			}
+		}
+
 	}
 }

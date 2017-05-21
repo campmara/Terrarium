@@ -59,7 +59,7 @@ public class FaceManager : MonoBehaviour
 
 	public void BecomeIdle()
 	{
-		TransitionFacePose( _idlePose );	
+		StartFaceTransition( _idlePose );	
 	}
 
 	public void BecomeDesirous()
@@ -70,11 +70,6 @@ public class FaceManager : MonoBehaviour
 	public void BecomeHappy()
 	{
 		// On Approach Stuff	
-	}
-
-	public void Sing()
-	{
-		// Uh
 	}
 
 	#region Blink Hell
@@ -160,7 +155,7 @@ public class FaceManager : MonoBehaviour
     {
 		yield return new WaitForSeconds( _idleReturnWaitTime );
 
-		TransitionFacePose( _idlePose );
+		StartFaceTransition( _idlePose );
 
         _idleRoutine = null;
     }
@@ -169,6 +164,41 @@ public class FaceManager : MonoBehaviour
 
 	#region Face Transition Methods
 
+	public void TransitionFacePose( string poseName, bool returnToIdle = false )
+	{
+		if( _currFacePose != null )
+		{
+			StartFaceTransition( FindFacePose( poseName ) );
+
+			if( returnToIdle )
+			{
+				StartReturnIdle();
+			}	
+		}
+		else
+		{
+			// On Start make sure shit sets properly
+			_currFacePose = FindFacePose( poseName );
+			SetFacePose( FindFacePose( poseName ) );
+		}
+	}
+
+	public void DelayedTransitionFacePose( string poseName, float delayTime, bool returnToIdle = false )
+	{
+		StartCoroutine( DelayedTransitionRoutine( poseName, delayTime, returnToIdle ) );
+	}
+
+	IEnumerator DelayedTransitionRoutine( string poseName, float delayTime, bool returnToIdle )
+	{
+		yield return new WaitForSeconds( delayTime );
+
+		TransitionFacePose( poseName, returnToIdle );
+	}
+
+	/// <summary>
+	/// Sets face pose fully to mouthpose value
+	/// </summary>
+	/// <param name="mouthPose">Mouth pose.</param>
 	void SetFacePose( FacePose mouthPose )
 	{
 		SetRightEyeBlendValues( mouthPose.RightEyePose, 1.0f );
@@ -178,8 +208,14 @@ public class FaceManager : MonoBehaviour
 		_currFacePose = mouthPose;
 	}
 
-	void TransitionFacePose( FacePose newPose )
+	/// <summary>
+	/// Begins or queues up Face Pose Transition
+	/// </summary>
+	/// <param name="newPose">New pose.</param>
+	void StartFaceTransition( FacePose newPose )
 	{
+		Debug.Assert( newPose != null );
+
 		if( _facePoseRoutine != null )
 		{
 			StartCoroutine( WaitForFaceTransition( newPose ) );
@@ -191,6 +227,11 @@ public class FaceManager : MonoBehaviour
 	
 	}
 
+	/// <summary>
+	/// Waits for face transition to complete before starting new transition
+	/// </summary>
+	/// <returns>The for face transition.</returns>
+	/// <param name="newPose">New pose.</param>
 	IEnumerator WaitForFaceTransition( FacePose newPose )
 	{
 		yield return new WaitUntil( () => _facePoseRoutine == null );
@@ -293,7 +334,7 @@ public class FaceManager : MonoBehaviour
 		{
 			if (Application.isPlaying && this.enabled )
 			{
-				TransitionFacePose( MouthPoseManager.instance.FacePoseList[_facePoseIndex] );
+				StartFaceTransition( MouthPoseManager.instance.FacePoseList[_facePoseIndex] );
 			}
 			else
 			{
