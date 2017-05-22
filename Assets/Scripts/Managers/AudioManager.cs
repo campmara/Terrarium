@@ -16,6 +16,8 @@ using DG.Tweening;
 [System.Serializable]
 public class AudioController
 {
+    public string ControllerName = "";
+
 	private AudioSource _source = null;
     public AudioSource Source { get { return _source; } }
 
@@ -430,4 +432,12 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 			}
 		}
 	}
+
+    private void OnValidate()
+    {
+        for( int i = 0; i < _audioControllerList.Count; i++ )
+        {
+            _audioControllerList[i].ControllerName = ( (AudioControllerNames)i ).ToString();
+        }
+    }
 }
