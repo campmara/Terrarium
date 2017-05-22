@@ -37,6 +37,9 @@ public class PlayerAnimationController : MonoBehaviour {
     const string SIT_ANIMSTATE = "MC_Sit";
     int _sitAnimStateHash = 0;
 
+    const string SITTING_ANIMSTATE = "MC_Sitting";
+    int _sittingAnimStateHash = 0;
+
     const string SIT_BUTTONPRESS_ANIMSTATE = "Sit_ButtonPress";
     int _sitPressAnimHash = 0;
 
@@ -73,6 +76,7 @@ public class PlayerAnimationController : MonoBehaviour {
 
         _sitAnimStateHash = Animator.StringToHash( SIT_ANIMSTATE );
         _sitPressAnimHash = Animator.StringToHash( SIT_BUTTONPRESS_ANIMSTATE );
+        _sittingAnimStateHash = Animator.StringToHash( SITTING_ANIMSTATE );
         _standAnimStateHash = Animator.StringToHash( STAND_ANIMSTATE );		
     }
 	
@@ -86,6 +90,10 @@ public class PlayerAnimationController : MonoBehaviour {
         _animator.SetBool(_sittingParamHash, isSitting);
     }
 
+    public bool GetSitting()
+    {
+        return _animator.GetBool( _sittingParamHash );
+    }
     public void SetCarrying( bool isCarrying )
     {
         _animator.SetBool( _carryingParamHash, isCarrying );
@@ -115,14 +123,5 @@ public class PlayerAnimationController : MonoBehaviour {
     {
         _animator.SetTrigger( _liftCancelTriggerHash );
     }
-
-    public bool CheckCancelSitting()
-    {
-        if( !Sitting && ( _animator.GetCurrentAnimatorStateInfo(0).fullPathHash == _sitAnimStateHash && _animator.GetCurrentAnimatorStateInfo(0).fullPathHash != _standAnimStateHash ) )
-        {
-            return true;
-        }
-
-        return false;
-    }
+    
 }

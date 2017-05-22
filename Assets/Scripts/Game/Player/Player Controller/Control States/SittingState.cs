@@ -2,7 +2,7 @@
 
 public class SittingState : RollerState 
 {
-    bool _onGround = false;
+    [SerializeField, ReadOnly] bool _onGround = false;
     public bool OnGround { get { return _onGround; } set { _onGround = false; } }
 
     public override void Enter (P_ControlState prevState)
@@ -45,14 +45,14 @@ public class SittingState : RollerState
             _roller.Player.PlayerSingController.StopSinging();
         }
         else if ( !input.YButton.IsPressed && ( input.ActiveDevice.AnyButtonIsPressed || vec.magnitude >= 0.75f ) )
-        {
+        {            
             // TRIGGER SITTING OFF.
-            _roller.Player.AnimationController.SetSitting( false );
+            _roller.Player.AnimationController.SetSitting( false );            
 
-            AudioManager.instance.StopController( AudioManager.AudioControllerNames.PLAYER_TRANSITIONFX );
-
-            if (!_onGround)
+            if ( !_onGround )
             {
+                AudioManager.instance.StopController( AudioManager.AudioControllerNames.PLAYER_TRANSITIONFX );
+
                 OnStandingUpComplete();
             }
         }
@@ -65,15 +65,14 @@ public class SittingState : RollerState
 
     public void SetOnGround( int onGround )
     {
-        if( onGround == 0 )
+        if ( onGround == 0 )
         {
             _onGround = false;
         }
         else
         {
             _onGround = true;
-        }
-        
+        }      
     }
 
     public void PlaySitAudio()
