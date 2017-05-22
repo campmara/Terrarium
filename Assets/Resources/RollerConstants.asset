@@ -25,7 +25,7 @@ MonoBehaviour:
   WalkTurnAngleMin: 0.5
   WalkTurnAngleMax: 60
   BreathSpeed: 0.35
-  BreathSpherizeScale: 0.9
+  BreathSpherizeScale: 0.35
   BreathSpherizeCurve:
     serializedVersion: 2
     m_Curve:
@@ -36,10 +36,10 @@ MonoBehaviour:
       outSlope: -0.008413974
       tangentMode: 0
     - serializedVersion: 2
-      time: 1.0015259
-      value: 0.075
-      inSlope: -0.066878475
-      outSlope: -0.066878475
+      time: 0.99316406
+      value: 0.018748477
+      inSlope: -0.032172028
+      outSlope: -0.032172028
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 0

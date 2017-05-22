@@ -30,19 +30,289 @@ MonoBehaviour:
       SadBlendValue: 0
       HappyBlendValue: 0
     MouthPose:
-      OMouthBlendValue: 0
-      BigUpsetBlendValue: 0
-      BigFrownBlendValue: 0
-      LittleSmileBlendValue: 0
-      BigHappyBlendValue: 0
-      OvalOBlendValue: 0
-      BigMoodBlendValue: 0
-      LittleUpsetBlendValue: 0
-      LittleOBlendValue: 0
-      SquigglyBlendValue: 0
-      LittleFrownBlendValue: 0
       LittleHappyBlendValue: 0
-  - PoseName: Idle
+      LittleUpsetBlendValue: 0
+      LittleFrownBlendValue: 25
+      LittleOBlendValue: 0
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 0
+      BigUpsetBlendValue: 50
+      LittleSmileBlendValue: 40
+      BigSmileBlendValue: 40
+      OvalOBlendValue: 0
+  - PoseName: Blink
+    LeftEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 100
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    RightEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 100
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    MouthPose:
+      LittleHappyBlendValue: 65
+      LittleUpsetBlendValue: 0
+      LittleFrownBlendValue: 0
+      LittleOBlendValue: 0
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 0
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 0
+      BigSmileBlendValue: 80
+      OvalOBlendValue: 0
+  - PoseName: Plant Death
+    LeftEyePose:
+      DespairBlendValue: 60
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 5
+      HappyBlendValue: 0
+    RightEyePose:
+      DespairBlendValue: 60
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 5
+      HappyBlendValue: 0
+    MouthPose:
+      LittleHappyBlendValue: 0
+      LittleUpsetBlendValue: 0
+      LittleFrownBlendValue: 75
+      LittleOBlendValue: 0
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 0
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 0
+      BigSmileBlendValue: 20
+      OvalOBlendValue: 0
+  - PoseName: Pop
+    LeftEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 75
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    RightEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 75
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    MouthPose:
+      LittleHappyBlendValue: 0
+      LittleUpsetBlendValue: 0
+      LittleFrownBlendValue: 0
+      LittleOBlendValue: 100
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 0
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 0
+      BigSmileBlendValue: 0
+      OvalOBlendValue: 0
+  - PoseName: Rebirth
+    LeftEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 80
+    RightEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 80
+    MouthPose:
+      LittleHappyBlendValue: 0
+      LittleUpsetBlendValue: 0
+      LittleFrownBlendValue: 0
+      LittleOBlendValue: 60
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 0
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 0
+      BigSmileBlendValue: 0
+      OvalOBlendValue: 75
+  - PoseName: Sitting
+    LeftEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 10
+      ClosedBlendValue: 50
+      SadBlendValue: 50
+      HappyBlendValue: 0
+    RightEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 10
+      ClosedBlendValue: 50
+      SadBlendValue: 50
+      HappyBlendValue: 0
+    MouthPose:
+      LittleHappyBlendValue: 75
+      LittleUpsetBlendValue: 0
+      LittleFrownBlendValue: 0
+      LittleOBlendValue: 0
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 0
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 25
+      BigSmileBlendValue: 0
+      OvalOBlendValue: 0
+  - PoseName: Squirrel
+    LeftEyePose:
+      DespairBlendValue: 75
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    RightEyePose:
+      DespairBlendValue: 75
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    MouthPose:
+      LittleHappyBlendValue: 0
+      LittleUpsetBlendValue: 0
+      LittleFrownBlendValue: 0
+      LittleOBlendValue: 0
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 100
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 0
+      BigSmileBlendValue: 0
+      OvalOBlendValue: 0
+  - PoseName: Singing
+    LeftEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 90
+    RightEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 90
+    MouthPose:
+      LittleHappyBlendValue: 0
+      LittleUpsetBlendValue: 0
+      LittleFrownBlendValue: 0
+      LittleOBlendValue: 50
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 0
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 0
+      BigSmileBlendValue: 0
+      OvalOBlendValue: 50
+  - PoseName: Arms Up
+    LeftEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 100
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    RightEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 100
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    MouthPose:
+      LittleHappyBlendValue: 0
+      LittleUpsetBlendValue: 0
+      LittleFrownBlendValue: 0
+      LittleOBlendValue: 0
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 0
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 95
+      BigSmileBlendValue: 0
+      OvalOBlendValue: 0
+  - PoseName: Pickup
+    LeftEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 100
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 90
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    RightEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 100
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 90
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    MouthPose:
+      LittleHappyBlendValue: 0
+      LittleUpsetBlendValue: 95
+      LittleFrownBlendValue: 0
+      LittleOBlendValue: 0
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 0
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 0
+      BigSmileBlendValue: 0
+      OvalOBlendValue: 0
+  - PoseName: Carry
     LeftEyePose:
       DespairBlendValue: 0
       WideBlendValue: 0
@@ -60,22 +330,22 @@ MonoBehaviour:
       SadBlendValue: 0
       HappyBlendValue: 0
     MouthPose:
-      OMouthBlendValue: 100
-      BigUpsetBlendValue: 0
-      BigFrownBlendValue: 0
-      LittleSmileBlendValue: 0
-      BigHappyBlendValue: 0
-      OvalOBlendValue: 0
-      BigMoodBlendValue: 0
+      LittleHappyBlendValue: 95
       LittleUpsetBlendValue: 0
-      LittleOBlendValue: 0
-      SquigglyBlendValue: 0
       LittleFrownBlendValue: 0
-      LittleHappyBlendValue: 0
-  - PoseName: Idle
+      LittleOBlendValue: 0
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 0
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 0
+      BigSmileBlendValue: 0
+      OvalOBlendValue: 0
+  - PoseName: Seed Falls
     LeftEyePose:
       DespairBlendValue: 0
-      WideBlendValue: 0
+      WideBlendValue: 100
       AngryBlendValue: 0
       HalfOpenBlendValue: 0
       ClosedBlendValue: 0
@@ -83,6 +353,66 @@ MonoBehaviour:
       HappyBlendValue: 0
     RightEyePose:
       DespairBlendValue: 0
+      WideBlendValue: 100
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    MouthPose:
+      LittleHappyBlendValue: 0
+      LittleUpsetBlendValue: 0
+      LittleFrownBlendValue: 0
+      LittleOBlendValue: 100
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 0
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 15
+      BigSmileBlendValue: 0
+      OvalOBlendValue: 0
+  - PoseName: Plant Seed
+    LeftEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 100
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    RightEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 100
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    MouthPose:
+      LittleHappyBlendValue: 85
+      LittleUpsetBlendValue: 0
+      LittleFrownBlendValue: 0
+      LittleOBlendValue: 0
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 0
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 0
+      BigSmileBlendValue: 0
+      OvalOBlendValue: 0
+  - PoseName: Walk Too Far
+    LeftEyePose:
+      DespairBlendValue: 100
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    RightEyePose:
+      DespairBlendValue: 100
       WideBlendValue: 0
       AngryBlendValue: 0
       HalfOpenBlendValue: 0
@@ -90,18 +420,288 @@ MonoBehaviour:
       SadBlendValue: 0
       HappyBlendValue: 0
     MouthPose:
-      OMouthBlendValue: 0
-      BigUpsetBlendValue: 0
-      BigFrownBlendValue: 0
-      LittleSmileBlendValue: 0
-      BigHappyBlendValue: 0
-      OvalOBlendValue: 0
-      BigMoodBlendValue: 0
-      LittleUpsetBlendValue: 0
-      LittleOBlendValue: 0
-      SquigglyBlendValue: 0
-      LittleFrownBlendValue: 0
       LittleHappyBlendValue: 0
+      LittleUpsetBlendValue: 90
+      LittleFrownBlendValue: 0
+      LittleOBlendValue: 0
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 0
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 0
+      BigSmileBlendValue: 0
+      OvalOBlendValue: 0
+  - PoseName: Hug Tree
+    LeftEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 10
+      ClosedBlendValue: 50
+      SadBlendValue: 50
+      HappyBlendValue: 0
+    RightEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 10
+      ClosedBlendValue: 50
+      SadBlendValue: 50
+      HappyBlendValue: 0
+    MouthPose:
+      LittleHappyBlendValue: 0
+      LittleUpsetBlendValue: 0
+      LittleFrownBlendValue: 20
+      LittleOBlendValue: 0
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 0
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 0
+      BigSmileBlendValue: 75
+      OvalOBlendValue: 0
+  - PoseName: Bibi
+    LeftEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 100
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    RightEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 100
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    MouthPose:
+      LittleHappyBlendValue: 0
+      LittleUpsetBlendValue: 0
+      LittleFrownBlendValue: 0
+      LittleOBlendValue: 0
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 0
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 0
+      BigSmileBlendValue: 70
+      OvalOBlendValue: 100
+  - PoseName: Rolling
+    LeftEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 50
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    RightEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 50
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    MouthPose:
+      LittleHappyBlendValue: 0
+      LittleUpsetBlendValue: 0
+      LittleFrownBlendValue: 0
+      LittleOBlendValue: 50
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 0
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 0
+      BigSmileBlendValue: 0
+      OvalOBlendValue: 100
+  - PoseName: Rolling Crash
+    LeftEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 100
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    RightEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 100
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    MouthPose:
+      LittleHappyBlendValue: 0
+      LittleUpsetBlendValue: 0
+      LittleFrownBlendValue: 0
+      LittleOBlendValue: 0
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 0
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 0
+      BigSmileBlendValue: 0
+      OvalOBlendValue: 100
+  - PoseName: Crash Rebirth
+    LeftEyePose:
+      DespairBlendValue: 50
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    RightEyePose:
+      DespairBlendValue: 50
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    MouthPose:
+      LittleHappyBlendValue: 0
+      LittleUpsetBlendValue: 0
+      LittleFrownBlendValue: 0
+      LittleOBlendValue: 0
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 100
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 0
+      BigSmileBlendValue: 0
+      OvalOBlendValue: 0
+  - PoseName: Sleep
+    LeftEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 100
+      ClosedBlendValue: 50
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    RightEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 100
+      ClosedBlendValue: 50
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    MouthPose:
+      LittleHappyBlendValue: 0
+      LittleUpsetBlendValue: 0
+      LittleFrownBlendValue: 0
+      LittleOBlendValue: 100
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 0
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 0
+      BigSmileBlendValue: 0
+      OvalOBlendValue: 0
+  - PoseName: Butterflies
+    LeftEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 25
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    RightEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 25
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    MouthPose:
+      LittleHappyBlendValue: 0
+      LittleUpsetBlendValue: 0
+      LittleFrownBlendValue: 0
+      LittleOBlendValue: 0
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 0
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 50
+      BigSmileBlendValue: 40
+      OvalOBlendValue: 0
+  - PoseName: Rabbits
+    LeftEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 25
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    RightEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 25
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    MouthPose:
+      LittleHappyBlendValue: 75
+      LittleUpsetBlendValue: 0
+      LittleFrownBlendValue: 0
+      LittleOBlendValue: 0
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 0
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 0
+      BigSmileBlendValue: 20
+      OvalOBlendValue: 0
+  - PoseName: Bunny Sit
+    LeftEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 25
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    RightEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 25
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    MouthPose:
+      LittleHappyBlendValue: 0
+      LittleUpsetBlendValue: 0
+      LittleFrownBlendValue: 0
+      LittleOBlendValue: 0
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 0
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 50
+      BigSmileBlendValue: 40
+      OvalOBlendValue: 0
   StartMouthPoseIndex: 0
   MouthPoseTransitionTime: 0.15
   MouthTransitionAnimCurve:

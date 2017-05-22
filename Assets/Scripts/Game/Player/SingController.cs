@@ -60,7 +60,6 @@ public class SingController : MonoBehaviour {
             //_singPitch = Mathf.Lerp( _singPitch, desiredPitch, RollerConstants.instance.PitchLerpSpeed * Time.deltaTime );
 
             AudioManager.instance.PlaySing(_currentSingClip, Random.Range(0.25f, 2f));
-            _face.Sing();
         }
         else if ( _state == SingState.STOPPING )
         {
@@ -80,6 +79,8 @@ public class SingController : MonoBehaviour {
         if( _state != SingState.SINGING )
         {
             _state = SingState.SINGING;
+
+			_face.TransitionFacePose( "Singing" );
 
             CastSingSphere();
         }        
@@ -113,7 +114,13 @@ public class SingController : MonoBehaviour {
                 if (singable != null)
                 {
                     singable.OnAffectedBySinging();
-                    singable = null;
+                    
+					if( singable.GetComponent<Bibi>() )
+					{						
+						_face.TransitionFacePose( "Bibi", true );
+					}
+
+					singable = null;
                 }
             }
         }

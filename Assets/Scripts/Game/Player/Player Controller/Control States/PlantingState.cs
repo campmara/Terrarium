@@ -9,7 +9,7 @@ public class PlantingState : RollerState
     {
         Debug.Log( "ENTER PLANTING STATE" );
 
-		_roller.Face.BecomeFeisty();
+		_roller.Face.TransitionFacePose( "Plant Seed" );
 
         // Handle transition
         switch ( prevState )
@@ -29,17 +29,13 @@ public class PlantingState : RollerState
         {
             case P_ControlState.CARRYING:
                 // Bring Seed back into hands
-                _plantTween.Restart();
+                _plantTween.Restart();				
                 break;
             case P_ControlState.WALKING:
-                if( _plantTween == null || !_plantTween.IsComplete() )
-                {
-                    HandleBothArmRelease();
-                }                
+                HandleBothArmRelease();
+				_roller.Face.BecomeIdle();                                
                 break;
-        }
-
-		_roller.Face.BecomeIdle();
+        }			
 
         if (_plantTween != null)
         {

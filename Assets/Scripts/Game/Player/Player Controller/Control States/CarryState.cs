@@ -14,8 +14,6 @@ public class CarryState : RollerState
 	{
 		Debug.Log("ENTER CARRY STATE");
 
-		_roller.Face.BecomeEncumbered();
-
 		switch( prevState )
 		{
 		    case P_ControlState.PICKINGUP:
@@ -26,6 +24,15 @@ public class CarryState : RollerState
      	_currHugState = 0.0f;
 
         _bigPlantPickupable = RollerParent.CurrentHeldObject.GetComponent<BigPlantPickupable>();
+
+		if( _bigPlantPickupable != null )
+		{
+			_roller.Face.TransitionFacePose( "Hug Tree" );
+		}
+		else
+		{
+			_roller.Face.TransitionFacePose( "Carry" );
+		}
 
     }
 
@@ -40,6 +47,8 @@ public class CarryState : RollerState
         {
             _bigPlantPickupable = null;
             _roller.StopPlayer();
+
+			_roller.Face.BecomeIdle();
         }
 
         switch ( nextState )

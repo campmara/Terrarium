@@ -48,7 +48,7 @@ public class SingState : RollerState
 	    if (input.YButton.IsPressed)
 	    {
 	        //AudioManager.instance.PlaySing(0f);
-			_roller.Face.Sing();
+
 	        _waitToReturnTimer = 0f;
 	    }
 		else

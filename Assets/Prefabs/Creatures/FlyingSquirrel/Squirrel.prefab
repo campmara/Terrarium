@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4177630451073718}
   - component: {fileID: 114852080688688760}
+  - component: {fileID: 135479735350010900}
   m_Layer: 0
   m_Name: Squirrel
   m_TagString: Untagged
@@ -168,6 +169,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _flyWaitRange: {x: 240, y: 480}
+--- !u!135 &135479735350010900
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1160547927824150}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 15
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!198 &198782690761818174
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -223,7 +236,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 307259102
+  randomSeed: -1726805203
   InitialModule:
     serializedVersion: 3
     enabled: 1
