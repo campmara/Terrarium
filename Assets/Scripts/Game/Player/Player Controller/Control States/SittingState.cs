@@ -49,6 +49,8 @@ public class SittingState : RollerState
             // TRIGGER SITTING OFF.
             _roller.Player.AnimationController.SetSitting( false );
 
+            AudioManager.instance.StopController( AudioManager.AudioControllerNames.PLAYER_TRANSITIONFX );
+
             if (!_onGround)
             {
                 OnStandingUpComplete();
@@ -72,5 +74,20 @@ public class SittingState : RollerState
             _onGround = true;
         }
         
+    }
+
+    public void PlaySitAudio()
+    {
+        AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_TRANSITIONFX, 4 );
+    }
+
+    public void StopSitAudio()
+    {
+        AudioManager.instance.StopController( AudioManager.AudioControllerNames.PLAYER_TRANSITIONFX );
+    }
+
+    public void PlayStandAudio()
+    {
+        AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_TRANSITIONFX, 3 );
     }
 }

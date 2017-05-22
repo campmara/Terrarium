@@ -40,6 +40,17 @@ public class Murabbit : MonoBehaviour
 	private float idleTimer = 0f;
 	private float idleTime = 0f;
 
+    AudioSource _source = null;
+    [SerializeField]
+    List<AudioClip> _hopClipList = new List<AudioClip>();
+    [SerializeField]
+    List<AudioClip> _landClipList = new List<AudioClip>();
+
+    void Awake()
+    {
+        _source = this.GetComponent<AudioSource>();
+    }
+
 	public void Setup(MurabbitData data)
 	{
 		this.data = data;
@@ -74,6 +85,11 @@ public class Murabbit : MonoBehaviour
 
 	private void SetState(State next)
 	{
+        if( state == State.HOP || state == State.FOLLOW_HOP || state == State.ESCAPE_HOP )
+        {
+            PlayLandSound();
+        }
+
 		state = next;
 
 		switch (next)
@@ -156,6 +172,8 @@ public class Murabbit : MonoBehaviour
 
 		hopTween = transform.DOJump(jumpPos, Random.Range(0.5f, 1.25f), 1, HOP_DURATION)
 			.OnComplete(() => SetState(State.IDLE));
+
+        PlayHopSound();
 	}
 
 	/*
@@ -184,7 +202,9 @@ public class Murabbit : MonoBehaviour
 
 		escapeTween = transform.DOJump(jumpPos, Random.Range(0.5f, 1.25f), 1, HOP_DURATION)
 			.OnComplete(() => SetState(State.ESCAPE_CHECK));
-	}
+
+        PlayHopSound();
+    }
 
 	private bool CheckForEscape()
 	{
@@ -230,7 +250,9 @@ public class Murabbit : MonoBehaviour
 
 		followTween = transform.DOJump(jumpPos, Random.Range(0.5f, 1.25f), 1, HOP_DURATION)
 			.OnComplete(() => SetState(State.FOLLOW_CHECK));
-	}
+
+        PlayHopSound();
+    }
 
 	private bool CheckForFollow()
 	{
@@ -293,8 +315,22 @@ public class Murabbit : MonoBehaviour
 		burrowTween = transform.DOJump(spawnerPos, Random.Range(0.5f, 1.25f), numJumps, HOP_DURATION * (float)numJumps)
 			.OnComplete(() => data.spawner.OnRabbitReturn(this));
 
-		yield return burrowTween.WaitForCompletion();
+        PlayHopSound();
+
+        yield return burrowTween.WaitForCompletion();
 
 		burrowTween = null;
 	}
+
+    void PlayHopSound()
+    {
+        _source.clip = _hopClipList[Random.Range( 0, _hopClipList.Count)];
+        _source.Play();
+    }
+
+    void PlayLandSound()
+    {
+        _source.clip = _landClipList[Random.Range( 0, _landClipList.Count )];
+        _source.Play();
+    }
 }
