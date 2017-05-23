@@ -10,6 +10,9 @@ public class WalkingState : RollerState
 
     Coroutine _reachCoroutine = null;
 
+    float _armUpTimer = 0.0f;
+    bool _armUpFacePosed = false;
+
     public override void Enter( P_ControlState prevState )
 	{
 		Debug.Log("ENTER WALKING STATE");
@@ -20,12 +23,14 @@ public class WalkingState : RollerState
         case P_ControlState.ROLLING:            
                 CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
                 //PlayerManager.instance.Player.AnimationController.PlayRollToWalkAnim();
-                _rollPosTween = _roller.RollSphere.transform.DOMoveY( 1.5f, RollerConstants.instance.RollExitSpeed ).SetEase( Ease.OutCubic ).OnComplete(TransitionFromRollComplete);
+                _rollPosTween = _roller.RollSphere.transform.DOMoveY( 1.25f, RollerConstants.instance.RollExitSpeed ).SetEase( Ease.Linear ).OnComplete(TransitionFromRollComplete);
                 _rollSpherifyTween = DOTween.To( () => _roller.Spherify, x => _roller.Spherify = x, 0.0f, RollerConstants.instance.RollExitSpeed ).SetEase( Ease.OutCubic );
-                break;
+                break;       
         }
 
-        _idleTimer = 0f;        
+        _idleTimer = 0f;
+        _armUpTimer = 0.0f;
+        _armUpFacePosed = false;
         //PlayerManager.instance.Player.AnimationController.PlayWalkAnim();
     }
 
@@ -132,6 +137,22 @@ public class WalkingState : RollerState
 
             // Update how far the arms are reaching
             _roller.UpdateArmReachIK( input.LeftTrigger.Value, input.RightTrigger.Value );
+
+            if( _roller.GetArmInterpTotal() >= 1.0f )
+            {
+                _armUpTimer += Time.deltaTime;
+
+                if( _armUpTimer >= 3.0f && !_armUpFacePosed )
+                {
+                    _armUpFacePosed = true;
+                    _roller.Face.TransitionFacePose( "Arms Up", true );
+                }
+            }
+            else
+            {
+                _armUpFacePosed = false;
+                _armUpTimer = 0.0f;
+            }
 
             // B BUTTON
             if (input.BButton.IsPressed)

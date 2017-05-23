@@ -452,7 +452,7 @@ MonoBehaviour:
     MouthPose:
       LittleHappyBlendValue: 0
       LittleUpsetBlendValue: 0
-      LittleFrownBlendValue: 75
+      LittleFrownBlendValue: 20
       LittleOBlendValue: 0
       BigFrownBlendValue: 0
       SquigglySmileBlendValue: 0
@@ -460,7 +460,7 @@ MonoBehaviour:
       Despair1BlendValue: 0
       BigUpsetBlendValue: 0
       LittleSmileBlendValue: 0
-      BigSmileBlendValue: 20
+      BigSmileBlendValue: 75
       OvalOBlendValue: 0
   - PoseName: Bibi
     LeftEyePose:
@@ -701,6 +701,36 @@ MonoBehaviour:
       BigUpsetBlendValue: 0
       LittleSmileBlendValue: 50
       BigSmileBlendValue: 40
+      OvalOBlendValue: 0
+  - PoseName: Wake Up
+    LeftEyePose:
+      DespairBlendValue: 50
+      WideBlendValue: 100
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 25
+      ClosedBlendValue: 0
+      SadBlendValue: 10
+      HappyBlendValue: 25
+    RightEyePose:
+      DespairBlendValue: 50
+      WideBlendValue: 25
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 50
+      ClosedBlendValue: 0
+      SadBlendValue: 10
+      HappyBlendValue: 25
+    MouthPose:
+      LittleHappyBlendValue: 0
+      LittleUpsetBlendValue: 0
+      LittleFrownBlendValue: 0
+      LittleOBlendValue: 100
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 0
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 0
+      BigSmileBlendValue: 0
       OvalOBlendValue: 0
   StartMouthPoseIndex: 0
   MouthPoseTransitionTime: 0.15

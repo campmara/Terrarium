@@ -26,6 +26,8 @@ public class PlantAudioController : MonoBehaviour {
     [SerializeField] AudioClip[] _shakeAudioClipArray;
     const float SHAKE_AUDIOSCALAR = 1.0f;
 
+    [SerializeField] AudioClip _plantFadeClip = null;
+
     // Use this for initialization
     void Awake ()
     {
@@ -41,7 +43,7 @@ public class PlantAudioController : MonoBehaviour {
         {
             if (_plantAudioState == PlantAudioState.GROWING )
             {
-                _source.volume = _growthSoundCurve.Evaluate( _growthController.CurPercentAnimated * 0.45f );
+                _source.volume = _growthSoundCurve.Evaluate( _growthController.CurPercentAnimated );
 
                 if ( _basePlant.ActiveController.ControlType != PlantController.ControllerType.Growth || _growthController.CurPercentAnimated >= 1.0f)
                 {
@@ -76,5 +78,10 @@ public class PlantAudioController : MonoBehaviour {
     public void PlayPlantShakeSound()
     {
         _source.PlayOneShot( _shakeAudioClipArray[Random.Range( 0, _shakeAudioClipArray.Length - 1)], SHAKE_AUDIOSCALAR );
+    }
+
+    public void PlayDeathSound()
+    {
+        _source.PlayOneShot( _plantFadeClip, 0.5f );
     }
 }

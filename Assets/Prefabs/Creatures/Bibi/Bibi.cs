@@ -27,6 +27,13 @@ public class Bibi : Singable
 	private SpriteRenderer face;
 	private Rigidbody _rigidbody;
 
+    [Header("Bibi Audio"), Space(5), SerializeField]
+    AudioSource _bibiHumSource = null;
+    [SerializeField]
+    AudioSource _bibiPopSource = null;
+    [SerializeField]
+    AudioClip[] _bibiPopClipArray;
+
     private enum BibiState
 	{
 		BURROWING,
@@ -242,14 +249,14 @@ public class Bibi : Singable
 		face.sprite = madFace;
 
 		// Start the bibi sound
-		bibiAudioSource.Play();
+        PlayBibiHum();
 	}
 	private void OnExitEscaping()
 	{
 		desiredLocation = Vector3.zero;
 
-		// Stop the bibi sound.
-		bibiAudioSource.Stop();
+		// Stop the bibi sound.		
+        StopBibiHum();
 	}
 
 	private void OnEnterSleeping()
@@ -317,4 +324,23 @@ public class Bibi : Singable
 			sleepTimer = 0f;
 		}
 	}
+
+    void PlayBibiHum()
+    {
+        _bibiHumSource.Play();
+        bibiAudioSource.Play();
+    }
+
+    void StopBibiHum()
+    {
+        _bibiHumSource.Stop();
+        bibiAudioSource.Stop();
+    }
+
+    // TODO: need a callback for sleep bubble dying
+    void PlayBubblePop()
+    {
+        _bibiPopSource.clip = _bibiPopClipArray[Random.Range( 0, _bibiPopClipArray.Length )];
+        _bibiPopSource.Play(); 
+    }
 }

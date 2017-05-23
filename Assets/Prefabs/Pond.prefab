@@ -369,26 +369,14 @@ MonoBehaviour:
     - serializedVersion: 2
       time: 0
       value: 1
-      inSlope: -3.2213085
-      outSlope: -3.2213085
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 0.036808558
-      value: 0.5561433
-      inSlope: -7.3832273
-      outSlope: -7.3832273
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 0.18036108
-      value: 0.054157153
-      inSlope: -0.32316172
-      outSlope: -0.32316172
+      inSlope: -0.599068
+      outSlope: -0.599068
       tangentMode: 0
     - serializedVersion: 2
       time: 1
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: -0.7795183
+      outSlope: -0.7795183
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

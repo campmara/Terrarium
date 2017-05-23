@@ -31,14 +31,20 @@ public class RollerController : ControllerBase
     [ReadOnly] private FaceManager _face = null;
     public FaceManager Face { get { return _face; } }
 
-	[ReadOnly] private GameObject _mesh = null;
+	[SerializeField] private GameObject _mesh = null;
 	public GameObject Mesh { get { return _mesh; } }
 
-	[ReadOnly] private GameObject _rig = null;
+	[SerializeField] private GameObject _rig = null;
 	public GameObject Rig { get { return _rig; } }
 
-	[ReadOnly] private GameObject _rollSphere = null;
+	[SerializeField] private GameObject _rollSphere = null;
 	public GameObject RollSphere { get { return _rollSphere; } }
+
+	[SerializeField] private Material _splatMat = null;
+	public Material SplatMat { get { return _splatMat; } }
+
+	[SerializeField] private Material _splatTrailMat = null;
+	public Material SplatTrailMat { get { return _splatTrailMat; } }
 
 	[ReadOnly] private ParticleSystem _explodeParticleSystem = null;
 	public ParticleSystem ExplodeParticleSystem { get { return _explodeParticleSystem; } }
@@ -114,12 +120,6 @@ public class RollerController : ControllerBase
 	    _ik = GetComponentInChildren(typeof(PlayerIKControl)) as PlayerIKControl;
 	    _face = GetComponentInChildren(typeof(FaceManager)) as FaceManager;
 		_explodeParticleSystem = GetComponentInChildren(typeof(ParticleSystem)) as ParticleSystem;
-
-		SkinnedMeshRenderer smr = GetComponentInChildren(typeof(SkinnedMeshRenderer)) as SkinnedMeshRenderer;
-		_mesh = smr.gameObject;
-
-		_rig = transform.GetChild(0).gameObject;
-		_rollSphere = transform.GetChild(2).gameObject;
 
         _spherifyPropertyHash = Shader.PropertyToID( SPHERIFY_SHADERPROP );
         _spherifyScalePropertyHash = Shader.PropertyToID( SPHERIFYSCALE_SHADERPROP );
@@ -425,9 +425,11 @@ public class RollerController : ControllerBase
 
 	public void BecomeBall()
 	{
+        Debug.Log( "Become Ball" );
+
 		_ik.SetState(PlayerIKControl.WalkState.IDLE);
 
-		_face.gameObject.SetActive(false);
+		//_face.gameObject.SetActive(false);
 		_mesh.SetActive(false);
 		_rig.SetActive(false);
 		_rollSphere.SetActive(true);
@@ -437,7 +439,9 @@ public class RollerController : ControllerBase
 
 	public void BecomeWalker()
 	{
-		_face.gameObject.SetActive(true);
+        Debug.Log( "Become Walker" );
+
+		//_face.gameObject.SetActive(true);
 		_mesh.SetActive(true);
 		_rig.SetActive(true);
 
@@ -520,7 +524,13 @@ public class RollerController : ControllerBase
 		HandlePondReturn();
 	}
 
-	public bool CollidedWithObject { get { return _collidedWithObject; } set { _collidedWithObject = value; } }
+    public float GetArmInterpTotal()
+    {
+        return _ik.RightArm.ArmReachInterp + _ik.LeftArm.ArmReachInterp;
+    }
+
+
+    public bool CollidedWithObject { get { return _collidedWithObject; } set { _collidedWithObject = value; } }
 	private bool _collidedWithObject = false;
 	private void OnCollisionEnter(Collision other)
 	{
@@ -532,15 +542,15 @@ public class RollerController : ControllerBase
                 && other.gameObject.layer != LayerMask.NameToLayer( "PlayerBodyParts" ) 
                 && other.gameObject.layer != LayerMask.NameToLayer( "PlayerHand" ))
 			{
-				//CameraManager.instance.ScreenShake(0.25f, 0.25f, 10);
-				MakeDroopyExplode();
+                //CameraManager.instance.ScreenShake(0.25f, 0.25f, 10);                
+                MakeDroopyExplode();
 			}
 		}
 	}
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if (_currentState == _rolling)
+		if ( _controlState == P_ControlState.ROLLING )
 		{
 			SeedSlug slug = null;
 			slug = other.GetComponent(typeof(SeedSlug)) as SeedSlug;
@@ -550,5 +560,13 @@ public class RollerController : ControllerBase
 				slug = null;
 			}
 		}
+		else 
+		{
+			if( other.GetComponent<FlyingSquirrel>() )
+			{
+				_face.TransitionFacePose( "Squirrel", true );
+			}
+		}
+
 	}
 }

@@ -525,6 +525,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _carryable: 0
   _grabbed: 0
+  _grabberBurdenInterp: 0
 --- !u!114 &114174503958260724
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -543,6 +544,7 @@ MonoBehaviour:
   - {x: 1, y: 1}
   - {x: 1, y: 1.5}
   _wateredGrowthRate: 0.03
+  _curPercentAnimated: 0
   _curStage: 0
   _droppingItems:
   - {fileID: 1356359172527236, guid: bbfef1f81afcefc438cf9d537e7f0931, type: 2}
@@ -592,6 +594,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 521dc9a54c0d449c8957f001306efbd9, type: 3}
   - {fileID: 8300000, guid: 981c8508342064235b092b2571910adb, type: 3}
   - {fileID: 8300000, guid: e3fdcbb0f1d0a47d8b08a3a2835111a6, type: 3}
+  _plantFadeClip: {fileID: 8300000, guid: dac7742a3e29d4eab8870fc908406202, type: 3}
 --- !u!114 &114261372939883760
 MonoBehaviour:
   m_ObjectHideFlags: 1
