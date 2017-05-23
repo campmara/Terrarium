@@ -84,7 +84,7 @@ public class AudioController
 		if( !_source.isPlaying )
 		{
 			// Just get some randomness to all sounds.
-			_source.pitch = UnityEngine.Random.Range(_source.pitch - 0.1f, _source.pitch + 0.1f);
+			_source.pitch = UnityEngine.Random.Range(0.8f, 1.2f);
 			
 			_source.Play();	
 		}

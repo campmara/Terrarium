@@ -5,6 +5,9 @@ public class SittingState : RollerState
     [SerializeField, ReadOnly] bool _onGround = false;
     public bool OnGround { get { return _onGround; } set { _onGround = false; } }
 
+    [SerializeField, ReadOnly]float _sleepTimer = 0.0f;
+    bool _asleep = false;
+
     public override void Enter (P_ControlState prevState)
 	{
 		Debug.Log("ENTER SIT STATE");
@@ -13,7 +16,9 @@ public class SittingState : RollerState
 		_roller.IK.DisableIK();
 		_roller.Player.AnimationController.SetSitting(true);
 
-		CameraManager.instance.ChangeCameraState( CameraManager.CameraState.SITTING );
+        _asleep = false;
+
+        CameraManager.instance.ChangeCameraState( CameraManager.CameraState.SITTING );
 	}
 
 	public override void Exit (P_ControlState nextState)
@@ -22,6 +27,7 @@ public class SittingState : RollerState
 
 		_roller.IK.EnableIK();
 
+        _asleep = false;
         _onGround = false;
 
         CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
@@ -29,6 +35,14 @@ public class SittingState : RollerState
 
     public override void HandleInput( InputCollection input )
     {
+        _sleepTimer += Time.deltaTime;
+
+        if( !_asleep && _sleepTimer > RollerConstants.instance.SitSleepWaitTime )
+        {
+            _asleep = true;
+            _roller.Face.TransitionFacePose( "Sleep" );
+        }
+
         _roller.BreathTimer += Time.deltaTime * RollerConstants.instance.BreathSpeed;
         
         _roller.Spherify = RollerConstants.instance.BreathSpherizeCurve.Evaluate( _roller.BreathTimer );
@@ -57,11 +71,23 @@ public class SittingState : RollerState
 
                 OnStandingUpComplete();
             }
+            else
+            {
+                if ( _asleep )
+                {
+                    _asleep = false;
+                    _roller.Face.TransitionFacePose( "Wake Up", true, 1.0f );
+                }
+                else
+                {
+                    _roller.Face.BecomeIdle();                    
+                }
+            }
         }
     }
 
 	public void OnStandingUpComplete()
-	{        
+	{       
         _roller.ChangeState(P_ControlState.WALKING);
 	}
 
@@ -74,6 +100,7 @@ public class SittingState : RollerState
         else
         {
             _onGround = true;
+            _roller.Face.TransitionFacePose( "Sitting" );
         }
     }
 

@@ -518,7 +518,13 @@ public class RollerController : ControllerBase
 		HandlePondReturn();
 	}
 
-	public bool CollidedWithObject { get { return _collidedWithObject; } set { _collidedWithObject = value; } }
+    public float GetArmInterpTotal()
+    {
+        return _ik.RightArm.ArmReachInterp + _ik.LeftArm.ArmReachInterp;
+    }
+
+
+    public bool CollidedWithObject { get { return _collidedWithObject; } set { _collidedWithObject = value; } }
 	private bool _collidedWithObject = false;
 	private void OnCollisionEnter(Collision other)
 	{

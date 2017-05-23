@@ -324,8 +324,12 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 
 				// Move towards new focus center
 				_mainCam.transform.position = Vector3.Lerp(_mainCam.transform.position, _focusPoint + _camOffset, CAM_FOLLOWSPEED * Time.fixedDeltaTime);
+                if (_mainCam.transform.position.y < CAMERA_MINY)
+                {
+                    _mainCam.transform.SetPosY( CAMERA_MINY );
+                }
 
-				CameraLookAtFocusPoint();
+                CameraLookAtFocusPoint();
 			}
 
 		}

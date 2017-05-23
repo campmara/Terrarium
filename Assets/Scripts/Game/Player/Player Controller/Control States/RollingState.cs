@@ -21,9 +21,9 @@ public class RollingState : RollerState
 			_grounded = false;
 
 			_rollPosTween.Kill();
-			_rollPosTween = _roller.RollSphere.transform.DOMoveY(PondManager.instance.Pond.GetPondY(transform.position) + 0.375f, RollerConstants.instance.RollEnterSpeed )
-				.SetEase(Ease.OutCubic)
-				.OnComplete(GroundHit);
+			_rollPosTween = this.transform.DOMoveY(PondManager.instance.Pond.GetPondY(transform.position) - 1.0f, RollerConstants.instance.RollEnterSpeed )
+				.SetEase(Ease.InQuad)
+				.OnComplete(GroundHit).SetUpdate(UpdateType.Late);
 
             _roller.Spherify = 0.0f;
             _roller.SpherifyScale = RollerConstants.instance.RollSpherizeScale;            
