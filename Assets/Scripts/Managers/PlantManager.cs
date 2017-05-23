@@ -72,10 +72,6 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 			_seeds.Remove( oldSeed );
 			Destroy( oldSeed.gameObject );
 		}
-		else
-		{
-			Debug.Log( "NOT KILLING SEED. POPULATION IS UNSTABLE" );
-		}
 	}
 
 	public void AddBasePlant( BasePlant plant )
@@ -222,6 +218,8 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 			{
 				if( col.GetComponent<BPDeathController>() 
 				|| col.GetComponent<SPGrowthController>() 
+				|| col.GetComponent<GroundPlantGrowthController>()
+				|| col.GetComponent<BumbleGrowthController>()
 				|| col.GetComponent<BPGrowthController>() 
 				|| col.GetComponent<PondTech>() 
 				|| col.GetComponentInParent<RockTag>() )

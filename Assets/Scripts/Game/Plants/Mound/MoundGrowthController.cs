@@ -7,9 +7,10 @@ public class MoundGrowthController : PlantController
 	[SerializeField] GameObject _basePlantPrefab = null;
 	[SerializeField] bool _starterMound = false;
 
-	Vector2 _sproutGrowthRange = new Vector2( 2.0f, 3.0f);
+	Vector2 _sproutGrowthRange = new Vector2( 1.0f, 2.4f);
 	Transform _sprout = null;
-	const float _spawnHeight = .45f;
+	Transform _dirt = null;
+	const float _dirtHiddenHeight = -.15f;
 
 	const float _baseRate = .75f;
 	const float _wateredRate = 5.5f;
@@ -18,6 +19,7 @@ public class MoundGrowthController : PlantController
 	float _timerDuration = 30.0f;
 	float _curTime = 0.0f;
 	float _scaleInterp = 0.0f;
+	float _dirtInterp = 0.0f;
 
 	const float _deathProbability = 0.0f; // probability out of 100
 	bool _canLive = true;
@@ -32,10 +34,9 @@ public class MoundGrowthController : PlantController
 	public override void StartState()
 	{
 		_myPlant = GetComponent<BasePlant>();
-
 		_germinationRate = _baseRate;
-		transform.position = transform.position.SetPosY( _spawnHeight );
 		_sprout = transform.GetChild(0);
+		_dirt = transform.GetChild(1);
 
 		SpinLifeLottery();
 	}
@@ -62,14 +63,15 @@ public class MoundGrowthController : PlantController
 	{
 		if( _curTime < _timerDuration )
 		{
-			_curTime += Time.deltaTime * _germinationRate;	
-			_scaleInterp = Mathf.Lerp( _sproutGrowthRange.x, _sproutGrowthRange.y, ( _curTime / _timerDuration ) );
-			float heightInterp = Mathf.Lerp( _spawnHeight, 0.0f, ( _curTime / _timerDuration ) );
+			_curTime += Time.deltaTime * _germinationRate;
+			float percentVal = 	_curTime / _timerDuration;
+			
+			_scaleInterp = Mathf.Lerp( _sproutGrowthRange.x, _sproutGrowthRange.y, percentVal );
 			_sprout.transform.localScale = new Vector3( _scaleInterp, _scaleInterp, _scaleInterp );
-			if( _sprout.transform.position.y > 0.0f )
-			{
-				transform.position = new Vector3( transform.position.x, heightInterp, transform.position.z );
-			}
+
+			_dirtInterp = Mathf.Lerp( 0.0f, _dirtHiddenHeight, percentVal );
+			_dirt.position = new Vector3( _dirt.position.x, _dirtInterp, _dirt.position.z );
+
 		}
 		else if( !_spawnedSprout )
 		{
@@ -106,9 +108,12 @@ public class MoundGrowthController : PlantController
 		if( _canLive )
 		{
 			_myPlant.SwitchController( this );
+			PlantManager.instance.DeleteMound( _myPlant );
 		}
-		
-		PlantManager.instance.DeleteMound( _myPlant );
+		else
+		{
+			transform.DOScale( Vector3.zero, 3.0f).OnComplete( () => PlantManager.instance.DeleteMound( _myPlant ) );
+		}
 	}
 		
 	public override void WaterPlant()
