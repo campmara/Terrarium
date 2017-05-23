@@ -8575,6 +8575,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noises:
   - {fileID: 8300000, guid: 6582679b3fec943cdaf6ace3d705487e, type: 3}
+  - {fileID: 8300000, guid: a81f8258e47134b4b8dca00b7aeb9fa1, type: 3}
+  - {fileID: 8300000, guid: da2fabfed4a394489ab7044a15275acf, type: 3}
+  - {fileID: 8300000, guid: 31ed8fdbed58543daa6b3e8a766d3a65, type: 3}
+  - {fileID: 8300000, guid: 4c0a82a062d1e44b1b64b9a61a2f67f7, type: 3}
+  - {fileID: 8300000, guid: 7cebd11171b45438ea405659fc8367b8, type: 3}
+  - {fileID: 8300000, guid: 74b9f0da77dc84f7692221b3c4be9a22, type: 3}
   switchTime: 0
   timer: 0
 --- !u!82 &1148664110
