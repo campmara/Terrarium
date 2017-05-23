@@ -40,6 +40,12 @@ public class RollerController : ControllerBase
 	[SerializeField] private GameObject _rollSphere = null;
 	public GameObject RollSphere { get { return _rollSphere; } }
 
+	[SerializeField] private Material _splatMat = null;
+	public Material SplatMat { get { return _splatMat; } }
+
+	[SerializeField] private Material _splatTrailMat = null;
+	public Material SplatTrailMat { get { return _splatTrailMat; } }
+
 	[ReadOnly] private ParticleSystem _explodeParticleSystem = null;
 	public ParticleSystem ExplodeParticleSystem { get { return _explodeParticleSystem; } }
 

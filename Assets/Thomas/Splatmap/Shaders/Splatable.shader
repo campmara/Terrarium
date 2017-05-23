@@ -4,8 +4,7 @@
 	{
 		_MainTex ("Texture (RGB)", 2D) = "white" {}
 		_MaskTex("Mask (R)", 2D) = "white" {}
-		_HeightTex("Height (B)", 2D) = "black" {}
-		_SubtractiveColor("Subtractive Color", Color) = (0,0,0,0)
+		_Color("Color", Color) = (0,0,0,0)
 	}
 	SubShader
 	{
@@ -46,9 +45,8 @@
 
 			sampler2D _MainTex;
 			sampler2D _MaskTex;
-			sampler2D _HeightTex;
 			float4 _MainTex_ST;
-			float4 _SubtractiveColor;
+			float4 _Color;
 
 			//float _Cruncher;
 			
@@ -65,9 +63,8 @@
 			fixed4 frag (v2f i) : SV_Target
 			{
 				// sample the texture
-				fixed4 col = (tex2D(_MainTex, i.uv) - _SubtractiveColor.rgba) * i.color; // / _Cruncher
+				fixed4 col = (tex2D(_MainTex, i.uv) * _Color.rgba) * i.color; // / _Cruncher
 				float mask = 1 - tex2D(_MaskTex, i.uv).r;
-				col.b -= tex2D(_HeightTex, i.uv).b;
 				col.a -= mask;
 				// apply fog
 				UNITY_APPLY_FOG(i.fogCoord, col);
