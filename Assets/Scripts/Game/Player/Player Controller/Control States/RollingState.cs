@@ -38,7 +38,8 @@ public class RollingState : RollerState
     }
 
 	private void GroundHit()
-	{		
+	{
+        //Debug.Log( "Roll Hit Ground" );
 		_grounded = true;
 		_roller.BecomeBall();	
     }
@@ -56,7 +57,7 @@ public class RollingState : RollerState
 
 	public override void Exit(P_ControlState nextState)
 	{
-		Debug.Log("EXIT ROLLING STATE");
+		//Debug.Log("EXIT ROLLING STATE");
 		
 		_rollPosTween.Kill();
 		_rollPosTween = null;
@@ -78,7 +79,12 @@ public class RollingState : RollerState
 		// Ensure we don't move when we roll into an object.
 		if (_roller.CollidedWithObject)
 		{
-			return;
+            if( _rollPosTween != null )
+            {
+                _rollPosTween.Kill();
+                _rollPosTween = null;
+            }
+            return;
 		}
 
         // B BUTTON
