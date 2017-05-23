@@ -313,6 +313,21 @@ public class FaceManager : MonoBehaviour
 	}
 
 
+	void OnTriggerEnter( Collider other )
+	{
+		if( _poseName == "Idle" )
+		{
+			if( other.GetComponent<Murabbit>() )
+			{
+				TransitionFacePose( "Rabbits", true );
+			}
+			else if( other.GetComponent<ButterflyCloud>() )
+			{
+				TransitionFacePose( "Butterflies", true );
+			}
+		}
+	}
+
     void OnValidate()
     {
         if( _facePoseIndex > MouthPoseManager.instance.FacePoseList.Count - 1 )
@@ -332,8 +347,8 @@ public class FaceManager : MonoBehaviour
 			}
 			else
 			{
-				SetFacePose( MouthPoseManager.instance.FacePoseList[_facePoseIndex] );
+				//SetFacePose( MouthPoseManager.instance.FacePoseList[_facePoseIndex] );
 			}	
 		}			
-    }
+    }		
 }
