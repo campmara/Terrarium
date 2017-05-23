@@ -75,9 +75,10 @@ public class SingController : MonoBehaviour {
     }
 
     public void BeginSinging()
-    {
-        if( _state != SingState.SINGING )
+    {       
+        if ( _state != SingState.SINGING )
         {
+            Debug.Log( "Began Singing" );
             _state = SingState.SINGING;
 
 			_face.TransitionFacePose( "Singing" );

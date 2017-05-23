@@ -1901,6 +1901,7 @@ MonoBehaviour:
   _blinkWaitRange: {x: 2, y: 7}
   _blinkTime: 0.08
   _idleReturnWaitTime: 5
+  _poseName: Idle
 --- !u!114 &114104806924290988
 MonoBehaviour:
   m_ObjectHideFlags: 1

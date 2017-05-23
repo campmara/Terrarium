@@ -36,11 +36,11 @@ public class PondState : RollerState
 
 		if( _crashPondReturn )
 		{
-			_roller.Face.TransitionFacePose( "Crash Rebirth", true );
+			_roller.Face.TransitionFacePose( "Crash Rebirth", true, 2.8f );
 		}
 		else
 		{
-			_roller.Face.TransitionFacePose( "Rebirth", true );
+			_roller.Face.TransitionFacePose( "Rebirth", true, 2.8f );
 		}
     }
 

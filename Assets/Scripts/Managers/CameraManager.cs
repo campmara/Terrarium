@@ -62,6 +62,9 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	*/
     Vector2 _camInputVals = Vector2.zero;
 	const float CAM_ROTSPEED = 100.0f;
+    const float ROT_ACCEL = 5.65f;
+    const float ROT_DECEL = 3.65f;
+    float _currRotSpeed = 0.0f;
 
     /*
 	 * ZOOM VARIABLES
@@ -258,9 +261,32 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 
                 // Rotate Around Camera around player if Right stick horizontal movement
                 //      Done After b/c cam stutters if done before position change
-                if ( Mathf.Abs(_camInputVals.x) > ZOOM_X_DEADZONE )
+                if (Mathf.Abs( _camInputVals.x ) > ZOOM_X_DEADZONE)
                 {
-                    _mainCam.transform.RotateAround( _focusPoint, Vector3.up, CAM_ROTSPEED * _camInputVals.x * Time.fixedDeltaTime );
+                    if(_camInputVals.x > ZOOM_X_DEADZONE)
+                    {
+                        _currRotSpeed = Mathf.Clamp01( _currRotSpeed + ( _camInputVals.x * ROT_ACCEL * Time.deltaTime ) );
+                    }
+                    else if (_camInputVals.x < -ZOOM_X_DEADZONE )
+                    {
+                        _currRotSpeed = Mathf.Clamp( _currRotSpeed + ( _camInputVals.x * ROT_ACCEL * Time.deltaTime ), -1.0f, 0.0f );
+                    }                   
+                }
+                else
+                {
+                    if( _currRotSpeed > Mathf.Epsilon )
+                    {
+                        _currRotSpeed = Mathf.Clamp01( _currRotSpeed - ROT_DECEL * Time.deltaTime);
+                    }
+                    else if( _currRotSpeed < -Mathf.Epsilon )
+                    {
+                        _currRotSpeed = Mathf.Clamp( _currRotSpeed + ROT_DECEL * Time.deltaTime, -1.0f, 0.0f );
+                    }
+                }
+
+                if ( Mathf.Abs(_currRotSpeed) != Mathf.Epsilon )
+                {
+                    _mainCam.transform.RotateAround( _focusPoint, Vector3.up, CAM_ROTSPEED * _currRotSpeed * Time.fixedDeltaTime );
                     _camOffset = _mainCam.transform.position - _focusPoint;
                 }
 
