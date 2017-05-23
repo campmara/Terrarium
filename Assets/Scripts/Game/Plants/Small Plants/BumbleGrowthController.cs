@@ -68,14 +68,9 @@ public class BumbleGrowthController : SPGrowthController
 
         _waitTime = (((layerIndex * _numLeaves) + leafNumber) * .5f) / _growthRate;
 
-        //_waitTime = 0;
+        _lastAnim = anim;
 
         StartCoroutine(WaitAndStart(newLeaf.transform.GetComponentInChildren<Animator>(), _waitTime));
-
-        if (leafNumber == _numLeaves - 1 && layerIndex == _layerCount - 1)
-        {
-            _lastAnim = newLeaf.transform.GetComponentInChildren<Animator>();
-        }
     }
 
     IEnumerator TweenLocalScale(Transform focusTransform, Vector3 startScale, Vector3 endScale, float moveTime)
@@ -102,8 +97,7 @@ public class BumbleGrowthController : SPGrowthController
 
     private IEnumerator WaitToSpawnChild()
     {
-       // float _animEndTime = _lastAnim.GetCurrentAnimatorStateInfo(0).length;
-        float _curTimeAnimated = _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime; // Mathf.Lerp(0.0f, _animEndTime, _plantAnim.GetCurrentAnimatorStateInfo(0).normalizedTime ); // i am x percent of the way through anim
+        float _curTimeAnimated = _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime;
 
         while( _curTimeAnimated < 1.0f )
         {

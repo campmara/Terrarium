@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using DG.Tweening;
 public class GroundPlantGrowthController : SPGrowthController 
 {
 	[SerializeField] GameObject _leaf;
-	[SerializeField] GameObject _fruit;
+	[SerializeField] GameObject _fruitPrefab;
 
 	const int _numLeaves = 5;
 	const int _layerCount = 2;
@@ -17,8 +17,9 @@ public class GroundPlantGrowthController : SPGrowthController
 	bool _closingLeaves = false;
 	float _closeSpeed = .32f;
 
-	float _singBufferTime = 1.5f;
+	float _singBufferTime = .5f;
 	float _enterTime = 0.0f;
+	GameObject _curFruit = null;
 	protected override void InitPlant()
 	{
 		base.InitPlant();
@@ -81,13 +82,13 @@ public class GroundPlantGrowthController : SPGrowthController
 
 	void GrowFruit()
 	{
-		GameObject curFruit = Instantiate(_fruit);
-		curFruit.transform.position = transform.position;
-		Vector3 preserveScale = curFruit.transform.localScale;
-		curFruit.transform.parent = transform;
-		curFruit.transform.localScale = preserveScale;
+		_curFruit = Instantiate(_fruitPrefab);
+		_curFruit.transform.position = transform.position;
+		Vector3 preserveScale = _curFruit.transform.localScale;
+		_curFruit.transform.parent = transform;
+		_curFruit.transform.localScale = preserveScale;
 
-		StartCoroutine( TweenLocalScale( curFruit.transform, Vector3.zero, curFruit.transform.localScale, 3.5f * _growthRate));
+		StartCoroutine( TweenLocalScale( _curFruit.transform, Vector3.zero, _curFruit.transform.localScale, .75f * _growthRate));
 	}
 
 	IEnumerator TweenLocalScale( Transform focusTransform, Vector3 startScale, Vector3 endScale, float moveTime )
@@ -156,7 +157,9 @@ public class GroundPlantGrowthController : SPGrowthController
 	IEnumerator CloseLeaves()
 	{
 		_closingLeaves = true;
-
+		float closeTime = .25f;
+		float openTime = 5.0f;
+		float fruitScale = _curFruit.transform.localScale.x;
 		// cycle all through the guys
 		foreach( Animator plant in _childAnimators )
 		{
@@ -164,11 +167,12 @@ public class GroundPlantGrowthController : SPGrowthController
 			plant.SetBool("isClosing", true );
 			plant.speed = 3.8f;
 		}
-		_fruit.gameObject.SetActive( false );
 		
-		yield return new WaitForSeconds( .25f );
+		_curFruit.transform.DOScale( 0.0f, .5f );
+		yield return new WaitForSeconds( closeTime );
 
 		PlayerManager.instance.Player.GetComponent<RollerController>().MakeDroopyExplode();
+
 		yield return new WaitForSeconds( .001f );
 
 		// cycle all through the guys
@@ -178,9 +182,9 @@ public class GroundPlantGrowthController : SPGrowthController
 			plant.SetBool("isClosing", false );
 		}
 
-		yield return new WaitForSeconds( 15.0f );
+		_curFruit.transform.DOScale( fruitScale, 7.0f );
+		yield return new WaitForSeconds( openTime );
 		_closingLeaves = false;
-		_fruit.gameObject.SetActive( true );
 	}
 
 	protected override void CustomizedSingAtPlant( bool entering )

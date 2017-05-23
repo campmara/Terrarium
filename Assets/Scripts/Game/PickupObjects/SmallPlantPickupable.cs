@@ -29,6 +29,8 @@ public class SmallPlantPickupable : Pickupable {
 			if( _holdTimer >= _validHoldTime )
 			{
 				GetComponent<BasePlant>().TouchPlant();
+				_holdTimer = 0.0f;
+				DropSelf();
 			}
 			// Gettin rid o this lol
 //			if( _tugTimer > SMALLPLANT_DEATHTUGTIME)

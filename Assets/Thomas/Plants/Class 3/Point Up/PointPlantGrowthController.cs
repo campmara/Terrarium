@@ -31,10 +31,6 @@ public class PointPlantGrowthController : BPGrowthController
     [SerializeField]
     private GameObject _leafPrefab = null;
 
-    Vector3 _minScale = new Vector3(0.0f, 0.0f, 0.0f);
-    public Vector3 MinScale { get { return _minScale; } set { _minScale = value; } }
-    Vector3 _maxScale = new Vector3(14.0f, 14.0f, 14.0f);
-
     private int _numChildren;
     private Transform[] _bones;
 
@@ -144,13 +140,6 @@ public class PointPlantGrowthController : BPGrowthController
 
     protected override void CustomPlantGrowth()
     {
-        float len = _plantAnim.GetCurrentAnimatorStateInfo(0).length;
-
-        if (transform.localScale.x < _maxScale.x)
-        {
-            transform.localScale = Vector3.Lerp(_minScale, _maxScale, Mathf.SmoothStep(0, 1, _curPercentAnimated));
-        }
-
         if (_leafSpawnRoutine == null && _curChildSpawned < _numChildren)
         {
             _leafSpawnRoutine = StartCoroutine(SpawnLeaves());
