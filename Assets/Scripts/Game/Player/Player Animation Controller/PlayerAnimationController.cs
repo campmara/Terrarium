@@ -124,4 +124,14 @@ public class PlayerAnimationController : MonoBehaviour {
         _animator.SetTrigger( _liftCancelTriggerHash );
     }
     
+    public void SetEventsOn()
+    {
+        _animator.fireEvents = true;
+    }
+
+    public void SetEventsOff()
+    {
+        _animator.fireEvents = false;
+    }
+
 }

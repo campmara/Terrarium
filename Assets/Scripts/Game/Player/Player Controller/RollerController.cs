@@ -419,6 +419,8 @@ public class RollerController : ControllerBase
 
 	public void BecomeBall()
 	{
+        Debug.Log( "Become Ball" );
+
 		_ik.SetState(PlayerIKControl.WalkState.IDLE);
 
 		//_face.gameObject.SetActive(false);
@@ -431,6 +433,8 @@ public class RollerController : ControllerBase
 
 	public void BecomeWalker()
 	{
+        Debug.Log( "Become Walker" );
+
 		//_face.gameObject.SetActive(true);
 		_mesh.SetActive(true);
 		_rig.SetActive(true);
@@ -514,7 +518,13 @@ public class RollerController : ControllerBase
 		HandlePondReturn();
 	}
 
-	public bool CollidedWithObject { get { return _collidedWithObject; } set { _collidedWithObject = value; } }
+    public float GetArmInterpTotal()
+    {
+        return _ik.RightArm.ArmReachInterp + _ik.LeftArm.ArmReachInterp;
+    }
+
+
+    public bool CollidedWithObject { get { return _collidedWithObject; } set { _collidedWithObject = value; } }
 	private bool _collidedWithObject = false;
 	private void OnCollisionEnter(Collision other)
 	{
@@ -526,8 +536,8 @@ public class RollerController : ControllerBase
                 && other.gameObject.layer != LayerMask.NameToLayer( "PlayerBodyParts" ) 
                 && other.gameObject.layer != LayerMask.NameToLayer( "PlayerHand" ))
 			{
-				//CameraManager.instance.ScreenShake(0.25f, 0.25f, 10);
-				MakeDroopyExplode();
+                //CameraManager.instance.ScreenShake(0.25f, 0.25f, 10);                
+                MakeDroopyExplode();
 			}
 		}
 	}

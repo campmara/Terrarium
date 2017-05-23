@@ -25,6 +25,9 @@ public class FaceManager : MonoBehaviour
 
 	FacePose _idlePose;
 
+    [SerializeField, ReadOnly]
+    string _poseName = "";
+
 	void Awake()
 	{		
 		InitiateBlinkLoop();
@@ -33,28 +36,18 @@ public class FaceManager : MonoBehaviour
 		_idlePose = FindFacePose( "Idle" );
 
 		_currFacePose = _idlePose;
+        _poseName = _idlePose.PoseName;
 
-		//_mouthPoseIndex = MouthPoseManager.instance.StartMouthPoseIndex;
-		//SetMouthPose( MouthPoseManager.instance.MouthPoseArray[_mouthPoseIndex] );
-	}
+        //_mouthPoseIndex = MouthPoseManager.instance.StartMouthPoseIndex;
+        //SetMouthPose( MouthPoseManager.instance.MouthPoseArray[_mouthPoseIndex] );
+    }
 
 	// ===============
 	// E M O T I O N S
 	// ===============
-
-	public void BecomeEncumbered()
-	{
-		// Used in Carrying
-	}
-
 	public void BecomeInterested()
 	{
 		// used in pickup and arm reach i thnk
-	}
-
-	public void BecomeFeisty()
-	{
-		// used wehn Planting
 	}
 
 	public void BecomeIdle()
@@ -139,7 +132,7 @@ public class FaceManager : MonoBehaviour
 
 	#region Idle Return 
 
-    void StartReturnIdle()
+    void StartReturnIdle( float waitTime )
     {
         if( this.enabled )
         {
@@ -147,13 +140,13 @@ public class FaceManager : MonoBehaviour
             {
                 StopCoroutine( _idleRoutine );
             }
-            _idleRoutine = StartCoroutine( DelayedDefaultExpression() );
+            _idleRoutine = StartCoroutine( DelayedDefaultExpression( waitTime ) );
         }
     }
 
-    IEnumerator DelayedDefaultExpression()
+    IEnumerator DelayedDefaultExpression( float waitTime )
     {
-		yield return new WaitForSeconds( _idleReturnWaitTime );
+		yield return new WaitForSeconds( waitTime );
 
 		StartFaceTransition( _idlePose );
 
@@ -164,7 +157,7 @@ public class FaceManager : MonoBehaviour
 
 	#region Face Transition Methods
 
-	public void TransitionFacePose( string poseName, bool returnToIdle = false )
+	public void TransitionFacePose( string poseName, bool returnToIdle = false, float returnToIdleTime = 5.0f )
 	{
 		if( _currFacePose != null )
 		{
@@ -172,7 +165,7 @@ public class FaceManager : MonoBehaviour
 
 			if( returnToIdle )
 			{
-				StartReturnIdle();
+				StartReturnIdle( returnToIdleTime );
 			}	
 		}
 		else
@@ -206,6 +199,7 @@ public class FaceManager : MonoBehaviour
 		SetMouthBlendValues( mouthPose.MouthPose, 1.0f );
 
 		_currFacePose = mouthPose;
+        _poseName = _currFacePose.PoseName;
 	}
 
 	/// <summary>
