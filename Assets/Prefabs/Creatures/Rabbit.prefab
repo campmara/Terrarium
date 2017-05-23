@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 23351685319994310}
   - component: {fileID: 135029098022214340}
   - component: {fileID: 114559108195166766}
+  - component: {fileID: 82687340993397252}
   m_Layer: 0
   m_Name: Rabbit
   m_TagString: Untagged
@@ -112,6 +113,87 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1578994529219012}
   m_Mesh: {fileID: 4300000, guid: ea6028cba6872984f85ba37872d08765, type: 3}
+--- !u!82 &82687340993397252
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1578994529219012}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 243983227265600774, guid: 30f3aa683f5543d469208f1bb641c945,
+    type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 12
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!114 &114559108195166766
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -123,6 +205,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c68fa0ccee6840a3a6acc176ea9b810, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
+  _hopClipList:
+  - {fileID: 8300000, guid: 5eb608890bbeb4fb09e764d23a71b4d8, type: 3}
+  - {fileID: 8300000, guid: 56dc334e2968047c6956ecc998196339, type: 3}
+  - {fileID: 8300000, guid: 2fa6649dd2abc4a58aa49c4bd60ab88a, type: 3}
+  - {fileID: 8300000, guid: 95574bb37c1254dc89871061ea5b36b3, type: 3}
+  _landClipList:
+  - {fileID: 8300000, guid: 5f8abf8eca4be47569fc43dd2e531eab, type: 3}
+  - {fileID: 8300000, guid: 9f59702a419ac43cea08f6fc22c88cc7, type: 3}
+  - {fileID: 8300000, guid: b792d33bc29724648b9bc31b51275488, type: 3}
+  - {fileID: 8300000, guid: 59504d7d094d3466ba8264fbc071b7fb, type: 3}
 --- !u!135 &135029098022214340
 SphereCollider:
   m_ObjectHideFlags: 1

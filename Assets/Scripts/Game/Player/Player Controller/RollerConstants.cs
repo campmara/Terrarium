@@ -72,6 +72,7 @@ public class RollerConstants : ScriptableObjectSingleton<RollerConstants>
     [Header( "Idle Variables" ), Space( 10 )]
     public float IdleMaxMag = 0.01f;
 	public float IdleWaitTime = 0.1f;
+    public float SitSleepWaitTime = 30.0f;
 
     // TRANSITIONS
     [Header( "Transition Variables" ), Space( 10 )]
