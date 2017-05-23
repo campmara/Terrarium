@@ -24,7 +24,7 @@ public class SittingState : RollerState
 
         _onGround = false;
 
-		CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
+        CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
 	}
 
     public override void HandleInput( InputCollection input )
@@ -51,6 +51,8 @@ public class SittingState : RollerState
 
             if ( !_onGround )
             {
+                Debug.Log( "Early Transition Back to Walk" );
+
                 AudioManager.instance.StopController( AudioManager.AudioControllerNames.PLAYER_TRANSITIONFX );
 
                 OnStandingUpComplete();
@@ -59,20 +61,20 @@ public class SittingState : RollerState
     }
 
 	public void OnStandingUpComplete()
-	{
-		_roller.ChangeState(P_ControlState.WALKING);
+	{        
+        _roller.ChangeState(P_ControlState.WALKING);
 	}
 
     public void SetOnGround( int onGround )
     {
-        if ( onGround == 0 )
+        if (onGround == 0)
         {
             _onGround = false;
         }
         else
         {
             _onGround = true;
-        }      
+        }
     }
 
     public void PlaySitAudio()

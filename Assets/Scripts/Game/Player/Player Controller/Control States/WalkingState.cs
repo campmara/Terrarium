@@ -22,7 +22,7 @@ public class WalkingState : RollerState
                 //PlayerManager.instance.Player.AnimationController.PlayRollToWalkAnim();
                 _rollPosTween = _roller.RollSphere.transform.DOMoveY( 1.5f, RollerConstants.instance.RollExitSpeed ).SetEase( Ease.OutCubic ).OnComplete(TransitionFromRollComplete);
                 _rollSpherifyTween = DOTween.To( () => _roller.Spherify, x => _roller.Spherify = x, 0.0f, RollerConstants.instance.RollExitSpeed ).SetEase( Ease.OutCubic );
-                break;
+                break;       
         }
 
         _idleTimer = 0f;        
