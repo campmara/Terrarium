@@ -525,6 +525,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _carryable: 0
   _grabbed: 0
+  _grabberBurdenInterp: 0
 --- !u!114 &114334575975064900
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -536,11 +537,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c89c16775a3ab6747bd06c3a52a18944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseGrowthRate: 0.0055
-  _scaleMultiplierRange: {x: 10, y: 20}
+  _baseGrowthRate: 0.009
+  _scaleMultiplierRange: {x: 8, y: 18}
   _scaleRatios:
   - {x: 1, y: 1}
   _wateredGrowthRate: 0.05
+  _curPercentAnimated: 0
   _curStage: 0
   _droppingItems:
   - {fileID: 1631419253260572, guid: e7e4ccc23b3b8416c994f33a1840c8c6, type: 2}
@@ -551,6 +553,7 @@ MonoBehaviour:
   - {fileID: 1863841682442650, guid: fa18cc17991d646178faacbf71f38a50, type: 2}
   _mediumSpawnables:
   - {fileID: 1707615311191734, guid: 8dfc9a0bcd8e34740bcb66139389cbdd, type: 2}
+  - {fileID: 1670631960800382, guid: b4c32e6c62749b04c9e604bd3e535f25, type: 2}
   spawnState: 0
   _bStemRoot: {fileID: 4508866319713756}
   _leafPrefab: {fileID: 1543003685192774, guid: 3b7612a57e8103346becf09c2a9c5c95,
