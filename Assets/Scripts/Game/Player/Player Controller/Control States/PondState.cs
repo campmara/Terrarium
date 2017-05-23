@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class PondState : RollerState
 {
+	bool _crashPondReturn = false;
+
 	public override void Enter(P_ControlState prevState)
 	{
 		Debug.Log("ENTER POND STATE");
@@ -11,7 +13,12 @@ public class PondState : RollerState
 		_roller.StopPlayer();
 		if( prevState == P_ControlState.ROLLING )
 		{
-			_roller.BecomeWalker();			
+			_roller.BecomeWalker();	
+			_crashPondReturn = true;
+		}
+		else
+		{
+			_crashPondReturn = false;
 		}
 	}
 
@@ -26,6 +33,15 @@ public class PondState : RollerState
 
         // Ensure that this is false. This is also bad :/ oh well.
         _roller.CollidedWithObject = false;
+
+		if( _crashPondReturn )
+		{
+			_roller.Face.TransitionFacePose( "Crash Rebirth", true, 1.5f );
+		}
+		else
+		{
+			_roller.Face.TransitionFacePose( "Rebirth", true, 1.0f );
+		}
     }
 
     public override void HandleInput( InputCollection input )

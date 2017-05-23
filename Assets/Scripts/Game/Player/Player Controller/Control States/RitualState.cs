@@ -17,7 +17,7 @@ public class RitualState : RollerState
         _roller.Spherify = 0.0f;
         _roller.SpherifyScale = RollerConstants.instance.RitualSphereizeScale;
 
-		_roller.Face.BecomeDesirous();
+		_roller.Face.TransitionFacePose( "Pop" );
 	}
 
 	public override void Exit(P_ControlState nextState)

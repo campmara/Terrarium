@@ -3793,7 +3793,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 0
   _audioControllerList:
-  - _audioClipList:
+  - ControllerName: MUSIC
+    _audioClipList:
     - {fileID: 8300000, guid: 7e97712348a1c48898f7328491deadeb, type: 3}
     - {fileID: 8300000, guid: 7e97712348a1c48898f7328491deadeb, type: 3}
     - {fileID: 8300000, guid: 7e97712348a1c48898f7328491deadeb, type: 3}
@@ -3804,7 +3805,8 @@ MonoBehaviour:
     _playOnAwake: 0
     _loop: 1
     _pitch: 1
-  - _audioClipList:
+  - ControllerName: PLAYER_SING
+    _audioClipList:
     - {fileID: 8300000, guid: 6582679b3fec943cdaf6ace3d705487e, type: 3}
     _mixerGroup: {fileID: 243970327439256478, guid: 30f3aa683f5543d469208f1bb641c945,
       type: 2}
@@ -3812,7 +3814,8 @@ MonoBehaviour:
     _playOnAwake: 0
     _loop: 0
     _pitch: 1
-  - _audioClipList:
+  - ControllerName: PLAYER_FOOTSTEPS
+    _audioClipList:
     - {fileID: 8300000, guid: 0c7b067d84bec49069656975cf0eb0aa, type: 3}
     - {fileID: 8300000, guid: aec375ee8582b420f9de8fd50b70db69, type: 3}
     - {fileID: 8300000, guid: 553f65303e1d94da1b6e981c75be18ff, type: 3}
@@ -3830,7 +3833,8 @@ MonoBehaviour:
     _playOnAwake: 0
     _loop: 0
     _pitch: 1
-  - _audioClipList:
+  - ControllerName: PLAYER_ROLL
+    _audioClipList:
     - {fileID: 8300000, guid: bda2879d02a9342fd8ddd593adc92449, type: 3}
     _mixerGroup: {fileID: 243316621505366164, guid: 30f3aa683f5543d469208f1bb641c945,
       type: 2}
@@ -3838,7 +3842,8 @@ MonoBehaviour:
     _playOnAwake: 0
     _loop: 1
     _pitch: 1
-  - _audioClipList:
+  - ControllerName: PLAYER_ACTIONFX
+    _audioClipList:
     - {fileID: 8300000, guid: 5617e55cf46bd4971beb99b4e97e9786, type: 3}
     - {fileID: 8300000, guid: 2893cb221a72a428b96061d697189ddd, type: 3}
     - {fileID: 8300000, guid: fe03c30646ed6d542aa0352b423031d7, type: 3}
@@ -3849,17 +3854,21 @@ MonoBehaviour:
     _playOnAwake: 0
     _loop: 0
     _pitch: 1
-  - _audioClipList:
+  - ControllerName: PLAYER_TRANSITIONFX
+    _audioClipList:
     - {fileID: 8300000, guid: 4ec15d6c38828492ab2ead15f3f485b8, type: 3}
     - {fileID: 8300000, guid: 2dd0c697b29434d8592ac0951ed94e33, type: 3}
     - {fileID: 8300000, guid: 0389bd0a8f076422bab2a8fc4a7c0873, type: 3}
+    - {fileID: 8300000, guid: 45f106f267cf5481cbd0b822416f9bd4, type: 3}
+    - {fileID: 8300000, guid: 31eb9794681d44325bb175cb28b2e6d8, type: 3}
     _mixerGroup: {fileID: 243318732923885706, guid: 30f3aa683f5543d469208f1bb641c945,
       type: 2}
     _volume: 1
     _playOnAwake: 0
     _loop: 0
     _pitch: 1
-  - _audioClipList:
+  - ControllerName: AMBIENCE
+    _audioClipList:
     - {fileID: 8300000, guid: 2a8c1eb347e144cddb8969b4e72f9ff3, type: 3}
     - {fileID: 8300000, guid: 397eae12cd16a494ca14e31840bd7f35, type: 3}
     _mixerGroup: {fileID: 243810991957295566, guid: 30f3aa683f5543d469208f1bb641c945,
@@ -3868,7 +3877,8 @@ MonoBehaviour:
     _playOnAwake: 1
     _loop: 1
     _pitch: 1
-  - _audioClipList:
+  - ControllerName: OPENING_CHORD
+    _audioClipList:
     - {fileID: 8300000, guid: 0386c7f49836d42f68ba6161a063b537, type: 3}
     - {fileID: 8300000, guid: f2c4bfe66b913433980b735c67c5020d, type: 3}
     - {fileID: 8300000, guid: a33ed84885b2b4f4994f89327f638f9b, type: 3}
@@ -3878,7 +3888,8 @@ MonoBehaviour:
     _playOnAwake: 1
     _loop: 0
     _pitch: 1
-  - _audioClipList:
+  - ControllerName: SUBTLE_MUSIC
+    _audioClipList:
     - {fileID: 8300000, guid: cf34a5fedf5944c5b8b2562e39d8552c, type: 3}
     - {fileID: 8300000, guid: 44a426f2b46114bcaaf2c63757827f63, type: 3}
     - {fileID: 8300000, guid: f01292d5f2a59407099d46281692757a, type: 3}
@@ -3889,7 +3900,8 @@ MonoBehaviour:
     _playOnAwake: 1
     _loop: 0
     _pitch: 1
-  - _audioClipList:
+  - ControllerName: FULL_MUSIC
+    _audioClipList:
     - {fileID: 8300000, guid: c0099ff4c49094637a6dfa97c8ad772b, type: 3}
     - {fileID: 8300000, guid: 52e9d624a18d71f4b96210a81ec25066, type: 3}
     - {fileID: 8300000, guid: b14a529db5d2edb4a888758cc8c39551, type: 3}
@@ -3899,7 +3911,8 @@ MonoBehaviour:
     _playOnAwake: 0
     _loop: 0
     _pitch: 1
-  - _audioClipList:
+  - ControllerName: WIND
+    _audioClipList:
     - {fileID: 8300000, guid: db32a45150f2b4a04a02206f3b9c43c3, type: 3}
     _mixerGroup: {fileID: 243903458777511154, guid: 30f3aa683f5543d469208f1bb641c945,
       type: 2}
