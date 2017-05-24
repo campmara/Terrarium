@@ -23,8 +23,7 @@ public class WalkingState : RollerState
         case P_ControlState.ROLLING:            
                 CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
                 //PlayerManager.instance.Player.AnimationController.PlayRollToWalkAnim();
-                _rollPosTween = _roller.RollSphere.transform.DOMoveY( 1.25f, RollerConstants.instance.RollExitSpeed ).SetEase( Ease.Linear ).OnComplete(TransitionFromRollComplete);
-                _rollSpherifyTween = DOTween.To( () => _roller.Spherify, x => _roller.Spherify = x, 0.0f, RollerConstants.instance.RollExitSpeed ).SetEase( Ease.OutCubic );
+                _rollPosTween = _roller.RollSphere.transform.DOMoveY( 1.25f, RollerConstants.instance.RollExitSpeed ).SetEase( Ease.Linear );                
                 break;       
         }
 
@@ -41,10 +40,20 @@ public class WalkingState : RollerState
         _rollPosTween.Kill( true );
         _rollPosTween = null;
 
-        _rollSpherifyTween.Kill( true );
+        _rollSpherifyTween.Kill();
+        _rollSpherifyTween = null;
+        _rollSpherifyTween = DOTween.To( () => _roller.Spherify, x => _roller.Spherify = x, 0.0f, RollerConstants.instance.RollDespherifySpeed ).SetEase( Ease.OutSine ).OnComplete( EndDespherize );
+
+
+        _roller.SpherifyScale = RollerConstants.instance.BreathSpherizeScale;        
+    }
+
+    void EndDespherize()
+    {
+        _rollSpherifyTween.Kill();
         _rollSpherifyTween = null;
 
-        _roller.SpherifyScale = RollerConstants.instance.BreathSpherizeScale;
+        _roller.Spherify = RollerConstants.instance.RollSpherizeMaxSize;
     }
 
 	public override void Exit(P_ControlState nextState)
@@ -74,26 +83,31 @@ public class WalkingState : RollerState
         {
             // hmm this is bad, scales could b the same lol
             // yup, it's bad!
-            if (_roller.SpherifyScale == RollerConstants.instance.RitualSphereizeScale && _roller.Spherify > 0.0f)
+            if( _rollSpherifyTween == null || ( _rollSpherifyTween != null && _rollSpherifyTween.IsComplete() ) )
             {
-                _roller.Spherify -= Time.deltaTime * RollerConstants.instance.RitualDeflateSpeed;
 
-                if (_roller.Spherify < 0.0f)
+
+                if (_roller.SpherifyScale == RollerConstants.instance.RitualSphereizeScale && _roller.Spherify > 0.0f)
                 {
-                    _roller.Spherify = 0.0f;
-                    _roller.SpherifyScale = RollerConstants.instance.BreathSpherizeScale;
-                    _roller.BreathTimer = 0.0f;
+                    _roller.Spherify -= Time.deltaTime * RollerConstants.instance.RitualDeflateSpeed;
+
+                    if (_roller.Spherify < 0.0f)
+                    {
+                        _roller.Spherify = 0.0f;
+                        _roller.SpherifyScale = RollerConstants.instance.BreathSpherizeScale;
+                        _roller.BreathTimer = 0.0f;
+                    }
+                }
+                else
+                {
+                    _roller.BreathTimer += Time.deltaTime * RollerConstants.instance.BreathSpeed;
+
+                    // The Spherize Curve is set to PingPong in the Animation Curve.
+                    // Max Spherize Size is the value of the second key on the curve
+                    _roller.Spherify = RollerConstants.instance.BreathSpherizeCurve.Evaluate( _roller.BreathTimer );
                 }
             }
-            else
-            {
-                _roller.BreathTimer += Time.deltaTime * RollerConstants.instance.BreathSpeed;
-
-                // The Spherize Curve is set to PingPong in the Animation Curve.
-                // Max Spherize Size is the value of the second key on the curve
-                _roller.Spherify = RollerConstants.instance.BreathSpherizeCurve.Evaluate( _roller.BreathTimer );
-            }
-
+            
             // Check for sitting after idling for a while.
             IdleTimer( input );
 
@@ -174,6 +188,13 @@ public class WalkingState : RollerState
             else if (input.YButton.WasReleased)
             {
                 _roller.Player.PlayerSingController.StopSinging();
+            }
+        }
+        else
+        {
+            if( _rollPosTween.ElapsedPercentage() >= 0.75f )
+            {
+                TransitionFromRollComplete();
             }
         }
         

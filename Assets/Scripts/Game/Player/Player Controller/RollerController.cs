@@ -448,7 +448,7 @@ public class RollerController : ControllerBase
 		_rollSphere.transform.localPosition = Vector3.up * 1.5f;
 		_rollSphere.SetActive(false);
 
-        Spherify = 0.0f;
+        //Spherify = 0.0f;
 
         _targetMovePosition = this.transform.position;        
         this._player.AnimationController.SetPlayerSpeed( 0.0f );
