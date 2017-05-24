@@ -1,4 +1,4 @@
-﻿Shader "Unlit/SplatNormal"
+﻿Shader "Custom/SplatCard"
 {
 	Properties
 	{
@@ -54,7 +54,9 @@
 			{
 				v2f o;
 				o.vertex = UnityObjectToClipPos(v.vertex);
+				float3 worldPos = mul(unity_ObjectToWorld, o.vertex);
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+				//v.color.a *= clamp(length(worldPos.xz/5), 0, 1);
 				o.color = v.color;
 				UNITY_TRANSFER_FOG(o,o.vertex);
 				return o;
