@@ -19,8 +19,13 @@ public class SingController : MonoBehaviour {
     public SingState State { get { return _state; } }
 
     int _currentSingClip = 0;
-    float _singPitch = 0.0f;
-    int _numVoices = 1;
+    int _numVoices = 0;
+
+    [SerializeField]
+    List<Vector2> _singPitchRangeList = new List<Vector2>();
+    [SerializeField, ReadOnly]Vector2 _currSingPitchRange = Vector2.zero;
+    [SerializeField]
+    Vector2 _voiceChangeWaitRange = new Vector2( 20f, 40f );
 
     float _singStopTimer = 0.0f;
 
@@ -34,19 +39,27 @@ public class SingController : MonoBehaviour {
         _numVoices = AudioManager.instance.GetSingingClipCount();
 
         StartCoroutine(ClipSwitchRoutine());
+
+        _currentSingClip = Random.Range( 0, _numVoices );
+        _currSingPitchRange = _singPitchRangeList[Random.Range( 0, _singPitchRangeList.Count )];
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    void Update ()
     {
         HandleSinging();	
 	}
 
     IEnumerator ClipSwitchRoutine()
     {
-        yield return new WaitForSeconds(Random.Range(20f, 40f));
+        yield return new WaitForSeconds( Random.Range( _voiceChangeWaitRange.x, _voiceChangeWaitRange.y) );
 
-        _singPitch = Random.Range(0, _numVoices);
+        if( Random.value > 0.75f && _numVoices > 0 )
+        {
+            _currentSingClip = Random.Range( 0, _numVoices );
+        }
+
+        _currSingPitchRange = _singPitchRangeList[Random.Range( 0, _singPitchRangeList.Count )];
 
         StartCoroutine(ClipSwitchRoutine());
     }
@@ -59,7 +72,7 @@ public class SingController : MonoBehaviour {
             //float desiredPitch = AudioManager.instance.GetCurrentMusicPitch();
             //_singPitch = Mathf.Lerp( _singPitch, desiredPitch, RollerConstants.instance.PitchLerpSpeed * Time.deltaTime );
 
-            AudioManager.instance.PlaySing(_currentSingClip, Random.Range(0.25f, 2f));
+            AudioManager.instance.PlaySing( _currentSingClip, Random.Range( _currSingPitchRange.x, _currSingPitchRange.y) );
         }
         else if ( _state == SingState.STOPPING )
         {
