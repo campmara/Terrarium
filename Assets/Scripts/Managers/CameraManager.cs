@@ -265,11 +265,11 @@ public class CameraManager : SingletonBehaviour<CameraManager>
                 {
                     if(_camInputVals.x > ZOOM_X_DEADZONE)
                     {
-                        _currRotSpeed = Mathf.Clamp01( _currRotSpeed + ( _camInputVals.x * ROT_ACCEL * Time.deltaTime ) );
+                        _currRotSpeed = Mathf.Clamp( _currRotSpeed + ( ROT_ACCEL * Time.deltaTime ), 0.0f, _camInputVals.x );
                     }
-                    else if (_camInputVals.x < -ZOOM_X_DEADZONE )
+                    else if ( _camInputVals.x < -ZOOM_X_DEADZONE )
                     {
-                        _currRotSpeed = Mathf.Clamp( _currRotSpeed + ( _camInputVals.x * ROT_ACCEL * Time.deltaTime ), -1.0f, 0.0f );
+                        _currRotSpeed = Mathf.Clamp( _currRotSpeed + ( -ROT_ACCEL * Time.deltaTime ), _camInputVals.x, 0.0f );
                     }                   
                 }
                 else
