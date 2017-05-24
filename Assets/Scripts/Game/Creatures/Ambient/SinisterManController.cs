@@ -16,7 +16,7 @@ public class SinisterManController : MonoBehaviour {
     float _walkWaitTime = 1.0f;
     [SerializeField]
     float _walkTime = 1.0f;
-    float _walkHeight = 2.0f;    
+    float _walkHeight = 5.0f;    
 
 	// Use this for initialization
 	void Awake ()

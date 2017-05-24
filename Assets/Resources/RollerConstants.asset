@@ -51,7 +51,8 @@ MonoBehaviour:
   RollDeceleration: 10
   RollSphereSpin: 1250
   RollEnterSpeed: 0.3
-  RollExitSpeed: 0.1
+  RollExitSpeed: 0.175
+  RollDespherifySpeed: 0.2
   TurnSpeed: 125
   ReverseTurnSpeed: 100
   TurnAcceleration: 15
