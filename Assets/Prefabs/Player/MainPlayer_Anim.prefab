@@ -1937,6 +1937,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 072f4a59ad9b0ad40808bf08e794dd97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _singPitchRangeList:
+  - {x: 0.25, y: 0.6}
+  - {x: 0.75, y: 1.25}
+  - {x: 1.25, y: 1.75}
+  - {x: 1.75, y: 2.5}
+  - {x: 2.5, y: 3.25}
+  _currSingPitchRange: {x: 0, y: 0}
+  _voiceChangeWaitRange: {x: 20, y: 40}
 --- !u!114 &114259314273431226
 MonoBehaviour:
   m_ObjectHideFlags: 1
