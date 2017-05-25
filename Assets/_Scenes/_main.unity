@@ -7816,6 +7816,16 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 114818208076760938, guid: f3fe1fdb9da654f72ae8ff06711f4a80,
+        type: 2}
+      propertyPath: flowerSplatOdds
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198084790870047656, guid: f3fe1fdb9da654f72ae8ff06711f4a80,
+        type: 2}
+      propertyPath: randomSeed
+      value: -453298842
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f3fe1fdb9da654f72ae8ff06711f4a80, type: 2}
   m_IsPrefabParent: 0
@@ -11613,6 +11623,21 @@ Prefab:
       propertyPath: _mask
       value: 
       objectReference: {fileID: 1017378814}
+    - target: {fileID: 114770539629856794, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
+        type: 2}
+      propertyPath: lowpassCurve.m_Curve.Array.data[1].time
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114770539629856794, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
+        type: 2}
+      propertyPath: lowpassCurve.m_Curve.Array.data[1].value
+      value: 5051.0254
+      objectReference: {fileID: 0}
+    - target: {fileID: 114354983736497786, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
+        type: 2}
+      propertyPath: _maxPlayerDistance
+      value: 156
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 17e7204e7259943eaa4ae4fd5f6f0e54, type: 2}
   m_IsPrefabParent: 0

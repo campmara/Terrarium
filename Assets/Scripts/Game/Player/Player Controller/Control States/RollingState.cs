@@ -126,11 +126,14 @@ public class RollingState : RollerState
 		{
 			_roller.Accelerate(RollerConstants.instance.RollSpeed, RollerConstants.instance.RollAcceleration);
 		}
+		
+        if( _roller.CanPlayerMove() )
+        {
+            _roller.RB.MovePosition( _roller.transform.position + ( _roller.transform.forward * _roller.Velocity * Time.deltaTime ) );
+        }
 
-		_roller.RB.MovePosition(_roller.transform.position + (_roller.transform.forward * _roller.Velocity * Time.deltaTime));
-
-		// Roll the Roll Sphere
-		_roller.RollSphere.transform.Rotate(RollerConstants.instance.RollSphereSpin * Time.deltaTime, 0f, 0f);
+        // Roll the Roll Sphere
+        _roller.RollSphere.transform.Rotate(RollerConstants.instance.RollSphereSpin * Time.deltaTime, 0f, 0f);
 
 		_roller.LastInputVec = _roller.InputVec.normalized;
 

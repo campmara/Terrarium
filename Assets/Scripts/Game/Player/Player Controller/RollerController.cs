@@ -366,10 +366,13 @@ public class RollerController : ControllerBase
 		// yeah hmmm
 		this._player.AnimationController.SetPlayerSpeed( _velocity / maxMoveSpeed );
 		
-		_rigidbody.MovePosition(transform.position + (transform.forward * _inputVec.magnitude * _velocity * Time.deltaTime));
-		_rigidbody.position = new Vector3(_rigidbody.position.x,
-											PondManager.instance.Pond.GetPondY(_rigidbody.position),
-											_rigidbody.position.z);
+        if( CanPlayerMove() )
+        {
+            _rigidbody.MovePosition( transform.position + ( transform.forward * _inputVec.magnitude * _velocity * Time.deltaTime) );
+            _rigidbody.position = new Vector3( _rigidbody.position.x,
+                                                PondManager.instance.Pond.GetPondY( _rigidbody.position ),
+                                                _rigidbody.position.z );
+        }	
 
 		//_rigidbody.MovePosition( Vector3.Lerp(transform.position, _targetMovePosition, Mathf.Lerp( RollerConstants.instance.BODY_MINMOVESPEED, bodyMoveSpeed, _headMoveSpeedInterp ) * Time.fixedDeltaTime ) );
 	}
@@ -393,6 +396,18 @@ public class RollerController : ControllerBase
 		{
 			_velocity = 0.0f;
 		}
+    }
+
+    public bool CanPlayerMove()
+    {
+        if( PlayerManager.instance.DistanceFromPond >= 1.0f )
+        {
+            if( Vector3.Dot( PlayerManager.instance.DirectionFromPond, this.transform.forward ) > 0.0f )
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     /// <summary>
