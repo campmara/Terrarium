@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: RabbitSlimeMat
-  m_Shader: {fileID: 4800000, guid: dc7beb685dd9dff40992228f9b7aed24, type: 3}
+  m_Shader: {fileID: 4800000, guid: a01ca538f058d8047a829cb14380ada6, type: 3}
   m_ShaderKeywords: _EMISSION _WINDENABLED_ON
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
@@ -39,7 +39,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 15, y: 15}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
@@ -73,16 +73,17 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Hardness: 0.863
-    - _MainNoiseHeight: 0
-    - _MainNoiseScale: 1
-    - _MeltAmount: 0.5
-    - _MeltCurve: 3
+    - _Hardness: 0.247
+    - _MainNoiseHeight: 0.05
+    - _MainNoiseScale: 0.5
+    - _MeltAmount: 0.239
+    - _MeltCurve: 5.49
     - _MeltDistance: 1.08
     - _MeltY: -0.15
     - _Metallic: 0
-    - _Middle: 0.5
+    - _Middle: 0.683
     - _Mode: 0
+    - _NoiseSpeed: 0.25
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _RimPower: 0.9

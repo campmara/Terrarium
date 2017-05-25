@@ -20,6 +20,7 @@ Shader "Custom/Waterball"
 		_ColorBot("Bot Color", Color) = (1,1,1,1)
 		_Middle("Middle", Range(0.001, 0.999)) = 0.5
 		_MainTex("Albedo (RGB)", 2D) = "white" {}
+		[Toggle]_RollerToggle("Toggle Roller Colors", float) = 0
 
 		[Header(Rim Lighting)]
 		// Rim Lighting
@@ -101,6 +102,7 @@ Shader "Custom/Waterball"
 		fixed4 _ColorMid;
 		fixed4 _ColorBot;
 		float _Middle;
+		float _RollerToggle;
 
 		fixed4 _PrevPosition;
 		fixed4 _Position;
@@ -300,6 +302,10 @@ Shader "Custom/Waterball"
 			//murray's gradient
 			fixed4 gradient = lerp(_ColorBot, _ColorMid, gradUV / _Middle) * step(gradUV, _Middle);
 			gradient += lerp(_ColorMid, _ColorTop, (gradUV - _Middle) / (1 - _Middle)) * step(_Middle, gradUV);
+
+			if (_RollerToggle != 0) {
+				gradient = float4(_ColorTop  + _ColorMid) / 2;
+			}
 
 			//mix gradient with mouth color
 			gradient = lerp(_ColorBot, gradient, mainTex.r);

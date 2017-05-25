@@ -1258,7 +1258,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1486355600733940}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.12, y: 0.07, z: -0.027}
+  m_LocalPosition: {x: 0.13, y: 0.07, z: -0.027}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4918290196525932}
@@ -1378,7 +1378,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1584077273557164}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0.7071068, w: 0}
-  m_LocalPosition: {x: -0.12, y: 0.07, z: -0.027}
+  m_LocalPosition: {x: -0.13, y: 0.07, z: -0.027}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4918290196525932}
@@ -1783,7 +1783,7 @@ TrailRenderer:
   m_Time: 2.5
   m_Parameters:
     serializedVersion: 2
-    widthMultiplier: 2
+    widthMultiplier: 1.5
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -1815,7 +1815,7 @@ TrailRenderer:
       ctime6: 65535
       ctime7: 0
       atime0: 0
-      atime1: 7517
+      atime1: 4048
       atime2: 65535
       atime3: 65535
       atime4: 0
@@ -1825,7 +1825,7 @@ TrailRenderer:
       m_Mode: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 3
-    numCornerVertices: 5
+    numCornerVertices: 1
     numCapVertices: 3
     alignment: 0
     textureMode: 0
@@ -1937,6 +1937,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 072f4a59ad9b0ad40808bf08e794dd97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _singPitchRangeList:
+  - {x: 0.25, y: 0.6}
+  - {x: 0.75, y: 1.25}
+  - {x: 1.25, y: 1.75}
+  - {x: 1.75, y: 2.5}
+  - {x: 2.5, y: 3.25}
+  _currSingPitchRange: {x: 0, y: 0}
+  _voiceChangeWaitRange: {x: 20, y: 40}
+  _baseFlowerSpawnWait: 1.5
+  _flowerSpawnWaitIncrease: 0.25
+  _currFlowerSpawnWait: 0
 --- !u!114 &114259314273431226
 MonoBehaviour:
   m_ObjectHideFlags: 1

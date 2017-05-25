@@ -19,12 +19,22 @@ public class SingController : MonoBehaviour {
     public SingState State { get { return _state; } }
 
     int _currentSingClip = 0;
-    float _singPitch = 0.0f;
-    int _numVoices = 1;
+    int _numVoices = 0;
+
+    [SerializeField]
+    List<Vector2> _singPitchRangeList = new List<Vector2>();
+    [SerializeField, ReadOnly]Vector2 _currSingPitchRange = Vector2.zero;
+    [SerializeField]
+    Vector2 _voiceChangeWaitRange = new Vector2( 20f, 40f );
 
     float _singStopTimer = 0.0f;
 
     const float SING_EFFECT_RADIUS = 10f;
+
+    float _flowerSpawnTimer = 0.0f;
+    [SerializeField] float _baseFlowerSpawnWait = 1.5f;
+    [SerializeField] float _flowerSpawnWaitIncrease = 0.25f;
+    [SerializeField, ReadOnly]float _currFlowerSpawnWait = 0.0f;
 
 	void Awake ()
     {
@@ -34,19 +44,27 @@ public class SingController : MonoBehaviour {
         _numVoices = AudioManager.instance.GetSingingClipCount();
 
         StartCoroutine(ClipSwitchRoutine());
+
+        _currentSingClip = Random.Range( 0, _numVoices );
+        _currSingPitchRange = _singPitchRangeList[Random.Range( 0, _singPitchRangeList.Count )];
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    void Update ()
     {
         HandleSinging();	
 	}
 
     IEnumerator ClipSwitchRoutine()
     {
-        yield return new WaitForSeconds(Random.Range(20f, 40f));
+        yield return new WaitForSeconds( Random.Range( _voiceChangeWaitRange.x, _voiceChangeWaitRange.y) );
 
-        _singPitch = Random.Range(0, _numVoices);
+        if( Random.value > 0.75f && _numVoices > 0 )
+        {
+            _currentSingClip = Random.Range( 0, _numVoices );
+        }
+
+        _currSingPitchRange = _singPitchRangeList[Random.Range( 0, _singPitchRangeList.Count )];
 
         StartCoroutine(ClipSwitchRoutine());
     }
@@ -58,8 +76,17 @@ public class SingController : MonoBehaviour {
         {
             //float desiredPitch = AudioManager.instance.GetCurrentMusicPitch();
             //_singPitch = Mathf.Lerp( _singPitch, desiredPitch, RollerConstants.instance.PitchLerpSpeed * Time.deltaTime );
+            _flowerSpawnTimer += Time.deltaTime;
 
-            AudioManager.instance.PlaySing(_currentSingClip, Random.Range(0.25f, 2f));
+            if( _flowerSpawnTimer > _currFlowerSpawnWait )
+            {
+                _flowerSpawnTimer = 0.0f;
+                _currFlowerSpawnWait += _flowerSpawnWaitIncrease;
+
+                SpawnFlowerInRadius();
+            }
+
+            AudioManager.instance.PlaySing( _currentSingClip, Random.Range( _currSingPitchRange.x, _currSingPitchRange.y) );
         }
         else if ( _state == SingState.STOPPING )
         {
@@ -82,6 +109,9 @@ public class SingController : MonoBehaviour {
             _state = SingState.SINGING;
 
 			_face.TransitionFacePose( "Singing" );
+
+            _flowerSpawnTimer = 0.0f;
+            _currFlowerSpawnWait = _baseFlowerSpawnWait;
 
             CastSingSphere();
         }        
@@ -125,5 +155,14 @@ public class SingController : MonoBehaviour {
                 }
             }
         }
+    }
+
+    void SpawnFlowerInRadius()
+    {
+        Vector3 spawnPos = transform.position;
+        spawnPos.y = 0.0f;
+        spawnPos += JohnTech.GenerateRandomXZDirection() * Random.Range( 1.0f, SING_EFFECT_RADIUS );
+
+        GroundManager.instance.Ground.DrawFlowerDecal( spawnPos );
     }
 }

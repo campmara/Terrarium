@@ -2190,6 +2190,11 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 256595384}
   m_Mesh: {fileID: 4300000, guid: b129ad4cff27d1a4cbdddaa52475a9d1, type: 3}
+--- !u!198 &256763075 stripped
+ParticleSystem:
+  m_PrefabParentObject: {fileID: 198353051952124682, guid: f3fe1fdb9da654f72ae8ff06711f4a80,
+    type: 2}
+  m_PrefabInternal: {fileID: 1017378813}
 --- !u!1 &266362041
 GameObject:
   m_ObjectHideFlags: 0
@@ -3288,6 +3293,22 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 341487152}
   m_Mesh: {fileID: 4300000, guid: c1301e808bb5eb24f81f878cfcf8bcb3, type: 3}
+--- !u!1 &349729359 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1475485727438996, guid: b529db5adf3c69848bf8cac332a1416d,
+    type: 2}
+  m_PrefabInternal: {fileID: 1374074231}
+--- !u!114 &349729363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 349729359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29b1476e9684c4d3aae7af61fb921289, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &359514902
 GameObject:
   m_ObjectHideFlags: 0
@@ -11580,6 +11601,26 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114374224506587848, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
+        type: 2}
+      propertyPath: groundSplatDecal
+      value: 
+      objectReference: {fileID: 1293482411}
+    - target: {fileID: 114374224506587848, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
+        type: 2}
+      propertyPath: _twistParticleSystem
+      value: 
+      objectReference: {fileID: 256763075}
+    - target: {fileID: 114374224506587848, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
+        type: 2}
+      propertyPath: _cappParticleSystem
+      value: 
+      objectReference: {fileID: 1937323159}
+    - target: {fileID: 114536147130075368, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
+        type: 2}
+      propertyPath: _pond
+      value: 
+      objectReference: {fileID: 2028772720}
     - target: {fileID: 114804556110679380, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
         type: 2}
       propertyPath: _ground
@@ -11590,16 +11631,6 @@ Prefab:
       propertyPath: _mask
       value: 
       objectReference: {fileID: 1017378814}
-    - target: {fileID: 114536147130075368, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
-        type: 2}
-      propertyPath: _pond
-      value: 
-      objectReference: {fileID: 2028772720}
-    - target: {fileID: 114374224506587848, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
-        type: 2}
-      propertyPath: groundSplatDecal
-      value: 
-      objectReference: {fileID: 1293482411}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 17e7204e7259943eaa4ae4fd5f6f0e54, type: 2}
   m_IsPrefabParent: 0
@@ -13602,6 +13633,11 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1929244165}
   m_Mesh: {fileID: 4300000, guid: b129ad4cff27d1a4cbdddaa52475a9d1, type: 3}
+--- !u!198 &1937323159 stripped
+ParticleSystem:
+  m_PrefabParentObject: {fileID: 198777316632145236, guid: f3fe1fdb9da654f72ae8ff06711f4a80,
+    type: 2}
+  m_PrefabInternal: {fileID: 1017378813}
 --- !u!1 &1944028965
 GameObject:
   m_ObjectHideFlags: 0
