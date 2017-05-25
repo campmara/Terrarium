@@ -663,6 +663,8 @@ MonoBehaviour:
   _playerPrefab: {fileID: 1888846475258438, guid: d2315b596791f4c43a2aaa861e091514,
     type: 2}
   _player: {fileID: 0}
+  _maxPlayerDistance: 156
+  _playerDistanceInterp: 0
 --- !u!114 &114374224506587848
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3598,6 +3600,7 @@ MonoBehaviour:
   _paletteOrderList: 050000000400000000000000010000000200000006000000
   terrainMaterial: {fileID: 2100000, guid: be1f84fcd12c8814fb81989242a6b5ed, type: 2}
   groundSplatDecal: {fileID: 0}
+  flowerSplatDecalColor: {r: 0.74264705, g: 0.5963019, b: 0.37678418, a: 1}
   terrainRockMat: {fileID: 2100000, guid: ab8ff36f194754c40ad100a76aad9791, type: 2}
   terrainMossRockMat: {fileID: 2100000, guid: 2e4debe61d3866246b5e43e934c1f9ad, type: 2}
   pondRockMat: {fileID: 2100000, guid: 894573888e12443139f3f612cd6e8524, type: 2}
@@ -3616,6 +3619,8 @@ MonoBehaviour:
   limberMat: {fileID: 2100000, guid: 076c6d0f80db91e4db30f628ade3c227, type: 2}
   pointyBushMat: {fileID: 2100000, guid: c66d01a0e8b0ad547b7846873e178483, type: 2}
   rabbitMat: {fileID: 2100000, guid: 5840f282408f646f38c71bb74bdec04c, type: 2}
+  _twistParticleSystem: {fileID: 0}
+  _cappParticleSystem: {fileID: 0}
 --- !u!114 &114410437005371276
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3778,8 +3783,8 @@ MonoBehaviour:
       outSlope: 0.12472771
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.3
-      value: 5000
+      time: 0.5
+      value: 5051.0254
       inSlope: -212.65367
       outSlope: -212.65367
       tangentMode: 0
@@ -3807,7 +3812,7 @@ MonoBehaviour:
     _pitch: 1
   - ControllerName: PLAYER_SING
     _audioClipList:
-    - {fileID: 8300000, guid: 6582679b3fec943cdaf6ace3d705487e, type: 3}
+    - {fileID: 8300000, guid: d1f3bf06ef45548c98fa3d45b8de89e0, type: 3}
     _mixerGroup: {fileID: 243970327439256478, guid: 30f3aa683f5543d469208f1bb641c945,
       type: 2}
     _volume: 1
@@ -3935,7 +3940,7 @@ MonoBehaviour:
   _mask: {fileID: 0}
   _dirtParticlePrefab: {fileID: 1727087997097078, guid: 0103d30c7c7cd4068a4d277c17befd51,
     type: 2}
-  _scaleFactor: 4
+  _scaleFactor: 25
 --- !u!114 &114853906761940640
 MonoBehaviour:
   m_ObjectHideFlags: 1
