@@ -97,6 +97,11 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 
     [SerializeField] Material rabbitMat;
 
+    [SerializeField]
+    ParticleSystem _twistParticleSystem;
+    [SerializeField]
+    ParticleSystem _cappParticleSystem;
+
 	void Start()
 	{
 		_paletteIndex = 0;
@@ -131,9 +136,17 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 				groundDecalMain.startColor = new Color( _activePalette.groundColorSecondary.r * _activePalette.groundDecalTint.r, _activePalette.groundColorSecondary.g * _activePalette.groundDecalTint.g, _activePalette.groundColorSecondary.b * _activePalette.groundDecalTint.b, 1.0f );
 			}
 
-            // TODO: Change this to be more specific gdi
-            flowerSplatDecalColor = new Color( _activePalette.groundColorSecondary.r * _activePalette.groundDecalTint.r, _activePalette.groundColorSecondary.g * _activePalette.groundDecalTint.g, _activePalette.groundColorSecondary.b * _activePalette.groundDecalTint.b, 1.0f );
+            if( _twistParticleSystem != null )
+            {
+                ParticleSystem.MainModule twistDecalMain = groundSplatDecal.main;
+                twistDecalMain.startColor = _activePalette.twistPlant.Evaluate(0.0f);
+            }
 
+            if ( _cappParticleSystem != null )
+            {
+                ParticleSystem.MainModule cappDecalMain = groundSplatDecal.main;
+                cappDecalMain.startColor = _activePalette.cappPlant.Evaluate( 0.0f );
+            }
 
             terrainRockMat.SetColor( "_Color", _activePalette.terrainRockColor);
 			terrainMossRockMat.SetColor( "_Color", _activePalette.terrainMossRockColor );
@@ -223,8 +236,6 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 
 			ParticleSystem.MainModule groundDecalMain = groundSplatDecal.main;
 			groundDecalMain.startColor = new Color( _activePalette.groundColorSecondary.r * _activePalette.groundDecalTint.r, _activePalette.groundColorSecondary.g * _activePalette.groundDecalTint.g, _activePalette.groundColorSecondary.b * _activePalette.groundDecalTint.b, 1.0f );
-
-            flowerSplatDecalColor = new Color( _activePalette.groundColorSecondary.r * _activePalette.groundDecalTint.r, _activePalette.groundColorSecondary.g * _activePalette.groundDecalTint.g, _activePalette.groundColorSecondary.b * _activePalette.groundDecalTint.b, 1.0f );
 
             //skybox
             RenderSettings.fogColor = Colorx.Slerp(prevPalette.fogColor, _activePalette.fogColor, timer / duration );

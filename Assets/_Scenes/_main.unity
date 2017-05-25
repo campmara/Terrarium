@@ -2190,6 +2190,11 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 256595384}
   m_Mesh: {fileID: 4300000, guid: b129ad4cff27d1a4cbdddaa52475a9d1, type: 3}
+--- !u!198 &256763075 stripped
+ParticleSystem:
+  m_PrefabParentObject: {fileID: 198353051952124682, guid: f3fe1fdb9da654f72ae8ff06711f4a80,
+    type: 2}
+  m_PrefabInternal: {fileID: 1017378813}
 --- !u!1 &266362041
 GameObject:
   m_ObjectHideFlags: 0
@@ -11601,6 +11606,16 @@ Prefab:
       propertyPath: groundSplatDecal
       value: 
       objectReference: {fileID: 1293482411}
+    - target: {fileID: 114374224506587848, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
+        type: 2}
+      propertyPath: _twistParticleSystem
+      value: 
+      objectReference: {fileID: 256763075}
+    - target: {fileID: 114374224506587848, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
+        type: 2}
+      propertyPath: _cappParticleSystem
+      value: 
+      objectReference: {fileID: 1937323159}
     - target: {fileID: 114536147130075368, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
         type: 2}
       propertyPath: _pond
@@ -11616,21 +11631,6 @@ Prefab:
       propertyPath: _mask
       value: 
       objectReference: {fileID: 1017378814}
-    - target: {fileID: 114770539629856794, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
-        type: 2}
-      propertyPath: lowpassCurve.m_Curve.Array.data[1].time
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114770539629856794, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
-        type: 2}
-      propertyPath: lowpassCurve.m_Curve.Array.data[1].value
-      value: 5051.0254
-      objectReference: {fileID: 0}
-    - target: {fileID: 114354983736497786, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
-        type: 2}
-      propertyPath: _maxPlayerDistance
-      value: 156
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 17e7204e7259943eaa4ae4fd5f6f0e54, type: 2}
   m_IsPrefabParent: 0
@@ -13633,6 +13633,11 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1929244165}
   m_Mesh: {fileID: 4300000, guid: b129ad4cff27d1a4cbdddaa52475a9d1, type: 3}
+--- !u!198 &1937323159 stripped
+ParticleSystem:
+  m_PrefabParentObject: {fileID: 198777316632145236, guid: f3fe1fdb9da654f72ae8ff06711f4a80,
+    type: 2}
+  m_PrefabInternal: {fileID: 1017378813}
 --- !u!1 &1944028965
 GameObject:
   m_ObjectHideFlags: 0
