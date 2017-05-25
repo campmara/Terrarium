@@ -318,7 +318,7 @@ MonoBehaviour:
   _grassDensity: 100
   waterSplatDecalPool: {fileID: 114598903899978766}
   flowerSplatDecalPool: {fileID: 114229707023453938}
-  flowerSplatOdds: 0
+  flowerSplatOdds: 1
 --- !u!198 &198084790870047656
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -3342,13 +3342,13 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -990368684
+  randomSeed: 997952617
   InitialModule:
     serializedVersion: 3
     enabled: 1
     startLifetime:
       minMaxState: 0
-      scalar: 30
+      scalar: 5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -3919,7 +3919,7 @@ ParticleSystem:
     m_BurstCount: 0
     m_Bursts: []
   SizeModule:
-    enabled: 1
+    enabled: 0
     curve:
       minMaxState: 2
       scalar: 1
@@ -4177,8 +4177,8 @@ ParticleSystem:
       minMaxState: 1
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 0.99607843}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key0: {r: 1, g: 1, b: 1, a: 0}
+        key1: {r: 1, g: 1, b: 1, a: 0.99607843}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -4194,7 +4194,7 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 58982
+        atime1: 32768
         atime2: 65535
         atime3: 0
         atime4: 0
@@ -6269,7 +6269,7 @@ ParticleSystemRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8a5fe98238b33e242af5519a6c7d67b4, type: 2}
+  - {fileID: 2100000, guid: 3ac787fd1384d5b409ed32567aacb0fa, type: 2}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0

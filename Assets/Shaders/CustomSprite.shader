@@ -78,7 +78,7 @@
 			float frame = clamp(_FrameNumber, 0, _TotalFrames);
 			
 			if (_ToggleVertexColorAnim != 0) {
-				frame = clamp(round(IN.color.r * _TotalFrames), 0, _TotalFrames);
+				frame = clamp(round(IN.color.a * _TotalFrames), 0, _TotalFrames);
 			}
 
 			float2 offPerFrame = float2((1 / (float)_Columns), (1 / (float)_Rows));
@@ -98,7 +98,7 @@
 			float2 spriteUV = (spriteSize + currentSprite); // * _FrameScale
 
 			fixed4 c = tex2D (_MainTex, spriteUV) * _Color;
-			c.rgb = lerp(_Color, _Color2, c.r);
+			c.rgb = lerp(_Color, _Color2, c.r) * IN.color.rgb;
 
 			o.Albedo = c.rgb;
 			o.Alpha = c.a;

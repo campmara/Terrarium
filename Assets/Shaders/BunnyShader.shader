@@ -42,7 +42,7 @@ Shader "Custom/Bunny"
 		SubShader
 	{
 
-		Tags{ "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Opaque" }
+		Tags{ "Queue" = "Geometry" "IgnoreProjector" = "True" "RenderType" = "Opaque" }
 		LOD 200
 		CGPROGRAM
 #pragma surface surf WrapLambert vertex:vert addshadow
