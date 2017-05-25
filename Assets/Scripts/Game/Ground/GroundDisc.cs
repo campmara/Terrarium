@@ -9,7 +9,7 @@ public class GroundDisc : MonoBehaviour
 	[SerializeField] private int _grassDensity = 100;
 
 	[SerializeField] private GroundDecalPool waterSplatDecalPool;
-    [SerializeField] private GroundDecalPool flowerSplatDecalPool;
+    [SerializeField] private List<FlowerDecalPool> flowerSplatDecalPool;
 
     [SerializeField, Range( 0.0f, 1.0f )]
     float flowerSplatOdds = 0.25f; 
@@ -141,9 +141,14 @@ public class GroundDisc : MonoBehaviour
         // TODO: add a different method for BIg SPLATS when more flowers should spwan more quickly
         if( Random.value <= flowerSplatOdds )
         {
-            flowerSplatDecalPool.AddDecal( pos, size );
+            DrawFlowerDecal( pos );            
         }        
 
+    }
+
+    public void DrawFlowerDecal( Vector3 pos )
+    {
+        flowerSplatDecalPool[Random.Range( 0, flowerSplatDecalPool.Count )].AddDecal( pos );
     }
 
 	/*

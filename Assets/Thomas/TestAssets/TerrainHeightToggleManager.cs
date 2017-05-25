@@ -29,7 +29,7 @@ public class TerrainHeightToggleManager : MonoBehaviour
 			player = PlayerManager.instance.Player;
 		}
 
-		Debug.Log("Dist: " + dist);
+		//Debug.Log("Dist: " + dist);
 		
 		if (dist > APPROX_PLAYAREA_RADIUS * APPROX_PLAYAREA_RADIUS)
 		{

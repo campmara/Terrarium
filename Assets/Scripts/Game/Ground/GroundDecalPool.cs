@@ -16,6 +16,8 @@ public class GroundDecalPool : MonoBehaviour
     [SerializeField]
     private float startPosYOffsetScalar = 0.005f;
 
+    [SerializeField]
+    bool randomizeRotation = true;
 
 
 	void Awake()
@@ -44,14 +46,17 @@ public class GroundDecalPool : MonoBehaviour
             decalParticles[dataIndex].startSize = Random.Range( size + startSizeOffsetRange.x, size + startSizeOffsetRange.y );
         }
         
-		Vector3 rot = Quaternion.LookRotation(Vector3.down, Vector3.up).eulerAngles;
-        //Vector3 rot = Vector3.zero;
-        rot.z = Random.Range(0f, 360f);
-		decalParticles[dataIndex].rotation3D = rot;
+        if( randomizeRotation )
+        {
+            Vector3 rot = Quaternion.LookRotation( Vector3.down, Vector3.up ).eulerAngles;
+            //Vector3 rot = Vector3.zero;
+            rot.z = Random.Range( 0f, 360f );
+            decalParticles[dataIndex].rotation3D = rot;
+        }
 
-		//decalParticles[dataIndex].startColor = gradient.Evaluate(Random.Range(0f, 1f));
-		
-		decalSystem.Emit(decalParticles[dataIndex], 1);
+        //decalParticles[dataIndex].startColor = gradient.Evaluate(Random.Range(0f, 1f));
+
+        decalSystem.Emit(decalParticles[dataIndex], 1);
 
 		dataIndex++;
 	}

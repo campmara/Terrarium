@@ -3807,7 +3807,7 @@ MonoBehaviour:
     _pitch: 1
   - ControllerName: PLAYER_SING
     _audioClipList:
-    - {fileID: 8300000, guid: 6582679b3fec943cdaf6ace3d705487e, type: 3}
+    - {fileID: 8300000, guid: d1f3bf06ef45548c98fa3d45b8de89e0, type: 3}
     _mixerGroup: {fileID: 243970327439256478, guid: 30f3aa683f5543d469208f1bb641c945,
       type: 2}
     _volume: 1
@@ -3935,7 +3935,7 @@ MonoBehaviour:
   _mask: {fileID: 0}
   _dirtParticlePrefab: {fileID: 1727087997097078, guid: 0103d30c7c7cd4068a4d277c17befd51,
     type: 2}
-  _scaleFactor: 4
+  _scaleFactor: 25
 --- !u!114 &114853906761940640
 MonoBehaviour:
   m_ObjectHideFlags: 1
