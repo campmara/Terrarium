@@ -29,7 +29,7 @@ public class FlowerDecalPool : MonoBehaviour {
        
         decalParticles[dataIndex].position = pos + spawnOffset;
 
-        decalParticles[dataIndex].startColor = ColorManager.instance.flowerSplatDecalColor;
+        //decalParticles[dataIndex].startColor = ColorManager.instance.flowerSplatDecalColor;
 
         decalSystem.Emit( decalParticles[dataIndex], 1 );
 
