@@ -3,6 +3,64 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+
+[Serializable]
+public struct EnvironmentPalette2
+{
+	public string PaletteName = "";
+
+	//0
+	[HeaderAttribute("Gradient 0"), Space(5)] 
+	public Gradient TopGradient0;
+	public Gradient MidGradient0;
+	public Gradient BotGradient0;
+	//	//1 
+	[HeaderAttribute("Gradient 1"), Space(5)] 
+	public Gradient TopGradient1;
+	public Gradient MidGradient1;
+	public Gradient BotGradient1;
+	//	//2 
+	[HeaderAttribute("Gradient 2"), Space(5)] 
+	public Gradient TopGradient2;
+	public Gradient MidGradient2;
+	public Gradient BotGradient2;
+	//	//3
+	[HeaderAttribute("Gradient 3"), Space(5)] 
+	public Gradient TopGradient3;
+	public Gradient MidGradient3;
+	public Gradient BotGradient3;
+	//	//4
+	[HeaderAttribute("Gradient 4"), Space(5)] 
+	public Gradient TopGradient4;
+	public Gradient MidGradient4;
+	public Gradient BotGradient4;
+	//	//5
+	[HeaderAttribute("Gradient 5"), Space(5)] 
+	public Gradient TopGradient5;
+	public Gradient MidGradient5;
+	public Gradient BotGradient5;
+	//	//6
+	[HeaderAttribute("Gradient 6"), Space(5)] 
+	public Gradient TopGradient6;
+	public Gradient MidGradient6;
+	public Gradient BotGradient6;
+	//	//7
+	[HeaderAttribute("Gradient 7"), Space(5)] 
+	public Gradient TopGradient7;
+	public Gradient MidGradient7;
+	public Gradient BotGradient7;
+	//	//8
+	[HeaderAttribute("Gradient 8"), Space(5)] 
+	public Gradient TopGradient8;
+	public Gradient MidGradient8;
+	public Gradient BotGradient8;
+	//	//9
+	[HeaderAttribute("Gradient 9"), Space(5)] 
+	public Gradient TopGradient9;
+	public Gradient MidGradient9;
+	public Gradient BotGradient9;
+}
+
 public class ColorManager : SingletonBehaviour<ColorManager> {
 
 	[Serializable]
@@ -359,4 +417,5 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 
 		StartCoroutine( PaletteChangeTimer() );
 	}
+
 }
