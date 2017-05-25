@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33397932110784570}
   - component: {fileID: 23595201637608944}
   m_Layer: 14
-  m_Name: Imprint
+  m_Name: Plant Imprint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
