@@ -71,7 +71,9 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 	[Header("Global Materials"), Space(5)]
 	[SerializeField] Material terrainMaterial;
 	[SerializeField] ParticleSystem groundSplatDecal;
-	[SerializeField] Material terrainRockMat;
+    [SerializeField]
+    public Color flowerSplatDecalColor;
+    [SerializeField] Material terrainRockMat;
 	[SerializeField] Material terrainMossRockMat;
 	[SerializeField] Material pondRockMat;
 
@@ -129,7 +131,11 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 				groundDecalMain.startColor = new Color( _activePalette.groundColorSecondary.r * _activePalette.groundDecalTint.r, _activePalette.groundColorSecondary.g * _activePalette.groundDecalTint.g, _activePalette.groundColorSecondary.b * _activePalette.groundDecalTint.b, 1.0f );
 			}
 
-			terrainRockMat.SetColor( "_Color", _activePalette.terrainRockColor);
+            // TODO: Change this to be more specific gdi
+            flowerSplatDecalColor = new Color( _activePalette.groundColorSecondary.r * _activePalette.groundDecalTint.r, _activePalette.groundColorSecondary.g * _activePalette.groundDecalTint.g, _activePalette.groundColorSecondary.b * _activePalette.groundDecalTint.b, 1.0f );
+
+
+            terrainRockMat.SetColor( "_Color", _activePalette.terrainRockColor);
 			terrainMossRockMat.SetColor( "_Color", _activePalette.terrainMossRockColor );
 
 			//skybox
@@ -216,10 +222,12 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 			Shader.SetGlobalColor("_GroundColorTint",  Colorx.Slerp( prevPalette.groundDecalTint, _activePalette.groundDecalTint, timer / duration ) );
 
 			ParticleSystem.MainModule groundDecalMain = groundSplatDecal.main;
-			groundDecalMain.startColor = new Color( _activePalette.groundColorSecondary.r * _activePalette.groundDecalTint.r, _activePalette.groundColorSecondary.g * _activePalette.groundDecalTint.g, _activePalette.groundColorSecondary.b * _activePalette.groundDecalTint.b, 1.0f );			
+			groundDecalMain.startColor = new Color( _activePalette.groundColorSecondary.r * _activePalette.groundDecalTint.r, _activePalette.groundColorSecondary.g * _activePalette.groundDecalTint.g, _activePalette.groundColorSecondary.b * _activePalette.groundDecalTint.b, 1.0f );
 
-			//skybox
-			RenderSettings.fogColor = Colorx.Slerp(prevPalette.fogColor, _activePalette.fogColor, timer / duration );
+            flowerSplatDecalColor = new Color( _activePalette.groundColorSecondary.r * _activePalette.groundDecalTint.r, _activePalette.groundColorSecondary.g * _activePalette.groundDecalTint.g, _activePalette.groundColorSecondary.b * _activePalette.groundDecalTint.b, 1.0f );
+
+            //skybox
+            RenderSettings.fogColor = Colorx.Slerp(prevPalette.fogColor, _activePalette.fogColor, timer / duration );
 			RenderSettings.skybox.SetColor( "_Color1", Colorx.Slerp( prevPalette.cloudRimColor, _activePalette.cloudRimColor, timer/ duration )  );
 			RenderSettings.skybox.SetColor( "_Color2", Colorx.Slerp( prevPalette.skyColor, _activePalette.skyColor, timer / duration ) );
 

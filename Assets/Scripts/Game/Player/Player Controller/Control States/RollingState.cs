@@ -145,7 +145,7 @@ public class RollingState : RollerState
 			spherePos.y = 0.375f + PondManager.instance.Pond.GetPondY(spherePos);
 			_roller.RollSphere.transform.position = spherePos;
 
-            GroundManager.instance.Ground.DrawSplatDecal( spherePos, Mathf.Lerp( RollerConstants.instance.RollPaintSize.x, RollerConstants.instance.RollPaintSize.y, Mathf.InverseLerp( RollerConstants.instance.ReverseRollSpeed, RollerConstants.instance.RollMaxSpeed, _roller.Velocity ) ) );            
+            GroundManager.instance.Ground.DrawSplatDecal( spherePos + (Vector3.up * -0.37f ), Mathf.Lerp( RollerConstants.instance.RollPaintSize.x, RollerConstants.instance.RollPaintSize.y, Mathf.InverseLerp( RollerConstants.instance.ReverseRollSpeed, RollerConstants.instance.RollMaxSpeed, _roller.Velocity ) ) );            
         }
     }
 
