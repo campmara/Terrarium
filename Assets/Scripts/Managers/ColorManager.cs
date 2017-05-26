@@ -5,10 +5,8 @@ using System;
 
 
 [Serializable]
-public struct EnvironmentPalette2
+public struct PlantColorPalette
 {
-	public string PaletteName = "";
-
 	//0
 	[HeaderAttribute("Gradient 0"), Space(5)] 
 	public Gradient TopGradient0;
@@ -86,44 +84,31 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 		public Color skyColor;
 		public Color cloudRimColor;
 
-		// GRADIENTS GO TOP TO BOTTOM (0 is top, 1 is bottom)
-		[Header("Plant colors"), Space(5)]
-		[Header("Class 1")]
-		public Gradient mossPlantSeed;
-		public Gradient mossPlant;
-		public Gradient pointPlantSeed;
-		public Gradient pointPlantStem;
-		public Gradient pointPlantLeaf;
-		[Header("Class 2"), Space(5)]
-		public Gradient leafyGroundPlantBulb;
-		public Gradient leafyGroundPlantLeaf;
-		public Gradient pointyBush;
-		public Gradient bumblePlant;
-		[Header("Class 3"), Space(5)]
-		public Gradient twistPlant;
-		public Gradient cappPlant;
-		public Gradient limberPlant;
+		[Header( "Creatures" ), Space( 5 )]
 
-        [Header( "Creatures" ), Space( 5 )]
-        public Gradient rabbitGradient;
-        public Gradient butterflyGradient;
+		public Gradient rabbitGradient;
+		public Gradient butterflyGradient;
+
+		public PlantColorPalette plantColors;
 	}
 
 	public static event Action<EnvironmentPalette, EnvironmentPalette> ExecutePaletteChange;
 
 	[SerializeField] int _paletteIndex = 0;
 	EnvironmentPalette _activePalette;
-	public EnvironmentPalette ActivePalatte { get { return _activePalette; } }
-	public const float PALATTE_TRANSITIONTIME = 5.0f;
+	public EnvironmentPalette ActivePalette { get { return _activePalette; } }
+	public const float PALETTE_TRANSITIONTIME = 5.0f;
 	const float PALATTE_ADVANCETIMER_MIN = 90.0f;
 	const float PALATE_ADVANCETIMER_MAX = 120.0f;
 
 
 	[SerializeField, Space(5)] List<EnvironmentPalette> _environmentPaletteList = new List<EnvironmentPalette>();
-	public List<EnvironmentPalette> PalletteList { get { return _environmentPaletteList; } set { _environmentPaletteList = value; } }
+	public List<EnvironmentPalette> OldPalletteList { get { return _environmentPaletteList; } set { _environmentPaletteList = value; } }
 
 	[SerializeField, Space(5)]
 	List<int> _paletteOrderList = new List<int>();
+
+	List<int> _uniformIdentifierList = new List<int>();
 
 	// TODO make as many of these global shader things as possible?
 	[Header("Global Materials"), Space(5)]
@@ -135,25 +120,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 	[SerializeField] Material terrainMossRockMat;
 	[SerializeField] Material pondRockMat;
 
-	[SerializeField] Material mossPlantMat;
-	[SerializeField] Material mossPlantSeedMat;
-
-	public Material pointPlantSeedMat;
-	[SerializeField] Material pointPlantStemMat;
-	[SerializeField] Material pointPlantLeafMat;
-
-	[SerializeField] Material leafyGroundPlantBulbMat;
-	[SerializeField] Material leafyGroundPlantLeafMat;
-
-	[SerializeField] Material twistPlantMat;
-
-	[SerializeField] Material cappPlantMat;
-
-	[SerializeField] Material bumbleMat;
-	[SerializeField] Material limberMat;
-	[SerializeField] Material pointyBushMat;
-
-    [SerializeField] Material rabbitMat;
+	[SerializeField] Material rabbitMat;
 
     [SerializeField]
     ParticleSystem _twistParticleSystem;
@@ -162,7 +129,11 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 
 	void Start()
 	{
+		// Setting up Global Shader value ID's
+		InitShaderIDList();
+
 		_paletteIndex = 0;
+		_activePalette = _environmentPaletteList[_paletteOrderList[_paletteIndex]];
 		UpdatePalette( _paletteOrderList[_paletteIndex] );	
 
 		StartCoroutine( PaletteChangeTimer() );
@@ -171,15 +142,18 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 	public override void Initialize ()
 	{
 		
-
-
 		isInitialized = true;
 	}
 
 	void UpdatePalette( int newPalatteIndex )
 	{
-		EnvironmentPalette prevPalatte = _activePalette;
+		EnvironmentPalette prevPalette = _activePalette;
 		_activePalette = _environmentPaletteList[newPalatteIndex];
+
+		if( _uniformIdentifierList.Count == 0)
+		{
+			InitShaderIDList();
+		}
 
 		if( !Application.isPlaying )
 		{
@@ -197,13 +171,13 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
             if( _twistParticleSystem != null )
             {
                 ParticleSystem.MainModule twistDecalMain = groundSplatDecal.main;
-                twistDecalMain.startColor = _activePalette.twistPlant.Evaluate(0.0f);
+				twistDecalMain.startColor = new Color( _activePalette.groundColorSecondary.r * _activePalette.groundDecalTint.r, _activePalette.groundColorSecondary.g * _activePalette.groundDecalTint.g, _activePalette.groundColorSecondary.b * _activePalette.groundDecalTint.b, 1.0f );
             }
 
             if ( _cappParticleSystem != null )
             {
                 ParticleSystem.MainModule cappDecalMain = groundSplatDecal.main;
-                cappDecalMain.startColor = _activePalette.cappPlant.Evaluate( 0.0f );
+				cappDecalMain.startColor = new Color( _activePalette.groundColorSecondary.r * _activePalette.groundDecalTint.r, _activePalette.groundColorSecondary.g * _activePalette.groundDecalTint.g, _activePalette.groundColorSecondary.b * _activePalette.groundDecalTint.b, 1.0f );
             }
 
             terrainRockMat.SetColor( "_Color", _activePalette.terrainRockColor);
@@ -223,58 +197,28 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 			pondRockMat.SetColor( "_Color", _activePalette.pondRockColor );
             //ApplyThreePartGradient( pondRockMat, _activePalette.pondRockGradient );
 
-            ApplyThreePartGradient( rabbitMat, _activePalette.rabbitGradient );
+			ApplyThreePartGradient( rabbitMat, _activePalette.rabbitGradient );
 
-			ApplyThreePartGradient( mossPlantSeedMat, _activePalette.mossPlantSeed );
-			ApplyThreePartGradient( mossPlantMat, _activePalette.mossPlant );
-			ApplyThreePartGradient( pointPlantSeedMat, _activePalette.pointPlantSeed );			
-			ApplyThreePartGradient( pointPlantLeafMat, _activePalette.pointPlantLeaf );
-			ApplyThreePartGradient( pointPlantStemMat, _activePalette.pointPlantStem );
-			ApplyThreePartGradient( leafyGroundPlantBulbMat, _activePalette.leafyGroundPlantBulb );
-			ApplyThreePartGradient( leafyGroundPlantLeafMat, _activePalette.leafyGroundPlantLeaf );
-			ApplyThreePartGradient( bumbleMat, _activePalette.bumblePlant );
-			ApplyThreePartGradient( pointyBushMat, _activePalette.pointyBush );
-			ApplyThreePartGradient( limberMat, _activePalette.limberPlant );
-
-			ApplyTwoPartGradient( twistPlantMat, _activePalette.twistPlant );			
-			ApplyTwoPartGradient( cappPlantMat, _activePalette.cappPlant );
-
+			SetPlantColors( prevPalette.plantColors, _activePalette.plantColors );
 		}
 		else
-		{
-			// TODO TRANSITION VIA AN OVERARCHING LERP BETWEEN EVERYTHING IN THE PALATTE
+		{			
 			//Debug.Log( "Transitioning Colors" );
+			GeneralTransitionColors( prevPalette );
+			       
+			TransitionThreePartGradient( rabbitMat, _activePalette.rabbitGradient );
 
-			GeneralTransitionColors( prevPalatte );
+			TransitionPlantColors( prevPalette );
 
-            //TransitionThreePartGradient( pondRockMat, _activePalette.pondRockGradient );
-
-           TransitionThreePartGradient( rabbitMat, _activePalette.rabbitGradient );
-
-            TransitionThreePartGradient( mossPlantSeedMat, _activePalette.mossPlantSeed );
-			TransitionThreePartGradient( mossPlantMat, _activePalette.mossPlant );
-			TransitionThreePartGradient( pointPlantSeedMat, _activePalette.pointPlantSeed );			
-			TransitionThreePartGradient( pointPlantLeafMat, _activePalette.pointPlantLeaf );
-			TransitionThreePartGradient( pointPlantStemMat, _activePalette.pointPlantStem );
-			TransitionThreePartGradient( leafyGroundPlantBulbMat, _activePalette.leafyGroundPlantBulb );
-			TransitionThreePartGradient( leafyGroundPlantLeafMat, _activePalette.leafyGroundPlantLeaf );
-			TransitionThreePartGradient( bumbleMat, _activePalette.bumblePlant );
-			TransitionThreePartGradient( pointyBushMat, _activePalette.pointyBush );
-			TransitionThreePartGradient( limberMat, _activePalette.limberPlant );
-
-			TransitionTwoPartGradient( twistPlantMat, _activePalette.twistPlant );			
-			TransitionTwoPartGradient( cappPlantMat, _activePalette.cappPlant );
-
-			//StartCoroutine( DelayedUpdatePalatteEvent() );
 		}
 
 		if (ExecutePaletteChange != null)
 		{
-			ExecutePaletteChange( _activePalette, prevPalatte );
+			//ExecutePaletteChange( _activePalette, prevPalatte );
 		} 
 	}
 
-	void GeneralTransitionColors( EnvironmentPalette prevPalette, float duration = PALATTE_TRANSITIONTIME )
+	void GeneralTransitionColors( EnvironmentPalette prevPalette, float duration = PALETTE_TRANSITIONTIME )
 	{
 		StartCoroutine( DelayedGeneralColorTransition( prevPalette, duration ) );
 	}
@@ -310,6 +254,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 			yield return 0;
 		}
 	}
+
 	/// <summary>
 	/// Applies the three part gradient to our Gradient Shader
 	/// </summary>
@@ -317,69 +262,217 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 	/// <param name="gradient">Gradient.</param>
 	public void ApplyThreePartGradient( Material objectMaterial, Gradient gradient )
 	{
-		//Debug.Assert( material != null && material.HasProperty("_TopColor"), "Must be a gradient shader!" );
-
+		//Debug.Assert( material != null && material.HasProperty("_TopColor"), "Must be a gradient 
 		objectMaterial.SetColor("_ColorTop", gradient.Evaluate(0f));
+
 		objectMaterial.SetColor("_ColorMid", gradient.Evaluate(.5f));
-		objectMaterial.SetColor("_ColorBot", gradient.Evaluate(1f));	
 
+		objectMaterial.SetColor("_ColorBot", gradient.Evaluate(1f));  
 	}
-	public void ApplyTwoPartGradient( Material objectMaterial, Gradient gradient )
+
+
+	public void TransitionThreePartGradient( Material objectMaterial, Gradient gradient, float transitionTime = PALETTE_TRANSITIONTIME )
 	{
-		//Debug.Assert( material != null && material.HasProperty("_Color1"), "Must be a two part gradient shader!" );
-
-		objectMaterial.SetColor("_Color", gradient.Evaluate(0f));
-		objectMaterial.SetColor("_Color2", gradient.Evaluate(.5f));
+		StartCoroutine( DelayedTransitionThreePartGradient( objectMaterial, gradient, transitionTime ) );
 	}
 
-	public void TransitionThreePartGradient( Material objectMaterial, Gradient gradient, float transitionTime = PALATTE_TRANSITIONTIME )
-	{
-		StartCoroutine( DelayedChangeMaterialGradient( objectMaterial, gradient, transitionTime ) );
-	}
 
-	public void TransitionTwoPartGradient( Material objectMaterial, Gradient gradient, float transitionTime = PALATTE_TRANSITIONTIME )
-	{
-		StartCoroutine( DelayedChangeTwoGradientMaterial( objectMaterial, gradient, transitionTime ) );
-	}
-
-	IEnumerator DelayedChangeMaterialGradient( Material objectMaterial, Gradient gradient, float transitionTime )
+	IEnumerator DelayedTransitionThreePartGradient( Material objectMaterial, Gradient gradient, float transitionTime )
 	{
 		float timer = 0.0f;
+
 		Color topColor = objectMaterial.GetColor( "_ColorTop" );
 		Color midColor = objectMaterial.GetColor( "_ColorMid" );
 		Color botColor = objectMaterial.GetColor( "_ColorBot" );
 
 		while( timer < transitionTime )
 		{
-			timer +=  Time.deltaTime;
+			timer += Time.deltaTime;
 
 			objectMaterial.SetColor("_ColorTop", Colorx.Slerp( topColor, gradient.Evaluate(0f), timer / transitionTime ) );
 			objectMaterial.SetColor("_ColorMid", Colorx.Slerp( midColor, gradient.Evaluate(.5f), timer / transitionTime ) );
-			objectMaterial.SetColor("_ColorBot", Colorx.Slerp( botColor, gradient.Evaluate(1f), timer / transitionTime ) );		
+			objectMaterial.SetColor("_ColorBot", Colorx.Slerp( botColor, gradient.Evaluate(1f), timer / transitionTime ) );
 
 			yield return 0;
-		}			
+		}
+
+		ApplyThreePartGradient( objectMaterial, gradient );
 	}
 
-	public IEnumerator DelayedChangeTwoGradientMaterial( Material objectMaterial, Gradient gradient, float transitionTime = PALATTE_TRANSITIONTIME )
+	void TransitionPlantColors( EnvironmentPalette prevPalette, float duration = PALETTE_TRANSITIONTIME )
+	{
+		StartCoroutine( DelayedPlantColorTransition( prevPalette, duration ) );
+	}
+
+	IEnumerator DelayedPlantColorTransition( EnvironmentPalette prevPalette, float duration )
 	{
 		float timer = 0.0f;
-		Color topColor = objectMaterial.GetColor( "_Color" );
-		Color midColor = objectMaterial.GetColor( "_Color2" );
 
-
-		while( timer < transitionTime )
+		while( timer < duration )
 		{
-			timer +=  Time.deltaTime;
+			timer += Time.deltaTime;
 
-			objectMaterial.SetColor("_Color", Colorx.Slerp( topColor, gradient.Evaluate(0f), timer / transitionTime ) );
-			objectMaterial.SetColor("_Color2", Colorx.Slerp( midColor, gradient.Evaluate(0.5f), timer / transitionTime ) );
+			SetNewGlobalShaderValues( prevPalette.plantColors, _activePalette.plantColors, timer / duration );
 
 			yield return 0;
-		}			
+		}
+
+		SetPlantColors( prevPalette.plantColors, _activePalette.plantColors );
 	}
 
+	void SetPlantColors( PlantColorPalette prevPalette, PlantColorPalette newPalette )
+	{
+		SetNewGlobalShaderValues( prevPalette, newPalette, 1.0f );
+	}
 
+	void SetNewGlobalShaderValues( PlantColorPalette prevPalette, PlantColorPalette newPalette, float progress )
+	{
+		if( prevPalette.TopGradient0 == null )
+			return;	// For Now Just Fail
+
+		Shader.SetGlobalColor( _uniformIdentifierList[0], Colorx.Slerp( prevPalette.TopGradient0.Evaluate(0.0f), newPalette.TopGradient0.Evaluate(0.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[1], Colorx.Slerp( prevPalette.TopGradient0.Evaluate(1.0f), newPalette.TopGradient0.Evaluate(1.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[2], Colorx.Slerp( prevPalette.MidGradient0.Evaluate(0.0f), newPalette.MidGradient0.Evaluate(0.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[3], Colorx.Slerp( prevPalette.MidGradient0.Evaluate(1.0f), newPalette.MidGradient0.Evaluate(1.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[4], Colorx.Slerp( prevPalette.BotGradient0.Evaluate(0.0f), newPalette.BotGradient0.Evaluate(0.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[5], Colorx.Slerp( prevPalette.BotGradient0.Evaluate(1.0f), newPalette.BotGradient0.Evaluate(1.0f), progress ) );
+
+		Shader.SetGlobalColor( _uniformIdentifierList[6], Colorx.Slerp( prevPalette.TopGradient1.Evaluate(0.0f), newPalette.TopGradient1.Evaluate(0.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[7], Colorx.Slerp( prevPalette.TopGradient1.Evaluate(1.0f), newPalette.TopGradient1.Evaluate(1.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[8], Colorx.Slerp( prevPalette.MidGradient1.Evaluate(0.0f), newPalette.MidGradient1.Evaluate(0.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[9], Colorx.Slerp( prevPalette.MidGradient1.Evaluate(1.0f), newPalette.MidGradient1.Evaluate(1.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[10], Colorx.Slerp( prevPalette.BotGradient1.Evaluate(0.0f), newPalette.BotGradient1.Evaluate(0.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[11], Colorx.Slerp( prevPalette.BotGradient1.Evaluate(1.0f), newPalette.BotGradient1.Evaluate(1.0f), progress ) );
+
+		Shader.SetGlobalColor( _uniformIdentifierList[12], Colorx.Slerp( prevPalette.TopGradient2.Evaluate(0.0f), newPalette.TopGradient2.Evaluate(0.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[13], Colorx.Slerp( prevPalette.TopGradient2.Evaluate(1.0f), newPalette.TopGradient2.Evaluate(1.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[14], Colorx.Slerp( prevPalette.MidGradient2.Evaluate(0.0f), newPalette.MidGradient2.Evaluate(0.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[15], Colorx.Slerp( prevPalette.MidGradient2.Evaluate(1.0f), newPalette.MidGradient2.Evaluate(1.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[16], Colorx.Slerp( prevPalette.BotGradient2.Evaluate(0.0f), newPalette.BotGradient2.Evaluate(0.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[17], Colorx.Slerp( prevPalette.BotGradient2.Evaluate(1.0f), newPalette.BotGradient2.Evaluate(1.0f), progress ) );
+
+		Shader.SetGlobalColor( _uniformIdentifierList[18], Colorx.Slerp( prevPalette.TopGradient3.Evaluate(0.0f), newPalette.TopGradient3.Evaluate(0.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[19], Colorx.Slerp( prevPalette.TopGradient3.Evaluate(1.0f), newPalette.TopGradient3.Evaluate(1.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[20], Colorx.Slerp( prevPalette.MidGradient3.Evaluate(0.0f), newPalette.MidGradient3.Evaluate(0.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[21], Colorx.Slerp( prevPalette.MidGradient3.Evaluate(1.0f), newPalette.MidGradient3.Evaluate(1.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[22], Colorx.Slerp( prevPalette.BotGradient3.Evaluate(0.0f), newPalette.BotGradient3.Evaluate(0.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[23], Colorx.Slerp( prevPalette.BotGradient3.Evaluate(1.0f), newPalette.BotGradient3.Evaluate(1.0f), progress ) );
+
+		Shader.SetGlobalColor( _uniformIdentifierList[24], Colorx.Slerp( prevPalette.TopGradient4.Evaluate(0.0f), newPalette.TopGradient4.Evaluate(0.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[25], Colorx.Slerp( prevPalette.TopGradient4.Evaluate(1.0f), newPalette.TopGradient4.Evaluate(1.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[26], Colorx.Slerp( prevPalette.MidGradient4.Evaluate(0.0f), newPalette.MidGradient4.Evaluate(0.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[27], Colorx.Slerp( prevPalette.MidGradient4.Evaluate(1.0f), newPalette.MidGradient4.Evaluate(1.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[28], Colorx.Slerp( prevPalette.BotGradient4.Evaluate(0.0f), newPalette.BotGradient4.Evaluate(0.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[29], Colorx.Slerp( prevPalette.BotGradient4.Evaluate(1.0f), newPalette.BotGradient4.Evaluate(1.0f), progress ) );
+
+		Shader.SetGlobalColor( _uniformIdentifierList[30], Colorx.Slerp( prevPalette.TopGradient5.Evaluate(0.0f), newPalette.TopGradient5.Evaluate(0.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[31], Colorx.Slerp( prevPalette.TopGradient5.Evaluate(1.0f), newPalette.TopGradient5.Evaluate(1.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[32], Colorx.Slerp( prevPalette.MidGradient5.Evaluate(0.0f), newPalette.MidGradient5.Evaluate(0.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[33], Colorx.Slerp( prevPalette.MidGradient5.Evaluate(1.0f), newPalette.MidGradient5.Evaluate(1.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[34], Colorx.Slerp( prevPalette.BotGradient5.Evaluate(0.0f), newPalette.BotGradient5.Evaluate(0.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[35], Colorx.Slerp( prevPalette.BotGradient5.Evaluate(1.0f), newPalette.BotGradient5.Evaluate(1.0f), progress ) );
+
+		Shader.SetGlobalColor( _uniformIdentifierList[36], Colorx.Slerp( prevPalette.TopGradient6.Evaluate(0.0f), newPalette.BotGradient6.Evaluate(0.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[37], Colorx.Slerp( prevPalette.MidGradient6.Evaluate(1.0f), newPalette.BotGradient6.Evaluate(1.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[38], Colorx.Slerp( prevPalette.BotGradient6.Evaluate(0.0f), newPalette.BotGradient6.Evaluate(0.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[39], Colorx.Slerp( prevPalette.TopGradient6.Evaluate(1.0f), newPalette.BotGradient6.Evaluate(1.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[40], Colorx.Slerp( prevPalette.MidGradient6.Evaluate(0.0f), newPalette.BotGradient6.Evaluate(0.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[41], Colorx.Slerp( prevPalette.BotGradient6.Evaluate(1.0f), newPalette.BotGradient6.Evaluate(1.0f), progress ) );
+
+		Shader.SetGlobalColor( _uniformIdentifierList[42], Colorx.Slerp( prevPalette.TopGradient7.Evaluate(0.0f), newPalette.BotGradient7.Evaluate(0.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[43], Colorx.Slerp( prevPalette.MidGradient7.Evaluate(1.0f), newPalette.BotGradient7.Evaluate(1.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[44], Colorx.Slerp( prevPalette.BotGradient7.Evaluate(0.0f), newPalette.BotGradient7.Evaluate(0.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[45], Colorx.Slerp( prevPalette.TopGradient7.Evaluate(1.0f), newPalette.BotGradient7.Evaluate(1.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[46], Colorx.Slerp( prevPalette.MidGradient7.Evaluate(0.0f), newPalette.BotGradient7.Evaluate(0.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[47], Colorx.Slerp( prevPalette.BotGradient7.Evaluate(1.0f), newPalette.BotGradient7.Evaluate(1.0f), progress ) );
+
+		Shader.SetGlobalColor( _uniformIdentifierList[48], Colorx.Slerp( prevPalette.TopGradient8.Evaluate(0.0f), newPalette.BotGradient8.Evaluate(0.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[49], Colorx.Slerp( prevPalette.MidGradient8.Evaluate(1.0f), newPalette.BotGradient8.Evaluate(1.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[50], Colorx.Slerp( prevPalette.BotGradient8.Evaluate(0.0f), newPalette.BotGradient8.Evaluate(0.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[51], Colorx.Slerp( prevPalette.TopGradient8.Evaluate(1.0f), newPalette.BotGradient8.Evaluate(1.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[52], Colorx.Slerp( prevPalette.MidGradient8.Evaluate(0.0f), newPalette.BotGradient8.Evaluate(0.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[53], Colorx.Slerp( prevPalette.BotGradient8.Evaluate(1.0f), newPalette.BotGradient8.Evaluate(1.0f), progress ) );
+
+		Shader.SetGlobalColor( _uniformIdentifierList[54], Colorx.Slerp( prevPalette.TopGradient9.Evaluate(0.0f), newPalette.BotGradient9.Evaluate(0.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[55], Colorx.Slerp( prevPalette.MidGradient9.Evaluate(1.0f), newPalette.BotGradient9.Evaluate(1.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[56], Colorx.Slerp( prevPalette.BotGradient9.Evaluate(0.0f), newPalette.BotGradient9.Evaluate(0.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[57], Colorx.Slerp( prevPalette.TopGradient9.Evaluate(1.0f), newPalette.BotGradient9.Evaluate(1.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[58], Colorx.Slerp( prevPalette.MidGradient9.Evaluate(0.0f), newPalette.BotGradient9.Evaluate(0.0f), progress ) );
+		Shader.SetGlobalColor( _uniformIdentifierList[59], Colorx.Slerp( prevPalette.BotGradient9.Evaluate(1.0f), newPalette.BotGradient9.Evaluate(1.0f), progress ) );
+	}
+
+	void InitShaderIDList()
+	{
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet0_Top1") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet0_Top2") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet0_Mid1") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet0_Mid2") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet0_Bot1") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet0_Bot2") );
+
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet1_Top1") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet1_Top2") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet1_Mid1") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet1_Mid2") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet1_Bot1") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet1_Bot2") );
+
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet2_Top1") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet2_Top2") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet2_Mid1") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet2_Mid2") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet2_Bot1") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet2_Bot2") );
+
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet3_Top1") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet3_Top2") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet3_Mid1") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet3_Mid2") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet3_Bot1") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet3_Bot2") );
+
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet4_Top1") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet4_Top2") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet4_Mid1") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet4_Mid2") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet4_Bot1") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet4_Bot2") );
+
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet5_Top1") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet5_Top2") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet5_Mid1") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet5_Mid2") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet5_Bot1") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet5_Bot2") );
+
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet6_Top1") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet6_Top2") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet6_Mid1") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet6_Mid2") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet6_Bot1") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet6_Bot2") );
+
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet7_Top1") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet7_Top2") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet7_Mid1") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet7_Mid2") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet7_Bot1") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet7_Bot2") );
+
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet8_Top1") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet8_Top2") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet8_Mid1") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet8_Mid2") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet8_Bot1") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet8_Bot2") );
+
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet9_Top1") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet9_Top2") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet9_Mid1") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet9_Mid2") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet9_Bot1") );
+		_uniformIdentifierList.Add( Shader.PropertyToID("_PlantColorSet9_Bot2") );
+	}
 
 	void OnValidate()
 	{		
@@ -391,7 +484,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 		{
 			_paletteIndex = _paletteOrderList.Count - 1;
 		}
-
+			
 		UpdatePalette( _paletteOrderList[_paletteIndex] );
 
 		//		if( _paletteIndex != _environmentPaletteList.FindIndex( x => x.title == _activePalette.title ) )    // Should be b a better way to do this
@@ -413,7 +506,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 
 		UpdatePalette( _paletteOrderList[_paletteIndex] );
 
-		yield return new WaitForSeconds( PALATTE_TRANSITIONTIME );
+		yield return new WaitForSeconds( PALETTE_TRANSITIONTIME );
 
 		StartCoroutine( PaletteChangeTimer() );
 	}
