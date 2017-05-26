@@ -11,7 +11,7 @@ public class RollingState : RollerState
 
     public override void Enter( P_ControlState prevState ) 
 	{
-		Debug.Log("ENTER ROLLING STATE");
+		Debug.Log("[RollerState] ENTER ROLLING STATE");
 
         // Handle Transition from Walking State
 		if ( prevState == P_ControlState.WALKING )

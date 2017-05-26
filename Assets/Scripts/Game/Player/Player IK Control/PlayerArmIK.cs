@@ -153,7 +153,7 @@ public class PlayerArmIK : MonoBehaviour {
                     break;
             }
 
-            Debug.Log("Transitioning arm from " + _armState.ToString() + " to " + newState.ToString() );
+            //Debug.Log("Transitioning arm from " + _armState.ToString() + " to " + newState.ToString() );
 
             _armState = newState;
         }
