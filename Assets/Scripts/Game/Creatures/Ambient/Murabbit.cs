@@ -130,6 +130,7 @@ public class Murabbit : MonoBehaviour
 
 		Vector3 jumpPos = transform.position + (Random.insideUnitSphere * 2f);
 		jumpPos.y = 0f;
+		transform.LookAt(jumpPos);
 
 		hopTween = transform.DOJump(jumpPos, Random.Range(1.5f, 3f), 1, HOP_DURATION).OnComplete(() => SetState(State.HOP));
 	}
@@ -169,6 +170,7 @@ public class Murabbit : MonoBehaviour
 	{
 		Vector3 jumpPos = transform.position + (Random.insideUnitSphere * 2f);
 		jumpPos.y = 0f;
+		transform.LookAt(jumpPos);
 
 		hopTween = transform.DOJump(jumpPos, Random.Range(0.5f, 1.25f), 1, HOP_DURATION)
 			.OnComplete(() => SetState(State.IDLE));

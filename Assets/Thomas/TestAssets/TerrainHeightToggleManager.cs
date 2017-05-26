@@ -8,7 +8,7 @@ public class TerrainHeightToggleManager : MonoBehaviour
 
 	private Player player;
 	private float dist;
-	private const float APPROX_PLAYAREA_RADIUS = 15f;
+	private const float APPROX_POND_RADIUS = 4f;
 
 	private void Awake()
 	{
@@ -31,7 +31,7 @@ public class TerrainHeightToggleManager : MonoBehaviour
 
 		//Debug.Log("Dist: " + dist);
 		
-		if (dist > APPROX_PLAYAREA_RADIUS * APPROX_PLAYAREA_RADIUS)
+		if (dist > APPROX_POND_RADIUS * APPROX_POND_RADIUS)
 		{
 			terrainMat.SetFloat("_SplatmapEnabled", 1f);
 		}
