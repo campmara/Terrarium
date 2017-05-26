@@ -7,7 +7,7 @@ public class PlantingState : RollerState
 
     public override void Enter( P_ControlState prevState )
     {
-        Debug.Log( "ENTER PLANTING STATE" );
+        Debug.Log( "[RollerState] ENTER PLANTING STATE" );
 
 		_roller.Face.TransitionFacePose( "Plant Seed" );
 
@@ -23,7 +23,7 @@ public class PlantingState : RollerState
 
     public override void Exit( P_ControlState nextState )
     {
-        Debug.Log( "EXITTING PLANTING STATE" );
+        Debug.Log("[RollerState] EXITTING PLANTING STATE");
 
         switch( nextState )
         {

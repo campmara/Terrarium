@@ -15,7 +15,7 @@ public class WalkingState : RollerState
 
     public override void Enter( P_ControlState prevState )
 	{
-		Debug.Log("ENTER WALKING STATE");
+		Debug.Log("[RollerState] ENTER WALKING STATE");
 
         // Handle Transition
         switch ( prevState )
@@ -58,7 +58,7 @@ public class WalkingState : RollerState
 
 	public override void Exit(P_ControlState nextState)
 	{
-		Debug.Log("EXIT WALKING STATE");
+		Debug.Log("[RollerState] EXIT WALKING STATE");
 
         _roller.Player.PlayerSingController.StopSinging();
 
