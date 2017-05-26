@@ -8,7 +8,7 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: GreenGradient
   m_Shader: {fileID: 4800000, guid: 679bb6ecb44c34340ba702bd52755149, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: _COLORSETENABLED_ON
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
   m_CustomRenderQueue: -1
@@ -71,7 +71,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
-    - _ColorSetEnabled: 0
+    - _ColorSetEnabled: 1
     - _ColorSetSeed: 0
     - _CurrentColorSet: 0
     - _Cutoff: 0.44
