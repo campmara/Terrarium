@@ -10,7 +10,7 @@ public class SittingState : RollerState
 
     public override void Enter (P_ControlState prevState)
 	{
-		Debug.Log("ENTER SIT STATE");
+		Debug.Log("[RollerState] ENTER SIT STATE");
 
 		// TRIGGER SITTING ON
 		_roller.IK.DisableIK();
@@ -23,7 +23,7 @@ public class SittingState : RollerState
 
 	public override void Exit (P_ControlState nextState)
 	{
-		Debug.Log("EXIT SIT STATE");
+		Debug.Log("[RollerState] EXIT SIT STATE");
 
 		_roller.IK.EnableIK();
 

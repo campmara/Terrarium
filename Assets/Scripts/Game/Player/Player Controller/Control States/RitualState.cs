@@ -9,7 +9,7 @@ public class RitualState : RollerState
 
 	public override void Enter(P_ControlState prevState)
 	{
-		Debug.Log("ENTER RITUAL STATE");
+		Debug.Log("[RollerState] ENTER RITUAL STATE");
         _roller.IK.SetState( PlayerIKControl.WalkState.RITUAL );
 		ritualTimer = 0f;
 		hasExploded = false;
@@ -22,7 +22,7 @@ public class RitualState : RollerState
 
 	public override void Exit(P_ControlState nextState)
 	{
-		Debug.Log("EXIT RITUAL STATE");
+		Debug.Log("[RollerState] EXIT RITUAL STATE");
 
 		if (nextState == P_ControlState.WALKING)
 		{

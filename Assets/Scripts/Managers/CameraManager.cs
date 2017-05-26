@@ -219,7 +219,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 				break;
 			}
 
-			Debug.Log("[CameraManager]: " + prevState.ToString() + " to " + newState.ToString());
+			Debug.Log("[CameraManager] " + prevState.ToString() + " to " + newState.ToString());
 		}
 	}
 
