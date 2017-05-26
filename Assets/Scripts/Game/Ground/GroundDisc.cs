@@ -134,7 +134,7 @@ public class GroundDisc : MonoBehaviour
 
 	public void DrawSplatDecal(Vector3 pos, float size)
 	{
-		pos.y = 0.005f;
+		pos.y = 0.006f;
         waterSplatDecalPool.AddDecal( pos, size );
 
         // TODO: add random circle offset from Drop Point
