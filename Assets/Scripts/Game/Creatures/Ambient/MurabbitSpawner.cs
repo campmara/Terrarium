@@ -122,6 +122,7 @@ public class MurabbitSpawner : MonoBehaviour
 			// MAKE BABY
 			GameObject rabObj = Instantiate(rabbitPrefab, transform.position, Quaternion.identity) as GameObject;
 			rabObj.transform.parent = transform.parent;
+			rabObj.name = "Rabbit " + i;
 			Murabbit rab = rabObj.GetComponent(typeof(Murabbit)) as Murabbit;
 			
 			// TELL BABY HOW TO LIVE
