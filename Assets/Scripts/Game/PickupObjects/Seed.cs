@@ -33,7 +33,7 @@ public class Seed : Pickupable
 		{
 			if( _timeSinceLastPickup >= _timePassedTillDestroy && PlantManager.instance.GetActiveSeedCount() > 2 )
 			{			
-				PlantManager.instance.DestroySeed( this, _moundType );
+				PlantManager.instance.DestroySeed( this, _moundType, false );
 			}
 			else
 			{
@@ -85,7 +85,7 @@ public class Seed : Pickupable
 			GameObject mound = Instantiate( _moundPrefab, plantPos, Quaternion.identity ) as GameObject; 
 			PlantManager.instance.AddMound( mound.GetComponent<BasePlant>()  );
 			GroundManager.instance.EmitDirtParticles(plantPos);
-			gameObject.SetActive(false);
+			PlantManager.instance.DestroySeed( this, _moundType, true );
 		}
 	}
 
@@ -104,7 +104,6 @@ public class Seed : Pickupable
 	{
 		_sinkTween = null;
 		TryPlanting();
-		PlantManager.instance.DestroySeed( this, _moundType );
 	}
 
     protected override void HandleCollision( Collision col )

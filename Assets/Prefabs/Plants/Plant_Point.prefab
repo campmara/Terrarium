@@ -193,12 +193,12 @@ GameObject:
   - component: {fileID: 4870523700858384}
   - component: {fileID: 95050588111739300}
   - component: {fileID: 54619623632148922}
-  - component: {fileID: 135396582005101958}
   - component: {fileID: 114377923989409856}
   - component: {fileID: 114635785287040538}
   - component: {fileID: 114334575975064900}
   - component: {fileID: 114112665346417312}
   - component: {fileID: 114923182294347610}
+  - component: {fileID: 65905080200338760}
   m_Layer: 12
   m_Name: Plant_Point
   m_TagString: Untagged
@@ -437,7 +437,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1822985385187290}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.5856917, y: 0, z: 10.538588}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4508866319713756}
@@ -522,6 +522,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &65905080200338760
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1822985385187290}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.045, y: 0.23, z: 0.045}
+  m_Center: {x: 0, y: 0.11, z: 0}
 --- !u!82 &82494411380253826
 AudioSource:
   m_ObjectHideFlags: 1
@@ -733,7 +745,7 @@ MonoBehaviour:
   _scaleMultiplierRange: {x: 8, y: 18}
   _scaleRatios:
   - {x: 1, y: 1}
-  _wateredGrowthRate: 0.05
+  _wateredGrowthRate: 0.03
   _curPercentAnimated: 0
   _curStage: 0
   _droppingItems:
@@ -828,22 +840,10 @@ MonoBehaviour:
   _pAssetKey: -1
   _type: 0
   _deathDuration: 0
-  _DeathDurationRange: {x: 100, y: 120}
+  _DeathDurationRange: {x: 120, y: 130}
   _DeathTimer: 0
   _baseDecayRate: 1
   _curDecayRate: 0
---- !u!135 &135396582005101958
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1822985385187290}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.03
-  m_Center: {x: 0, y: 0.03, z: 0}
 --- !u!137 &137172006984509768
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
