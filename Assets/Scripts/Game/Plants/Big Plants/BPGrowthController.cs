@@ -31,7 +31,7 @@ public class BPGrowthController : PlantController
 	[SerializeField] GrowthStage _curStage = GrowthStage.Seed;
 	public GrowthStage CurStage { get { return _curStage; } }
 
-	float [] _neededDistance = new float[] { 4.0f, 5.0f, 8.5f, 15.0f }; // how much room each stage need to grow, first element doesnt matter
+	float [] _neededDistance = new float[] { 3.5f, 5.0f, 8.5f, 15.0f }; // how much room each stage need to grow, first element doesnt matter
 	float [] _spawnRadii = new float[] { 3.5f, 4.0f, 4.5f, 5.0f };  
 	bool _hardStopGrowth = false;
 	bool _stemDoneGrowing = false;
