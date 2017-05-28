@@ -125,6 +125,18 @@ public class Bibi : Singable
 		ChangeState(BibiState.BURROWING);
 	}
 
+	private int numParticles = 0;
+	private void Update()
+	{
+		//if (_bibiPopSource.isPlaying) return;
+		if (sleepBubbles.particleCount < numParticles)
+		{
+			PlayBubblePop();
+		}
+
+		numParticles = sleepBubbles.particleCount;
+	}
+
 	private void FixedUpdate()
 	{
 		if (state == BibiState.BURROWING)

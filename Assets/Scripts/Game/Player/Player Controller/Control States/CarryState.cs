@@ -12,7 +12,7 @@ public class CarryState : RollerState
 
     public override void Enter( P_ControlState prevState )
 	{
-		Debug.Log("ENTER CARRY STATE");
+		Debug.Log("[RollerState] ENTER CARRY STATE");
 
 		switch( prevState )
 		{
@@ -38,7 +38,7 @@ public class CarryState : RollerState
 
 	public override void Exit( P_ControlState nextState )
 	{
-		Debug.Log("EXIT CARRY STATE");
+		Debug.Log("[RollerState] EXIT CARRY STATE");
 
         _roller.Player.AnimationController.SetCarrying( false );
         _roller.Player.AnimationController.SetLifting( false );

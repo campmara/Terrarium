@@ -71,6 +71,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
+    - _ColorSetEnabled: 0
+    - _ColorSetSeed: 0
+    - _CurrentColorSet: 0
     - _Cutoff: 0.44
     - _CutoffEdgeScale: 0.45
     - _CutoffNoiseScale: 10

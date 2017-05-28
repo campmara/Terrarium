@@ -134,7 +134,7 @@ public class GameManager : MonoBehaviour
 				
 		}
 
-		Debug.Log("Transitioned from: " + prevState.ToString() + " to " + newState.ToString());
+		Debug.Log("[GameManager] Transitioned from: " + prevState.ToString() + " to " + newState.ToString());
 
 	}
 
