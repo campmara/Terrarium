@@ -229,19 +229,19 @@ public class ControlManager : SingletonBehaviour<ControlManager>
 	{
 		_devices.Add(device);
 
-		Debug.Log( "Attached: " + device.Name );
+		Debug.Log( "[ControlManager] Attached: " + device.Name );
 	}
 
 	void HandleDeviceDetached(InputDevice device)
 	{
 		_devices.Remove(device);
 
-		Debug.Log( "Detached: " + device.Name );
+		Debug.Log( "[ControlManager] Detached: " + device.Name );
 	}
 
 	void HandleActiveDeviceChanged(InputDevice device)
 	{
-		Debug.Log( "Active device changed to: " + device.Name );
+		Debug.Log( "[ControlManager] Active device changed to: " + device.Name );
 	}
 
 	void OnDestroy()

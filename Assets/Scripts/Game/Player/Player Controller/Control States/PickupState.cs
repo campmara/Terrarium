@@ -10,7 +10,7 @@ public class PickupState : RollerState
 
     public override void Enter(P_ControlState prevState)
 	{
-		Debug.Log("ENTER PICKUP STATE");
+		Debug.Log("[RollerState] ENTER PICKUP STATE");
 
 		_startLiftTracking = false;
 
@@ -41,7 +41,7 @@ public class PickupState : RollerState
 
 	public override void Exit( P_ControlState nextState )
 	{
-		Debug.Log("EXIT PICKUP STATE");
+		Debug.Log("[RollerState] EXIT PICKUP STATE");
 
         switch (nextState)
         {

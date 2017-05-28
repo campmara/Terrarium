@@ -8,14 +8,14 @@ public class SingState : RollerState
 
 	public override void Enter (P_ControlState prevState)
 	{
-		Debug.Log("ENTER SING STATE");
+		Debug.Log("[RollerState] ENTER SING STATE");
 	    _waitToReturnTimer = 0f;
 	    _singPitch = 1f;
 	}
 
 	public override void Exit (P_ControlState nextState)
 	{
-		Debug.Log("EXIT SING STATE");
+		Debug.Log("[RollerState] EXIT SING STATE");
 		_roller.Face.BecomeIdle();
 		RollerParent.Idling = false;
 	}

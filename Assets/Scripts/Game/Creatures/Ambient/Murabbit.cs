@@ -28,7 +28,7 @@ public class Murabbit : MonoBehaviour
 	private Tween followTween;
 	private Tween burrowTween;
 
-	private const float HOP_DURATION = 0.5f;
+	private const float HOP_DURATION = 0.6f;
 	private const float MAX_SCARY_DISTANCE = 5f;
 	private const float MAX_GESTURE_DISTANCE = 10f;
 
@@ -130,6 +130,7 @@ public class Murabbit : MonoBehaviour
 
 		Vector3 jumpPos = transform.position + (Random.insideUnitSphere * 2f);
 		jumpPos.y = 0f;
+		transform.LookAt(jumpPos);
 
 		hopTween = transform.DOJump(jumpPos, Random.Range(1.5f, 3f), 1, HOP_DURATION).OnComplete(() => SetState(State.HOP));
 	}
@@ -169,6 +170,7 @@ public class Murabbit : MonoBehaviour
 	{
 		Vector3 jumpPos = transform.position + (Random.insideUnitSphere * 2f);
 		jumpPos.y = 0f;
+		transform.LookAt(jumpPos);
 
 		hopTween = transform.DOJump(jumpPos, Random.Range(0.5f, 1.25f), 1, HOP_DURATION)
 			.OnComplete(() => SetState(State.IDLE));
@@ -309,7 +311,7 @@ public class Murabbit : MonoBehaviour
 
 		Vector3 spawnerPos = data.spawner.transform.position;
 		spawnerPos.y = 0f; // just insurance
-		int numJumps = Mathf.FloorToInt((spawnerPos - transform.position).magnitude / 2f);
+		int numJumps = Mathf.CeilToInt((spawnerPos - transform.position).magnitude / 2f);
 		transform.LookAt(spawnerPos);
 
 		burrowTween = transform.DOJump(spawnerPos, Random.Range(0.5f, 1.25f), numJumps, HOP_DURATION * (float)numJumps)

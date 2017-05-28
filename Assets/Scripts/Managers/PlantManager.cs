@@ -65,9 +65,9 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		}
 	}
 		
-	public void DestroySeed( Seed oldSeed, BasePlant.PlantType seedType )
+	public void DestroySeed( Seed oldSeed, BasePlant.PlantType seedType, bool seedPlanted )
 	{
-		if( IsPopulationStable( seedType ) )
+		if( seedPlanted || IsPopulationStable( seedType ) )
 		{
 			_seeds.Remove( oldSeed );
 			Destroy( oldSeed.gameObject );
@@ -202,7 +202,7 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		GameObject spawn = GetRandomSpawnable( parent );
 
 		float checkRadius = spawn.GetComponent<BasePlant>().InnerRadius;
-		checkRadius = checkRadius > 0.0f ? checkRadius : 1.0f;
+		checkRadius = checkRadius > 1.5f ? checkRadius : 1.5f;
 		Collider[] hitColliders;
 		bool insideObject = false;
 
