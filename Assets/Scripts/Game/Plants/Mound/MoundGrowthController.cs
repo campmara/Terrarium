@@ -25,6 +25,8 @@ public class MoundGrowthController : PlantController
 	bool _canLive = true;
 	bool _spawnedSprout = false;
 
+	Tween _sinkTween = null;
+
 	public override void Init()
 	{
 		_myPlant = GetComponent<BasePlant>();
@@ -81,39 +83,28 @@ public class MoundGrowthController : PlantController
 
 	void SpawnSprout()
 	{
-		Vector3 plantPos = _sprout.position;
-		plantPos = plantPos.SetPosY( 0.0f );
-		BasePlant plant = ( (GameObject)Instantiate( _basePlantPrefab, plantPos, Quaternion.identity ) ).GetComponent<BasePlant>();
-		BPGrowthController controller = plant.GetComponent<BPGrowthController>();
-		if ( controller )
+		if( _sinkTween == null )
 		{
+			Vector3 plantPos = _sprout.position;
+			plantPos = plantPos.SetPosY( 0.0f );
+			BasePlant plant = ( (GameObject)Instantiate( _basePlantPrefab, plantPos, Quaternion.identity ) ).GetComponent<BasePlant>();
+			BPGrowthController controller = plant.GetComponent<BPGrowthController>();
+			if ( controller )
+			{
 			controller.UpdateToMoundScale( _sprout.transform.lossyScale.x );
+			}
+
+			PlantManager.instance.AddBasePlant( plant );
+			_spawnedSprout = true;
+
+			StopState();
 		}
-
-		StarterPlantGrowthController sPlant = plant.GetComponent<StarterPlantGrowthController>();
-		if( sPlant )
-		{
-			sPlant.MinScale = new Vector3( _scaleInterp, _scaleInterp, _scaleInterp );
-		}
-
-		PlantManager.instance.AddBasePlant( plant );
-		_spawnedSprout = true;
-
-		StopState();
 	}
 
 	public override void StopState()
 	{
-		//switch to a destroyed mode 
-		if( _canLive )
-		{
-			_myPlant.SwitchController( this );
-			PlantManager.instance.DeleteMound( _myPlant );
-		}
-		else
-		{
-			transform.DOScale( Vector3.zero, 3.0f).OnComplete( () => PlantManager.instance.DeleteMound( _myPlant ) );
-		}
+		// don't even switch controllers just kill here 
+		_sinkTween = _sprout.DOScale( Vector3.zero, 2.0f).OnComplete( () => PlantManager.instance.DeleteMound( _myPlant ) );
 	}
 		
 	public override void WaterPlant()

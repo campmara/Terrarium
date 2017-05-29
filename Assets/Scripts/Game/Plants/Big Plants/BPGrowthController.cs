@@ -31,7 +31,7 @@ public class BPGrowthController : PlantController
 	[SerializeField] GrowthStage _curStage = GrowthStage.Seed;
 	public GrowthStage CurStage { get { return _curStage; } }
 
-	float [] _neededDistance = new float[] { 4.0f, 5.0f, 8.5f, 15.0f }; // how much room each stage need to grow, first element doesnt matter
+	float [] _neededDistance = new float[] { 3.5f, 5.0f, 8.5f, 15.0f }; // how much room each stage need to grow, first element doesnt matter
 	float [] _spawnRadii = new float[] { 3.5f, 4.0f, 4.5f, 5.0f };  
 	bool _hardStopGrowth = false;
 	bool _stemDoneGrowing = false;
@@ -64,14 +64,12 @@ public class BPGrowthController : PlantController
 	float _summonTimer = 0.0f;
 
 	// small plants
-	public List<GameObject> _smallSpawnables = new List<GameObject>();
+	public GameObject _coverSpawnerPrefab = null;
+	//public List<GameObject> _smallSpawnables = new List<GameObject>();
 	public List<GameObject> _mediumSpawnables = new List<GameObject>();
 
 	int _spawnedMediums = 0;
 	public int SpawnedMediums { get { return _spawnedMediums; } set { _spawnedMediums = value; }}
-	int _spawnedSmalls = 0;
-	public int SpawnedSmalls { get { return _spawnedSmalls; } set { _spawnedSmalls = value; }}
-	int _maxSmalls = 0;
 	int _maxMediums = 0;
 	
 	bool _summoningSeed = false;
@@ -101,7 +99,6 @@ public class BPGrowthController : PlantController
 		_maxHeight = ratio.y * multiplier;
 		_maxWidth = ratio.x * multiplier;
 
-		_maxSmalls = (int)Random.Range( PlantManager.instance.SmNumPerPlant.x, PlantManager.instance.SmNumPerPlant.y );
 		_maxMediums = (int)Random.Range( PlantManager.instance.MedNumPerPlant.x, PlantManager.instance.MedNumPerPlant.y );
 
         _audioController = this.GetComponentInChildren<PlantAudioController>();
@@ -271,16 +268,11 @@ public class BPGrowthController : PlantController
 		{
 			_curStage += 1;
 		}
-
-		if( _curStage == GrowthStage.Sapling )
-		{
-			SpawnPlant();
-		}
-
 		if( _curStage == GrowthStage.Final )
 		{
 			PlantManager.instance.RequestDropFruit( this, _timeBetweenFruitDrops );
 			SpawnAmbientCreature();
+			SpawnPlant();
 			StopState();
 			_stemDoneGrowing = true;
 		}
@@ -297,6 +289,11 @@ public class BPGrowthController : PlantController
 		}
 		else
 		{
+			if( _curStage == GrowthStage.Sapling )
+			{
+				SpawnGroundCoverSpawner();
+			}
+			
 			CustomStopGrowth();
 		}
 	}
@@ -311,21 +308,19 @@ public class BPGrowthController : PlantController
 	//********************************
 	// PLANT SPAWN FUNCTIONS
 	//********************************
+	void SpawnGroundCoverSpawner()
+	{
+		GameObject spawner = (GameObject)Instantiate( _coverSpawnerPrefab, transform.position, Quaternion.identity );
+		spawner.GetComponent<TrunkGroundCover>().SetupSpawner( GetComponent<BasePlant>() );
+	}
 
 	public void SpawnPlant()
 	{
-		if( spawnState == SpawningState.NotSpawning && _spawnedSmalls <= 0 )
+		if( spawnState == SpawningState.NotSpawning )//&& _spawnedSmalls <= 0 )
 		{
-			spawnState = SpawningState.SmallSpawning;
-			PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
-		}
-		else if( spawnState == SpawningState.SmallSpawning )
-		{
-			if( _spawnedSmalls >= _maxSmalls )
-			{
-				spawnState = SpawningState.MediumSpawning;
-			}
-			
+			SpawnGroundCoverSpawner();
+
+			spawnState = SpawningState.MediumSpawning;
 			PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
 		}
 		else if( spawnState == SpawningState.MediumSpawning )
@@ -438,6 +433,7 @@ public class BPGrowthController : PlantController
 	public override void StompPlant(){}
 
 	#region Helper Functions
+	
 	//********************************
 	// HELPER FUNCTIONS
 	//********************************
@@ -482,9 +478,9 @@ public class BPGrowthController : PlantController
 	void OnDrawGizmos() 
 	{
 		Gizmos.color = Color.yellow;
-		if( (int) _curStage > -1 )
+		if( (int) _curStage > -1 && _myPlant )
 		{
-//			Gizmos.DrawWireSphere( _myPlant.transform.position, _neededDistance[(int) _curStage ] );
+			Gizmos.DrawWireSphere( _myPlant.transform.position, _myPlant.InnerRadius );
 		}
 	}
 	public Vector2 GetRandomPoint( bool fruitDrop = false )
@@ -498,11 +494,6 @@ public class BPGrowthController : PlantController
 			inner = _myPlant.InnerRadius;
 			outer = _myPlant.OuterRadius;
 		}
-		else if( spawnState == SpawningState.SmallSpawning )
-		{
-			inner = PlantManager.instance.SmSpawnRadRange.x;
-			outer = PlantManager.instance.SmSpawnRadRange.y;
-		}
 		else if( spawnState == SpawningState.MediumSpawning )
 		{
 			inner = PlantManager.instance.MedSpawnRadRange.x;
@@ -515,11 +506,5 @@ public class BPGrowthController : PlantController
 	
 		return randomPoint;
 	}
-
-	public void ForceSpawnMediums()
-	{
-		_spawnedSmalls = _maxSmalls;
-	}
-
 	#endregion Helper Functions
 }
