@@ -1937,6 +1937,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 072f4a59ad9b0ad40808bf08e794dd97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _audioMixer: {fileID: 24100000, guid: 30f3aa683f5543d469208f1bb641c945, type: 2}
   _singPitchRangeList:
   - {x: 0.25, y: 0.6}
   - {x: 0.75, y: 1.25}
