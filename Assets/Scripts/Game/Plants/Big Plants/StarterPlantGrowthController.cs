@@ -75,6 +75,15 @@ public class StarterPlantGrowthController : BPGrowthController
 		leaf.transform.SetParent( _currentParent );
 		leaf.transform.position = _currentParent.position;
 
+		if( leaf.GetComponent<Renderer>() != null )
+		{
+			leaf.GetComponent<Renderer>().material.SetFloat( "_ColorSetSeed", _myPlant.ShaderColorSeed );
+		}
+		else if( leaf.GetComponentInChildren<Renderer>() != null )
+		{
+			leaf.GetComponentInChildren<Renderer>().material.SetFloat( "_ColorSetSeed", _myPlant.ShaderColorSeed );
+		}
+
 		leaf.transform.localScale = _currentParent.localScale * _inverseIndex * .2f;//(inverseIndex * inverseIndex * .05f);
 		leaf.transform.Rotate(new Vector3(0, index * 360 / _ringNumber + _offset, 0));
 		leaf.transform.position -= leaf.transform.forward * .015f * transform.localScale.x;
