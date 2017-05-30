@@ -55,7 +55,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
+    - _ColorSetEnabled: 0
+    - _ColorSetSeed: 0
     - _Columns: 8
+    - _CurrentColorSet: 0
     - _Cutoff: 0.75
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -83,4 +86,6 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 0.99168354, b: 0.6985294, a: 1}
     - _Color2: {r: 0.82264197, g: 0.9264706, b: 0.34742647, a: 1}
+    - _ColorBot: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorTop: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

@@ -1,9 +1,16 @@
-﻿Shader "Custom/ShaderSpriteSheet" {
+﻿Shader "TerrariumPlant/PlantSpriteSheet" {
 	Properties {
-		_Color ("Color 1", Color) = (1,1,1,1)
-		_Color2 ("Color 2", Color) = (1,1,1,1)
+		[Header(Color)]
+		_ColorTop("Color Top", Color) = (1,1,1,1)
+		_ColorBot("Color Bot", Color) = (1,1,1,1)
 
-		_MainTex ("Albedo (RGB)", 2D) = "white" {}
+		[Header(Colorset)]
+		_ColorSetSeed("Colorset Seed", float) = 0
+		[Toggle]_ColorSetEnabled("Colorset Enabled", float) = 0
+		_CurrentColorSet("Current Colorset (int: 0 - 10)", int) = 0
+
+		[Header(Spritesheet)]
+		_MainTex ("Spritesheet", 2D) = "white" {}
 
 		_Columns("Columns", int) = 8
 		_Rows("Rows", int) = 3
@@ -36,13 +43,83 @@
 		half _Metallic;
 		int _Columns;
 		int _Rows;
-		fixed4 _Color;
-		fixed4 _Color2;
+		fixed4 _ColorTop;
+		fixed4 _ColorBot;
 		int _FrameNumber;
 		int _TotalFrames;
 		float _FrameScale;
 		float _ToggleBillboard;
 		float _ToggleVertexColorAnim;
+
+		//...colorset coloring...
+		float _ColorSetSeed;
+		float _ColorSetEnabled;
+		int _CurrentColorSet;
+		//......
+
+		//...colorsets...
+
+		//0
+		uniform float4 _PlantColorSet0_Top1;
+		uniform float4 _PlantColorSet0_Top2;
+		uniform float4 _PlantColorSet0_Bot1;
+		uniform float4 _PlantColorSet0_Bot2;
+
+		//1 
+		uniform float4 _PlantColorSet1_Top1;
+		uniform float4 _PlantColorSet1_Top2;
+		uniform float4 _PlantColorSet1_Bot1;
+		uniform float4 _PlantColorSet1_Bot2;
+
+		//2 
+		uniform float4 _PlantColorSet2_Top1;
+		uniform float4 _PlantColorSet2_Top2;
+		uniform float4 _PlantColorSet2_Bot1;
+		uniform float4 _PlantColorSet2_Bot2;
+
+		//3
+		uniform float4 _PlantColorSet3_Top1;
+		uniform float4 _PlantColorSet3_Top2;
+		uniform float4 _PlantColorSet3_Bot1;
+		uniform float4 _PlantColorSet3_Bot2;
+
+		//4
+		uniform float4 _PlantColorSet4_Top1;
+		uniform float4 _PlantColorSet4_Top2;
+		uniform float4 _PlantColorSet4_Bot1;
+		uniform float4 _PlantColorSet4_Bot2;
+
+		//5
+		uniform float4 _PlantColorSet5_Top1;
+		uniform float4 _PlantColorSet5_Top2;
+		uniform float4 _PlantColorSet5_Bot1;
+		uniform float4 _PlantColorSet5_Bot2;
+
+		//6
+		uniform float4 _PlantColorSet6_Top1;
+		uniform float4 _PlantColorSet6_Top2;
+		uniform float4 _PlantColorSet6_Bot1;
+		uniform float4 _PlantColorSet6_Bot2;
+
+		//7
+		uniform float4 _PlantColorSet7_Top1;
+		uniform float4 _PlantColorSet7_Top2;
+		uniform float4 _PlantColorSet7_Bot1;
+		uniform float4 _PlantColorSet7_Bot2;
+
+		//8
+		uniform float4 _PlantColorSet8_Top1;
+		uniform float4 _PlantColorSet8_Top2;
+		uniform float4 _PlantColorSet8_Bot1;
+		uniform float4 _PlantColorSet8_Bot2;
+
+		//9
+		uniform float4 _PlantColorSet9_Top1;
+		uniform float4 _PlantColorSet9_Top2;
+		uniform float4 _PlantColorSet9_Bot1;
+		uniform float4 _PlantColorSet9_Bot2;
+
+		//.......
 
 		void vert(inout appdata_full v, out Input o)
 		{
@@ -97,8 +174,55 @@
 			
 			float2 spriteUV = (spriteSize + currentSprite); // * _FrameScale
 
-			fixed4 c = tex2D (_MainTex, spriteUV) * _Color;
-			c.rgb = lerp(_Color, _Color2, c.r) * IN.color.rgb;
+
+			float seed = frac(_ColorSetSeed);
+
+			if (_ColorSetEnabled != 0) {
+				//this is probably better off being an array
+				if (_CurrentColorSet == 0) {
+					_ColorTop = lerp(_PlantColorSet0_Top1, _PlantColorSet0_Top2, seed);
+					_ColorBot = lerp(_PlantColorSet0_Bot1, _PlantColorSet0_Bot2, seed);
+				}
+				else if (_CurrentColorSet == 1) {
+					_ColorTop = lerp(_PlantColorSet1_Top1, _PlantColorSet1_Top2, seed);
+					_ColorBot = lerp(_PlantColorSet1_Bot1, _PlantColorSet1_Bot2, seed);
+				}
+				else if (_CurrentColorSet == 2) {
+					_ColorTop = lerp(_PlantColorSet2_Top1, _PlantColorSet2_Top2, seed);
+					_ColorBot = lerp(_PlantColorSet2_Bot1, _PlantColorSet2_Bot2, seed);
+				}
+				else if (_CurrentColorSet == 3) {
+					_ColorTop = lerp(_PlantColorSet3_Top1, _PlantColorSet3_Top2, seed);
+					_ColorBot = lerp(_PlantColorSet3_Bot1, _PlantColorSet3_Bot2, seed);
+				}
+				else if (_CurrentColorSet == 4) {
+					_ColorTop = lerp(_PlantColorSet4_Top1, _PlantColorSet4_Top2, seed);
+					_ColorBot = lerp(_PlantColorSet4_Bot1, _PlantColorSet4_Bot2, seed);
+				}
+				else if (_CurrentColorSet == 5) {
+					_ColorTop = lerp(_PlantColorSet5_Top1, _PlantColorSet5_Top2, seed);
+					_ColorBot = lerp(_PlantColorSet5_Bot1, _PlantColorSet5_Bot2, seed);
+				}
+				else if (_CurrentColorSet == 6) {
+					_ColorTop = lerp(_PlantColorSet6_Top1, _PlantColorSet6_Top2, seed);
+					_ColorBot = lerp(_PlantColorSet6_Bot1, _PlantColorSet6_Bot2, seed);
+				}
+				else if (_CurrentColorSet == 7) {
+					_ColorTop = lerp(_PlantColorSet7_Top1, _PlantColorSet7_Top2, seed);
+					_ColorBot = lerp(_PlantColorSet7_Bot1, _PlantColorSet7_Bot2, seed);
+				}
+				else if (_CurrentColorSet == 8) {
+					_ColorTop = lerp(_PlantColorSet8_Top1, _PlantColorSet8_Top2, seed);
+					_ColorBot = lerp(_PlantColorSet8_Bot1, _PlantColorSet8_Bot2, seed);
+				}
+				else if (_CurrentColorSet == 9) {
+					_ColorTop = lerp(_PlantColorSet9_Top1, _PlantColorSet9_Top2, seed);
+					_ColorBot = lerp(_PlantColorSet9_Bot1, _PlantColorSet9_Bot2, seed);
+				}
+			}
+
+			fixed4 c = tex2D (_MainTex, spriteUV);
+			c.rgb = lerp(_ColorTop, _ColorBot, c.r) * IN.color.rgb;
 
 			o.Albedo = c.rgb;
 			o.Alpha = c.a;

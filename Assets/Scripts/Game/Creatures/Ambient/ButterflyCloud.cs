@@ -167,7 +167,7 @@ public class ButterflyCloud : AmbientCreature {
         {
             tmpCreature = Instantiate( _creatureObject, this.transform) as GameObject;
             
-            Color newColor = ColorManager.instance.ActivePalatte.butterflyGradient.Evaluate( Random.value );
+            Color newColor = ColorManager.instance.ActivePalette.butterflyGradient.Evaluate( Random.value );
            
             tmpData = new ButterflyData();            
 
@@ -213,7 +213,7 @@ public class ButterflyCloud : AmbientCreature {
         }        
     }
 
-    IEnumerator TransitionColor( Gradient gradient, float transitionTime = ColorManager.PALATTE_TRANSITIONTIME )
+    IEnumerator TransitionColor( Gradient gradient, float transitionTime = ColorManager.PALETTE_TRANSITIONTIME )
     {
         float timer = 0.0f;
         int index = 0;
@@ -222,7 +222,7 @@ public class ButterflyCloud : AmbientCreature {
 
         for(int i = 0; i < _butterflyList.Count; ++i)
         {
-            colorList[i] = ColorManager.instance.ActivePalatte.butterflyGradient.Evaluate( Random.value );
+            colorList[i] = ColorManager.instance.ActivePalette.butterflyGradient.Evaluate( Random.value );
         }
 
         while ( timer < transitionTime )
