@@ -8,6 +8,7 @@ public class RollingState : RollerState
 
 	private Tween _rollPosTween;
     private Tween _rollSpherifyTween;
+	private Tween _jiggleTween;
 
     public override void Enter( P_ControlState prevState ) 
 	{
@@ -46,13 +47,20 @@ public class RollingState : RollerState
 
 	private void StartJiggling()
 	{
+		if (_jiggleTween != null)
+		{
+			_jiggleTween.Complete();
+			_jiggleTween = null;
+		}
+
 		float duration = 0.4f;
 		Vector3 strength = new Vector3(0.5f, -0.5f, 0f);
 		int vibrato = 10;
 		float randomness = 0f;
 		bool fadeOut = true;
 
-		Tween jiggle = _roller.RollSphere.transform.DOShakeScale(duration, strength, vibrato, randomness, fadeOut);
+		_jiggleTween = _roller.RollSphere.transform.DOShakeScale(duration, strength, vibrato, randomness, fadeOut)
+			.OnComplete(() => _roller.RollSphere.transform.localScale = new Vector3(0.75f, 0.75f, 0.75f));
 	}
 
 	public override void Exit(P_ControlState nextState)

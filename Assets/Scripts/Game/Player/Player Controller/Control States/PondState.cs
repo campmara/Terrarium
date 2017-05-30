@@ -10,7 +10,7 @@ public class PondState : RollerState
 		Debug.Log("[RollerState] ENTER POND STATE");
 
 		// Zero out velocity.
-		_roller.StopPlayer();
+		_roller.ZeroVelocity();
 		if( prevState == P_ControlState.ROLLING )
 		{
 			_roller.BecomeWalker();	
@@ -29,7 +29,7 @@ public class PondState : RollerState
 		_roller.Mesh.SetActive(true);
 		_roller.Face.gameObject.SetActive(true);
 
-        _roller.StopPlayer();
+        _roller.ZeroVelocity();
 
         // Ensure that this is false. This is also bad :/ oh well.
         _roller.CollidedWithObject = false;

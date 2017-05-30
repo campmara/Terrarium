@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 54134059281597604}
   - component: {fileID: 114881441546837434}
   - component: {fileID: 65226543256137488}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: Punish_Seed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ Transform:
   m_GameObject: {fileID: 1884083101344492}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 18.058527, y: 0.01, z: -8.969017}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -123,3 +123,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _carryable: 1
   _grabbed: 0
+  _grabberBurdenInterp: 0
