@@ -20,6 +20,8 @@ public class BigPlantPickupable : Pickupable {
     const float BIGPLANT_SHIVERDURATIONDEC = 0.01f;
     const float BIGPLANT_SHIVERDIST = 0.075f;
 
+    bool wentForward = false;
+    bool wentBack = false;
     Coroutine _springRoutine = null;
 
 	void FixedUpdate()
@@ -31,12 +33,35 @@ public class BigPlantPickupable : Pickupable {
 			//_grabberBurdenInterp = Mathf.InverseLerp( BIGPLANT_MINTUGDIST, BIGPLANT_MAXTUGDIST, Vector3.Distance(_grabTransform.position, this.transform.position + (_grabberDirection.normalized * this.GetComponent<BasePlant>().InnerRadius ) ) );
 
             // TODO: Make max angle be more determined by Plant Health
-            _tugDirection = Quaternion.FromToRotation( Vector3.up, Vector3.Slerp( Vector3.up, _grabberDirection, Mathf.Lerp( 0.0f, BIGPLANT_TUGANGLE_MAX, _grabberBurdenInterp ) ) );
+            float angleInterp = Mathf.Lerp( 0.0f, BIGPLANT_TUGANGLE_MAX, _grabberBurdenInterp );
+            _tugDirection = Quaternion.FromToRotation( Vector3.up, Vector3.Slerp( Vector3.up, _grabberDirection, angleInterp ) );
             
             transform.rotation = _tugDirection;
+
+            DetermineTreeShake( angleInterp );
 		}
 	}
 
+    void DetermineTreeShake( float angleInterp )
+    {
+        if( angleInterp > .0055f )
+        {
+            wentForward = true;
+        }
+            
+        if( wentForward && angleInterp < .001f )
+        {
+            wentBack = true;
+        }
+            
+        if( wentForward && wentBack )
+        {
+            Vector3 playerPos = PlayerManager.instance.Player.transform.position;
+            GetComponent<BPGrowthController>().SummonSeed( new Vector2( playerPos.x, playerPos.z) );
+            wentForward = false;
+            wentBack = false;
+        }
+    }
 	public override void OnPickup( Transform grabTransform )
 	{
 		_grabbed = true;
@@ -56,6 +81,8 @@ public class BigPlantPickupable : Pickupable {
 		_grabbed = false;
 		_grabTransform = null;
 
+        wentForward = false;
+        wentBack = false;
 
 		if( _springRoutine != null )
 		{
@@ -154,7 +181,6 @@ public class BigPlantPickupable : Pickupable {
             this.transform.rotation = Quaternion.identity;
             currShiverDuration -= BIGPLANT_SHIVERDURATIONDEC;
         }
-        
     }
 
     public void PunchTreeRotation( float strengthScalar = 4.0f, float duration = BIGPLANT_SHIVERDURATION )
@@ -163,5 +189,4 @@ public class BigPlantPickupable : Pickupable {
         playerDir.Normalize();
         this.transform.DOPunchRotation( playerDir * strengthScalar, duration );
     }
-
 }

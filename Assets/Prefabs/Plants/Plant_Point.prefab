@@ -742,7 +742,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseGrowthRate: 0.009
-  _scaleMultiplierRange: {x: 8, y: 18}
+  _scaleMultiplierRange: {x: 8, y: 15}
   _scaleRatios:
   - {x: 1, y: 1}
   _wateredGrowthRate: 0.03
@@ -752,9 +752,8 @@ MonoBehaviour:
   - {fileID: 1631419253260572, guid: e7e4ccc23b3b8416c994f33a1840c8c6, type: 2}
   _punishObject: {fileID: 1884083101344492, guid: 888d79063e07f4951aaa8eaee32addcc,
     type: 2}
-  _smallSpawnables:
-  - {fileID: 1969664330500318, guid: 267f161e8216446fd8bd51c9ff2019f2, type: 2}
-  - {fileID: 1863841682442650, guid: fa18cc17991d646178faacbf71f38a50, type: 2}
+  _coverSpawnerPrefab: {fileID: 1581055790355646, guid: 35a19a2c0c79e41f88b49cfde262634d,
+    type: 2}
   _mediumSpawnables:
   - {fileID: 1707615311191734, guid: 8dfc9a0bcd8e34740bcb66139389cbdd, type: 2}
   - {fileID: 1670631960800382, guid: b4c32e6c62749b04c9e604bd3e535f25, type: 2}
