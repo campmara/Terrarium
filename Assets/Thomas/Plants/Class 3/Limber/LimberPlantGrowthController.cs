@@ -87,6 +87,15 @@ public class LimberPlantGrowthController : BPGrowthController
         leaf.transform.rotation *= Quaternion.Euler(new Vector3(Random.Range(-180, 180), 0, 0));
         leaf.transform.localScale = Vector3.one * .250f * Random.Range(.25f,1) + _currentParent.localScale * _curChildSpawned * .1f;
 
+		if( leaf.GetComponent<Renderer>() != null )
+		{
+			leaf.GetComponent<Renderer>().material.SetFloat( "_ColorSetSeed", _myPlant.ShaderColorSeed );
+		}
+		else if( leaf.GetComponentInChildren<Renderer>() != null )
+		{
+			leaf.GetComponentInChildren<Renderer>().material.SetFloat( "_ColorSetSeed", _myPlant.ShaderColorSeed );
+		}
+
         anim.speed *= _plantAnim.GetComponent<Animator>().speed * 2f;
     }
 
