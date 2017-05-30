@@ -73,8 +73,8 @@ Material:
     - _Metallic: 0
     - _Middle: 0.5
     - _Mode: 0
-    - _NoiseAmplitude: 2
-    - _NoiseScale: 200
+    - _NoiseAmplitude: 0.4
+    - _NoiseScale: 5
     - _NoiseSpeed: 3
     - _OcclusionStrength: 1
     - _Parallax: 0.02
