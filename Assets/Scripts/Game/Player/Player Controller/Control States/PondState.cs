@@ -58,11 +58,11 @@ public class PondState : RollerState
             {
                 PondManager.instance.HandlePondReturn();
             }
-            else
-            {
-                PondManager.instance.PopPlayerFromPond();
-            }
-
+//            else
+//            {
+//                PondManager.instance.PopPlayerFromPond();
+//            }
+//
             _roller.ChangeState( P_ControlState.WALKING );
         }
 

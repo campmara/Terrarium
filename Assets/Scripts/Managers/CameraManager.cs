@@ -87,7 +87,8 @@ public class CameraManager : SingletonBehaviour<CameraManager>
     #region Pond Transition Variables
 
 	const float INTRO_PAN_PREWAIT_TIME = 0.1f;
-	const float INTRO_PAN_TIME = 2f;
+	const float INTRO_PAN_TIME = 7f;
+	const float INTRO_INENGINE_PAN_TIME = 0.5f;
 
     const float PONDRETURN_FORWARD = 4.5f;
     const float PONDRETURN_UP = 2.0f;    
@@ -397,12 +398,20 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 		Vector3 forward = ( pondTransform.position - ( desiredPos ) ).normalized;
         Quaternion desiredRot = Quaternion.LookRotation( forward, Vector3.up );
 
+		#if !UNITY_EDITOR && UNITY_STANDALONE 
 		Tween posTween = _mainCam.transform.DOMove( desiredPos, INTRO_PAN_TIME );
         Tween rotTween = _mainCam.transform.DORotateQuaternion( desiredRot, INTRO_PAN_TIME );
+		#else
+		Tween posTween = _mainCam.transform.DOMove( desiredPos, INTRO_INENGINE_PAN_TIME );
+		Tween rotTween = _mainCam.transform.DORotateQuaternion( desiredRot, INTRO_INENGINE_PAN_TIME );
+		#endif
 
 		yield return rotTween.WaitForCompletion();
 
+		PondManager.instance.PopPlayerFromPond();
+
 		PositionCameraInFrontOfFocus();
+
 
         //_zoomInterp = ZOOM_RESETINTERP;
         //DetermineCameraZoom( _zoomInterp );
