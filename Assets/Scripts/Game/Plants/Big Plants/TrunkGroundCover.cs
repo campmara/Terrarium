@@ -59,7 +59,7 @@ public class TrunkGroundCover : MonoBehaviour
 		while( _curSurroundingSpawns < _numSurroundingSpawns )
 		{
 			Vector2 randomPoint = Random.insideUnitCircle * _maxDistFromParent;
-			Vector3 pos = _parentPos + new Vector3( randomPoint.x, _groundCoverPrefab.transform.position.y, randomPoint.y );
+			Vector3 pos = _parentPos + new Vector3( randomPoint.x, .2f/*_groundCoverPrefab.transform.position.y*/, randomPoint.y );
 			SpawnGrass( pos, false );
 			_curSurroundingSpawns++;
 
@@ -88,7 +88,7 @@ public class TrunkGroundCover : MonoBehaviour
          Vector3 pos;
          pos.x = _parentPos.x + _parentMeshRadius * Mathf.Sin( ang * Mathf.Deg2Rad );
          pos.z = _parentPos.z + _parentMeshRadius * Mathf.Cos( ang * Mathf.Deg2Rad );
-         pos.y = _groundCoverPrefab.transform.position.y;
+         pos.y = .2f;//_groundCoverPrefab.transform.position.y;
          return pos;
 	}
 }

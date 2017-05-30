@@ -6,8 +6,14 @@ public class BumbleGrowthController : SPGrowthController
 {
     [SerializeField] GameObject _leaf;
 
+    List<Animator> _leafAnimators = new List<Animator>();
     const int _numLeaves = 5;
     const int _layerCount = 3;
+
+    //DANCING VARIABLES
+    float _danceDelay = .15f;
+	float _singBufferTime = .5f;
+	float _enterTime = 0.0f;
 
     float _waitTime = 0.0f;
     float _leafScale = 0.0f;
@@ -68,6 +74,7 @@ public class BumbleGrowthController : SPGrowthController
 
         _waitTime = (((layerIndex * _numLeaves) + leafNumber) * .5f) / _growthRate;
 
+        _leafAnimators.Add( anim );
         _lastAnim = anim;
 
         StartCoroutine(WaitAndStart(newLeaf.transform.GetComponentInChildren<Animator>(), _waitTime));
@@ -94,6 +101,35 @@ public class BumbleGrowthController : SPGrowthController
         anim.enabled = true;
         anim.Play(0);
     }
+
+    IEnumerator DanceBumbleDance()
+    {
+        foreach( Animator plant in _leafAnimators )
+		{				
+            plant.SetBool("IsDancing", true );
+            yield return new WaitForSeconds( _danceDelay );
+		}
+    }
+
+    protected override void CustomizedSingAtPlant( bool entering )
+	{
+		SingController singCtrl = PlayerManager.instance.Player.GetComponent<SingController>();
+		if( singCtrl.State == SingController.SingState.SINGING && entering )
+		{
+			_enterTime = Time.time;
+            StartCoroutine( DanceBumbleDance() );
+		}
+		else
+		{
+			if( Time.time - _enterTime >= _singBufferTime )
+			{
+				foreach( Animator plant in _leafAnimators )
+				{
+					plant.SetBool("IsDancing", false );
+				}
+			}
+		}
+	}
 
     private IEnumerator WaitToSpawnChild()
     {
