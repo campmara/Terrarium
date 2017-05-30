@@ -56,9 +56,9 @@ public class BPGrowthController : PlantController
 	const float _timeBetweenFruitDrops = 30.0f;
 	const float _timeBetweenSummonDrops = 20.0f;
 	const float _timeBetweenGoodSummonDrops = 5.0f;
-	protected const float _timeBetweenSpawns = 3.0f;
+	protected const float _timeBetweenSpawns = 2.0f;
 
-	const int _maxSeedDrops = 3; // 3 seeds before you get rocks 
+	const int _maxSeedDrops = 2; // 2 seeds before you get rocked
 	bool _droppedRock = false;
 	int _seedsSummoned = 0;
 	float _summonTimer = 0.0f;
@@ -356,6 +356,7 @@ public class BPGrowthController : PlantController
 		{
 			Vector2 randomPoint = GetRandomPoint(true);
 			spawnPoint = new Vector3( randomPoint.x, _myPlant.SpawnHeight - 1.0f, randomPoint.y ) + transform.position;
+			spawnPoint = ( spawnPoint - transform.position ).normalized * 2.5f + spawnPoint; //push it out a little bit so it doesnt crunch into the tree
 		}
 
 		if( !obj )
@@ -381,7 +382,7 @@ public class BPGrowthController : PlantController
 
 	}
 
-	public void SummonSeed( Vector2 playerPos)
+	public void SummonSeed( Vector2 playerPos )
 	{
 		if( !_summoningSeed && _curStage == GrowthStage.Final )
 		{
