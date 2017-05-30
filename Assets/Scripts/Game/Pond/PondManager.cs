@@ -81,6 +81,10 @@ public class PondManager : SingletonBehaviour<PondManager>
 
         yield return popTween.WaitForCompletion();
 
+        yield return 0;
+
+        PlayerManager.instance.Player.GetComponent<Rigidbody>().isKinematic = false;
+
         CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
         GameManager.Instance.ChangeGameState( GameManager.GameState.MAIN );
     }

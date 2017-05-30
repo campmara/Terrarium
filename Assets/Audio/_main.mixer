@@ -17,6 +17,8 @@ AudioMixerController:
   m_ExposedParameters:
   - guid: 851cd4503dd4d497cb6e5e8212154f09
     name: lowpassFreq
+  - guid: 500e98f4e12174c30822690af204c571
+    name: s_volume
   m_AudioMixerGroupViews:
   - guids:
     - 4f122a4295a8bd744a263d7542b071ed

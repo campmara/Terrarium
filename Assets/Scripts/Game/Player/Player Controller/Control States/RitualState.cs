@@ -31,8 +31,6 @@ public class RitualState : RollerState
 			AudioManager.instance.StopController( AudioManager.AudioControllerNames.PLAYER_ACTIONFX );
 		}
 
-        // TODO: make this lerp back!
-
         _roller.ExplodeParticleSystem.Stop();
 	}
 
@@ -43,7 +41,7 @@ public class RitualState : RollerState
 			hasExploded = true;
 			_roller.HandlePondReturn();
 
-            CameraManager.instance.ScreenShake( 0.25f, 0.75f, 10 );
+            CameraManager.instance.ScreenShake( 0.4f, 0.5f, 20 );
 
             if (_roller.CurrentHeldObject != null)
 			{
@@ -70,6 +68,7 @@ public class RitualState : RollerState
 										RollerConstants.instance.WalkTurnSpeed);
 
             _roller.Spherify = Mathf.Lerp( 0.0f, RollerConstants.instance.RitualMaxSpherize, RollerConstants.instance.RitualPopCurve.Evaluate( ritualTimer / RollerConstants.instance.RitualTime ) );
+            //_roller.SpherifyScale = Mathf.Lerp( _roller.SpherifyScale, RollerConstants.instance.RitualSphereizeScale, Time.deltaTime * 15.0f );
 
             if (!input.XButton.IsPressed)
 			{

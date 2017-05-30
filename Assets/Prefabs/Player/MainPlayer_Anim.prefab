@@ -1845,8 +1845,7 @@ MonoBehaviour:
   _mesh: {fileID: 1374029075578188}
   _rig: {fileID: 1355794094398528}
   _rollSphere: {fileID: 1966996873119990}
-  _splatMat: {fileID: 2100000, guid: 3d367e5cf9e5c884b82b1a7db4a275c5, type: 2}
-  _splatTrailMat: {fileID: 2100000, guid: 192b6a91bd455df47b240f4438e456d3, type: 2}
+  _splatImprint: {fileID: 1048165736858354}
   _currentHeldObject: {fileID: 0}
   _velocity: 0
   _carryPositionObject: {fileID: 1520392162359884}
@@ -1937,6 +1936,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 072f4a59ad9b0ad40808bf08e794dd97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _audioMixer: {fileID: 24100000, guid: 30f3aa683f5543d469208f1bb641c945, type: 2}
   _singPitchRangeList:
   - {x: 0.25, y: 0.6}
   - {x: 0.75, y: 1.25}
