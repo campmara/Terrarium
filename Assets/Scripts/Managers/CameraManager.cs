@@ -86,7 +86,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 
     #region Pond Transition Variables
 
-	const float INTRO_PAN_PREWAIT_TIME = 2f;
+	const float INTRO_PAN_PREWAIT_TIME = 0.1f;
 	const float INTRO_PAN_TIME = 2f;
 
     const float PONDRETURN_FORWARD = 4.5f;
@@ -284,7 +284,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
                     }
                 }
 
-                if ( Mathf.Abs(_currRotSpeed) != Mathf.Epsilon )
+                if ( Mathf.Abs(_currRotSpeed) > Mathf.Epsilon )
                 {
                     _mainCam.transform.RotateAround( _focusPoint, Vector3.up, CAM_ROTSPEED * _currRotSpeed * Time.fixedDeltaTime );
                     _camOffset = _mainCam.transform.position - _focusPoint;
