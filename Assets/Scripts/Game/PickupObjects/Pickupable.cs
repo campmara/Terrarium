@@ -59,7 +59,7 @@ public class Pickupable : MonoBehaviour
         _rigidbody.constraints = RigidbodyConstraints.FreezeRotation;//FreezeAll;
     }
 
-    void OnCollisionEnter( Collision col )
+    protected virtual void OnCollisionEnter( Collision col )
 	{
 		//once you touch the ground 
 		if( col.gameObject.GetComponent<GroundDisc>() || col.gameObject.GetComponent<GroundCover>() )
