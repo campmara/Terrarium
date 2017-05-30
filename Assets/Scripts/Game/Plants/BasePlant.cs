@@ -14,6 +14,19 @@ public class BasePlant : MonoBehaviour
 	protected float _spawnHeight = 8.0f;
 	public float SpawnHeight { get { return _spawnHeight; } set { _spawnHeight = value;} }
 
+	public enum PlantType : int 
+	{
+		NONE = -1,
+		POINT,
+		FLOWERING,
+		LEAFY,
+		LIMBER,
+		PBUSH,
+		BUMBLE
+	}
+	[SerializeField] PlantType _type = PlantType.NONE;
+	public PlantType MyPlantType { get { return _type; } }
+
     // *************
     // DEATH VARS
     // **************
@@ -45,6 +58,7 @@ public class BasePlant : MonoBehaviour
 	// **************
 
 	protected PlantController _activeController = null;
+    public PlantController ActiveController { get { return _activeController; } }
 	PlantController[] _controllers = new PlantController[2];
 
 	protected virtual void Awake()
@@ -111,7 +125,8 @@ public class BasePlant : MonoBehaviour
 
 	public void TouchPlant()
 	{
-		_activeController.TouchPlant();
+		_controllers[0].TouchPlant();
+//		_activeController.TouchPlant();
 	}
 
 	public void StompPlant()
@@ -123,6 +138,8 @@ public class BasePlant : MonoBehaviour
 	{
 		return _activeController.DropFruit();
 	}
+
+	public virtual void HandleSinging( bool playerEnter ){}
 
 	void OnDestroy()
 	{
@@ -140,5 +157,24 @@ public class BasePlant : MonoBehaviour
 		yield return new WaitForSeconds( returnTime );
 
 		_curDecayRate = _baseDecayRate;
+	}
+
+	void OnTriggerStay( Collider col )
+	{
+		CheckReactToPlayer( col, true );
+	}
+
+	void OnTriggerExit( Collider col )
+	{
+		CheckReactToPlayer( col, false );
+	}
+
+	void CheckReactToPlayer( Collider col, bool entering )
+	{
+			if( col.GetComponent<Player>() || col.GetComponentInChildren<Player>() )
+			{
+				//_controllers[0].TouchPlant();
+				_controllers[0].HandleSinging( entering );
+			}
 	}
 }

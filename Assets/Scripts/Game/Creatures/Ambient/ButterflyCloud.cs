@@ -17,6 +17,8 @@ public class ButterflyData
 	const float MOVESPEED_MIN = 1.0f;
 	const float MOVESPEED_MAX = 15.0f;
 
+    public Color _currColor = Color.white;
+
 	public ButterflyData()
 	{
         RandomizeMovement();
@@ -65,8 +67,10 @@ public class ButterflyCloud : AmbientCreature {
     // Use this for initialization
     void Awake ()
     {
-        _idlePosition = transform.position;
+        ColorManager.ExecutePaletteChange += HandlePaletteChange;
 
+        _idlePosition = transform.position;
+        
         SpawnCreatures();
 	}
 
@@ -163,20 +167,22 @@ public class ButterflyCloud : AmbientCreature {
         {
             tmpCreature = Instantiate( _creatureObject, this.transform) as GameObject;
             
-            Color newColor = _butterflyGradient.Evaluate( Random.value );
-            foreach (MeshRenderer m in tmpCreature.gameObject.GetComponentsInChildren<MeshRenderer>())
-            {
-                m.material.color = newColor;
-            }
-
-            tmpData = new ButterflyData();
+            Color newColor = ColorManager.instance.ActivePalatte.butterflyGradient.Evaluate( Random.value );
+           
+            tmpData = new ButterflyData();            
 
 			tmpCreature.transform.position = transform.position + ( Random.insideUnitSphere * Random.Range( SPAWN_MINDIST, SPAWN_MAXDIST ) ) + ( Vector3.up * SPAWN_HEIGHT );
             tmpData._butterflyTransform = tmpCreature.transform;
 			tmpData._parentOffset = tmpCreature.transform.position - this.transform.position;
 			tmpData._targetPosition = tmpCreature.transform.position;
 
-			StartCoroutine( DelayedStartAnim( tmpCreature.GetComponent<Animator>() ) );
+            tmpData._currColor = newColor;
+            foreach (MeshRenderer m in tmpCreature.gameObject.GetComponentsInChildren<MeshRenderer>())
+            {
+                m.material.color = tmpData._currColor;
+            }
+
+            StartCoroutine( DelayedStartAnim( tmpCreature.GetComponent<Animator>() ) );
 
 			_butterflyList.Add( tmpData );                     
         }
@@ -198,5 +204,51 @@ public class ButterflyCloud : AmbientCreature {
 	private void OnDestroy()
 	{
 	}
+
+    void HandlePaletteChange( ColorManager.EnvironmentPalette prevPallette, ColorManager.EnvironmentPalette nextPallette )
+    {
+        if( Application.isPlaying )
+        {
+            StartCoroutine( TransitionColor( nextPallette.butterflyGradient ) );
+        }        
+    }
+
+    IEnumerator TransitionColor( Gradient gradient, float transitionTime = ColorManager.PALATTE_TRANSITIONTIME )
+    {
+        float timer = 0.0f;
+        int index = 0;
+
+        Color[] colorList = new Color[_butterflyList.Count];
+
+        for(int i = 0; i < _butterflyList.Count; ++i)
+        {
+            colorList[i] = ColorManager.instance.ActivePalatte.butterflyGradient.Evaluate( Random.value );
+        }
+
+        while ( timer < transitionTime )
+        {
+            timer += Time.deltaTime;
+
+            foreach (ButterflyData b in _butterflyList )
+            {
+                foreach (MeshRenderer m in b._butterflyTransform.gameObject.GetComponentsInChildren<MeshRenderer>())
+                {
+                    m.material.color = Colorx.Slerp( b._currColor, colorList[index], timer / transitionTime );
+                }
+                index++;
+            }
+
+            index = 0;
+
+            yield return 0;
+        }
+
+        index = 0;
+
+        for( index = 0; index < _butterflyList.Count; ++index )
+        {
+            _butterflyList[index]._currColor = colorList[index];
+        }
+    }
 
 }

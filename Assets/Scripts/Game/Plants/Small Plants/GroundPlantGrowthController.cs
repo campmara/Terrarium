@@ -1,22 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using DG.Tweening;
 public class GroundPlantGrowthController : SPGrowthController 
 {
 	[SerializeField] GameObject _leaf;
-	[SerializeField] GameObject _fruit;
+	[SerializeField] GameObject _fruitPrefab;
 
 	const int _numLeaves = 5;
 	const int _layerCount = 2;
 
 	float _waitTime = 0.0f;
 	float _leafScale = 0.0f;
-
-	float _endTimeStamp = 0.0f;
 	Animator _lastAnim = null;
 	bool _waiting = false;
+	bool _closingLeaves = false;
+	float _closeSpeed = .32f;
 
+	float _singBufferTime = .5f;
+	float _enterTime = 0.0f;
+	GameObject _curFruit = null;
 	protected override void InitPlant()
 	{
 		base.InitPlant();
@@ -79,13 +82,13 @@ public class GroundPlantGrowthController : SPGrowthController
 
 	void GrowFruit()
 	{
-		GameObject curFruit = Instantiate(_fruit);
-		curFruit.transform.position = transform.position;
-		Vector3 preserveScale = curFruit.transform.localScale;
-		curFruit.transform.parent = transform;
-		curFruit.transform.localScale = preserveScale;
+		_curFruit = Instantiate(_fruitPrefab);
+		_curFruit.transform.position = transform.position;
+		Vector3 preserveScale = _curFruit.transform.localScale;
+		_curFruit.transform.parent = transform;
+		_curFruit.transform.localScale = preserveScale;
 
-		StartCoroutine( TweenLocalScale( curFruit.transform, Vector3.zero, curFruit.transform.localScale, 3.5f * _growthRate));
+		StartCoroutine( TweenLocalScale( _curFruit.transform, Vector3.zero, _curFruit.transform.localScale, .75f * _growthRate));
 	}
 
 	IEnumerator TweenLocalScale( Transform focusTransform, Vector3 startScale, Vector3 endScale, float moveTime )
@@ -112,10 +115,9 @@ public class GroundPlantGrowthController : SPGrowthController
 
 	private IEnumerator WaitToSpawnChild()
 	{
-		float _animEndTime = _lastAnim.GetCurrentAnimatorStateInfo(0).length;
 		float _curTimeAnimated = _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime; // Mathf.Lerp(0.0f, _animEndTime, _plantAnim.GetCurrentAnimatorStateInfo(0).normalizedTime ); // i am x percent of the way through anim
 
-		while( _curTimeAnimated < _animEndTime )
+		while( _curTimeAnimated < 1.0f )
 		{
 			//update
 			_curTimeAnimated = _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime; 
@@ -129,11 +131,6 @@ public class GroundPlantGrowthController : SPGrowthController
 		if( !_waiting )
 		{
 			_lastAnim = _childAnimators[ _childAnimators.Count - 1 ];
-			//PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
-			//_lastClip = _lastAnim.runtimeAnimatorController.animationClips[0];
-			AnimatorStateInfo state = _lastAnim.GetCurrentAnimatorStateInfo(0);
-			_endTimeStamp =  state.length;//_lastClip.length - .04f;
-			//PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
 			StartCoroutine( WaitForLastLeaf() );
 		}
 	}
@@ -141,13 +138,76 @@ public class GroundPlantGrowthController : SPGrowthController
 	private IEnumerator WaitForLastLeaf()
 	{
 		_waiting = true;
-		while( _endTimeStamp > _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime )
+		while( _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f )
 		{
 			yield return null;
 		}
-		//PlantManager.instance.RequestSpawnMini( this, _timeBetweenSpawns );
 		_waiting = false;
 		_myPlant.SwitchController( this );
+	}	
+
+	protected override void CustomTouchPlant()
+	{
+		if( !_closingLeaves )
+		{
+			StartCoroutine( CloseLeaves() );
+		}
 	}
+
+	IEnumerator CloseLeaves()
+	{
+		_closingLeaves = true;
+		float closeTime = .25f;
+		float openTime = 5.0f;
+		float fruitScale = _curFruit.transform.localScale.x;
+		// cycle all through the guys
+		foreach( Animator plant in _childAnimators )
+		{
+			plant.SetBool("isSwaying", false );
+			plant.SetBool("isClosing", true );
+			plant.speed = 3.8f;
+		}
 		
+		_curFruit.transform.DOScale( 0.0f, .5f );
+		yield return new WaitForSeconds( closeTime );
+
+		PlayerManager.instance.Player.GetComponent<RollerController>().MakeDroopyExplode();
+
+		yield return new WaitForSeconds( .001f );
+
+		// cycle all through the guys
+		foreach( Animator plant in _childAnimators )
+		{
+			plant.speed = 1.0f;
+			plant.SetBool("isClosing", false );
+		}
+
+		_curFruit.transform.DOScale( fruitScale, 7.0f );
+		yield return new WaitForSeconds( openTime );
+		_closingLeaves = false;
+	}
+
+	protected override void CustomizedSingAtPlant( bool entering )
+	{
+		SingController singCtrl = PlayerManager.instance.Player.GetComponent<SingController>();
+		if( singCtrl.State == SingController.SingState.SINGING && entering )
+		{
+			//keep that bool set to true
+			foreach( Animator plant in _childAnimators )
+			{
+				plant.SetBool("isSwaying", true );
+			}
+			_enterTime = Time.time;
+		}
+		else
+		{
+			if( Time.time - _enterTime >= _singBufferTime )
+			{
+				foreach( Animator plant in _childAnimators )
+				{
+					plant.SetBool("isSwaying", false );
+				}
+			}
+		}
+	}
 }

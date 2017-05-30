@@ -6,10 +6,6 @@ public class StarterPlantGrowthController : BPGrowthController
 	[SerializeField] private Transform _bStemRoot = null;
 	[SerializeField] private GameObject _leafPrefab = null;
 
-	Vector3 _minScale = new Vector3( 0.0f, 0.0f, 0.0f );
-	public Vector3 MinScale { get { return _minScale; }  set { _minScale = value; } }
-	Vector3 _maxScale = new Vector3( 14.0f, 14.0f, 14.0f );
-
 	private int _numChildren;
 	private Transform[] _bones;
 
@@ -22,10 +18,7 @@ public class StarterPlantGrowthController : BPGrowthController
 
 	Transform _currentParent = null;
 	Coroutine _leafSpawnRoutine = null;
-
-	float _endTimeStamp = 0.0f;
 	Animator _lastAnim = null;
-	bool _waiting = false;
 
 	void Awake()
 	{
@@ -56,19 +49,25 @@ public class StarterPlantGrowthController : BPGrowthController
 
 		_offset = Random.Range( 0, 100 );
 		_ringNumber = Random.Range( 5, 8 );
+		Animator leafAnim = null;
 
 		for (int i = 0; i < _ringNumber; i++)
 		{
-			SetupLeaf( i );
+			leafAnim = SetupLeaf( i );
 		}
 
 		yield return new WaitForSeconds( _timeBetweenLeafSpawns );
 
 		_curChildSpawned++;
 		_leafSpawnRoutine = null;
+
+		if( _numChildren == _curChildSpawned )
+		{
+			_lastAnim = leafAnim;
+		}
 	}
 		
-	void SetupLeaf( int index )
+	Animator SetupLeaf( int index )
 	{
 		GameObject leaf = Instantiate( _leafPrefab);
 		Animator anim = leaf.GetComponent<Animator>();
@@ -80,57 +79,23 @@ public class StarterPlantGrowthController : BPGrowthController
 		leaf.transform.Rotate(new Vector3(0, index * 360 / _ringNumber + _offset, 0));
 		leaf.transform.position -= leaf.transform.forward * .015f * transform.localScale.x;
 		anim.speed *= _plantAnim.GetComponent<Animator>().speed;
+
+		return anim;
 	}
 
 	protected override void CustomPlantGrowth()
 	{
-		if( transform.localScale.x < _maxScale.x )
-		{
-			transform.localScale = Vector3.Lerp( _minScale, _maxScale, Mathf.SmoothStep( 0, 1, _curPercentAnimated ) );
-		}
-			
 		if( _leafSpawnRoutine == null && _curChildSpawned < _numChildren )
 		{
 			_leafSpawnRoutine = StartCoroutine( SpawnLeaves() );
 		}
 
-//		if( _lastAnim )
-//		{
-//			if( _endTimeStamp >= _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime )
-//			{
-//				_myPlant.SwitchController( this );
-//			}
-//		}
-	}
-
-	protected override void CustomStopGrowth()
-	{
-		if( !_waiting )
+		if( _lastAnim )
 		{
-			_lastAnim = _childAnimators[ _childAnimators.Count - 1 ];
-			//_lastClip = _lastAnim.runtimeAnimatorController.animationClips[0];
-			AnimatorStateInfo state = _lastAnim.GetCurrentAnimatorStateInfo(0);
-			_endTimeStamp =  state.length - .04f;
-
-			StartCoroutine( WaitForLastLeaf() );
+			if( _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f )
+			{
+				_myPlant.SwitchController( this );
+			}
 		}
 	}
-
-	private IEnumerator WaitForLastLeaf()
-	{
-		_waiting = true;
-		float curTime = _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime;
-		float len = _lastAnim.GetCurrentAnimatorStateInfo(0).length;
-		float percent = curTime / len;
-		while( percent < .99f )
-		{
-			curTime = _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime;
-			percent = curTime / len;
-			yield return null;
-		}
-
-		_waiting = false;
-		_myPlant.SwitchController( this );
-    }
-
 }

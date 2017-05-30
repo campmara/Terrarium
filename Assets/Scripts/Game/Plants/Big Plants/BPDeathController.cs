@@ -9,18 +9,6 @@ public class BPDeathController : PlantController
 	[SerializeField] private SkinnedMeshRenderer _essenceMesh;
 	ParticleSystem _essenceParticleSystem;
 	ParticleSystem.NoiseModule _essenceNoise;
-
-	// TODO REMOVE THIS ADDE MORE SCRIPTS GDI
-	public enum BigPlantType : int 
-	{
-		NONE = -1,
-		POINT,
-		MOSS,
-		LEAFY
-	}
-	[SerializeField] BigPlantType _type = BigPlantType.NONE;
-
-	[SerializeField] Color[] _deathColors = new Color[3];
 	[SerializeField] float _waterDecayReturnTime = 20.0f;
 
 	enum DeathState
@@ -35,10 +23,9 @@ public class BPDeathController : PlantController
 	Color[] _interpColors = new Color[6];
 	int[] _shaderIDs = new int[3];
 
-	
-
 	private float _fadeTime;
 	private float _cutoffValue;
+	private bool _markedForDeath;
 	
 	public override void Init()
 	{
@@ -82,25 +69,21 @@ public class BPDeathController : PlantController
 		}
 
 		ParticleSystem.ShapeModule shape = _essenceParticleSystem.shape;
-		if (_essenceMesh)
+		if ( _essenceMesh != null )
 		{
 			shape.skinnedMeshRenderer = _essenceMesh;
 		}
 		else
 		{
-			
-			if (renderers[0])
+			if ( renderers.Length > 0 && renderers[0] != null )
 			{
 				shape.skinnedMeshRenderer = renderers[0];
 			}
-			else if (otherRenderers[0])
-			{
+			else if (otherRenderers.Length > 0 && otherRenderers[0] != null )
+            {
 				shape.meshRenderer = otherRenderers[0];
 			}
 		}
-
-		
-		
 
 		if( _componentMaterials.Count > 0 )
 		{
@@ -135,19 +118,25 @@ public class BPDeathController : PlantController
 		}
 		else
 		{
-			_curState = DeathState.Fading;
+			//ParticleSystem.MinMaxGradient essenceTrailColor = _essenceParticleSystem.trails.colorOverLifetime;
+			//essenceTrailColor.color = _componentMaterials[0].GetColor(_shaderIDs[1]);
 
-			ParticleSystem.MinMaxGradient essenceTrailColor = _essenceParticleSystem.trails.colorOverLifetime;
-			essenceTrailColor.color = _componentMaterials[0].GetColor(_shaderIDs[1]);
-
-			_essenceParticleSystem.Play();
-
+			// DEFINE SOME VALUES
 			_cutoffValue = 0f;
 			_fadeTime = Random.Range(5f, 7f);
 
+			ParticleSystem.MainModule essenceMain = _essenceParticleSystem.main;
+			essenceMain.startColor = _componentMaterials[0].GetColor(_shaderIDs[1]);
+			essenceMain.duration = _fadeTime;
+
+			_essenceParticleSystem.Play();
+
+			// Fade the cutoff in a tween.
 			DOTween.To(()=> _cutoffValue, x=> _cutoffValue = x, 1f, _fadeTime)
 				.SetEase(Ease.InExpo)
 				.OnComplete(OnDeath);
+
+			_curState = DeathState.Fading;
 		}
 	}
 
@@ -156,13 +145,18 @@ public class BPDeathController : PlantController
 		// Fully decayed and therefore no longer visible.
 		_essenceParticleSystem.Stop();
 		_essenceParticleSystem.GetComponent<EssenceParticles>().MarkForDestroy(5f);
-		
 
-		PlantManager.instance.DeleteLargePlant(_myPlant);
+		_markedForDeath = true;
 	}
 
 	void FadeEssence()
 	{
+		if (_markedForDeath && !_essenceParticleSystem.IsAlive())
+		{
+			// Delete me!!! Bye bye!!!
+			PlantManager.instance.DeleteLargePlant( _myPlant.GetComponent<BasePlant>() );
+		}
+
 		for (int i = 0; i < _componentMaterials.Count; i++)
 		{
 			_componentMaterials[i].SetFloat("_Dissolve", _cutoffValue);
@@ -206,17 +200,26 @@ public class BPDeathController : PlantController
 	void HandlePalatteChange( ColorManager.EnvironmentPalette newPalette, ColorManager.EnvironmentPalette prevPalette  )
 	{		
 		Debug.Log( "transitionin a dyin plant color ");
-
+		BasePlant.PlantType _type = _myPlant.GetComponent<BasePlant>().MyPlantType;
 		switch( _type )
 		{
-		case BigPlantType.POINT:
+		case BasePlant.PlantType.POINT:
 			StartCoroutine( DelayedTransitionPointColors( newPalette, prevPalette ) );
 			break;
-		case BigPlantType.MOSS:
+		case BasePlant.PlantType.FLOWERING:
 			StartCoroutine( DelayedTransitionMossColors( newPalette.mossPlant ) );
 			break;
-		case BigPlantType.LEAFY:
+		case BasePlant.PlantType.LEAFY:
 			StartCoroutine( DelayedTransitionLeafyColors( newPalette, prevPalette ) );
+			break;
+		case BasePlant.PlantType.LIMBER:
+			StartCoroutine( DelayedTransitionLimberColors( newPalette.limberPlant ) );
+			break;
+		case BasePlant.PlantType.PBUSH:
+			StartCoroutine( DelayedTransitionPBushColors( newPalette.pointyBush ) );
+			break;
+		case BasePlant.PlantType.BUMBLE:
+			StartCoroutine( DelayedTransitionPBushColors( newPalette.bumblePlant ) );
 			break;
 		default:
 			break;
@@ -328,5 +331,49 @@ public class BPDeathController : PlantController
 		}			
 	}
 
+	IEnumerator DelayedTransitionLimberColors( Gradient newLimberGradient, float transitionTime = ColorManager.PALATTE_TRANSITIONTIME )
+	{
+		float timer = 0.0f;
+		Color topColor = _componentMaterials[0].GetColor( _shaderIDs[0] );
+		Color midColor = _componentMaterials[0].GetColor( _shaderIDs[1] );
+		Color botColor = _componentMaterials[0].GetColor( _shaderIDs[2] );
+
+		while( timer < transitionTime )
+		{
+			timer +=  Time.deltaTime;
+
+			foreach( Material mat in _componentMaterials )
+			{
+				mat.SetColor( _shaderIDs[0], Colorx.Slerp( topColor, newLimberGradient.Evaluate(0.0f), timer / transitionTime ) );
+				mat.SetColor( _shaderIDs[1], Colorx.Slerp( midColor, newLimberGradient.Evaluate(0.5f), timer / transitionTime ) );
+				mat.SetColor( _shaderIDs[2], Colorx.Slerp( botColor, newLimberGradient.Evaluate(1.0f), timer / transitionTime ) );;
+			}
+
+			yield return 0;
+		}
+	}
+
+	IEnumerator DelayedTransitionPBushColors( Gradient newPBushGradient, float transitionTime = ColorManager.PALATTE_TRANSITIONTIME )
+	{
+		float timer = 0.0f;
+		Color topColor = _componentMaterials[0].GetColor( _shaderIDs[0] );
+		Color midColor = _componentMaterials[0].GetColor( _shaderIDs[1] );
+		Color botColor = _componentMaterials[0].GetColor( _shaderIDs[2] );
+
+		while( timer < transitionTime )
+		{
+			timer +=  Time.deltaTime;
+
+			foreach( Material mat in _componentMaterials )
+			{
+				mat.SetColor( _shaderIDs[0], Colorx.Slerp( topColor, newPBushGradient.Evaluate(0.0f), timer / transitionTime ) );
+				mat.SetColor( _shaderIDs[1], Colorx.Slerp( midColor, newPBushGradient.Evaluate(0.5f), timer / transitionTime ) );
+				mat.SetColor( _shaderIDs[2], Colorx.Slerp( botColor, newPBushGradient.Evaluate(1.0f), timer / transitionTime ) );;
+			}
+
+			yield return 0;
+		}
+	}
 }
 
+ 

@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
 		INIT,
 		INTRO,			// Wait for player input to start match
 		MAIN,
+        POND_WAIT,
         POND_RETURN,    // When Player transitions back to Pond
         POND_POP       // When Player pops out of Pond (respawns)
 	}
@@ -76,7 +77,7 @@ public class GameManager : MonoBehaviour
 		}
 
 		// rly hacky Restart gdi
-		if( Input.GetKey(KeyCode.I) && Input.GetKey(KeyCode.O) && Input.GetKey(KeyCode.P ) )
+		if( Input.GetKey(KeyCode.Alpha0) )
 		{
 			SceneManager.LoadScene(0);
 		}
@@ -133,7 +134,7 @@ public class GameManager : MonoBehaviour
 				
 		}
 
-		Debug.Log("Transitioned from: " + prevState.ToString() + " to " + newState.ToString());
+		Debug.Log("[GameManager] Transitioned from: " + prevState.ToString() + " to " + newState.ToString());
 
 	}
 

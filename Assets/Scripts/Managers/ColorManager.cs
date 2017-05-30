@@ -1,4 +1,4 @@
-﻿﻿using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -39,10 +39,16 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 		[Header("Class 2"), Space(5)]
 		public Gradient leafyGroundPlantBulb;
 		public Gradient leafyGroundPlantLeaf;
+		public Gradient pointyBush;
+		public Gradient bumblePlant;
 		[Header("Class 3"), Space(5)]
 		public Gradient twistPlant;
 		public Gradient cappPlant;
+		public Gradient limberPlant;
 
+        [Header( "Creatures" ), Space( 5 )]
+        public Gradient rabbitGradient;
+        public Gradient butterflyGradient;
 	}
 
 	public static event Action<EnvironmentPalette, EnvironmentPalette> ExecutePaletteChange;
@@ -51,7 +57,8 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 	EnvironmentPalette _activePalette;
 	public EnvironmentPalette ActivePalatte { get { return _activePalette; } }
 	public const float PALATTE_TRANSITIONTIME = 5.0f;
-	const float PALATTE_ADVANCETIMER = 600.0f;
+	const float PALATTE_ADVANCETIMER_MIN = 90.0f;
+	const float PALATE_ADVANCETIMER_MAX = 120.0f;
 
 
 	[SerializeField, Space(5)] List<EnvironmentPalette> _environmentPaletteList = new List<EnvironmentPalette>();
@@ -64,7 +71,9 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 	[Header("Global Materials"), Space(5)]
 	[SerializeField] Material terrainMaterial;
 	[SerializeField] ParticleSystem groundSplatDecal;
-	[SerializeField] Material terrainRockMat;
+    [SerializeField]
+    public Color flowerSplatDecalColor;
+    [SerializeField] Material terrainRockMat;
 	[SerializeField] Material terrainMossRockMat;
 	[SerializeField] Material pondRockMat;
 
@@ -81,6 +90,17 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 	[SerializeField] Material twistPlantMat;
 
 	[SerializeField] Material cappPlantMat;
+
+	[SerializeField] Material bumbleMat;
+	[SerializeField] Material limberMat;
+	[SerializeField] Material pointyBushMat;
+
+    [SerializeField] Material rabbitMat;
+
+    [SerializeField]
+    ParticleSystem _twistParticleSystem;
+    [SerializeField]
+    ParticleSystem _cappParticleSystem;
 
 	void Start()
 	{
@@ -116,7 +136,19 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 				groundDecalMain.startColor = new Color( _activePalette.groundColorSecondary.r * _activePalette.groundDecalTint.r, _activePalette.groundColorSecondary.g * _activePalette.groundDecalTint.g, _activePalette.groundColorSecondary.b * _activePalette.groundDecalTint.b, 1.0f );
 			}
 
-			terrainRockMat.SetColor( "_Color", _activePalette.terrainRockColor);
+            if( _twistParticleSystem != null )
+            {
+                ParticleSystem.MainModule twistDecalMain = groundSplatDecal.main;
+                twistDecalMain.startColor = _activePalette.twistPlant.Evaluate(0.0f);
+            }
+
+            if ( _cappParticleSystem != null )
+            {
+                ParticleSystem.MainModule cappDecalMain = groundSplatDecal.main;
+                cappDecalMain.startColor = _activePalette.cappPlant.Evaluate( 0.0f );
+            }
+
+            terrainRockMat.SetColor( "_Color", _activePalette.terrainRockColor);
 			terrainMossRockMat.SetColor( "_Color", _activePalette.terrainMossRockColor );
 
 			//skybox
@@ -131,7 +163,9 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 			}
 
 			pondRockMat.SetColor( "_Color", _activePalette.pondRockColor );
-			//ApplyThreePartGradient( pondRockMat, _activePalette.pondRockGradient );
+            //ApplyThreePartGradient( pondRockMat, _activePalette.pondRockGradient );
+
+            ApplyThreePartGradient( rabbitMat, _activePalette.rabbitGradient );
 
 			ApplyThreePartGradient( mossPlantSeedMat, _activePalette.mossPlantSeed );
 			ApplyThreePartGradient( mossPlantMat, _activePalette.mossPlant );
@@ -140,6 +174,9 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 			ApplyThreePartGradient( pointPlantStemMat, _activePalette.pointPlantStem );
 			ApplyThreePartGradient( leafyGroundPlantBulbMat, _activePalette.leafyGroundPlantBulb );
 			ApplyThreePartGradient( leafyGroundPlantLeafMat, _activePalette.leafyGroundPlantLeaf );
+			ApplyThreePartGradient( bumbleMat, _activePalette.bumblePlant );
+			ApplyThreePartGradient( pointyBushMat, _activePalette.pointyBush );
+			ApplyThreePartGradient( limberMat, _activePalette.limberPlant );
 
 			ApplyTwoPartGradient( twistPlantMat, _activePalette.twistPlant );			
 			ApplyTwoPartGradient( cappPlantMat, _activePalette.cappPlant );
@@ -152,15 +189,20 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 
 			GeneralTransitionColors( prevPalatte );
 
-			//TransitionThreePartGradient( pondRockMat, _activePalette.pondRockGradient );
+            //TransitionThreePartGradient( pondRockMat, _activePalette.pondRockGradient );
 
-			TransitionThreePartGradient( mossPlantSeedMat, _activePalette.mossPlantSeed );
+           TransitionThreePartGradient( rabbitMat, _activePalette.rabbitGradient );
+
+            TransitionThreePartGradient( mossPlantSeedMat, _activePalette.mossPlantSeed );
 			TransitionThreePartGradient( mossPlantMat, _activePalette.mossPlant );
 			TransitionThreePartGradient( pointPlantSeedMat, _activePalette.pointPlantSeed );			
 			TransitionThreePartGradient( pointPlantLeafMat, _activePalette.pointPlantLeaf );
 			TransitionThreePartGradient( pointPlantStemMat, _activePalette.pointPlantStem );
 			TransitionThreePartGradient( leafyGroundPlantBulbMat, _activePalette.leafyGroundPlantBulb );
 			TransitionThreePartGradient( leafyGroundPlantLeafMat, _activePalette.leafyGroundPlantLeaf );
+			TransitionThreePartGradient( bumbleMat, _activePalette.bumblePlant );
+			TransitionThreePartGradient( pointyBushMat, _activePalette.pointyBush );
+			TransitionThreePartGradient( limberMat, _activePalette.limberPlant );
 
 			TransitionTwoPartGradient( twistPlantMat, _activePalette.twistPlant );			
 			TransitionTwoPartGradient( cappPlantMat, _activePalette.cappPlant );
@@ -193,10 +235,10 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 			Shader.SetGlobalColor("_GroundColorTint",  Colorx.Slerp( prevPalette.groundDecalTint, _activePalette.groundDecalTint, timer / duration ) );
 
 			ParticleSystem.MainModule groundDecalMain = groundSplatDecal.main;
-			groundDecalMain.startColor = new Color( _activePalette.groundColorSecondary.r * _activePalette.groundDecalTint.r, _activePalette.groundColorSecondary.g * _activePalette.groundDecalTint.g, _activePalette.groundColorSecondary.b * _activePalette.groundDecalTint.b, 1.0f );			
+			groundDecalMain.startColor = new Color( _activePalette.groundColorSecondary.r * _activePalette.groundDecalTint.r, _activePalette.groundColorSecondary.g * _activePalette.groundDecalTint.g, _activePalette.groundColorSecondary.b * _activePalette.groundDecalTint.b, 1.0f );
 
-			//skybox
-			RenderSettings.fogColor = Colorx.Slerp(prevPalette.fogColor, _activePalette.fogColor, timer / duration );
+            //skybox
+            RenderSettings.fogColor = Colorx.Slerp(prevPalette.fogColor, _activePalette.fogColor, timer / duration );
 			RenderSettings.skybox.SetColor( "_Color1", Colorx.Slerp( prevPalette.cloudRimColor, _activePalette.cloudRimColor, timer/ duration )  );
 			RenderSettings.skybox.SetColor( "_Color2", Colorx.Slerp( prevPalette.skyColor, _activePalette.skyColor, timer / duration ) );
 
@@ -303,7 +345,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 
 	IEnumerator PaletteChangeTimer()
 	{
-		yield return new WaitForSeconds( PALATTE_ADVANCETIMER );
+		yield return new WaitForSeconds( UnityEngine.Random.Range( PALATTE_ADVANCETIMER_MIN, PALATE_ADVANCETIMER_MAX ) );
 
 		_paletteIndex++;
 		if( _paletteIndex >= _paletteOrderList.Count )

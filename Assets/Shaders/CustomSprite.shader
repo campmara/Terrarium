@@ -4,12 +4,16 @@
 		_Color2 ("Color 2", Color) = (1,1,1,1)
 
 		_MainTex ("Albedo (RGB)", 2D) = "white" {}
+
 		_Columns("Columns", int) = 8
 		_Rows("Rows", int) = 3
+
 		_FrameNumber ("Frame Number", int) = 0
 		_TotalFrames ("Total Number of Frames", int) = 1
+		//_FrameScale ("Frame Scale (for testing)", float) = 1
 		_Cutoff ("Alpha Cutoff", Range(0,1)) = 1
 		[MaterialToggle] _ToggleBillboard("Toggle Billboard Effect", Float) = 0
+		[MaterialToggle] _ToggleVertexColorAnim("Toggle Vertex Color Animation", Float) = 0
 	}
 	SubShader {
 		Tags { "RenderType"="Opaque" "DisableBatching"="True"}
@@ -25,6 +29,7 @@
 
 		struct Input {
 			float2 uv_MainTex;
+			float4 color : COLOR;
 		};
 
 		half _Glossiness;
@@ -35,11 +40,13 @@
 		fixed4 _Color2;
 		int _FrameNumber;
 		int _TotalFrames;
+		float _FrameScale;
 		float _ToggleBillboard;
+		float _ToggleVertexColorAnim;
 
-		void vert(inout appdata_base v)
+		void vert(inout appdata_full v, out Input o)
 		{
-			//UNITY_INITIALIZE_OUTPUT(Input, o);
+			UNITY_INITIALIZE_OUTPUT(Input, o);
 
 			if (_ToggleBillboard == 1) {
 				//code via https://gist.github.com/renaudbedard/7a90ec4a5a7359712202
@@ -63,28 +70,35 @@
 
 			fixed4 worldPos = mul(transpose(unity_ObjectToWorld), float4(0, 1, 0, 1));
 			v.normal = worldPos;
+			o.color = v.color;
 		}
 
 		void surf (Input IN, inout SurfaceOutput o) {
-			float frame = clamp(_FrameNumber, 0, _TotalFrames);
 
-			float xOffPerFrame = (1 / (float)_Columns);
-			float yOffPerFrame = (1 / (float)_Rows);
+			float frame = clamp(_FrameNumber, 0, _TotalFrames);
+			
+			if (_ToggleVertexColorAnim != 0) {
+				frame = clamp(round(IN.color.a * _TotalFrames), 0, _TotalFrames);
+			}
+
+			float2 offPerFrame = float2((1 / (float)_Columns), (1 / (float)_Rows));
 
 			float2 spriteSize = IN.uv_MainTex;
 			spriteSize.x = (spriteSize.x / _Columns);
 			spriteSize.y = (spriteSize.y / _Rows);
 
-			float2 currentSprite = float2(0,  1 - yOffPerFrame);
-			currentSprite.x += frame * xOffPerFrame;
+			float2 currentSprite = float2(0,  1 - offPerFrame.y);
+			currentSprite.x += frame * offPerFrame.x;
 			
 			float rowIndex;
 			float mod = modf(frame / (float)_Columns, rowIndex);
-			currentSprite.y -= rowIndex * yOffPerFrame;
-			currentSprite.x -= rowIndex * _Columns * xOffPerFrame;
+			currentSprite.y -= rowIndex * offPerFrame.y;
+			currentSprite.x -= rowIndex * _Columns * offPerFrame.x;
+			
+			float2 spriteUV = (spriteSize + currentSprite); // * _FrameScale
 
-			fixed4 c = tex2D (_MainTex, spriteSize + currentSprite) * _Color;
-			c.rgb = lerp(_Color, _Color2, c.r);
+			fixed4 c = tex2D (_MainTex, spriteUV) * _Color;
+			c.rgb = lerp(_Color, _Color2, c.r) * IN.color.rgb;
 
 			o.Albedo = c.rgb;
 			o.Alpha = c.a;

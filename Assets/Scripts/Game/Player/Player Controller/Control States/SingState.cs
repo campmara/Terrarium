@@ -8,19 +8,19 @@ public class SingState : RollerState
 
 	public override void Enter (P_ControlState prevState)
 	{
-		Debug.Log("ENTER SING STATE");
+		Debug.Log("[RollerState] ENTER SING STATE");
 	    _waitToReturnTimer = 0f;
 	    _singPitch = 1f;
 	}
 
 	public override void Exit (P_ControlState nextState)
 	{
-		Debug.Log("EXIT SING STATE");
+		Debug.Log("[RollerState] EXIT SING STATE");
 		_roller.Face.BecomeIdle();
 		RollerParent.Idling = false;
 	}
 
-	public override void HandleInput (InputCollection input)
+	public override void HandleFixedInput(InputCollection input)
 	{
 		RollerParent.IKMovement(RollerConstants.instance.SingWalkSpeed, 
 									  RollerConstants.instance.WalkAcceleration, 
@@ -41,14 +41,14 @@ public class SingState : RollerState
 	    }
 
 	    //float desiredPitch = 1.0f + _roller.InputVec.magnitude;
-	    float desiredPitch = AudioManager.instance.GetCurrentMusicPitch();
-	    _singPitch = Mathf.Lerp(_singPitch, desiredPitch, RollerConstants.instance.PitchLerpSpeed * Time.deltaTime);
+	    //float desiredPitch = AudioManager.instance.GetCurrentMusicPitch();
+	    //_singPitch = Mathf.Lerp(_singPitch, desiredPitch, RollerConstants.instance.PitchLerpSpeed * Time.deltaTime);
 
 	    // Y BUTTON
 	    if (input.YButton.IsPressed)
 	    {
-	        AudioManager.instance.PlaySing(_singPitch);
-			_roller.Face.Sing();
+	        //AudioManager.instance.PlaySing(0f);
+
 	        _waitToReturnTimer = 0f;
 	    }
 		else

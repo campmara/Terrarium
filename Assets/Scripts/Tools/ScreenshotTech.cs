@@ -20,7 +20,8 @@ public class ScreenshotTech : MonoBehaviour {
 			Directory.CreateDirectory( Application.dataPath + "/" + SCREENSHOT_SAVEFOLDERNAME );
 		}
 
-		_screenshotRoutine = StartCoroutine( DelayedCaptureScreenshot() );
+        // Uncomment to start the game w/ Screenshots Enabled
+		//_screenshotRoutine = StartCoroutine( DelayedCaptureScreenshot() );
 		#else
 		if( !Directory.Exists( Application.dataPath + "/../" + SCREENSHOT_SAVEFOLDERNAME ) )
 		{
@@ -32,33 +33,30 @@ public class ScreenshotTech : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		if (Input.GetKeyDown(KeyCode.P))
-		{
-			if( Input.GetKey( KeyCode.RightShift ) )
-			{
-				if( _screenshotRoutine != null )
-				{
-					StopCoroutine( _screenshotRoutine );
-					_screenshotRoutine = null;
-				}	
-				else
-				{
-					_screenshotRoutine = StartCoroutine( DelayedCaptureScreenshot() );
-				}
-			}
-			else
-			{
-				HandleScreenShot();	
-			}
-		}
+        if ( Input.GetKeyDown( KeyCode.P ) )
+        {
+            HandleScreenShot();
+        }
+        else if ( Input.GetKeyDown( KeyCode.Alpha9 ) )
+        {
+            if (_screenshotRoutine != null)
+            {
+                StopCoroutine( _screenshotRoutine );
+                _screenshotRoutine = null;
+            }
+            else
+            {
+                _screenshotRoutine = StartCoroutine( DelayedCaptureScreenshot() );
+            }
+        }
 	}
 
 	void HandleScreenShot( int screenshotDetail = 4 )
 	{	
 		#if UNITY_STANDALONE && !UNITY_EDITOR	
-		Application.CaptureScreenshot( Application.dataPath + "/" + SCREENSHOT_SAVEFOLDERNAME + "/" + "Screenshot_" + System.DateTime.Now.ToString() + ".png", screenshotDetail );
+		Application.CaptureScreenshot( Application.dataPath + "/" + SCREENSHOT_SAVEFOLDERNAME + "/" + "Screenshot_" + System.DateTime.Now.ToString("MM_dd_yy_hhmm") + ".png", screenshotDetail );
 		#else
-		Application.CaptureScreenshot( Application.dataPath + "/../" + SCREENSHOT_SAVEFOLDERNAME + "/" + "Screenshot_" + System.DateTime.Now.ToString() + ".png", screenshotDetail );
+		Application.CaptureScreenshot( Application.dataPath + "/../" + SCREENSHOT_SAVEFOLDERNAME + "/" + "Screenshot_" + System.DateTime.Now.ToString("MM_dd_yy_hhmm") + ".png", screenshotDetail );
 		#endif
 	}
 

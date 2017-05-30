@@ -31,20 +31,26 @@ public class RollerController : ControllerBase
     [ReadOnly] private FaceManager _face = null;
     public FaceManager Face { get { return _face; } }
 
-	[ReadOnly] private GameObject _mesh = null;
+	[SerializeField] private GameObject _mesh = null;
 	public GameObject Mesh { get { return _mesh; } }
 
-	[ReadOnly] private GameObject _rig = null;
+	[SerializeField] private GameObject _rig = null;
 	public GameObject Rig { get { return _rig; } }
 
-	[ReadOnly] private GameObject _rollSphere = null;
+	[SerializeField] private GameObject _rollSphere = null;
 	public GameObject RollSphere { get { return _rollSphere; } }
+
+	[SerializeField] private Material _splatMat = null;
+	public Material SplatMat { get { return _splatMat; } }
+
+	[SerializeField] private Material _splatTrailMat = null;
+	public Material SplatTrailMat { get { return _splatTrailMat; } }
 
 	[ReadOnly] private ParticleSystem _explodeParticleSystem = null;
 	public ParticleSystem ExplodeParticleSystem { get { return _explodeParticleSystem; } }
 
 	// These have accessors in the RollerState
-	[ReadOnly] Pickupable _currentHeldObject = null;
+	[ReadOnly, SerializeField] Pickupable _currentHeldObject = null;
     public Pickupable CurrentHeldObject { get { return _currentHeldObject; } set { _currentHeldObject = value; } }
 	[ReadOnly] Vector3 _inputVec = Vector3.zero;
     public Vector3 InputVec { get { return _inputVec; } set { _inputVec = value; } }
@@ -63,18 +69,37 @@ public class RollerController : ControllerBase
     public float HeadMoveInterp { get { return _headMoveSpeedInterp; } set { _headMoveSpeedInterp = value; } }
 	float _currMaxVelocity = 0.0f;
 
+	[SerializeField] GameObject _carryPositionObject = null;
+	public GameObject CarryPositionObject { get { return _carryPositionObject; } }
+	private Vector3 _carryPosOffset = Vector3.zero;
+	public Vector3 CarryPosOffset { get { return _carryPosOffset; } set { _carryPosOffset = value; } } 
+
 	private Quaternion _targetRotation = Quaternion.identity;
     private float _targetRotAngle = 0.0f;
 	private Coroutine _idleWaitRoutine = null;
 
-	// ===========
-	// S T A T E S
-	// ===========
+    [SerializeField]
+    SkinnedMeshRenderer _bodyRenderer = null;
+    public SkinnedMeshRenderer BodyRenderer { get { return _bodyRenderer; } }
+    private const string SPHERIFYSCALE_SHADERPROP = "_SphereScale";
+    private const string SPHERIFY_SHADERPROP = "_Spherification";
+    int _spherifyPropertyHash = 0;
+    int _spherifyScalePropertyHash = 0;
+    public float SpherifyScale { get { return _bodyRenderer.material.GetFloat( _spherifyScalePropertyHash ); } set { _bodyRenderer.material.SetFloat( _spherifyScalePropertyHash, value ); } }
+    public float Spherify { get { return _bodyRenderer.material.GetFloat( _spherifyPropertyHash ); } set { _bodyRenderer.material.SetFloat( _spherifyPropertyHash, value ); } }
 
-	// STATE MACHINE
-	RollerState _currentState;
+    float _breathTimer = 0.0f;
+    public float BreathTimer { get { return _breathTimer; } set { _breathTimer = value; } }
 
-	protected P_ControlState _controlState = P_ControlState.NONE;
+    // ===========
+    // S T A T E S
+    // ===========
+
+    // STATE MACHINE
+   RollerState _currentState;
+
+    [SerializeField, ReadOnly]
+    protected P_ControlState _controlState = P_ControlState.NONE;
 	public P_ControlState State { get { return _controlState; } set { _controlState = value; } }
 
 	private WalkingState _walking = null;   
@@ -90,41 +115,41 @@ public class RollerController : ControllerBase
 	void Awake()
 	{
 		//Debug.Log("Added Test Controller to Player Control Manager");
-        _player = this.GetComponent<Player>();
-		_rigidbody = GetComponent<Rigidbody>();
-	    _ik = GetComponentInChildren<PlayerIKControl>();
-	    _face = GetComponentInChildren<FaceManager>();
-		_mesh = GetComponentInChildren<SkinnedMeshRenderer>().gameObject;
-		_rig = transform.GetChild(0).gameObject;
-		_rollSphere = transform.GetChild(2).gameObject;
-		_explodeParticleSystem = GetComponentInChildren<ParticleSystem>();
+		_player = GetComponent(typeof(Player)) as Player;
+		_rigidbody = GetComponent(typeof(Rigidbody)) as Rigidbody;
+	    _ik = GetComponentInChildren(typeof(PlayerIKControl)) as PlayerIKControl;
+	    _face = GetComponentInChildren(typeof(FaceManager)) as FaceManager;
+		_explodeParticleSystem = GetComponentInChildren(typeof(ParticleSystem)) as ParticleSystem;
 
-		// Add State Controller, Set parent to This Script, set to inactive
-		_walking = this.gameObject.AddComponent<WalkingState>();
+        _spherifyPropertyHash = Shader.PropertyToID( SPHERIFY_SHADERPROP );
+        _spherifyScalePropertyHash = Shader.PropertyToID( SPHERIFYSCALE_SHADERPROP );
+
+        // Add State Controller, Set parent to This Script, set to inactive
+        _walking = this.gameObject.AddComponent(typeof(WalkingState)) as WalkingState;
 		_walking.RollerParent = this;
 
-		_rolling = this.gameObject.AddComponent<RollingState>();
+		_rolling = this.gameObject.AddComponent(typeof(RollingState)) as RollingState;
 		_rolling.RollerParent = this;
 
-		_pickup = this.gameObject.AddComponent<PickupState>();
+		_pickup = this.gameObject.AddComponent(typeof(PickupState)) as PickupState;
 		_pickup.RollerParent = this;
 
-		_carrying = this.gameObject.AddComponent<CarryState>();
+		_carrying = this.gameObject.AddComponent(typeof(CarryState)) as CarryState;
 		_carrying.RollerParent = this;
 
-		_ritual = this.gameObject.AddComponent<RitualState>();
+		_ritual = this.gameObject.AddComponent(typeof(RitualState)) as RitualState;
 		_ritual.RollerParent = this;
 
-        _planting = this.gameObject.AddComponent<PlantingState>();
+        _planting = this.gameObject.AddComponent(typeof(PlantingState)) as PlantingState;
         _planting.RollerParent = this;
 
-		_singing = this.gameObject.AddComponent<SingState>();
+		_singing = this.gameObject.AddComponent(typeof(SingState)) as SingState;
 		_singing.RollerParent = this;
 
-		_sitting = this.gameObject.AddComponent<SittingState>();
+		_sitting = this.gameObject.AddComponent(typeof(SittingState)) as SittingState;
 		_sitting.RollerParent = this;
 
-		_ponding = this.gameObject.AddComponent<PondState>();
+		_ponding = this.gameObject.AddComponent(typeof(PondState)) as PondState;
 		_ponding.RollerParent = this;
 
         // Set state to default (walking for now)
@@ -205,20 +230,25 @@ public class RollerController : ControllerBase
 
 	protected override void HandleInput()
 	{
+        _currentState.HandleInput( _input );	
+	}
+
+    protected override void HandleFixedInput()
+    {
         // Always keep this at zero because the rigidbody's velocity is never needed and bumping into things
         // makes the character go nuts.
         _rigidbody.velocity = Vector3.zero;
-		_rigidbody.angularVelocity = Vector3.zero;
+        _rigidbody.angularVelocity = Vector3.zero;
 
-		_currentState.HandleInput(_input);
-	}
+        _currentState.HandleFixedInput( _input );
+    }
 
-	// ======================
-	// BASIC CONTROLLER STUFF
-	// ======================
+    // ======================
+    // BASIC CONTROLLER STUFF
+    // ======================
 
     /// IS NO LONGER BEING USED, PLEASE LOOK AT IK MOVEMENT METHOD ///
-	public void StandardMovement(float maxMoveSpeed, float moveAcceleration, float moveDeceleration,
+    public void StandardMovement(float maxMoveSpeed, float moveAcceleration, float moveDeceleration,
 								 float maxTurnSpeed)
 	{
 		// Left Stick Movement
@@ -336,10 +366,13 @@ public class RollerController : ControllerBase
 		// yeah hmmm
 		this._player.AnimationController.SetPlayerSpeed( _velocity / maxMoveSpeed );
 		
-		_rigidbody.MovePosition(transform.position + (transform.forward * _inputVec.magnitude * _velocity * Time.deltaTime));
-		_rigidbody.position = new Vector3(_rigidbody.position.x,
-											PondManager.instance.Pond.GetPondY(_rigidbody.position),
-											_rigidbody.position.z);
+        if( CanPlayerMove() )
+        {
+            _rigidbody.MovePosition( transform.position + ( transform.forward * _inputVec.magnitude * _velocity * Time.deltaTime) );
+            _rigidbody.position = new Vector3( _rigidbody.position.x,
+                                                PondManager.instance.Pond.GetPondY( _rigidbody.position ),
+                                                _rigidbody.position.z );
+        }	
 
 		//_rigidbody.MovePosition( Vector3.Lerp(transform.position, _targetMovePosition, Mathf.Lerp( RollerConstants.instance.BODY_MINMOVESPEED, bodyMoveSpeed, _headMoveSpeedInterp ) * Time.fixedDeltaTime ) );
 	}
@@ -365,10 +398,22 @@ public class RollerController : ControllerBase
 		}
     }
 
+    public bool CanPlayerMove()
+    {
+        if( PlayerManager.instance.DistanceFromPond >= 1.0f )
+        {
+            if( Vector3.Dot( PlayerManager.instance.DirectionFromPond, this.transform.forward ) > 0.0f )
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /// <summary>
     /// Zeros out Velocity
     /// </summary>
-    public void StopPlayer()
+    public void ZeroVelocity()
     {
         _velocity = 0.0f;
     }
@@ -397,7 +442,7 @@ public class RollerController : ControllerBase
 	{
 		_ik.SetState(PlayerIKControl.WalkState.IDLE);
 
-		_face.gameObject.SetActive(false);
+		//_face.gameObject.SetActive(false);
 		_mesh.SetActive(false);
 		_rig.SetActive(false);
 		_rollSphere.SetActive(true);
@@ -407,12 +452,27 @@ public class RollerController : ControllerBase
 
 	public void BecomeWalker()
 	{
-		_face.gameObject.SetActive(true);
+		//_face.gameObject.SetActive(true);
 		_mesh.SetActive(true);
 		_rig.SetActive(true);
+
+		_rollSphere.transform.localPosition = Vector3.up * 1.5f;
 		_rollSphere.SetActive(false);
 
-        _targetMovePosition = this.transform.position;
+        //Spherify = 0.0f;
+
+        _targetMovePosition = this.transform.position;        
+        this._player.AnimationController.SetPlayerSpeed( 0.0f );
+
+		if (InputVec.magnitude > RollerConstants.instance.IdleMaxMag)
+		{
+			// dooooo nothing?
+		}
+		else
+		{
+			_velocity = 0f;
+		}
+		
 
         _ik.ResetLegs();
 
@@ -425,7 +485,13 @@ public class RollerController : ControllerBase
 	{
 		// Put ourselves in the right state of mind: the pond state.
 		BecomeWalker();
-		ChangeState(P_ControlState.POND);
+
+        if (_currentHeldObject != null)
+        {
+            _currentState.HandleBothArmRelease();
+        }
+
+        ChangeState(P_ControlState.POND);
 
 		// Tell the pond we're comin' home!
 		PondManager.instance.HandlePondReturn();
@@ -441,13 +507,15 @@ public class RollerController : ControllerBase
 		// Handle all the object deactivation and state change we require.
 		_mesh.SetActive(false);
 		_face.gameObject.SetActive(false);
+		_rollSphere.SetActive(false);
 		_ik.SetState(PlayerIKControl.WalkState.POND_RETURN);
 
 		// ! BOOM !
+		AudioManager.instance.PlayClipAtIndex(AudioManager.AudioControllerNames.PLAYER_ACTIONFX, 3);
 		_explodeParticleSystem.Play();
 
 		// Wait for the boom to finish.
-		while(_explodeParticleSystem.isPlaying)
+		while( _explodeParticleSystem.isPlaying )
 		{
 			yield return null;
 		}
@@ -455,7 +523,61 @@ public class RollerController : ControllerBase
 		// Put ourselves in the right state of mind: the pond state.
 		ChangeState(P_ControlState.POND);
 
-		// Tell the pond we're comin' home!
-		PondManager.instance.HandlePondReturn(); 
+        // Tell the pond we're comin' home!
+        //PondManager.instance.HandlePondReturn(); 
+        PondManager.instance.HandlePondWait();
+    }
+
+	public void MakeDroopyExplode()
+	{
+		_collidedWithObject = true;
+		BecomeWalker();
+		HandlePondReturn();
+	}
+
+    public float GetArmInterpTotal()
+    {
+        return _ik.RightArm.ArmReachInterp + _ik.LeftArm.ArmReachInterp;
+    }
+
+
+    public bool CollidedWithObject { get { return _collidedWithObject; } set { _collidedWithObject = value; } }
+	private bool _collidedWithObject = false;
+	private void OnCollisionEnter(Collision other)
+	{
+		if (!_collidedWithObject && _currentState == _rolling && _input.LeftStickY >= 0.0f )
+		{
+			// if we collide with something, die.
+			if (other.gameObject.layer != LayerMask.NameToLayer("Ground") 
+                && other.gameObject.layer != LayerMask.NameToLayer( "Player" ) 
+                && other.gameObject.layer != LayerMask.NameToLayer( "PlayerBodyParts" ) 
+                && other.gameObject.layer != LayerMask.NameToLayer( "PlayerHand" ))
+			{
+                //CameraManager.instance.ScreenShake(0.25f, 0.25f, 10);                
+                MakeDroopyExplode();
+			}
+		}
+	}
+
+	private void OnTriggerEnter(Collider other)
+	{
+		if ( _controlState == P_ControlState.ROLLING )
+		{
+			SeedSlug slug = null;
+			slug = other.GetComponent(typeof(SeedSlug)) as SeedSlug;
+			if (slug != null)
+			{
+				slug.OnHitWithRoll();
+				slug = null;
+			}
+		}
+		else 
+		{
+			if( other.GetComponent<FlyingSquirrel>() )
+			{
+				_face.TransitionFacePose( "Squirrel", true );
+			}
+		}
+
 	}
 }

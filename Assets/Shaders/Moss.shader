@@ -18,7 +18,7 @@
 		//cull off
 
 		CGPROGRAM
-#pragma surface surf BlinnPhong vertex:disp nolightmap addshadow fullforwardshadows
+#pragma surface surf BlinnPhong vertex:vert addshadow
 #pragma target 4.6
 
 		struct appdata {
@@ -34,7 +34,7 @@
 	sampler2D _FallOffTex;
 	float _Scale;
 
-	void disp(inout appdata v)
+	void vert(inout appdata v)
 	{
 		//http://diary.conewars.com/melting-shader-part-2/
 		float4 worldPos = mul(unity_ObjectToWorld, v.vertex);
@@ -90,14 +90,14 @@
 
 		//edge and melting
 		float edge = (abs(sin(meltfinal.r))) * 5;
-		float melt = (((IN.worldPos.y) - _MeltY) / _MeltDistance) - (edge - 1.5);
+		float melt = (((IN.worldPos.y) - _MeltY) / _MeltDistance) - (edge - 1.5) * meltfinal;
 		melt = smoothstep(1, 0, melt);
 
 		float4 baseColor = tex2D(_MainTex, IN.uv_MainTex)* _Color;
 
-		float interp = smoothstep(.0, .5,meltfinal.r);
+		//float interp = smoothstep(.0, .5,meltfinal.r);
 		o.Albedo = lerp(baseColor, _MeltColor, (melt * melt));
-		o.Albedo = lerp(baseColor, o.Albedo, interp);
+		//o.Albedo = lerp(baseColor, o.Albedo, interp);
 	}
 
 	ENDCG

@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4766687266315788}
   - component: {fileID: 114548184982639564}
-  - component: {fileID: 114410962151157372}
+  - component: {fileID: 114192825424011462}
   m_Layer: 0
   m_Name: WeatherManager
   m_TagString: Untagged
@@ -569,12 +569,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1129798032649372}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddeb98e6373474e668dc3e8a3f719e81, type: 3}
+  m_Script: {fileID: 11500000, guid: 25bc4639188bf4436957d68db54e48e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxLargePlants: 20
-  _maxMediumPlants: 40
-  _maxSmallPlants: 200
+  LrgTotalPlantsRange: {x: 3, y: 35}
+  MedTotalPlantsRange: {x: 0, y: 50}
+  MedSpawnRadRange: {x: 3, y: 4.5}
+  MedNumPerPlant: {x: 4, y: 6}
+  SmTotalPlantsRange: {x: 0, y: 100}
+  SmSpawnRadRange: {x: 1, y: 3}
+  SmNumPerPlant: {x: 8, y: 15}
+  _pointSeed: {fileID: 1631419253260572, guid: e7e4ccc23b3b8416c994f33a1840c8c6, type: 2}
+  _floweringSeed: {fileID: 1356359172527236, guid: bbfef1f81afcefc438cf9d537e7f0931,
+    type: 2}
 --- !u!114 &114162013853216408
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -586,6 +593,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2465305cd947f4ff2a7056f57561c11c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114192825424011462
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1071704960912508}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6e624f71dc76894aa1b9f01dc9293b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  presets: 0
+  lerpSpeed: 1
+  _WaveTime: 0
+  _WaveDir: {x: 1, y: 0, z: 0}
+  idealWaveDir: {x: 1, y: 0, z: 0}
+  _WaveSpeed: 1
+  idealWaveSpeed: 1
+  _WaveNoise: 1
+  idealWaveNoise: 1
+  _WaveScale: 0.5
+  idealWaveScale: 0.5
+  _WaveAmount: 0.5
+  idealWaveAmount: 0.5
 --- !u!114 &114255189836694920
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -632,6 +663,8 @@ MonoBehaviour:
   _playerPrefab: {fileID: 1888846475258438, guid: d2315b596791f4c43a2aaa861e091514,
     type: 2}
   _player: {fileID: 0}
+  _maxPlayerDistance: 156
+  _playerDistanceInterp: 0
 --- !u!114 &114374224506587848
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -859,6 +892,64 @@ MonoBehaviour:
       m_Mode: 1
       m_NumColorKeys: 3
       m_NumAlphaKeys: 3
+    pointyBush:
+      serializedVersion: 2
+      key0: {r: 0.8455882, g: 0.8455882, b: 0.7647599, a: 1}
+      key1: {r: 0.9338235, g: 0.75804514, b: 0.5355753, a: 1}
+      key2: {r: 0.7352941, g: 0.3352076, b: 0.64148074, a: 1}
+      key3: {r: 1, g: 1, b: 0.5372549, a: 0}
+      key4: {r: 1, g: 1, b: 1, a: 0}
+      key5: {r: 1, g: 1, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 21627
+      ctime1: 43253
+      ctime2: 65535
+      ctime3: 9059
+      ctime4: 16577
+      ctime5: 65535
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 65535
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 1
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 2
+    bumblePlant:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
     twistPlant:
       serializedVersion: 2
       key0: {r: 0.39040872, g: 0.6397059, b: 0.4230753, a: 1}
@@ -916,6 +1007,93 @@ MonoBehaviour:
       atime7: 0
       m_Mode: 1
       m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    limberPlant:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    rabbitGradient:
+      serializedVersion: 2
+      key0: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
+      key1: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
+      key2: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 21781
+      ctime1: 43253
+      ctime2: 65535
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 1
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 2
+    butterflyGradient:
+      serializedVersion: 2
+      key0: {r: 0.64705884, g: 0.27058825, b: 0.42745098, a: 1}
+      key1: {r: 0.9882353, g: 0.49019608, b: 0.3529412, a: 1}
+      key2: {r: 0.9882353, g: 0.9137255, b: 0.48235294, a: 0}
+      key3: {r: 0.38039216, g: 0.80784315, b: 0.5019608, a: 0}
+      key4: {r: 0.46666667, g: 0.8980392, b: 0.78431374, a: 0}
+      key5: {r: 0.46666667, g: 0.8980392, b: 0.78431374, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 16384
+      ctime2: 32768
+      ctime3: 49151
+      ctime4: 65535
+      ctime5: 65535
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 5
       m_NumAlphaKeys: 2
   - title: Classic
     groundColorPrimary: {r: 0.6098616, g: 0.6743527, b: 0.6911765, a: 0}
@@ -1131,6 +1309,64 @@ MonoBehaviour:
       m_Mode: 1
       m_NumColorKeys: 3
       m_NumAlphaKeys: 3
+    pointyBush:
+      serializedVersion: 2
+      key0: {r: 0.6883069, g: 0.9044118, b: 0.3990052, a: 1}
+      key1: {r: 0.9338235, g: 0.75804514, b: 0.5355753, a: 1}
+      key2: {r: 0.7352941, g: 0.3352076, b: 0.64148074, a: 1}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 21395
+      ctime1: 43253
+      ctime2: 65535
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 65535
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 1
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 2
+    bumblePlant:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
     twistPlant:
       serializedVersion: 2
       key0: {r: 0.84705883, g: 0.7882353, b: 0.019607844, a: 1}
@@ -1189,6 +1425,93 @@ MonoBehaviour:
       m_Mode: 1
       m_NumColorKeys: 3
       m_NumAlphaKeys: 3
+    limberPlant:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    rabbitGradient:
+      serializedVersion: 2
+      key0: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
+      key1: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
+      key2: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 21781
+      ctime1: 43253
+      ctime2: 65535
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 1
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 2
+    butterflyGradient:
+      serializedVersion: 2
+      key0: {r: 0.64705884, g: 0.27058825, b: 0.42745098, a: 1}
+      key1: {r: 0.9882353, g: 0.49019608, b: 0.3529412, a: 1}
+      key2: {r: 0.9882353, g: 0.9137255, b: 0.48235294, a: 0}
+      key3: {r: 0.38039216, g: 0.80784315, b: 0.5019608, a: 0}
+      key4: {r: 0.46666667, g: 0.8980392, b: 0.78431374, a: 0}
+      key5: {r: 0.46666667, g: 0.8980392, b: 0.78431374, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 16384
+      ctime2: 32768
+      ctime3: 49151
+      ctime4: 65535
+      ctime5: 65535
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 5
+      m_NumAlphaKeys: 2
   - title: Abzu
     groundColorPrimary: {r: 0.04411763, g: 0.802231, b: 1, a: 0}
     groundColorSecondary: {r: 0.7205882, g: 0.57398576, b: 0.54044116, a: 0}
@@ -1403,6 +1726,64 @@ MonoBehaviour:
       m_Mode: 1
       m_NumColorKeys: 3
       m_NumAlphaKeys: 2
+    pointyBush:
+      serializedVersion: 2
+      key0: {r: 0.35434687, g: 0.8308824, b: 0.6336953, a: 1}
+      key1: {r: 0.9338235, g: 0.75804514, b: 0.5355753, a: 1}
+      key2: {r: 0.8897059, g: 0.82690316, b: 0.32055578, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 21395
+      ctime1: 43253
+      ctime2: 65535
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 1
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 2
+    bumblePlant:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
     twistPlant:
       serializedVersion: 2
       key0: {r: 0.71323526, g: 0.9406693, b: 1, a: 1}
@@ -1460,6 +1841,93 @@ MonoBehaviour:
       atime7: 0
       m_Mode: 1
       m_NumColorKeys: 3
+      m_NumAlphaKeys: 2
+    limberPlant:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    rabbitGradient:
+      serializedVersion: 2
+      key0: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
+      key1: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
+      key2: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 21781
+      ctime1: 43253
+      ctime2: 65535
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 1
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 2
+    butterflyGradient:
+      serializedVersion: 2
+      key0: {r: 0.64705884, g: 0.27058825, b: 0.42745098, a: 1}
+      key1: {r: 0.9882353, g: 0.49019608, b: 0.3529412, a: 1}
+      key2: {r: 0.9882353, g: 0.9137255, b: 0.48235294, a: 0}
+      key3: {r: 0.38039216, g: 0.80784315, b: 0.5019608, a: 0}
+      key4: {r: 0.46666667, g: 0.8980392, b: 0.78431374, a: 0}
+      key5: {r: 0.46666667, g: 0.8980392, b: 0.78431374, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 16384
+      ctime2: 32768
+      ctime3: 49151
+      ctime4: 65535
+      ctime5: 65535
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 5
       m_NumAlphaKeys: 2
   - title: Red Moon (no plant colors)
     groundColorPrimary: {r: 1, g: 0.3897059, b: 0.3897059, a: 0}
@@ -1675,6 +2143,64 @@ MonoBehaviour:
       m_Mode: 1
       m_NumColorKeys: 3
       m_NumAlphaKeys: 3
+    pointyBush:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    bumblePlant:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
     twistPlant:
       serializedVersion: 2
       key0: {r: 1, g: 0, b: 0, a: 1}
@@ -1733,6 +2259,93 @@ MonoBehaviour:
       m_Mode: 1
       m_NumColorKeys: 3
       m_NumAlphaKeys: 3
+    limberPlant:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    rabbitGradient:
+      serializedVersion: 2
+      key0: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
+      key1: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
+      key2: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 21781
+      ctime1: 43253
+      ctime2: 65535
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 1
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 2
+    butterflyGradient:
+      serializedVersion: 2
+      key0: {r: 0.64705884, g: 0.27058825, b: 0.42745098, a: 1}
+      key1: {r: 0.9882353, g: 0.49019608, b: 0.3529412, a: 1}
+      key2: {r: 0.9882353, g: 0.9137255, b: 0.48235294, a: 0}
+      key3: {r: 0.38039216, g: 0.80784315, b: 0.5019608, a: 0}
+      key4: {r: 0.46666667, g: 0.8980392, b: 0.78431374, a: 0}
+      key5: {r: 0.46666667, g: 0.8980392, b: 0.78431374, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 16384
+      ctime2: 32768
+      ctime3: 49151
+      ctime4: 65535
+      ctime5: 65535
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 5
+      m_NumAlphaKeys: 2
   - title: Watercolor Night
     groundColorPrimary: {r: 1, g: 0.5588235, b: 0.3602941, a: 0}
     groundColorSecondary: {r: 0.39705884, g: 0.38900492, b: 0.3240701, a: 0}
@@ -1947,6 +2560,64 @@ MonoBehaviour:
       m_Mode: 1
       m_NumColorKeys: 3
       m_NumAlphaKeys: 2
+    pointyBush:
+      serializedVersion: 2
+      key0: {r: 0.8455882, g: 0.8455882, b: 0.7647599, a: 1}
+      key1: {r: 0.75735295, g: 0.6786989, b: 0.5791522, a: 1}
+      key2: {r: 0.50735295, g: 0.31336504, b: 0.46186614, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 21627
+      ctime1: 43253
+      ctime2: 65535
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 1
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 2
+    bumblePlant:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
     twistPlant:
       serializedVersion: 2
       key0: {r: 0.88235295, g: 0.82329077, b: 0.6682526, a: 1}
@@ -2004,6 +2675,93 @@ MonoBehaviour:
       atime7: 0
       m_Mode: 1
       m_NumColorKeys: 3
+      m_NumAlphaKeys: 2
+    limberPlant:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    rabbitGradient:
+      serializedVersion: 2
+      key0: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
+      key1: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
+      key2: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 21781
+      ctime1: 43253
+      ctime2: 65535
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 1
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 2
+    butterflyGradient:
+      serializedVersion: 2
+      key0: {r: 0.64705884, g: 0.27058825, b: 0.42745098, a: 1}
+      key1: {r: 0.9882353, g: 0.49019608, b: 0.3529412, a: 1}
+      key2: {r: 0.9882353, g: 0.9137255, b: 0.48235294, a: 0}
+      key3: {r: 0.38039216, g: 0.80784315, b: 0.5019608, a: 0}
+      key4: {r: 0.46666667, g: 0.8980392, b: 0.78431374, a: 0}
+      key5: {r: 0.46666667, g: 0.8980392, b: 0.78431374, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 16384
+      ctime2: 32768
+      ctime3: 49151
+      ctime4: 65535
+      ctime5: 65535
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 5
       m_NumAlphaKeys: 2
   - title: Golden Field
     groundColorPrimary: {r: 0.9411765, g: 0.733564, b: 0.733564, a: 0}
@@ -2219,6 +2977,64 @@ MonoBehaviour:
       m_Mode: 1
       m_NumColorKeys: 3
       m_NumAlphaKeys: 2
+    pointyBush:
+      serializedVersion: 2
+      key0: {r: 1, g: 0.8693712, b: 0.58823526, a: 1}
+      key1: {r: 0.97794116, g: 0.8287705, b: 0.6399762, a: 1}
+      key2: {r: 0.8643032, g: 0.86764705, b: 0.62521625, a: 0}
+      key3: {r: 0.8643032, g: 0.86764705, b: 0.62521625, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 21627
+      ctime1: 43253
+      ctime2: 65535
+      ctime3: 65535
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 1
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 2
+    bumblePlant:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
     twistPlant:
       serializedVersion: 2
       key0: {r: 1, g: 0.99168354, b: 0.6985294, a: 1}
@@ -2276,6 +3092,93 @@ MonoBehaviour:
       atime7: 0
       m_Mode: 1
       m_NumColorKeys: 3
+      m_NumAlphaKeys: 2
+    limberPlant:
+      serializedVersion: 2
+      key0: {r: 0, g: 0.91764706, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 1, g: 1, b: 1, a: 0}
+      key3: {r: 1, g: 1, b: 1, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 21627
+      ctime2: 43253
+      ctime3: 65535
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 1
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 2
+    rabbitGradient:
+      serializedVersion: 2
+      key0: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
+      key1: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
+      key2: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 21781
+      ctime1: 43253
+      ctime2: 65535
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 1
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 2
+    butterflyGradient:
+      serializedVersion: 2
+      key0: {r: 0.64705884, g: 0.27058825, b: 0.42745098, a: 1}
+      key1: {r: 0.9882353, g: 0.49019608, b: 0.3529412, a: 1}
+      key2: {r: 0.9882353, g: 0.9137255, b: 0.48235294, a: 0}
+      key3: {r: 0.38039216, g: 0.80784315, b: 0.5019608, a: 0}
+      key4: {r: 0.46666667, g: 0.8980392, b: 0.78431374, a: 0}
+      key5: {r: 0.46666667, g: 0.8980392, b: 0.78431374, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 16384
+      ctime2: 32768
+      ctime3: 49151
+      ctime4: 65535
+      ctime5: 65535
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 5
       m_NumAlphaKeys: 2
   - title: Purple World
     groundColorPrimary: {r: 1, g: 0.53676474, b: 0.53676474, a: 0}
@@ -2491,6 +3394,64 @@ MonoBehaviour:
       m_Mode: 1
       m_NumColorKeys: 3
       m_NumAlphaKeys: 2
+    pointyBush:
+      serializedVersion: 2
+      key0: {r: 0.7546131, g: 0.9264706, b: 0.52454585, a: 1}
+      key1: {r: 0.72276574, g: 0.60553634, b: 0.7352941, a: 1}
+      key2: {r: 0.7352941, g: 0.3352076, b: 0.64148074, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 21395
+      ctime1: 43253
+      ctime2: 65535
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 1
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 2
+    bumblePlant:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
     twistPlant:
       serializedVersion: 2
       key0: {r: 1, g: 0.88640976, b: 0.7647059, a: 1}
@@ -2549,9 +3510,97 @@ MonoBehaviour:
       m_Mode: 1
       m_NumColorKeys: 3
       m_NumAlphaKeys: 2
+    limberPlant:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    rabbitGradient:
+      serializedVersion: 2
+      key0: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
+      key1: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
+      key2: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 21781
+      ctime1: 43253
+      ctime2: 65535
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 1
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 2
+    butterflyGradient:
+      serializedVersion: 2
+      key0: {r: 0.64705884, g: 0.27058825, b: 0.42745098, a: 1}
+      key1: {r: 0.9882353, g: 0.49019608, b: 0.3529412, a: 1}
+      key2: {r: 0.9882353, g: 0.9137255, b: 0.48235294, a: 0}
+      key3: {r: 0.38039216, g: 0.80784315, b: 0.5019608, a: 0}
+      key4: {r: 0.46666667, g: 0.8980392, b: 0.78431374, a: 0}
+      key5: {r: 0.46666667, g: 0.8980392, b: 0.78431374, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 16384
+      ctime2: 32768
+      ctime3: 49151
+      ctime4: 65535
+      ctime5: 65535
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 5
+      m_NumAlphaKeys: 2
   _paletteOrderList: 050000000400000000000000010000000200000006000000
   terrainMaterial: {fileID: 2100000, guid: be1f84fcd12c8814fb81989242a6b5ed, type: 2}
   groundSplatDecal: {fileID: 0}
+  flowerSplatDecalColor: {r: 0.74264705, g: 0.5963019, b: 0.37678418, a: 1}
   terrainRockMat: {fileID: 2100000, guid: ab8ff36f194754c40ad100a76aad9791, type: 2}
   terrainMossRockMat: {fileID: 2100000, guid: 2e4debe61d3866246b5e43e934c1f9ad, type: 2}
   pondRockMat: {fileID: 2100000, guid: 894573888e12443139f3f612cd6e8524, type: 2}
@@ -2566,6 +3615,12 @@ MonoBehaviour:
     type: 2}
   twistPlantMat: {fileID: 2100000, guid: a79430a79932b474db0943796a500a19, type: 2}
   cappPlantMat: {fileID: 2100000, guid: 577b519bbc8a0df4c8e2ea8c310b9741, type: 2}
+  bumbleMat: {fileID: 2100000, guid: 92b21215eeacc1342b3db19e03d6a86c, type: 2}
+  limberMat: {fileID: 2100000, guid: 076c6d0f80db91e4db30f628ade3c227, type: 2}
+  pointyBushMat: {fileID: 2100000, guid: c66d01a0e8b0ad547b7846873e178483, type: 2}
+  rabbitMat: {fileID: 2100000, guid: 5840f282408f646f38c71bb74bdec04c, type: 2}
+  _twistParticleSystem: {fileID: 0}
+  _cappParticleSystem: {fileID: 0}
 --- !u!114 &114410437005371276
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2577,30 +3632,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d042cd139e6314882ae6708dcad2fa8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114410962151157372
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1071704960912508}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6e624f71dc76894aa1b9f01dc9293b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  presets: 0
-  lerpSpeed: 1
-  _WaveTime: 0
-  _WaveDir: {x: 1, y: 0, z: 0}
-  idealWaveDir: {x: 1, y: 0, z: 0}
-  _WaveSpeed: 1
-  idealWaveSpeed: 1
-  _WaveNoise: 1
-  idealWaveNoise: 1
-  _WaveScale: 0.5
-  idealWaveScale: 0.5
-  _WaveAmount: 0.5
-  idealWaveAmount: 0.5
 --- !u!114 &114481791995722538
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2687,6 +3718,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdf67534fde86f9418177ce0dc8a2c37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _windTex: {fileID: 2800000, guid: 8dd8e87076029574b9a00ab6d9bc2bc1, type: 3}
   _windInterp: 0
   _waveDir: {x: 1, y: 0, z: 0}
 --- !u!114 &114613613601675322
@@ -2739,27 +3771,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1be11ad8078254297b992a08b3455340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subtleMusicThreshold: 1
+  fullMusicThreshold: 4
+  lowpassCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 20000
+      inSlope: 0.12472771
+      outSlope: 0.12472771
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.5
+      value: 5051.0254
+      inSlope: -212.65367
+      outSlope: -212.65367
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 100
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
   _audioControllerList:
-  - _audioClipList:
-    - {fileID: 8300000, guid: 52e9d624a18d71f4b96210a81ec25066, type: 3}
-    - {fileID: 8300000, guid: aae1b11547aadb04185ae788818cddb4, type: 3}
-    - {fileID: 8300000, guid: b14a529db5d2edb4a888758cc8c39551, type: 3}
-    - {fileID: 8300000, guid: f01292d5f2a59407099d46281692757a, type: 3}
+  - ControllerName: MUSIC
+    _audioClipList:
+    - {fileID: 8300000, guid: 7e97712348a1c48898f7328491deadeb, type: 3}
+    - {fileID: 8300000, guid: 7e97712348a1c48898f7328491deadeb, type: 3}
+    - {fileID: 8300000, guid: 7e97712348a1c48898f7328491deadeb, type: 3}
+    - {fileID: 8300000, guid: 7e97712348a1c48898f7328491deadeb, type: 3}
     _mixerGroup: {fileID: 243411483671750552, guid: 30f3aa683f5543d469208f1bb641c945,
       type: 2}
     _volume: 1
     _playOnAwake: 0
     _loop: 1
     _pitch: 1
-  - _audioClipList:
-    - {fileID: 8300000, guid: 7187efa9f02b24bf3bca2023248e072f, type: 3}
+  - ControllerName: PLAYER_SING
+    _audioClipList:
+    - {fileID: 8300000, guid: d1f3bf06ef45548c98fa3d45b8de89e0, type: 3}
     _mixerGroup: {fileID: 243970327439256478, guid: 30f3aa683f5543d469208f1bb641c945,
       type: 2}
     _volume: 1
     _playOnAwake: 0
     _loop: 0
     _pitch: 1
-  - _audioClipList:
+  - ControllerName: PLAYER_FOOTSTEPS
+    _audioClipList:
     - {fileID: 8300000, guid: 0c7b067d84bec49069656975cf0eb0aa, type: 3}
     - {fileID: 8300000, guid: aec375ee8582b420f9de8fd50b70db69, type: 3}
     - {fileID: 8300000, guid: 553f65303e1d94da1b6e981c75be18ff, type: 3}
@@ -2777,7 +3838,8 @@ MonoBehaviour:
     _playOnAwake: 0
     _loop: 0
     _pitch: 1
-  - _audioClipList:
+  - ControllerName: PLAYER_ROLL
+    _audioClipList:
     - {fileID: 8300000, guid: bda2879d02a9342fd8ddd593adc92449, type: 3}
     _mixerGroup: {fileID: 243316621505366164, guid: 30f3aa683f5543d469208f1bb641c945,
       type: 2}
@@ -2785,25 +3847,83 @@ MonoBehaviour:
     _playOnAwake: 0
     _loop: 1
     _pitch: 1
-  - _audioClipList:
+  - ControllerName: PLAYER_ACTIONFX
+    _audioClipList:
     - {fileID: 8300000, guid: 5617e55cf46bd4971beb99b4e97e9786, type: 3}
     - {fileID: 8300000, guid: 2893cb221a72a428b96061d697189ddd, type: 3}
     - {fileID: 8300000, guid: fe03c30646ed6d542aa0352b423031d7, type: 3}
+    - {fileID: 8300000, guid: 0b88acf3e64864c44af7effbeac17108, type: 3}
     _mixerGroup: {fileID: 243730844136138892, guid: 30f3aa683f5543d469208f1bb641c945,
       type: 2}
-    _volume: 1
+    _volume: 0.1
     _playOnAwake: 0
     _loop: 0
     _pitch: 1
-  - _audioClipList:
+  - ControllerName: PLAYER_TRANSITIONFX
+    _audioClipList:
     - {fileID: 8300000, guid: 4ec15d6c38828492ab2ead15f3f485b8, type: 3}
     - {fileID: 8300000, guid: 2dd0c697b29434d8592ac0951ed94e33, type: 3}
     - {fileID: 8300000, guid: 0389bd0a8f076422bab2a8fc4a7c0873, type: 3}
+    - {fileID: 8300000, guid: 45f106f267cf5481cbd0b822416f9bd4, type: 3}
+    - {fileID: 8300000, guid: 31eb9794681d44325bb175cb28b2e6d8, type: 3}
     _mixerGroup: {fileID: 243318732923885706, guid: 30f3aa683f5543d469208f1bb641c945,
       type: 2}
     _volume: 1
     _playOnAwake: 0
     _loop: 0
+    _pitch: 1
+  - ControllerName: AMBIENCE
+    _audioClipList:
+    - {fileID: 8300000, guid: 2a8c1eb347e144cddb8969b4e72f9ff3, type: 3}
+    - {fileID: 8300000, guid: 397eae12cd16a494ca14e31840bd7f35, type: 3}
+    _mixerGroup: {fileID: 243810991957295566, guid: 30f3aa683f5543d469208f1bb641c945,
+      type: 2}
+    _volume: 1
+    _playOnAwake: 1
+    _loop: 1
+    _pitch: 1
+  - ControllerName: OPENING_CHORD
+    _audioClipList:
+    - {fileID: 8300000, guid: 0386c7f49836d42f68ba6161a063b537, type: 3}
+    - {fileID: 8300000, guid: f2c4bfe66b913433980b735c67c5020d, type: 3}
+    - {fileID: 8300000, guid: a33ed84885b2b4f4994f89327f638f9b, type: 3}
+    _mixerGroup: {fileID: 243411483671750552, guid: 30f3aa683f5543d469208f1bb641c945,
+      type: 2}
+    _volume: 1
+    _playOnAwake: 1
+    _loop: 0
+    _pitch: 1
+  - ControllerName: SUBTLE_MUSIC
+    _audioClipList:
+    - {fileID: 8300000, guid: cf34a5fedf5944c5b8b2562e39d8552c, type: 3}
+    - {fileID: 8300000, guid: 44a426f2b46114bcaaf2c63757827f63, type: 3}
+    - {fileID: 8300000, guid: f01292d5f2a59407099d46281692757a, type: 3}
+    - {fileID: 8300000, guid: bf39b4fbb2dcd4eafb59004a72d69fba, type: 3}
+    _mixerGroup: {fileID: 243411483671750552, guid: 30f3aa683f5543d469208f1bb641c945,
+      type: 2}
+    _volume: 1
+    _playOnAwake: 1
+    _loop: 0
+    _pitch: 1
+  - ControllerName: FULL_MUSIC
+    _audioClipList:
+    - {fileID: 8300000, guid: c0099ff4c49094637a6dfa97c8ad772b, type: 3}
+    - {fileID: 8300000, guid: 52e9d624a18d71f4b96210a81ec25066, type: 3}
+    - {fileID: 8300000, guid: b14a529db5d2edb4a888758cc8c39551, type: 3}
+    _mixerGroup: {fileID: 243411483671750552, guid: 30f3aa683f5543d469208f1bb641c945,
+      type: 2}
+    _volume: 1
+    _playOnAwake: 0
+    _loop: 0
+    _pitch: 1
+  - ControllerName: WIND
+    _audioClipList:
+    - {fileID: 8300000, guid: db32a45150f2b4a04a02206f3b9c43c3, type: 3}
+    _mixerGroup: {fileID: 243903458777511154, guid: 30f3aa683f5543d469208f1bb641c945,
+      type: 2}
+    _volume: 1
+    _playOnAwake: 1
+    _loop: 1
     _pitch: 1
 --- !u!114 &114804556110679380
 MonoBehaviour:
@@ -2820,7 +3940,7 @@ MonoBehaviour:
   _mask: {fileID: 0}
   _dirtParticlePrefab: {fileID: 1727087997097078, guid: 0103d30c7c7cd4068a4d277c17befd51,
     type: 2}
-  _scaleFactor: 4
+  _scaleFactor: 25
 --- !u!114 &114853906761940640
 MonoBehaviour:
   m_ObjectHideFlags: 1

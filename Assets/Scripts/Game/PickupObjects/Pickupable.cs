@@ -14,8 +14,10 @@ public class Pickupable : MonoBehaviour
     [SerializeField, ReadOnlyAttribute] protected bool _grabbed = false;
     public bool Grabbed { get { return _grabbed; } }
 
-    protected float _grabberBurdenInterp = 0.0f;
-    public float GrabberBurdenInterp { get { return _grabberBurdenInterp; } }
+    [SerializeField, ReadOnlyAttribute]protected float _grabberBurdenInterp = 0.0f;
+    public float GrabberBurdenInterp { get { return _grabberBurdenInterp; } set { _grabberBurdenInterp = Mathf.Clamp01( value ); } }
+
+    float _lowVelocity = 6.5f;
 
     protected virtual void Awake()
     {
@@ -51,4 +53,22 @@ public class Pickupable : MonoBehaviour
             this.GetComponent<PickupCollider>().LockedRotation = true;
         }
     }
+
+    protected virtual void HandleCollision( Collision col )
+    {
+        _rigidbody.constraints = RigidbodyConstraints.FreezeRotation;//FreezeAll;
+    }
+
+    protected virtual void OnCollisionEnter( Collision col )
+	{
+		//once you touch the ground 
+		if( col.gameObject.GetComponent<GroundDisc>() || col.gameObject.GetComponent<GroundCover>() )
+		{
+			float vel = _rigidbody.velocity.magnitude;
+			if( _rigidbody.velocity.magnitude <= _lowVelocity )
+			{
+				HandleCollision( col );//FreezeRotation;//All;
+			}
+		}
+	}
 }

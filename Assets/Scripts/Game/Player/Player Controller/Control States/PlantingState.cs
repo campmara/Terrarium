@@ -7,9 +7,9 @@ public class PlantingState : RollerState
 
     public override void Enter( P_ControlState prevState )
     {
-        Debug.Log( "ENTER PLANTING STATE" );
+        Debug.Log( "[RollerState] ENTER PLANTING STATE" );
 
-		_roller.Face.BecomeFeisty();
+		_roller.Face.TransitionFacePose( "Plant Seed" );
 
         // Handle transition
         switch ( prevState )
@@ -23,23 +23,19 @@ public class PlantingState : RollerState
 
     public override void Exit( P_ControlState nextState )
     {
-        Debug.Log( "EXITTING PLANTING STATE" );
+        Debug.Log("[RollerState] EXITTING PLANTING STATE");
 
         switch( nextState )
         {
             case P_ControlState.CARRYING:
                 // Bring Seed back into hands
-                _plantTween.Restart();
+                _plantTween.Restart();				
                 break;
             case P_ControlState.WALKING:
-                if( _plantTween == null || !_plantTween.IsComplete() )
-                {
-                    HandleBothArmRelease();
-                }                
+                HandleBothArmRelease();
+				_roller.Face.BecomeIdle();                                
                 break;
-        }
-
-		_roller.Face.BecomeIdle();
+        }			
 
         if (_plantTween != null)
         {
@@ -51,17 +47,17 @@ public class PlantingState : RollerState
     public override void HandleInput( InputCollection input )
     {
         // A BUTTON
-        if (!input.AButton.IsPressed)
-        {
-            // Return to Carry State
-            _roller.ChangeState( P_ControlState.CARRYING);
-        }
+//        if (!input.AButton.IsPressed)
+//        {
+//            // Return to Carry State
+//            _roller.ChangeState( P_ControlState.CARRYING );
+//        }
 
         // B BUTTON
         if (input.BButton.IsPressed)
         {
             // Drop Seed
-            _roller.ChangeState( P_ControlState.WALKING);
+            _roller.ChangeState( P_ControlState.WALKING );
         }
 
     }
@@ -96,7 +92,29 @@ public class PlantingState : RollerState
 			seed.TryPlanting();
 		}
 
+        CheckPlantEffectRadius();   // Maybe don't let this happen every time? idk
+
         HandleBothArmRelease();
         _roller.ChangeState( P_ControlState.WALKING);
+    }
+
+    void CheckPlantEffectRadius()
+    {
+        Collider[] colArray = Physics.OverlapSphere( this.transform.position, RollerConstants.instance.PlantingEffectRadius );
+        BigPlantPickupable checkPlant = null;
+        if( colArray.Length > 0 )
+        {
+            foreach( Collider c in colArray )
+            {
+                checkPlant = c.GetComponent<BigPlantPickupable>();
+                if( checkPlant != null )
+                {
+                    checkPlant.PunchTreeRotation();
+                    //checkPlant.ShiverTree();
+                    CameraManager.instance.ScreenShake( 0.25f, 0.25f, 5, 15 );
+                }
+            }
+        }
+        
     }
 }

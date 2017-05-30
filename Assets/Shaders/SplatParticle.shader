@@ -7,7 +7,7 @@
 	}
 	SubShader 
 	{
-		Tags { "RenderType"="Transparent" "Queue"="AlphaTest"}
+		Tags { "RenderType"="Transparent" "Queue"="Geometry"}
 		ColorMask RGB
 		LOD 200
 		

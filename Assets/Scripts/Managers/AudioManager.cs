@@ -16,6 +16,8 @@ using DG.Tweening;
 [System.Serializable]
 public class AudioController
 {
+    public string ControllerName = "";
+
 	private AudioSource _source = null;
     public AudioSource Source { get { return _source; } }
 
@@ -26,6 +28,7 @@ public class AudioController
 		Debug.Assert( index >= 0 && index < _audioClipList.Count );
 		_source.clip = _audioClipList[index];
 	}
+	public int ClipCount { get { return _audioClipList.Count; } }
 
 	[SerializeField] private AudioMixerGroup _mixerGroup = null;
 	public AudioMixerGroup MixerGroup { set { _mixerGroup = value; _source.outputAudioMixerGroup = _mixerGroup; } }
@@ -80,6 +83,9 @@ public class AudioController
 	{
 		if( !_source.isPlaying )
 		{
+			// Just get some randomness to all sounds.
+			_source.pitch = UnityEngine.Random.Range(0.8f, 1.2f);
+			
 			_source.Play();	
 		}
 	}
@@ -93,6 +99,16 @@ public class AudioController
             _source.Play();
         }
 
+	}
+
+	public void PlaySpecificClip(int clipIndex)
+	{
+		if (!_source.isPlaying)
+		{
+			clipIndex = Mathf.Clamp(clipIndex, 0, _audioClipList.Count);
+			_source.clip = _audioClipList[clipIndex];
+			_source.Play();
+		}
 	}
 
 	#endregion
@@ -109,13 +125,37 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 		PLAYER_FOOTSTEPS,
 		PLAYER_ROLL,
 		PLAYER_ACTIONFX,
-		PLAYER_TRANSITIONFX
+		PLAYER_TRANSITIONFX,
+		AMBIENCE,
+		OPENING_CHORD,
+		SUBTLE_MUSIC,
+		FULL_MUSIC,
+		WIND
 	}
-	[SerializeField] private List<AudioController> _audioControllerList = new List<AudioController>();
 
-	void Awake () 
+
+	// threshold of number of plants to decide whether to play music
+	[Header("Values"), SerializeField] private int subtleMusicThreshold = 3;
+
+	[SerializeField] private int fullMusicThreshold = 10;
+
+	[SerializeField] private AnimationCurve lowpassCurve;
+
+
+	[Header("Audio Controllers"), SerializeField] private List<AudioController> _audioControllerList = new List<AudioController>();
+
+    float[] _singData = new float[1024];
+
+    void Awake () 
 	{
 		SetupAudioControllers();
+	}
+
+	private void Update()
+	{
+		// Control the music lowpass interp based on player's distance from the center.
+		AudioMixer mixer = _audioControllerList[(int) AudioControllerNames.FULL_MUSIC].Source.outputAudioMixerGroup.audioMixer;
+		mixer.SetFloat("lowpassFreq", lowpassCurve.Evaluate(PlayerManager.instance.DistanceFromPond));
 	}
 
 	/// <summary>
@@ -150,7 +190,10 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 		TimeManager.instance.HourCallback += PlayHourlySong;
 
         CalculateMusicTimeState();
-
+		_audioControllerList[(int)AudioControllerNames.OPENING_CHORD].PlayRandomClip();
+		_audioControllerList[(int)AudioControllerNames.AMBIENCE].PlayAudioSource();
+		_audioControllerList[(int)AudioControllerNames.WIND].PlayAudioSource();
+		_audioControllerList[(int)AudioControllerNames.AMBIENCE].Loop = true;
         _audioControllerList[(int)AudioControllerNames.MUSIC].PlayAudioSource(); 
 
         isInitialized = true;
@@ -309,34 +352,92 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 
 
     // Player Sing
-    public void PlaySing(float pitch)
+    public void PlaySing(int clipIndex, float pitch)
     {
-        _audioControllerList[(int) AudioControllerNames.PLAYER_SING].Pitch = pitch;
-        _audioControllerList[(int) AudioControllerNames.PLAYER_SING].PlayAudioSource();
+		if (!_audioControllerList[(int) AudioControllerNames.PLAYER_SING].Source.isPlaying)
+		{
+        	_audioControllerList[(int) AudioControllerNames.PLAYER_SING].Pitch = pitch;
+        	_audioControllerList[(int) AudioControllerNames.PLAYER_SING].PlaySpecificClip(clipIndex);
+		}
     }
 
+	public int GetSingingClipCount()
+	{
+		return _audioControllerList[(int) AudioControllerNames.PLAYER_SING].ClipCount;
+	}
+
+	public void StopSing()
+	{
+		if (_audioControllerList[(int) AudioControllerNames.PLAYER_SING].Source.isPlaying)
+		{
+        	_audioControllerList[(int) AudioControllerNames.PLAYER_SING].StopAudioSource();
+		}
+	}
+
     public float GetCurrentMusicPitch()
-    {
-        float[] data = new float[1024];
-        _audioControllerList[(int) AudioControllerNames.MUSIC].Source.GetSpectrumData(data, 0, FFTWindow.Rectangular);
+    {      
+        if(_audioControllerList[(int)AudioControllerNames.FULL_MUSIC].Source.isPlaying )
+        {
+            _audioControllerList[(int)AudioControllerNames.FULL_MUSIC].Source.GetSpectrumData( _singData, 0, FFTWindow.Rectangular );
+        }    
+        else if(_audioControllerList[(int)AudioControllerNames.SUBTLE_MUSIC].Source.isPlaying)
+        {
+            _audioControllerList[(int)AudioControllerNames.SUBTLE_MUSIC].Source.GetSpectrumData( _singData, 0, FFTWindow.Rectangular );
+        }   
+        else
+        {
+            _audioControllerList[(int)AudioControllerNames.AMBIENCE].Source.GetSpectrumData( _singData, 0, FFTWindow.Rectangular );
+        }
 
         float maxV = 0f;
         int maxN = 0;
         for (int i = 0; i < 1024; i++)
         {
-            if (!(data[i] > maxV) || !(data[i] > 0.02f))
+            if (!(_singData[i] > maxV) || !(_singData[i] > 0.02f))
                 continue;
 
-            maxV = data[i];
+            maxV = _singData[i];
             maxN = i;
         }
         float freqN = (float) maxN;
         if (maxN > 0 && maxN < 1024 - 1)
         {
-            float dL = data[maxN - 1] / data[maxN];
-            float dR = data[maxN + 1] / data[maxN];
+            float dL = _singData[maxN - 1] / _singData[maxN];
+            float dR = _singData[maxN + 1] / _singData[maxN];
             freqN += 0.5f * (dR * dR - dL * dL);
         }
         return freqN * ((float)AudioSettings.outputSampleRate / 2f) / 1024 / 1024;
+    }
+
+	public void PlantAdded(int numPlants)
+	{
+		// check threshold
+		if(numPlants >= subtleMusicThreshold)
+		{
+			// if subtle music has not started, start it
+			if(!_audioControllerList[(int) AudioControllerNames.SUBTLE_MUSIC].Source.isPlaying)
+			{
+				_audioControllerList[(int) AudioControllerNames.SUBTLE_MUSIC].PlayRandomClip();
+			}
+
+		}
+		else if(numPlants >= fullMusicThreshold)
+		{
+			// if full music has not started, and subtle music is not playing, start it
+			// if subtle music has not started, start it
+			if(!_audioControllerList[(int) AudioControllerNames.SUBTLE_MUSIC].Source.isPlaying &&
+			   !_audioControllerList[(int) AudioControllerNames.FULL_MUSIC].Source.isPlaying)
+			{
+				_audioControllerList[(int) AudioControllerNames.FULL_MUSIC].PlayRandomClip();
+			}
+		}
+	}
+
+    private void OnValidate()
+    {
+        for( int i = 0; i < _audioControllerList.Count; i++ )
+        {
+            _audioControllerList[i].ControllerName = ( (AudioControllerNames)i ).ToString();
+        }
     }
 }

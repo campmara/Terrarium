@@ -36,6 +36,7 @@
 		void surf (Input IN, inout SurfaceOutputStandard o) 
 		{
 			float len = length(IN.worldPos - _Center) + cnoise(IN.worldPos) + cnoise(IN.worldPos * 4 + _Time.y);
+			
 			float rad = _Radius * (5 * _ScaleFactor);
 			if (len < rad)
 			{
@@ -45,7 +46,7 @@
 			
 			fixed4 tex = tex2D(_MainTex, IN.uv_MainTex);
 			o.Albedo = 0;
-			o.Alpha = 0;
+			o.Alpha = lerp(1, 0, len);
 		}
 		ENDCG
 	}

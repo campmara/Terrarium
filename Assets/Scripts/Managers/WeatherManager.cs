@@ -6,6 +6,7 @@ using DG.Tweening;
 public class WeatherManager : SingletonBehaviour<WeatherManager> {
 
     #region Wind Values
+    [SerializeField] Texture _windTex;
 
     // Determines how far inbetween each Min/Max value the wind is
     [SerializeField] float _windInterp = 0.0f;
@@ -13,6 +14,7 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
     // World direction of wind
     [ReadOnlyAttribute, SerializeField] Vector3 _waveDir = Vector3.right;
 	float _waveTime = 0.0f;
+    Vector3 _waveTimeVec;
 
     // Force range applied to objects
     const float WINDFORCE_MIN = 0.0f;
@@ -22,8 +24,8 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
     public Vector3 WindForce { get { return _waveDir * _windForceScalar; } } 
 
     // Speed of wind oscillation
-    const float WAVESPEED_MIN = 0.25f;
-    const float WAVESPEED_MAX = 2.5f;
+    const float WAVESPEED_MIN = 0.75f;
+    const float WAVESPEED_MAX = 4.5f;
 
     // Scale of the noise in oscillation of wind
     const float WAVENOISE_MIN = 0.5f;
@@ -68,7 +70,7 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
     public override void Initialize()
     {
         UpdateWindShaderValues();
-        UpdateWindDirection();
+        UpdateWindDirection(0.0f);
 
         HandleWindWait( true );
 
@@ -77,9 +79,18 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
 
 	void Update()
 	{
-		_waveTime = Time.deltaTime * Mathf.Lerp( WAVESPEED_MIN, WAVESPEED_MAX, _windInterp );
-		Shader.SetGlobalFloat( "_WaveTime", _waveTime );
-	}
+		_waveTime += Time.deltaTime * Mathf.Lerp( WAVESPEED_MIN, WAVESPEED_MAX, _windInterp );
+        _waveTimeVec += Time.deltaTime * Mathf.Lerp(WAVESPEED_MIN, WAVESPEED_MAX, _windInterp) * _waveDir;
+
+        Shader.SetGlobalFloat( "_WaveTime", _waveTime );
+        //wavetime vec should be the only time variable
+        Shader.SetGlobalVector("_WaveTimeVec", _waveTimeVec);
+
+        if (_windTex != null)
+        {
+            Shader.SetGlobalTexture("_WindTex", _windTex);
+        }
+    }
 
     private void HandleWindEnterPeak()
     {
@@ -105,7 +116,7 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
 
 		if( endTrough )
 		{			
-			UpdateWindDirection();	
+			UpdateWindDirection( duration );	
 		}
 
 		while ( timer < duration )
@@ -149,13 +160,34 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
 
     }
 
-    private void UpdateWindDirection()
+    private void UpdateWindDirection( float duration )
     {
-        _waveDir.x = Random.insideUnitCircle.x;
-        _waveDir.y = 0.0f;  // zero out wind y for now
-        _waveDir.z = Random.insideUnitCircle.y;
-        _waveDir.Normalize();
+        StartCoroutine( DelayedUpdateWindDir( duration ) );
+    }
 
+    IEnumerator DelayedUpdateWindDir( float duration )
+    {
+        float timer = 0.0f;
+
+        Vector3 startDir = _waveDir;
+
+        Vector3 endDir = Vector3.zero;    
+        endDir.x = Random.insideUnitCircle.x;        
+        endDir.z = Random.insideUnitCircle.y;
+        endDir.Normalize();
+
+        while( timer < duration )
+        {
+            timer += Time.deltaTime;
+
+            _waveDir = Vector3.Slerp( startDir, endDir, timer / duration );
+
+            Shader.SetGlobalVector( "_WaveDir", _waveDir );
+
+            yield return 0;
+        }
+
+        _waveDir = endDir;
         Shader.SetGlobalVector( "_WaveDir", _waveDir );
     }
 

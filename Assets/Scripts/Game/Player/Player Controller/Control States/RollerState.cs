@@ -19,7 +19,8 @@ public class RollerState : MonoBehaviour
 	public virtual void Enter( P_ControlState prevState ) {}
 	public virtual void Exit( P_ControlState nextState ) {}
 
-	public virtual void HandleInput(InputCollection input) {}
+	public virtual void HandleFixedInput( InputCollection input ) {}
+    public virtual void HandleInput( InputCollection input ) { }
 
 	// ==========================
 	// H E L P E R  M E T H O D S
@@ -47,9 +48,19 @@ public class RollerState : MonoBehaviour
 					foreach ( Collider col in overlapArray )
 					{
 						pickup = col.gameObject.GetComponent<Pickupable>();
+
 						if ( pickup != null )
 						{
-							break;
+							if( pickup.GetComponent<BigPlantPickupable>() != null 
+								&& (int)pickup.GetComponent<BPGrowthController>().CurStage < 1 )
+							{
+								// Hacky way to check if you can Hug a Tree yet
+								pickup = null;
+							}
+							else
+							{
+								break;	
+							}
 						}
 					}
 				}            
@@ -92,6 +103,14 @@ public class RollerState : MonoBehaviour
 
 	private void PickUpObject( Pickupable pickup )
 	{
+		/*
+		if (pickup.GetComponent<Bibi>())
+		{
+			HandleBibiPickup(pickup as Bibi);
+            return;
+		}
+		*/
+
 		_roller.IK.HandleArmsGrab();
 
 		_roller.CurrentHeldObject = pickup;
@@ -100,14 +119,25 @@ public class RollerState : MonoBehaviour
 		{
 			_grabbedObjPrevLayer = _roller.CurrentHeldObject.gameObject.layer;
 			_roller.CurrentHeldObject.gameObject.layer = LayerMask.NameToLayer("HeldObject");
+
+			_roller.Player.AnimationController.SetLifting( true );
+			_roller.IK.DisableArmIK();
 		}        
 
-		_roller.ChangeState( P_ControlState.PICKINGUP);		
+		_roller.ChangeState( P_ControlState.PICKINGUP );		
 
 		AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_ACTIONFX, 1 );
 	}
 
-	protected void HandleBothArmRelease()
+	/*
+	void HandleBibiPickup(Bibi bibi)
+	{
+		bibi.OnPickup();
+		_roller.IK.LetGoBothArms();
+	}
+	*/
+
+	public void HandleBothArmRelease()
 	{
 		_roller.IK.LetGoBothArms();
 
@@ -116,6 +146,8 @@ public class RollerState : MonoBehaviour
 			if( _roller.CurrentHeldObject.Carryable )
 			{
 				_roller.CurrentHeldObject.gameObject.layer = _grabbedObjPrevLayer;
+				_roller.Player.AnimationController.SetLifting( false );
+				_roller.IK.EnableArmIK();
 			}
 		    _roller.CurrentHeldObject.DropSelf();
 			_roller.CurrentHeldObject = null;

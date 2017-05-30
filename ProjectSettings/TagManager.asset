@@ -23,9 +23,9 @@ TagManager:
   - Touchable
   - Ground
   - Splatmap
-  - 
-  - 
-  - 
+  - PlayerHand
+  - Creature
+  - Face
   - 
   - 
   - 
