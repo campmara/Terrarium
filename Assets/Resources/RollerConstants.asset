@@ -99,11 +99,11 @@ MonoBehaviour:
   RitualSphereizeScale: 4
   RitualMaxSpherize: 0.125
   RitualDeflateSpeed: 0.75
-  PlantingTime: 0.5
+  PlantingTime: 0.3
   PlantingEndY: 0
   PlantingEndX: 1.25
   PlantingEffectRadius: 5
-  SingingReturnTime: 0.15
+  SingingReturnTime: 0.5
   PitchLerpSpeed: 7
   IKTargetWorldScalar: 35
   IKReachCheckRadius: 8

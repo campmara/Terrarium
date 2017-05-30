@@ -6,10 +6,6 @@ public class StarterPlantGrowthController : BPGrowthController
 	[SerializeField] private Transform _bStemRoot = null;
 	[SerializeField] private GameObject _leafPrefab = null;
 
-	Vector3 _minScale = new Vector3( 0.0f, 0.0f, 0.0f );
-	public Vector3 MinScale { get { return _minScale; }  set { _minScale = value; } }
-	Vector3 _maxScale = new Vector3( 14.0f, 14.0f, 14.0f );
-
 	private int _numChildren;
 	private Transform[] _bones;
 

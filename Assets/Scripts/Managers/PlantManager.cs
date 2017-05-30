@@ -65,9 +65,9 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		}
 	}
 		
-	public void DestroySeed( Seed oldSeed, BasePlant.PlantType seedType )
+	public void DestroySeed( Seed oldSeed, BasePlant.PlantType seedType, bool seedPlanted )
 	{
-		if( IsPopulationStable( seedType ) )
+		if( seedPlanted || IsPopulationStable( seedType ) )
 		{
 			_seeds.Remove( oldSeed );
 			Destroy( oldSeed.gameObject );
@@ -138,18 +138,9 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		GameObject newPlant = SpawnNonClippingPlant( plant );
 		if( newPlant )
 		{
-			if( newPlant.GetComponent<SPGrowthController>() )
-			{
-				AudioManager.instance.PlantAdded( GetTotalLargePlants() + _smallPlants.Count + _mediumPlants.Count);
-				_mediumPlants.Add( newPlant.GetComponent<BasePlant>() );
-				plant.SpawnedMediums = plant.SpawnedMediums + 1;
-			}
-			else
-			{
-				AudioManager.instance.PlantAdded( GetTotalLargePlants() + _smallPlants.Count + _mediumPlants.Count);
-				_smallPlants.Add( newPlant.GetComponent<GroundCover>() );
-				plant.SpawnedSmalls = plant.SpawnedSmalls + 1;
-			}
+			AudioManager.instance.PlantAdded( GetTotalLargePlants() + _mediumPlants.Count );
+			_mediumPlants.Add( newPlant.GetComponent<BasePlant>() );
+			plant.SpawnedMediums = plant.SpawnedMediums + 1;
 		}
 		
 		plant.SpawnPlant();
@@ -199,15 +190,16 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 	{
 		GameObject newPlant = null;
 		Vector3 spawnPoint;
-		GameObject spawn = GetRandomSpawnable( parent );
+		GameObject spawn = 	parent._mediumSpawnables[ UnityEngine.Random.Range( 0, parent._mediumSpawnables.Count ) ];
 
 		float checkRadius = spawn.GetComponent<BasePlant>().InnerRadius;
-		checkRadius = checkRadius > 0.0f ? checkRadius : 1.0f;
+		checkRadius = checkRadius > 1.5f ? checkRadius : 1.5f;
 		Collider[] hitColliders;
 		bool insideObject = false;
 
 		int allowedAttempts = 25;
 		int attempts = 0;
+
 		while( newPlant == null && allowedAttempts >= attempts  )
 		{
 			attempts++;
@@ -234,32 +226,12 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 				newPlant = (GameObject)Instantiate( spawn, spawnPoint, Quaternion.identity );
 				return newPlant;
 			}
-			else if( parent.spawnState == BPGrowthController.SpawningState.SmallSpawning && parent.SpawnedSmalls > 8 )
-			{
-				parent.ForceSpawnMediums();
-			}
 		}
 
 		// this should never be executed
 		return null;
 	}
-		
-	GameObject GetRandomSpawnable( BPGrowthController plant )
-	{
-		GameObject spawn = null;
-
-		if( plant.spawnState == BPGrowthController.SpawningState.SmallSpawning )
-		{
-			spawn = plant._smallSpawnables[ UnityEngine.Random.Range( 0, plant._smallSpawnables.Count ) ];
-		}
-		else if( plant.spawnState == BPGrowthController.SpawningState.MediumSpawning )
-		{
-			spawn = plant._mediumSpawnables[ UnityEngine.Random.Range( 0, plant._mediumSpawnables.Count ) ];
-		}
-
-		return spawn;
-	}
-
+	
 	Vector3 GetRandomSpawnPoint( BPGrowthController plant, GameObject spawn )
 	{
 		Vector2 randomPoint = plant.GetRandomPoint();//GetRandomPoint( plant.InnerRadius, plant.OuterRadius );

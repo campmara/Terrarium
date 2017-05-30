@@ -4,33 +4,19 @@ using UnityEngine;
 
 public class MoundDeathController : PlantController
 {
-	[SerializeField] Material _deadMaterial = null;
+	// the existence of this class is a formality
+	// the existence of this class is a formality
+	// the existence of this class is a formality
 
 	public override void Init()
 	{
-		_myPlant = GetComponent<BasePlant>();
-		_controllerType = ControllerType.Death;
+				_controllerType = ControllerType.Death;
 	}
 
-	public override void StartState()
-	{
-		_myPlant = GetComponent<BasePlant>();
-		transform.GetChild(1).GetComponent<MeshRenderer>().material = _deadMaterial;
-		PlantManager.ExecuteGrowth += UpdateState;
-	}
-
+	public override void StartState(){}
 	public override void UpdateState(){}
-
-	public override void StopState()
-	{
-		PlantManager.instance.DeleteMound( _myPlant );
-	}
-		
-	public override void WaterPlant()
-	{
-		StopState();
-	}
-
+	public override void StopState(){}		
+	public override void WaterPlant(){}
 	public override void TouchPlant(){}
 	public override void GrabPlant(){}
 	public override void StompPlant(){}

@@ -57,9 +57,9 @@ public class RollingState : RollerState
 
 	public override void Exit(P_ControlState nextState)
 	{
-		//Debug.Log("EXIT ROLLING STATE");
-		
-		_rollPosTween.Kill();
+        Debug.Log( "[RollerState] EXIT ROLLING STATE" );
+
+        _rollPosTween.Kill();
 		_rollPosTween = null;
 
         if( _rollSpherifyTween != null )
