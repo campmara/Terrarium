@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SingController : MonoBehaviour {
 
@@ -18,6 +19,11 @@ public class SingController : MonoBehaviour {
     SingState _state = SingState.IDLE;
     public SingState State { get { return _state; } }
 
+    [SerializeField] AudioMixer _audioMixer = null;
+    Vector2 _singVolumeRange = new Vector2( -40.0f, 0.0f );
+    string _singVolParamName = "s_volume";
+    float _singVolEnterSpeed = 10.0f; 
+
     int _currentSingClip = 0;
     int _numVoices = 0;
 
@@ -28,6 +34,7 @@ public class SingController : MonoBehaviour {
     Vector2 _voiceChangeWaitRange = new Vector2( 20f, 40f );
 
     float _singStopTimer = 0.0f;
+    [SerializeField, ReadOnly]float _stopVolume = 0.0f;
 
     const float SING_EFFECT_RADIUS = 10f;
 
@@ -47,6 +54,10 @@ public class SingController : MonoBehaviour {
 
         _currentSingClip = Random.Range( 0, _numVoices );
         _currSingPitchRange = _singPitchRangeList[Random.Range( 0, _singPitchRangeList.Count )];
+
+        _singStopTimer = 0.0f;
+        _audioMixer.SetFloat( _singVolParamName, _singVolumeRange.x );
+        _stopVolume = _singVolumeRange.x;
     }
 
     // Update is called once per frame
@@ -71,7 +82,6 @@ public class SingController : MonoBehaviour {
 
     protected void HandleSinging()
     {
-        // Y BUTTON
         if ( _state == SingState.SINGING )
         {
             //float desiredPitch = AudioManager.instance.GetCurrentMusicPitch();
@@ -86,16 +96,21 @@ public class SingController : MonoBehaviour {
                 SpawnFlowerInRadius();
             }
 
+            _audioMixer.GetFloat( _singVolParamName, out _stopVolume );
+            _audioMixer.SetFloat( _singVolParamName, Mathf.Lerp( _stopVolume, _singVolumeRange.y, _singVolEnterSpeed * Time.deltaTime ) );
+
             AudioManager.instance.PlaySing( _currentSingClip, Random.Range( _currSingPitchRange.x, _currSingPitchRange.y) );
         }
         else if ( _state == SingState.STOPPING )
         {
             _singStopTimer += Time.deltaTime;
 
-            AudioManager.instance.StopSing();
+            _audioMixer.SetFloat( _singVolParamName, Mathf.Lerp( _stopVolume, _singVolumeRange.x, _singStopTimer / RollerConstants.instance.SingingReturnTime ) );
 
-            if ( _singStopTimer < RollerConstants.instance.SingingReturnTime )
+            if ( _singStopTimer > RollerConstants.instance.SingingReturnTime )
             {
+                AudioManager.instance.StopSing();
+
                 EndSinging();
             }         
         }
@@ -109,7 +124,7 @@ public class SingController : MonoBehaviour {
             _state = SingState.SINGING;
 
 			_face.TransitionFacePose( "Singing" );
-
+            
             _flowerSpawnTimer = 0.0f;
             _currFlowerSpawnWait = _baseFlowerSpawnWait;
 
@@ -119,16 +134,24 @@ public class SingController : MonoBehaviour {
 
     public void StopSinging()
     {
-        if( _state != SingState.IDLE )
+        if( _state == SingState.SINGING )
         {
             _state = SingState.STOPPING;
+
             _singStopTimer = 0.0f;
-        }        
+            _audioMixer.GetFloat( _singVolParamName, out _stopVolume );
+        }
     }
 
     void EndSinging()
     {
+        Debug.Log( "[SingController] End Singing" );
+
         _state = SingState.IDLE;
+
+        //_audioMixer.SetFloat( _singVolParamName, _singVolumeRange.x );
+        //_stopVolume = _singVolumeRange.x;
+
         _face.BecomeIdle();    
     }
 

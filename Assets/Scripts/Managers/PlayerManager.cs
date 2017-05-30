@@ -63,6 +63,7 @@ public class PlayerManager : SingletonBehaviour<PlayerManager>
     {
         _player.transform.position = PondManager.instance.Pond.transform.position + ( Vector3.down * 3f );
         _player.transform.rotation = Quaternion.identity;
+        _player.GetComponent<Rigidbody>().isKinematic = true;
     }
 
     private void OnDrawGizmos()
