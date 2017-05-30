@@ -413,7 +413,7 @@ public class RollerController : ControllerBase
     /// <summary>
     /// Zeros out Velocity
     /// </summary>
-    public void StopPlayer()
+    public void ZeroVelocity()
     {
         _velocity = 0.0f;
     }

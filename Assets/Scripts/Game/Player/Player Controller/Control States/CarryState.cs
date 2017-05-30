@@ -34,6 +34,7 @@ public class CarryState : RollerState
 			_roller.Face.TransitionFacePose( "Carry" );
 		}
 
+        _roller.ZeroVelocity();
     }
 
 	public override void Exit( P_ControlState nextState )
@@ -46,7 +47,7 @@ public class CarryState : RollerState
         if( _bigPlantPickupable != null )
         {
             _bigPlantPickupable = null;
-            _roller.StopPlayer();
+            _roller.ZeroVelocity();
 
 			_roller.Face.BecomeIdle();
         }
