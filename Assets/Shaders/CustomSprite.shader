@@ -175,7 +175,7 @@
 			float2 spriteUV = (spriteSize + currentSprite); // * _FrameScale
 
 
-			float seed = frac(_ColorSetSeed);
+			float seed = frac(_ColorSetSeed * IN.color.r);
 
 			if (_ColorSetEnabled != 0) {
 				//this is probably better off being an array
@@ -222,7 +222,7 @@
 			}
 
 			fixed4 c = tex2D (_MainTex, spriteUV);
-			c.rgb = lerp(_ColorTop, _ColorBot, c.r) * IN.color.rgb;
+			c.rgb = lerp(_ColorTop, _ColorBot, c.r);// * IN.color.rgb;
 
 			o.Albedo = c.rgb;
 			o.Alpha = c.a;
