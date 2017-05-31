@@ -665,6 +665,24 @@ MonoBehaviour:
   _player: {fileID: 0}
   _maxPlayerDistance: 156
   _playerDistanceInterp: 0
+  _splatSizeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0.08461421
+      outSlope: 0.08461421
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.2508507
+      value: 0.9974238
+      inSlope: 6.4252768
+      outSlope: 6.4252768
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!114 &114374224506587848
 MonoBehaviour:
   m_ObjectHideFlags: 1

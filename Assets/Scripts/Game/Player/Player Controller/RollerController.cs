@@ -80,8 +80,6 @@ public class RollerController : ControllerBase
     public SkinnedMeshRenderer BodyRenderer { get { return _bodyRenderer; } }
     private const string SPHERIFYSCALE_SHADERPROP = "_SphereScale";
     private const string SPHERIFY_SHADERPROP = "_Spherification";
-	private Vector3 MIN_SPLATSIZE = new Vector3(2f, 2f, 3f);
-	private Vector3 MAX_SPLATSIZE = new Vector3(15f, 15f, 3f);
     int _spherifyPropertyHash = 0;
     int _spherifyScalePropertyHash = 0;
     public float SpherifyScale { get { return _bodyRenderer.material.GetFloat( _spherifyScalePropertyHash ); } set { _bodyRenderer.material.SetFloat( _spherifyScalePropertyHash, value ); } }
@@ -229,8 +227,6 @@ public class RollerController : ControllerBase
 	protected override void HandleInput()
 	{
         _currentState.HandleInput( _input );
-
-		_splatImprint.transform.localScale = Vector3.Lerp(MIN_SPLATSIZE, MAX_SPLATSIZE, PlayerManager.instance.DistanceFromPond);
 	}
 
     protected override void HandleFixedInput()
