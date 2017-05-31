@@ -9,7 +9,7 @@ public class RollerConstants : ScriptableObjectSingleton<RollerConstants>
     // WALK
     [Header( "Walk Variables" ), Space( 10 )]
     public float WalkSpeed = 5.5f;
-	public float CarrySpeed = 4f;
+	public float CarrySpeed = 2.5f;
 	public float SingWalkSpeed = 2f;
 	public float WalkAcceleration = 0.2f;
 	public float WalkDeceleration = 3.0f;

@@ -97,11 +97,9 @@ public class MurabbitSpawner : MonoBehaviour
 	*/
 	private void OnEnterSpawning()
 	{
-		Vector3 pos = Random.insideUnitSphere * 32f;
-		pos.y = 0f;
-		transform.position = pos;
+		this.transform.position = JohnTech.GenerateRandomXZDirection() * Random.Range( 5.0f, 32.0f );
 
-		int rabbitsToSpawn = Random.Range(2, 6);
+		int rabbitsToSpawn = Random.Range(3, 6);
 
 		StartCoroutine(SpawnRoutine(rabbitsToSpawn));
 	}
@@ -122,6 +120,7 @@ public class MurabbitSpawner : MonoBehaviour
 			// MAKE BABY
 			GameObject rabObj = Instantiate(rabbitPrefab, transform.position, Quaternion.identity) as GameObject;
 			rabObj.transform.parent = transform.parent;
+			rabObj.name = "Rabbit " + i;
 			Murabbit rab = rabObj.GetComponent(typeof(Murabbit)) as Murabbit;
 			
 			// TELL BABY HOW TO LIVE

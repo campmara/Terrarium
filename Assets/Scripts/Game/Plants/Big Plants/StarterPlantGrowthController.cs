@@ -6,10 +6,6 @@ public class StarterPlantGrowthController : BPGrowthController
 	[SerializeField] private Transform _bStemRoot = null;
 	[SerializeField] private GameObject _leafPrefab = null;
 
-	Vector3 _minScale = new Vector3( 0.0f, 0.0f, 0.0f );
-	public Vector3 MinScale { get { return _minScale; }  set { _minScale = value; } }
-	Vector3 _maxScale = new Vector3( 14.0f, 14.0f, 14.0f );
-
 	private int _numChildren;
 	private Transform[] _bones;
 
@@ -78,6 +74,15 @@ public class StarterPlantGrowthController : BPGrowthController
 		_childAnimators.Add( anim );
 		leaf.transform.SetParent( _currentParent );
 		leaf.transform.position = _currentParent.position;
+
+		if( leaf.GetComponent<Renderer>() != null )
+		{
+			leaf.GetComponent<Renderer>().material.SetFloat( "_ColorSetSeed", _myPlant.ShaderColorSeed );
+		}
+		else if( leaf.GetComponentInChildren<Renderer>() != null )
+		{
+			leaf.GetComponentInChildren<Renderer>().material.SetFloat( "_ColorSetSeed", _myPlant.ShaderColorSeed );
+		}
 
 		leaf.transform.localScale = _currentParent.localScale * _inverseIndex * .2f;//(inverseIndex * inverseIndex * .05f);
 		leaf.transform.Rotate(new Vector3(0, index * 360 / _ringNumber + _offset, 0));

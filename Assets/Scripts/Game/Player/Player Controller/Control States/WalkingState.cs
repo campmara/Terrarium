@@ -5,7 +5,7 @@ using DG.Tweening;
 public class WalkingState : RollerState
 {
     private Tween _rollPosTween;
-    private Tween _rollSpherifyTween;
+    private Tween _rollSpherifyTween;    
     private float _idleTimer = 0f;
 
     Coroutine _reachCoroutine = null;
@@ -43,8 +43,7 @@ public class WalkingState : RollerState
         _rollSpherifyTween.Kill();
         _rollSpherifyTween = null;
         _rollSpherifyTween = DOTween.To( () => _roller.Spherify, x => _roller.Spherify = x, 0.0f, RollerConstants.instance.RollDespherifySpeed ).SetEase( Ease.OutSine ).OnComplete( EndDespherize );
-
-
+        
         _roller.SpherifyScale = RollerConstants.instance.BreathSpherizeScale;        
     }
 
@@ -68,6 +67,11 @@ public class WalkingState : RollerState
 	        _rollPosTween = null;
 	    }
 
+        if( _rollSpherifyTween != null )
+        {
+            EndDespherize();
+        }
+
         if( _reachCoroutine != null )
         {            
             StopCoroutine( _reachCoroutine );
@@ -85,8 +89,6 @@ public class WalkingState : RollerState
             // yup, it's bad!
             if( _rollSpherifyTween == null || ( _rollSpherifyTween != null && _rollSpherifyTween.IsComplete() ) )
             {
-
-
                 if (_roller.SpherifyScale == RollerConstants.instance.RitualSphereizeScale && _roller.Spherify > 0.0f)
                 {
                     _roller.Spherify -= Time.deltaTime * RollerConstants.instance.RitualDeflateSpeed;
@@ -202,10 +204,15 @@ public class WalkingState : RollerState
 
     public override void HandleFixedInput(InputCollection input)
 	{	
-		_roller.IKMovement(RollerConstants.instance.WalkSpeed, 
-									  RollerConstants.instance.WalkAcceleration, 
-									  RollerConstants.instance.WalkDeceleration, 
-									  RollerConstants.instance.WalkTurnSpeed);
+        if( GameManager.Instance.State == GameManager.GameState.MAIN )
+        {
+            _roller.IKMovement( RollerConstants.instance.WalkSpeed,
+                                  RollerConstants.instance.WalkAcceleration,
+                                  RollerConstants.instance.WalkDeceleration,
+                                  RollerConstants.instance.WalkTurnSpeed );
+
+        }
+
     }
 
     void IdleTimer(InputCollection input)

@@ -40,11 +40,8 @@ public class RollerController : ControllerBase
 	[SerializeField] private GameObject _rollSphere = null;
 	public GameObject RollSphere { get { return _rollSphere; } }
 
-	[SerializeField] private Material _splatMat = null;
-	public Material SplatMat { get { return _splatMat; } }
-
-	[SerializeField] private Material _splatTrailMat = null;
-	public Material SplatTrailMat { get { return _splatTrailMat; } }
+	[SerializeField] private GameObject _splatImprint = null;
+	public GameObject SplatImprint { get { return _splatImprint; } }
 
 	[ReadOnly] private ParticleSystem _explodeParticleSystem = null;
 	public ParticleSystem ExplodeParticleSystem { get { return _explodeParticleSystem; } }
@@ -227,10 +224,9 @@ public class RollerController : ControllerBase
         _controlState = toState;
     }
 
-
 	protected override void HandleInput()
 	{
-        _currentState.HandleInput( _input );	
+        _currentState.HandleInput( _input );
 	}
 
     protected override void HandleFixedInput()
@@ -413,7 +409,7 @@ public class RollerController : ControllerBase
     /// <summary>
     /// Zeros out Velocity
     /// </summary>
-    public void StopPlayer()
+    public void ZeroVelocity()
     {
         _velocity = 0.0f;
     }
