@@ -86,7 +86,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 
     #region Pond Transition Variables
 
-	const float INTRO_PAN_PREWAIT_TIME = 0.1f;
+	const float INTRO_PAN_PREWAIT_TIME = 0.5f;
 	const float INTRO_PAN_TIME = 7f;
 	const float INTRO_INENGINE_PAN_TIME = 0.5f;
 
