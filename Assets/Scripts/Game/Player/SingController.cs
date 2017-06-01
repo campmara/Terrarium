@@ -22,7 +22,7 @@ public class SingController : MonoBehaviour {
     [SerializeField] AudioMixer _audioMixer = null;
     Vector2 _singVolumeRange = new Vector2( -40.0f, 0.0f );
     string _singVolParamName = "s_volume";
-    float _singVolEnterSpeed = 10.0f; 
+    float _singVolEnterSpeed = 25.0f; 
 
     int _currentSingClip = 0;
     int _numVoices = 0;
@@ -31,7 +31,7 @@ public class SingController : MonoBehaviour {
     List<Vector2> _singPitchRangeList = new List<Vector2>();
     [SerializeField, ReadOnly]Vector2 _currSingPitchRange = Vector2.zero;
     [SerializeField]
-    Vector2 _voiceChangeWaitRange = new Vector2( 20f, 40f );
+    Vector2 _voiceChangeWaitRange = new Vector2( 60f, 120f );
 
     float _singStopTimer = 0.0f;
     [SerializeField, ReadOnly]float _stopVolume = 0.0f;

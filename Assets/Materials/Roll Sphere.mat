@@ -60,7 +60,7 @@ Material:
     - _ColorFog: 0.612
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
-    - _DistAmt: 85
+    - _DistAmt: 40
     - _DstBlend: 0
     - _GlossMapScale: 1
     - _Glossiness: 0

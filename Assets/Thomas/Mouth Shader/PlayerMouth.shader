@@ -1,17 +1,22 @@
-﻿Shader "Custom/PlayerMouth" {
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Custom/PlayerMouth" {
 	Properties {
 		_MainColor("Color Tint", Color) = (1,1,1,1)
 		_Color1("Color 1", Color) = (1,1,1,1)
 		_Color2("Color 2", Color) = (1,1,1,1)
 
+		_Outline("Outline Thickness", float) = 1
+		_OutlineColor("Outline Color", Color) = (1,1,1,1)
+
 		_MainTex("Outside Window (RGB)", 2D) = "white" {}
 		_Scale("Simulated Distance", Range(0, 5)) = 0.1
 	}
 	SubShader {
-			GrabPass{}
+		GrabPass{}
 
-			Tags{ "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Opaque" }
-			LOD 200
+		Tags{ "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Opaque" }
+		LOD 200
 		
 		CGPROGRAM
 		// Physically based Standard lighting model, and enable shadows on all light types
@@ -34,6 +39,9 @@
 		fixed4 _Color1;
 		fixed4 _Color2;
 
+		float _Outline;
+		float4 _OutlineColor;
+
 		sampler2D _GrabTexture;
 
 		struct Input {
@@ -54,7 +62,6 @@
 
 		void vert(inout appdata_base v, out Input o) {
 			UNITY_INITIALIZE_OUTPUT(Input, o);
-			v.vertex.z += sin(5.0f * v.vertex.x + _Time.x * 100)*.025;
 			o.pos = v.vertex;
 			o.normal = v.normal;
 		}
@@ -66,19 +73,17 @@
 			float3 localPos = IN.pos;
 			localPos += _Scale;
 
-			//https://forum.unity3d.com/threads/free-fake-window-shader.394971/
-					//half scale = (1 - _Scale);
-			half coeff = dot(abs(normalize(IN.viewDir)), IN.normal);
-					//half3 offset = (IN.viewDir)* scale / 2 * (2 - coeff);
-					//half2 uv = half2(localPos.x*_Scale + scale / 2 - offset.x, localPos.z*_Scale + scale / 2 - offset.y);
-
-					//half2 uv = localPos.xz + IN.viewDir*_Scale;
-					//uv = IN.viewDir + localPos.xz;
-
-					//half4 color = lerp(_Color1, _Color2, tex2D(_MainTex, uv).r);
-			half4 color = lerp(_Color1, _Color2, pow(coeff, 1));
-			o.Albedo = color.rgb * _MainColor.rgb;
-			o.Alpha = 1-color.r*.5f;
+			half3 norm = o.Normal;
+			half scale = (1 - _Scale);
+			half coeff = dot(abs(normalize(IN.viewDir)), norm);
+			half3 offset = (IN.viewDir + norm) * scale / 2 * (2 - coeff);
+			half2 uv = half2(IN.uv_MainTex.x * _Scale + scale / 2 - offset.x, IN.uv_MainTex.y * _Scale + scale / 2 - offset.y);
+			half4 color = lerp(_Color1, _Color2, clamp(pow(coeff, 2),0,1)) * _MainColor;
+			o.Albedo = color.rgb;
+			if (distance(IN.uv_MainTex, float2(.5,.5)) > _Outline) {
+				o.Albedo = _OutlineColor;
+			}
+			o.Alpha = 1;
 		}
 		ENDCG
 	}

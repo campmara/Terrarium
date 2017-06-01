@@ -103,9 +103,9 @@ MonoBehaviour:
   PlantingEndY: 0
   PlantingEndX: 1.25
   PlantingEffectRadius: 5
-  SingingReturnTime: 0.5
+  SingingReturnTime: 0.25
   PitchLerpSpeed: 7
   IKTargetWorldScalar: 35
-  IKReachCheckRadius: 8
-  IKReachWaitMin: 1.5
-  IKReachWaitMax: 10
+  IKReachCheckRadius: 3
+  IKReachWaitMin: 1
+  IKReachWaitMax: 3

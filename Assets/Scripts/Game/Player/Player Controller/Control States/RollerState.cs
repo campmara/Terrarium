@@ -86,8 +86,10 @@ public class RollerState : MonoBehaviour
         Collider[] overlapArray = Physics.OverlapSphere( _pickupCenter, RollerConstants.instance.IKReachCheckRadius, 1 << LayerMask.NameToLayer("Touchable") );
 
         if (overlapArray.Length > 0)
-        {            
-            SetAmbientArmReach( overlapArray[Random.Range( 0, overlapArray.Length )].transform, armType );
+        {
+            Transform reachingTrans = overlapArray[Random.Range( 0, overlapArray.Length )].transform;
+            armType = Vector3.Distance( _roller.IK.LeftArm.transform.position, reachingTrans.position ) < Vector3.Distance( _roller.IK.RightArm.transform.position, reachingTrans.position ) ? PlayerArmIK.ArmType.LEFT : PlayerArmIK.ArmType.RIGHT;
+            SetAmbientArmReach( reachingTrans, armType );
         }
     }
 
