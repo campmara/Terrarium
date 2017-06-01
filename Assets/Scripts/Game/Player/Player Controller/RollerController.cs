@@ -502,7 +502,7 @@ public class RollerController : ControllerBase
 	{
 		// Handle all the object deactivation and state change we require.
 		_mesh.SetActive(false);
-        //_face.gameObject.SetActive(false);
+        _face.gameObject.SetActive(false);
 		_rollSphere.SetActive(false);
 		_ik.SetState(PlayerIKControl.WalkState.POND_RETURN);
 

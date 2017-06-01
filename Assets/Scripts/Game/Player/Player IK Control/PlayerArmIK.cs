@@ -221,9 +221,8 @@ public class PlayerArmIK : MonoBehaviour {
     {
         _armTargetPos = Vector3.Lerp( _armTargetPos,  _armTargetTransform.position + (Vector3.up * 0.325f), AMBIENTREACH_SPEED * Time.deltaTime );
 
-//         _armSpring.connectedAnchor = Vector3.Lerp( _armSpring.connectedAnchor, _parentIKController.transform.parent.position - ( _parentIKController.transform.parent.right * 0.5f ), _armTargetLerpSpeed * Time.deltaTime );
-//         _armTargetPos = Vector3.Lerp( _armTargetPos, _armSpring.transform.position, _armTargetLerpSpeed * Time.deltaTime ); 
-//         
+         //_armSpring.connectedAnchor = Vector3.Lerp( _armSpring.connectedAnchor, _armTargetTransform.position + ( Vector3.up * 0.325f ), (AMBIENTREACH_SPEED * 0.5f) * Time.deltaTime );
+
         CheckReachConstraints();
     }
 
