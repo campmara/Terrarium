@@ -8,12 +8,13 @@ public class TrunkGroundCover : MonoBehaviour
 	[SerializeField] GameObject _groundCoverPrefab = null;
 	Transform _parent;
 	Vector3 _parentPos = Vector3.zero;
-	Vector2 _smallScaleRange = new Vector2( .6f, .8f );
+	Vector2 _smallScaleRange = new Vector2( .75f, .8f );
 	Vector2 _largeScaleRange = new Vector2( .8f, 1.1f );
 	Vector2 _scaleRange = Vector2.zero;
 	float _parentMeshRadius = 1.0f;
 	float _maxDistFromParent = 5.0f;
 	float _timeBetweenSpawns = .5f;
+	float _grassHeight = 0.2f;
 
 	int _numTrunkSpawns = 12;
 	int _numSurroundingSpawns = 22;
@@ -59,7 +60,7 @@ public class TrunkGroundCover : MonoBehaviour
 		while( _curSurroundingSpawns < _numSurroundingSpawns )
 		{
 			Vector2 randomPoint = Random.insideUnitCircle * _maxDistFromParent;
-			Vector3 pos = _parentPos + new Vector3( randomPoint.x, .2f/*_groundCoverPrefab.transform.position.y*/, randomPoint.y );
+			Vector3 pos = _parentPos + new Vector3( randomPoint.x, _grassHeight, randomPoint.y );
 			SpawnGrass( pos, false );
 			_curSurroundingSpawns++;
 
@@ -88,7 +89,7 @@ public class TrunkGroundCover : MonoBehaviour
          Vector3 pos;
          pos.x = _parentPos.x + _parentMeshRadius * Mathf.Sin( ang * Mathf.Deg2Rad );
          pos.z = _parentPos.z + _parentMeshRadius * Mathf.Cos( ang * Mathf.Deg2Rad );
-         pos.y = .2f;//_groundCoverPrefab.transform.position.y;
+         pos.y = _grassHeight;
          return pos;
 	}
 }

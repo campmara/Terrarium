@@ -12,9 +12,9 @@ public class BumbleGrowthController : SPGrowthController
 
     //DANCING VARIABLES
     float _danceDelay = .15f;
-	float _singBufferTime = .5f;
+	float _singBufferTime = .6f;
 	float _enterTime = 0.0f;
-
+    bool _canDance = true;
     float _waitTime = 0.0f;
     float _leafScale = 0.0f;
 
@@ -114,30 +114,39 @@ public class BumbleGrowthController : SPGrowthController
     IEnumerator DanceBumbleDance()
     {
         foreach( Animator plant in _leafAnimators )
-		{				
-            plant.SetBool("IsDancing", true );
-            yield return new WaitForSeconds( _danceDelay );
-		}
+	    {			
+            if( _canDance )
+            {
+                plant.SetBool("IsDancing", true );
+                yield return new WaitForSeconds( _danceDelay );
+            }
+            else
+            {
+                break;
+            }
+	    }
     }
 
     protected override void CustomizedSingAtPlant( bool entering )
 	{
 		SingController singCtrl = PlayerManager.instance.Player.GetComponent<SingController>();
-		if( singCtrl.State == SingController.SingState.SINGING && entering )
-		{
-			_enterTime = Time.time;
+        if( singCtrl.State == SingController.SingState.SINGING && entering)
+        {
+            _enterTime = Time.time;
+            _canDance = true;
             StartCoroutine( DanceBumbleDance() );
-		}
-		else
-		{
-			if( Time.time - _enterTime >= _singBufferTime )
-			{
-				foreach( Animator plant in _leafAnimators )
-				{
-					plant.SetBool("IsDancing", false );
-				}
-			}
-		}
+        }
+        else 
+        {
+            if( !entering || (Time.time - _enterTime >= _singBufferTime ) )                
+            {
+                _canDance = false;
+                foreach( Animator plant in _leafAnimators )
+			    {
+			        plant.SetBool("IsDancing", false );
+		        }
+            }            
+        }
 	}
 
     private IEnumerator WaitToSpawnChild()
@@ -150,7 +159,6 @@ public class BumbleGrowthController : SPGrowthController
             _curTimeAnimated = _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime;
             yield return null;
         }
-
     }
 
     protected override void CustomStopGrowth()
