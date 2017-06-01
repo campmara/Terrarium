@@ -1377,13 +1377,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1584077273557164}
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0.7071068, w: 0}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -0.13, y: 0.07, z: -0.027}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4918290196525932}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 180}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!4 &4875004704386908
 Transform:
   m_ObjectHideFlags: 1
@@ -1391,7 +1391,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1888846475258438}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14.263384, y: 3, z: -8.793564}
+  m_LocalPosition: {x: -10.426459, y: 0, z: 1.7854261}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4437166577982040}
@@ -1945,6 +1945,7 @@ MonoBehaviour:
   - {x: 2.5, y: 3.25}
   _currSingPitchRange: {x: 0, y: 0}
   _voiceChangeWaitRange: {x: 20, y: 40}
+  _stopVolume: 0
   _baseFlowerSpawnWait: 1.5
   _flowerSpawnWaitIncrease: 0.25
   _currFlowerSpawnWait: 0
@@ -3164,7 +3165,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1586282642
+  randomSeed: -1726047546
   InitialModule:
     serializedVersion: 3
     enabled: 1
