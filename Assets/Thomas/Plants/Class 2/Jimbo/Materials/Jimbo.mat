@@ -76,7 +76,7 @@ Material:
     - _Hardness: 0.359
     - _ImprintAmount: 2
     - _Metallic: 0
-    - _Middle: 0.055
+    - _Middle: 0.483
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
@@ -92,7 +92,7 @@ Material:
     m_Colors:
     - _BlendOffset: {r: -0.5, g: -0.5, b: -0.5, a: 0}
     - _Color: {r: 1, g: 0.5882353, b: 0.5882353, a: 1}
-    - _ColorBot: {r: 1, g: 0.88965523, b: 0, a: 1}
-    - _ColorMid: {r: 0.75431037, g: 0.9191176, b: 0, a: 1}
-    - _ColorTop: {r: 0.6776772, g: 0.7794118, b: 0.21204588, a: 1}
+    - _ColorBot: {r: 0, g: 0, b: 0, a: 1}
+    - _ColorMid: {r: 0.61764705, g: 0.61764705, b: 0.61764705, a: 1}
+    - _ColorTop: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
