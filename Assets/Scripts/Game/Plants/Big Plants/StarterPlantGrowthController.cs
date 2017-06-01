@@ -32,7 +32,6 @@ public class StarterPlantGrowthController : BPGrowthController
 
 		_bones = _bStemRoot.GetComponentsInChildren<Transform>();
 		_numChildren = _bones.Length; // we subtract one for them that exists there
-
 		AnimatorStateInfo info = _plantAnim.GetCurrentAnimatorStateInfo( 0 );
 		_timeBetweenLeafSpawns = ( info.length / _baseGrowthRate ) / _numChildren;
 
@@ -94,7 +93,7 @@ public class StarterPlantGrowthController : BPGrowthController
 
 	protected override void CustomPlantGrowth()
 	{
-		if( _leafSpawnRoutine == null && _curChildSpawned < _numChildren )
+		if( _leafSpawnRoutine == null && _curChildSpawned < _numChildren - 1 ) // we subtract to get rid of the hula hoop
 		{
 			_leafSpawnRoutine = StartCoroutine( SpawnLeaves() );
 		}
