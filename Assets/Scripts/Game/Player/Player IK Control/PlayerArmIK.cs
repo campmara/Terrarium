@@ -66,13 +66,15 @@ public class PlayerArmIK : MonoBehaviour {
     private const float ARM_IDLE_UP = 0.65f;
 
     // Ambient Reaching Variables
-    private const float ARM_REACHDISTMAX = 8.0f;
-    private const float ARM_REACHDISTMIN = 0.75f;
+    private const float ARM_REACHDISTMAX = 4.5f;
+    private const float ARM_REACHDISTMIN = 0.05f;
     private const float ARM_REACHANGLEMAX = 90.0f;
 
 	private float _ambientReachTimer = 0.0f;
-	private const float AMBIENTREACH_MINTIME = 2.0f;
-	private const float AMBIENTREACH_MAXTIME = 10.0f;
+	private const float AMBIENTREACH_MINTIME = 0.25f;
+	private const float AMBIENTREACH_MAXTIME = 1.25f;
+
+    private const float AMBIENTREACH_SPEED = 2.25f;
 
 	[SerializeField, Space(10)]
 	Transform _armTipTransform = null;
@@ -217,11 +219,11 @@ public class PlayerArmIK : MonoBehaviour {
 
     private void HandleAmbientReaching()
     {
-        _armTargetPos = Vector3.Lerp( _armTargetPos,  _armTargetTransform.position, _armTargetLerpSpeed * Time.deltaTime );
+        _armTargetPos = Vector3.Lerp( _armTargetPos,  _armTargetTransform.position + (Vector3.up * 0.325f), AMBIENTREACH_SPEED * Time.deltaTime );
 
-        _armSpring.connectedAnchor = Vector3.Lerp( _armSpring.connectedAnchor, _parentIKController.transform.parent.position - ( _parentIKController.transform.parent.right * 0.5f ), _armTargetLerpSpeed * Time.deltaTime );
-        _armTargetPos = Vector3.Lerp( _armTargetPos, _armSpring.transform.position, _armTargetLerpSpeed * Time.deltaTime ); 
-        
+//         _armSpring.connectedAnchor = Vector3.Lerp( _armSpring.connectedAnchor, _parentIKController.transform.parent.position - ( _parentIKController.transform.parent.right * 0.5f ), _armTargetLerpSpeed * Time.deltaTime );
+//         _armTargetPos = Vector3.Lerp( _armTargetPos, _armSpring.transform.position, _armTargetLerpSpeed * Time.deltaTime ); 
+//         
         CheckReachConstraints();
     }
 
@@ -266,31 +268,15 @@ public class PlayerArmIK : MonoBehaviour {
     {
         Vector3 reachDir = _armTargetTransform.position - this.transform.position;
         float reachDist = reachDir.magnitude;
-        float reachAngle = Vector3.Angle( _parentIKController.transform.forward, reachDir );
+        float reachAngle = Mathf.Abs(Vector3.Angle( _parentIKController.transform.forward, reachDir ));
 
 		_ambientReachTimer += Time.deltaTime;
 
-        //Debug.Log( reachDist );
-        //Debug.Log( reachAngle );
-
 		if ( reachDist > ARM_REACHDISTMAX || reachAngle > ARM_REACHANGLEMAX || _ambientReachTimer > AMBIENTREACH_MAXTIME )
         {
-
-			if( _ambientReachTimer < AMBIENTREACH_MINTIME )
-			{
-				// TODO: Make Droopy Sad : (
-				//_face.BecomeSad();	
-			}            
-
             ReleaseTargetTransform();
         }
-        else if ( reachDist <= ARM_REACHDISTMIN )
-        {
-            // TODO: Make Droopy Happy : )
-            _face.BecomeHappy();
 
-            ReleaseTargetTransform();
-        }
     }
 
     public void ReleaseTargetTransform()
@@ -308,17 +294,7 @@ public class PlayerArmIK : MonoBehaviour {
         float reachAngle = Vector3.Angle( _parentIKController.transform.forward, reachDir.normalized );
 
         if ( _armState == ArmIKState.IDLE || reachAngle < ARM_REACHANGLEMAX )
-        {
-            // Pick a random reach point
-            if (JohnTech.CoinFlip())
-            {
-                _face.BecomeInterested();
-            }
-            else
-            {
-                _face.BecomeDesirous();
-            }
-
+        {         
             _armTargetTransform = reachTrans;
 
             SetArmState( ArmIKState.AMBIENT_REACHING );
