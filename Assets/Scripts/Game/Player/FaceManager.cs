@@ -315,7 +315,7 @@ public class FaceManager : MonoBehaviour
 
 	void OnTriggerEnter( Collider other )
 	{
-		if( _poseName == "Idle" )
+		if( _poseName == "Idle" && this.enabled )
 		{
 			if( other.GetComponent<Murabbit>() )
 			{
