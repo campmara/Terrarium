@@ -46,35 +46,23 @@ public class PondState : RollerState
 
     public override void HandleInput( InputCollection input )
     {
-        if ( input.AButton.IsPressed ||
-               input.BButton.IsPressed ||
-               input.XButton.IsPressed ||
-               input.YButton.IsPressed )
-        {
-            if (CameraManager.instance.CamState == CameraManager.CameraState.POND_WAIT)
-            {
-                PondManager.instance.HandlePondReturn();
-            }
-            else
-            {
-                PondManager.instance.PopPlayerFromPond();
-            }
-
-            _roller.ChangeState( P_ControlState.WALKING );
-        }
 
         if ( input.LeftStickX.Value > RollerConstants.instance.IdleMaxMag ||
-            input.LeftStickY.Value > RollerConstants.instance.IdleMaxMag )
+            input.LeftStickY.Value > RollerConstants.instance.IdleMaxMag ||
+            input.AButton.IsPressed ||
+            input.BButton.IsPressed ||
+            input.XButton.IsPressed ||
+            input.YButton.IsPressed)
         {
             if( CameraManager.instance.CamState == CameraManager.CameraState.POND_WAIT )
             {
                 PondManager.instance.HandlePondReturn();
             }
-            else
-            {
-                PondManager.instance.PopPlayerFromPond();
-            }
-
+//            else
+//            {
+//                PondManager.instance.PopPlayerFromPond();
+//            }
+//
             _roller.ChangeState( P_ControlState.WALKING );
         }
 

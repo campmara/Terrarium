@@ -61,6 +61,9 @@ public class BasePlant : MonoBehaviour
     public PlantController ActiveController { get { return _activeController; } }
 	PlantController[] _controllers = new PlantController[2];
 
+	float _shaderColorSeed = 0.0f;
+	public float ShaderColorSeed { get { return _shaderColorSeed; } }
+
 	protected virtual void Awake()
 	{
 		Init();
@@ -87,6 +90,12 @@ public class BasePlant : MonoBehaviour
 		DeathDuration = Random.Range( _DeathDurationRange.x, _DeathDurationRange.y );
 
 		_controllers = GetComponents<PlantController>();
+
+		_shaderColorSeed = Random.Range( -5000.0000f, 5000.0000f );
+		if( this.GetComponentInChildren<Renderer>() && this.GetComponentInChildren<Renderer>().material.HasProperty( "_ColorSetSeed" ) )
+		{
+			this.GetComponentInChildren<Renderer>().material.SetFloat( "_ColorSetSeed", _shaderColorSeed );
+		}
 
 		foreach( PlantController control in _controllers )
 		{

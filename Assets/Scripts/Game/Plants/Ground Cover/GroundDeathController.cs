@@ -115,24 +115,24 @@ public class GroundDeathController : PlantController
 
 	void HandlePalatteChange( ColorManager.EnvironmentPalette newPalette, ColorManager.EnvironmentPalette prevPalette )
 	{
-		// TODO make coroutine to change colors, remove fading color changes
-
-		Debug.Log( "Transitioning Ground Cover Color" );
-
-		switch( _type )
-		{
-		case GroundPlantType.TWIST:
-			StartCoroutine( DelayedTransitionColors( newPalette.twistPlant ) );
-			break;		
-		case GroundPlantType.CAPP:
-			StartCoroutine( DelayedTransitionColors( newPalette.cappPlant ) );
-			break;		
-		default:
-			break;
-		}
+//		// TODO make coroutine to change colors, remove fading color changes
+//
+//		Debug.Log( "Transitioning Ground Cover Color" );
+//
+//		switch( _type )
+//		{
+//		case GroundPlantType.TWIST:
+//			StartCoroutine( DelayedTransitionColors( newPalette.twistPlant ) );
+//			break;		
+//		case GroundPlantType.CAPP:
+//			StartCoroutine( DelayedTransitionColors( newPalette.cappPlant ) );
+//			break;		
+//		default:
+//			break;
+//		}
 	}
 
-	IEnumerator DelayedTransitionColors( Gradient newGradient, float transitionTime = ColorManager.PALATTE_TRANSITIONTIME )
+	IEnumerator DelayedTransitionColors( Gradient newGradient, float transitionTime = ColorManager.PALETTE_TRANSITIONTIME )
 	{
 		float timer = 0.0f;
 		Color topColor = _mat.GetColor( _shaderIDs[0] );

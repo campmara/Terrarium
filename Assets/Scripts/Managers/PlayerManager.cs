@@ -9,7 +9,7 @@ public class PlayerManager : SingletonBehaviour<PlayerManager>
 	[SerializeField] Player _player = null;
 	public Player Player { get { return _player; } }
 
-
+   
     [SerializeField, Range(0.0f, 1000.0f)]
     float _maxPlayerDistance = 78f;
     [SerializeField, ReadOnly]float _playerDistanceInterp = 0.0f;
@@ -23,13 +23,19 @@ public class PlayerManager : SingletonBehaviour<PlayerManager>
 
     public Vector3 DirectionFromPond
     {
-        get
+      get
         {
             return _player.transform.position.normalized; 
         }
     }
 
-	public override void Initialize ()
+    RollerController _rollerController = null;
+    [SerializeField, Space( 5 )]
+    AnimationCurve _splatSizeCurve;
+    Vector3 MIN_SPLATSIZE = new Vector3( 2f, 2f, 3f );
+    Vector3 MAX_SPLATSIZE = new Vector3( 25f, 25f, 3f );
+
+    public override void Initialize ()
 	{		
         _player.Initialize();
 
@@ -48,6 +54,7 @@ public class PlayerManager : SingletonBehaviour<PlayerManager>
             GameObject newPlayer = Instantiate( _playerPrefab ) as GameObject;
 
             _player = newPlayer.GetComponent<Player>();
+            _rollerController = _player.GetComponent<RollerController>();
         }
 	}
 
@@ -56,6 +63,8 @@ public class PlayerManager : SingletonBehaviour<PlayerManager>
         if( isInitialized )
         {
             _playerDistanceInterp = Mathf.InverseLerp( 0f, _maxPlayerDistance, Mathf.Abs( Vector3.Distance( _player.transform.position, Vector3.zero ) ) );
+
+            _rollerController.SplatImprint.transform.localScale = Vector3.Lerp( MIN_SPLATSIZE, MAX_SPLATSIZE, _splatSizeCurve.Evaluate( _playerDistanceInterp ) );
         }
     }
 
@@ -63,6 +72,7 @@ public class PlayerManager : SingletonBehaviour<PlayerManager>
     {
         _player.transform.position = PondManager.instance.Pond.transform.position + ( Vector3.down * 3f );
         _player.transform.rotation = Quaternion.identity;
+        _player.GetComponent<Rigidbody>().isKinematic = true;
     }
 
     private void OnDrawGizmos()

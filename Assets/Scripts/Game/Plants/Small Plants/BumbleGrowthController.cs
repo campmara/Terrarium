@@ -72,6 +72,15 @@ public class BumbleGrowthController : SPGrowthController
         anim.speed *= _growthRate;
         _childAnimators.Add(anim);
 
+		if( newLeaf.GetComponent<Renderer>() != null )
+		{
+			newLeaf.GetComponent<Renderer>().material.SetFloat( "_ColorSetSeed", _myPlant.ShaderColorSeed );
+		}
+		else if( newLeaf.GetComponentInChildren<Renderer>() != null )
+		{
+			newLeaf.GetComponentInChildren<Renderer>().material.SetFloat( "_ColorSetSeed", _myPlant.ShaderColorSeed );
+		}
+
         _waitTime = (((layerIndex * _numLeaves) + leafNumber) * .5f) / _growthRate;
 
         _leafAnimators.Add( anim );

@@ -66,6 +66,15 @@ public class GroundPlantGrowthController : SPGrowthController
 		newLeaf.transform.parent = parentLayer.transform;
 		newLeaf.transform.localScale = new Vector3( _leafScale, _leafScale, _leafScale );
 
+		if( newLeaf.GetComponent<Renderer>() != null )
+		{
+			newLeaf.GetComponent<Renderer>().material.SetFloat( "_ColorSetSeed", _myPlant.ShaderColorSeed );
+		}
+		else if( newLeaf.GetComponentInChildren<Renderer>() != null )
+		{
+			newLeaf.GetComponentInChildren<Renderer>().material.SetFloat( "_ColorSetSeed", _myPlant.ShaderColorSeed );
+		}
+
 		Animator anim = newLeaf.GetComponent<Animator>();
 		anim.speed *= _growthRate;
 		_childAnimators.Add( anim );

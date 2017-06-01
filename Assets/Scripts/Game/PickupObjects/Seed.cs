@@ -55,7 +55,7 @@ public class Seed : Pickupable
 	{
 		if (_sinkTween != null)
 		{
-			_sinkTween.Rewind();
+			//_sinkTween.Rewind();
             _sinkTween.Kill();
             _sinkTween = null;
 		}
