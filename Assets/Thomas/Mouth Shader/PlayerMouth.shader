@@ -13,40 +13,6 @@ Shader "Custom/PlayerMouth" {
 		_Scale("Simulated Distance", Range(0, 5)) = 0.1
 	}
 	SubShader {
-			
-			Pass{
-			Tags{ "RenderType" = "Opaque" }
-			Cull Back
-
-			CGPROGRAM
-
-			#pragma vertex vert
-			#pragma fragment frag
-			#include "UnityCG.cginc"
-
-			struct v2f {
-			float4 pos : SV_POSITION;
-		};
-
-		float _Outline;
-		float4 _OutlineColor;
-
-		float4 vert(appdata_base v) : SV_POSITION{
-			v2f o;
-		float3 offset = float3(0,0,.005);
-			o.pos = UnityObjectToClipPos((v.vertex * _Outline) - offset);
-			//
-			return o.pos;
-		}
-
-		half4 frag(v2f i) : COLOR{
-			return _OutlineColor;
-		}
-
-			ENDCG
-		}
-
-			
 		GrabPass{}
 
 		Tags{ "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Opaque" }
@@ -72,6 +38,9 @@ Shader "Custom/PlayerMouth" {
 		fixed4 _MainColor;
 		fixed4 _Color1;
 		fixed4 _Color2;
+
+		float _Outline;
+		float4 _OutlineColor;
 
 		sampler2D _GrabTexture;
 
@@ -111,6 +80,9 @@ Shader "Custom/PlayerMouth" {
 			half2 uv = half2(IN.uv_MainTex.x * _Scale + scale / 2 - offset.x, IN.uv_MainTex.y * _Scale + scale / 2 - offset.y);
 			half4 color = lerp(_Color1, _Color2, clamp(pow(coeff, 2),0,1)) * _MainColor;
 			o.Albedo = color.rgb;
+			if (distance(IN.uv_MainTex, float2(.5,.5)) > _Outline) {
+				o.Albedo = _OutlineColor;
+			}
 			o.Alpha = 1;
 		}
 		ENDCG
