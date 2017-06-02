@@ -10,6 +10,7 @@
 
 		_SplatTex("Splat Texture (RGBA)", 2D) = "white" {}
 		_ImprintAmount("Imprint Amount", Range(0, 10)) = 1
+		_WarpAmount("WarpAmount", Range(0, 10)) = 1
 	}
 		SubShader
 		{
@@ -60,7 +61,7 @@
 	uniform float4 _GroundColorPrimary;
 	uniform float4 _GroundColorSecondary;
 	
-
+	float _WarpAmount;
 	float _ImprintAmount;
 
 	//...splatmap...
@@ -98,9 +99,9 @@
 		d.b *= d.a;
 
 		//for color normal maps
-		worldPos.x -= d.r;
+		worldPos.x -= d.r * _WarpAmount;
 		worldPos.y -= (d.b) * _ImprintAmount;
-		worldPos.z += d.g;
+		worldPos.z += d.g * _WarpAmount;
 
 		worldNormal.xz += d.rg;
 
