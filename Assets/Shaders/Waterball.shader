@@ -242,7 +242,7 @@ Shader "Custom/Waterball"
 
 			float4 newTangent = v1 - vertPosition;
 			float4 newBitangent = v2 - vertPosition;
-			v.normal = cross(newTangent, newBitangent);
+			//v.normal = cross(newTangent, newBitangent);
 			v.vertex = vertPosition; 
 			//..............
 			
