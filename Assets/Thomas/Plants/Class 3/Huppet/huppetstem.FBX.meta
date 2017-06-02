@@ -1,0 +1,255 @@
+fileFormatVersion: 2
+guid: db5cd9eaafb420f4ea6f2aa62d100640
+timeCreated: 1496440275
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Stem
+    100004: StemBone00
+    100006: StemBone01
+    100008: StemBone02
+    100010: StemBone03
+    100012: StemBone04
+    100014: StemBone05
+    100016: StemBone06
+    100018: StemBone07
+    100020: StemBone08
+    400000: //RootNode
+    400002: Stem
+    400004: StemBone00
+    400006: StemBone01
+    400008: StemBone02
+    400010: StemBone03
+    400012: StemBone04
+    400014: StemBone05
+    400016: StemBone06
+    400018: StemBone07
+    400020: StemBone08
+    4300000: Stem
+    7400000: Grow 1
+    7400002: Grow 2
+    7400004: Grow 3
+    9500000: //RootNode
+    13700000: Stem
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Grow 1
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 14
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Stem
+        weight: 1
+      - path: StemBone00
+        weight: 1
+      - path: StemBone00/StemBone01
+        weight: 1
+      - path: StemBone00/StemBone01/StemBone02
+        weight: 1
+      - path: StemBone00/StemBone01/StemBone02/StemBone03
+        weight: 1
+      - path: StemBone00/StemBone01/StemBone02/StemBone03/StemBone04
+        weight: 1
+      - path: StemBone00/StemBone01/StemBone02/StemBone03/StemBone04/StemBone05
+        weight: 1
+      - path: StemBone00/StemBone01/StemBone02/StemBone03/StemBone04/StemBone05/StemBone06
+        weight: 1
+      - path: StemBone00/StemBone01/StemBone02/StemBone03/StemBone04/StemBone05/StemBone06/StemBone07
+        weight: 1
+      - path: StemBone00/StemBone01/StemBone02/StemBone03/StemBone04/StemBone05/StemBone06/StemBone07/StemBone08
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Grow 2
+      takeName: Take 001
+      firstFrame: 15
+      lastFrame: 29
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Stem
+        weight: 1
+      - path: StemBone00
+        weight: 1
+      - path: StemBone00/StemBone01
+        weight: 1
+      - path: StemBone00/StemBone01/StemBone02
+        weight: 1
+      - path: StemBone00/StemBone01/StemBone02/StemBone03
+        weight: 1
+      - path: StemBone00/StemBone01/StemBone02/StemBone03/StemBone04
+        weight: 1
+      - path: StemBone00/StemBone01/StemBone02/StemBone03/StemBone04/StemBone05
+        weight: 1
+      - path: StemBone00/StemBone01/StemBone02/StemBone03/StemBone04/StemBone05/StemBone06
+        weight: 1
+      - path: StemBone00/StemBone01/StemBone02/StemBone03/StemBone04/StemBone05/StemBone06/StemBone07
+        weight: 1
+      - path: StemBone00/StemBone01/StemBone02/StemBone03/StemBone04/StemBone05/StemBone06/StemBone07/StemBone08
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Grow 3
+      takeName: Take 001
+      firstFrame: 30
+      lastFrame: 44
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Stem
+        weight: 1
+      - path: StemBone00
+        weight: 1
+      - path: StemBone00/StemBone01
+        weight: 1
+      - path: StemBone00/StemBone01/StemBone02
+        weight: 1
+      - path: StemBone00/StemBone01/StemBone02/StemBone03
+        weight: 1
+      - path: StemBone00/StemBone01/StemBone02/StemBone03/StemBone04
+        weight: 1
+      - path: StemBone00/StemBone01/StemBone02/StemBone03/StemBone04/StemBone05
+        weight: 1
+      - path: StemBone00/StemBone01/StemBone02/StemBone03/StemBone04/StemBone05/StemBone06
+        weight: 1
+      - path: StemBone00/StemBone01/StemBone02/StemBone03/StemBone04/StemBone05/StemBone06/StemBone07
+        weight: 1
+      - path: StemBone00/StemBone01/StemBone02/StemBone03/StemBone04/StemBone05/StemBone06/StemBone07/StemBone08
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
