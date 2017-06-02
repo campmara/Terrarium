@@ -35,7 +35,8 @@ public class ScreenshotTech : MonoBehaviour {
 	{
         if ( Input.GetKeyDown( KeyCode.P ) )
         {
-            HandleScreenShot();
+			//HandleScreenShot();
+			StartCoroutine(ScreenshotEncode());
         }
         else if ( Input.GetKeyDown( KeyCode.Alpha9 ) )
         {
@@ -58,14 +59,30 @@ public class ScreenshotTech : MonoBehaviour {
 		#else
 		Application.CaptureScreenshot( Application.dataPath + "/../" + SCREENSHOT_SAVEFOLDERNAME + "/" + "Screenshot_" + System.DateTime.Now.ToString("MM_dd_yy_hhmm") + ".png", screenshotDetail );
 		#endif
+
+		Debug.Log(UIManager.GetPanelOfType<PanelOverlay>().ScreenshotOverlay.color);
+		UIManager.GetPanelOfType<PanelOverlay>().ScreenshotOverlay.color = new Color( 1.0f, 1.0f, 1.0f, 0.0f );
+		Debug.Log(UIManager.GetPanelOfType<PanelOverlay>().ScreenshotOverlay.color);
 	}
 
 	IEnumerator DelayedCaptureScreenshot()
 	{
 		yield return new WaitForSeconds( SCREENSHOT_TIMER );
 
-		HandleScreenShot( 2 );
+		//HandleScreenShot( 2 );
+		StartCoroutine( CaptureOverlayRoutine() );
 
 		_screenshotRoutine = StartCoroutine( DelayedCaptureScreenshot() );
+	}
+
+	IEnumerator CaptureOverlayRoutine( int screenshotDetail = 4 )
+	{
+		UIManager.GetPanelOfType<PanelOverlay>().ScreenshotOverlay.color = Color.white;
+
+		yield return new WaitForEndOfFrame();
+
+		HandleScreenShot( screenshotDetail );
+
+		yield return new WaitForEndOfFrame();
 	}
 }
