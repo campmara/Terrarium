@@ -109,6 +109,7 @@ public class MurabbitSpawner : MonoBehaviour
 		// Spawn the hole
 		hole = Instantiate(holePrefab, transform.position, Quaternion.identity) as GameObject;
 		hole.transform.parent = transform.parent;
+		hole.transform.eulerAngles = new Vector3(90f, 0f, 0f);
 		hole.transform.localScale = Vector3.zero;
 		Tween holeTween = hole.transform.DOScale(Vector3.one, 0.75f).SetEase(Ease.Linear);
 
