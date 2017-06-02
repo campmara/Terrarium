@@ -6393,7 +6393,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: 29006c31f73184dc6949752a36d7ddbb, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -6448,6 +6448,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632c16518989447e2a4c1f73276beb06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _disableOnLoad: 0
   _screenshotOverlay: {fileID: 114481791995722538}
   _blackOverlay: {fileID: 114745545249443998}
 --- !u!114 &114536147130075368
