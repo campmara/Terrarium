@@ -18,6 +18,7 @@ public class Seed : Pickupable
 
     const float WIND_FORCESCALAR = 0.5f;
 
+	[SerializeField] Vector2 _sinkSpeedRange = new Vector2( 10.0f, 20.0f );
 
 	void Awake()
 	{
@@ -94,7 +95,7 @@ public class Seed : Pickupable
 		if( _sinkTween == null )
 		{
 			Vector3 endPos = this.transform.position + (Vector3.down * 0.36f);
-			float sinkTime = Random.Range(10f, 20f);
+			float sinkTime = Random.Range( _sinkSpeedRange.x, _sinkSpeedRange.y );
 
 			_sinkTween = this.transform.DOMove( endPos, sinkTime ).OnComplete( EndSelfPlant );
 		}
