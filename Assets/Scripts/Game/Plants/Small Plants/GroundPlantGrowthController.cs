@@ -97,7 +97,7 @@ public class GroundPlantGrowthController : SPGrowthController
 		_curFruit.transform.parent = transform;
 		_curFruit.transform.localScale = preserveScale;
 
-		StartCoroutine( TweenLocalScale( _curFruit.transform, Vector3.zero, _curFruit.transform.localScale, .75f * _growthRate));
+		StartCoroutine( TweenLocalScale( _curFruit.transform, Vector3.zero, _curFruit.transform.localScale, 30.0f * _growthRate));
 	}
 
 	IEnumerator TweenLocalScale( Transform focusTransform, Vector3 startScale, Vector3 endScale, float moveTime )
