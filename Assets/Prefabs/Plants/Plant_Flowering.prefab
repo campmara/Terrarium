@@ -700,7 +700,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48546a37106ae474c9854776c588eedc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _essenceSystemPrefab: {fileID: 198300462505096804, guid: f9d0ee3e3519f4709aa9409c6c902457,
+  _essenceSystemPrefab: {fileID: 198600092183047624, guid: f9d0ee3e3519f4709aa9409c6c902457,
     type: 2}
   _essenceMesh: {fileID: 137425570155143246}
   _waterDecayReturnTime: 20
