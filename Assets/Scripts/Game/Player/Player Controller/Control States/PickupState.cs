@@ -36,14 +36,14 @@ public class PickupState : RollerState
 	{
         _roller.Player.AnimationController.SetCarrying( true );
 
-        _roller.ChangeState(P_ControlState.CARRYING);
+        _roller.ChangeState( P_ControlState.CARRYING );
 	}
 
 	public override void Exit( P_ControlState nextState )
 	{
 		Debug.Log("[RollerState] EXIT PICKUP STATE");
 
-        switch (nextState)
+        switch ( nextState )
         {
             case P_ControlState.WALKING:
                 _roller.Player.AnimationController.TriggerLiftCancel();

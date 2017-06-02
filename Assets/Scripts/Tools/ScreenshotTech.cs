@@ -34,8 +34,8 @@ public class ScreenshotTech : MonoBehaviour {
 	void Update () 
 	{
         if ( Input.GetKeyDown( KeyCode.P ) )
-        {
-            HandleScreenShot();
+        {			
+			StartCoroutine( CaptureOverlayRoutine() );
         }
         else if ( Input.GetKeyDown( KeyCode.Alpha9 ) )
         {
@@ -64,8 +64,23 @@ public class ScreenshotTech : MonoBehaviour {
 	{
 		yield return new WaitForSeconds( SCREENSHOT_TIMER );
 
-		HandleScreenShot( 2 );
+		StartCoroutine( CaptureOverlayRoutine() );
 
 		_screenshotRoutine = StartCoroutine( DelayedCaptureScreenshot() );
+	}
+
+	IEnumerator CaptureOverlayRoutine( int screenshotDetail = 4 )
+	{
+		UIManager.GetPanelOfType<PanelOverlay>().ScreenshotOverlay.color = Color.white;
+
+		yield return new WaitForEndOfFrame();
+
+		HandleScreenShot( screenshotDetail );
+
+		yield return new WaitForEndOfFrame();
+
+		UIManager.GetPanelOfType<PanelOverlay>().ScreenshotOverlay.color = new Color( 1.0f, 1.0f, 1.0f, 0.0f );
+
+
 	}
 }
