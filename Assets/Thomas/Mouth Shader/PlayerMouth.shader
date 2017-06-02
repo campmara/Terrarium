@@ -17,7 +17,6 @@ Shader "Custom/PlayerMouth" {
 
 		Tags{ "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Opaque" }
 		LOD 200
-		
 		CGPROGRAM
 		// Physically based Standard lighting model, and enable shadows on all light types
 		#pragma surface surf NoLighting fullforwardshadows alpha:auto vertex:vert
