@@ -6,9 +6,15 @@ public class BumbleGrowthController : SPGrowthController
 {
     [SerializeField] GameObject _leaf;
 
+    List<Animator> _leafAnimators = new List<Animator>();
     const int _numLeaves = 5;
     const int _layerCount = 3;
 
+    //DANCING VARIABLES
+    float _danceDelay = .15f;
+	float _singBufferTime = .6f;
+	float _enterTime = 0.0f;
+    bool _canDance = true;
     float _waitTime = 0.0f;
     float _leafScale = 0.0f;
 
@@ -77,6 +83,7 @@ public class BumbleGrowthController : SPGrowthController
 
         _waitTime = (((layerIndex * _numLeaves) + leafNumber) * .5f) / _growthRate;
 
+        _leafAnimators.Add( anim );
         _lastAnim = anim;
 
         StartCoroutine(WaitAndStart(newLeaf.transform.GetComponentInChildren<Animator>(), _waitTime));
@@ -104,6 +111,44 @@ public class BumbleGrowthController : SPGrowthController
         anim.Play(0);
     }
 
+    IEnumerator DanceBumbleDance()
+    {
+        foreach( Animator plant in _leafAnimators )
+	    {			
+            if( _canDance )
+            {
+                plant.SetBool("IsDancing", true );
+                yield return new WaitForSeconds( _danceDelay );
+            }
+            else
+            {
+                break;
+            }
+	    }
+    }
+
+    protected override void CustomizedSingAtPlant( bool entering )
+	{
+		SingController singCtrl = PlayerManager.instance.Player.GetComponent<SingController>();
+        if( singCtrl.State == SingController.SingState.SINGING && entering)
+        {
+            _enterTime = Time.time;
+            _canDance = true;
+            StartCoroutine( DanceBumbleDance() );
+        }
+        else 
+        {
+            if( !entering || (Time.time - _enterTime >= _singBufferTime ) )                
+            {
+                _canDance = false;
+                foreach( Animator plant in _leafAnimators )
+			    {
+			        plant.SetBool("IsDancing", false );
+		        }
+            }            
+        }
+	}
+
     private IEnumerator WaitToSpawnChild()
     {
         float _curTimeAnimated = _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime;
@@ -114,7 +159,6 @@ public class BumbleGrowthController : SPGrowthController
             _curTimeAnimated = _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime;
             yield return null;
         }
-
     }
 
     protected override void CustomStopGrowth()
