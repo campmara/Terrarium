@@ -14,7 +14,6 @@ public class HuppetChild : MonoBehaviour {
         animator = GetComponent<Animator>();
         SetRandomLayerWeight(animator);
         animator.speed = speed;
-        transform.localScale *= Random.Range(2f, 3f);
     }
 
     private void Update()

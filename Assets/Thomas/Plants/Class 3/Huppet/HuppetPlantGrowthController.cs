@@ -1,18 +1,10 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HuppetPlantGrowthController : BPGrowthController
 {
-    
-    [SerializeField]
-    private Transform _bStemRoot = null;
-    [SerializeField]
-    private GameObject _leafPrefab = null;
-
-    Vector3 _minScale = new Vector3(0.0f, 0.0f, 0.0f);
-    public Vector3 MinScale { get { return _minScale; } set { _minScale = value; } }
-    Vector3 _maxScale = new Vector3(14.0f, 14.0f, 14.0f);
+    [SerializeField] private Transform _bStemRoot = null;
+    [SerializeField] private GameObject _leafPrefab = null;
 
     private int _numChildren;
     private Transform[] _bones;
@@ -27,7 +19,7 @@ public class HuppetPlantGrowthController : BPGrowthController
     Transform _currentParent = null;
     Coroutine _leafSpawnRoutine = null;
     Animator _lastAnim = null;
-    bool _waiting = false;
+    public Animator huppetFruit;
 
     void Awake()
     {
@@ -35,111 +27,86 @@ public class HuppetPlantGrowthController : BPGrowthController
         _controllerType = ControllerType.Growth;
     }
 
-
     protected override void InitPlant()
     {
         base.InitPlant();
 
         _bones = _bStemRoot.GetComponentsInChildren<Transform>();
         _numChildren = _bones.Length; // we subtract one for them that exists there
-
         AnimatorStateInfo info = _plantAnim.GetCurrentAnimatorStateInfo(0);
         _timeBetweenLeafSpawns = (info.length / _baseGrowthRate) / _numChildren;
 
-        SetRandomLayerWeight(_plantAnim);
+        for (int i = 0; i < _plantAnim.layerCount; i++)
+        {
+            _plantAnim.SetLayerWeight(i, Random.Range(0, 2));
+        }
     }
 
     private IEnumerator SpawnLeaves()
     {
         _inverseIndex = _numChildren - _curChildSpawned;
-        _currentParent = _bones[_curChildSpawned];
+        _currentParent = _bones[0];
 
         _offset = Random.Range(0, 100);
+        _ringNumber = Random.Range(5, 8);
+        Animator leafAnim = null;
+
+        leafAnim = SetupLeaf(_inverseIndex);
+
         yield return new WaitForSeconds(_timeBetweenLeafSpawns);
-        if(_curChildSpawned > 2 && _curChildSpawned < 4)
-        {
-            SetupLeaf(0);
-        }
+
         _curChildSpawned++;
         _leafSpawnRoutine = null;
-    }
 
-    void SetRandomLayerWeight(Animator anim)
-    {
-        for (int i = 0; i < anim.layerCount; i++)
+        if (_numChildren == _curChildSpawned)
         {
-            anim.SetLayerWeight(i, Random.Range(.05f, 1));
+            _lastAnim = leafAnim;
         }
     }
 
-    void SetupLeaf(int index)
+    Animator SetupLeaf(int index)
     {
         GameObject leaf = Instantiate(_leafPrefab);
-        float variation = Random.Range(1, 10);
         Animator anim = leaf.GetComponent<Animator>();
         _childAnimators.Add(anim);
-
-        SetRandomLayerWeight(anim);
-        leaf.transform.parent = _currentParent;
+        leaf.transform.SetParent(_currentParent);
         leaf.transform.position = _currentParent.position;
-        leaf.transform.localPosition += leaf.transform.up * 0.015f;// * .25f * transform.localScale.x;
-        leaf.transform.rotation = Quaternion.Euler(new Vector3(Random.Range(0,360), 0, 90));
-        leaf.transform.rotation *= Quaternion.Euler(new Vector3(Random.Range(-180, 180), 0, 0));
-        leaf.transform.localScale = Vector3.one * .250f * Random.Range(.25f,1) + _currentParent.localScale * _curChildSpawned * .1f;
 
-		if( leaf.GetComponent<Renderer>() != null )
-		{
-			leaf.GetComponent<Renderer>().material.SetFloat( "_ColorSetSeed", _myPlant.ShaderColorSeed );
-		}
-		else if( leaf.GetComponentInChildren<Renderer>() != null )
-		{
-			leaf.GetComponentInChildren<Renderer>().material.SetFloat( "_ColorSetSeed", _myPlant.ShaderColorSeed );
-		}
+        if (leaf.GetComponent<Renderer>() != null)
+        {
+            leaf.GetComponent<Renderer>().material.SetFloat("_ColorSetSeed", _myPlant.ShaderColorSeed);
+        }
+        else if (leaf.GetComponentInChildren<Renderer>() != null)
+        {
+            leaf.GetComponentInChildren<Renderer>().material.SetFloat("_ColorSetSeed", _myPlant.ShaderColorSeed);
+        }
 
-        anim.speed *= _plantAnim.GetComponent<Animator>().speed * 2f;
+        //leaf.transform.localScale = _currentParent.localScale * _inverseIndex * .05f;//(inverseIndex * inverseIndex * .05f);
+        leaf.transform.Rotate(new Vector3(0, index * 360 / _ringNumber + _offset, 0));
+        leaf.transform.position -= leaf.transform.forward * .015f * transform.localScale.x;
+        anim.speed *= _plantAnim.GetComponent<Animator>().speed;
+
+        return anim;
     }
 
     protected override void CustomPlantGrowth()
     {
-        if (transform.localScale.x < _maxScale.x)
-        {
-            transform.localScale = Vector3.Lerp(_minScale, _maxScale, Mathf.SmoothStep(0, 1, _curPercentAnimated));
-        }
-
-        if (_leafSpawnRoutine == null && _curChildSpawned < _numChildren)
+        if (_leafSpawnRoutine == null && _curChildSpawned < _numChildren) // we subtract to get rid of the hula hoop
         {
             _leafSpawnRoutine = StartCoroutine(SpawnLeaves());
         }
 
         if (_lastAnim)
         {
-            if ( _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f )
+            if (_lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
             {
                 _myPlant.SwitchController(this);
             }
         }
 
-    }
-
-    protected override void CustomStopGrowth()
-    {
-        if (!_waiting)
+        if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f && !huppetFruit.enabled)
         {
-            _lastAnim = _childAnimators[_childAnimators.Count - 1];
-            StartCoroutine(WaitForLastLeaf());
+            huppetFruit.enabled = true;
         }
     }
-
-    private IEnumerator WaitForLastLeaf()
-    {
-        _waiting = true;
-        while ( _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f )
-        {
-            yield return null;
-        }
-
-        _waiting = false;
-        _myPlant.SwitchController(this);
-    }
-
 }
