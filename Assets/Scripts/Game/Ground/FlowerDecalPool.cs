@@ -8,7 +8,7 @@ public class FlowerDecalPool : MonoBehaviour {
     private ParticleSystem decalSystem;
     private ParticleSystem.EmitParams[] decalParticles;
 
-    float _flowerSpawnOffset = 0.25f;
+    float _flowerSpawnOffset = 0.45f;
 
     void Awake()
     {
@@ -25,7 +25,7 @@ public class FlowerDecalPool : MonoBehaviour {
             dataIndex = 0;
         }
 
-        Vector3 spawnOffset = JohnTech.GenerateRandomXZDirection() * _flowerSpawnOffset;
+        Vector3 spawnOffset = JohnTech.GenerateRandomXZDirection().normalized * Random.Range( _flowerSpawnOffset * 0.5f, _flowerSpawnOffset );
        
         decalParticles[dataIndex].position = pos + spawnOffset;
 

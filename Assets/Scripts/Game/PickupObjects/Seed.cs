@@ -20,6 +20,8 @@ public class Seed : Pickupable
 
 	[SerializeField] Vector2 _sinkSpeedRange = new Vector2( 10.0f, 20.0f );
 
+	Coroutine _plantWaitRoutine = null;
+
 	void Awake()
 	{
 		base.Awake();
@@ -61,7 +63,15 @@ public class Seed : Pickupable
             _sinkTween = null;
 		}
 
+		if( _plantWaitRoutine != null )
+		{
+			StopCoroutine( _plantWaitRoutine );
+			_plantWaitRoutine = null;
+		}
+
 		base.OnPickup( grabTransform );
+
+		_hasFallen = false;
 
 		_rigidbody.velocity = Vector3.zero;
 	}
@@ -82,6 +92,12 @@ public class Seed : Pickupable
 	{
 		if( _sinkTween == null )
 		{
+			if( _plantWaitRoutine != null )
+			{
+				StopCoroutine( _plantWaitRoutine );
+				_plantWaitRoutine = null;
+			}
+
 			Vector3 plantPos = new Vector3( transform.position.x, 0.0f, transform.position.z ); 
 			GameObject mound = Instantiate( _moundPrefab, plantPos, Quaternion.identity ) as GameObject; 
 			PlantManager.instance.AddMound( mound.GetComponent<BasePlant>()  );
@@ -92,12 +108,35 @@ public class Seed : Pickupable
 
 	void BeginSelfPlant()
 	{
-		if( _sinkTween == null )
+		if( !_hasFallen )
+		{
+			if( _plantWaitRoutine == null && _sinkTween == null  )
+			{
+				StartCoroutine( DelayedBeginSelfPlant() );
+			}
+			else
+			{
+				Debug.Log( "Already Waiting to Fall & Plant", this );
+			}
+		}
+		else if( _sinkTween == null )
 		{
 			Vector3 endPos = this.transform.position + (Vector3.down * 0.36f);
 			float sinkTime = Random.Range( _sinkSpeedRange.x, _sinkSpeedRange.y );
 
 			_sinkTween = this.transform.DOMove( endPos, sinkTime ).OnComplete( EndSelfPlant );
+		}
+	}
+
+	IEnumerator DelayedBeginSelfPlant()
+	{
+		yield return new WaitUntil( () => _hasFallen );
+
+		int dieRoll = (int)Random.Range( 0, 100 );
+
+		if( dieRoll <= _selfPlantProbability )
+		{
+			BeginSelfPlant();
 		}
 	}
 
