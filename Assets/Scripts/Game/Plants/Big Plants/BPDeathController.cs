@@ -23,7 +23,7 @@ public class BPDeathController : PlantController
 	Color[] _interpColors = new Color[6];
 	int[] _shaderIDs = new int[3];
 
-	private float _fadeTime;
+	private float _fadeTime = 20f;
 	private float _cutoffValue;
 	private bool _markedForDeath;
 	
@@ -124,7 +124,6 @@ public class BPDeathController : PlantController
 
 			// DEFINE SOME VALUES
 			_cutoffValue = 0f;
-			_fadeTime = Random.Range(5f, 7f);
 
 			ParticleSystem.MainModule essenceMain = _treeBubbleSystem.main;
 			essenceMain.startColor = _componentMaterials[0].GetColor(_shaderIDs[1]);
