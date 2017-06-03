@@ -79,6 +79,7 @@ Shader "Custom/Waterball"
 		CGPROGRAM
 #pragma surface surf WaterPlayer vertex:vert addshadow
 #pragma target 3.0
+		
 
 		#include "Noise.cginc"
 
@@ -308,7 +309,7 @@ Shader "Custom/Waterball"
 			}
 
 			//mix gradient with mouth color
-			gradient = lerp(_ColorBot, gradient, mainTex.r);
+			gradient = lerp(gradient, mainTex.rgba, mainTex.a);
 
 			//mix em'
 			fixed4 finalCol = lerp(gradient, col * gradient, _ColorFog);
