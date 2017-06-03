@@ -135,8 +135,6 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 		_paletteIndex = 0;
 		_activePalette = _environmentPaletteList[_paletteOrderList[_paletteIndex]];
 		UpdatePalette( _paletteOrderList[_paletteIndex] );	
-
-		StartCoroutine( PaletteChangeTimer() );
 	}
 
 	public override void Initialize ()
@@ -494,10 +492,8 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 
 	}
 
-	IEnumerator PaletteChangeTimer()
+	public void SwitchPalette()
 	{
-		yield return new WaitForSeconds( UnityEngine.Random.Range( PALATTE_ADVANCETIMER_MIN, PALATE_ADVANCETIMER_MAX ) );
-
 		_paletteIndex++;
 		if( _paletteIndex >= _paletteOrderList.Count )
 		{
@@ -505,10 +501,5 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 		}
 
 		UpdatePalette( _paletteOrderList[_paletteIndex] );
-
-		yield return new WaitForSeconds( PALETTE_TRANSITIONTIME );
-
-		StartCoroutine( PaletteChangeTimer() );
 	}
-
 }
