@@ -15,6 +15,7 @@ public class Seed : Pickupable
 	const int  _selfPlantProbability = 50;
 	const float _searchRadius = 30.0f;
 	Tween _sinkTween = null;
+	Collider _col;
 
     const float WIND_FORCESCALAR = 0.5f;
 
@@ -26,6 +27,7 @@ public class Seed : Pickupable
 	{
 		base.Awake();
 		_moundType = _moundPrefab.GetComponent<BasePlant>().MyPlantType;
+		_col = GetComponent(typeof(Collider)) as Collider;
 
 		float endScale = transform.localScale.x;
 		this.transform.DOScale( endScale, 3.0f );//.OnComplete( EndSelfPlant );
@@ -74,6 +76,7 @@ public class Seed : Pickupable
 		_hasFallen = false;
 
 		_rigidbody.velocity = Vector3.zero;
+		_col.isTrigger = true;
 	}
 
 	public override void DropSelf()
@@ -81,6 +84,7 @@ public class Seed : Pickupable
 		base.DropSelf();
         BeginSelfPlant();
 		_timeSinceLastPickup = 0.0f;
+		_col.isTrigger = false;
 	}
 
 	public void DropOnRitual()
