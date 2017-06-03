@@ -344,7 +344,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _grassPrefab: {fileID: 1196480962303788, guid: 8264a3809547a411a9ed037d397d9600,
     type: 2}
-  _grassDensity: 100
   waterSplatDecalPool: {fileID: 114598903899978766}
   flowerSplatDecalPool:
   - {fileID: 114399413642431482}
@@ -560,7 +559,7 @@ ParticleSystem:
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
       minColor: {r: 0.41568628, g: 0.5058824, b: 0.30980393, a: 1}
-      maxColor: {r: 0.88235295, g: 0.82329077, b: 0.6682526, a: 1}
+      maxColor: {r: 0.74264705, g: 0.5963019, b: 0.37678418, a: 1}
     startSize:
       minMaxState: 0
       scalar: 1
@@ -3384,7 +3383,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 972691415
+  randomSeed: 1438496353
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -6340,7 +6339,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -93394399
+  randomSeed: 618705162
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -9255,7 +9254,7 @@ ParticleSystemRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3ac787fd1384d5b409ed32567aacb0fa, type: 2}
+  - {fileID: 2100000, guid: a5de4a5327446264babed096a927b241, type: 2}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
