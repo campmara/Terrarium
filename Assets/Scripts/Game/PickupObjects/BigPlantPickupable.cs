@@ -20,9 +20,13 @@ public class BigPlantPickupable : Pickupable {
     const float BIGPLANT_SHIVERDURATIONDEC = 0.01f;
     const float BIGPLANT_SHIVERDIST = 0.075f;
 
+    public bool TreeShaken { get { return wentBack || wentForward; } }
     bool wentForward = false;
     bool wentBack = false;
     Coroutine _springRoutine = null;
+
+    public void SetupBubbles(TreeBubbleParticles bub) { bubbles = bub; }
+    TreeBubbleParticles bubbles;
 
 	void FixedUpdate()
 	{
@@ -132,6 +136,11 @@ public class BigPlantPickupable : Pickupable {
         if (this.GetComponent<PickupCollider>() != null)
         {
             this.GetComponent<PickupCollider>().LockedRotation = true;
+        }
+
+        if (bubbles != null)
+        {
+            bubbles.OnPlantLetGo();
         }
 
 		_springRoutine = null;
