@@ -1882,9 +1882,8 @@ MonoBehaviour:
   - {x: 0.75, y: 1.25}
   - {x: 1.25, y: 1.75}
   - {x: 1.75, y: 2.5}
-  - {x: 2.5, y: 3.25}
   _currSingPitchRange: {x: 0, y: 0}
-  _voiceChangeWaitRange: {x: 20, y: 40}
+  _voiceChangeWaitRange: {x: 30, y: 100}
   _stopVolume: 0
   _baseFlowerSpawnWait: 1.5
   _flowerSpawnWaitIncrease: 0.25
