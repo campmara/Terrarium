@@ -17,11 +17,16 @@ public class TreeBubbleParticles : MonoBehaviour
 	public void Setup(BigPlantPickupable parent)
 	{
 		parentPickupable = parent;
-		parentPickupable.SetupBubbles(this);
+		if (parentPickupable)
+		{
+			parentPickupable.SetupBubbles(this);
+		}
 	}
 
 	void Update()
 	{
+		if (!parentPickupable) return;
+
 		if (readyToLetLoose == false && parentPickupable.TreeShaken)
 		{
 			readyToLetLoose = true;
@@ -50,6 +55,8 @@ public class TreeBubbleParticles : MonoBehaviour
 
 			particles[i].remainingLifetime = 0f;
 		}
+
+		readyToLetLoose = false;
 	}
 
 	public void KillAllBubbles()
