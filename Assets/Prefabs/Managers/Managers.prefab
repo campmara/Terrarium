@@ -6582,6 +6582,13 @@ MonoBehaviour:
   - ControllerName: PLAYER_SING
     _audioClipList:
     - {fileID: 8300000, guid: d1f3bf06ef45548c98fa3d45b8de89e0, type: 3}
+    - {fileID: 8300000, guid: a9694ad29285642d1910236d72c6a408, type: 3}
+    - {fileID: 8300000, guid: c14794446be214cfc957684ad0e96fb0, type: 3}
+    - {fileID: 8300000, guid: 104f868655c2e4b5ba1b72676c54eb22, type: 3}
+    - {fileID: 8300000, guid: eb8d4c2932e99473d96bd11787e6039f, type: 3}
+    - {fileID: 8300000, guid: 17127db74f05d410ca7e489a1d65f449, type: 3}
+    - {fileID: 8300000, guid: c83eeda8e9cf540cfb69328b7f4742e6, type: 3}
+    - {fileID: 8300000, guid: 04d5a54ee94e648fb9fd1dd9dd5e42c5, type: 3}
     _mixerGroup: {fileID: 243970327439256478, guid: 30f3aa683f5543d469208f1bb641c945,
       type: 2}
     _volume: 1
