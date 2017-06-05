@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 114392893053701496}
   - component: {fileID: 114015357703789478}
   m_Layer: 0
-  m_Name: Huppet
+  m_Name: Plant_Huppet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -224,7 +224,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1268358152272014}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.92, y: 0, z: 7.19}
+  m_LocalPosition: {x: 3.21, y: 0, z: -11.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4667296137581004}
@@ -517,19 +517,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51f89bf1729f08b41a125c4acd20d848, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseGrowthRate: 0.125
-  _scaleMultiplierRange: {x: 1, y: 1}
+  _baseGrowthRate: 0.02
+  _scaleMultiplierRange: {x: 4, y: 5}
   _scaleRatios:
   - {x: 1, y: 1}
   _wateredGrowthRate: 1
   _curPercentAnimated: 0
   _curStage: 0
-  _droppingItems: []
-  _punishObject: {fileID: 0}
-  _coverSpawnerPrefab: {fileID: 0}
-  _mediumSpawnables: []
+  _droppingItems:
+  - {fileID: 1261253386730094, guid: bc1c0a0bd8a10a14d966be28e3d9fcb1, type: 2}
+  _punishObject: {fileID: 100000, guid: c1301e808bb5eb24f81f878cfcf8bcb3, type: 3}
+  _coverSpawnerPrefab: {fileID: 1581055790355646, guid: 35a19a2c0c79e41f88b49cfde262634d,
+    type: 2}
+  _mediumSpawnables:
+  - {fileID: 1458512460791080, guid: b57730e1fe6d47543bd59d40b6ea86ee, type: 2}
   spawnState: 0
-  _bStemRoot: {fileID: 4667296137581004}
+  _bStemRoot: {fileID: 4173664491776004}
   _leafPrefab: {fileID: 1686325247703568, guid: 499ae0c489ed78d47bd6b7af70ffbc46,
     type: 2}
   huppetFruit: {fileID: 95002179270974390}

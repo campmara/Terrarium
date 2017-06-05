@@ -20,6 +20,7 @@ public class HuppetPlantGrowthController : BPGrowthController
     Coroutine _leafSpawnRoutine = null;
     Animator _lastAnim = null;
     public Animator huppetFruit;
+    float _fruitTriggerTime = .9f;
 
     void Awake()
     {
@@ -31,8 +32,10 @@ public class HuppetPlantGrowthController : BPGrowthController
     {
         base.InitPlant();
 
+        transform.localPosition -= new Vector3(0, .1f, 0);
+
         _bones = _bStemRoot.GetComponentsInChildren<Transform>();
-        _numChildren = _bones.Length; // we subtract one for them that exists there
+        _numChildren = Random.Range(1, 6); // we subtract one for them that exists there
         AnimatorStateInfo info = _plantAnim.GetCurrentAnimatorStateInfo(0);
         _timeBetweenLeafSpawns = (info.length / _baseGrowthRate) / _numChildren;
 
@@ -81,10 +84,10 @@ public class HuppetPlantGrowthController : BPGrowthController
             leaf.GetComponentInChildren<Renderer>().material.SetFloat("_ColorSetSeed", _myPlant.ShaderColorSeed);
         }
 
-        //leaf.transform.localScale = _currentParent.localScale * _inverseIndex * .05f;//(inverseIndex * inverseIndex * .05f);
+        leaf.transform.localScale = Vector3.one * Random.Range(.8f, .9f);//(inverseIndex * inverseIndex * .05f);
         leaf.transform.Rotate(new Vector3(0, index * 360 / _ringNumber + _offset, 0));
         leaf.transform.position -= leaf.transform.forward * .015f * transform.localScale.x;
-        anim.speed *= _plantAnim.GetComponent<Animator>().speed;
+        anim.speed = _plantAnim.GetComponent<Animator>().speed * 1.25f;
 
         return anim;
     }
@@ -104,7 +107,7 @@ public class HuppetPlantGrowthController : BPGrowthController
             }
         }
 
-        if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f && !huppetFruit.enabled)
+        if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime >= _fruitTriggerTime && !huppetFruit.enabled)
         {
             huppetFruit.enabled = true;
         }

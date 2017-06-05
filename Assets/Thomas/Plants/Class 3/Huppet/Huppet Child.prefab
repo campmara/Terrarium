@@ -143,7 +143,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4480707546025208}
   - component: {fileID: 54749272565556674}
-  - component: {fileID: 135517864619500182}
   - component: {fileID: 95206281084811438}
   - component: {fileID: 114186633920206524}
   m_Layer: 0
@@ -276,7 +275,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1686325247703568}
   m_LocalRotation: {x: 0.000000012617146, y: 0.00000020334998, z: 0.06466741, w: 0.99790686}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 2.2136292, y: 0, z: -11.813221}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4315242007221396}
@@ -469,18 +468,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   huppetFruit: {fileID: 95507026612871284}
   speed: 0.15
---- !u!135 &135517864619500182
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1686325247703568}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.04
-  m_Center: {x: 0, y: 0.025, z: 0}
 --- !u!137 &137735431862842822
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
