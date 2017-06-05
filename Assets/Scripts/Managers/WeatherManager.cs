@@ -52,8 +52,8 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
     const float WINDPEAK_WAITMIN = 15.0f;
     const float WINDPEAK_WAITMAX = 20.0f;
 
-    const float WINDRISE_MINTIME = 0.5f;
-    const float WINDRISE_MAXTIME = 2.0f;
+    const float WINDRISE_MINTIME = 15.5f;
+    const float WINDRISE_MAXTIME = 30.0f;
 
     const float WINDEND_MINTIME = 0.5f;
     const float WINDEND_MAXTIME = 2.0f;
