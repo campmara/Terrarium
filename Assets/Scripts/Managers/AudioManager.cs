@@ -130,7 +130,8 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 		OPENING_CHORD,
 		SUBTLE_MUSIC,
 		FULL_MUSIC,
-		WIND
+		WIND,
+		PLANT_FX
 	}
 
 
