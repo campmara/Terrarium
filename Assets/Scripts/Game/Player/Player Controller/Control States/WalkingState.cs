@@ -158,16 +158,29 @@ public class WalkingState : RollerState
             {
                 _armUpTimer += Time.deltaTime;
 
-                if( _armUpTimer >= 3.0f && !_armUpFacePosed )
+                if( _armUpTimer >= 2f && !_armUpFacePosed )
                 {
                     _armUpFacePosed = true;
-                    _roller.Face.TransitionFacePose( "Arms Up", true );
+					int _gestureIndex = _roller.IK.GetGestureIndex();
+					if( _gestureIndex <= 1 )
+					{
+						_roller.Face.TransitionFacePose( "Arms Up" );
+					}
+					else if( _gestureIndex == 2 )
+					{
+						_roller.Face.TransitionFacePose( "Arms Hug" );
+					}
+					else if( _gestureIndex == 3 )
+					{
+						_roller.Face.TransitionFacePose( "Arms Fly" );
+					}
                 }
             }
-            else
+			else if( _armUpFacePosed )
             {
                 _armUpFacePosed = false;
                 _armUpTimer = 0.0f;
+				_roller.Face.BecomeIdle();
             }
 
             // B BUTTON

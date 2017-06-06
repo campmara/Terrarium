@@ -582,6 +582,11 @@ public class RollerController : ControllerBase
 			{
 				_face.TransitionFacePose( "Squirrel", true );
 			}
+			else if( other.GetComponent<SmallPlantPickupable>() )
+			{
+				AudioManager.instance.PlayRandomAudioClip( AudioManager.AudioControllerNames.PLANT_FX );
+			}
+
 		}
 
 	}

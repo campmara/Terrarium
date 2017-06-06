@@ -6713,6 +6713,17 @@ MonoBehaviour:
     _playOnAwake: 1
     _loop: 1
     _pitch: 1
+  - ControllerName: PLANT_FX
+    _audioClipList:
+    - {fileID: 8300000, guid: 88e4030d87f5b1e4492ccfc3c4327bf3, type: 3}
+    - {fileID: 8300000, guid: 32e1d1e20c1699e46b445e2b578c1619, type: 3}
+    - {fileID: 8300000, guid: 31ec5f9f0c14afa429ef97116c89a29b, type: 3}
+    _mixerGroup: {fileID: 243835867210776376, guid: 30f3aa683f5543d469208f1bb641c945,
+      type: 2}
+    _volume: 1
+    _playOnAwake: 0
+    _loop: 0
+    _pitch: 1
 --- !u!114 &114804556110679380
 MonoBehaviour:
   m_ObjectHideFlags: 1
