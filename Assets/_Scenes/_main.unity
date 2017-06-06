@@ -1360,6 +1360,53 @@ Transform:
   m_Father: {fileID: 757412599}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &141618819
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4302322569310402, guid: b116cff499e3a4c14b3a2b78496f3139, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -5.2033434
+      objectReference: {fileID: 0}
+    - target: {fileID: 4302322569310402, guid: b116cff499e3a4c14b3a2b78496f3139, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4302322569310402, guid: b116cff499e3a4c14b3a2b78496f3139, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 9.70624
+      objectReference: {fileID: 0}
+    - target: {fileID: 4302322569310402, guid: b116cff499e3a4c14b3a2b78496f3139, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4302322569310402, guid: b116cff499e3a4c14b3a2b78496f3139, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4302322569310402, guid: b116cff499e3a4c14b3a2b78496f3139, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4302322569310402, guid: b116cff499e3a4c14b3a2b78496f3139, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4302322569310402, guid: b116cff499e3a4c14b3a2b78496f3139, type: 2}
+      propertyPath: m_RootOrder
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 114174503958260724, guid: b116cff499e3a4c14b3a2b78496f3139,
+        type: 2}
+      propertyPath: _baseGrowthRate
+      value: 0.5
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: b116cff499e3a4c14b3a2b78496f3139, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &141807920
 GameObject:
   m_ObjectHideFlags: 0
@@ -7736,18 +7783,18 @@ MonoBehaviour:
     - serializedVersion: 2
       time: 0.003486638
       value: 0
-      inSlope: 2.9157934
-      outSlope: 2.9157934
+      inSlope: -0.039300084
+      outSlope: -0.039300084
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.49706286
-      value: 0.94380236
+      time: 0.59887874
+      value: 0.90200096
       inSlope: 1.4569265
-      outSlope: 0.009773776
+      outSlope: 0.03145653
       tangentMode: 65
     - serializedVersion: 2
-      time: 1
-      value: 0.94871795
+      time: 0.9983308
+      value: 0.91456634
       inSlope: 0.0501519
       outSlope: 0.0501519
       tangentMode: 0
