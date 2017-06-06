@@ -23,7 +23,7 @@ public class WalkingState : RollerState
         case P_ControlState.ROLLING:            
                 CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
                 //PlayerManager.instance.Player.AnimationController.PlayRollToWalkAnim();
-                _rollPosTween = _roller.RollSphere.transform.DOMoveY( 1.25f, RollerConstants.instance.RollExitSpeed ).SetEase( Ease.Linear );                
+			_rollPosTween = _roller.RollSphere.transform.DOMoveY( 1.25f, RollerConstants.instance.RollExitSpeed ).SetEase( Ease.Linear ).OnComplete( () => TransitionFromRollComplete() );                
                 break;       
         }
 
@@ -207,9 +207,9 @@ public class WalkingState : RollerState
         }
         else
         {
-            if( _rollPosTween.ElapsedPercentage() >= 0.75f )
+            if( _rollPosTween.ElapsedPercentage() >= 0.9f )
             {
-                TransitionFromRollComplete();
+                //TransitionFromRollComplete();
             }
         }
         
