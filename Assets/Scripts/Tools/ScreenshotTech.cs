@@ -10,6 +10,9 @@ public class ScreenshotTech : MonoBehaviour {
 	const string SCREENSHOT_INDEXSAVEKEY = "ScreenshotIndex";
 	const string SCREENSHOT_SAVEFOLDERNAME = "Screenshots";
 
+    Coroutine _overlayScreenshotRoutine = null;
+    [SerializeField] float _overlayDisableDelay = 0.0f;
+
 	// Use this for initialization
 	void Awake () 
 	{		
@@ -77,10 +80,16 @@ public class ScreenshotTech : MonoBehaviour {
 
 		HandleScreenShot( screenshotDetail );
 
-		yield return new WaitForEndOfFrame();
+        if( _overlayDisableDelay > 0.0f )
+        {
+            yield return new WaitForSeconds( _overlayDisableDelay );
+        }
+        else
+        {
+            yield return new WaitForEndOfFrame();
+        }
 
-		UIManager.GetPanelOfType<PanelOverlay>().ScreenshotOverlay.color = new Color( 1.0f, 1.0f, 1.0f, 0.0f );
-
+        UIManager.GetPanelOfType<PanelOverlay>().ScreenshotOverlay.color = new Color( 1.0f, 1.0f, 1.0f, 0.0f );
 
 	}
 }
