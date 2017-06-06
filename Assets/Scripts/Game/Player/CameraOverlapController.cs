@@ -61,8 +61,9 @@ public class CameraOverlapController : MonoBehaviour {
 			{
 				_otherObject = col.GetComponent<Collider>();
 
-				_distRange.x = _col.radius;
-				//_distRange.x = Vector3.Distance( col.contacts[0].point, col.gameObject.transform.position ) + _col.radius;
+                //_distRange.x = _col.radius;
+                Vector3 pointClosestToSphere = col.ClosestPoint( this.transform.position + ( ( col.gameObject.transform.position - this.transform.position ).normalized * _col.radius ) );
+				_distRange.x = Vector3.Distance( pointClosestToSphere, col.gameObject.transform.position ) + _col.radius;
 
 				_inObject = true;	
 			}

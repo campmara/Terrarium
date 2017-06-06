@@ -6,10 +6,10 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: MoteMat
-  m_Shader: {fileID: 200, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: _COLORSETENABLED_ON _EMISSION _WINDENABLED_ON
-  m_LightmapFlags: 1
+  m_Name: SlugMouthMat
+  m_Shader: {fileID: 4800000, guid: cade45a53f884bf41800371fc8f89e84, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -38,10 +38,14 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 5a2e7fd9c2e4e5346a21a6a7fe2d5009, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -53,55 +57,28 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SplatTex:
+    - _SecondaryTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _BlendBasedOnSplatmap: 0
     - _BumpScale: 1
-    - _ColorSetEnabled: 1
-    - _ColorSetSeed: 0
-    - _Columns: 8
-    - _CurrentColorSet: 2
-    - _Cutoff: 1
-    - _CutoffEdgeScale: 0.45
-    - _CutoffNoiseScale: 10
-    - _Deformation: 0
+    - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
-    - _Dissolve: 0
     - _DstBlend: 0
-    - _FrameNumber: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Hardness: 0.5
-    - _ImprintAmount: 1
-    - _InvFade: 1
+    - _Hardness: 1
     - _Metallic: 0
-    - _Middle: 0.5
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _ResultScale: 2
-    - _Rows: 3
-    - _Sensitivity: 15
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _SplatmapEnabled: 0
     - _SrcBlend: 1
-    - _ToggleBillboard: 0
-    - _ToggleVertexColorAnim: 0
-    - _TotalFrames: 1
     - _UVSec: 0
-    - _WindEnabled: 1
     - _ZWrite: 1
     m_Colors:
-    - _BlendOffset: {r: -0.5, g: -0.5, b: -0.5, a: 0}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color2: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorBot: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorMid: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorTop: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.875, g: 0.35386032, b: 0.6590193, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _TintColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}

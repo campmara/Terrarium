@@ -209,16 +209,17 @@ public class FaceManager : MonoBehaviour
 	void StartFaceTransition( FacePose newPose )
 	{
 		Debug.Assert( newPose != null );
-
-		if( _facePoseRoutine != null )
-		{
-			StartCoroutine( WaitForFaceTransition( newPose ) );
-		}
-		else
-		{
-			_facePoseRoutine = StartCoroutine( FaceTransitionRoutine( newPose ) );
-		}
-	
+        if( this.isActiveAndEnabled )
+        {
+            if (_facePoseRoutine != null)
+            {
+                StartCoroutine( WaitForFaceTransition( newPose ) );
+            }
+            else
+            {
+                _facePoseRoutine = StartCoroutine( FaceTransitionRoutine( newPose ) );
+            }
+        }
 	}
 
 	/// <summary>
