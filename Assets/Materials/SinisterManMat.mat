@@ -74,7 +74,7 @@ Material:
     - _Middle: 0.5
     - _Mode: 0
     - _NoiseAmplitude: 0.4
-    - _NoiseScale: 5
+    - _NoiseScale: 1
     - _NoiseSpeed: 3
     - _OcclusionStrength: 1
     - _Parallax: 0.02
