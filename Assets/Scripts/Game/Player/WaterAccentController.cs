@@ -25,4 +25,9 @@ public class WaterAccentController : MonoBehaviour {
             _mixer.audioMixer.SetFloat( waterAccentVolID, Mathf.Lerp( _waterAccentVolRange.min, _waterAccentVolRange.max, velocityInterp ) );
         }
     }
+
+    public void SetWaterAccentPitch( float pitch )
+    {
+        _source.pitch = pitch;
+    }
 }
