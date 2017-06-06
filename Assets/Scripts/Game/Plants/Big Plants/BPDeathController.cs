@@ -126,8 +126,8 @@ public class BPDeathController : PlantController
 			_cutoffValue = 0f;
 
 			ParticleSystem.MainModule essenceMain = _treeBubbleSystem.main;
-			essenceMain.startColor = _componentMaterials[0].GetColor(_shaderIDs[1]);
-			essenceMain.duration = _fadeTime;
+			essenceMain.startColor = _componentMaterials[0].GetColor(_shaderIDs[0]);
+			essenceMain.duration  = _fadeTime - 7f;
 
 			_treeBubbleSystem.Play();
 
@@ -140,11 +140,16 @@ public class BPDeathController : PlantController
 		}
 	}
 
+	private void StartBubbling()
+	{
+		_treeBubbleSystem.Play();
+	}
+
 	protected virtual void OnDeath()
 	{
 		// Fully decayed and therefore no longer visible.
 		_treeBubbleSystem.Stop();
-		_treeBubbleSystem.GetComponent<TreeBubbleParticles>().MarkForDestroy(5f);
+		_treeBubbleSystem.GetComponent<TreeBubbleParticles>().MarkForDestroy(10f);
 
 		_markedForDeath = true;
 	}
