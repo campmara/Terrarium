@@ -10,8 +10,17 @@ public class ScreenshotTech : MonoBehaviour {
 	const string SCREENSHOT_INDEXSAVEKEY = "ScreenshotIndex";
 	const string SCREENSHOT_SAVEFOLDERNAME = "Screenshots";
 
-	// Use this for initialization
-	void Awake () 
+    [SerializeField]
+    bool _useOverlay = true;
+    Coroutine _overlayScreenshotRoutine = null;
+    [SerializeField] float _overlayDisableDelay = 0.0f;
+    [SerializeField]
+    float _overlayFadeTime = 0.1f;
+    [SerializeField]
+    float _overlayMaxAlphaValue = 0.75f;
+
+    // Use this for initialization
+    void Awake () 
 	{		
 
 		#if !UNITY_EDITOR
@@ -34,8 +43,19 @@ public class ScreenshotTech : MonoBehaviour {
 	void Update () 
 	{
         if ( Input.GetKeyDown( KeyCode.P ) )
-        {			
-			StartCoroutine( CaptureOverlayRoutine() );
+        {
+            if( _useOverlay )   // Only does overlay routine if active 
+            {
+                if (_overlayScreenshotRoutine == null)
+                {
+                    _overlayScreenshotRoutine = StartCoroutine( CaptureOverlayRoutine() );
+                }
+            }
+            else
+            {
+                HandleScreenShot();
+            }
+            
         }
         else if ( Input.GetKeyDown( KeyCode.Alpha9 ) )
         {
@@ -71,16 +91,47 @@ public class ScreenshotTech : MonoBehaviour {
 
 	IEnumerator CaptureOverlayRoutine( int screenshotDetail = 4 )
 	{
-		UIManager.GetPanelOfType<PanelOverlay>().ScreenshotOverlay.color = Color.white;
+        float timer = 0.0f;
+        Color overlayColor = new Color( 1.0f, 1.0f, 1.0f, 0.0f );
 
-		yield return new WaitForEndOfFrame();
+        while ( timer < _overlayFadeTime)
+        {
+            timer += Time.deltaTime;
+
+            overlayColor.a = Mathf.Lerp( 0.0f, _overlayMaxAlphaValue, timer / _overlayFadeTime );
+            UIManager.GetPanelOfType<PanelOverlay>().ScreenshotOverlay.color = overlayColor;
+
+            yield return 0;
+        }
+        overlayColor.a = _overlayMaxAlphaValue;
+        UIManager.GetPanelOfType<PanelOverlay>().ScreenshotOverlay.color = overlayColor;
+
+        yield return new WaitForEndOfFrame();
 
 		HandleScreenShot( screenshotDetail );
 
-		yield return new WaitForEndOfFrame();
+        if( _overlayDisableDelay > 0.0f )
+        {
+            yield return new WaitForSeconds( _overlayDisableDelay );
+        }
+        else
+        {
+            yield return new WaitForEndOfFrame();
+        }
 
-		UIManager.GetPanelOfType<PanelOverlay>().ScreenshotOverlay.color = new Color( 1.0f, 1.0f, 1.0f, 0.0f );
+        timer = 0.0f;
 
+        while ( timer < _overlayFadeTime )
+        {
+            timer += Time.deltaTime;
 
+            overlayColor.a = Mathf.Lerp( _overlayMaxAlphaValue, 0.0f, timer / _overlayFadeTime );
+            UIManager.GetPanelOfType<PanelOverlay>().ScreenshotOverlay.color = overlayColor;
+
+            yield return 0;
+        }
+        UIManager.GetPanelOfType<PanelOverlay>().ScreenshotOverlay.color = new Color( 1.0f, 1.0f, 1.0f, 0.0f );
+
+        _overlayScreenshotRoutine = null;
 	}
 }
