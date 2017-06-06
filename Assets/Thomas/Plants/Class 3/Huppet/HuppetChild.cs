@@ -6,6 +6,8 @@ public class HuppetChild : MonoBehaviour {
 
     private Animator animator;
     public Animator huppetFruit;
+    public Transform endBone;
+
     public float speed = .15f;
     float _fruitTriggerTime = .9f;
 
@@ -19,6 +21,10 @@ public class HuppetChild : MonoBehaviour {
 
     private void Update()
     {
+        huppetFruit.transform.position = endBone.position;
+        huppetFruit.transform.rotation = endBone.rotation;
+        huppetFruit.transform.Rotate(new Vector3(0, 90, 0));
+
         if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= _fruitTriggerTime && !huppetFruit.enabled)
         {
             huppetFruit.enabled = true;

@@ -129,8 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 383399452f6ba4461be2a59e661615d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pAssetKey: -1
-  _type: 4
+  _type: 7
   _deathDuration: 0
   _DeathDurationRange: {x: 80, y: 100}
   _DeathTimer: 0

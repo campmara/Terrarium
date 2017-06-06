@@ -7,7 +7,7 @@ public class MoundGrowthController : PlantController
 	[SerializeField] GameObject _basePlantPrefab = null;
 	[SerializeField] bool _starterMound = false;
 
-	Vector2 _sproutGrowthRange = new Vector2( 1.0f, 2.4f);
+	[SerializeField] Vector2 _sproutGrowthRange = new Vector2( 1.0f, 2.4f);
 	Transform _sprout = null;
 	Transform _dirt = null;
 	const float _dirtHiddenHeight = -.15f;
@@ -91,7 +91,7 @@ public class MoundGrowthController : PlantController
 			BPGrowthController controller = plant.GetComponent<BPGrowthController>();
 			if ( controller )
 			{
-			controller.UpdateToMoundScale( _sprout.transform.lossyScale.x );
+				controller.UpdateToMoundScale( _sprout.transform.lossyScale.x );
 			}
 
 			PlantManager.instance.AddBasePlant( plant );
@@ -104,7 +104,7 @@ public class MoundGrowthController : PlantController
 	public override void StopState()
 	{
 		// don't even switch controllers just kill here 
-		_sinkTween = _sprout.DOScale( Vector3.zero, 2.0f).OnComplete( () => PlantManager.instance.DeleteMound( _myPlant ) );
+		_sinkTween = _sprout.DOScale( Vector3.zero, 1.6f).OnComplete( () => PlantManager.instance.DeleteMound( _myPlant ) );
 	}
 		
 	public override void WaterPlant()

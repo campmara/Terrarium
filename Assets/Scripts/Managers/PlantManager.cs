@@ -30,13 +30,6 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 	List<BasePlant> _mounds = new List<BasePlant>();
 
 	public static event System.Action ExecuteGrowth;
-
-    private void Awake()
-    {
-        SaveManager.PrepSave += HandleSave;
-        SaveManager.CompleteLoad += HandleLoad;
-    }
-
     public override void Initialize ()
 	{
 		isInitialized = true;
@@ -165,12 +158,6 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		largePlants += _floweringPlants.Count;
 		return largePlants;
 	}
-    private void OnDestroy()
-    {
-        SaveManager.PrepSave -= HandleSave;
-        SaveManager.CompleteLoad -= HandleLoad;
-    }
-
 	void DropSeed( Vector3 spawnPoint, BasePlant.PlantType plantType )
 	{
 		GameObject seed = null;

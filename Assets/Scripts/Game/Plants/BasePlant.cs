@@ -2,10 +2,7 @@
 using UnityEngine;
 
 public class BasePlant : MonoBehaviour
-{
-	[SerializeField] protected BasePlantAssetKey _pAssetKey = BasePlantAssetKey.NONE;
-	public BasePlantAssetKey PAssetKey { get { return _pAssetKey; } set { _pAssetKey = value; } }
-	protected float _innerMeshRadius = 0.3f;
+{	protected float _innerMeshRadius = 0.3f;
 	public float InnerRadius { get { return _innerMeshRadius; } set { _innerMeshRadius = value;} }
 
 	protected float _outerSpawnRadius = 2.5f;
@@ -22,7 +19,9 @@ public class BasePlant : MonoBehaviour
 		LEAFY,
 		LIMBER,
 		PBUSH,
-		BUMBLE
+		BUMBLE,
+		HUPPET,
+		JIMBO
 	}
 	[SerializeField] PlantType _type = PlantType.NONE;
 	public PlantType MyPlantType { get { return _type; } }

@@ -123,11 +123,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dddceb5e1637b4cd08027a2203db480e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _carryable: 0
+  _carryable: 1
   _grabbed: 0
   _grabberBurdenInterp: 0
-  _assetKey: -1
-  _moundPrefab: {fileID: 1598029822703682, guid: 75f7af8d7f7e3fe49b8f429c930ed604,
+  _moundPrefab: {fileID: 1728271291926186, guid: 782e6002bc41d4339b9e4867f6cd6ec5,
     type: 2}
   _sinkSpeedRange: {x: 10, y: 20}
 --- !u!136 &136380533824892380

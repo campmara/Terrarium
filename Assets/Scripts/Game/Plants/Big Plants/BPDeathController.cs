@@ -151,10 +151,13 @@ public class BPDeathController : PlantController
 
 	void FadeEssence()
 	{
-		if (_markedForDeath && !_treeBubbleSystem.IsAlive())
+		if (_markedForDeath )
 		{
-			// Delete me!!! Bye bye!!!
-			PlantManager.instance.DeleteLargePlant( _myPlant.GetComponent<BasePlant>() );
+			if( !_treeBubbleSystem || !_treeBubbleSystem.IsAlive())
+			{
+				// Delete me!!! Bye bye!!!
+				PlantManager.instance.DeleteLargePlant( _myPlant.GetComponent<BasePlant>() );
+			}
 		}
 
 		for (int i = 0; i < _componentMaterials.Count; i++)

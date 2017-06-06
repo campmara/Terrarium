@@ -26,7 +26,7 @@ public class TrunkGroundCover : MonoBehaviour
 	public void SetupSpawner( BasePlant myTree )
 	{
 		_parentMeshRadius = myTree.GetComponent<BoxCollider>().size.x * myTree.transform.localScale.x * .67f;
-		_numTrunkSpawns = Mathf.FloorToInt( myTree.transform.localScale.x * .7f  );
+		_numTrunkSpawns = Mathf.FloorToInt( myTree.transform.localScale.x * .8f  );
 		_parentPos = myTree.transform.position;
 		_parent = myTree.transform;
 
