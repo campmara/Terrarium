@@ -5,9 +5,9 @@ using DG.Tweening;
 
 public class BPDeathController : PlantController 
 {	
-	[SerializeField] private ParticleSystem _essenceSystemPrefab;
+	[SerializeField] private ParticleSystem _treeBubblePrefab;
 	[SerializeField] private SkinnedMeshRenderer _essenceMesh;
-	ParticleSystem _essenceParticleSystem;
+	ParticleSystem _treeBubbleSystem;
 	ParticleSystem.NoiseModule _essenceNoise;
 	[SerializeField] float _waterDecayReturnTime = 20.0f;
 
@@ -23,7 +23,7 @@ public class BPDeathController : PlantController
 	Color[] _interpColors = new Color[6];
 	int[] _shaderIDs = new int[3];
 
-	private float _fadeTime;
+	private float _fadeTime = 20f;
 	private float _cutoffValue;
 	private bool _markedForDeath;
 	
@@ -31,11 +31,12 @@ public class BPDeathController : PlantController
 	{
 		_myPlant = GetComponent<BasePlant>();
 
-		if (_essenceSystemPrefab != null)
+		if (_treeBubblePrefab != null)
 		{
-			_essenceParticleSystem = Instantiate(_essenceSystemPrefab, transform.position, Quaternion.identity) as ParticleSystem;
-			_essenceParticleSystem.Stop();
-			_essenceNoise = _essenceParticleSystem.noise;
+			_treeBubbleSystem = Instantiate(_treeBubblePrefab, transform.position, Quaternion.identity) as ParticleSystem;
+			_treeBubbleSystem.Stop();
+			_treeBubbleSystem.GetComponent<TreeBubbleParticles>().Setup(GetComponent<BigPlantPickupable>());
+			_essenceNoise = _treeBubbleSystem.noise;
 		}
 
 		_controllerType = ControllerType.Death;
@@ -68,7 +69,7 @@ public class BPDeathController : PlantController
 			_componentMaterials.Add( renderer.material );
 		}
 
-		ParticleSystem.ShapeModule shape = _essenceParticleSystem.shape;
+		ParticleSystem.ShapeModule shape = _treeBubbleSystem.shape;
 		if ( _essenceMesh != null )
 		{
 			shape.skinnedMeshRenderer = _essenceMesh;
@@ -123,13 +124,12 @@ public class BPDeathController : PlantController
 
 			// DEFINE SOME VALUES
 			_cutoffValue = 0f;
-			_fadeTime = Random.Range(5f, 7f);
 
-			ParticleSystem.MainModule essenceMain = _essenceParticleSystem.main;
+			ParticleSystem.MainModule essenceMain = _treeBubbleSystem.main;
 			essenceMain.startColor = _componentMaterials[0].GetColor(_shaderIDs[1]);
 			essenceMain.duration = _fadeTime;
 
-			_essenceParticleSystem.Play();
+			_treeBubbleSystem.Play();
 
 			// Fade the cutoff in a tween.
 			DOTween.To(()=> _cutoffValue, x=> _cutoffValue = x, 1f, _fadeTime)
@@ -143,15 +143,15 @@ public class BPDeathController : PlantController
 	protected virtual void OnDeath()
 	{
 		// Fully decayed and therefore no longer visible.
-		_essenceParticleSystem.Stop();
-		_essenceParticleSystem.GetComponent<EssenceParticles>().MarkForDestroy(5f);
+		_treeBubbleSystem.Stop();
+		_treeBubbleSystem.GetComponent<TreeBubbleParticles>().MarkForDestroy(5f);
 
 		_markedForDeath = true;
 	}
 
 	void FadeEssence()
 	{
-		if (_markedForDeath && !_essenceParticleSystem.IsAlive())
+		if (_markedForDeath && !_treeBubbleSystem.IsAlive())
 		{
 			// Delete me!!! Bye bye!!!
 			PlantManager.instance.DeleteLargePlant( _myPlant.GetComponent<BasePlant>() );
@@ -162,7 +162,7 @@ public class BPDeathController : PlantController
 			_componentMaterials[i].SetFloat("_Dissolve", _cutoffValue);
 		}
 
-		if (_essenceParticleSystem != null)
+		if (_treeBubbleSystem != null)
 		{
 			_essenceNoise.strengthXMultiplier = WeatherManager.instance.WindForce.x;
 			_essenceNoise.strengthYMultiplier = WeatherManager.instance.WindForce.y;

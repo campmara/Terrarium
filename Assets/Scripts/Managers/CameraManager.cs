@@ -78,7 +78,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	Vector2 zoomXRange = new Vector2( 2.25f, 8.0f );	// Min & Max zoom x value (x is min)
 	Vector2 zoomYRange = new Vector2( 1.0f, 10.0f );	// Min & Max zoom y values (x is min)
     const float ZOOM_DELTASPEED = 15.0f;    // How quickly camOffset moves towards new zoom values
-    const float CAMERA_MINY = 0.25f;
+    const float CAMERA_MINY = 0.05f;
 
     const float LOCKED_ZOOMINTERP = 0.15f;
 
@@ -390,7 +390,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	{
 		PlayerManager.instance.Player.ControlManager.SetActiveController<InactiveController>();
 
-		yield return new WaitForSeconds(INTRO_PAN_PREWAIT_TIME);
+		yield return new WaitForSeconds( INTRO_PAN_PREWAIT_TIME );
 
 		Transform pondTransform = PondManager.instance.Pond.transform;
 		Vector3 desiredPos = ( pondTransform.forward * PONDRETURN_FORWARD ) + ( pondTransform.up * PONDRETURN_UP );

@@ -54,6 +54,8 @@
 			else
 				distAtten = saturate(1.0 / length(lightDir));
 
+			_Hardness *= 1 - s.Gloss * .5f;
+
 			half diff = (max(0, dot(s.Normal, lightDir)) * atten + 1 - _Hardness) * _Hardness;
 
 			half4 c;
@@ -344,6 +346,7 @@
 			gradient = lerp(gradient, _ColorMid, _Dissolve * round(1 - (alpha - _Dissolve + _CutoffEdgeScale)));
 
 			o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb * gradient;
+			o.Gloss = IN.uv_MainTex.y;
 			o.Alpha = alpha - _Dissolve;
 
 			//o.Albedo = IN.turbulence.rgb;

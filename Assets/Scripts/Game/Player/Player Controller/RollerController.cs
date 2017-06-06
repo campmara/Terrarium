@@ -88,6 +88,9 @@ public class RollerController : ControllerBase
     float _breathTimer = 0.0f;
     public float BreathTimer { get { return _breathTimer; } set { _breathTimer = value; } }
 
+    WaterAccentController _waterAccentController = null;
+    public WaterAccentController WaterAccent { get { return _waterAccentController; } }
+
     // ===========
     // S T A T E S
     // ===========
@@ -117,6 +120,7 @@ public class RollerController : ControllerBase
 	    _ik = GetComponentInChildren(typeof(PlayerIKControl)) as PlayerIKControl;
 	    _face = GetComponentInChildren(typeof(FaceManager)) as FaceManager;
 		_explodeParticleSystem = GetComponentInChildren(typeof(ParticleSystem)) as ParticleSystem;
+        _waterAccentController = this.GetComponentInChildren<WaterAccentController>();
 
         _spherifyPropertyHash = Shader.PropertyToID( SPHERIFY_SHADERPROP );
         _spherifyScalePropertyHash = Shader.PropertyToID( SPHERIFYSCALE_SHADERPROP );
@@ -361,8 +365,9 @@ public class RollerController : ControllerBase
 		// Hmm
 		// yeah hmmm
 		this._player.AnimationController.SetPlayerSpeed( _velocity / maxMoveSpeed );
-		
-        if( CanPlayerMove() )
+        _waterAccentController.SetWaterAccentVolume( _velocity / maxMoveSpeed );
+
+        if ( CanPlayerMove() )
         {
             _rigidbody.MovePosition( transform.position + ( transform.forward * _inputVec.magnitude * _velocity * Time.deltaTime) );
             _rigidbody.position = new Vector3( _rigidbody.position.x,
@@ -412,6 +417,7 @@ public class RollerController : ControllerBase
     public void ZeroVelocity()
     {
         _velocity = 0.0f;
+        _waterAccentController.SetWaterAccentVolume( _velocity );
     }
 
 	public void HandleBeginIdle()
@@ -443,6 +449,8 @@ public class RollerController : ControllerBase
 		_rig.SetActive(false);
 		_rollSphere.SetActive(true);
 
+        _waterAccentController.SetWaterAccentPitch( 1.5f );
+
 		AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_TRANSITIONFX, 0 );
 	}
 
@@ -468,7 +476,8 @@ public class RollerController : ControllerBase
 		{
 			_velocity = 0f;
 		}
-		
+        _waterAccentController.SetWaterAccentVolume( _velocity );
+        _waterAccentController.SetWaterAccentPitch( 1.0f );
 
         _ik.ResetLegs();
 

@@ -42,10 +42,17 @@ public class SeedSlug : MonoBehaviour
 	Vector3 _handMidPos = Vector3.zero;
 	[SerializeField] float _seedUpPos = 0.0f;
 
+    AudioSource _source = null;
+    [SerializeField] AudioClip _slugWalkClip = null;
+    [SerializeField] AudioClip _slugYellClip = null;
+    [SerializeField] AudioClip _slugRunClip = null;
+    Coroutine _yellRoutine = null;
+
 	// Use this for initialization
 	void Awake ()
     {
 		_animator = this.GetComponent<Animator>();
+        _source = this.GetComponent<AudioSource>();
 
         InitMovement();
     }
@@ -119,6 +126,10 @@ public class SeedSlug : MonoBehaviour
 
 		_currMoveSpeedScalar = MOVESPEED_STARTSCALAR;
 		_animator.speed = 1.0f;
+
+        _source.loop = true;
+        _source.clip = _slugWalkClip;
+        _source.Play();
     }
 
 	void InitHeldSeed()
@@ -149,6 +160,27 @@ public class SeedSlug : MonoBehaviour
 
 		_currMoveSpeedScalar += MOVESPEED_HITSCALAR;
 		_animator.speed += 3.0f;
+
+        if( _yellRoutine == null )
+        {
+            _yellRoutine = StartCoroutine( StartYellRoutine() );
+        }
+        
+    }
+
+    IEnumerator StartYellRoutine()
+    {
+        _source.loop = false;
+        _source.clip = _slugYellClip;
+        _source.Play();
+
+        yield return new WaitUntil( () => !_source.isPlaying );
+
+        _source.loop = true;
+        _source.clip = _slugRunClip;
+        _source.Play();
+
+        _yellRoutine = null;
     }
 
     private void OnDrawGizmos()

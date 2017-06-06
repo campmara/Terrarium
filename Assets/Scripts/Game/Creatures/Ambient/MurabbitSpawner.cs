@@ -97,7 +97,7 @@ public class MurabbitSpawner : MonoBehaviour
 	*/
 	private void OnEnterSpawning()
 	{
-		this.transform.position = JohnTech.GenerateRandomXZDirection() * Random.Range( 5.0f, 32.0f );
+		this.transform.position = JohnTech.GenerateRandomXZDirection() * Random.Range( 10.0f, 32.0f );
 
 		int rabbitsToSpawn = Random.Range(3, 6);
 

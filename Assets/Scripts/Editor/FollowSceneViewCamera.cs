@@ -10,7 +10,7 @@ public class FollowSceneViewCamera : Editor
 
 	static FollowSceneViewCamera()
 	{
-		EditorApplication.update += Update;
+		//EditorApplication.update += Update;
 	}
 
 	[MenuItem("Tools/Toggle Camera Follow Scene View #v")]
