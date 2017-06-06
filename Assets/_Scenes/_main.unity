@@ -7736,18 +7736,18 @@ MonoBehaviour:
     - serializedVersion: 2
       time: 0.003486638
       value: 0
-      inSlope: 2.9157934
-      outSlope: 2.9157934
+      inSlope: -0.039300084
+      outSlope: -0.039300084
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.49706286
-      value: 0.94380236
+      time: 0.59887874
+      value: 0.90200096
       inSlope: 1.4569265
-      outSlope: 0.009773776
+      outSlope: 0.03145653
       tangentMode: 65
     - serializedVersion: 2
-      time: 1
-      value: 0.94871795
+      time: 0.9983308
+      value: 0.91456634
       inSlope: 0.0501519
       outSlope: 0.0501519
       tangentMode: 0

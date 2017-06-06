@@ -13,6 +13,7 @@ public class PlayerArmIK : MonoBehaviour {
 
     [SerializeField, Space(5)] Vector3[] _armGestureArray = { new Vector3( 7.5f, 10.0f, 0.0f) };
     [SerializeField, ReadOnly] private int _armGestureIndex = 0;
+	public int GestureIndex { get { return _armGestureIndex; } }
 
     void OnDisable()
     {
