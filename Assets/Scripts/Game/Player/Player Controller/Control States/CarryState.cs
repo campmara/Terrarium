@@ -120,7 +120,7 @@ public class CarryState : RollerState
 					_bigPlantDirection.Normalize();
 									
 					this.transform.position = _bigPlantPickupable.transform.position 
-						+ ( _bigPlantDirection * _bigPlantPickupable.transform.localScale.x * ( _bigPlantPickupable.GetComponent<BasePlant>().MyPlantType == BasePlant.PlantType.POINT ? 0.05f : 0.1f ) );
+						+ ( _bigPlantDirection * _bigPlantPickupable.transform.localScale.x * ( _bigPlantPickupable.GetComponent<BasePlant>().MyPlantType == BasePlant.PlantType.POINT ? 0.05f : 0.115f ) );
 				}
             }
 			else
