@@ -3860,7 +3860,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec8089615a3184484b5faddc25ff05c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _overlayDisableDelay: 0.25
+  _useOverlay: 1
+  _overlayDisableDelay: 0.3
+  _overlayFadeTime: 0.15
+  _overlayMaxAlphaValue: 0.85
 --- !u!4 &420374437
 Transform:
   m_ObjectHideFlags: 0
