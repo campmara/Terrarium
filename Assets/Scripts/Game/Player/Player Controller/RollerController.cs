@@ -89,6 +89,7 @@ public class RollerController : ControllerBase
     public float BreathTimer { get { return _breathTimer; } set { _breathTimer = value; } }
 
     WaterAccentController _waterAccentController = null;
+    public WaterAccentController WaterAccent { get { return _waterAccentController; } }
 
     // ===========
     // S T A T E S
@@ -448,6 +449,8 @@ public class RollerController : ControllerBase
 		_rig.SetActive(false);
 		_rollSphere.SetActive(true);
 
+        _waterAccentController.SetWaterAccentPitch( 1.5f );
+
 		AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_TRANSITIONFX, 0 );
 	}
 
@@ -474,6 +477,7 @@ public class RollerController : ControllerBase
 			_velocity = 0f;
 		}
         _waterAccentController.SetWaterAccentVolume( _velocity );
+        _waterAccentController.SetWaterAccentPitch( 1.0f );
 
         _ik.ResetLegs();
 

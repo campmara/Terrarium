@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 95532815765975918}
   - component: {fileID: 135921028586591862}
   - component: {fileID: 114886733225419300}
+  - component: {fileID: 82237947631570642}
   m_Layer: 0
   m_Name: Slug
   m_TagString: Untagged
@@ -285,7 +286,7 @@ Transform:
   - {fileID: 4848816966066868}
   m_Father: {fileID: 4154631917493314}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 8.5203036e-15, y: -179.99998, z: -14.163208}
+  m_LocalEulerAnglesHint: {x: 1.0413707e-14, y: -180, z: -14.163208}
 --- !u!4 &4154631917493314
 Transform:
   m_ObjectHideFlags: 1
@@ -302,7 +303,7 @@ Transform:
   - {fileID: 4428288170419198}
   m_Father: {fileID: 4054350790991586}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: -27.135138}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: -27.13514}
 --- !u!4 &4160626584452252
 Transform:
   m_ObjectHideFlags: 1
@@ -316,7 +317,7 @@ Transform:
   - {fileID: 4250728776989978}
   m_Father: {fileID: 4154631917493314}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 2.6595676, y: -5.2002673, z: 35.28562}
+  m_LocalEulerAnglesHint: {x: 2.6595702, y: -5.2002654, z: 101.7971}
 --- !u!4 &4250728776989978
 Transform:
   m_ObjectHideFlags: 1
@@ -369,7 +370,7 @@ Transform:
   - {fileID: 4434760083914878}
   m_Father: {fileID: 4154631917493314}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: -2.659336, y: 5.1998124, z: 35.285385}
+  m_LocalEulerAnglesHint: {x: -2.6593375, y: 5.1998115, z: 101.79686}
 --- !u!4 &4434760083914878
 Transform:
   m_ObjectHideFlags: 1
@@ -396,7 +397,7 @@ Transform:
   - {fileID: 4873993255080806}
   m_Father: {fileID: 4154631917493314}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -82.38488}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -52.996014}
 --- !u!4 &4848816966066868
 Transform:
   m_ObjectHideFlags: 1
@@ -470,6 +471,87 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1301330760997042}
   m_Mesh: {fileID: 0}
+--- !u!82 &82237947631570642
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1341810283696846}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 243852934808362362, guid: 30f3aa683f5543d469208f1bb641c945,
+    type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 10
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!95 &95532815765975918
 Animator:
   serializedVersion: 3
@@ -620,6 +702,9 @@ MonoBehaviour:
   _leftArmJoint: {fileID: 4250728776989978}
   _rightArmJoint: {fileID: 4434760083914878}
   _seedUpPos: -0.1
+  _slugWalkClip: {fileID: 8300000, guid: 0a69820a062a79546a30a14c88763bb2, type: 3}
+  _slugYellClip: {fileID: 8300000, guid: fcd27751638ac6c47ac2f8ed6877a72d, type: 3}
+  _slugRunClip: {fileID: 8300000, guid: 5fe412ac5395f2a48b051554aab7f37c, type: 3}
 --- !u!135 &135921028586591862
 SphereCollider:
   m_ObjectHideFlags: 1
