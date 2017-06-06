@@ -732,6 +732,66 @@ MonoBehaviour:
       LittleSmileBlendValue: 0
       BigSmileBlendValue: 0
       OvalOBlendValue: 0
+  - PoseName: Arm Fly
+    LeftEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 50
+      ClosedBlendValue: 15
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    RightEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 50
+      ClosedBlendValue: 15
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    MouthPose:
+      LittleHappyBlendValue: 0
+      LittleUpsetBlendValue: 0
+      LittleFrownBlendValue: 0
+      LittleOBlendValue: 50
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 0
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 0
+      BigSmileBlendValue: 40
+      OvalOBlendValue: 0
+  - PoseName: Arm Hug
+    LeftEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 75
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    RightEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 75
+      SadBlendValue: 0
+      HappyBlendValue: 0
+    MouthPose:
+      LittleHappyBlendValue: 50
+      LittleUpsetBlendValue: 0
+      LittleFrownBlendValue: 0
+      LittleOBlendValue: 75
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 0
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 0
+      BigSmileBlendValue: 40
+      OvalOBlendValue: 0
   StartMouthPoseIndex: 0
   MouthPoseTransitionTime: 0.15
   MouthTransitionAnimCurve:

@@ -365,6 +365,18 @@ public class PlayerIKControl : MonoBehaviour
         _rightArmIK.ArmReachInterp = rightValue;
     }
 
+	public int GetGestureIndex()
+	{
+		if( _leftArmIK.GestureIndex < _rightArmIK.GestureIndex )
+		{
+			return _leftArmIK.GestureIndex;
+		}
+		else
+		{
+			return _rightArmIK.GestureIndex;
+		}
+	}
+
     #endregion
 
     #region Legs Methods

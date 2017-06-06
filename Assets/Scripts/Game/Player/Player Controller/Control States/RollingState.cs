@@ -155,6 +155,8 @@ public class RollingState : RollerState
 
             GroundManager.instance.Ground.DrawSplatDecal( spherePos + (Vector3.up * -0.37f ), Mathf.Lerp( RollerConstants.instance.RollPaintSize.x, RollerConstants.instance.RollPaintSize.y, Mathf.InverseLerp( RollerConstants.instance.ReverseRollSpeed, RollerConstants.instance.RollMaxSpeed, _roller.Velocity ) ) );            
         }
+
+        _roller.WaterAccent.SetWaterAccentVolume( _roller.Velocity );
     }
 
 	private void HandleTurning(InputCollection input)

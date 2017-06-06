@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4766687266315788}
   - component: {fileID: 114548184982639564}
-  - component: {fileID: 114192825424011462}
   m_Layer: 0
   m_Name: WeatherManager
   m_TagString: Untagged
@@ -627,30 +626,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2465305cd947f4ff2a7056f57561c11c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114192825424011462
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1071704960912508}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6e624f71dc76894aa1b9f01dc9293b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  presets: 0
-  lerpSpeed: 1
-  _WaveTime: 0
-  _WaveDir: {x: 1, y: 0, z: 0}
-  idealWaveDir: {x: 1, y: 0, z: 0}
-  _WaveSpeed: 1
-  idealWaveSpeed: 1
-  _WaveNoise: 1
-  idealWaveNoise: 1
-  _WaveScale: 0.5
-  idealWaveScale: 0.5
-  _WaveAmount: 0.5
-  idealWaveAmount: 0.5
 --- !u!114 &114255189836694920
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6640,17 +6615,11 @@ MonoBehaviour:
     _pitch: 1
   - ControllerName: PLAYER_FOOTSTEPS
     _audioClipList:
-    - {fileID: 8300000, guid: 0c7b067d84bec49069656975cf0eb0aa, type: 3}
-    - {fileID: 8300000, guid: aec375ee8582b420f9de8fd50b70db69, type: 3}
-    - {fileID: 8300000, guid: 553f65303e1d94da1b6e981c75be18ff, type: 3}
-    - {fileID: 8300000, guid: 23804b6bddd614f388cf69ef5f982783, type: 3}
-    - {fileID: 8300000, guid: bd0098affa5c94bc88cb3b4c05760c62, type: 3}
-    - {fileID: 8300000, guid: db933a4b589fd4ce3a396d26a9a19c20, type: 3}
-    - {fileID: 8300000, guid: 17b43785230154beba46840b12e28212, type: 3}
-    - {fileID: 8300000, guid: 0be8ff7ccb07e4113b5352d58e8a171a, type: 3}
-    - {fileID: 8300000, guid: 381d672d23a774e3dbe78d1731d55bc5, type: 3}
-    - {fileID: 8300000, guid: 8db9d00132e5c4282850384175d161af, type: 3}
-    - {fileID: 8300000, guid: 7e173431539a1412ab66557058c7e66c, type: 3}
+    - {fileID: 8300000, guid: b6fb317c1ce0baa4f9a3c356afbd2a9c, type: 3}
+    - {fileID: 8300000, guid: e7184740b4e12ab4284e8eef6f132278, type: 3}
+    - {fileID: 8300000, guid: f943cb7a2b70955418d3c21f4ad80ce3, type: 3}
+    - {fileID: 8300000, guid: 3c0f71a5addce594298d457d2e896d02, type: 3}
+    - {fileID: 8300000, guid: 99991922c40899244911be66582ddbf5, type: 3}
     _mixerGroup: {fileID: 243819115406507688, guid: 30f3aa683f5543d469208f1bb641c945,
       type: 2}
     _volume: 1
@@ -6737,12 +6706,23 @@ MonoBehaviour:
     _pitch: 1
   - ControllerName: WIND
     _audioClipList:
-    - {fileID: 8300000, guid: db32a45150f2b4a04a02206f3b9c43c3, type: 3}
+    - {fileID: 8300000, guid: d5021dea8866b9c4194046e0c602c54f, type: 3}
     _mixerGroup: {fileID: 243903458777511154, guid: 30f3aa683f5543d469208f1bb641c945,
       type: 2}
     _volume: 1
     _playOnAwake: 1
     _loop: 1
+    _pitch: 1
+  - ControllerName: PLANT_FX
+    _audioClipList:
+    - {fileID: 8300000, guid: 88e4030d87f5b1e4492ccfc3c4327bf3, type: 3}
+    - {fileID: 8300000, guid: 32e1d1e20c1699e46b445e2b578c1619, type: 3}
+    - {fileID: 8300000, guid: 31ec5f9f0c14afa429ef97116c89a29b, type: 3}
+    _mixerGroup: {fileID: 243835867210776376, guid: 30f3aa683f5543d469208f1bb641c945,
+      type: 2}
+    _volume: 1
+    _playOnAwake: 0
+    _loop: 0
     _pitch: 1
 --- !u!114 &114804556110679380
 MonoBehaviour:
