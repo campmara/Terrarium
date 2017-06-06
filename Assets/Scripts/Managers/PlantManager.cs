@@ -22,6 +22,8 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 	List<BasePlant> _pointPlants = new List<BasePlant>();
 	[SerializeField] GameObject _floweringSeed = null;
 	List<BasePlant> _floweringPlants = new List<BasePlant>();
+	[SerializeField] GameObject _huppetSeed = null;
+	List<BasePlant> _huppetPlants = new List<BasePlant>();
 
 	// ******   TRACKER LISTS   *************
 	List<Seed> _seeds = new List<Seed>();
@@ -79,6 +81,10 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 			{
 				_pointPlants.Add( plant );
 			}
+			else if( plant.MyPlantType == BasePlant.PlantType.HUPPET )
+			{
+				_huppetPlants.Add( plant );
+			}
 		}
 	}
 
@@ -106,18 +112,27 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 			{
 				_floweringPlants.Remove(plant);
 
-				if( !IsPopulationStable( plant ) && plant.GetComponent<BPGrowthController>().CurStage >= BPGrowthController.GrowthStage.Sapling )
+				if( !IsPopulationStable( plant ) )
 				{
 					DropSeed( plant.transform.position, BasePlant.PlantType.FLOWERING );
 				}
 			}
-			else if( plant.MyPlantType == BasePlant.PlantType.POINT &&  plant.GetComponent<BPGrowthController>().CurStage >= BPGrowthController.GrowthStage.Sapling)
+			else if( plant.MyPlantType == BasePlant.PlantType.POINT )
 			{
 				_pointPlants.Remove(plant);
 				
 				if( !IsPopulationStable( plant ) )
 				{
 					DropSeed( plant.transform.position, BasePlant.PlantType.POINT );
+				}
+			}
+			else if( plant.MyPlantType == BasePlant.PlantType.HUPPET )
+			{
+				_huppetPlants.Remove(plant);
+				
+				if( !IsPopulationStable( plant ) )
+				{
+					DropSeed( plant.transform.position, BasePlant.PlantType.HUPPET );
 				}
 			}
 		}
@@ -156,6 +171,7 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		int largePlants = 0;
 		largePlants += _pointPlants.Count;
 		largePlants += _floweringPlants.Count;
+		largePlants += _huppetPlants.Count;
 		return largePlants;
 	}
 	void DropSeed( Vector3 spawnPoint, BasePlant.PlantType plantType )
@@ -168,6 +184,10 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		else if( plantType == BasePlant.PlantType.POINT )
 		{
 			seed = Instantiate( _pointSeed, spawnPoint, Quaternion.identity );
+		}
+		else if( plantType == BasePlant.PlantType.HUPPET )
+		{
+			seed = Instantiate( _huppetSeed, spawnPoint, Quaternion.identity );
 		}
 
 		_seeds.Add( seed.GetComponent<Seed>() );
@@ -251,6 +271,10 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		else if( _plantType == BasePlant.PlantType.POINT )
 		{
 			result = _pointPlants.Count >= LrgTotalPlantsRange.x;			
+		}
+		else if( _plantType == BasePlant.PlantType.HUPPET )
+		{
+			result = _huppetPlants.Count >= LrgTotalPlantsRange.x;			
 		}
 
 		return result;

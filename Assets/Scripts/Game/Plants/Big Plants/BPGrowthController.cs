@@ -422,7 +422,11 @@ public class BPGrowthController : PlantController
 	}
 
 	public override void TouchPlant(){}
-	public override void GrabPlant(){}
+	public override void GrabPlant()
+	{
+		 Vector3 playerPos = PlayerManager.instance.Player.transform.position;
+         SummonSeed( new Vector2( playerPos.x, playerPos.z) );
+	}
 	public override void StompPlant(){}
 
 	#region Helper Functions

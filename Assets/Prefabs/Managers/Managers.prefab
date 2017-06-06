@@ -555,6 +555,8 @@ MonoBehaviour:
   _pointSeed: {fileID: 1631419253260572, guid: e7e4ccc23b3b8416c994f33a1840c8c6, type: 2}
   _floweringSeed: {fileID: 1356359172527236, guid: bbfef1f81afcefc438cf9d537e7f0931,
     type: 2}
+  _huppetSeed: {fileID: 1261253386730094, guid: bc1c0a0bd8a10a14d966be28e3d9fcb1,
+    type: 2}
 --- !u!114 &114162013853216408
 MonoBehaviour:
   m_ObjectHideFlags: 1

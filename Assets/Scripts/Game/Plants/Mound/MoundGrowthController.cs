@@ -21,7 +21,7 @@ public class MoundGrowthController : PlantController
 	float _scaleInterp = 0.0f;
 	float _dirtInterp = 0.0f;
 
-	const float _deathProbability = 0.0f; // probability out of 100
+	const float _deathProbability = 0.1f; // probability out of 100
 	bool _canLive = true;
 	bool _spawnedSprout = false;
 
