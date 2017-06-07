@@ -9,6 +9,11 @@
 		[Toggle]_ColorSetEnabled("Colorset Enabled", float) = 0
 		_CurrentColorSet("Current Colorset (int: 0 - 10)", int) = 0
 
+		[Header(Splatmap Values)]
+		[Toggle]_SplatmapEnabled("Splatmap Enabled", float) = 0
+		_SplatTex("Splat Texture (RGBA)", 2D) = "white" {}
+		_ImprintAmount("Imprint Amount", Range(-5, 5)) = 1
+
 		[Header(Spritesheet)]
 		_MainTex ("Spritesheet", 2D) = "white" {}
 
@@ -50,6 +55,21 @@
 		float _FrameScale;
 		float _ToggleBillboard;
 		float _ToggleVertexColorAnim;
+		float splatmapMorph = 0;
+
+		//...splatmap...
+		float _ImprintAmount;
+		float _SplatmapEnabled;
+
+		uniform sampler2D _ClipEdges;
+		uniform sampler2D _SplatMap;
+		uniform float4 _SplatmapNeutralColor;
+		uniform float3 _CameraWorldPos;
+		uniform float _OrthoCameraScale;
+		//..............
+
+		//splatmap+
+		sampler2D _SplatTex;
 
 		//...colorset coloring...
 		float _ColorSetSeed;
@@ -124,6 +144,28 @@
 		void vert(inout appdata_full v, out Input o)
 		{
 			UNITY_INITIALIZE_OUTPUT(Input, o);
+
+			//splatmap deformation
+			//...........
+			if (_SplatmapEnabled != 0) {
+				float4 worldPos = mul(unity_ObjectToWorld, v.vertex);
+
+				_OrthoCameraScale *= 2;
+				float2 worldUV = float2(((worldPos.x - _CameraWorldPos.x) / _OrthoCameraScale + .5f), ((worldPos.z - _CameraWorldPos.z) / _OrthoCameraScale + .5f)); //find a way to center this
+				float4 border = tex2Dlod(_ClipEdges, float4(worldUV, 0, 0)).rgba;
+				float4 uv = (tex2Dlod(_SplatMap, float4(worldUV, 0, 0)));
+
+				float4 duv = (tex2Dlod(_SplatTex, float4(uv.xy, 0, 0)));
+				float4 d = duv;
+				d = lerp(_SplatmapNeutralColor, d, uv.a);
+
+				//d.a = clamp(d.a - border.a, 0, 1);
+				//d.rg = (d.rg - .5f) * d.a;
+				d.b *= d.a;
+
+				v.color *= clamp(1 - d.b * _ImprintAmount, 0, 1);
+			}
+			//......
 
 			if (_ToggleBillboard == 1) {
 				//code via https://gist.github.com/renaudbedard/7a90ec4a5a7359712202
