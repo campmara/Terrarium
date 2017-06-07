@@ -19,7 +19,6 @@ public class BPDeathController : PlantController
 	[SerializeField] private FloatRange _growthSizeRange = new FloatRange(0.25f, 0.45f);
 
 	private List<Bubble> _bubbles;
-	private SkinnedMeshRenderer[] _skins;
 	private List<Vector3> _verts;
 
 	private Coroutine _bubbleSpawnRoutine;
@@ -86,13 +85,28 @@ public class BPDeathController : PlantController
 		// Populate the list of filters and vertices.
 		_bubbles = new List<Bubble>();
 		_verts = new List<Vector3>();
-		_skins = GetComponentsInChildren<SkinnedMeshRenderer>();
+
+		SkinnedMeshRenderer[] _skins = GetComponentsInChildren<SkinnedMeshRenderer>();
 		for (int i = 0; i < _skins.Length; i++)
 		{
 			foreach (Vector3 vert in _skins[i].sharedMesh.vertices)
 			{
 				Vector3 transformedVert = _skins[i].transform.TransformPoint(vert);
 				_verts.Add(transformedVert);
+			}
+		}
+
+		// BACKUP! use meshrenderer
+		if (_skins.Length == 0)
+		{
+			MeshFilter[] _filters = GetComponentsInChildren<MeshFilter>();
+			for (int i = 0; i < _filters.Length; i++)
+			{
+				foreach (Vector3 vert in _filters[i].mesh.vertices)
+				{
+					Vector3 transformedVert = _filters[i].transform.TransformPoint(vert);
+					_verts.Add(transformedVert);
+				}
 			}
 		}
 	}
