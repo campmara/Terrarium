@@ -315,7 +315,8 @@ public class Murabbit : MonoBehaviour
 		transform.LookAt(spawnerPos);
 
 		burrowTween = transform.DOJump(spawnerPos, Random.Range(0.5f, 1.25f), numJumps, HOP_DURATION * (float)numJumps)
-			.OnComplete(() => data.spawner.OnRabbitReturn(this));
+			.OnComplete(() => transform.DOScale(0f, 1f)
+			.OnComplete(() => data.spawner.OnRabbitReturn(this)));
 
         PlayHopSound();
 
