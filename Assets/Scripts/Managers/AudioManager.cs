@@ -355,12 +355,14 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
     // Player Sing
     public void PlaySing(int clipIndex, float pitch)
     {
-		if (!_audioControllerList[(int) AudioControllerNames.PLAYER_SING].Source.isPlaying)
+		if ( !IsSinging )
 		{
         	_audioControllerList[(int) AudioControllerNames.PLAYER_SING].Pitch = pitch;
         	_audioControllerList[(int) AudioControllerNames.PLAYER_SING].PlaySpecificClip(clipIndex);
 		}
     }
+
+    public bool IsSinging { get { return _audioControllerList[(int)AudioControllerNames.PLAYER_SING].Source.isPlaying; } }
 
 	public int GetSingingClipCount()
 	{

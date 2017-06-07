@@ -12,6 +12,7 @@ public class GroundDisc : MonoBehaviour
 
     [SerializeField, Range( 0.0f, 1.0f )]
     float flowerSplatOdds = 0.25f; 
+	float flowerRollSplatOdds = 0.05f;
 
 	private void Awake()
 	{
@@ -24,10 +25,14 @@ public class GroundDisc : MonoBehaviour
 
         // TODO: add random circle offset from Drop Point
         // TODO: add a different method for BIg SPLATS when more flowers should spwan more quickly
-        if( Random.value <= flowerSplatOdds )
+		if( PlayerManager.instance.Player.GetComponent<RollerController>().State == P_ControlState.ROLLING && Random.value <= flowerRollSplatOdds )
         {
-            DrawFlowerDecal( pos );            
-        }        
+			DrawFlowerDecal( pos );            
+        }  
+		else if( Random.value <= flowerSplatOdds )
+		{
+			DrawFlowerDecal( pos );            
+		}
 
     }
 
