@@ -6,10 +6,9 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Jimbo
-  m_Shader: {fileID: 4800000, guid: da955166bd5e5c843a2be25f04e9cbfd, type: 3}
-  m_ShaderKeywords: _BLENDBASEDONSPLATMAP_ON _COLORSETENABLED_ON _SPLATMAPENABLED_ON
-    _WINDENABLED_ON
+  m_Name: Pomp Decal
+  m_Shader: {fileID: 4800000, guid: 8a8ebe31245244842979888ab932339b, type: 3}
+  m_ShaderKeywords: _COLORSETENABLED_ON _SPLATMAPENABLED_ON _TOGGLEVERTEXCOLORANIM_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_CustomRenderQueue: -1
@@ -39,7 +38,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: f65726112bb803e4da7a182f817cfc04, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -55,45 +54,39 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SplatTex:
-        m_Texture: {fileID: 2800000, guid: ae41a56402f334c2f976d3e82a31cfd5, type: 3}
+        m_Texture: {fileID: 2800000, guid: 3ff273a3fe0fa394c9a2bf2b7d53866c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _BlendBasedOnSplatmap: 1
     - _BumpScale: 1
     - _ColorSetEnabled: 1
     - _ColorSetSeed: 0
-    - _CurrentColorSet: 2
-    - _Cutoff: 0.5
-    - _CutoffEdgeScale: 0.45
-    - _CutoffNoiseScale: 10
-    - _Deformation: 0
+    - _Columns: 8
+    - _CurrentColorSet: 2.4
+    - _Cutoff: 0.544
     - _DetailNormalMapScale: 1
-    - _Dissolve: 0
     - _DstBlend: 0
+    - _FrameNumber: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Hardness: 0.359
-    - _ImprintAmount: 2
+    - _ImprintAmount: 0.9
     - _Metallic: 0
-    - _Middle: 0.483
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _ResultScale: 3
-    - _Sensitivity: 30
+    - _Rows: 4
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SplatmapEnabled: 1
     - _SrcBlend: 1
+    - _ToggleBillboard: 0
+    - _ToggleVertexColorAnim: 1
+    - _TotalFrames: 22
     - _UVSec: 0
-    - _WindEnabled: 1
     - _ZWrite: 1
     m_Colors:
-    - _BlendOffset: {r: -0.5, g: -0.5, b: -0.5, a: 0}
-    - _Color: {r: 1, g: 0.5882353, b: 0.5882353, a: 1}
-    - _ColorBot: {r: 0, g: 0, b: 0, a: 1}
-    - _ColorMid: {r: 0.61764705, g: 0.61764705, b: 0.61764705, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorBot: {r: 1, g: 1, b: 1, a: 1}
     - _ColorTop: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
