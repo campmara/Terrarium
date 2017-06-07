@@ -28,6 +28,8 @@ public class FaceManager : MonoBehaviour
     [SerializeField, ReadOnly]
     string _poseName = "";
 
+    List<FacePose> _singPoseList = new List<FacePose>();
+
 	void Awake()
 	{		
 		InitiateBlinkLoop();
@@ -37,6 +39,14 @@ public class FaceManager : MonoBehaviour
 
 		_currFacePose = _idlePose;
         _poseName = _idlePose.PoseName;
+
+        foreach( FacePose f in MouthPoseManager.instance.FacePoseList )
+        {
+            if( f.PoseName.Contains("Singing") )
+            {
+                _singPoseList.Add( f );
+            }
+        }
 
         //_mouthPoseIndex = MouthPoseManager.instance.StartMouthPoseIndex;
         //SetMouthPose( MouthPoseManager.instance.MouthPoseArray[_mouthPoseIndex] );
@@ -55,15 +65,11 @@ public class FaceManager : MonoBehaviour
 		StartFaceTransition( _idlePose );	
 	}
 
-	public void BecomeDesirous()
-	{
-		// Done on Reach
-	}
+    public void TransitionSingPose()
+    {
+        StartFaceTransition( _singPoseList[Random.Range( 0, _singPoseList.Count )] );
+    }
 
-	public void BecomeHappy()
-	{
-		// On Approach Stuff	
-	}
 
 	#region Blink Hell
 
