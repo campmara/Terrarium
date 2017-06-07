@@ -489,8 +489,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48546a37106ae474c9854776c588eedc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _treeBubblePrefab: {fileID: 0}
-  _essenceMesh: {fileID: 137760164207558606}
+  _bubblePrefab: {fileID: 1491106757313288, guid: 0f0c4648b38bd4d09b726dd5bfd16753,
+    type: 2}
+  _deathTime: 20
+  _spawnRate: 0.1
+  _growthTimeRange:
+    min: 7
+    max: 12
+  _growthSizeRange:
+    min: 0.15
+    max: 0.3
   _waterDecayReturnTime: 20
 --- !u!114 &114350058866248526
 MonoBehaviour:
