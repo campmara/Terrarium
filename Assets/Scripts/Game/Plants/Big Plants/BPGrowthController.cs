@@ -33,7 +33,6 @@ public class BPGrowthController : PlantController
 
 	float [] _neededDistance = new float[] { 3.5f, 5.0f, 8.5f, 15.0f }; // how much room each stage need to grow, first element doesnt matter
 	float [] _spawnRadii = new float[] { 3.5f, 4.0f, 4.5f, 5.0f };  
-	bool _hardStopGrowth = false;
 	bool _stemDoneGrowing = false;
 	float _origScale = 1.0f;
 
@@ -283,19 +282,12 @@ public class BPGrowthController : PlantController
 
 	public override void StopState()
 	{
-		if( _hardStopGrowth )
+		if( _curStage != GrowthStage.Final )
 		{
-			_stemDoneGrowing = true;
+			SpawnGroundCoverSpawner();
 		}
-		else
-		{
-			if( _curStage == GrowthStage.Sapling )
-			{
-				SpawnGroundCoverSpawner();
-			}
 			
-			CustomStopGrowth();
-		}
+		CustomStopGrowth();
 	}
 
 	protected virtual void CustomStopGrowth()
@@ -430,7 +422,11 @@ public class BPGrowthController : PlantController
 	}
 
 	public override void TouchPlant(){}
-	public override void GrabPlant(){}
+	public override void GrabPlant()
+	{
+		 Vector3 playerPos = PlayerManager.instance.Player.transform.position;
+         SummonSeed( new Vector2( playerPos.x, playerPos.z) );
+	}
 	public override void StompPlant(){}
 
 	#region Helper Functions
