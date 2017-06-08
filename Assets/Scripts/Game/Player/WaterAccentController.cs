@@ -11,6 +11,9 @@ public class WaterAccentController : MonoBehaviour {
     const string waterAccentVolID = "waterAccent_volume";
     private FloatRange _waterAccentVolRange = new FloatRange( -80.0f, -17.0f );
 
+	[SerializeField]AudioClip _walkingAccentClip = null;
+	[SerializeField]AudioClip _rollingAccentClip = null; 
+
 	void Awake ()
     {
         _source = this.GetComponent<AudioSource>();
@@ -30,4 +33,16 @@ public class WaterAccentController : MonoBehaviour {
     {
         _source.pitch = pitch;
     }
+
+	public void SetWalkClip()
+	{
+		_source.clip = _walkingAccentClip;
+		_source.Play();
+	}
+
+	public void SetRollClip()
+	{
+		_source.clip = _rollingAccentClip;
+		_source.Play();
+	}
 }

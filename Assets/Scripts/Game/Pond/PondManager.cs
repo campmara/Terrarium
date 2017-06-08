@@ -78,6 +78,7 @@ public class PondManager : SingletonBehaviour<PondManager>
     private IEnumerator PopPlayerRoutine()
     {
         Tween popTween = PlayerManager.instance.Player.transform.DOMoveY(PondTech.POND_MIN_Y, 0.75f).SetEase(Ease.OutBack);
+		AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_TRANSITIONFX, 2 );
 
         yield return popTween.WaitForCompletion();
 
