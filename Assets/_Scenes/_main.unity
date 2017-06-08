@@ -7113,21 +7113,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 114804556110679380, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
-        type: 2}
-      propertyPath: _ground
-      value: 
-      objectReference: {fileID: 416182352}
-    - target: {fileID: 114804556110679380, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
-        type: 2}
-      propertyPath: _mask
-      value: 
-      objectReference: {fileID: 1017378814}
-    - target: {fileID: 114536147130075368, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
-        type: 2}
-      propertyPath: _pond
-      value: 
-      objectReference: {fileID: 2028772720}
     - target: {fileID: 114374224506587848, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
         type: 2}
       propertyPath: groundSplatDecal
@@ -7143,41 +7128,21 @@ Prefab:
       propertyPath: _cappParticleSystem
       value: 
       objectReference: {fileID: 1937323159}
-    - target: {fileID: 114770539629856794, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
+    - target: {fileID: 114536147130075368, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
         type: 2}
-      propertyPath: _audioControllerList.Array.data[1]._audioClipList.Array.data[4]
+      propertyPath: _pond
       value: 
-      objectReference: {fileID: 8300000, guid: 17127db74f05d410ca7e489a1d65f449, type: 3}
-    - target: {fileID: 114770539629856794, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
+      objectReference: {fileID: 2028772720}
+    - target: {fileID: 114804556110679380, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
         type: 2}
-      propertyPath: _audioControllerList.Array.data[1]._audioClipList.Array.data[5]
+      propertyPath: _ground
       value: 
-      objectReference: {fileID: 8300000, guid: eb8d4c2932e99473d96bd11787e6039f, type: 3}
-    - target: {fileID: 114770539629856794, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
+      objectReference: {fileID: 416182352}
+    - target: {fileID: 114804556110679380, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
         type: 2}
-      propertyPath: _audioControllerList.Array.data[1]._audioClipList.Array.data[2]
+      propertyPath: _mask
       value: 
-      objectReference: {fileID: 8300000, guid: c14794446be214cfc957684ad0e96fb0, type: 3}
-    - target: {fileID: 114770539629856794, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
-        type: 2}
-      propertyPath: _audioControllerList.Array.data[1]._audioClipList.Array.data[3]
-      value: 
-      objectReference: {fileID: 8300000, guid: c83eeda8e9cf540cfb69328b7f4742e6, type: 3}
-    - target: {fileID: 114770539629856794, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
-        type: 2}
-      propertyPath: _audioControllerList.Array.data[1]._audioClipList.Array.data[1]
-      value: 
-      objectReference: {fileID: 8300000, guid: 104f868655c2e4b5ba1b72676c54eb22, type: 3}
-    - target: {fileID: 114770539629856794, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
-        type: 2}
-      propertyPath: _audioControllerList.Array.data[1]._audioClipList.Array.data[6]
-      value: 
-      objectReference: {fileID: 8300000, guid: 04d5a54ee94e648fb9fd1dd9dd5e42c5, type: 3}
-    - target: {fileID: 114770539629856794, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
-        type: 2}
-      propertyPath: _audioControllerList.Array.data[1]._audioClipList.Array.data[7]
-      value: 
-      objectReference: {fileID: 8300000, guid: a9694ad29285642d1910236d72c6a408, type: 3}
+      objectReference: {fileID: 1017378814}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 17e7204e7259943eaa4ae4fd5f6f0e54, type: 2}
   m_IsPrefabParent: 0

@@ -18,13 +18,15 @@ public class RitualState : RollerState
         _roller.SpherifyScale = RollerConstants.instance.RitualSphereizeScale;
 
 		_roller.Face.TransitionFacePose( "Pop" );
+
+		AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_ACTIONFX, 4 );
 	}
 
 	public override void Exit(P_ControlState nextState)
 	{
 		Debug.Log("[RollerState] EXIT RITUAL STATE");
 
-		if (nextState == P_ControlState.WALKING)
+		if ( nextState == P_ControlState.WALKING )
 		{
 			_roller.IK.SetState( PlayerIKControl.WalkState.WALK );
 			_roller.Face.BecomeIdle();
@@ -43,7 +45,7 @@ public class RitualState : RollerState
 
             CameraManager.instance.ScreenShake( 0.4f, 0.5f, 20 );
 
-            if (_roller.CurrentHeldObject != null)
+            if ( _roller.CurrentHeldObject != null )
 			{
 				Seed seed = _roller.CurrentHeldObject.GetComponent<Seed>();
 				if( seed != null )
@@ -70,7 +72,7 @@ public class RitualState : RollerState
             _roller.Spherify = Mathf.Lerp( 0.0f, RollerConstants.instance.RitualMaxSpherize, RollerConstants.instance.RitualPopCurve.Evaluate( ritualTimer / RollerConstants.instance.RitualTime ) );
             //_roller.SpherifyScale = Mathf.Lerp( _roller.SpherifyScale, RollerConstants.instance.RitualSphereizeScale, Time.deltaTime * 15.0f );
 
-            if (!input.XButton.IsPressed)
+            if ( !input.XButton.IsPressed )
 			{
 				_roller.ChangeState(P_ControlState.WALKING);
 			}

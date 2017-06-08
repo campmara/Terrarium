@@ -9,6 +9,13 @@ public class PanelOverlay : PanelBase {
 	public RawImage ScreenshotOverlay { get { return _screenshotOverlay; } set { _screenshotOverlay = value; } }
 
 	[SerializeField] RawImage _blackOverlay = null;
-	public RawImage BlackOverlay { get { return _blackOverlay; } set { _screenshotOverlay = value; } }
-	
+	public RawImage BlackOverlay { get { return _blackOverlay; } set { _blackOverlay = value; } }
+
+    [SerializeField]
+    RawImage _logoOverlay = null;
+    public RawImage LogoOverlay { get { return _logoOverlay; } set { _logoOverlay = value; } }
+
+    void Awake()
+    {
+    }
 }

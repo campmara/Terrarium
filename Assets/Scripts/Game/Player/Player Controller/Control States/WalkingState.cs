@@ -24,7 +24,8 @@ public class WalkingState : RollerState
                 CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
                 //PlayerManager.instance.Player.AnimationController.PlayRollToWalkAnim();
 			_rollPosTween = _roller.RollSphere.transform.DOMoveY( 1.25f, RollerConstants.instance.RollExitSpeed ).SetEase( Ease.Linear ).OnComplete( () => TransitionFromRollComplete() );                
-                break;       
+			_roller.WaterAccent.SetWalkClip();    
+			break;       
         }
 
         _idleTimer = 0f;

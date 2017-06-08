@@ -912,6 +912,186 @@ MonoBehaviour:
       LittleSmileBlendValue: 0
       BigSmileBlendValue: 0
       OvalOBlendValue: 0
+  - PoseName: Singing5
+    LeftEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 90
+    RightEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 90
+    MouthPose:
+      LittleHappyBlendValue: 0
+      LittleUpsetBlendValue: 0
+      LittleFrownBlendValue: 0
+      LittleOBlendValue: 100
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 0
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 0
+      BigSmileBlendValue: 0
+      OvalOBlendValue: 25
+  - PoseName: Singing6
+    LeftEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 90
+    RightEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 90
+    MouthPose:
+      LittleHappyBlendValue: 0
+      LittleUpsetBlendValue: 0
+      LittleFrownBlendValue: 0
+      LittleOBlendValue: 25
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 0
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 0
+      BigSmileBlendValue: 0
+      OvalOBlendValue: 50
+  - PoseName: Singing7
+    LeftEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 90
+    RightEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 90
+    MouthPose:
+      LittleHappyBlendValue: 0
+      LittleUpsetBlendValue: 0
+      LittleFrownBlendValue: 0
+      LittleOBlendValue: 50
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 0
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 0
+      BigSmileBlendValue: 0
+      OvalOBlendValue: 100
+  - PoseName: Singing8
+    LeftEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 90
+    RightEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 90
+    MouthPose:
+      LittleHappyBlendValue: 100
+      LittleUpsetBlendValue: 0
+      LittleFrownBlendValue: 0
+      LittleOBlendValue: 0
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 0
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 75
+      BigSmileBlendValue: 0
+      OvalOBlendValue: 0
+  - PoseName: Singing9
+    LeftEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 90
+    RightEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 90
+    MouthPose:
+      LittleHappyBlendValue: 50
+      LittleUpsetBlendValue: 0
+      LittleFrownBlendValue: 0
+      LittleOBlendValue: 0
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 0
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 0
+      BigSmileBlendValue: 0
+      OvalOBlendValue: 25
+  - PoseName: Singing10
+    LeftEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 90
+    RightEyePose:
+      DespairBlendValue: 0
+      WideBlendValue: 0
+      AngryBlendValue: 0
+      HalfOpenBlendValue: 0
+      ClosedBlendValue: 0
+      SadBlendValue: 0
+      HappyBlendValue: 90
+    MouthPose:
+      LittleHappyBlendValue: 50
+      LittleUpsetBlendValue: 0
+      LittleFrownBlendValue: 0
+      LittleOBlendValue: 0
+      BigFrownBlendValue: 0
+      SquigglySmileBlendValue: 0
+      BigHappyBlendValue: 0
+      Despair1BlendValue: 0
+      BigUpsetBlendValue: 0
+      LittleSmileBlendValue: 0
+      BigSmileBlendValue: 25
+      OvalOBlendValue: 25
   StartMouthPoseIndex: 0
   MouthPoseTransitionTime: 0.15
   MouthTransitionAnimCurve:
