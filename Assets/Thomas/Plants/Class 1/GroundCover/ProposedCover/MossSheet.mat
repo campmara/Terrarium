@@ -8,7 +8,7 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: MossSheet
   m_Shader: {fileID: 4800000, guid: 9ffa44fe994827b49975685189551026, type: 3}
-  m_ShaderKeywords: _EMISSION
+  m_ShaderKeywords: _BENDFROMPIVOT_ON _EMISSION
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_CustomRenderQueue: -1
@@ -70,6 +70,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _BendFromPivot: 1
     - _BumpScale: 1
     - _Columns: 1
     - _Cutoff: 0.696
@@ -98,6 +99,7 @@ Material:
     - _ToggleBillboard: 0
     - _TotalFrames: 7
     - _UVSec: 0
+    - _WarpAmount: 1
     - _WorldDistortion: 0.25
     - _ZWrite: 1
     m_Colors:
@@ -111,3 +113,4 @@ Material:
     - _GrassColor: {r: 1, g: 1, b: 1, a: 1}
     - _GroundColor: {r: 1, g: 1, b: 1, a: 1}
     - _MeltColor: {r: 1, g: 1, b: 1, a: 0}
+    - _Pivot: {r: 0, g: -0.5, b: 0, a: 0}
