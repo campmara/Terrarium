@@ -57,8 +57,7 @@ public class BigPlantPickupable : Pickupable {
             
         if( wentForward && wentBack )
         {
-            Vector3 playerPos = PlayerManager.instance.Player.transform.position;
-            GetComponent<BPGrowthController>().SummonSeed( new Vector2( playerPos.x, playerPos.z) );
+            GetComponent<BasePlant>().GrabPlant();
             wentForward = false;
             wentBack = false;
         }

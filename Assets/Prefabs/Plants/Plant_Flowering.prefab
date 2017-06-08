@@ -829,10 +829,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 383399452f6ba4461be2a59e661615d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pAssetKey: -1
   _type: 1
   _deathDuration: 0
-  _DeathDurationRange: {x: 100, y: 120}
+  _DeathDurationRange: {x: 200, y: 240}
   _DeathTimer: 0
   _baseDecayRate: 1
   _curDecayRate: 0

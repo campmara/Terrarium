@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PointyBushGrowthController : SPGrowthController {
     [SerializeField] GameObject _leaf;
-
+    List<Animator> _leafAnimators = new List<Animator>();
     const int _numLeaves = 5;
     const int _layerCount = 3;
 
@@ -12,6 +12,12 @@ public class PointyBushGrowthController : SPGrowthController {
     float _leafScale = 0.0f;
     Animator _lastAnim = null;
     bool _waiting = false;
+    
+    //DANCING VARIABLES
+    float _danceDelay = .35f;
+	float _singBufferTime = .6f;
+	float _enterTime = 0.0f;
+    bool _canDance = true;
 
     protected override void InitPlant()
     {
@@ -72,15 +78,10 @@ public class PointyBushGrowthController : SPGrowthController {
 		}
 
         _waitTime = (((layerIndex * _numLeaves) + leafNumber) * .5f) / _growthRate;
-
-        //_waitTime = 0;
+         _lastAnim = anim;
+         _leafAnimators.Add( anim );
 
         StartCoroutine(WaitAndStart(newLeaf.transform.GetComponentInChildren<Animator>(), _waitTime));
-
-        if (leafNumber == _numLeaves - 1 && layerIndex == _layerCount - 1)
-        {
-            _lastAnim = newLeaf.transform.GetComponentInChildren<Animator>();
-        }
     }
 
     IEnumerator TweenLocalScale(Transform focusTransform, Vector3 startScale, Vector3 endScale, float moveTime)
@@ -138,4 +139,42 @@ public class PointyBushGrowthController : SPGrowthController {
         _waiting = false;
         _myPlant.SwitchController(this);
     }
+
+    IEnumerator PointyDance()
+    {
+        foreach( Animator plant in _leafAnimators )
+	    {			
+            if( _canDance )
+            {
+                plant.SetBool("IsDancing", true );
+             //   yield return new WaitForSeconds( _danceDelay );
+            }
+            else
+            {
+                break;
+            }
+	    }
+        yield return null;
+    }
+    protected override void CustomizedSingAtPlant( bool entering )
+	{
+		SingController singCtrl = PlayerManager.instance.Player.GetComponent<SingController>();
+        if( singCtrl.State == SingController.SingState.SINGING && entering)
+        {
+            _enterTime = Time.time;
+            _canDance = true;
+            StartCoroutine( PointyDance() );
+        }
+        else 
+        {
+            if( !entering || (Time.time - _enterTime >= _singBufferTime ) )                
+            {
+                _canDance = false;
+                foreach( Animator plant in _leafAnimators )
+			    {
+			        plant.SetBool("IsDancing", false );
+		        }
+            }            
+        }
+	}
 }
