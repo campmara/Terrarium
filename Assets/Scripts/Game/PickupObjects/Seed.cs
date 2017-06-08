@@ -4,9 +4,6 @@ using UnityEngine;
 using DG.Tweening;
 public class Seed : Pickupable 
 {
-    [SerializeField] protected SeedAssetKey _assetKey = SeedAssetKey.NONE;
-    public SeedAssetKey AssetKey { get { return _assetKey; } set { _assetKey = value; } }
-
     [SerializeField] GameObject _moundPrefab = null;
 	BasePlant.PlantType _moundType = BasePlant.PlantType.NONE;
 	float _timeSinceLastPickup = 0.0f;
@@ -23,7 +20,7 @@ public class Seed : Pickupable
 
 	Coroutine _plantWaitRoutine = null;
 
-	void Awake()
+	protected override void Awake()
 	{
 		base.Awake();
 		_moundType = _moundPrefab.GetComponent<BasePlant>().MyPlantType;
