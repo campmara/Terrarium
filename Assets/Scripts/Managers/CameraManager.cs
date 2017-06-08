@@ -38,7 +38,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
     Vector3 _focusPoint = Vector3.zero;    	// Center of focal point following player
     Vector3 _focusOffset = Vector3.zero;    
     float _centerDist = 0.0f;               // Current distance of focusCenter from transform
-    const float CAM_FOLLOWSPEED = 15f;
+    const float CAM_FOLLOWSPEED = 5f;
 	const float CAM_CENTER_UPDATE_SPEED = 15f;
     float _lookVertOffset;
     const float CAMLOOK_VERTICALOFFSET_MIN = 1.0f;	// How far up/down the cam looks relative to the actually cam focus point
@@ -287,6 +287,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 
                 if ( Mathf.Abs(_currRotSpeed) > Mathf.Epsilon )
                 {
+                    // b/c it's rotating Around the point, the closer it is to camera, the slower it Rotates buh not GOOD
                     _mainCam.transform.RotateAround( _focusPoint, Vector3.up, CAM_ROTSPEED * _currRotSpeed * Time.fixedDeltaTime );
                     _camOffset = _mainCam.transform.position - _focusPoint;
                 }
@@ -342,6 +343,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	private void LockCamFocus()
 	{
 		_focusPoint = _focusTransform.position;
+        _focusPoint.y = 0.0f;
 
 		PositionCameraBehindFocus();
 	}
@@ -378,10 +380,11 @@ public class CameraManager : SingletonBehaviour<CameraManager>
         _zoomInterp = ZOOM_RESETINTERP;
         DetermineCameraZoom( _zoomInterp );
 
-        _focusPoint = pondTransform.position;
-        _focusOffset = _focusPoint;
+        _focusPoint = _focusTransform.position;
+        _focusPoint.y = 0.0f;
+        _focusOffset = Vector3.zero;
 
-		PlayerManager.instance.Player.ControlManager.SetActiveController<RollerController>();
+        PlayerManager.instance.Player.ControlManager.SetActiveController<RollerController>();
 
         PondManager.instance.PopPlayerFromPond();
 	}
@@ -416,8 +419,9 @@ public class CameraManager : SingletonBehaviour<CameraManager>
         //_zoomInterp = ZOOM_RESETINTERP;
         //DetermineCameraZoom( _zoomInterp );
 
-        _focusPoint = pondTransform.position;
-        _focusOffset = _focusPoint;
+        _focusPoint = _focusTransform.position;
+        _focusPoint.y = 0.0f;
+        _focusOffset = Vector3.zero;
 
 		PlayerManager.instance.Player.ControlManager.SetActiveController<RollerController>();
 	}
