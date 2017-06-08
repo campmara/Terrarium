@@ -550,14 +550,10 @@ MonoBehaviour:
   MedTotalPlantsRange: {x: 0, y: 50}
   MedSpawnRadRange: {x: 3, y: 4.5}
   MedNumPerPlant: {x: 4, y: 6}
-  SmTotalPlantsRange: {x: 0, y: 100}
-  SmSpawnRadRange: {x: 1, y: 3}
-  SmNumPerPlant: {x: 8, y: 15}
   _pointSeed: {fileID: 1631419253260572, guid: e7e4ccc23b3b8416c994f33a1840c8c6, type: 2}
   _floweringSeed: {fileID: 1356359172527236, guid: bbfef1f81afcefc438cf9d537e7f0931,
     type: 2}
-  _huppetSeed: {fileID: 1261253386730094, guid: bc1c0a0bd8a10a14d966be28e3d9fcb1,
-    type: 2}
+  _huppetSeed: {fileID: 0}
 --- !u!114 &114162013853216408
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6603,13 +6599,13 @@ MonoBehaviour:
   - ControllerName: PLAYER_SING
     _audioClipList:
     - {fileID: 8300000, guid: d1f3bf06ef45548c98fa3d45b8de89e0, type: 3}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 8300000, guid: 104f868655c2e4b5ba1b72676c54eb22, type: 3}
+    - {fileID: 8300000, guid: c14794446be214cfc957684ad0e96fb0, type: 3}
+    - {fileID: 8300000, guid: c83eeda8e9cf540cfb69328b7f4742e6, type: 3}
+    - {fileID: 8300000, guid: 17127db74f05d410ca7e489a1d65f449, type: 3}
+    - {fileID: 8300000, guid: eb8d4c2932e99473d96bd11787e6039f, type: 3}
+    - {fileID: 8300000, guid: 04d5a54ee94e648fb9fd1dd9dd5e42c5, type: 3}
+    - {fileID: 8300000, guid: a9694ad29285642d1910236d72c6a408, type: 3}
     _mixerGroup: {fileID: 243970327439256478, guid: 30f3aa683f5543d469208f1bb641c945,
       type: 2}
     _volume: 1
@@ -6643,7 +6639,8 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 5617e55cf46bd4971beb99b4e97e9786, type: 3}
     - {fileID: 8300000, guid: 2893cb221a72a428b96061d697189ddd, type: 3}
     - {fileID: 8300000, guid: fe03c30646ed6d542aa0352b423031d7, type: 3}
-    - {fileID: 8300000, guid: 0b88acf3e64864c44af7effbeac17108, type: 3}
+    - {fileID: 8300000, guid: 0e9cf40b489e94560bfd2f6ab0d5a8e5, type: 3}
+    - {fileID: 8300000, guid: 8511f9e2a34804fec8b7fd9e54c5dff5, type: 3}
     _mixerGroup: {fileID: 243730844136138892, guid: 30f3aa683f5543d469208f1bb641c945,
       type: 2}
     _volume: 0.1
@@ -6654,9 +6651,9 @@ MonoBehaviour:
     _audioClipList:
     - {fileID: 8300000, guid: 4ec15d6c38828492ab2ead15f3f485b8, type: 3}
     - {fileID: 8300000, guid: 2dd0c697b29434d8592ac0951ed94e33, type: 3}
-    - {fileID: 8300000, guid: 0389bd0a8f076422bab2a8fc4a7c0873, type: 3}
-    - {fileID: 8300000, guid: 45f106f267cf5481cbd0b822416f9bd4, type: 3}
-    - {fileID: 8300000, guid: 31eb9794681d44325bb175cb28b2e6d8, type: 3}
+    - {fileID: 8300000, guid: 47d558e2d93324104a6250fbae10be24, type: 3}
+    - {fileID: 8300000, guid: 08a1cd3d667ca441c930d87bfba28025, type: 3}
+    - {fileID: 8300000, guid: 47cf0e7c8dd604877877c3d7d638a93c, type: 3}
     _mixerGroup: {fileID: 243318732923885706, guid: 30f3aa683f5543d469208f1bb641c945,
       type: 2}
     _volume: 1

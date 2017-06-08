@@ -35,6 +35,8 @@ public class RollingState : RollerState
             _rollSpherifyTween = DOTween.To( () => _roller.Spherify, x => _roller.Spherify = x, RollerConstants.instance.RollSpherizeMaxSize, RollerConstants.instance.RollEnterSpeed ).SetEase( Ease.InOutQuint );
 
 			Invoke( "StartJiggling", RollerConstants.instance.RollEnterSpeed );
+
+			_roller.WaterAccent.SetRollClip();
 		}
     }
 

@@ -1718,7 +1718,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -1914,6 +1914,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a34c62943af6d9347a65f927afb10cc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _walkingAccentClip: {fileID: 8300000, guid: 3d233d03e6c994edbb35f04ef09e2d26, type: 3}
+  _rollingAccentClip: {fileID: 8300000, guid: e0a4550a0ec36437fb6f2ffe99e17f03, type: 3}
 --- !u!114 &114104806924290988
 MonoBehaviour:
   m_ObjectHideFlags: 1

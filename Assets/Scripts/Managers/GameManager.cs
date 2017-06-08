@@ -168,8 +168,6 @@ public class GameManager : MonoBehaviour
 
 	IEnumerator DelayedInitialize()
 	{
-        UIManager.instance.Initialize();
-
 // 		ControlManager.instance.Initialize();
 // 
 // 		yield return new WaitUntil( () => ControlManager.instance.IsInitialized );
