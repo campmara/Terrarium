@@ -88,6 +88,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 
 		public Gradient rabbitGradient;
 		public Gradient butterflyGradient;
+		public Gradient slugGradient;
 
 		public PlantColorPalette plantColors;
 	}
@@ -121,6 +122,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 	[SerializeField] Material pondRockMat;
 
 	[SerializeField] Material rabbitMat;
+	[SerializeField] Material slugMat;
 
     [SerializeField]
     ParticleSystem _twistParticleSystem;
@@ -196,6 +198,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
             //ApplyThreePartGradient( pondRockMat, _activePalette.pondRockGradient );
 
 			ApplyThreePartGradient( rabbitMat, _activePalette.rabbitGradient );
+			ApplyThreePartGradient( slugMat, _activePalette.slugGradient );
 
 			SetPlantColors( prevPalette.plantColors, _activePalette.plantColors );
 		}
@@ -205,6 +208,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 			GeneralTransitionColors( prevPalette );
 			       
 			TransitionThreePartGradient( rabbitMat, _activePalette.rabbitGradient );
+			TransitionThreePartGradient( slugMat, _activePalette.slugGradient );
 
 			TransitionPlantColors( prevPalette );
 
