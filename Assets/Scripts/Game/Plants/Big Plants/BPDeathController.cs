@@ -5,40 +5,38 @@ using DG.Tweening;
 
 public class BPDeathController : PlantController 
 {	
-	[SerializeField] private ParticleSystem _treeBubblePrefab;
-	[SerializeField] private SkinnedMeshRenderer _essenceMesh;
-	ParticleSystem _treeBubbleSystem;
-	ParticleSystem.NoiseModule _essenceNoise;
-	[SerializeField] float _waterDecayReturnTime = 20.0f;
-
 	enum DeathState
 	{
-		Decaying,
-		Fading
+		DECAYING,
+		BUBBLING
 	}
-	DeathState _curState = DeathState.Decaying;
+	DeathState _curState = DeathState.DECAYING;
 
+	[Header("Bubble Properties"), SerializeField] private GameObject _bubblePrefab;
+	[SerializeField] private float _deathTime = 20f;
+	[SerializeField] private float _spawnRate = 0.9f;
+	[SerializeField] private FloatRange _growthTimeRange = new FloatRange(7f, 12f);
+	[SerializeField] private FloatRange _growthSizeRange = new FloatRange(0.25f, 0.45f);
+
+	private List<Bubble> _bubbles;
+	private List<Vector3> _verts;
+
+	private Coroutine _bubbleSpawnRoutine;
+	private float _deathTimer;
+	private float _dissolveValue;
+	private bool _readyToDie;
+
+	[Header("Other"), SerializeField] float _waterDecayReturnTime = 20.0f;
+
+	// Color Handling
 	List<Material> _componentMaterials = new List<Material>();
 	Color[] _originalColors = new Color[3];
 	Color[] _interpColors = new Color[6];
 	int[] _shaderIDs = new int[3];
-
-	private float _fadeTime = 20f;
-	private float _cutoffValue;
-	private bool _markedForDeath;
 	
 	public override void Init()
 	{
 		_myPlant = GetComponent<BasePlant>();
-
-		if (_treeBubblePrefab != null)
-		{
-			_treeBubbleSystem = Instantiate(_treeBubblePrefab, transform.position, Quaternion.identity) as ParticleSystem;
-			_treeBubbleSystem.Stop();
-			_treeBubbleSystem.GetComponent<TreeBubbleParticles>().Setup(GetComponent<BigPlantPickupable>());
-			_essenceNoise = _treeBubbleSystem.noise;
-		}
-
 		_controllerType = ControllerType.Death;
 	}
 
@@ -47,12 +45,13 @@ public class BPDeathController : PlantController
 		_myPlant.CurDecayRate = _myPlant.BaseDecayRate;
 
 		GetComponentMaterials();
+		GetBubbleInfo();
 
 		_interpColors[0] = _originalColors[0]; 
 		_interpColors[1] = _originalColors[1];
 		_interpColors[2] = _originalColors[2];
 
-		ColorManager.ExecutePaletteChange += HandlePalatteChange;
+		ColorManager.ExecutePaletteChange += HandlePaletteChange;
 	}
 
 	void GetComponentMaterials()
@@ -69,23 +68,6 @@ public class BPDeathController : PlantController
 			_componentMaterials.Add( renderer.material );
 		}
 
-		ParticleSystem.ShapeModule shape = _treeBubbleSystem.shape;
-		if ( _essenceMesh != null )
-		{
-			shape.skinnedMeshRenderer = _essenceMesh;
-		}
-		else
-		{
-			if ( renderers.Length > 0 && renderers[0] != null )
-			{
-				shape.skinnedMeshRenderer = renderers[0];
-			}
-			else if (otherRenderers.Length > 0 && otherRenderers[0] != null )
-            {
-				shape.meshRenderer = otherRenderers[0];
-			}
-		}
-
 		if( _componentMaterials.Count > 0 )
 		{
 			_shaderIDs[0] = Shader.PropertyToID( "_ColorTop");
@@ -98,19 +80,50 @@ public class BPDeathController : PlantController
 		}
 	}
 
-	public override void UpdateState()
+	private void GetBubbleInfo()
 	{
-		if( _curState == DeathState.Decaying )
+		// Populate the list of filters and vertices.
+		_bubbles = new List<Bubble>();
+		_verts = new List<Vector3>();
+
+		SkinnedMeshRenderer[] _skins = GetComponentsInChildren<SkinnedMeshRenderer>();
+		for (int i = 0; i < _skins.Length; i++)
 		{
-			Decay();
+			foreach (Vector3 vert in _skins[i].sharedMesh.vertices)
+			{
+				Vector3 transformedVert = _skins[i].transform.TransformPoint(vert);
+				_verts.Add(transformedVert);
+			}
 		}
-		else
+
+		// BACKUP! use meshrenderer
+		if (_skins.Length == 0)
 		{
-			FadeEssence();
+			MeshFilter[] _filters = GetComponentsInChildren<MeshFilter>();
+			for (int i = 0; i < _filters.Length; i++)
+			{
+				foreach (Vector3 vert in _filters[i].mesh.vertices)
+				{
+					Vector3 transformedVert = _filters[i].transform.TransformPoint(vert);
+					_verts.Add(transformedVert);
+				}
+			}
 		}
 	}
 
-	protected virtual void Decay()
+	public override void UpdateState()
+	{
+		if( _curState == DeathState.DECAYING )
+		{
+			HandleDecay();
+		}
+		else
+		{
+			HandleBubbling();
+		}
+	}
+
+	protected virtual void HandleDecay()
 	{
 		if( _myPlant.DeathTimer < _myPlant.DeathDuration )
 		{
@@ -119,62 +132,98 @@ public class BPDeathController : PlantController
 		}
 		else
 		{
-			//ParticleSystem.MinMaxGradient essenceTrailColor = _essenceParticleSystem.trails.colorOverLifetime;
-			//essenceTrailColor.color = _componentMaterials[0].GetColor(_shaderIDs[1]);
+			// Begin the bubbling process.
+			_dissolveValue = 0f;
+			_deathTimer = 0f;
 
-			// DEFINE SOME VALUES
-			_cutoffValue = 0f;
+			_bubbleSpawnRoutine = StartCoroutine(BubbleSpawnRoutine());
 
-			ParticleSystem.MainModule essenceMain = _treeBubbleSystem.main;
-			essenceMain.startColor = _componentMaterials[0].GetColor(_shaderIDs[0]);
-			essenceMain.duration  = _fadeTime - 7f;
-
-			_treeBubbleSystem.Play();
-
-			// Fade the cutoff in a tween.
-			DOTween.To(()=> _cutoffValue, x=> _cutoffValue = x, 1f, _fadeTime)
-				.SetEase(Ease.InExpo)
-				.OnComplete(OnDeath);
-
-			_curState = DeathState.Fading;
+			_curState = DeathState.BUBBLING;
 		}
 	}
 
-	private void StartBubbling()
+	void HandleBubbling()
 	{
-		_treeBubbleSystem.Play();
-	}
+		if (_readyToDie) return;
 
-	protected virtual void OnDeath()
-	{
-		// Fully decayed and therefore no longer visible.
-		_treeBubbleSystem.Stop();
-		_treeBubbleSystem.GetComponent<TreeBubbleParticles>().MarkForDestroy(10f);
+		// Increment the death timer.
+		_deathTimer += Time.deltaTime;
 
-		_markedForDeath = true;
-	}
+		// Handle the dissolve effect.
+		_dissolveValue = Mathf.Lerp(0f, 1f, _deathTimer / _deathTime);
+		UpdateDissolveEffect();
 
-	void FadeEssence()
-	{
-		if (_markedForDeath )
+		// Handle time checking.
+		if (_deathTimer >= _deathTime)
 		{
-			if( !_treeBubbleSystem || !_treeBubbleSystem.IsAlive())
-			{
-				// Delete me!!! Bye bye!!!
-				PlantManager.instance.DeleteLargePlant( _myPlant.GetComponent<BasePlant>() );
-			}
+			StopCoroutine(_bubbleSpawnRoutine);
+			DropAllBubbles();
+			_readyToDie = true;
 		}
+	}
 
+	/*
+		B U B B L I N G
+	*/
+
+	private IEnumerator BubbleSpawnRoutine()
+	{
+		yield return new WaitForSeconds(_spawnRate);
+
+		Bloop();
+
+		_bubbleSpawnRoutine = StartCoroutine(BubbleSpawnRoutine());
+	}
+
+	private void Bloop()
+	{
+		GameObject bubbleObj = Instantiate(_bubblePrefab, RandomPointOnPlant(), Quaternion.identity);
+
+		Bubble bubble = bubbleObj.GetComponent(typeof(Bubble)) as Bubble;
+		bubble.Setup(this,
+					 Random.Range(_growthTimeRange.min, _growthTimeRange.max),
+					 Random.Range(_growthSizeRange.min, _growthSizeRange.max),
+					 _interpColors[0]);
+
+		_bubbles.Add(bubble);
+	}
+
+	// Returns a random point on the mesh.
+	private Vector3 RandomPointOnPlant()
+	{
+		return _verts[Random.Range(0, _verts.Count)];
+	}
+
+	private void DropAllBubbles()
+	{
+		for(int i = 0; i < _bubbles.Count; i++)
+		{
+			_bubbles[i].Drop();
+		}
+	}
+
+	public void OnBubbleDestroyed(Bubble bubble)
+	{
+		_bubbles.Remove(bubble);
+
+		// We check to kill the plant here. It'll only die if it's ready, once the death timer runs out.
+		if (_readyToDie && _bubbles.Count == 0)
+		{
+			KillPlant();
+		}
+	}
+
+	protected virtual void KillPlant()
+	{
+		// Delete me!!! Bye bye!!!
+		PlantManager.instance.DeleteLargePlant( _myPlant.GetComponent<BasePlant>() );
+	}
+
+	private void UpdateDissolveEffect()
+	{
 		for (int i = 0; i < _componentMaterials.Count; i++)
 		{
-			_componentMaterials[i].SetFloat("_Dissolve", _cutoffValue);
-		}
-
-		if (_treeBubbleSystem != null)
-		{
-			_essenceNoise.strengthXMultiplier = WeatherManager.instance.WindForce.x;
-			_essenceNoise.strengthYMultiplier = WeatherManager.instance.WindForce.y;
-			_essenceNoise.strengthZMultiplier = WeatherManager.instance.WindForce.z;
+			_componentMaterials[i].SetFloat("_Dissolve", _dissolveValue);
 		}
 	}
 
@@ -196,192 +245,40 @@ public class BPDeathController : PlantController
 		_myPlant.DecayReturnRoutine = StartCoroutine( _myPlant.DelayedReturnDecayRate( _waterDecayReturnTime ) );
 	}
 
+	// When we shake the plant, we should revert the death process. It'll still go back to bubbling eventually.
+	public override void GrabPlant()
+	{
+		if (_curState == DeathState.DECAYING) return;
+
+		// Stop spawning bubbles.
+		StopCoroutine(_bubbleSpawnRoutine);
+
+		// Drop all the bubbles.
+		DropAllBubbles();
+		
+		// Revert the dissolve effect.
+		DOTween.To(()=> _dissolveValue, x=> _dissolveValue = x, 0f, 5f)
+				.SetEase(Ease.Linear)
+				.OnUpdate(() => UpdateDissolveEffect())
+				.OnComplete(KillPlant);
+
+		// Prepare for the decay process again.
+		_myPlant.DeathTimer = 0f;
+		_curState = DeathState.DECAYING;
+	}
+
 	public override void TouchPlant(){}
-	public override void GrabPlant(){}
 	public override void StompPlant(){}
 
 	void OnDestroy()
 	{
-		ColorManager.ExecutePaletteChange -= HandlePalatteChange;
+		ColorManager.ExecutePaletteChange -= HandlePaletteChange;
 	}
 
-	void HandlePalatteChange( ColorManager.EnvironmentPalette newPalette, ColorManager.EnvironmentPalette prevPalette  )
-	{		
-//		Debug.Log( "transitionin a dyin plant color ");
-//		BasePlant.PlantType _type = _myPlant.GetComponent<BasePlant>().MyPlantType;
-//		switch( _type )
-//		{
-//		case BasePlant.PlantType.POINT:
-//			StartCoroutine( DelayedTransitionPointColors( newPalette, prevPalette ) );
-//			break;
-//		case BasePlant.PlantType.FLOWERING:
-//			StartCoroutine( DelayedTransitionMossColors( newPalette.mossPlant ) );
-//			break;
-//		case BasePlant.PlantType.LEAFY:
-//			StartCoroutine( DelayedTransitionLeafyColors( newPalette, prevPalette ) );
-//			break;
-//		case BasePlant.PlantType.LIMBER:
-//			StartCoroutine( DelayedTransitionLimberColors( newPalette.limberPlant ) );
-//			break;
-//		case BasePlant.PlantType.PBUSH:
-//			StartCoroutine( DelayedTransitionPBushColors( newPalette.pointyBush ) );
-//			break;
-//		case BasePlant.PlantType.BUMBLE:
-//			StartCoroutine( DelayedTransitionPBushColors( newPalette.bumblePlant ) );
-//			break;
-//		default:
-//			break;
-//		}
+	void HandlePaletteChange(ColorManager.EnvironmentPalette newPalette, ColorManager.EnvironmentPalette prevPalette)
+	{
+
 	}
-//		
-//	IEnumerator DelayedTransitionPointColors(ColorManager.EnvironmentPalette newPalette, ColorManager.EnvironmentPalette prevPalette, float transitionTime = ColorManager.PALETTE_TRANSITIONTIME )
-//	{
-//		float timer = 0.0f;
-//
-//		while( timer < transitionTime )
-//		{
-//			timer +=  Time.deltaTime;
-//
-//			foreach( Material mat in _componentMaterials )
-//			{
-//				if( mat.name == "GroundLeaf" )
-//				{
-//					mat.SetColor( _shaderIDs[0], Colorx.Slerp( prevPalette.pointPlantLeaf.Evaluate(0.0f), newPalette.pointPlantLeaf.Evaluate(0.0f), timer / transitionTime ) );
-//					mat.SetColor( _shaderIDs[1], Colorx.Slerp( prevPalette.pointPlantLeaf.Evaluate(0.5f), newPalette.pointPlantLeaf.Evaluate(0.5f), timer / transitionTime ) );
-//					mat.SetColor( _shaderIDs[2], Colorx.Slerp( prevPalette.pointPlantLeaf.Evaluate(1.0f), newPalette.pointPlantLeaf.Evaluate(1.0f), timer / transitionTime ) );
-//				}
-//				else if( mat.name == "GreenGradient")
-//				{
-//					mat.SetColor( _shaderIDs[0], Colorx.Slerp( prevPalette.pointPlantStem.Evaluate(0.0f), newPalette.pointPlantStem.Evaluate(0.0f), timer / transitionTime ) );
-//					mat.SetColor( _shaderIDs[1], Colorx.Slerp( prevPalette.pointPlantStem.Evaluate(0.5f), newPalette.pointPlantStem.Evaluate(0.5f), timer / transitionTime ) );
-//					mat.SetColor( _shaderIDs[2], Colorx.Slerp( prevPalette.pointPlantStem.Evaluate(1.0f), newPalette.pointPlantStem.Evaluate(1.0f), timer / transitionTime ) );
-//				}
-//			}
-//
-//			yield return 0;
-//		}
-//	}
-//
-//	IEnumerator DelayedTransitionMossColors( Gradient newGradient, float transitionTime = ColorManager.PALETTE_TRANSITIONTIME )
-//	{
-//		float timer = 0.0f;
-//		Color topColor = _componentMaterials[0].GetColor( _shaderIDs[0] );
-//		Color midColor = _componentMaterials[0].GetColor( _shaderIDs[1] );
-//		Color botColor = _componentMaterials[0].GetColor( _shaderIDs[2] );
-//
-//		while( timer < transitionTime )
-//		{
-//			timer +=  Time.deltaTime;
-//
-//			foreach( Material mat in _componentMaterials )
-//			{
-//				mat.SetColor( _shaderIDs[0], Colorx.Slerp( topColor, newGradient.Evaluate(0.0f), timer / transitionTime ) );
-//				mat.SetColor( _shaderIDs[1], Colorx.Slerp( midColor, newGradient.Evaluate(0.5f), timer / transitionTime ) );
-//				mat.SetColor( _shaderIDs[2], Colorx.Slerp( botColor, newGradient.Evaluate(1.0f), timer / transitionTime ) );;
-//			}
-//
-//			yield return 0;
-//		}	
-//	}
-//
-//	IEnumerator DelayedTransitionLeafyColors( ColorManager.EnvironmentPalette newPalette, ColorManager.EnvironmentPalette prevPalette, float transitionTime = ColorManager.PALETTE_TRANSITIONTIME ) 
-//	{
-//		float timer = 0.0f;
-//
-//		while( timer < transitionTime )
-//		{
-//			timer +=  Time.deltaTime;
-//
-//			foreach( Material mat in _componentMaterials )
-//			{
-//				if( mat.name == "GroundLeaf" || mat.name == "GroundLeaf (Instance)" )	// TODO make a new leaf material ?
-//				{
-//					_interpColors[0] = Colorx.Slerp( prevPalette.leafyGroundPlantLeaf.Evaluate(0.0f), newPalette.leafyGroundPlantLeaf.Evaluate(0.0f), timer / transitionTime );
-//					_interpColors[1] = Colorx.Slerp( prevPalette.leafyGroundPlantLeaf.Evaluate(0.5f), newPalette.leafyGroundPlantLeaf.Evaluate(0.5f), timer / transitionTime );
-//					_interpColors[2] = Colorx.Slerp( prevPalette.leafyGroundPlantLeaf.Evaluate(1.0f), newPalette.leafyGroundPlantLeaf.Evaluate(1.0f), timer / transitionTime );
-//
-//					mat.SetColor( _shaderIDs[0], _interpColors[0] );
-//					mat.SetColor( _shaderIDs[1], _interpColors[1] );
-//					mat.SetColor( _shaderIDs[2], _interpColors[2] );
-//				}
-//				else if( mat.name == "Fruit" || mat.name == "Fruit (Instance)" )
-//				{
-//					_interpColors[3] = Colorx.Slerp( prevPalette.leafyGroundPlantBulb.Evaluate(0.0f), newPalette.leafyGroundPlantBulb.Evaluate(0.0f), timer / transitionTime );
-//					_interpColors[4] = Colorx.Slerp( prevPalette.leafyGroundPlantBulb.Evaluate(0.5f), newPalette.leafyGroundPlantBulb.Evaluate(0.5f), timer / transitionTime );
-//					_interpColors[5] = Colorx.Slerp( prevPalette.leafyGroundPlantBulb.Evaluate(1.0f), newPalette.leafyGroundPlantBulb.Evaluate(1.0f), timer / transitionTime );
-//
-//					mat.SetColor( _shaderIDs[0], _interpColors[3] );
-//					mat.SetColor( _shaderIDs[1], _interpColors[4] );
-//					mat.SetColor( _shaderIDs[2], _interpColors[5] );
-//				}
-//			}
-//
-//			yield return 0;
-//		}
-//	}
-//
-//	void LateUpdateLeafyColors()
-//	{
-//		foreach( Material mat in _componentMaterials )
-//		{
-//			if( mat.name == "GroundLeaf" || mat.name == "GroundLeaf (Instance)" )	// TODO make a new leaf material ?
-//			{
-//				mat.SetColor( _shaderIDs[0], _interpColors[0] );
-//				mat.SetColor( _shaderIDs[1], _interpColors[1] );
-//				mat.SetColor( _shaderIDs[2], _interpColors[2] );
-//			}
-//			else if( mat.name == "Fruit" || mat.name == "Fruit (Instance)" )
-//			{
-//				mat.SetColor( _shaderIDs[0], _interpColors[3] );
-//				mat.SetColor( _shaderIDs[1], _interpColors[4] );
-//				mat.SetColor( _shaderIDs[2], _interpColors[5] );
-//			}
-//		}			
-//	}
-//
-//	IEnumerator DelayedTransitionLimberColors( Gradient newLimberGradient, float transitionTime = ColorManager.PALETTE_TRANSITIONTIME )
-//	{
-//		float timer = 0.0f;
-//		Color topColor = _componentMaterials[0].GetColor( _shaderIDs[0] );
-//		Color midColor = _componentMaterials[0].GetColor( _shaderIDs[1] );
-//		Color botColor = _componentMaterials[0].GetColor( _shaderIDs[2] );
-//
-//		while( timer < transitionTime )
-//		{
-//			timer +=  Time.deltaTime;
-//
-//			foreach( Material mat in _componentMaterials )
-//			{
-//				mat.SetColor( _shaderIDs[0], Colorx.Slerp( topColor, newLimberGradient.Evaluate(0.0f), timer / transitionTime ) );
-//				mat.SetColor( _shaderIDs[1], Colorx.Slerp( midColor, newLimberGradient.Evaluate(0.5f), timer / transitionTime ) );
-//				mat.SetColor( _shaderIDs[2], Colorx.Slerp( botColor, newLimberGradient.Evaluate(1.0f), timer / transitionTime ) );;
-//			}
-//
-//			yield return 0;
-//		}
-//	}
-//
-//	IEnumerator DelayedTransitionPBushColors( Gradient newPBushGradient, float transitionTime = ColorManager.PALETTE_TRANSITIONTIME )
-//	{
-//		float timer = 0.0f;
-//		Color topColor = _componentMaterials[0].GetColor( _shaderIDs[0] );
-//		Color midColor = _componentMaterials[0].GetColor( _shaderIDs[1] );
-//		Color botColor = _componentMaterials[0].GetColor( _shaderIDs[2] );
-//
-//		while( timer < transitionTime )
-//		{
-//			timer +=  Time.deltaTime;
-//
-//			foreach( Material mat in _componentMaterials )
-//			{
-//				mat.SetColor( _shaderIDs[0], Colorx.Slerp( topColor, newPBushGradient.Evaluate(0.0f), timer / transitionTime ) );
-//				mat.SetColor( _shaderIDs[1], Colorx.Slerp( midColor, newPBushGradient.Evaluate(0.5f), timer / transitionTime ) );
-//				mat.SetColor( _shaderIDs[2], Colorx.Slerp( botColor, newPBushGradient.Evaluate(1.0f), timer / transitionTime ) );;
-//			}
-//
-//			yield return 0;
-//		}
-//	}
 }
 
  

@@ -99,7 +99,12 @@ public class SingController : MonoBehaviour {
             _audioMixer.GetFloat( _singVolParamName, out _stopVolume );
             _audioMixer.SetFloat( _singVolParamName, Mathf.Lerp( _stopVolume, _singVolumeRange.y, _singVolEnterSpeed * Time.deltaTime ) );
 
-            AudioManager.instance.PlaySing( _currentSingClip, Random.Range( _currSingPitchRange.x, _currSingPitchRange.y) );
+            if( !AudioManager.instance.IsSinging )
+            {
+                AudioManager.instance.PlaySing( _currentSingClip, Random.Range( _currSingPitchRange.x, _currSingPitchRange.y ) );
+                _face.TransitionSingPose();
+            }
+            
         }
         else if ( _state == SingState.STOPPING )
         {
@@ -122,8 +127,8 @@ public class SingController : MonoBehaviour {
         {
             _state = SingState.SINGING;
 
-			_face.TransitionFacePose( "Singing" );
-            
+            _face.TransitionSingPose();
+
             _flowerSpawnTimer = 0.0f;
             _currFlowerSpawnWait = _baseFlowerSpawnWait;
 

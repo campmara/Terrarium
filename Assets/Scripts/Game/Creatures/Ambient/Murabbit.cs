@@ -169,7 +169,8 @@ public class Murabbit : MonoBehaviour
 	private void OnEnterHopping()
 	{
 		Vector3 jumpPos = transform.position + (Random.insideUnitSphere * 2f);
-		jumpPos.y = 0f;
+        jumpPos.y = 0.0f;
+        jumpPos.y = PondManager.instance.Pond.GetPondY( jumpPos );
 		transform.LookAt(jumpPos);
 
 		hopTween = transform.DOJump(jumpPos, Random.Range(0.5f, 1.25f), 1, HOP_DURATION)
@@ -315,7 +316,8 @@ public class Murabbit : MonoBehaviour
 		transform.LookAt(spawnerPos);
 
 		burrowTween = transform.DOJump(spawnerPos, Random.Range(0.5f, 1.25f), numJumps, HOP_DURATION * (float)numJumps)
-			.OnComplete(() => data.spawner.OnRabbitReturn(this));
+			.OnComplete(() => transform.DOScale(0f, 1f)
+			.OnComplete(() => data.spawner.OnRabbitReturn(this)));
 
         PlayHopSound();
 

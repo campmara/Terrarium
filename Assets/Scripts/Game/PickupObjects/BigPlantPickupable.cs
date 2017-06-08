@@ -25,9 +25,6 @@ public class BigPlantPickupable : Pickupable {
     bool wentBack = false;
     Coroutine _springRoutine = null;
 
-    public void SetupBubbles(TreeBubbleParticles bub) { bubbles = bub; }
-    TreeBubbleParticles bubbles;
-
 	void FixedUpdate()
 	{
 		if( _grabbed )
@@ -135,11 +132,6 @@ public class BigPlantPickupable : Pickupable {
         if (this.GetComponent<PickupCollider>() != null)
         {
             this.GetComponent<PickupCollider>().LockedRotation = true;
-        }
-
-        if (bubbles != null)
-        {
-            bubbles.OnPlantLetGo();
         }
 
 		_springRoutine = null;

@@ -7,134 +7,140 @@ public class FaceManager : MonoBehaviour
     private Coroutine _blinkRoutine;
     private Coroutine _idleRoutine;
 
-	[SerializeField, Space(10)] SkinnedMeshRenderer _leftEyeSkinnedMesh;
-	[SerializeField] SkinnedMeshRenderer _rightEyeSkinnedMesh;
-	[SerializeField] SkinnedMeshRenderer _mouthSkinnedMesh; 
+    [SerializeField, Space( 10 )] SkinnedMeshRenderer _leftEyeSkinnedMesh;
+    [SerializeField] SkinnedMeshRenderer _rightEyeSkinnedMesh;
+    [SerializeField] SkinnedMeshRenderer _mouthSkinnedMesh;
 
-	private Coroutine _facePoseRoutine;
-	[SerializeField, Space(10)] bool _updateFaceOnValidate = true;
-	[SerializeField] private int _facePoseIndex = 0;
-	private FacePose _currFacePose;
+    private Coroutine _facePoseRoutine;
+    [SerializeField, Space( 10 )] bool _updateFaceOnValidate = true;
+    [SerializeField] private int _facePoseIndex = 0;
+    private FacePose _currFacePose;
 
-	private EyeBlendData _blinkEyeData;
+    private EyeBlendData _blinkEyeData;
 
-	[Space(10),SerializeField] Vector2 _blinkWaitRange = new Vector2( 1.0f, 5.0f );
-	[SerializeField] float _blinkTime = 0.1f; 
+    [Space( 10 ), SerializeField] Vector2 _blinkWaitRange = new Vector2( 1.0f, 5.0f );
+    [SerializeField] float _blinkTime = 0.1f;
 
-	[SerializeField] float _idleReturnWaitTime = 5.0f;
+    [SerializeField] float _idleReturnWaitTime = 5.0f;
 
-	FacePose _idlePose;
+    FacePose _idlePose;
 
     [SerializeField, ReadOnly]
     string _poseName = "";
 
-	void Awake()
-	{		
-		InitiateBlinkLoop();
+    List<FacePose> _singPoseList = new List<FacePose>();
 
-		_blinkEyeData = FindFacePose( "Blink" ).LeftEyePose;
-		_idlePose = FindFacePose( "Idle" );
+    void Awake()
+    {
+        InitiateBlinkLoop();
 
-		_currFacePose = _idlePose;
+        _blinkEyeData = FindFacePose( "Blink" ).LeftEyePose;
+        _idlePose = FindFacePose( "Idle" );
+
+        _currFacePose = _idlePose;
         _poseName = _idlePose.PoseName;
+
+        foreach (FacePose f in MouthPoseManager.instance.FacePoseList)
+        {
+            if (f.PoseName.Contains( "Singing" ))
+            {
+                _singPoseList.Add( f );
+            }
+        }
 
         //_mouthPoseIndex = MouthPoseManager.instance.StartMouthPoseIndex;
         //SetMouthPose( MouthPoseManager.instance.MouthPoseArray[_mouthPoseIndex] );
     }
 
-	// ===============
-	// E M O T I O N S
-	// ===============
-	public void BecomeInterested()
-	{
-		// used in pickup and arm reach i thnk
-	}
+    // ===============
+    // E M O T I O N S
+    // ===============
+    public void BecomeInterested()
+    {
+        // used in pickup and arm reach i thnk
+    }
 
-	public void BecomeIdle()
-	{
-		StartFaceTransition( _idlePose );	
-	}
+    public void BecomeIdle()
+    {
+        StartFaceTransition( _idlePose );
+    }
 
-	public void BecomeDesirous()
-	{
-		// Done on Reach
-	}
+    public void TransitionSingPose()
+    {
+        StartFaceTransition( _singPoseList[Random.Range( 0, _singPoseList.Count )] );
+    }
 
-	public void BecomeHappy()
-	{
-		// On Approach Stuff	
-	}
 
-	#region Blink Hell
+    #region Blink Hell
 
     private void InitiateBlinkLoop()
     {
         if (_blinkRoutine != null)
-            StopCoroutine(_blinkRoutine);
+            StopCoroutine( _blinkRoutine );
 
         _blinkRoutine = StartCoroutine( BlinkRoutine( Random.Range( _blinkWaitRange.x, _blinkWaitRange.y ) ) );
     }
 
-    private IEnumerator BlinkRoutine(float delay)
+    private IEnumerator BlinkRoutine( float delay )
     {
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds( delay );
 
-		float timer = 0.0f;
-		float blinkProgress = 0.0f;
+        float timer = 0.0f;
+        float blinkProgress = 0.0f;
 
-		while( timer < _blinkTime )
-		{
-			blinkProgress = timer / _blinkTime;
+        while (timer < _blinkTime)
+        {
+            blinkProgress = timer / _blinkTime;
 
-			SetRightEyeBlendValues( _blinkEyeData, blinkProgress );
-			SetLeftEyeBlendValues( _blinkEyeData, blinkProgress );
+            SetRightEyeBlendValues( _blinkEyeData, blinkProgress );
+            SetLeftEyeBlendValues( _blinkEyeData, blinkProgress );
 
-			timer += Time.deltaTime;
+            timer += Time.deltaTime;
 
-			yield return 0;
-		}
-        
-		timer = 0.0f;
-		blinkProgress = 0.0f;
+            yield return 0;
+        }
 
-		while( timer < _blinkTime )
-		{
-			blinkProgress = timer / _blinkTime;
+        timer = 0.0f;
+        blinkProgress = 0.0f;
 
-			_rightEyeSkinnedMesh.SetBlendShapeWeight( 0, Mathf.Lerp( _blinkEyeData.DespairBlendValue, _currFacePose.RightEyePose.DespairBlendValue, blinkProgress ) );
-			_rightEyeSkinnedMesh.SetBlendShapeWeight( 1, Mathf.Lerp( _blinkEyeData.WideBlendValue, _currFacePose.RightEyePose.WideBlendValue, blinkProgress ) );
-			_rightEyeSkinnedMesh.SetBlendShapeWeight( 2, Mathf.Lerp( _blinkEyeData.AngryBlendValue, _currFacePose.RightEyePose.AngryBlendValue, blinkProgress ) );
-			_rightEyeSkinnedMesh.SetBlendShapeWeight( 3, Mathf.Lerp( _blinkEyeData.HalfOpenBlendValue, _currFacePose.RightEyePose.HalfOpenBlendValue, blinkProgress ) );
-			_rightEyeSkinnedMesh.SetBlendShapeWeight( 4, Mathf.Lerp( _blinkEyeData.ClosedBlendValue, _currFacePose.RightEyePose.ClosedBlendValue, blinkProgress ) );
-			_rightEyeSkinnedMesh.SetBlendShapeWeight( 5, Mathf.Lerp( _blinkEyeData.SadBlendValue, _currFacePose.RightEyePose.SadBlendValue, blinkProgress ) );
-			_rightEyeSkinnedMesh.SetBlendShapeWeight( 6, Mathf.Lerp( _blinkEyeData.HappyBlendValue, _currFacePose.RightEyePose.HappyBlendValue, blinkProgress ) );
+        while (timer < _blinkTime)
+        {
+            blinkProgress = timer / _blinkTime;
 
-			_leftEyeSkinnedMesh.SetBlendShapeWeight( 0, Mathf.Lerp( _blinkEyeData.DespairBlendValue, _currFacePose.LeftEyePose.DespairBlendValue, blinkProgress ) );
-			_leftEyeSkinnedMesh.SetBlendShapeWeight( 1, Mathf.Lerp( _blinkEyeData.WideBlendValue, _currFacePose.LeftEyePose.WideBlendValue, blinkProgress ) );
-			_leftEyeSkinnedMesh.SetBlendShapeWeight( 2, Mathf.Lerp( _blinkEyeData.AngryBlendValue, _currFacePose.LeftEyePose.AngryBlendValue, blinkProgress ) );
-			_leftEyeSkinnedMesh.SetBlendShapeWeight( 3, Mathf.Lerp( _blinkEyeData.HalfOpenBlendValue, _currFacePose.LeftEyePose.HalfOpenBlendValue, blinkProgress ) );
-			_leftEyeSkinnedMesh.SetBlendShapeWeight( 4, Mathf.Lerp( _blinkEyeData.ClosedBlendValue, _currFacePose.LeftEyePose.ClosedBlendValue, blinkProgress ) );
-			_leftEyeSkinnedMesh.SetBlendShapeWeight( 5, Mathf.Lerp( _blinkEyeData.SadBlendValue, _currFacePose.LeftEyePose.SadBlendValue, blinkProgress ) );
-			_leftEyeSkinnedMesh.SetBlendShapeWeight( 6, Mathf.Lerp( _blinkEyeData.HappyBlendValue, _currFacePose.LeftEyePose.HappyBlendValue, blinkProgress ) );
+            _rightEyeSkinnedMesh.SetBlendShapeWeight( 0, Mathf.Lerp( _blinkEyeData.DespairBlendValue, _currFacePose.RightEyePose.DespairBlendValue, blinkProgress ) );
+            _rightEyeSkinnedMesh.SetBlendShapeWeight( 1, Mathf.Lerp( _blinkEyeData.WideBlendValue, _currFacePose.RightEyePose.WideBlendValue, blinkProgress ) );
+            _rightEyeSkinnedMesh.SetBlendShapeWeight( 2, Mathf.Lerp( _blinkEyeData.AngryBlendValue, _currFacePose.RightEyePose.AngryBlendValue, blinkProgress ) );
+            _rightEyeSkinnedMesh.SetBlendShapeWeight( 3, Mathf.Lerp( _blinkEyeData.HalfOpenBlendValue, _currFacePose.RightEyePose.HalfOpenBlendValue, blinkProgress ) );
+            _rightEyeSkinnedMesh.SetBlendShapeWeight( 4, Mathf.Lerp( _blinkEyeData.ClosedBlendValue, _currFacePose.RightEyePose.ClosedBlendValue, blinkProgress ) );
+            _rightEyeSkinnedMesh.SetBlendShapeWeight( 5, Mathf.Lerp( _blinkEyeData.SadBlendValue, _currFacePose.RightEyePose.SadBlendValue, blinkProgress ) );
+            _rightEyeSkinnedMesh.SetBlendShapeWeight( 6, Mathf.Lerp( _blinkEyeData.HappyBlendValue, _currFacePose.RightEyePose.HappyBlendValue, blinkProgress ) );
 
-			timer += Time.deltaTime;
+            _leftEyeSkinnedMesh.SetBlendShapeWeight( 0, Mathf.Lerp( _blinkEyeData.DespairBlendValue, _currFacePose.LeftEyePose.DespairBlendValue, blinkProgress ) );
+            _leftEyeSkinnedMesh.SetBlendShapeWeight( 1, Mathf.Lerp( _blinkEyeData.WideBlendValue, _currFacePose.LeftEyePose.WideBlendValue, blinkProgress ) );
+            _leftEyeSkinnedMesh.SetBlendShapeWeight( 2, Mathf.Lerp( _blinkEyeData.AngryBlendValue, _currFacePose.LeftEyePose.AngryBlendValue, blinkProgress ) );
+            _leftEyeSkinnedMesh.SetBlendShapeWeight( 3, Mathf.Lerp( _blinkEyeData.HalfOpenBlendValue, _currFacePose.LeftEyePose.HalfOpenBlendValue, blinkProgress ) );
+            _leftEyeSkinnedMesh.SetBlendShapeWeight( 4, Mathf.Lerp( _blinkEyeData.ClosedBlendValue, _currFacePose.LeftEyePose.ClosedBlendValue, blinkProgress ) );
+            _leftEyeSkinnedMesh.SetBlendShapeWeight( 5, Mathf.Lerp( _blinkEyeData.SadBlendValue, _currFacePose.LeftEyePose.SadBlendValue, blinkProgress ) );
+            _leftEyeSkinnedMesh.SetBlendShapeWeight( 6, Mathf.Lerp( _blinkEyeData.HappyBlendValue, _currFacePose.LeftEyePose.HappyBlendValue, blinkProgress ) );
 
-			yield return 0;
-		}
+            timer += Time.deltaTime;
 
-		SetRightEyeBlendValues( _currFacePose.RightEyePose, 1.0f );
-		SetLeftEyeBlendValues( _currFacePose.LeftEyePose, 1.0f );
+            yield return 0;
+        }
+
+        SetRightEyeBlendValues( _currFacePose.RightEyePose, 1.0f );
+        SetLeftEyeBlendValues( _currFacePose.LeftEyePose, 1.0f );
 
         InitiateBlinkLoop();
     }
 
-	#endregion
+    #endregion
 
-	#region Idle Return 
+    #region Idle Return 
 
     void StartReturnIdle( float waitTime )
     {
-        if( this.enabled )
+        if (this.enabled)
         {
             if (_idleRoutine != null)
             {
@@ -146,11 +152,26 @@ public class FaceManager : MonoBehaviour
 
     IEnumerator DelayedDefaultExpression( float waitTime )
     {
-		yield return new WaitForSeconds( waitTime );
+        yield return new WaitForSeconds( waitTime );
 
-		StartFaceTransition( _idlePose );
+        BeginIdleReturnTransition();
 
         _idleRoutine = null;
+    }
+
+    void BeginIdleReturnTransition()
+    {        
+        if (this.isActiveAndEnabled)
+        {
+            if (_facePoseRoutine != null)
+            {
+                StartCoroutine( WaitForFaceTransition( _idlePose ) );
+            }
+            else
+            {
+                _facePoseRoutine = StartCoroutine( FaceTransitionRoutine( _idlePose, 1.7f ) );
+            }
+        }
     }
 
 	#endregion
@@ -217,7 +238,7 @@ public class FaceManager : MonoBehaviour
             }
             else
             {
-                _facePoseRoutine = StartCoroutine( FaceTransitionRoutine( newPose ) );
+                _facePoseRoutine = StartCoroutine( FaceTransitionRoutine( newPose, MouthPoseManager.instance.MouthPoseTransitionTime ) );
             }
         }
 	}
@@ -231,17 +252,17 @@ public class FaceManager : MonoBehaviour
 	{
 		yield return new WaitUntil( () => _facePoseRoutine == null );
 
-		_facePoseRoutine = StartCoroutine( FaceTransitionRoutine( newPose ) );
+		_facePoseRoutine = StartCoroutine( FaceTransitionRoutine( newPose, MouthPoseManager.instance.MouthPoseTransitionTime ) );
 	}
 
-	IEnumerator FaceTransitionRoutine( FacePose newPose )
+	IEnumerator FaceTransitionRoutine( FacePose newPose, float transitionDuration = 0.0f )
 	{
 		float timer = 0.0f;
 		float mouthTransProgress = 0.0f;
 
-		while( timer < MouthPoseManager.instance.MouthPoseTransitionTime )
+		while( timer < transitionDuration)
 		{
-			mouthTransProgress = MouthPoseManager.instance.MouthTransitionAnimCurve.Evaluate( timer / MouthPoseManager.instance.MouthPoseTransitionTime );
+			mouthTransProgress = MouthPoseManager.instance.MouthTransitionAnimCurve.Evaluate( timer / transitionDuration );
 
 			SetRightEyeBlendValues( newPose.RightEyePose, mouthTransProgress );
 			SetLeftEyeBlendValues( newPose.LeftEyePose, mouthTransProgress );
