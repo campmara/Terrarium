@@ -38,7 +38,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
     Vector3 _focusPoint = Vector3.zero;    	// Center of focal point following player
     Vector3 _focusOffset = Vector3.zero;    
     float _centerDist = 0.0f;               // Current distance of focusCenter from transform
-    const float CAM_FOLLOWSPEED = 5f;
+    const float CAM_FOLLOWSPEED = 11f;
 	const float CAM_CENTER_UPDATE_SPEED = 15f;
     float _lookVertOffset;
     const float CAMLOOK_VERTICALOFFSET_MIN = 1.0f;	// How far up/down the cam looks relative to the actually cam focus point
@@ -75,8 +75,8 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	const float ZOOM_SPEED = 0.6f;			// How much a frame of "zooming" input increments zoom interp
 	const float ZOOM_Y_DEADZONE = 0.1f;		// Zoom Input Deadzone for Y 
 	const float ZOOM_X_DEADZONE = 0.1f;		// Zoom Input Deadzone for X 
-	Vector2 zoomXRange = new Vector2( 2.25f, 8.0f );	// Min & Max zoom x value (x is min)
-	Vector2 zoomYRange = new Vector2( 1.0f, 10.0f );	// Min & Max zoom y values (x is min)
+	Vector2 zoomXRange = new Vector2( 2.5f, 8.0f );	// Min & Max zoom x value (x is min)
+	Vector2 zoomYRange = new Vector2( 0.5f, 10.0f );	// Min & Max zoom y values (x is min)
     const float ZOOM_DELTASPEED = 10.0f;    // How quickly camOffset moves towards new zoom values
     const float CAMERA_MINY = 0.05f;
 
@@ -205,7 +205,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 				if( prevState != CameraState.SITTING)
 				{
 					    _zoomInterp = ZOOM_RESETINTERP;
-                        if ( prevState == CameraState.INTRO || prevState == CameraState.POND_RETURNPAN )
+                        if (prevState == CameraState.INTRO || prevState == CameraState.POND_RETURNPAN)
                         {
                             SetCamZoom( _zoomInterp );
                             _focusPoint = _focusTransform.position;
@@ -214,9 +214,9 @@ public class CameraManager : SingletonBehaviour<CameraManager>
                             UpdateFocusPoint();
                         }
 
-                    }			
-                
-				break;
+                    }
+
+                    break;
 			case CameraState.FOLLOWPLAYER_LOCKED:
 				_camInputVals.x = 0.0f;	// So _camOffset lerps in zooming quack
 				break;
