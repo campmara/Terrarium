@@ -7,10 +7,11 @@
 		_MainTex("Albedo (RGB)", 2D) = "white" {}
 		_Hardness("Hardness", Range(0, 1)) = 1
 		_Cutoff("Alpha Cutoff", Range(0, 1)) = 1
-
 		_SplatTex("Splat Texture (RGBA)", 2D) = "white" {}
 		_ImprintAmount("Imprint Amount", Range(0, 10)) = 1
 		_WarpAmount("WarpAmount", Range(0, 10)) = 1
+		_Pivot("Pivot", Vector) = (0,0,0,0)
+		[Toggle]_BendFromPivot("Bend from Pivot", int) = 0
 	}
 		SubShader
 		{
@@ -75,9 +76,14 @@
 	//splatmap+
 	sampler2D _SplatTex;
 
+	//Pivot bending
+	int _BendFromPivot;
+	float4 _Pivot;
+
 	void vert(inout appdata_full v, out Input o)
 	{
 		UNITY_INITIALIZE_OUTPUT(Input, o);
+
 
 		fixed4 worldUp = mul(transpose(unity_ObjectToWorld), float4(0, 1, 0, 1));
 		v.normal = worldUp;
@@ -94,20 +100,27 @@
 		float4 d = duv;
 		d = lerp(_SplatmapNeutralColor, d, uv.a);
 
+
+
 		d.a = clamp(d.a - border.a, 0, 1);
 		d.rg = (d.rg - .5f) * d.a;
 		d.b *= d.a;
 
+		if (_BendFromPivot != 0) {
+			float distToPivot = v.vertex.y - _Pivot.y;
+			d *= distToPivot;
+		}
+
 		//for color normal maps
-		worldPos.x -= d.r * _WarpAmount;
+		worldPos.x += d.r * _WarpAmount;
 		worldPos.y -= (d.b) * _ImprintAmount;
-		worldPos.z += d.g * _WarpAmount;
+		worldPos.z -= d.g * _WarpAmount;
 
 		worldNormal.xz += d.rg;
 
 		o.worldUV = worldUV;
 		v.vertex = mul(unity_WorldToObject, worldPos);
-		v.normal = mul(unity_WorldToObject, worldNormal.xyz);
+		v.normal *= mul(unity_WorldToObject, worldNormal.xyz);
 	}
 
 	void surf(Input IN, inout SurfaceOutput o)
