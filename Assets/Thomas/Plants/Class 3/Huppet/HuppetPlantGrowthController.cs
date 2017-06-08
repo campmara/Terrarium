@@ -20,6 +20,7 @@ public class HuppetPlantGrowthController : BPGrowthController
     Coroutine _leafSpawnRoutine = null;
     Animator _lastAnim = null;
     public Animator huppetFruit;
+    public Transform endBone;
     float _fruitTriggerTime = .9f;
 
     void Awake()
@@ -35,7 +36,7 @@ public class HuppetPlantGrowthController : BPGrowthController
         transform.localPosition -= new Vector3(0, .1f, 0);
 
         _bones = _bStemRoot.GetComponentsInChildren<Transform>();
-        _numChildren = Random.Range(1, 6); // we subtract one for them that exists there
+        _numChildren = Random.Range(2, 4); // we subtract one for them that exists there
         AnimatorStateInfo info = _plantAnim.GetCurrentAnimatorStateInfo(0);
         _timeBetweenLeafSpawns = (info.length / _baseGrowthRate) / _numChildren;
 
@@ -61,10 +62,7 @@ public class HuppetPlantGrowthController : BPGrowthController
         _curChildSpawned++;
         _leafSpawnRoutine = null;
 
-        if (_numChildren == _curChildSpawned)
-        {
-            _lastAnim = leafAnim;
-        }
+         _lastAnim = leafAnim;
     }
 
     Animator SetupLeaf(int index)
@@ -99,17 +97,18 @@ public class HuppetPlantGrowthController : BPGrowthController
             _leafSpawnRoutine = StartCoroutine(SpawnLeaves());
         }
 
-        if (_lastAnim)
-        {
-            if (_lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
-            {
-                _myPlant.SwitchController(this);
-            }
-        }
+        huppetFruit.transform.position = endBone.position;
+        huppetFruit.transform.rotation = endBone.rotation;
+        huppetFruit.transform.Rotate(new Vector3(0, 90, 0));
 
-        if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime >= _fruitTriggerTime && !huppetFruit.enabled)
+        if( _plantAnim.GetCurrentAnimatorStateInfo(0).normalizedTime >= _fruitTriggerTime && !huppetFruit.enabled)
         {
             huppetFruit.enabled = true;
+        }
+
+        if( _plantAnim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+        {
+             _myPlant.SwitchController(this);
         }
     }
 }

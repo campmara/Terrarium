@@ -33,7 +33,6 @@ public class JimboGrowthController : SPGrowthController {
             _lastLayer = newLayer;
         }
 
-        StartCoroutine(WaitToSpawnChild());
         StopState();
     }
 
@@ -75,15 +74,9 @@ public class JimboGrowthController : SPGrowthController {
 		}
 
         _waitTime = (((layerIndex * _numLeaves) + leafNumber) * .5f) / _growthRate;
-
-        //_waitTime = 0;
+        _lastAnim = newLeaf.transform.GetComponentInChildren<Animator>();
 
         StartCoroutine(WaitAndStart(newLeaf.transform.GetComponentInChildren<Animator>(), _waitTime));
-
-        if (leafNumber == _numLeaves - 1 && layerIndex == _layerCount - 1)
-        {
-            _lastAnim = newLeaf.transform.GetComponentInChildren<Animator>();
-        }
     }
 
     IEnumerator TweenLocalScale(Transform focusTransform, Vector3 startScale, Vector3 endScale, float moveTime)
@@ -102,43 +95,14 @@ public class JimboGrowthController : SPGrowthController {
 
     IEnumerator WaitAndStart(Animator anim, float waitTime)
     {
-        anim.enabled = false;
+        //anim.enabled = false;
         yield return new WaitForSeconds(waitTime);
-        anim.enabled = true;
-        anim.Play(0);
-    }
-
-    private IEnumerator WaitToSpawnChild()
-    {
-        float _curTimeAnimated = _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime; // Mathf.Lerp(0.0f, _animEndTime, _plantAnim.GetCurrentAnimatorStateInfo(0).normalizedTime ); // i am x percent of the way through anim
-
-        while( _curTimeAnimated < 1.0f )
-        {
-            //update
-            _curTimeAnimated = _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime;
-            yield return null;
-        }
-
+     //   anim.enabled = true;
+   //     anim.Play(0);
     }
 
     protected override void CustomStopGrowth()
     {
-        if (!_waiting)
-        {
-            _lastAnim = _childAnimators[_childAnimators.Count - 1];
-            AnimatorStateInfo state = _lastAnim.GetCurrentAnimatorStateInfo(0);
-            StartCoroutine(WaitForLastLeaf());
-        }
-    }
-
-    private IEnumerator WaitForLastLeaf()
-    {
-        _waiting = true;
-        while ( _lastAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f )
-        {
-            yield return null;
-        }
-        _waiting = false;
         _myPlant.SwitchController(this);
     }
 }
