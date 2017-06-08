@@ -62,8 +62,8 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	*/
     Vector2 _camInputVals = Vector2.zero;
 	const float CAM_ROTSPEED = 100.0f;
-    const float ROT_ACCEL = 5.65f;
-    const float ROT_DECEL = 3.65f;
+    const float ROT_ACCEL = 5.35f;
+    const float ROT_DECEL = 2.85f;
     float _currRotSpeed = 0.0f;
 
     /*
@@ -71,13 +71,13 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	 */
     [SerializeField] AnimationCurve _zoomInterpCurve = null;
 	float _zoomInterp = ZOOM_RESETINTERP;
-	const float ZOOM_RESETINTERP = 0.35f;	// Zoom Interp value for initialization & reset of camera (right stick click)
+	const float ZOOM_RESETINTERP = 0.25f;	// Zoom Interp value for initialization & reset of camera (right stick click)
 	const float ZOOM_SPEED = 0.6f;			// How much a frame of "zooming" input increments zoom interp
 	const float ZOOM_Y_DEADZONE = 0.1f;		// Zoom Input Deadzone for Y 
 	const float ZOOM_X_DEADZONE = 0.1f;		// Zoom Input Deadzone for X 
 	Vector2 zoomXRange = new Vector2( 2.25f, 8.0f );	// Min & Max zoom x value (x is min)
 	Vector2 zoomYRange = new Vector2( 1.0f, 10.0f );	// Min & Max zoom y values (x is min)
-    const float ZOOM_DELTASPEED = 15.0f;    // How quickly camOffset moves towards new zoom values
+    const float ZOOM_DELTASPEED = 10.0f;    // How quickly camOffset moves towards new zoom values
     const float CAMERA_MINY = 0.05f;
 
     const float LOCKED_ZOOMINTERP = 0.15f;
@@ -204,8 +204,18 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 			case CameraState.FOLLOWPLAYER_FREE:
 				if( prevState != CameraState.SITTING)
 				{
-					_zoomInterp = ZOOM_RESETINTERP;	
-				}			
+					    _zoomInterp = ZOOM_RESETINTERP;
+                        if ( prevState == CameraState.INTRO || prevState == CameraState.POND_RETURNPAN )
+                        {
+                            SetCamZoom( _zoomInterp );
+                            _focusPoint = _focusTransform.position;
+                            _focusPoint.y = 0.0f;
+                            _focusOffset = Vector3.zero;
+                            UpdateFocusPoint();
+                        }
+
+                    }			
+                
 				break;
 			case CameraState.FOLLOWPLAYER_LOCKED:
 				_camInputVals.x = 0.0f;	// So _camOffset lerps in zooming quack
@@ -364,10 +374,10 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 
         yield return new WaitForSeconds( RollerConstants.instance.RitualCompleteWait );
 
-        Transform pondTransform = PondManager.instance.Pond.transform;
-	    Vector3 desiredPos = ( pondTransform.forward * PONDRETURN_FORWARD ) + ( pondTransform.up * PONDRETURN_UP );
+        Vector3 pondPos = PondManager.instance.Pond.transform.position + ( Vector3.up * Mathf.Lerp( CAMLOOK_VERTICALOFFSET_MAX, CAMLOOK_VERTICALOFFSET_MIN, _lookVertOffsetCurve.Evaluate( _zoomInterpCurve.Evaluate( ZOOM_RESETINTERP ) ) ) );
+        Vector3 desiredPos = ( Vector3.forward * Mathf.Lerp( zoomXRange.x, zoomXRange.y, _zoomInterpCurve.Evaluate( ZOOM_RESETINTERP ) ) ) + ( Vector3.up * Mathf.Lerp( zoomYRange.x, zoomYRange.y, _zoomInterpCurve.Evaluate( ZOOM_RESETINTERP ) ) );
 
-        Vector3 forward = ( pondTransform.position - ( desiredPos ) ).normalized;
+        Vector3 forward = ( pondPos - desiredPos ).normalized;
         Quaternion desiredRot = Quaternion.LookRotation( forward, Vector3.up );
 
         Tween posTween = _mainCam.transform.DOMove( desiredPos, PONDRETURN_TRANSITIONTIME );
@@ -395,21 +405,25 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 
 		yield return new WaitForSeconds( INTRO_PAN_PREWAIT_TIME );
 
-		Transform pondTransform = PondManager.instance.Pond.transform;
-		Vector3 desiredPos = ( pondTransform.forward * PONDRETURN_FORWARD ) + ( pondTransform.up * PONDRETURN_UP );
+		Vector3 pondPos = PondManager.instance.Pond.transform.position + ( Vector3.up * Mathf.Lerp( CAMLOOK_VERTICALOFFSET_MAX, CAMLOOK_VERTICALOFFSET_MIN, _lookVertOffsetCurve.Evaluate( _zoomInterpCurve.Evaluate( ZOOM_RESETINTERP ) ) ) );
+		Vector3 desiredPos = ( Vector3.forward * Mathf.Lerp( zoomXRange.x, zoomXRange.y, _zoomInterpCurve.Evaluate( ZOOM_RESETINTERP ) ) ) + ( Vector3.up * Mathf.Lerp( zoomYRange.x, zoomYRange.y, _zoomInterpCurve.Evaluate( ZOOM_RESETINTERP ) ) );
 
-		Vector3 forward = ( pondTransform.position - ( desiredPos ) ).normalized;
+		Vector3 forward = ( pondPos - desiredPos ).normalized;
         Quaternion desiredRot = Quaternion.LookRotation( forward, Vector3.up );
 
-		#if !UNITY_EDITOR && UNITY_STANDALONE 
+        #if !UNITY_EDITOR && UNITY_STANDALONE
 		Tween posTween = _mainCam.transform.DOMove( desiredPos, INTRO_PAN_TIME );
         Tween rotTween = _mainCam.transform.DORotateQuaternion( desiredRot, INTRO_PAN_TIME );
-		#else
-		Tween posTween = _mainCam.transform.DOMove( desiredPos, INTRO_INENGINE_PAN_TIME );
+        UIManager.GetPanelOfType<PanelOverlay>().LogoOverlay.DOFade( 0.0f, INTRO_PAN_TIME );
+        UIManager.GetPanelOfType<PanelOverlay>().BlackOverlay.DOFade( 0.0f, INTRO_PAN_TIME );
+        #else
+        Tween posTween = _mainCam.transform.DOMove( desiredPos, INTRO_INENGINE_PAN_TIME );
 		Tween rotTween = _mainCam.transform.DORotateQuaternion( desiredRot, INTRO_INENGINE_PAN_TIME );
-		#endif
+        UIManager.GetPanelOfType<PanelOverlay>().LogoOverlay.DOFade( 0.0f, INTRO_INENGINE_PAN_TIME );
+        UIManager.GetPanelOfType<PanelOverlay>().BlackOverlay.DOFade( 0.0f, INTRO_INENGINE_PAN_TIME );
+        #endif
 
-		yield return rotTween.WaitForCompletion();
+        yield return rotTween.WaitForCompletion();
 
 		PondManager.instance.PopPlayerFromPond();
 
@@ -432,8 +446,11 @@ public class CameraManager : SingletonBehaviour<CameraManager>
     /// <returns></returns>
     private void UpdateFocusPoint()
     {
-		// Center is focusTransform.position
-		Vector3 focusDir = _focusTransform.position - _focusPoint;
+        // Center is focusTransform.position
+        Vector3 zeroedFocusPos = _focusTransform.position;
+        zeroedFocusPos.y = 0.0f;
+
+        Vector3 focusDir = zeroedFocusPos - _focusPoint;
 		float distance = focusDir.sqrMagnitude;
 
 		if ( distance > JohnTech.Sqr( Mathf.Lerp( BOUNDING_RADIUS_MIN, BOUNDING_RADIUS_MAX, _zoomInterp ) ) /*|| Mathf.Abs( focusDir.x ) > BOUNDING_LATERALOFFSET || Mathf.Abs( focusDir.z ) > BOUNDING_VERTICALOFFSET */)
@@ -494,6 +511,37 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 		CalculateFocusOffset();
     }
 
+    void SetCamZoom( float zoomInterp )
+    {
+        // Determine new x/z offset positions
+        Vector2 lateralOffset = new Vector2( _camOffset.x, _camOffset.z ).normalized;   // Gets flat offset direction
+        lateralOffset *= Mathf.Lerp( zoomXRange.x, zoomXRange.y, zoomInterp );
+
+        if (Mathf.Abs( _camInputVals.x ) > ZOOM_X_DEADZONE)
+        {
+            // If rotating then it sets the offset instead of lerping
+            // Hacky but a solution for jumpy zoom while rotating atm
+            _camOffset.x = lateralOffset.x;
+            _camOffset.y = Mathf.Lerp( zoomYRange.x, zoomYRange.y, zoomInterp );
+            _camOffset.z = lateralOffset.y;
+        }
+        else
+        {
+            // Set new offset position
+            _camOffset.x = lateralOffset.x;
+            _camOffset.y = Mathf.Lerp( zoomYRange.x, zoomYRange.y, zoomInterp );
+            _camOffset.z = lateralOffset.y;
+        }
+
+        // NOT CURRENTLY: Evaluating animation curve for FOV/Look height changes
+        _fov =  Mathf.Lerp( CAM_FOV_MAX, CAM_FOV_MIN, _fovCurve.Evaluate( zoomInterp ) );
+        _mainCam.fieldOfView = _fov;
+
+        _lookVertOffset = Mathf.Lerp( CAMLOOK_VERTICALOFFSET_MAX, CAMLOOK_VERTICALOFFSET_MIN, _lookVertOffsetCurve.Evaluate( zoomInterp ) );
+
+        CalculateFocusOffset();
+    }
+
 	/// <summary>
 	/// Sets Cam Offset behind focus transform.
 	/// </summary>
@@ -532,7 +580,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 			Gizmos.DrawWireSphere(_focusPoint, Mathf.Lerp( BOUNDING_RADIUS_MIN, BOUNDING_RADIUS_MAX, _zoomInterp ) );
             Gizmos.DrawLine(_focusPoint, _focusTransform.position);
             Gizmos.color = Color.blue;
-            // Gizmos.DrawLine(_focusOffset, _focusTransform.position);
+            Gizmos.DrawLine(_focusTransform.position + _camOffset, _focusTransform.position);
         }
     }
 
