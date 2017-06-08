@@ -11,12 +11,6 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 	public Vector2 MedSpawnRadRange = new Vector2( 3f, 4.5f );
 	public  Vector2 MedNumPerPlant = new Vector2( 4, 6 );
 
-	// ******** SMALL PLANTS *********	( per all )
-	public Vector2 SmTotalPlantsRange = new Vector2( 0, 50 );
-	public Vector2 SmSpawnRadRange = new Vector2( 1f, 3f );
-	public Vector2 SmNumPerPlant = new Vector2( 8, 15 );
-
-
 	// ******* UPDATE THESE FOR NEW BIG PLANTS *************
 	[SerializeField] GameObject _pointSeed = null;
 	List<BasePlant> _pointPlants = new List<BasePlant>();
@@ -27,7 +21,6 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 
 	// ******   TRACKER LISTS   *************
 	List<Seed> _seeds = new List<Seed>();
-	List<GroundCover> _smallPlants = new List<GroundCover>();   
 	List<BasePlant> _mediumPlants = new List<BasePlant>();
 	List<BasePlant> _mounds = new List<BasePlant>();
 
@@ -44,7 +37,7 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 
 	public void RequestSpawnMini( BPGrowthController plant, float timeUntil )
 	{
-		if( _mediumPlants.Count < MedTotalPlantsRange.y && _smallPlants.Count < SmTotalPlantsRange.y )
+		if( _mediumPlants.Count < MedTotalPlantsRange.y )
 		{
 			SpawnMiniPlantEvent spawnEvent = new SpawnMiniPlantEvent( plant, timeUntil );
 			TimeManager.instance.AddEvent( spawnEvent );
