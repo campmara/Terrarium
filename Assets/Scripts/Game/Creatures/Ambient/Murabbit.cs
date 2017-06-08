@@ -169,7 +169,8 @@ public class Murabbit : MonoBehaviour
 	private void OnEnterHopping()
 	{
 		Vector3 jumpPos = transform.position + (Random.insideUnitSphere * 2f);
-		jumpPos.y = 0f;
+        jumpPos.y = 0.0f;
+        jumpPos.y = PondManager.instance.Pond.GetPondY( jumpPos );
 		transform.LookAt(jumpPos);
 
 		hopTween = transform.DOJump(jumpPos, Random.Range(0.5f, 1.25f), 1, HOP_DURATION)
