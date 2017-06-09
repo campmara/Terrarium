@@ -68,7 +68,7 @@
 
 		void surf (Input IN, inout SurfaceOutput o) {
 			fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
-			o.Albedo = lerp(lerp(_Color, _GroundColorSecondary, .1f), _TerrariumFogColor, .1f);// * tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(IN.proj)).rgb;
+			o.Albedo = lerp(lerp(_Color * IN.color.rgb, _GroundColorSecondary, .1f), _TerrariumFogColor, .1f);// * tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(IN.proj)).rgb;
 			o.Alpha = c.a * IN.color.a; // * IN.color.a
 			o.Specular = _SpecularColor;
 		}
