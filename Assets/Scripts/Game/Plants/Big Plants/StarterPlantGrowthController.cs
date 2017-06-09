@@ -88,6 +88,8 @@ public class StarterPlantGrowthController : BPGrowthController
 		leaf.transform.position -= leaf.transform.forward * .015f * transform.localScale.x;
 		anim.speed *= _plantAnim.GetComponent<Animator>().speed;
 
+		_lastAnim = anim;
+
 		return anim;
 	}
 

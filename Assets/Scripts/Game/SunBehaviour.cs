@@ -5,7 +5,7 @@ using UnityEngine;
 public class SunBehaviour : MonoBehaviour 
 {
 
-	MinMax _xRotRange = new MinMax( 35.0f, 125.0f );
+	MinMax _xRotRange = new MinMax( 77.0f, 95.0f );
 	MinMax _yRotRange = new MinMax( 0.0f, 360.0f );
 
 	int _colorChangesPerCycle = 5;
