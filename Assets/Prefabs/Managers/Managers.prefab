@@ -1185,8 +1185,8 @@ MonoBehaviour:
         m_NumAlphaKeys: 2
       TopGradient4:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key0: {r: 0.9411765, g: 0.86233145, b: 0.53287196, a: 1}
+        key1: {r: 0.8510679, g: 0.9411765, b: 0.53287196, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -1214,8 +1214,8 @@ MonoBehaviour:
         m_NumAlphaKeys: 2
       MidGradient4:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key0: {r: 0.8088235, g: 0.7851987, b: 0.59472317, a: 1}
+        key1: {r: 0.9117647, g: 0.8614605, b: 0.45588234, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -1243,8 +1243,8 @@ MonoBehaviour:
         m_NumAlphaKeys: 2
       BotGradient4:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key0: {r: 1, g: 0.7800173, b: 0.3838668, a: 1}
+        key1: {r: 1, g: 0.90651774, b: 0.3838668, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
