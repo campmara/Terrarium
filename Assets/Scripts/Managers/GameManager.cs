@@ -46,23 +46,20 @@ public class GameManager : MonoBehaviour
 			Destroy(gameObject);
 		}
 
-		//DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
 
 
-		#if !UNITY_EDITOR
+        #if !UNITY_EDITOR
 		Cursor.visible = false;
-		#else
-		Application.targetFrameRate = 60;	// MAKES IOS VERSION CRASH
-		#endif
+        #endif
+        Application.targetFrameRate = 60;   // MAKES IOS VERSION CRASH
 
-		// Have to add safeguards for when NONE isn't selected
-		if( _state == GameState.NONE )
-		{
-			ChangeGameState(GameState.INIT);
-		}
-	}
+        AudioManager.instance.Initialize();
+        ControlManager.instance.Initialize();
+        UIManager.instance.Initialize();
+    }
 
-	void OnDestroy()
+    void OnDestroy()
 	{
 		if(Instance == this)
 			Instance = null;
@@ -70,20 +67,30 @@ public class GameManager : MonoBehaviour
 
 	void Update()
 	{		
-		switch(_state)
-		{
-		case GameState.INTRO:
-			break;
-		}
+		if( _state == GameState.NONE )
+        {
+            InputCollection input = ControlManager.instance.getInput();
 
+            if (input.LeftStickX.Value > RollerConstants.instance.IdleMaxMag ||
+            input.LeftStickY.Value > RollerConstants.instance.IdleMaxMag ||
+            input.AButton.IsPressed ||
+            input.BButton.IsPressed ||
+            input.XButton.IsPressed ||
+            input.YButton.IsPressed)
+            {
+                ChangeGameState( GameState.INIT );
+            }
+
+        }
 		// rly hacky Restart gdi
 		if( Input.GetKey(KeyCode.Alpha0) )
 		{
 			SceneManager.LoadScene(0);
 		}
-	}
 
-	public void ChangeGameState(GameState newState)
+    }
+
+    public void ChangeGameState(GameState newState)
 	{
 		GameState prevState = _state;
 
@@ -161,13 +168,9 @@ public class GameManager : MonoBehaviour
 
 	IEnumerator DelayedInitialize()
 	{
-        UIManager.instance.Initialize();
-
-		yield return new WaitUntil( () => UIManager.instance.IsInitialized );
-
-		ControlManager.instance.Initialize();
-
-		yield return new WaitUntil( () => ControlManager.instance.IsInitialized );
+// 		ControlManager.instance.Initialize();
+// 
+// 		yield return new WaitUntil( () => ControlManager.instance.IsInitialized );
 
 		PlayerManager.instance.Initialize();
 
@@ -181,9 +184,9 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitUntil( () => PlantManager.instance.IsInitialized );
 
-        AudioManager.instance.Initialize();
-
-		yield return new WaitUntil( () => AudioManager.instance.IsInitialized );
+//         AudioManager.instance.Initialize();
+// 
+// 		yield return new WaitUntil( () => AudioManager.instance.IsInitialized );
 
 		CameraManager.instance.Initialize();
 
