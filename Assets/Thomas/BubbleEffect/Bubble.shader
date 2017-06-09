@@ -39,6 +39,8 @@
 		float _SpecularPower;
 
 		uniform float4 _TerrariumFogColor;
+		uniform float4 _GroundColorSecondary;
+
 
 		fixed4 LightingWater(SurfaceOutput s, fixed3 lightDir, half3 viewDir, fixed atten)
 		{
@@ -66,7 +68,7 @@
 
 		void surf (Input IN, inout SurfaceOutput o) {
 			fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
-			o.Albedo = lerp(_Color, _TerrariumFogColor, .25f);// * tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(IN.proj)).rgb;
+			o.Albedo = lerp(lerp(_Color, _GroundColorSecondary, .1f), _TerrariumFogColor, .1f);// * tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(IN.proj)).rgb;
 			o.Alpha = c.a * IN.color.a; // * IN.color.a
 			o.Specular = _SpecularColor;
 		}
