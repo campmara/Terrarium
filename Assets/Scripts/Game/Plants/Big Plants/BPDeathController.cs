@@ -13,7 +13,9 @@ public class BPDeathController : PlantController
 	[SerializeField, ReadOnly] DeathState _curState = DeathState.DECAYING;
 
 	[Header("Bubble Properties"), SerializeField] private GameObject _bubblePrefab;
-	[SerializeField] private float _spawnRate = 0.9f;
+	[SerializeField] private float _beginSpawnRate = 10f;
+	[SerializeField] private float _finalSpawnRate = 0.9f;
+	[SerializeField] private AnimationCurve _spawnRateRamp;
 	[SerializeField] private FloatRange _growthTimeRange = new FloatRange(7f, 12f);
 	[SerializeField] private FloatRange _growthSizeRange = new FloatRange(0.25f, 0.45f);
 	[SerializeField] private AnimationCurve _dissolveCurve;
@@ -24,12 +26,15 @@ public class BPDeathController : PlantController
 	private float _repairTimer = 0f;
 
 	private List<Bubble> _bubbles;
+	private Transform[] _transforms;
 	private List<Vector3> _verts;
 
 	private Coroutine _bubbleSpawnRoutine;
+	[SerializeField, ReadOnly] private float _currentSpawnRate = 0f;
 	private float _dissolveValue;
 	private float _dissolveReturnValue;
 	private bool _readyToDie;
+	private bool _spawnBubbles = true;
 
 	// Color Handling
 	List<Material> _componentMaterials = new List<Material>();
@@ -58,7 +63,8 @@ public class BPDeathController : PlantController
 		ColorManager.ExecutePaletteChange += HandlePaletteChange;
 
 		_dissolveValue = 0f;
-		_bubbleSpawnRoutine = StartCoroutine(BubbleSpawnRoutine());
+		_currentSpawnRate = _beginSpawnRate;
+		if (_spawnBubbles) _bubbleSpawnRoutine = StartCoroutine(BubbleSpawnRoutine());
 	}
 
 	void GetComponentMaterials()
@@ -94,15 +100,13 @@ public class BPDeathController : PlantController
 		_verts = new List<Vector3>();
 
 		SkinnedMeshRenderer[] _skins = GetComponentsInChildren<SkinnedMeshRenderer>();
-		Transform[] _transforms = GetComponentsInChildren<Transform>();
-		for (int i = 0; i < _transforms.Length; i++)
-		{
-			_verts.Add(_transforms[i].position);
-		}
+		_transforms = transform.GetChild(0).GetComponentsInChildren<Transform>();
 
 		// BACKUP! use meshrenderer
 		if (_skins.Length == 0)
 		{
+			_spawnBubbles = false;
+			/*
 			MeshFilter[] _filters = GetComponentsInChildren<MeshFilter>();
 			for (int i = 0; i < _filters.Length; i++)
 			{
@@ -112,6 +116,7 @@ public class BPDeathController : PlantController
 					_verts.Add(transformedVert);
 				}
 			}
+			*/
 		}
 	}
 
@@ -138,7 +143,7 @@ public class BPDeathController : PlantController
 		{
 			// Begin the bubbling process.
 			_dissolveValue = 0f;
-			_bubbleSpawnRoutine = StartCoroutine(BubbleSpawnRoutine());
+			if (_spawnBubbles) _bubbleSpawnRoutine = StartCoroutine(BubbleSpawnRoutine());
 			_curState = DeathState.DECAYING;
 		}
 	}
@@ -155,6 +160,8 @@ public class BPDeathController : PlantController
 		//_dissolveValue = _dissolveCurve.Evaluate(_myPlant.DeathTimer / _myPlant.DeathDuration);
 		//UpdateDissolveEffect();
 
+		_currentSpawnRate = Mathf.Lerp(_beginSpawnRate, _finalSpawnRate, _spawnRateRamp.Evaluate(_myPlant.DeathTimer / _myPlant.DeathDuration));
+
 		// Handle time checking.
 		if (_myPlant.DeathTimer >= _myPlant.DeathDuration)
 		{
@@ -164,7 +171,7 @@ public class BPDeathController : PlantController
 				.OnUpdate(() => UpdateDissolveEffect()) 
 				.OnComplete(KillPlant); 
 
-			StopCoroutine(_bubbleSpawnRoutine);
+			if (_spawnBubbles) StopCoroutine(_bubbleSpawnRoutine);
 			StartCoroutine(DropBubblesRoutine(deathTime));
 			_readyToDie = true;
 		}
@@ -176,27 +183,48 @@ public class BPDeathController : PlantController
 
 	private IEnumerator BubbleSpawnRoutine()
 	{
-		yield return new WaitForSeconds(_spawnRate);
+		yield return new WaitForSeconds(_currentSpawnRate);
 
 		Bloop();
 
-		_bubbleSpawnRoutine = StartCoroutine(BubbleSpawnRoutine());
+		if (_spawnBubbles) _bubbleSpawnRoutine = StartCoroutine(BubbleSpawnRoutine());
 	}
 
 	private void Bloop()
 	{
-		float xSpin = Random.Range(0f, 360f);
-		float ySpin = Random.Range(0f, 360f);
-		float zSpin = Random.Range(0f, 360f);
-		Quaternion rot = Quaternion.Euler(xSpin, ySpin, zSpin);
-		GameObject bubbleObj = Instantiate(_bubblePrefab, RandomPointOnPlant(), rot);
+		if (_verts.Count > 0)
+		{	
+			float xSpin = Random.Range(0f, 360f);
+			float ySpin = Random.Range(0f, 360f);
+			float zSpin = Random.Range(0f, 360f);
+			Quaternion rot = Quaternion.Euler(xSpin, ySpin, zSpin);
+			GameObject bubbleObj = Instantiate(_bubblePrefab, RandomPointOnPlant(), rot);
 
-		Bubble bubble = bubbleObj.GetComponent(typeof(Bubble)) as Bubble;
-		bubble.Setup(Random.Range(_growthTimeRange.min, _growthTimeRange.max),
-					 Random.Range(_growthSizeRange.min, _growthSizeRange.max),
-					 _interpColors[0]);
+			Bubble bubble = bubbleObj.GetComponent(typeof(Bubble)) as Bubble;
+			bubble.Setup(Random.Range(_growthTimeRange.min, _growthTimeRange.max),
+						Random.Range(_growthSizeRange.min, _growthSizeRange.max),
+						_interpColors[0]);
 
-		_bubbles.Add(bubble);
+			_bubbles.Add(bubble);
+		}
+		else
+		{
+			Transform randTransform = _transforms[Random.Range(0, _transforms.Length)];
+
+			float xSpin = Random.Range(0f, 360f);
+			float ySpin = Random.Range(0f, 360f);
+			float zSpin = Random.Range(0f, 360f);
+			Quaternion rot = Quaternion.Euler(xSpin, ySpin, zSpin);
+			GameObject bubbleObj = Instantiate(_bubblePrefab, randTransform.position, rot);
+			bubbleObj.transform.parent = transform;
+
+			Bubble bubble = bubbleObj.GetComponent(typeof(Bubble)) as Bubble;
+			bubble.Setup(Random.Range(_growthTimeRange.min, _growthTimeRange.max),
+						Random.Range(_growthSizeRange.min, _growthSizeRange.max),
+						_interpColors[0]);
+
+			_bubbles.Add(bubble);
+		}
 	}
 
 	// Returns a random point on the mesh.
@@ -283,7 +311,7 @@ public class BPDeathController : PlantController
 		if (_myPlant.DeathTimer <= 3f)
 		{
 			// Stop spawning bubbles.
-			StopCoroutine(_bubbleSpawnRoutine);
+			if (_spawnBubbles) StopCoroutine(_bubbleSpawnRoutine);
 
 			// Prepare for the decay process again.
 			_readyToDie = false;
@@ -302,7 +330,7 @@ public class BPDeathController : PlantController
 		//DropAllBubbles();
 
 		// Decrement the death timer by the amount of bubbles we're dropping.
-		_myPlant.DeathTimer -= Mathf.Floor((float)numToDrop * _spawnRate);
+		_myPlant.DeathTimer -= Mathf.Floor((float)numToDrop * _finalSpawnRate);
 	}
 
 	public override void TouchPlant(){}

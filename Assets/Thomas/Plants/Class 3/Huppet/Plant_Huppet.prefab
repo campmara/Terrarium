@@ -615,13 +615,32 @@ MonoBehaviour:
   _curState: 0
   _bubblePrefab: {fileID: 1491106757313288, guid: 0f0c4648b38bd4d09b726dd5bfd16753,
     type: 2}
-  _spawnRate: 2
+  _beginSpawnRate: 8
+  _finalSpawnRate: 2
+  _spawnRateRamp:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 2.990627
+      outSlope: 2.990627
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
   _growthTimeRange:
     min: 7
     max: 12
   _growthSizeRange:
-    min: 0.15
-    max: 0.3
+    min: 0.01
+    max: 0.05
   _dissolveCurve:
     serializedVersion: 2
     m_Curve:
@@ -641,6 +660,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 0
   _waterDecayReturnTime: 20
+  _currentSpawnRate: 0
 --- !u!114 &114350058866248526
 MonoBehaviour:
   m_ObjectHideFlags: 1
