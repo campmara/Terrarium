@@ -6517,7 +6517,7 @@ MonoBehaviour:
         m_Mode: 0
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
-  _paletteOrderList: 040000000400000000000000010000000200000005000000
+  _paletteOrderList: 040000000300000000000000010000000200000005000000
   terrainMaterial: {fileID: 2100000, guid: be1f84fcd12c8814fb81989242a6b5ed, type: 2}
   groundSplatDecal: {fileID: 0}
   flowerSplatDecalColor: {r: 0.74264705, g: 0.5963019, b: 0.37678418, a: 1}
