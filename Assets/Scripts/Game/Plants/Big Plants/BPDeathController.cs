@@ -7,26 +7,29 @@ public class BPDeathController : PlantController
 {	
 	enum DeathState
 	{
-		DECAYING,
-		BUBBLING
+		REPAIRING,
+		DECAYING
 	}
-	DeathState _curState = DeathState.DECAYING;
+	[SerializeField, ReadOnly] DeathState _curState = DeathState.DECAYING;
 
 	[Header("Bubble Properties"), SerializeField] private GameObject _bubblePrefab;
-	[SerializeField] private float _deathTime = 20f;
 	[SerializeField] private float _spawnRate = 0.9f;
 	[SerializeField] private FloatRange _growthTimeRange = new FloatRange(7f, 12f);
 	[SerializeField] private FloatRange _growthSizeRange = new FloatRange(0.25f, 0.45f);
+	[SerializeField] private AnimationCurve _dissolveCurve;
+
+	[Header("Other"), SerializeField] private float _waterDecayReturnTime = 20.0f;
+
+	private const float REPAIR_TIME = 5f;
+	private float _repairTimer = 0f;
 
 	private List<Bubble> _bubbles;
 	private List<Vector3> _verts;
 
 	private Coroutine _bubbleSpawnRoutine;
-	private float _deathTimer;
 	private float _dissolveValue;
+	private float _dissolveReturnValue;
 	private bool _readyToDie;
-
-	[Header("Other"), SerializeField] float _waterDecayReturnTime = 20.0f;
 
 	// Color Handling
 	List<Material> _componentMaterials = new List<Material>();
@@ -113,48 +116,46 @@ public class BPDeathController : PlantController
 
 	public override void UpdateState()
 	{
-		if( _curState == DeathState.DECAYING )
+		if( _curState == DeathState.REPAIRING )
+		{
+			HandleRepair();
+		}
+		else
 		{
 			HandleDecay();
 		}
-		else
-		{
-			HandleBubbling();
-		}
 	}
 
-	protected virtual void HandleDecay()
+	protected virtual void HandleRepair()
 	{
-		if( _myPlant.DeathTimer < _myPlant.DeathDuration )
-		{
-			// Increment the decay timer.
-			_myPlant.DeathTimer += Time.deltaTime * _myPlant.CurDecayRate;
-		}
-		else
+		_repairTimer += Time.deltaTime;
+
+		_dissolveValue = Mathf.Lerp(_dissolveReturnValue, 0f, _repairTimer / REPAIR_TIME);
+		UpdateDissolveEffect();
+
+		if (_repairTimer >= REPAIR_TIME)
 		{
 			// Begin the bubbling process.
 			_dissolveValue = 0f;
-			_deathTimer = 0f;
-
 			_bubbleSpawnRoutine = StartCoroutine(BubbleSpawnRoutine());
-
-			_curState = DeathState.BUBBLING;
+			_curState = DeathState.DECAYING;
 		}
 	}
 
-	void HandleBubbling()
+	void HandleDecay()
 	{
 		if (_readyToDie) return;
 
-		// Increment the death timer.
-		_deathTimer += Time.deltaTime;
+		// Increment the decay timer.
+		_myPlant.DeathTimer += Time.deltaTime * _myPlant.CurDecayRate;
 
 		// Handle the dissolve effect.
-		_dissolveValue = Mathf.Lerp(0f, 1f, _deathTimer / _deathTime);
+		//_dissolveValue = Mathf.Lerp(0f, 1f, _deathTimer / _deathTime);
+		_dissolveValue = _dissolveCurve.Evaluate(_myPlant.DeathTimer / _myPlant.DeathDuration);
 		UpdateDissolveEffect();
 
 		// Handle time checking.
-		if (_deathTimer >= _deathTime)
+		if (_myPlant.DeathTimer >= _myPlant.DeathDuration)
 		{
 			StopCoroutine(_bubbleSpawnRoutine);
 			DropAllBubbles();
@@ -248,23 +249,20 @@ public class BPDeathController : PlantController
 	// When we shake the plant, we should revert the death process. It'll still go back to bubbling eventually.
 	public override void GrabPlant()
 	{
-		if (_curState == DeathState.DECAYING) return;
+		if (_curState == DeathState.REPAIRING) return;
 
 		// Stop spawning bubbles.
 		StopCoroutine(_bubbleSpawnRoutine);
 
 		// Drop all the bubbles.
 		DropAllBubbles();
-		
-		// Revert the dissolve effect.
-		DOTween.To(()=> _dissolveValue, x=> _dissolveValue = x, 0f, 5f)
-				.SetEase(Ease.Linear)
-				.OnUpdate(() => UpdateDissolveEffect())
-				.OnComplete(KillPlant);
 
 		// Prepare for the decay process again.
+		_readyToDie = false;
 		_myPlant.DeathTimer = 0f;
-		_curState = DeathState.DECAYING;
+		_repairTimer = 0f;
+		_dissolveReturnValue = _dissolveValue;
+		_curState = DeathState.REPAIRING;
 	}
 
 	public override void TouchPlant(){}
