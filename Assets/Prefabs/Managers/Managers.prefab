@@ -716,16 +716,16 @@ MonoBehaviour:
     cloudRimColor: {r: 1, g: 0.9843813, b: 0.9191176, a: 0}
     rabbitGradient:
       serializedVersion: 2
-      key0: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
-      key1: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
+      key0: {r: 0.9338235, g: 0.75804514, b: 0.5355753, a: 1}
+      key1: {r: 0.9338235, g: 0.9063581, b: 0.5355753, a: 1}
       key2: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 21781
-      ctime1: 43253
+      ctime0: 0
+      ctime1: 65535
       ctime2: 65535
       ctime3: 0
       ctime4: 0
@@ -740,13 +740,13 @@ MonoBehaviour:
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 1
-      m_NumColorKeys: 3
+      m_Mode: 0
+      m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     butterflyGradient:
       serializedVersion: 2
-      key0: {r: 0.64705884, g: 0.27058825, b: 0.42745098, a: 1}
-      key1: {r: 0.9882353, g: 0.49019608, b: 0.3529412, a: 1}
+      key0: {r: 0.7352941, g: 0.3352076, b: 0.64148074, a: 1}
+      key1: {r: 0.5514706, g: 0.5603448, b: 0.7352941, a: 1}
       key2: {r: 0.9882353, g: 0.9137255, b: 0.48235294, a: 0}
       key3: {r: 0.38039216, g: 0.80784315, b: 0.5019608, a: 0}
       key4: {r: 0.46666667, g: 0.8980392, b: 0.78431374, a: 0}
@@ -754,7 +754,7 @@ MonoBehaviour:
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 16384
+      ctime1: 65535
       ctime2: 32768
       ctime3: 49151
       ctime4: 65535
@@ -770,12 +770,12 @@ MonoBehaviour:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_NumColorKeys: 5
+      m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     slugGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0.7647059, g: 1, b: 0.96105474, a: 1}
+      key1: {r: 0.7647059, g: 0.8344828, b: 1, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -1685,16 +1685,16 @@ MonoBehaviour:
     cloudRimColor: {r: 0.9191176, g: 0.99665314, b: 1, a: 0}
     rabbitGradient:
       serializedVersion: 2
-      key0: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
-      key1: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
+      key0: {r: 0.9338235, g: 0.75804514, b: 0.5355753, a: 1}
+      key1: {r: 0.9338235, g: 0.8569204, b: 0.5355753, a: 1}
       key2: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 21781
-      ctime1: 43253
+      ctime0: 0
+      ctime1: 65535
       ctime2: 65535
       ctime3: 0
       ctime4: 0
@@ -1709,21 +1709,21 @@ MonoBehaviour:
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 1
-      m_NumColorKeys: 3
+      m_Mode: 0
+      m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     butterflyGradient:
       serializedVersion: 2
-      key0: {r: 0.64705884, g: 0.27058825, b: 0.42745098, a: 1}
-      key1: {r: 0.9882353, g: 0.49019608, b: 0.3529412, a: 1}
-      key2: {r: 0.9882353, g: 0.9137255, b: 0.48235294, a: 0}
+      key0: {r: 0.93333334, g: 1, b: 0.3019608, a: 1}
+      key1: {r: 1, g: 0.83632183, b: 0.30196083, a: 1}
+      key2: {r: 0.9882353, g: 0.9137255, b: 0.48235294, a: 1}
       key3: {r: 0.38039216, g: 0.80784315, b: 0.5019608, a: 0}
       key4: {r: 0.46666667, g: 0.8980392, b: 0.78431374, a: 0}
       key5: {r: 0.46666667, g: 0.8980392, b: 0.78431374, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 16384
+      ctime1: 65535
       ctime2: 32768
       ctime3: 49151
       ctime4: 65535
@@ -1731,20 +1731,20 @@ MonoBehaviour:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
-      atime2: 0
+      atime1: 32768
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_NumColorKeys: 5
-      m_NumAlphaKeys: 2
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 3
     slugGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0.7647059, g: 1, b: 0.96105474, a: 1}
+      key1: {r: 0.7647059, g: 1, b: 0.82474643, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -2654,16 +2654,16 @@ MonoBehaviour:
     cloudRimColor: {r: 0.9191176, g: 0.99665314, b: 1, a: 0}
     rabbitGradient:
       serializedVersion: 2
-      key0: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
-      key1: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
+      key0: {r: 0.9264706, g: 0.7970372, b: 0.9229, a: 1}
+      key1: {r: 0.9264706, g: 0.7970372, b: 0.9229, a: 1}
       key2: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 21781
-      ctime1: 43253
+      ctime0: 0
+      ctime1: 65535
       ctime2: 65535
       ctime3: 0
       ctime4: 0
@@ -2679,12 +2679,12 @@ MonoBehaviour:
       atime6: 0
       atime7: 0
       m_Mode: 1
-      m_NumColorKeys: 3
+      m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     butterflyGradient:
       serializedVersion: 2
-      key0: {r: 0.64705884, g: 0.27058825, b: 0.42745098, a: 1}
-      key1: {r: 0.9882353, g: 0.49019608, b: 0.3529412, a: 1}
+      key0: {r: 0.71323526, g: 0.9406693, b: 1, a: 1}
+      key1: {r: 0.71323526, g: 1, b: 0.810142, a: 1}
       key2: {r: 0.9882353, g: 0.9137255, b: 0.48235294, a: 0}
       key3: {r: 0.38039216, g: 0.80784315, b: 0.5019608, a: 0}
       key4: {r: 0.46666667, g: 0.8980392, b: 0.78431374, a: 0}
@@ -2692,7 +2692,7 @@ MonoBehaviour:
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 16384
+      ctime1: 65535
       ctime2: 32768
       ctime3: 49151
       ctime4: 65535
@@ -2708,12 +2708,12 @@ MonoBehaviour:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_NumColorKeys: 5
+      m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     slugGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0.7647059, g: 1, b: 0.96105474, a: 1}
+      key1: {r: 0.7058823, g: 0.86612576, b: 1, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -3623,16 +3623,16 @@ MonoBehaviour:
     cloudRimColor: {r: 1, g: 1, b: 1, a: 0}
     rabbitGradient:
       serializedVersion: 2
-      key0: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
-      key1: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
+      key0: {r: 0.8308824, g: 0.6454928, b: 0.5254109, a: 1}
+      key1: {r: 0.8308824, g: 0.594932, b: 0.5254109, a: 1}
       key2: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 21781
-      ctime1: 43253
+      ctime0: 0
+      ctime1: 65535
       ctime2: 65535
       ctime3: 0
       ctime4: 0
@@ -3647,13 +3647,13 @@ MonoBehaviour:
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 1
-      m_NumColorKeys: 3
+      m_Mode: 0
+      m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     butterflyGradient:
       serializedVersion: 2
-      key0: {r: 0.64705884, g: 0.27058825, b: 0.42745098, a: 1}
-      key1: {r: 0.9882353, g: 0.49019608, b: 0.3529412, a: 1}
+      key0: {r: 1, g: 0.7900813, b: 0.35813147, a: 1}
+      key1: {r: 1, g: 0.7166925, b: 0.35813147, a: 1}
       key2: {r: 0.9882353, g: 0.9137255, b: 0.48235294, a: 0}
       key3: {r: 0.38039216, g: 0.80784315, b: 0.5019608, a: 0}
       key4: {r: 0.46666667, g: 0.8980392, b: 0.78431374, a: 0}
@@ -3661,7 +3661,7 @@ MonoBehaviour:
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 16384
+      ctime1: 65535
       ctime2: 32768
       ctime3: 49151
       ctime4: 65535
@@ -3677,12 +3677,12 @@ MonoBehaviour:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_NumColorKeys: 5
+      m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     slugGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0.8455882, g: 0.8455882, b: 0.7647599, a: 1}
+      key1: {r: 0.82083285, g: 0.86764705, b: 0.68901384, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -4592,16 +4592,16 @@ MonoBehaviour:
     cloudRimColor: {r: 1, g: 1, b: 1, a: 0}
     rabbitGradient:
       serializedVersion: 2
-      key0: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
-      key1: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
+      key0: {r: 1, g: 0.8693712, b: 0.58823526, a: 1}
+      key1: {r: 1, g: 0.81825554, b: 0.58823526, a: 1}
       key2: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 21781
-      ctime1: 43253
+      ctime0: 0
+      ctime1: 65535
       ctime2: 65535
       ctime3: 0
       ctime4: 0
@@ -4616,13 +4616,13 @@ MonoBehaviour:
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 1
-      m_NumColorKeys: 3
+      m_Mode: 0
+      m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     butterflyGradient:
       serializedVersion: 2
-      key0: {r: 0.64705884, g: 0.27058825, b: 0.42745098, a: 1}
-      key1: {r: 0.9882353, g: 0.49019608, b: 0.3529412, a: 1}
+      key0: {r: 0.9411765, g: 0.86233145, b: 0.53287196, a: 1}
+      key1: {r: 0.8510679, g: 0.9411765, b: 0.53287196, a: 1}
       key2: {r: 0.9882353, g: 0.9137255, b: 0.48235294, a: 0}
       key3: {r: 0.38039216, g: 0.80784315, b: 0.5019608, a: 0}
       key4: {r: 0.46666667, g: 0.8980392, b: 0.78431374, a: 0}
@@ -4630,7 +4630,7 @@ MonoBehaviour:
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 16384
+      ctime1: 65535
       ctime2: 32768
       ctime3: 49151
       ctime4: 65535
@@ -4646,12 +4646,12 @@ MonoBehaviour:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_NumColorKeys: 5
+      m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     slugGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0.8567258, g: 0.9468038, b: 1, a: 1}
+      key1: {r: 0.8518058, g: 1, b: 1, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -5561,16 +5561,16 @@ MonoBehaviour:
     cloudRimColor: {r: 0.875, g: 0.6819853, b: 0.8616887, a: 0}
     rabbitGradient:
       serializedVersion: 2
-      key0: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
-      key1: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
+      key0: {r: 0.72276574, g: 0.60553634, b: 0.7352941, a: 1}
+      key1: {r: 0.7352941, g: 0.60553634, b: 0.6404367, a: 1}
       key2: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 21781
-      ctime1: 43253
+      ctime0: 0
+      ctime1: 65535
       ctime2: 65535
       ctime3: 0
       ctime4: 0
@@ -5585,21 +5585,21 @@ MonoBehaviour:
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 1
-      m_NumColorKeys: 3
+      m_Mode: 0
+      m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     butterflyGradient:
       serializedVersion: 2
-      key0: {r: 0.64705884, g: 0.27058825, b: 0.42745098, a: 1}
-      key1: {r: 0.9882353, g: 0.49019608, b: 0.3529412, a: 1}
-      key2: {r: 0.9882353, g: 0.9137255, b: 0.48235294, a: 0}
+      key0: {r: 0.7352941, g: 0.3352076, b: 0.64148074, a: 1}
+      key1: {r: 0.7352941, g: 0.3352076, b: 0.54214895, a: 1}
+      key2: {r: 0.9882353, g: 0.9137255, b: 0.48235294, a: 1}
       key3: {r: 0.38039216, g: 0.80784315, b: 0.5019608, a: 0}
       key4: {r: 0.46666667, g: 0.8980392, b: 0.78431374, a: 0}
       key5: {r: 0.46666667, g: 0.8980392, b: 0.78431374, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 16384
+      ctime1: 65535
       ctime2: 32768
       ctime3: 49151
       ctime4: 65535
@@ -5607,20 +5607,20 @@ MonoBehaviour:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
-      atime2: 0
+      atime1: 27898
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_NumColorKeys: 5
-      m_NumAlphaKeys: 2
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 3
     slugGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0.6714965, g: 0.6903526, b: 0.8455882, a: 1}
+      key1: {r: 0.73513, g: 0.6714965, b: 0.8455882, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -6517,7 +6517,7 @@ MonoBehaviour:
         m_Mode: 0
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
-  _paletteOrderList: 040000000400000000000000010000000200000005000000
+  _paletteOrderList: 040000000300000000000000010000000200000005000000
   terrainMaterial: {fileID: 2100000, guid: be1f84fcd12c8814fb81989242a6b5ed, type: 2}
   groundSplatDecal: {fileID: 0}
   flowerSplatDecalColor: {r: 0.74264705, g: 0.5963019, b: 0.37678418, a: 1}
