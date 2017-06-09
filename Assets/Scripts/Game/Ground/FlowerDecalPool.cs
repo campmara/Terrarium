@@ -8,6 +8,9 @@ public class FlowerDecalPool : MonoBehaviour {
     private ParticleSystem decalSystem;
     private ParticleSystem.EmitParams[] decalParticles;
 
+    [SerializeField]
+    private float yPos = 0f;
+
     float _flowerSpawnOffset = 0.45f;
 
     void Awake()
@@ -20,6 +23,8 @@ public class FlowerDecalPool : MonoBehaviour {
 
     public void AddDecal( Vector3 pos )
     {
+
+        pos.y = yPos;
         if (dataIndex >= decalSystem.main.maxParticles)
         {
             dataIndex = 0;
