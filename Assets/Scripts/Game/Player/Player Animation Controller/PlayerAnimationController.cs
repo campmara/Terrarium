@@ -28,6 +28,9 @@ public class PlayerAnimationController : MonoBehaviour {
     const string LIFTCANCEL_PARAM = "LiftCancel";
     int _liftCancelTriggerHash = 0;
 
+	const string SLEEP_PARAM = "SleepTrigger";
+	int _sleepTriggerHash = 0;
+
     const string WALK_ANIMSTATE = "Walking Blend Tree";
     int _walkAnimStateHash = 0;
 
@@ -51,6 +54,7 @@ public class PlayerAnimationController : MonoBehaviour {
 	const string HUGSTATE_PARAM = "HugState";
 	int _hugStatePropertyHash = 0;
 
+
     #endregion
 
     public void Initialize()
@@ -67,6 +71,7 @@ public class PlayerAnimationController : MonoBehaviour {
         _carryingParamHash = Animator.StringToHash( CARRYING_PARAM );
 		_liftParamHash = Animator.StringToHash( LIFT_PARAM );
         _liftCancelTriggerHash = Animator.StringToHash( LIFTCANCEL_PARAM );
+		_sleepTriggerHash = Animator.StringToHash( SLEEP_PARAM );
 
 		_hugStatePropertyHash = Animator.StringToHash( HUGSTATE_PARAM );
 		_hugWidthPropertyHash = Animator.StringToHash( HUGWIDTH_PARAM );
@@ -134,4 +139,8 @@ public class PlayerAnimationController : MonoBehaviour {
         _animator.fireEvents = false;
     }
 
+	public void TriggerSleep()
+	{
+		_animator.SetTrigger( _sleepTriggerHash );
+	}
 }
