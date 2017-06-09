@@ -62,7 +62,7 @@ Material:
     - _ColorSetEnabled: 1
     - _ColorSetSeed: 0
     - _Columns: 8
-    - _CurrentColorSet: 2
+    - _CurrentColorSet: 5
     - _Cutoff: 0.544
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
