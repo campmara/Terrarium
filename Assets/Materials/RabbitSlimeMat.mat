@@ -101,9 +101,9 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorBot: {r: 1, g: 0.81825554, b: 0.58823526, a: 1}
-    - _ColorMid: {r: 1, g: 0.84381336, b: 0.58823526, a: 1}
-    - _ColorTop: {r: 1, g: 0.8693712, b: 0.58823526, a: 1}
+    - _ColorBot: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
+    - _ColorMid: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
+    - _ColorTop: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _NoiseOffset: {r: 0, g: 0, b: 0, a: 0}
     - _Position: {r: 0, g: 0, b: 0, a: 0}

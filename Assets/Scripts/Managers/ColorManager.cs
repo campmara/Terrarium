@@ -162,7 +162,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 			Shader.SetGlobalColor("_GroundColorSecondary", _activePalette.groundColorSecondary );
 			Shader.SetGlobalColor("_GroundColorTint", _activePalette.groundDecalTint );
 
-            if (groundSplatDecal != null )
+			if (groundSplatDecal != null )
 			{
 				ParticleSystem.MainModule groundDecalMain = groundSplatDecal.main;
 				groundDecalMain.startColor = new Color( _activePalette.groundColorSecondary.r * _activePalette.groundDecalTint.r, _activePalette.groundColorSecondary.g * _activePalette.groundDecalTint.g, _activePalette.groundColorSecondary.b * _activePalette.groundDecalTint.b, 1.0f );
@@ -185,9 +185,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 
 			//skybox
 			RenderSettings.fogColor = _activePalette.fogColor;
-            Shader.SetGlobalColor("_TerrariumFogColor", _activePalette.groundColorPrimary);
-
-            RenderSettings.skybox.SetColor( "_Color1", _activePalette.cloudRimColor );
+			RenderSettings.skybox.SetColor( "_Color1", _activePalette.cloudRimColor );
 			RenderSettings.skybox.SetColor( "_Color2", _activePalette.skyColor );
 
 			//terrain
@@ -245,9 +243,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 
             //skybox
             RenderSettings.fogColor = Colorx.Slerp(prevPalette.fogColor, _activePalette.fogColor, timer / duration );
-            Shader.SetGlobalColor("_TerrariumFogColor", Colorx.Slerp(prevPalette.fogColor, _activePalette.fogColor, timer / duration));
-
-            RenderSettings.skybox.SetColor( "_Color1", Colorx.Slerp( prevPalette.cloudRimColor, _activePalette.cloudRimColor, timer/ duration )  );
+			RenderSettings.skybox.SetColor( "_Color1", Colorx.Slerp( prevPalette.cloudRimColor, _activePalette.cloudRimColor, timer/ duration )  );
 			RenderSettings.skybox.SetColor( "_Color2", Colorx.Slerp( prevPalette.skyColor, _activePalette.skyColor, timer / duration ) );
 
 			//terrain

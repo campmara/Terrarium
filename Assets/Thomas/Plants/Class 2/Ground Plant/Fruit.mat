@@ -69,7 +69,7 @@ Material:
     - _BumpScale: 1
     - _ColorSetEnabled: 1
     - _ColorSetSeed: 0
-    - _CurrentColorSet: 3
+    - _CurrentColorSet: 4
     - _Cutoff: 0.5
     - _CutoffEdgeScale: 0.45
     - _CutoffNoiseScale: 10

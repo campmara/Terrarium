@@ -62,7 +62,7 @@ Material:
     - _ColorSetEnabled: 1
     - _ColorSetSeed: 0
     - _Columns: 8
-    - _CurrentColorSet: 0
+    - _CurrentColorSet: 2
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -70,7 +70,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _ImprintAmount: 1
+    - _ImprintAmount: 0.9
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
