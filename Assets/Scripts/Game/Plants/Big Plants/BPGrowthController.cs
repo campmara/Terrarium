@@ -219,7 +219,7 @@ public class BPGrowthController : PlantController
 
 	void TryTransitionStages()
 	{
-		if( IsOverlappingPlants() )
+		if( _curStage != GrowthStage.Final && IsOverlappingPlants() )
 		{
 			StopState();
 		}
@@ -263,10 +263,6 @@ public class BPGrowthController : PlantController
 
 	void SwitchToNextStage()
 	{   		
-		if( _curStage != GrowthStage.Final )
-		{
-			_curStage += 1;
-		}
 		if( _curStage == GrowthStage.Final )
 		{
 			PlantManager.instance.RequestDropFruit( this, _timeBetweenFruitDrops );
@@ -275,6 +271,10 @@ public class BPGrowthController : PlantController
 			StopState();
 			_stemDoneGrowing = true;
 		}
+		else
+		{
+			_curStage += 1;
+		}
 
 		UpdateNewStageData();
 	}
@@ -282,7 +282,7 @@ public class BPGrowthController : PlantController
 
 	public override void StopState()
 	{
-		if( _curStage != GrowthStage.Final )
+ 		if( _curStage != GrowthStage.Final )
 		{
 			SpawnGroundCoverSpawner();
 		}
