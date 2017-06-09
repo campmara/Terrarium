@@ -41,6 +41,7 @@ public class BPDeathController : PlantController
 	{
 		_myPlant = GetComponent<BasePlant>();
 		_controllerType = ControllerType.Death;
+		_curState = DeathState.DECAYING;
 	}
 
 	public override void StartState()
@@ -55,6 +56,9 @@ public class BPDeathController : PlantController
 		_interpColors[2] = _originalColors[2];
 
 		ColorManager.ExecutePaletteChange += HandlePaletteChange;
+
+		_dissolveValue = 0f;
+		_bubbleSpawnRoutine = StartCoroutine(BubbleSpawnRoutine());
 	}
 
 	void GetComponentMaterials()
@@ -130,8 +134,8 @@ public class BPDeathController : PlantController
 	{
 		_repairTimer += Time.deltaTime;
 
-		_dissolveValue = Mathf.Lerp(_dissolveReturnValue, 0f, _repairTimer / REPAIR_TIME);
-		UpdateDissolveEffect();
+		//_dissolveValue = Mathf.Lerp(_dissolveReturnValue, 0f, _repairTimer / REPAIR_TIME);
+		//UpdateDissolveEffect();
 
 		if (_repairTimer >= REPAIR_TIME)
 		{
@@ -151,14 +155,20 @@ public class BPDeathController : PlantController
 
 		// Handle the dissolve effect.
 		//_dissolveValue = Mathf.Lerp(0f, 1f, _deathTimer / _deathTime);
-		_dissolveValue = _dissolveCurve.Evaluate(_myPlant.DeathTimer / _myPlant.DeathDuration);
-		UpdateDissolveEffect();
+		//_dissolveValue = _dissolveCurve.Evaluate(_myPlant.DeathTimer / _myPlant.DeathDuration);
+		//UpdateDissolveEffect();
 
 		// Handle time checking.
 		if (_myPlant.DeathTimer >= _myPlant.DeathDuration)
 		{
+			float deathTime = 5f;
+			DOTween.To(()=> _dissolveValue, x=> _dissolveValue = x, 1f, deathTime) 
+				.SetEase(Ease.Linear) 
+				.OnUpdate(() => UpdateDissolveEffect()) 
+				.OnComplete(KillPlant); 
+
 			StopCoroutine(_bubbleSpawnRoutine);
-			DropAllBubbles();
+			StartCoroutine(DropBubblesRoutine(deathTime));
 			_readyToDie = true;
 		}
 	}
@@ -181,8 +191,7 @@ public class BPDeathController : PlantController
 		GameObject bubbleObj = Instantiate(_bubblePrefab, RandomPointOnPlant(), Quaternion.identity);
 
 		Bubble bubble = bubbleObj.GetComponent(typeof(Bubble)) as Bubble;
-		bubble.Setup(this,
-					 Random.Range(_growthTimeRange.min, _growthTimeRange.max),
+		bubble.Setup(Random.Range(_growthTimeRange.min, _growthTimeRange.max),
 					 Random.Range(_growthSizeRange.min, _growthSizeRange.max),
 					 _interpColors[0]);
 
@@ -197,27 +206,46 @@ public class BPDeathController : PlantController
 
 	private void DropAllBubbles()
 	{
-		for(int i = 0; i < _bubbles.Count; i++)
+		int num = _bubbles.Count;
+		for(int i = 0; i < num; i++)
 		{
-			_bubbles[i].Drop();
+			_bubbles[0].Drop();
+			_bubbles.RemoveAt(0);
 		}
 	}
 
-	public void OnBubbleDestroyed(Bubble bubble)
+	private void DropBubbles(int num)
 	{
-		_bubbles.Remove(bubble);
+		if (num > _bubbles.Count) num = _bubbles.Count;
 
-		// We check to kill the plant here. It'll only die if it's ready, once the death timer runs out.
-		if (_readyToDie && _bubbles.Count == 0)
+		for (int i = 0; i < num; i++)
 		{
-			KillPlant();
+			_bubbles[0].Drop();
+			_bubbles.RemoveAt(0);
 		}
+	}
+
+	private IEnumerator DropBubblesRoutine(float totalTime)
+	{
+		int numToDrop = 15;
+		int numIterations = Mathf.CeilToInt((float)_bubbles.Count / (float)numToDrop);
+		float waitTime = totalTime / (float)numIterations;
+
+		for (int i = 0; i < numIterations; i++)
+		{
+			DropBubbles(numToDrop);
+			yield return new WaitForSeconds(waitTime);
+		}
+
+		// Drop the rest of the bubbles.
+		DropAllBubbles();
+		yield return null;
 	}
 
 	protected virtual void KillPlant()
 	{
 		// Delete me!!! Bye bye!!!
-		PlantManager.instance.DeleteLargePlant( _myPlant.GetComponent<BasePlant>() );
+		PlantManager.instance.DeleteLargePlant(_myPlant.GetComponent<BasePlant>());
 	}
 
 	private void UpdateDissolveEffect()
@@ -251,18 +279,29 @@ public class BPDeathController : PlantController
 	{
 		if (_curState == DeathState.REPAIRING) return;
 
-		// Stop spawning bubbles.
-		StopCoroutine(_bubbleSpawnRoutine);
+		if (_myPlant.DeathTimer <= 3f)
+		{
+			// Stop spawning bubbles.
+			StopCoroutine(_bubbleSpawnRoutine);
 
-		// Drop all the bubbles.
-		DropAllBubbles();
+			// Prepare for the decay process again.
+			_readyToDie = false;
+			_repairTimer = 0f;
+			_dissolveReturnValue = _dissolveValue;
+			_myPlant.DeathTimer = 0f;
+			DropAllBubbles();
 
-		// Prepare for the decay process again.
-		_readyToDie = false;
-		_myPlant.DeathTimer = 0f;
-		_repairTimer = 0f;
-		_dissolveReturnValue = _dissolveValue;
-		_curState = DeathState.REPAIRING;
+			_curState = DeathState.REPAIRING;
+			return;
+		}
+
+		// Drop 15 bubbles
+		int numToDrop = 15;
+		DropBubbles(numToDrop);
+		//DropAllBubbles();
+
+		// Decrement the death timer by the amount of bubbles we're dropping.
+		_myPlant.DeathTimer -= Mathf.Floor((float)numToDrop * _spawnRate);
 	}
 
 	public override void TouchPlant(){}

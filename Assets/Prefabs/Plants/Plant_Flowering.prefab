@@ -703,8 +703,7 @@ MonoBehaviour:
   _curState: 0
   _bubblePrefab: {fileID: 1491106757313288, guid: 0f0c4648b38bd4d09b726dd5bfd16753,
     type: 2}
-  _deathTime: 40
-  _spawnRate: 0.2
+  _spawnRate: 2
   _growthTimeRange:
     min: 7
     max: 12
