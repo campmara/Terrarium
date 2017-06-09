@@ -6736,7 +6736,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Texture: {fileID: 2800000, guid: 2a9db95e7e060544bbe44c25977a3c47, type: 3}
+  m_Texture: {fileID: 2800000, guid: a60b3c3f1e70d481db29a4b8ccfd1934, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -6821,6 +6821,7 @@ MonoBehaviour:
   _screenshotOverlay: {fileID: 114481791995722538}
   _screenshotOverlayTextureList:
   - {fileID: 2800000, guid: 2a9db95e7e060544bbe44c25977a3c47, type: 3}
+  - {fileID: 2800000, guid: a60b3c3f1e70d481db29a4b8ccfd1934, type: 3}
   _blackOverlay: {fileID: 114523878451802644}
   _logoOverlay: {fileID: 114745545249443998}
 --- !u!114 &114536147130075368

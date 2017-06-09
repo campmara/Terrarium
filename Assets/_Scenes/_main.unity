@@ -3916,7 +3916,7 @@ MonoBehaviour:
   _useOverlay: 1
   _overlayDisableDelay: 0.3
   _overlayFadeTime: 0.15
-  _overlayMaxAlphaValue: 0.85
+  _overlayMaxAlphaValue: 0.89
   _screenshotSound: {fileID: 8300000, guid: 2887b9a7f4b7a4f71acc7093e02ae4e8, type: 3}
 --- !u!4 &420374437
 Transform:
@@ -7196,11 +7196,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 114536147130075368, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
-        type: 2}
-      propertyPath: _pond
-      value: 
-      objectReference: {fileID: 2028772720}
     - target: {fileID: 114374224506587848, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
         type: 2}
       propertyPath: groundSplatDecal
@@ -7216,6 +7211,11 @@ Prefab:
       propertyPath: _cappParticleSystem
       value: 
       objectReference: {fileID: 1937323159}
+    - target: {fileID: 114536147130075368, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
+        type: 2}
+      propertyPath: _pond
+      value: 
+      objectReference: {fileID: 2028772720}
     - target: {fileID: 114804556110679380, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
         type: 2}
       propertyPath: _ground
