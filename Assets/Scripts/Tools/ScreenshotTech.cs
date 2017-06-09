@@ -24,6 +24,8 @@ public class ScreenshotTech : MonoBehaviour {
 	[SerializeField, Space(5)]
 	AudioClip _screenshotSound = null;
 
+	InputCollection input;
+
     // Use this for initialization
     void Awake () 
 	{		
@@ -57,7 +59,8 @@ public class ScreenshotTech : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-        if ( Input.GetKeyDown( KeyCode.P ) )
+		input = ControlManager.instance.getInput();
+		if ( input.ShareButton.WasPressed )
         {
 			HandleScreenShot( 4, false );
 
