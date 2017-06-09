@@ -59,8 +59,8 @@ public class ScreenshotTech : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		input = ControlManager.instance.getInput();
-		if ( input.ShareButton.WasPressed )
+		//input = ControlManager.instance.getInput();
+		if ( /*input.ShareButton.WasPressed*/ Input.GetKeyDown( KeyCode.P ) )
         {
 			HandleScreenShot( 4, false );
 
