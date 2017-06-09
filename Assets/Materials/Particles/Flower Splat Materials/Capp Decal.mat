@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Cap Decal
+  m_Name: Capp Decal
   m_Shader: {fileID: 4800000, guid: 8a8ebe31245244842979888ab932339b, type: 3}
   m_ShaderKeywords: _COLORSETENABLED_ON _SPLATMAPENABLED_ON _TOGGLEVERTEXCOLORANIM_ON
   m_LightmapFlags: 4
