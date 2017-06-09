@@ -774,8 +774,8 @@ MonoBehaviour:
       m_NumAlphaKeys: 2
     slugGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0.8455882, g: 0.8455882, b: 0.7647599, a: 1}
+      key1: {r: 0.83823526, g: 0.75033104, b: 0.7026384, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -1743,9 +1743,9 @@ MonoBehaviour:
       m_NumAlphaKeys: 2
     slugGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 0.6883069, g: 0.9044118, b: 0.3990052, a: 1}
+      key1: {r: 0.8347006, g: 0.9044118, b: 0.39900514, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 1}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
@@ -1761,7 +1761,7 @@ MonoBehaviour:
       ctime7: 0
       atime0: 0
       atime1: 65535
-      atime2: 0
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
@@ -2654,8 +2654,8 @@ MonoBehaviour:
     cloudRimColor: {r: 0.9191176, g: 0.99665314, b: 1, a: 0}
     rabbitGradient:
       serializedVersion: 2
-      key0: {r: 0.8583477, g: 0.9264706, b: 0.87291193, a: 1}
-      key1: {r: 0.743404, g: 0.9191176, b: 0.8973049, a: 1}
+      key0: {r: 0.9264706, g: 0.7970372, b: 0.9229, a: 1}
+      key1: {r: 0.9264706, g: 0.7970372, b: 0.9229, a: 1}
       key2: {r: 0.7490196, g: 0.39215687, b: 0.6509804, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -2678,7 +2678,7 @@ MonoBehaviour:
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
+      m_Mode: 1
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     butterflyGradient:
@@ -2712,8 +2712,8 @@ MonoBehaviour:
       m_NumAlphaKeys: 2
     slugGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0.8583477, g: 0.9264706, b: 0.87291193, a: 1}
+      key1: {r: 0.743404, g: 0.9191176, b: 0.8973049, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -3681,8 +3681,8 @@ MonoBehaviour:
       m_NumAlphaKeys: 2
     slugGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0.8455882, g: 0.8455882, b: 0.7647599, a: 1}
+      key1: {r: 0.82083285, g: 0.86764705, b: 0.68901384, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -4650,8 +4650,8 @@ MonoBehaviour:
       m_NumAlphaKeys: 2
     slugGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0.9411765, g: 0.86233145, b: 0.53287196, a: 1}
+      key1: {r: 0.8510679, g: 0.9411765, b: 0.53287196, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -5619,8 +5619,8 @@ MonoBehaviour:
       m_NumAlphaKeys: 2
     slugGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0.72276574, g: 0.60553634, b: 0.7352941, a: 1}
+      key1: {r: 0.7352941, g: 0.60553634, b: 0.6404367, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -6814,8 +6814,8 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 5617e55cf46bd4971beb99b4e97e9786, type: 3}
     - {fileID: 8300000, guid: 2893cb221a72a428b96061d697189ddd, type: 3}
     - {fileID: 8300000, guid: fe03c30646ed6d542aa0352b423031d7, type: 3}
-    - {fileID: 8300000, guid: 0e9cf40b489e94560bfd2f6ab0d5a8e5, type: 3}
-    - {fileID: 8300000, guid: 8511f9e2a34804fec8b7fd9e54c5dff5, type: 3}
+    - {fileID: 0}
+    - {fileID: 0}
     _mixerGroup: {fileID: 243730844136138892, guid: 30f3aa683f5543d469208f1bb641c945,
       type: 2}
     _volume: 0.1
@@ -6826,9 +6826,9 @@ MonoBehaviour:
     _audioClipList:
     - {fileID: 8300000, guid: 4ec15d6c38828492ab2ead15f3f485b8, type: 3}
     - {fileID: 8300000, guid: 2dd0c697b29434d8592ac0951ed94e33, type: 3}
-    - {fileID: 8300000, guid: 47d558e2d93324104a6250fbae10be24, type: 3}
-    - {fileID: 8300000, guid: 08a1cd3d667ca441c930d87bfba28025, type: 3}
-    - {fileID: 8300000, guid: 47cf0e7c8dd604877877c3d7d638a93c, type: 3}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
     _mixerGroup: {fileID: 243318732923885706, guid: 30f3aa683f5543d469208f1bb641c945,
       type: 2}
     _volume: 1

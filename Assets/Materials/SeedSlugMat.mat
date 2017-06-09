@@ -102,9 +102,9 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color1: {r: 1, g: 1, b: 1, a: 1}
     - _Color2: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorBot: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorMid: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorTop: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorBot: {r: 0.8510679, g: 0.9411765, b: 0.53287196, a: 1}
+    - _ColorMid: {r: 0.8961222, g: 0.90175396, b: 0.53287196, a: 1}
+    - _ColorTop: {r: 0.9411765, g: 0.86233145, b: 0.53287196, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _NoiseOffset: {r: 0, g: 0, b: 0, a: 0}
     - _Position: {r: 0, g: 0, b: 0, a: 0}
