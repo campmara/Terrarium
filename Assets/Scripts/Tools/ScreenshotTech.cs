@@ -9,6 +9,7 @@ public class ScreenshotTech : MonoBehaviour {
 	const float SCREENSHOT_TIMER = 30.0f;
 	const string SCREENSHOT_INDEXSAVEKEY = "ScreenshotIndex";
 	const string SCREENSHOT_SAVEFOLDERNAME = "Screenshots";
+	const string POSTCARD_SAVEFOLDERNAME = "PostcardScreenshots";
 
     [SerializeField]
     bool _useOverlay = true;
@@ -19,14 +20,24 @@ public class ScreenshotTech : MonoBehaviour {
     [SerializeField]
     float _overlayMaxAlphaValue = 0.75f;
 
+	AudioSource _source = null;
+	[SerializeField, Space(5)]
+	AudioClip _screenshotSound = null;
+
     // Use this for initialization
     void Awake () 
 	{		
+		_source = this.GetComponent<AudioSource>();
+		_source.clip = _screenshotSound;
 
 		#if !UNITY_EDITOR
 		if( !Directory.Exists( Application.dataPath + "/" + SCREENSHOT_SAVEFOLDERNAME ) )
 		{
 			Directory.CreateDirectory( Application.dataPath + "/" + SCREENSHOT_SAVEFOLDERNAME );
+		}
+		if( !Directory.Exists( Application.dataPath + "/" + POSTCARD_SAVEFOLDERNAME ) )
+		{
+		Directory.CreateDirectory( Application.dataPath + "/" + POSTCARD_SAVEFOLDERNAME );
 		}
 
         // Uncomment to start the game w/ Screenshots Enabled
@@ -36,6 +47,10 @@ public class ScreenshotTech : MonoBehaviour {
 		{
 			Directory.CreateDirectory( Application.dataPath + "/../" + SCREENSHOT_SAVEFOLDERNAME );
 		}
+		if( !Directory.Exists( Application.dataPath + "/../" + POSTCARD_SAVEFOLDERNAME ) )
+		{
+			Directory.CreateDirectory( Application.dataPath + "/../" + POSTCARD_SAVEFOLDERNAME );
+		}
 		#endif
 	}
 	
@@ -44,18 +59,16 @@ public class ScreenshotTech : MonoBehaviour {
 	{
         if ( Input.GetKeyDown( KeyCode.P ) )
         {
-            if( _useOverlay )   // Only does overlay routine if active 
+			HandleScreenShot( 4, false );
+
+			if( _useOverlay )   // Only does overlay routine if active 
             {
                 if (_overlayScreenshotRoutine == null)
                 {
                     _overlayScreenshotRoutine = StartCoroutine( CaptureOverlayRoutine() );
                 }
             }
-            else
-            {
-                HandleScreenShot();
-            }
-            
+				            
         }
         else if ( Input.GetKeyDown( KeyCode.Alpha9 ) )
         {
@@ -71,12 +84,27 @@ public class ScreenshotTech : MonoBehaviour {
         }
 	}
 
-	void HandleScreenShot( int screenshotDetail = 4 )
+	void HandleScreenShot( int screenshotDetail = 4, bool hasOverlay = true )
 	{	
 		#if UNITY_STANDALONE && !UNITY_EDITOR	
-		Application.CaptureScreenshot( Application.dataPath + "/" + SCREENSHOT_SAVEFOLDERNAME + "/" + "Screenshot_" + System.DateTime.Now.ToString("MM_dd_yy_hhmm") + ".png", screenshotDetail );
+		if( hasOverlay )
+		{
+			Application.CaptureScreenshot( Application.dataPath + "/" + POSTCARD_SAVEFOLDERNAME + "/" + "Screenshot_" + System.DateTime.Now.ToString("MM_dd_yy_hhmm") + ".png", screenshotDetail );
+		}
+		else
+		{
+			Application.CaptureScreenshot( Application.dataPath + "/" + SCREENSHOT_SAVEFOLDERNAME + "/" + "Screenshot_" + System.DateTime.Now.ToString("MM_dd_yy_hhmm") + ".png", screenshotDetail );
+		}
+
 		#else
-		Application.CaptureScreenshot( Application.dataPath + "/../" + SCREENSHOT_SAVEFOLDERNAME + "/" + "Screenshot_" + System.DateTime.Now.ToString("MM_dd_yy_hhmm") + ".png", screenshotDetail );
+		if( hasOverlay )
+		{
+			Application.CaptureScreenshot( Application.dataPath + "/../" + POSTCARD_SAVEFOLDERNAME + "/" + "Screenshot_" + System.DateTime.Now.ToString("MM_dd_yy_hhmm") + ".png", screenshotDetail );
+		}
+		else
+		{
+			Application.CaptureScreenshot( Application.dataPath + "/../" + SCREENSHOT_SAVEFOLDERNAME + "/" + "Screenshot_" + System.DateTime.Now.ToString("MM_dd_yy_hhmm") + ".png", screenshotDetail );
+		}
 		#endif
 	}
 
@@ -84,7 +112,8 @@ public class ScreenshotTech : MonoBehaviour {
 	{
 		yield return new WaitForSeconds( SCREENSHOT_TIMER );
 
-		StartCoroutine( CaptureOverlayRoutine() );
+		//StartCoroutine( CaptureOverlayRoutine() );
+		HandleScreenShot( 4, false );
 
 		_screenshotRoutine = StartCoroutine( DelayedCaptureScreenshot() );
 	}
@@ -93,6 +122,8 @@ public class ScreenshotTech : MonoBehaviour {
 	{
         float timer = 0.0f;
         Color overlayColor = new Color( 1.0f, 1.0f, 1.0f, 0.0f );
+
+		UIManager.GetPanelOfType<PanelOverlay>().RandomizeScreenshotOverlay();
 
         while ( timer < _overlayFadeTime)
         {
@@ -105,6 +136,8 @@ public class ScreenshotTech : MonoBehaviour {
         }
         overlayColor.a = _overlayMaxAlphaValue;
         UIManager.GetPanelOfType<PanelOverlay>().ScreenshotOverlay.color = overlayColor;
+
+		PlayScreenshotSound();
 
         yield return new WaitForEndOfFrame();
 
@@ -133,5 +166,10 @@ public class ScreenshotTech : MonoBehaviour {
         UIManager.GetPanelOfType<PanelOverlay>().ScreenshotOverlay.color = new Color( 1.0f, 1.0f, 1.0f, 0.0f );
 
         _overlayScreenshotRoutine = null;
+	}
+
+	void PlayScreenshotSound()
+	{
+		_source.Play();
 	}
 }

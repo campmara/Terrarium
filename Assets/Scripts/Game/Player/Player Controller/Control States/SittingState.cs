@@ -27,7 +27,11 @@ public class SittingState : RollerState
 
 		_roller.IK.EnableIK();
 
-        _asleep = false;
+		if( _asleep )
+		{
+			WakeUp();
+		}
+
         _onGround = false;
 
         CameraManager.instance.ChangeCameraState( CameraManager.CameraState.FOLLOWPLAYER_FREE );
@@ -41,6 +45,7 @@ public class SittingState : RollerState
         {
             _asleep = true;
             _roller.Face.TransitionFacePose( "Sleep" );
+			_roller.Player.AnimationController.TriggerSleep();
         }
 
         _roller.BreathTimer += Time.deltaTime * RollerConstants.instance.BreathSpeed;
@@ -51,7 +56,12 @@ public class SittingState : RollerState
 
         if ( input.YButton.WasPressed )   // Y BUTTON
         {
-            _roller.Player.PlayerSingController.BeginSinging();
+			if ( _asleep )
+			{
+				WakeUp();
+			}
+
+			_roller.Player.PlayerSingController.BeginSinging();
             //_roller.ChangeState( P_ControlState.SING);
         }
         else if ( input.YButton.WasReleased )
@@ -75,8 +85,7 @@ public class SittingState : RollerState
             {
                 if ( _asleep )
                 {
-                    _asleep = false;
-                    _roller.Face.TransitionFacePose( "Wake Up", true, 1.0f );
+					WakeUp();
                 }
                 else
                 {
@@ -118,4 +127,11 @@ public class SittingState : RollerState
     {
         AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_TRANSITIONFX, 3 );
     }
+
+	void WakeUp()
+	{
+		_asleep = false;
+		_roller.Face.TransitionFacePose( "Wake Up", true, 1.0f );
+		_roller.Player.AnimationController.TriggerSleep();
+	}
 }
