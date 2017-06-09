@@ -576,6 +576,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29fcfaf9472bcd4cbc949dd699f27e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rawImage: {fileID: 114745545249443998}
   _colorChangeSpeed: 0.1
   _colorChangeCurve:
     serializedVersion: 2
@@ -597,9 +598,9 @@ MonoBehaviour:
     m_RotationOrder: 0
   _logoColorGradient:
     serializedVersion: 2
-    key0: {r: 0.71323526, g: 0.9406693, b: 1, a: 1}
-    key1: {r: 0.71323526, g: 1, b: 0.810142, a: 1}
-    key2: {r: 1, g: 1, b: 1, a: 0}
+    key0: {r: 0.78676474, g: 0.7727211, b: 0.659494, a: 1}
+    key1: {r: 0.78676474, g: 0.7727211, b: 0.659494, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
     key5: {r: 0, g: 0, b: 0, a: 0}
@@ -607,7 +608,7 @@ MonoBehaviour:
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
     ctime1: 65535
-    ctime2: 65535
+    ctime2: 0
     ctime3: 0
     ctime4: 0
     ctime5: 0
@@ -624,6 +625,8 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
+  _scaleScreenPercentage: 0.45
+  _posScreenPercentage: 0.075
 --- !u!114 &114255189836694920
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -776,6 +779,35 @@ MonoBehaviour:
       serializedVersion: 2
       key0: {r: 1, g: 1, b: 1, a: 1}
       key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    introTextGradient:
+      serializedVersion: 2
+      key0: {r: 0.8161765, g: 0.68638283, b: 0.5221129, a: 1}
+      key1: {r: 0.8161765, g: 0.68638283, b: 0.5221129, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -1770,6 +1802,35 @@ MonoBehaviour:
       m_Mode: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
+    introTextGradient:
+      serializedVersion: 2
+      key0: {r: 0.8161765, g: 0.68638283, b: 0.5221129, a: 1}
+      key1: {r: 0.8161765, g: 0.68638283, b: 0.5221129, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
     plantColors:
       TopGradient0:
         serializedVersion: 2
@@ -2714,6 +2775,35 @@ MonoBehaviour:
       serializedVersion: 2
       key0: {r: 1, g: 1, b: 1, a: 1}
       key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    introTextGradient:
+      serializedVersion: 2
+      key0: {r: 0.974645, g: 1, b: 0.8161765, a: 1}
+      key1: {r: 0.974645, g: 1, b: 0.8161765, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -3708,6 +3798,35 @@ MonoBehaviour:
       m_Mode: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
+    introTextGradient:
+      serializedVersion: 2
+      key0: {r: 0.4705882, g: 0.46581548, b: 0.40138406, a: 1}
+      key1: {r: 0.4705882, g: 0.46581548, b: 0.40138406, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
     plantColors:
       TopGradient0:
         serializedVersion: 2
@@ -4652,6 +4771,35 @@ MonoBehaviour:
       serializedVersion: 2
       key0: {r: 1, g: 1, b: 1, a: 1}
       key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    introTextGradient:
+      serializedVersion: 2
+      key0: {r: 0.78676474, g: 0.7727211, b: 0.659494, a: 1}
+      key1: {r: 0.78676474, g: 0.7727211, b: 0.659494, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -5646,6 +5794,35 @@ MonoBehaviour:
       m_Mode: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
+    introTextGradient:
+      serializedVersion: 2
+      key0: {r: 0.31617647, g: 0.12321584, b: 0.30286887, a: 1}
+      key1: {r: 0.31617647, g: 0.12321584, b: 0.30286887, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
     plantColors:
       TopGradient0:
         serializedVersion: 2
@@ -6528,6 +6705,7 @@ MonoBehaviour:
   slugMat: {fileID: 2100000, guid: 5400d38f203e4de4ba29890ad0c2b9de, type: 2}
   _twistParticleSystem: {fileID: 0}
   _cappParticleSystem: {fileID: 0}
+  _introLogo: {fileID: 114745545249443998}
 --- !u!114 &114410437005371276
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6614,7 +6792,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: 154262d10a9494191bb9bf231ee22832, type: 2}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -6709,7 +6887,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: 154262d10a9494191bb9bf231ee22832, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.78676474, g: 0.7727211, b: 0.659494, a: 1}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -6719,10 +6897,10 @@ MonoBehaviour:
   m_Texture: {fileID: 2800000, guid: 84d3af2bd50fa40488a9c776d6c62656, type: 3}
   m_UVRect:
     serializedVersion: 2
-    x: -0.1
-    y: 0.075
-    width: 1.15
-    height: 0.95
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!114 &114770539629856794
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7126,10 +7304,10 @@ RectTransform:
   m_Father: {fileID: 224779130506461148}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 81}
+  m_SizeDelta: {x: 864, y: 864}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224767995825337992
 RectTransform:
