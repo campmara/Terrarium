@@ -437,7 +437,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1822985385187290}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5856917, y: 0, z: 10.538588}
+  m_LocalPosition: {x: -5.0686135, y: 0, z: 8.093679}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4508866319713756}
@@ -772,16 +772,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48546a37106ae474c9854776c588eedc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _curState: 0
   _bubblePrefab: {fileID: 1491106757313288, guid: 0f0c4648b38bd4d09b726dd5bfd16753,
     type: 2}
-  _deathTime: 20
-  _spawnRate: 0.1
+  _deathTime: 40
+  _spawnRate: 0.2
   _growthTimeRange:
     min: 7
     max: 12
   _growthSizeRange:
     min: 0.15
     max: 0.3
+  _dissolveCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
   _waterDecayReturnTime: 20
 --- !u!114 &114635785287040538
 MonoBehaviour:
