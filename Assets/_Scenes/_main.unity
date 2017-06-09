@@ -3916,7 +3916,7 @@ MonoBehaviour:
   _useOverlay: 1
   _overlayDisableDelay: 0.3
   _overlayFadeTime: 0.15
-  _overlayMaxAlphaValue: 0.85
+  _overlayMaxAlphaValue: 0.89
   _screenshotSound: {fileID: 8300000, guid: 2887b9a7f4b7a4f71acc7093e02ae4e8, type: 3}
 --- !u!4 &420374437
 Transform:
@@ -10308,7 +10308,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1290208606}
-  m_LocalRotation: {x: -0, y: 0.9975744, z: -0.06960833, w: 0}
+  m_LocalRotation: {x: 0.000000016320225, y: 0.9961947, z: 0.08715578, w: -0.00000018654096}
   m_LocalPosition: {x: 0, y: 155, z: 500}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -10316,7 +10316,7 @@ Transform:
   - {fileID: 957307947}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 7.9830003, y: 180.00002, z: 0}
+  m_LocalEulerAnglesHint: {x: -10, y: 180.00002, z: 0}
 --- !u!114 &1290208612
 MonoBehaviour:
   m_ObjectHideFlags: 0

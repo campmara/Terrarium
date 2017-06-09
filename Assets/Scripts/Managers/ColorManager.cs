@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 
 
@@ -90,6 +91,8 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 		public Gradient butterflyGradient;
 		public Gradient slugGradient;
 
+		public Gradient introTextGradient;
+
 		public PlantColorPalette plantColors;
 	}
 
@@ -128,6 +131,9 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
     ParticleSystem _twistParticleSystem;
     [SerializeField]
     ParticleSystem _cappParticleSystem;
+
+	[SerializeField]
+	RawImage _introLogo = null;
 
 	void Start()
 	{
@@ -200,6 +206,8 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 			ApplyThreePartGradient( rabbitMat, _activePalette.rabbitGradient );
 			ApplyThreePartGradient( slugMat, _activePalette.slugGradient );
 
+			_introLogo.GetComponent<LogoColorSlerp>().ColorGradient = _activePalette.introTextGradient;
+
 			SetPlantColors( prevPalette.plantColors, _activePalette.plantColors );
 		}
 		else
@@ -252,6 +260,8 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 			terrainMossRockMat.SetColor( "_Color", Colorx.Slerp( prevPalette.terrainMossRockColor, _activePalette.terrainMossRockColor, timer / duration ) );
 
 			pondRockMat.SetColor( "_Color", Colorx.Slerp( prevPalette.pondRockColor, _activePalette.pondRockColor, timer / duration ) );
+
+			_introLogo.GetComponent<LogoColorSlerp>().ColorGradient = _activePalette.introTextGradient;
 
 			yield return 0;
 		}
