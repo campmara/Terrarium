@@ -94,13 +94,10 @@ public class BPDeathController : PlantController
 		_verts = new List<Vector3>();
 
 		SkinnedMeshRenderer[] _skins = GetComponentsInChildren<SkinnedMeshRenderer>();
-		for (int i = 0; i < _skins.Length; i++)
+		Transform[] _transforms = GetComponentsInChildren<Transform>();
+		for (int i = 0; i < _transforms.Length; i++)
 		{
-			foreach (Vector3 vert in _skins[i].sharedMesh.vertices)
-			{
-				Vector3 transformedVert = _skins[i].transform.TransformPoint(vert);
-				_verts.Add(transformedVert);
-			}
+			_verts.Add(_transforms[i].position);
 		}
 
 		// BACKUP! use meshrenderer
@@ -188,7 +185,11 @@ public class BPDeathController : PlantController
 
 	private void Bloop()
 	{
-		GameObject bubbleObj = Instantiate(_bubblePrefab, RandomPointOnPlant(), Quaternion.identity);
+		float xSpin = Random.Range(0f, 360f);
+		float ySpin = Random.Range(0f, 360f);
+		float zSpin = Random.Range(0f, 360f);
+		Quaternion rot = Quaternion.Euler(xSpin, ySpin, zSpin);
+		GameObject bubbleObj = Instantiate(_bubblePrefab, RandomPointOnPlant(), rot);
 
 		Bubble bubble = bubbleObj.GetComponent(typeof(Bubble)) as Bubble;
 		bubble.Setup(Random.Range(_growthTimeRange.min, _growthTimeRange.max),
