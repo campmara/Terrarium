@@ -229,7 +229,6 @@ public class FaceManager : MonoBehaviour
 	/// <param name="newPose">New pose.</param>
 	void StartFaceTransition( FacePose newPose )
 	{
-		Debug.Assert( newPose != null );
         if( this.isActiveAndEnabled )
         {
             if (_facePoseRoutine != null)
@@ -328,8 +327,6 @@ public class FaceManager : MonoBehaviour
 		FacePose pose = null;
 
 		pose = MouthPoseManager.instance.FacePoseList.Find( x => x != null && x.PoseName == poseName );
-
-		Debug.Assert( pose != null );
 
 		return pose;
 	}

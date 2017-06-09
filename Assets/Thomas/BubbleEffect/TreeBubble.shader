@@ -1,74 +1,64 @@
-﻿Shader "Custom/Tree Bubble" {
-	Properties {
-		_Color ("Color", Color) = (1,1,1,1)
-		_MainTex ("Albedo (RGB)", 2D) = "white" {}
-		_SpecularColor ("Specular Color", Color) = (0.25,0.25,0.25,1)
-		_SpecularPower ("Specular Power", float) = 148
-		_Cutoff ("Cutoff", Range(0,1)) = 1
+﻿Shader "Custom/Tree Bubble"
+{
+	Properties
+	{
+		_MainTex("Base (RGB)", 2D) = "white" {}
+		_SecondaryTex("Secondary (RGB)", 2D) = "white" {}
+		_NormalTex("Normal Map", 2D) = "bump" {}
+
+		_Color("Color", Color) = (1,1,1,1)
+
+		_Hardness("Hardness", Range(.25, 1)) = 0.5
 	}
-	SubShader {
-
-		Tags { "RenderType"="Transparent" "Queue" = "Transparent" }
-		LOD 200
-		//Cull off 
+	SubShader
+	{
+		Tags{ "Queue" = "Geometry" }
+		Cull Off
 		CGPROGRAM
-		// Physically based Standard lighting model, and enable shadows on all light types
-		#pragma surface surf Water fullforwardshadows alphatest:_Cutoff //vertex:vert
+			
+		#pragma surface surf WrapLambert
+		half _Hardness;
+		half4 _ShadowColor;
 
-		// Use shader model 3.0 target, to get nicer looking lighting
-		#pragma target 3.0
+		half4 LightingWrapLambert(SurfaceOutput s, half3 lightDir, half atten) {
+			s.Normal = normalize(s.Normal);
 
-		sampler2D _MainTex;
+			half distAtten;
+			if (_WorldSpaceLightPos0.w == 0.0)
+				distAtten = 1.0;
+			else
+				distAtten = saturate(1.0 / length(lightDir));
 
-		struct Input {
-			float2 uv_MainTex;
-			float4 color : COLOR;
-			float4 proj : TEXCOORD;
-			float4 grabPos : TEXCOORD1;
-		};
+			half diff = (max(0, dot(s.Normal, lightDir)) * atten + 1 - _Hardness) * _Hardness; ;
 
-		struct appdata
-		{
-			float4 vertex : POSITION;
-			float4 color : COLOR;
-			float4 texcoord : TEXCOORD0;
-			float3 normal : NORMAL;
-		};
-
-		fixed4 _Color;
-		float _SpecularPower;
-
-		fixed4 LightingWater(SurfaceOutput s, fixed3 lightDir, half3 viewDir, fixed atten)
-		{
-			fixed4 c;
-			half3 h = normalize(lightDir + viewDir);
-
-			half diff = max(0, dot(s.Normal, lightDir));
-
-			float nh = max(0, dot(s.Normal, h));
-			float spec = pow(nh, _SpecularPower) * 1;
-
-			c.rgb = s.Albedo;
-			c.rgb += spec * s.Specular;
+			half4 c;
+			c.rgb = (s.Albedo * diff * _LightColor0) * distAtten;
 			c.a = s.Alpha;
 			return c;
 		}
-		
-		void vert(inout appdata v, out Input o)
+
+		struct Input {
+			float2 uv_MainTex;
+			float2 uv_SecondaryTex;
+			float2 uv_NormalTex;
+			float3 viewDir;
+			float4 screenPos : TEXCOORD1;
+		};
+
+		sampler2D _MainTex;
+		sampler2D _SecondaryTex;
+		sampler2D _NormalTex;
+
+		fixed4 _Color;
+		float4 screenPos;
+
+		void surf(Input IN, inout SurfaceOutput o) 
 		{
-			UNITY_INITIALIZE_OUTPUT(Input, o);
-			o.color = v.color;
+			o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb * tex2D(_SecondaryTex, IN.uv_SecondaryTex).rgb * _Color;
+			o.Normal = UnpackNormal(tex2D(_NormalTex, IN.uv_NormalTex));
 		}
 
-		float4 _SpecularColor;
-
-		void surf (Input IN, inout SurfaceOutput o) {
-			fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color * IN.color;
-			o.Albedo = c;// * tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(IN.proj)).rgb;
-			o.Alpha = c.a; // * IN.color.a
-			o.Specular = _SpecularColor;
-		}
 		ENDCG
 	}
-	//FallBack "Transparent/Cutout/Diffuse"
+	FallBack "Standard"
 }
