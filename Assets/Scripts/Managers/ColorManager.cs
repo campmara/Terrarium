@@ -191,7 +191,8 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 
 			//skybox
 			RenderSettings.fogColor = _activePalette.fogColor;
-			RenderSettings.skybox.SetColor( "_Color1", _activePalette.cloudRimColor );
+            Shader.SetGlobalColor("_TerrariumFogColor", _activePalette.fogColor);
+            RenderSettings.skybox.SetColor( "_Color1", _activePalette.cloudRimColor );
 			RenderSettings.skybox.SetColor( "_Color2", _activePalette.skyColor );
 
 			//terrain
@@ -251,7 +252,8 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 
             //skybox
             RenderSettings.fogColor = Colorx.Slerp(prevPalette.fogColor, _activePalette.fogColor, timer / duration );
-			RenderSettings.skybox.SetColor( "_Color1", Colorx.Slerp( prevPalette.cloudRimColor, _activePalette.cloudRimColor, timer/ duration )  );
+            Shader.SetGlobalColor("_TerrariumFogColor", Colorx.Slerp(prevPalette.groundColorPrimary, _activePalette.fogColor, timer / duration));
+            RenderSettings.skybox.SetColor( "_Color1", Colorx.Slerp( prevPalette.cloudRimColor, _activePalette.cloudRimColor, timer/ duration )  );
 			RenderSettings.skybox.SetColor( "_Color2", Colorx.Slerp( prevPalette.skyColor, _activePalette.skyColor, timer / duration ) );
 
 			//terrain
