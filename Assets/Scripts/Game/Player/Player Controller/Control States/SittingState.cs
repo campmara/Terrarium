@@ -129,8 +129,10 @@ public class SittingState : RollerState
     }
 
 	void WakeUp()
-	{
+	{		
 		_asleep = false;
+		_sleepTimer = 0.0f;
+
 		_roller.Face.TransitionFacePose( "Wake Up", true, 1.0f );
 		_roller.Player.AnimationController.TriggerSleep();
 	}
