@@ -188,7 +188,7 @@
 			}
 
 			fixed4 worldPos = mul(transpose(unity_ObjectToWorld), float4(0, 1, 0, 1));
-			v.normal = worldPos;
+			v.normal = lerp(v.normal, worldPos, .5f);
 			o.color = v.color;
 		}
 
@@ -263,7 +263,7 @@
 				}
 			}
 
-			fixed4 c = tex2D (_MainTex, spriteUV);
+			fixed4 c = tex2D(_MainTex, spriteUV);
 			c.rgb = lerp(_ColorTop, _ColorBot, c.r);// * IN.color.rgb;
 
 			o.Albedo = c.rgb;
