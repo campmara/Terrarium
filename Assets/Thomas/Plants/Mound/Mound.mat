@@ -90,7 +90,7 @@ Material:
     - _GlossyReflections: 1
     - _Hardness: 0.8
     - _ImprintAmount: 1
-    - _MeltDistance: 0.1
+    - _MeltDistance: 0.25
     - _MeltY: 0.02
     - _Metallic: 0
     - _Mode: 0
