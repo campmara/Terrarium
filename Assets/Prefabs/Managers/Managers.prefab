@@ -553,7 +553,8 @@ MonoBehaviour:
   _pointSeed: {fileID: 1631419253260572, guid: e7e4ccc23b3b8416c994f33a1840c8c6, type: 2}
   _floweringSeed: {fileID: 1356359172527236, guid: bbfef1f81afcefc438cf9d537e7f0931,
     type: 2}
-  _huppetSeed: {fileID: 0}
+  _huppetSeed: {fileID: 1261253386730094, guid: bc1c0a0bd8a10a14d966be28e3d9fcb1,
+    type: 2}
 --- !u!114 &114162013853216408
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1184,8 +1185,8 @@ MonoBehaviour:
         m_NumAlphaKeys: 2
       TopGradient4:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key0: {r: 0.9411765, g: 0.86233145, b: 0.53287196, a: 1}
+        key1: {r: 0.8510679, g: 0.9411765, b: 0.53287196, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -1213,8 +1214,8 @@ MonoBehaviour:
         m_NumAlphaKeys: 2
       MidGradient4:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key0: {r: 0.8088235, g: 0.7851987, b: 0.59472317, a: 1}
+        key1: {r: 0.9117647, g: 0.8614605, b: 0.45588234, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -1242,8 +1243,8 @@ MonoBehaviour:
         m_NumAlphaKeys: 2
       BotGradient4:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key0: {r: 1, g: 0.7800173, b: 0.3838668, a: 1}
+        key1: {r: 1, g: 0.90651774, b: 0.3838668, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -1271,8 +1272,8 @@ MonoBehaviour:
         m_NumAlphaKeys: 2
       TopGradient5:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key0: {r: 1, g: 0.8750507, b: 0.35294116, a: 1}
+        key1: {r: 1, g: 0.7679513, b: 0.35294116, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -1300,8 +1301,8 @@ MonoBehaviour:
         m_NumAlphaKeys: 2
       MidGradient5:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key0: {r: 0.9338235, g: 0.75804514, b: 0.5355753, a: 1}
+        key1: {r: 0.9338235, g: 0.9063581, b: 0.5355753, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -1329,8 +1330,8 @@ MonoBehaviour:
         m_NumAlphaKeys: 2
       BotGradient5:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key0: {r: 0.8088235, g: 0.7851987, b: 0.59472317, a: 1}
+        key1: {r: 0.7794118, g: 0.73957175, b: 0.41836074, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -2269,9 +2270,9 @@ MonoBehaviour:
         m_NumAlphaKeys: 3
       TopGradient5:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
-        key2: {r: 0, g: 0, b: 0, a: 0}
+        key0: {r: 1, g: 0.8750507, b: 0.35294116, a: 1}
+        key1: {r: 1, g: 0.79472613, b: 0.35294116, a: 1}
+        key2: {r: 0, g: 0, b: 0, a: 1}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
@@ -2287,7 +2288,7 @@ MonoBehaviour:
         ctime7: 0
         atime0: 0
         atime1: 65535
-        atime2: 0
+        atime2: 65535
         atime3: 0
         atime4: 0
         atime5: 0
@@ -2298,8 +2299,8 @@ MonoBehaviour:
         m_NumAlphaKeys: 2
       MidGradient5:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key0: {r: 0.9338235, g: 0.75804514, b: 0.5355753, a: 1}
+        key1: {r: 0.9338235, g: 0.8569204, b: 0.5355753, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -2327,8 +2328,8 @@ MonoBehaviour:
         m_NumAlphaKeys: 2
       BotGradient5:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key0: {r: 0.9338235, g: 0.75804514, b: 0.5355753, a: 1}
+        key1: {r: 0.9338235, g: 0.8569204, b: 0.5355753, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -3267,8 +3268,8 @@ MonoBehaviour:
         m_NumAlphaKeys: 2
       TopGradient5:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key0: {r: 1, g: 0.98904663, b: 0.60294116, a: 1}
+        key1: {r: 1, g: 0.84117657, b: 0.60294116, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -3296,8 +3297,8 @@ MonoBehaviour:
         m_NumAlphaKeys: 2
       MidGradient5:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key0: {r: 1, g: 0.88640976, b: 0.7647059, a: 1}
+        key1: {r: 1, g: 0.9545639, b: 0.7647059, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -3325,8 +3326,8 @@ MonoBehaviour:
         m_NumAlphaKeys: 2
       BotGradient5:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key0: {r: 1, g: 0.9117647, b: 0.9975659, a: 1}
+        key1: {r: 0.98509127, g: 1, b: 0.8455882, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -4265,8 +4266,8 @@ MonoBehaviour:
         m_NumAlphaKeys: 2
       TopGradient5:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key0: {r: 0.88235295, g: 0.82329077, b: 0.6682526, a: 1}
+        key1: {r: 0.9191176, g: 0.77388585, b: 0.6420307, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -4294,8 +4295,8 @@ MonoBehaviour:
         m_NumAlphaKeys: 2
       MidGradient5:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key0: {r: 0.88235295, g: 0.82329077, b: 0.6682526, a: 1}
+        key1: {r: 0.9191176, g: 0.77388585, b: 0.6420307, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -4323,8 +4324,8 @@ MonoBehaviour:
         m_NumAlphaKeys: 2
       BotGradient5:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key0: {r: 0.75735295, g: 0.6786989, b: 0.5791522, a: 1}
+        key1: {r: 0.77205884, g: 0.64677554, b: 0.4882137, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -5263,8 +5264,8 @@ MonoBehaviour:
         m_NumAlphaKeys: 2
       TopGradient5:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key0: {r: 1, g: 0.8693712, b: 0.58823526, a: 1}
+        key1: {r: 1, g: 0.81825554, b: 0.58823526, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -5292,8 +5293,8 @@ MonoBehaviour:
         m_NumAlphaKeys: 2
       MidGradient5:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key0: {r: 0.9485294, g: 0.81442696, b: 0.376622, a: 1}
+        key1: {r: 0.9485294, g: 0.74343157, b: 0.376622, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -5321,8 +5322,8 @@ MonoBehaviour:
         m_NumAlphaKeys: 2
       BotGradient5:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key0: {r: 0.9338235, g: 0.6876767, b: 0.15792602, a: 1}
+        key1: {r: 0.9411765, g: 0.7918864, b: 0.47058824, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -6174,8 +6175,8 @@ MonoBehaviour:
         m_NumAlphaKeys: 2
       TopGradient4:
         serializedVersion: 2
-        key0: {r: 0.7546131, g: 0.9264706, b: 0.52454585, a: 1}
-        key1: {r: 0.9042954, g: 0.9264706, b: 0.52454585, a: 1}
+        key0: {r: 0.69485295, g: 0.875, b: 0.83027387, a: 1}
+        key1: {r: 0.5955882, g: 0.7941176, b: 0.74482757, a: 1}
         key2: {r: 0.7352941, g: 0.3352076, b: 0.64148074, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -6261,8 +6262,8 @@ MonoBehaviour:
         m_NumAlphaKeys: 3
       TopGradient5:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key0: {r: 0.9181019, g: 0.81450045, b: 0.9632353, a: 1}
+        key1: {r: 0.9632353, g: 0.81450045, b: 0.84835047, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -6290,8 +6291,8 @@ MonoBehaviour:
         m_NumAlphaKeys: 2
       MidGradient5:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key0: {r: 0.9264706, g: 0.7970372, b: 0.9229, a: 1}
+        key1: {r: 0.87437356, g: 0.7163711, b: 0.9191176, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -6319,8 +6320,8 @@ MonoBehaviour:
         m_NumAlphaKeys: 2
       BotGradient5:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key0: {r: 0.72276574, g: 0.60553634, b: 0.7352941, a: 1}
+        key1: {r: 0.7352941, g: 0.60553634, b: 0.6404367, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -7307,8 +7308,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 81}
-  m_SizeDelta: {x: 864, y: 864}
+  m_AnchoredPosition: {x: 0, y: 32.550003}
+  m_SizeDelta: {x: 355.5, y: 355.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224767995825337992
 RectTransform:

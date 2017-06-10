@@ -14,7 +14,6 @@ public class Bubble : MonoBehaviour
 
 	private Rigidbody _rb;
 	private Material _mat;
-	private BPDeathController _parent;
 
 	private float _timer;
 	private float _growthTime;
@@ -49,13 +48,12 @@ public class Bubble : MonoBehaviour
 		}
 	}
 
-	public void Setup(BPDeathController parent, float growthTime, float growthSize, Color color)
+	public void Setup(float growthTime, float growthSize, Color color)
 	{
-		_parent = parent;
 		_growthTime = growthTime;
 		_growthSize = growthSize;
 		
-		SetColor(color);
+		//SetColor(color);
 
 		// Initiate growth.
 		_state = State.GROWING;
@@ -64,7 +62,6 @@ public class Bubble : MonoBehaviour
 	public void Drop()
 	{
 		_rb.useGravity = true;
-
 		Destroy(this.gameObject, 10f);
 	}
 
@@ -76,10 +73,5 @@ public class Bubble : MonoBehaviour
 	private void SetColor(Color col)
 	{
 		_mat.SetColor("_Color", col);
-	}
-
-	private void OnDestroy()
-	{
-		_parent.OnBubbleDestroyed(this);
 	}
 }

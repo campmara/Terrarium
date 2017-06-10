@@ -11,7 +11,7 @@ Material:
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2000
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -45,6 +45,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _NormalTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -53,25 +57,45 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SecondaryTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
-    - _Cutoff: 0.5
+    - _Cutoff: 0.48
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _Hardness: 0.245
+    - _MainNoiseHeight: 0.5
+    - _MainNoiseScale: 0.8
+    - _MeltAmount: 1
+    - _MeltCurve: 9.66
+    - _MeltDistance: 1
+    - _MeltY: 0
     - _Metallic: 0
+    - _Middle: 0.5
     - _Mode: 0
+    - _NoiseSpeed: 0.15
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _Sensitivity: 15
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _SpecularPower: 148
+    - _SpecularPower: 281.1
     - _SrcBlend: 1
     - _UVSec: 0
+    - _WindEnabled: 1
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 0.9764706, b: 0.78676474, a: 1}
+    - _Color2: {r: 0.9401265, g: 0.9411765, b: 0.8650519, a: 1}
+    - _ColorBot: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorMid: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorTop: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SpecularColor: {r: 0.5588235, g: 0.5588235, b: 0.5588235, a: 1}
+    - _NoiseOffset: {r: 15, g: 125, b: 25, a: 0}
+    - _SpecularColor: {r: 0.7205882, g: 0.7205882, b: 0.7205882, a: 1}
