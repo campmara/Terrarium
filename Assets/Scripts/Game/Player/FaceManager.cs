@@ -12,6 +12,7 @@ public class FaceManager : MonoBehaviour
     [SerializeField] SkinnedMeshRenderer _mouthSkinnedMesh;
 
     private Coroutine _facePoseRoutine;
+	private Coroutine _poseWaitRoutine;
     [SerializeField, Space(10)] bool _updateFaceOnValidate = true;
     [SerializeField] private int _facePoseIndex = 0;
     private FacePose _currFacePose;
@@ -237,13 +238,21 @@ public class FaceManager : MonoBehaviour
         {
             if (_facePoseRoutine != null)
             {
-                StartCoroutine(WaitForFaceTransition(newPose));
+				if( _poseWaitRoutine != null )
+				{
+					StopCoroutine( _poseWaitRoutine );
+				}
+				_poseWaitRoutine = StartCoroutine(WaitForFaceTransition(newPose));
             }
             else
             {
                 _facePoseRoutine = StartCoroutine(FaceTransitionRoutine(newPose, MouthPoseManager.instance.MouthPoseTransitionTime));
             }
         }
+		else
+		{
+			SetFacePose(_idlePose);
+		}
     }
 
     /// <summary>
@@ -256,6 +265,8 @@ public class FaceManager : MonoBehaviour
         yield return new WaitUntil(() => _facePoseRoutine == null);
 
         _facePoseRoutine = StartCoroutine(FaceTransitionRoutine(newPose, MouthPoseManager.instance.MouthPoseTransitionTime));
+
+		_poseWaitRoutine = null;
     }
 
     IEnumerator FaceTransitionRoutine(FacePose newPose, float transitionDuration = 0.0f)
@@ -379,4 +390,25 @@ public class FaceManager : MonoBehaviour
     {       
         BecomeIdle();        
     }
+
+	private void OnDisable()
+	{
+		StopPoseRoutines();
+	}
+
+	public void StopPoseRoutines()
+	{
+		if( _facePoseRoutine != null )
+		{
+			StopCoroutine( _facePoseRoutine );
+			_facePoseRoutine = null;
+		}
+
+		if ( _poseWaitRoutine != null )
+		{
+			StopCoroutine( _poseWaitRoutine );
+			_poseWaitRoutine = null;
+		}
+	}
+
 }
