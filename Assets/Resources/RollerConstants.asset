@@ -73,7 +73,7 @@ MonoBehaviour:
   HugLeanSpeed: 3.5
   IdleMaxMag: 0.01
   IdleWaitTime: 0.1
-  SitSleepWaitTime: 30
+  SitSleepWaitTime: 32
   TransitionTime: 1
   TransitionDeceleration: 20
   RitualTime: 0.3

@@ -6,6 +6,7 @@ public class RitualState : RollerState
 {
 	private float ritualTimer = 0f;
 	private bool hasExploded = false;
+    private bool wakeUpExplode = false;
 
 	public override void Enter(P_ControlState prevState)
 	{
@@ -13,6 +14,12 @@ public class RitualState : RollerState
         _roller.IK.SetState( PlayerIKControl.WalkState.RITUAL );
 		ritualTimer = 0f;
 		hasExploded = false;
+
+        if( prevState == P_ControlState.SIT )
+        {
+            wakeUpExplode = true;
+        }
+
 
         _roller.Spherify = 0.0f;
         _roller.SpherifyScale = RollerConstants.instance.RitualSphereizeScale;
@@ -26,7 +33,9 @@ public class RitualState : RollerState
 	{
 		Debug.Log("[RollerState] EXIT RITUAL STATE");
 
-		if ( nextState == P_ControlState.WALKING )
+        wakeUpExplode = false;
+
+        if ( nextState == P_ControlState.WALKING )
 		{
 			_roller.IK.SetState( PlayerIKControl.WalkState.WALK );
 			_roller.Face.BecomeIdle();
@@ -61,21 +70,25 @@ public class RitualState : RollerState
 		{
 			ritualTimer += Time.deltaTime;
 
-			// Update how far the arms are reaching
-			_roller.UpdateArmReachIK( input.LeftTrigger.Value, input.RightTrigger.Value );
+            if( !wakeUpExplode )
+            {
+                // Update how far the arms are reaching
+                _roller.UpdateArmReachIK( input.LeftTrigger.Value, input.RightTrigger.Value );
 
-			_roller.IKMovement(RollerConstants.instance.WalkSpeed, 
-										RollerConstants.instance.WalkAcceleration, 
-										RollerConstants.instance.WalkDeceleration, 
-										RollerConstants.instance.WalkTurnSpeed);
+                _roller.IKMovement( RollerConstants.instance.WalkSpeed,
+                                            RollerConstants.instance.WalkAcceleration,
+                                            RollerConstants.instance.WalkDeceleration,
+                                            RollerConstants.instance.WalkTurnSpeed );
+                if (!input.XButton.IsPressed)
+                {
+                    _roller.ChangeState( P_ControlState.WALKING );
+                }
+            }
 
             _roller.Spherify = Mathf.Lerp( 0.0f, RollerConstants.instance.RitualMaxSpherize, RollerConstants.instance.RitualPopCurve.Evaluate( ritualTimer / RollerConstants.instance.RitualTime ) );
             //_roller.SpherifyScale = Mathf.Lerp( _roller.SpherifyScale, RollerConstants.instance.RitualSphereizeScale, Time.deltaTime * 15.0f );
 
-            if ( !input.XButton.IsPressed )
-			{
-				_roller.ChangeState(P_ControlState.WALKING);
-			}
+            
 		}
 	}
 }
