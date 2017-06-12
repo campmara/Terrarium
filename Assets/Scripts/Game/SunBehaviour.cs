@@ -8,9 +8,9 @@ public class SunBehaviour : MonoBehaviour
 	MinMax _xRotRange = new MinMax( 77.0f, 95.0f );
 	MinMax _yRotRange = new MinMax( 0.0f, 360.0f );
 
-	int _colorChangesPerCycle = 5;
+	int _colorChangesPerCycle = 3;
 	int _curCycle = 1;
-	float _moveSpeed = .006f;
+	float _moveSpeed = .005f;
 	float _curTime = 0.0f;  
 	float _curXRot = 45.0f;
 	float _curYRot = 0.0f;
