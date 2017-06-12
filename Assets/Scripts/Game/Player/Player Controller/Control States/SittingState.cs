@@ -71,7 +71,10 @@ public class SittingState : RollerState
         else if ( !input.YButton.IsPressed && ( input.ActiveDevice.AnyButtonIsPressed || vec.magnitude >= 0.75f ) )
         {            
             // TRIGGER SITTING OFF.
-            _roller.Player.AnimationController.SetSitting( false );            
+            if( !_asleep )
+            {
+                _roller.Player.AnimationController.SetSitting( false );
+            }
 
             if ( !_onGround )
             {
@@ -97,7 +100,10 @@ public class SittingState : RollerState
 
 	public void OnStandingUpComplete()
 	{       
-        _roller.ChangeState(P_ControlState.WALKING);
+        if( _roller.State == P_ControlState.SIT )
+        {
+            _roller.ChangeState( P_ControlState.WALKING );
+        }        
 	}
 
     public void SetOnGround( int onGround )
@@ -135,5 +141,8 @@ public class SittingState : RollerState
 
 		_roller.Face.TransitionFacePose( "Wake Up", true, 1.0f );
 		_roller.Player.AnimationController.TriggerSleep();
-	}
+        _roller.Player.AnimationController.SetSitting( false );
+
+        _roller.ChangeState( P_ControlState.RITUAL );
+    }
 }
