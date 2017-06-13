@@ -156,12 +156,17 @@ public class SeedSlug : MonoBehaviour
 
         foreach( GameObject seed in _seedSpawnables )
         {
-            chosenSeed = seed;
             Seed seedScript = GetComponent<Seed>();
             if( seedScript && PlantManager.instance.IsPopulationStable( seedScript.PlantData ) )
             {
+                chosenSeed = seed;
                 break;
             }
+        }
+
+        if( chosenSeed == null )
+        {
+            chosenSeed = _seedSpawnables[ Random.Range( 0, _seedSpawnables.Count ) ];
         }
 
         return chosenSeed;
