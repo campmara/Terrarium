@@ -145,7 +145,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _type: 5
   _deathDuration: 0
-  _DeathDurationRange: {x: 550, y: 600}
+  _DeathDurationRange: {x: 250, y: 300}
   _DeathTimer: 0
   _baseDecayRate: 1
   _curDecayRate: 0
