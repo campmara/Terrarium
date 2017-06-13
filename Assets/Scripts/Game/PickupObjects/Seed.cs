@@ -109,6 +109,11 @@ public class Seed : Pickupable
 		}
 	}
 
+    public void DestroyThisSeed()
+    {
+        PlantManager.instance.DestroySeed( this, _moundType, true );
+    }
+
 	void BeginSelfPlant()
 	{
 		if( !_hasFallen )

@@ -134,8 +134,12 @@ public class SeedSlug : MonoBehaviour
 
 	void InitHeldSeed()
 	{
+        if ( _carriedObject != null )
+        {
+            _carriedObject.GetComponent<Seed>().DestroyThisSeed();
+            _carriedObject = null;
+        }
 		GameObject newSeed = Instantiate( SelectSeed(), this.transform ) as GameObject;
-
 
 		_carriedObject = newSeed.GetComponent<Pickupable>();
 		_carriedObject.OnPickup( this.transform );
