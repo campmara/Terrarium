@@ -139,8 +139,7 @@ public class SeedSlug : MonoBehaviour
             _carriedObject.GetComponent<Seed>().DestroyThisSeed();
             _carriedObject = null;
         }
-
-        GameObject newSeed = Instantiate( _seedSpawnables[Random.Range( 0, _seedSpawnables.Count )], this.transform ) as GameObject;
+		GameObject newSeed = Instantiate( SelectSeed(), this.transform ) as GameObject;
 
 		_carriedObject = newSeed.GetComponent<Pickupable>();
 		_carriedObject.OnPickup( this.transform );
@@ -150,6 +149,28 @@ public class SeedSlug : MonoBehaviour
 
 		_carriedObject.transform.Rotate( 0.0f, 90.0f, 0.0f );
 	}
+
+    GameObject SelectSeed()
+    {
+        GameObject chosenSeed = null;
+
+        foreach( GameObject seed in _seedSpawnables )
+        {
+            Seed seedScript = GetComponent<Seed>();
+            if( seedScript && PlantManager.instance.IsPopulationStable( seedScript.PlantData ) )
+            {
+                chosenSeed = seed;
+                break;
+            }
+        }
+
+        if( chosenSeed == null )
+        {
+            chosenSeed = _seedSpawnables[ Random.Range( 0, _seedSpawnables.Count ) ];
+        }
+
+        return chosenSeed;
+    }
 
     public void OnHitWithRoll()
     {
