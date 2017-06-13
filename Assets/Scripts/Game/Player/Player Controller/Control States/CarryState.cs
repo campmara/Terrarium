@@ -72,6 +72,8 @@ public class CarryState : RollerState
     {
         if ( RollerParent.CurrentHeldObject != null )
         {
+			_roller.CarryPositionObject.transform.position = _roller.IK.ArmTipMidpoint;
+
             if ( !RollerParent.CurrentHeldObject.Carryable )
             {
                 if ( RollerParent.CurrentHeldObject.GetComponent<SmallPlantPickupable>() )
@@ -125,8 +127,10 @@ public class CarryState : RollerState
             }
 			else
 			{
-				_roller.CarryPositionObject.transform.position = _roller.IK.ArmTipMidpoint;
-				_roller.CurrentHeldObject.transform.localPosition = Vector3.zero;
+				//_roller.CarryPositionObject.transform.position = _roller.IK.ArmTipMidpoint;
+				//_roller.CurrentHeldObject.transform.position = Vector3.Lerp( _roller.CurrentHeldObject.transform.position, _roller.CarryPositionObject.transform.position, 25.0f * Time.deltaTime );
+				//_roller.CurrentHeldObject.transform.localPosition = Vector3.zero;
+				_roller.CurrentHeldObject.transform.position = _roller.CarryPositionObject.transform.position;
 			}
 
             if ( input.AButton.WasReleased || !input.AButton.IsPressed )
