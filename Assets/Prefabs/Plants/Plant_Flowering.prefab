@@ -869,7 +869,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _type: 1
   _deathDuration: 0
-  _DeathDurationRange: {x: 200, y: 240}
+  _DeathDurationRange: {x: 300, y: 340}
   _DeathTimer: 0
   _baseDecayRate: 1
   _curDecayRate: 0

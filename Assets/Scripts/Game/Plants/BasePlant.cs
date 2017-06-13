@@ -128,7 +128,17 @@ public class BasePlant : MonoBehaviour
 
 	public void GrabPlant()
 	{
-		_activeController.GrabPlant();
+		if( _activeController.ControlType == PlantController.ControllerType.Death )
+		{
+			foreach( PlantController controller in _controllers )
+			{
+				controller.GrabPlant();
+			}
+		}
+		else
+		{
+			_activeController.GrabPlant();
+		}
 	}
 
 	public void TouchPlant()
