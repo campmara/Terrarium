@@ -56,10 +56,10 @@ public class RitualState : RollerState
 
             if ( _roller.CurrentHeldObject != null )
 			{
-				Seed seed = _roller.CurrentHeldObject.GetComponent<Seed>();
-				if( seed != null )
+				Pickupable obj = _roller.CurrentHeldObject.GetComponent<Pickupable>();
+				if( obj )
 				{
-					seed.DropOnRitual();
+					obj.DropSelf();
 				}
 
 				_roller.IK.LetGoBothArms();

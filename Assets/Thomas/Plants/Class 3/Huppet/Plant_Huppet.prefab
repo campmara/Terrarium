@@ -597,7 +597,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _type: 6
   _deathDuration: 0
-  _DeathDurationRange: {x: 260, y: 280}
+  _DeathDurationRange: {x: 340, y: 360}
   _DeathTimer: 0
   _baseDecayRate: 1
   _curDecayRate: 0
@@ -700,6 +700,7 @@ MonoBehaviour:
     type: 2}
   _mediumSpawnables:
   - {fileID: 1828649999934992, guid: 0a4c118ad13097e439eed01481354918, type: 2}
+  - {fileID: 1511553597785770, guid: 74abe3b4e1ebd400bb46ee00726eaf31, type: 2}
   spawnState: 0
   _bStemRoot: {fileID: 4173664491776004}
   _leafPrefab: {fileID: 1686325247703568, guid: 499ae0c489ed78d47bd6b7af70ffbc46,

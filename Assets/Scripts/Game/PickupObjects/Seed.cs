@@ -6,6 +6,7 @@ public class Seed : Pickupable
 {
     [SerializeField] GameObject _moundPrefab = null;
 	BasePlant.PlantType _moundType = BasePlant.PlantType.NONE;
+	public BasePlant PlantData;
 	float _timeSinceLastPickup = 0.0f;
 	float _timePassedTillDestroy = 60.0f;
 	bool _hasFallen = false;
@@ -23,7 +24,8 @@ public class Seed : Pickupable
 	protected override void Awake()
 	{
 		base.Awake();
-		_moundType = _moundPrefab.GetComponent<BasePlant>().MyPlantType;
+		PlantData = _moundPrefab.GetComponent<BasePlant>();
+		_moundType = PlantData.MyPlantType;
 		_col = GetComponent(typeof(Collider)) as Collider;
 
 		float endScale = transform.localScale.x;
@@ -66,6 +68,15 @@ public class Seed : Pickupable
 		{
 			StopCoroutine( _plantWaitRoutine );
 			_plantWaitRoutine = null;
+		}
+
+		if( _grabTransform != null )
+		{
+			if( _grabTransform.GetComponent<SeedSlug>() != null )
+			{
+				_grabTransform.GetComponent<SeedSlug>().OnPlayerPickup();
+				this.transform.SetParent( grabTransform );
+			}	
 		}
 
 		base.OnPickup( grabTransform );

@@ -19,7 +19,7 @@
 
 		CGPROGRAM
 #pragma surface surf BlinnPhong vertex:vert addshadow
-#pragma target 4.6
+#pragma target 3.0
 
 		struct appdata {
 		float4 vertex : POSITION;

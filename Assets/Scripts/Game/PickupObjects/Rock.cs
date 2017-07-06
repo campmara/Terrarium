@@ -10,13 +10,31 @@ public class Rock : Pickupable
 	{
 		_scale = Random.Range( _sizeRange.x, _sizeRange.y );
 		transform.localScale = new Vector3( _scale, _scale, _scale );
-		DropSelf();
+		if( _grabTransform == null )
+		{
+			DropSelf();	
+		}
+		//DropSelf();	
 	}
 	public override void DropSelf()
     {
 		base.DropSelf();
 		_rigidbody.constraints = RigidbodyConstraints.None;
     }
+
+	public override void OnPickup( Transform grabTransform )
+	{
+		if( _grabTransform != null )
+		{
+			if( _grabTransform.GetComponent<SeedSlug>() != null )
+			{
+				_grabTransform.GetComponent<SeedSlug>().OnPlayerPickup();
+				this.transform.SetParent( grabTransform );
+			}	
+		}
+
+		base.OnPickup( grabTransform );
+	}
 
 	protected override void OnCollisionEnter( Collision col)
 	{
