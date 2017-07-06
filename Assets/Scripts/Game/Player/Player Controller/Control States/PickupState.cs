@@ -71,7 +71,7 @@ public class PickupState : RollerState
 		if( _startLiftTracking && _roller.CurrentHeldObject )
 		{
 			_roller.CarryPositionObject.transform.position = _roller.IK.ArmTipMidpoint;	
-			_roller.CurrentHeldObject.transform.localPosition = Vector3.zero;
+			_roller.CurrentHeldObject.transform.position = _roller.CarryPositionObject.transform.position;
 		}
     }
 
@@ -79,9 +79,9 @@ public class PickupState : RollerState
 	{
 		if( _roller.CurrentHeldObject != null && _roller.CurrentHeldObject.Carryable )
 		{
-			_roller.CurrentHeldObject.transform.parent = _roller.CarryPositionObject.transform;     
+			//_roller.CurrentHeldObject.transform.parent = _roller.CarryPositionObject.transform;     
 
-			_roller.CurrentHeldObject.transform.localPosition = Vector3.zero;
+			_roller.CurrentHeldObject.transform.position = _roller.CarryPositionObject.transform.position;
 
 			_roller.CurrentHeldObject.OnPickup( this.transform );
 

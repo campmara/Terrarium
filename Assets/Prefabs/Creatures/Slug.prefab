@@ -665,7 +665,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _startDistance: 150
-  _moveTime: 250
+  _moveTime: 225
   _curveSpeed: 0.1
   _moveTimer: 0
   _currMoveSpeedScalar: 1
@@ -696,9 +696,9 @@ MonoBehaviour:
   TURN_MINSPEED: 0.75
   _seedSpawnables:
   - {fileID: 1884083101344492, guid: 888d79063e07f4951aaa8eaee32addcc, type: 2}
-  - {fileID: 1356359172527236, guid: bbfef1f81afcefc438cf9d537e7f0931, type: 2}
-  - {fileID: 1631419253260572, guid: e7e4ccc23b3b8416c994f33a1840c8c6, type: 2}
   - {fileID: 1261253386730094, guid: bc1c0a0bd8a10a14d966be28e3d9fcb1, type: 2}
+  - {fileID: 1631419253260572, guid: e7e4ccc23b3b8416c994f33a1840c8c6, type: 2}
+  - {fileID: 1356359172527236, guid: bbfef1f81afcefc438cf9d537e7f0931, type: 2}
   _carriedObject: {fileID: 0}
   _leftArmJoint: {fileID: 4250728776989978}
   _rightArmJoint: {fileID: 4434760083914878}
