@@ -48,10 +48,5 @@ public class Rock : Pickupable
 				player.GetComponent<RollerController>().MakeDroopyExplode();
 			}
 		}
-
-		else
-		{
-			base.OnCollisionEnter( col );
-		}
 	}
 }

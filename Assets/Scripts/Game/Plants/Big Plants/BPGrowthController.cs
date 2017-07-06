@@ -437,7 +437,7 @@ public class BPGrowthController : PlantController
 
 	void ChangeGrowthRate( float newRate )
 	{
-		_growthRate = newRate;
+		_growthRate += newRate;
 		_plantAnim.speed = _growthRate;
 
 		float len = _plantAnim.GetCurrentAnimatorStateInfo(0).length;

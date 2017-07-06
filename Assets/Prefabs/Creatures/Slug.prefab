@@ -665,7 +665,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _startDistance: 150
-  _moveTime: 250
+  _moveTime: 225
   _curveSpeed: 0.1
   _moveTimer: 0
   _currMoveSpeedScalar: 1
