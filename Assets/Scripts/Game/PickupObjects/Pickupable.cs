@@ -6,7 +6,7 @@ using UnityEngine;
 public class Pickupable : MonoBehaviour
 {
     protected Rigidbody _rigidbody;
-    protected Transform _grabTransform;
+    [SerializeField, ReadOnlyAttribute]protected Transform _grabTransform;
 
     [SerializeField] protected bool _carryable = false;
     public bool Carryable { get { return _carryable; } }

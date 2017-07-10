@@ -546,8 +546,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bc4639188bf4436957d68db54e48e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LrgTotalPlantsRange: {x: 3, y: 35}
-  MedTotalPlantsRange: {x: 0, y: 50}
+  LrgTotalPlantsRange: {x: 15, y: 35}
+  MedTotalPlantsRange: {x: 5, y: 50}
   MedSpawnRadRange: {x: 3, y: 4.5}
   MedNumPerPlant: {x: 4, y: 6}
   _pointSeed: {fileID: 1631419253260572, guid: e7e4ccc23b3b8416c994f33a1840c8c6, type: 2}
@@ -7308,8 +7308,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 24.675001}
-  m_SizeDelta: {x: 262.8, y: 262.8}
+  m_AnchoredPosition: {x: 0, y: 35.175003}
+  m_SizeDelta: {x: 375.3, y: 375.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224767995825337992
 RectTransform:

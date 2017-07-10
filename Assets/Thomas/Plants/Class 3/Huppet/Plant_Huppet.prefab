@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 114392893053701496}
   - component: {fileID: 114015357703789478}
   - component: {fileID: 65878922574693994}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Plant_Huppet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -672,6 +672,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c41ac8717533e4dfe950929dae1318b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _grabTransform: {fileID: 0}
   _carryable: 0
   _grabbed: 0
   _grabberBurdenInterp: 0

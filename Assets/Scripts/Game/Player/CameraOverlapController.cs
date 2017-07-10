@@ -57,7 +57,10 @@ public class CameraOverlapController : MonoBehaviour {
 	{
 		if ( !_inObject )
 		{
-			if( col.gameObject.GetComponent<BPGrowthController>() != null && col.gameObject.GetComponent<BPGrowthController>().CurStage != BPGrowthController.GrowthStage.Sprout )
+			BPGrowthController plantCol = col.gameObject.GetComponent<BPGrowthController>();
+			if(plantCol != null 
+				&& plantCol.CurStage != BPGrowthController.GrowthStage.Sprout 
+				&& plantCol.GetComponent<StarterPlantGrowthController>())
 			{
 				_otherObject = col.GetComponent<Collider>();
 
