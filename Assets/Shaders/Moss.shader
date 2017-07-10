@@ -21,7 +21,7 @@
 #pragma surface surf BlinnPhong vertex:vert addshadow
 #pragma target 3.0
 
-		struct appdata {
+	struct appdata {
 		float4 vertex : POSITION;
 		float4 color : COLOR;
 		float4 tangent : TANGENT;
