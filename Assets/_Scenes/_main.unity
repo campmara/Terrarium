@@ -7301,6 +7301,21 @@ Prefab:
       propertyPath: _pond
       value: 
       objectReference: {fileID: 2028772720}
+    - target: {fileID: 114661076478787536, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
+        type: 2}
+      propertyPath: enableNativeInput
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114661076478787536, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
+        type: 2}
+      propertyPath: enableXInput
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114661076478787536, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
+        type: 2}
+      propertyPath: enableICade
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 17e7204e7259943eaa4ae4fd5f6f0e54, type: 2}
   m_IsPrefabParent: 0
