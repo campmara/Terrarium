@@ -19,5 +19,4 @@ namespace InControl
 		Button8,
 		Button9
 	}
-	
 }

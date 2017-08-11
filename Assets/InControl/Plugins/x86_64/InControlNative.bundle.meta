@@ -6,27 +6,14 @@ PluginImporter:
   iconMap: {}
   executionOrder: {}
   isPreloaded: 0
-  isOverridable: 0
   platformData:
     Android:
       enabled: 0
       settings:
-        CPU: ARMv7
+        CPU: AnyCPU
     Any:
       enabled: 0
-      settings:
-        Exclude Android: 1
-        Exclude Editor: 0
-        Exclude Linux: 1
-        Exclude Linux64: 0
-        Exclude LinuxUniversal: 0
-        Exclude OSXIntel: 0
-        Exclude OSXIntel64: 0
-        Exclude OSXUniversal: 0
-        Exclude Win: 1
-        Exclude Win64: 0
-        Exclude iOS: 1
-        Exclude tvOS: 1
+      settings: {}
     Editor:
       enabled: 1
       settings:
@@ -34,7 +21,7 @@ PluginImporter:
         DefaultValueInitialized: true
         OS: OSX
     Linux:
-      enabled: 0
+      enabled: 1
       settings:
         CPU: None
     Linux64:
@@ -57,8 +44,12 @@ PluginImporter:
       enabled: 1
       settings:
         CPU: AnyCPU
-    Win:
+    SamsungTV:
       enabled: 0
+      settings:
+        STV_MODEL: STANDARD_13
+    Win:
+      enabled: 1
       settings:
         CPU: None
     Win64:
@@ -66,11 +57,6 @@ PluginImporter:
       settings:
         CPU: AnyCPU
     iOS:
-      enabled: 0
-      settings:
-        CompileFlags: 
-        FrameworkDependencies: 
-    tvOS:
       enabled: 0
       settings:
         CompileFlags: 

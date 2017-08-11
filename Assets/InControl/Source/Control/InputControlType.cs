@@ -51,6 +51,7 @@ namespace InControl
 		Action12,
 
 		// Command buttons.
+		// When adding to this list, update InputDevice.AnyCommandControlIsPressed() accordingly.
 		Back = 100,
 		Start,
 		Select,
@@ -62,6 +63,9 @@ namespace InControl
 		Home,
 		View,
 		Power,
+		Capture,
+		Plus,
+		Minus,
 
 		// Steering controls.
 		PedalLeft = 150,
@@ -97,6 +101,11 @@ namespace InControl
 
 		TouchPadXAxis,
 		TouchPadYAxis,
+
+		LeftSL,
+		LeftSR,
+		RightSL,
+		RightSR,
 
 		// Alias controls; can't be explicitly mapped in a profile.
 		//
@@ -151,7 +160,6 @@ namespace InControl
 		Button17,
 		Button18,
 		Button19,
-
 
 		// Internal. Must be last.
 		//

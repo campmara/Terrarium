@@ -145,7 +145,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _type: 5
   _deathDuration: 0
-  _DeathDurationRange: {x: 250, y: 300}
+  _DeathDurationRange: {x: 500, y: 560}
   _DeathTimer: 0
   _baseDecayRate: 1
   _curDecayRate: 0
@@ -160,6 +160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa4028037c4a24a9baaf379447133c50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _grabTransform: {fileID: 0}
   _carryable: 0
   _grabbed: 0
   _grabberBurdenInterp: 0

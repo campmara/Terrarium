@@ -8,6 +8,9 @@ namespace InControl
 
 	public class NativeInputDevice : InputDevice
 	{
+		const int maxUnknownButtons = 20;
+		const int maxUnknownAnalogs = 20;
+
 		internal DeviceHandle Handle { get; private set; }
 		internal NativeDeviceInfo Info { get; private set; }
 
@@ -16,6 +19,9 @@ namespace InControl
 		NativeInputDeviceProfile profile;
 
 		int skipUpdateFrames = 0;
+
+		int numUnknownButtons;
+		int numUnknownAnalogs;
 
 
 		internal NativeInputDevice()
@@ -30,6 +36,9 @@ namespace InControl
 			profile = deviceProfile;
 
 			SortOrder = 1000 + (int) Handle;
+
+			numUnknownButtons = Math.Min( (int) Info.numButtons, maxUnknownButtons );
+			numUnknownAnalogs = Math.Min( (int) Info.numAnalogs, maxUnknownAnalogs );
 
 			buttons = new Int16[Info.numButtons];
 			analogs = new Int16[Info.numAnalogs];
@@ -137,12 +146,12 @@ namespace InControl
 			}
 			else
 			{
-				for (var i = 0; i < Info.numButtons; i++)
+				for (var i = 0; i < NumUnknownButtons; i++)
 				{
 					UpdateWithState( InputControlType.Button0 + i, ReadRawButtonState( i ), updateTick, deltaTime );
 				}
 
-				for (var i = 0; i < Info.numAnalogs; i++)
+				for (var i = 0; i < NumUnknownAnalogs; i++)
 				{
 					UpdateWithValue( InputControlType.Analog0 + i, ReadRawAnalogValue( i ), updateTick, deltaTime );
 				}
@@ -246,7 +255,7 @@ namespace InControl
 		{
 			get
 			{
-				return (int) Info.numButtons;
+				return numUnknownButtons;
 			}
 		}
 
@@ -255,7 +264,7 @@ namespace InControl
 		{
 			get
 			{
-				return (int) Info.numAnalogs;
+				return numUnknownAnalogs;
 			}
 		}
 	}

@@ -26,6 +26,11 @@
 		public bool IncludeMouseButtons = false;
 
 		/// <summary>
+		/// Include mouse scroll wheel when listening for new bindings.
+		/// </summary>
+		public bool IncludeMouseScrollWheel = false;
+
+		/// <summary>
 		/// Include keyboard keys when listening for new bindings.
 		/// </summary>
 		public bool IncludeKeys = true;
@@ -64,6 +69,12 @@
 		public bool UnsetDuplicateBindingsOnSet = false;
 
 		/// <summary>
+		/// If an existing duplicate binding already exists on the same action, 
+		/// reject the binding instead of accepting it doing nothing.
+		/// </summary>
+		public bool RejectRedundantBindings = false;
+
+		/// <summary>
 		/// If not <code>null</code>, and this binding is on the listening action, this binding
 		/// will be replace by the newly found binding.
 		/// </summary>
@@ -89,6 +100,37 @@
 		/// If set to <code>null</code> (default), it will not be called.
 		/// </summary>
 		public Action<PlayerAction, BindingSource, BindingSourceRejectionType> OnBindingRejected = null;
+
+
+
+		public bool CallOnBindingFound( PlayerAction playerAction, BindingSource bindingSource )
+		{
+			if (OnBindingFound != null)
+			{
+				return OnBindingFound( playerAction, bindingSource );
+			}
+
+			// Defaults to accepting the binding.
+			return true;
+		}
+
+
+		public void CallOnBindingAdded( PlayerAction playerAction, BindingSource bindingSource )
+		{
+			if (OnBindingAdded != null)
+			{
+				OnBindingAdded( playerAction, bindingSource );
+			}
+		}
+
+
+		public void CallOnBindingRejected( PlayerAction playerAction, BindingSource bindingSource, BindingSourceRejectionType bindingSourceRejectionType )
+		{
+			if (OnBindingRejected != null)
+			{
+				OnBindingRejected( playerAction, bindingSource, bindingSourceRejectionType );
+			}
+		}
 	}
 }
 

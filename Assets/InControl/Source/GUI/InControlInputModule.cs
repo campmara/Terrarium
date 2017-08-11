@@ -1,4 +1,4 @@
-﻿#if UNITY_4_6 || UNITY_4_7 || UNITY_5
+﻿#if UNITY_4_6 || UNITY_4_7 || UNITY_5 || UNITY_5_6_OR_NEWER
 namespace InControl
 {
 	using UnityEngine;
@@ -27,7 +27,7 @@ namespace InControl
 		bool allowMobileDevice;
 
 		[FormerlySerializedAs( "allowMobileDevice" )]
-#if UNITY_5 && !(UNITY_5_0)
+#if (UNITY_5 || UNITY_5_6_OR_NEWER) && !(UNITY_5_0 || UNITY_5_1)
 		new public bool forceModuleActive;
 #else
 		public bool forceModuleActive;
@@ -156,7 +156,7 @@ namespace InControl
 				}
 			}
 
-#if UNITY_5 && !(UNITY_5_0)
+#if UNITY_5 && !(UNITY_5_0 || UNITY_5_1)
 			if (ProcessTouchEvents())
 			{
 				return;
@@ -172,7 +172,7 @@ namespace InControl
 		}
 
 
-#if UNITY_5 && !(UNITY_5_0)
+#if UNITY_5 && !(UNITY_5_0 || UNITY_5_1)
 		bool ProcessTouchEvents()
 		{
 			var touchCount = Input.touchCount;
@@ -453,10 +453,10 @@ namespace InControl
 		}
 
 
-		// Copied from StandaloneInputModule where these are marked private instead of protected in Unity 5.0 / 5.1
-		#region Unity 5.0 / 5.1 compatibility.
+		// Copied from StandaloneInputModule where these are marked private instead of protected in Unity 5.0
+		#region Unity 5.0 compatibility.
 
-#if UNITY_5_0 || UNITY_5_1
+#if UNITY_5_0
 
 		bool SendUpdateEventToSelectedObject()
 		{

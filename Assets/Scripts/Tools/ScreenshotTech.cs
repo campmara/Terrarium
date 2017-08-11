@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class ScreenshotTech : MonoBehaviour {
 
+	[SerializeField]
+	bool _postToTwitter = false;
+
 	Coroutine _screenshotRoutine = null;
 	const float SCREENSHOT_TIMER = 30.0f;
 	const string SCREENSHOT_INDEXSAVEKEY = "ScreenshotIndex";
@@ -28,7 +31,7 @@ public class ScreenshotTech : MonoBehaviour {
 
     // Use this for initialization
     void Awake () 
-	{		
+	{
 		_source = this.GetComponent<AudioSource>();
 		_source.clip = _screenshotSound;
 
@@ -55,7 +58,15 @@ public class ScreenshotTech : MonoBehaviour {
 		}
 		#endif
 	}
-	
+
+	private void Start()
+	{
+		if(_postToTwitter)
+		{
+			SetupTwitter();
+		}
+	}
+
 	// Update is called once per frame
 	void Update () 
 	{
@@ -87,28 +98,39 @@ public class ScreenshotTech : MonoBehaviour {
         }
 	}
 
+	#region Screenshot Handling
+
 	void HandleScreenShot( int screenshotDetail = 4, bool hasOverlay = true )
-	{	
-		#if UNITY_STANDALONE && !UNITY_EDITOR	
+	{
+		string screenshotPath = "";
+
+#if UNITY_STANDALONE && !UNITY_EDITOR
 		if( hasOverlay )
 		{
-			Application.CaptureScreenshot( Application.dataPath + "/" + POSTCARD_SAVEFOLDERNAME + "/" + "Screenshot_" + System.DateTime.Now.ToString("MM_dd_yy_hhmmss") + ".png", screenshotDetail );
+			screenshotPath = Application.dataPath + "/" + POSTCARD_SAVEFOLDERNAME + "/" + "Screenshot_" + System.DateTime.Now.ToString("MM_dd_yy_hhmmss") + ".png";
 		}
 		else
 		{
-			Application.CaptureScreenshot( Application.dataPath + "/" + SCREENSHOT_SAVEFOLDERNAME + "/" + "Screenshot_" + System.DateTime.Now.ToString("MM_dd_yy_hhmmss") + ".png", screenshotDetail );
+			screenshotPath = Application.dataPath + "/" + SCREENSHOT_SAVEFOLDERNAME + "/" + "Screenshot_" + System.DateTime.Now.ToString("MM_dd_yy_hhmmss") + ".png";
 		}
 
-		#else
+#else
 		if( hasOverlay )
 		{
-			ScreenCapture.CaptureScreenshot( Application.dataPath + "/../" + POSTCARD_SAVEFOLDERNAME + "/" + "Screenshot_" + System.DateTime.Now.ToString("MM_dd_yy_hhmmss") + ".png", screenshotDetail );
+			screenshotPath = Application.dataPath + "/../" + POSTCARD_SAVEFOLDERNAME + "/" + "Screenshot_" + System.DateTime.Now.ToString("MM_dd_yy_hhmmss") + ".png";
 		}
 		else
 		{
-			ScreenCapture.CaptureScreenshot( Application.dataPath + "/../" + SCREENSHOT_SAVEFOLDERNAME + "/" + "Screenshot_" + System.DateTime.Now.ToString("MM_dd_yy_hhmmss") + ".png", screenshotDetail );
+			screenshotPath = Application.dataPath + "/../" + SCREENSHOT_SAVEFOLDERNAME + "/" + "Screenshot_" + System.DateTime.Now.ToString("MM_dd_yy_hhmmss") + ".png";
 		}
-		#endif
+#endif
+
+		ScreenCapture.CaptureScreenshot(screenshotPath, screenshotDetail);
+
+		if(_postToTwitter)
+		{
+			PostScreenshotToTwitter(screenshotPath);
+		}
 	}
 
 	IEnumerator DelayedCaptureScreenshot()
@@ -175,4 +197,39 @@ public class ScreenshotTech : MonoBehaviour {
 	{
 		_source.Play();
 	}
+
+	#endregion
+
+	void SetupTwitter()
+	{
+		StartCoroutine(TwitterSetupRoutine());
+	}
+
+	IEnumerator TwitterSetupRoutine()
+	{
+		yield return 0;
+	}
+
+
+	void PostScreenshotToTwitter(string screenshotPath)
+	{
+// 		if(_twitterSession != null)
+// 		{
+// 			//UnityEngine.Debug.Log("Screenshot location=" + Application.persistentDataPath + "/Screenshot.png");
+// 			string imageUri = "file://" + screenshotPath;
+// 
+// 			const string tweetText = "Greetings From #ThatBloomingFeeling";
+// 			string[] hashtags = new string[] { "#unity3d", "#BitBashChicago" };
+// 
+// 			TwitterKit.Unity.Twitter.Compose(_twitterSession, imageUri, tweetText, hashtags,
+// 				(string tweetId) => { UnityEngine.Debug.Log("Tweet Success, tweetId=" + tweetId); },
+// 				(ApiError error) => { UnityEngine.Debug.Log("Tweet Failed " + error.message); },
+// 				() => { Debug.Log("Compose Canceled"); }
+// 			 );
+// 		}
+// 		else
+// 		{
+// 			Debug.Log("No Twitter Session, not trying to Post");
+// 		}
+	}	
 }

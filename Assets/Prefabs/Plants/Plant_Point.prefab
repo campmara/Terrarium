@@ -714,6 +714,7 @@ TrailRenderer:
     numCapVertices: 3
     alignment: 0
     textureMode: 0
+    generateLightingData: 0
   m_MinVertexDistance: 0.5
   m_Autodestruct: 0
 --- !u!114 &114112665346417312
@@ -727,6 +728,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c41ac8717533e4dfe950929dae1318b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _grabTransform: {fileID: 0}
   _carryable: 0
   _grabbed: 0
   _grabberBurdenInterp: 0
@@ -750,6 +752,8 @@ MonoBehaviour:
   _curStage: 0
   _droppingItems:
   - {fileID: 1631419253260572, guid: e7e4ccc23b3b8416c994f33a1840c8c6, type: 2}
+  - {fileID: 1356359172527236, guid: bbfef1f81afcefc438cf9d537e7f0931, type: 2}
+  - {fileID: 1261253386730094, guid: bc1c0a0bd8a10a14d966be28e3d9fcb1, type: 2}
   _punishObject: {fileID: 1884083101344492, guid: 888d79063e07f4951aaa8eaee32addcc,
     type: 2}
   _coverSpawnerPrefab: {fileID: 1581055790355646, guid: 35a19a2c0c79e41f88b49cfde262634d,
