@@ -21,12 +21,14 @@
 #pragma surface surf BlinnPhong vertex:vert addshadow
 #pragma target 3.0
 
-		struct appdata {
+	struct appdata {
 		float4 vertex : POSITION;
 		float4 color : COLOR;
 		float4 tangent : TANGENT;
 		float3 normal : NORMAL;
 		float2 texcoord : TEXCOORD0;
+		float2 texcoord1 : TEXCOORD1;
+		float2 texcoord2 : TEXCOORD2;
 	};
 
 	float _MeltDistance;
