@@ -747,7 +747,7 @@ MonoBehaviour:
   _scaleMultiplierRange: {x: 8, y: 15}
   _scaleRatios:
   - {x: 1, y: 1}
-  _wateredGrowthRate: 0.03
+  _wateredGrowthRate: 0.0135
   _curPercentAnimated: 0
   _curStage: 0
   _droppingItems:

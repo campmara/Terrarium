@@ -128,10 +128,13 @@ public class ScreenshotTech : MonoBehaviour {
 
 		ScreenCapture.CaptureScreenshot(screenshotPath, screenshotDetail);
 
+#if !UNITY_EDITOR
+
 		if(_postToTwitter)
 		{
 			PostScreenshotToTwitter(screenshotPath);
 		}
+#endif
 	}
 
 	IEnumerator DelayedCaptureScreenshot()
@@ -200,7 +203,7 @@ public class ScreenshotTech : MonoBehaviour {
 		_source.Play();
 	}
 
-	#endregion
+#endregion
 
 	void SetupTwitter()
 	{
