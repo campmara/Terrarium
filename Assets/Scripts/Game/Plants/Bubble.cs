@@ -52,8 +52,11 @@ public class Bubble : MonoBehaviour
 	{
 		_growthTime = growthTime;
 		_growthSize = growthSize;
+
+		Color col1 = Color.Lerp(color, Color.white, 0.25f);
+		Color col2 = Color.Lerp(col1, Color.black, 0.3f);
 		
-		//SetColor(color);
+		SetColors(col2, col1);
 
 		// Initiate growth.
 		_state = State.GROWING;
@@ -70,8 +73,9 @@ public class Bubble : MonoBehaviour
 		transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
 	}
 
-	private void SetColor(Color col)
+	private void SetColors(Color col1, Color col2)
 	{
-		_mat.SetColor("_Color", col);
+		_mat.SetColor("_Color", col1);
+		_mat.SetColor("_Color2", col2);
 	}
 }
