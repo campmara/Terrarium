@@ -48,12 +48,13 @@ public class Bubble : MonoBehaviour
 		}
 	}
 
-	public void Setup(float growthTime, float growthSize, Color color)
+	public void Setup(float growthTime, float growthSize, Color color1, Color color2)
 	{
 		_growthTime = growthTime;
 		_growthSize = growthSize;
 		
-		//SetColor(color);
+		SetColors(color1, color2);
+
 
 		// Initiate growth.
 		_state = State.GROWING;
@@ -70,8 +71,9 @@ public class Bubble : MonoBehaviour
 		transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
 	}
 
-	private void SetColor(Color col)
+	private void SetColors(Color col1, Color col2)
 	{
-		_mat.SetColor("_Color", col);
+		_mat.SetColor("_Color", col1);
+		_mat.SetColor("_Color2", col2);
 	}
 }
