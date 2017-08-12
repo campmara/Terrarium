@@ -48,13 +48,15 @@ public class Bubble : MonoBehaviour
 		}
 	}
 
-	public void Setup(float growthTime, float growthSize, Color color1, Color color2)
+	public void Setup(float growthTime, float growthSize, Color color)
 	{
 		_growthTime = growthTime;
 		_growthSize = growthSize;
-		
-		SetColors(color1, color2);
 
+		Color col1 = Color.Lerp(color, Color.white, 0.25f);
+		Color col2 = Color.Lerp(col1, Color.black, 0.3f);
+		
+		SetColors(col2, col1);
 
 		// Initiate growth.
 		_state = State.GROWING;

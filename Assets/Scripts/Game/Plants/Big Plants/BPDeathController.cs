@@ -203,7 +203,7 @@ public class BPDeathController : PlantController
 			Bubble bubble = bubbleObj.GetComponent(typeof(Bubble)) as Bubble;
 			bubble.Setup(Random.Range(_growthTimeRange.min, _growthTimeRange.max),
 						Random.Range(_growthSizeRange.min, _growthSizeRange.max),
-						_interpColors[0], _interpColors[1]);
+						_interpColors[0]);
 
 			_bubbles.Add(bubble);
 		}
@@ -221,7 +221,7 @@ public class BPDeathController : PlantController
 			Bubble bubble = bubbleObj.GetComponent(typeof(Bubble)) as Bubble;
 			bubble.Setup(Random.Range(_growthTimeRange.min, _growthTimeRange.max),
 						Random.Range(_growthSizeRange.min, _growthSizeRange.max),
-						_interpColors[0], _interpColors[1]);
+						_interpColors[0]);
 
 			_bubbles.Add(bubble);
 		}
