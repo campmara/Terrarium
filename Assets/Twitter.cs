@@ -33,7 +33,7 @@ namespace Twitter
 		private const string UploadMediaURL = "https://upload.twitter.com/1.1/media/upload.json";
 		private const string PostTweetURL = "https://api.twitter.com/1.1/statuses/update.json";
 
-		public static IEnumerator PostTweet(byte[] imageInBytes, string consumerKey, string consumerSecret, string accessToken, string accessTokenSecret, PostTweetCallback callback)
+		public static IEnumerator PostTweet(byte[] imageInBytes, string status, string consumerKey, string consumerSecret, string accessToken, string accessTokenSecret, PostTweetCallback callback)
 		{
 			if(imageInBytes.Length == 0)
 			{
@@ -77,15 +77,14 @@ namespace Twitter
 
 						// NOW THAT MEDIA IS UPLOADED, TWEET WITH THE ASSOCIATED MEDIA ID
 						string parsedMediaID = web.text.Substring(12, 18);
-						string tweetString = "";
 
 						parameters = new Dictionary<string, string>();
-						parameters.Add("status", tweetString);
+						parameters.Add("status", status);
 						parameters.Add("media_ids", parsedMediaID);
 
 						// Add data to the form to post.
 						form = new WWWForm();
-						form.AddField("status", tweetString);
+						form.AddField("status", status);
 						form.AddField("media_ids", parsedMediaID);
 
 						// HTTP header
@@ -267,7 +266,7 @@ namespace Twitter
 			return normalizedUrl;
 		}
 
-		private static string UrlEncode(string value)
+		public static string UrlEncode(string value)
 		{
 			if(string.IsNullOrEmpty(value))
 			{

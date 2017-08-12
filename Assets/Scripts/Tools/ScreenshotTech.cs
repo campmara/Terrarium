@@ -7,6 +7,7 @@ public class ScreenshotTech : MonoBehaviour {
 
 	[SerializeField]
 	bool _postToTwitter = false;
+	Coroutine screenshotRoutine = null;
 
 	Coroutine _screenshotRoutine = null;
 	const float SCREENSHOT_TIMER = 30.0f;
@@ -139,6 +140,7 @@ public class ScreenshotTech : MonoBehaviour {
 
 		//StartCoroutine( CaptureOverlayRoutine() );
 		HandleScreenShot( 4, false );
+		HandleScreenShot( 2, false );
 
 		_screenshotRoutine = StartCoroutine( DelayedCaptureScreenshot() );
 	}
@@ -213,23 +215,45 @@ public class ScreenshotTech : MonoBehaviour {
 
 	void PostScreenshotToTwitter(string screenshotPath)
 	{
-// 		if(_twitterSession != null)
-// 		{
-// 			//UnityEngine.Debug.Log("Screenshot location=" + Application.persistentDataPath + "/Screenshot.png");
-// 			string imageUri = "file://" + screenshotPath;
-// 
-// 			const string tweetText = "Greetings From #ThatBloomingFeeling";
-// 			string[] hashtags = new string[] { "#unity3d", "#BitBashChicago" };
-// 
-// 			TwitterKit.Unity.Twitter.Compose(_twitterSession, imageUri, tweetText, hashtags,
-// 				(string tweetId) => { UnityEngine.Debug.Log("Tweet Success, tweetId=" + tweetId); },
-// 				(ApiError error) => { UnityEngine.Debug.Log("Tweet Failed " + error.message); },
-// 				() => { Debug.Log("Compose Canceled"); }
-// 			 );
-// 		}
-// 		else
-// 		{
-// 			Debug.Log("No Twitter Session, not trying to Post");
-// 		}
-	}	
+		if(screenshotRoutine == null)
+		{
+			screenshotRoutine = StartCoroutine(PostScreenshotRoutine(screenshotPath));
+		}		
+	}
+
+	IEnumerator PostScreenshotRoutine(string screenshotPath)
+	{
+		const string CONSUMER_KEY = "8i1f3hMCs8x9lUoTrrNyKCOrS";
+		const string CONSUMER_SECRET = "rdFCiJQy3hdZq1A6XwvZY3LT81bbC7MmHfxnCfwDgeEXXhY03v";
+		const string ACCESS_TOKEN = "896068741221556224-gQy4VbHnoAPKh8bqomfKEKSG8wZMwa3";
+		const string ACCESS_SECRET = "nv0VhAFiQN9Pb7w7O3Qi15B4pSOEk3n4Ktsei787dbSIC";
+		const string tweetText = "Greetings From #ThatBloomingFeeling & #BitBashChicago";
+
+		//UnityEngine.Debug.Log("Screenshot location=" + Application.persistentDataPath + "/Screenshot.png");
+		Texture2D screenshotImage = new Texture2D(1920, 1080);
+		string imageUri = "";
+#if UNITY_STANDALONE_WIN
+		imageUri = "file:///" + screenshotPath;
+#elif UNITY_STANDALONE_OSX
+		imageUri = "file://" + screenshotPath;
+#endif
+
+		yield return new WaitUntil(() => File.Exists(screenshotPath));
+
+		WWW imageWWW = new WWW(imageUri);
+
+		yield return imageWWW;
+		yield return new WaitUntil(() => imageWWW.isDone);
+		
+		imageWWW.LoadImageIntoTexture(screenshotImage);
+
+		yield return StartCoroutine(Twitter.API.PostTweet(screenshotImage.EncodeToPNG(), tweetText, CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_SECRET, ScreenshotSuccess));
+
+		screenshotRoutine = null;
+	}
+
+	void ScreenshotSuccess(bool success)
+	{
+		Debug.Log(success ? "Screenshot Succeeded" : "Screenshot Failed");
+	}
 }
