@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class JimboGrowthController : SPGrowthController {
     [SerializeField] GameObject _leaf;
+    [SerializeField] private float _closeness = 1.5f;
 
     const int _numLeaves = 5;
     const int _layerCount = 3;
@@ -57,7 +58,7 @@ public class JimboGrowthController : SPGrowthController {
         newLeaf.transform.Rotate(new Vector3(30 * Random.Range(-1f, 1f), 0, 0));
         newLeaf.transform.localScale = new Vector3(_leafScale, _leafScale, _leafScale);
         newLeaf.transform.parent = parentLayer.transform;
-        newLeaf.transform.position += newLeaf.transform.up * (layerIndex) * 2f;
+        newLeaf.transform.position += newLeaf.transform.up * (layerIndex) * _closeness;
         newLeaf.transform.localScale = new Vector3(_leafScale, _leafScale, _leafScale);
 
         Animator anim = newLeaf.transform.GetComponentInChildren<Animator>();
