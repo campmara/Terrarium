@@ -140,6 +140,9 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 
 	[SerializeField] private int fullMusicThreshold = 10;
 
+	Coroutine _musicRoutine = null;
+	bool _musicReady = true;
+
 	[SerializeField] private AnimationCurve lowpassCurve;
 
 
@@ -418,22 +421,36 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 		if(numPlants >= subtleMusicThreshold)
 		{
 			// if subtle music has not started, start it
-			if(!_audioControllerList[(int) AudioControllerNames.SUBTLE_MUSIC].Source.isPlaying)
+			if( !_audioControllerList[(int) AudioControllerNames.SUBTLE_MUSIC].Source.isPlaying && _musicReady )
 			{
 				_audioControllerList[(int) AudioControllerNames.SUBTLE_MUSIC].PlayRandomClip();
+				_musicRoutine = StartCoroutine( MusicReadyRoutine() );
 			}
 
 		}
-		else if(numPlants >= fullMusicThreshold)
+		else if(numPlants >= fullMusicThreshold )
 		{
 			// if full music has not started, and subtle music is not playing, start it
 			// if subtle music has not started, start it
 			if(!_audioControllerList[(int) AudioControllerNames.SUBTLE_MUSIC].Source.isPlaying &&
-			   !_audioControllerList[(int) AudioControllerNames.FULL_MUSIC].Source.isPlaying)
+			   !_audioControllerList[(int) AudioControllerNames.FULL_MUSIC].Source.isPlaying && _musicReady )
 			{
 				_audioControllerList[(int) AudioControllerNames.FULL_MUSIC].PlayRandomClip();
+				_musicRoutine = StartCoroutine( MusicReadyRoutine() );
 			}
 		}
+	}
+
+	IEnumerator MusicReadyRoutine()
+	{
+		_musicReady = false;
+
+		yield return new WaitUntil( () => !_audioControllerList[(int) AudioControllerNames.SUBTLE_MUSIC].Source.isPlaying &&
+			!_audioControllerList[(int) AudioControllerNames.FULL_MUSIC].Source.isPlaying ); 
+		yield return new WaitForSeconds( 15f );
+
+		_musicReady = true;
+		_musicRoutine = null; 
 	}
 
     private void OnValidate()
