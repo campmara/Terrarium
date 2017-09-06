@@ -70,6 +70,15 @@ public class Seed : Pickupable
 			_plantWaitRoutine = null;
 		}
 
+		if( _grabTransform != null )
+		{
+			if( _grabTransform.GetComponent<SeedSlug>() != null )
+			{
+				_grabTransform.GetComponent<SeedSlug>().OnPlayerPickup();
+				this.transform.SetParent( grabTransform );
+			}	
+		}
+
 		base.OnPickup( grabTransform );
 
 		_hasFallen = false;

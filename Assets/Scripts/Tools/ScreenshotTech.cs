@@ -102,11 +102,11 @@ public class ScreenshotTech : MonoBehaviour {
 		#else
 		if( hasOverlay )
 		{
-			Application.CaptureScreenshot( Application.dataPath + "/../" + POSTCARD_SAVEFOLDERNAME + "/" + "Screenshot_" + System.DateTime.Now.ToString("MM_dd_yy_hhmmss") + ".png", screenshotDetail );
+			ScreenCapture.CaptureScreenshot( Application.dataPath + "/../" + POSTCARD_SAVEFOLDERNAME + "/" + "Screenshot_" + System.DateTime.Now.ToString("MM_dd_yy_hhmmss") + ".png", screenshotDetail );
 		}
 		else
 		{
-			Application.CaptureScreenshot( Application.dataPath + "/../" + SCREENSHOT_SAVEFOLDERNAME + "/" + "Screenshot_" + System.DateTime.Now.ToString("MM_dd_yy_hhmmss") + ".png", screenshotDetail );
+			ScreenCapture.CaptureScreenshot( Application.dataPath + "/../" + SCREENSHOT_SAVEFOLDERNAME + "/" + "Screenshot_" + System.DateTime.Now.ToString("MM_dd_yy_hhmmss") + ".png", screenshotDetail );
 		}
 		#endif
 	}

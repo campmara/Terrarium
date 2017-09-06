@@ -106,6 +106,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
     const float CAM_FOV = 60f;
 
 	const float SITTING_ROTATESPEED = 2.0f;
+	const float SITTING_ZOOMOUTSPEED = 0.025f;
 
 	public override void Initialize ()
 	{
@@ -310,7 +311,16 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 
 	void SittingCameraRotate()
 	{
+		if(Mathf.Abs( _camInputVals.y ) < ZOOM_Y_DEADZONE)
+		{
+			_zoomInterp = Mathf.Clamp01( _zoomInterp + (SITTING_ZOOMOUTSPEED * Time.fixedDeltaTime) );
+		}
+
+		// Calculate Camera Positioning
+		DetermineCameraZoom( _zoomInterpCurve.Evaluate( _zoomInterp ) );
+
 		_mainCam.transform.RotateAround( _focusPoint, Vector3.up, SITTING_ROTATESPEED * Time.fixedDeltaTime );
+
 		_camOffset = _mainCam.transform.position - _focusPoint;
 	}
 

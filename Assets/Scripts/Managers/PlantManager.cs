@@ -78,6 +78,8 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 			{
 				_huppetPlants.Add( plant );
 			}
+
+			AudioManager.instance.PlantAdded( GetTotalLargePlants() );
 		}
 	}
 
@@ -138,8 +140,7 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		//based on type, spawn some sort of mini
 		GameObject newPlant = SpawnNonClippingPlant( plant );
 		if( newPlant )
-		{
-			AudioManager.instance.PlantAdded( GetTotalLargePlants() + _mediumPlants.Count );
+		{			
 			_mediumPlants.Add( newPlant.GetComponent<BasePlant>() );
 			plant.SpawnedMediums = plant.SpawnedMediums + 1;
 		}

@@ -15,7 +15,7 @@ public class SeedSlug : MonoBehaviour
 
     [SerializeField, ReadOnly]
     float _moveTimer = 0.0f;
-	[SerializeField, ReadOnlyAttribute]
+	[SerializeField/*, ReadOnlyAttribute*/]
 	float _currMoveSpeedScalar = 1.0f;
 	const float MOVESPEED_STARTSCALAR = 1.0f;
 	const float MOVESPEED_HITSCALAR = 5.0f;
@@ -194,6 +194,24 @@ public class SeedSlug : MonoBehaviour
         }
         
     }
+
+	public void OnPlayerPickup()
+	{
+		if( _carriedObject != null )
+		{
+			Debug.Log( "Player Pickup From Slug" );
+			_carriedObject.transform.parent = null;
+			_carriedObject = null;
+		}
+
+		_currMoveSpeedScalar += MOVESPEED_HITSCALAR;
+		_animator.speed += 3.0f;
+
+		if( _yellRoutine == null )
+		{
+			_yellRoutine = StartCoroutine( StartYellRoutine() );
+		}
+	}
 
     IEnumerator StartYellRoutine()
     {
