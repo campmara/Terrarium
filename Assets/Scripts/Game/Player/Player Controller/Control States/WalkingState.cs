@@ -81,7 +81,7 @@ public class WalkingState : RollerState
 
 		RollerParent.Idling = false;
     }
-
+	
     public override void HandleInput( InputCollection input )
     {
         if ( _rollPosTween == null )
@@ -217,8 +217,10 @@ public class WalkingState : RollerState
     }
 
     public override void HandleFixedInput(InputCollection input)
-	{	
-        if( GameManager.Instance.State == GameManager.GameState.MAIN )
+	{
+		_roller.CarryPositionObject.transform.position = _roller.IK.ArmTipMidpoint;
+
+		if( GameManager.Instance.State == GameManager.GameState.MAIN )
         {
             _roller.IKMovement( RollerConstants.instance.WalkSpeed,
                                   RollerConstants.instance.WalkAcceleration,
