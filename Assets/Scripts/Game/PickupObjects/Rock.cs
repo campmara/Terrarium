@@ -45,7 +45,9 @@ public class Rock : Pickupable
 			{
 				float groundThreshold = 1.0f;
 				if( transform.position.y > groundThreshold || player.GetComponent<RollerController>().State == P_ControlState.ROLLING )
-				player.GetComponent<RollerController>().MakeDroopyExplode();
+				{
+					player.GetComponent<RollerController>().HandleRockDropCollision();
+				}
 			}
 		}
 	}
