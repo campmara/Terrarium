@@ -68,7 +68,7 @@ MonoBehaviour:
   PickupForwardScalarPart2: 0.08
   PickupUpScalarPart2: 2
   PickupTime: 0.75
-  HugWidthRange: {x: 6, y: 45}
+  HugWidthRange: {x: 6, y: 42}
   HugLerpSpeed: 10
   HugLeanSpeed: 3.5
   IdleMaxMag: 0.01
@@ -81,16 +81,16 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 2
-      time: 0
+      time: -0.0015335083
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: 0.06687199
+      outSlope: 0.06687199
       tangentMode: 0
     - serializedVersion: 2
       time: 1
       value: 1
-      inSlope: 2
-      outSlope: 2
+      inSlope: 2.7863283
+      outSlope: 2.7863283
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

@@ -155,6 +155,13 @@ namespace InControl
 			}
 #endif
 
+#if UNITY_SWITCH
+			if (NintendoSwitchInputDeviceManager.Enable())
+			{
+				enableUnityInput = false;
+			}
+#endif
+
 			// TODO: Can this move further down after the UnityInputDeviceManager is added?
 			// Currently, it allows use of InputManager.HideDevicesWithProfile()
 			if (OnSetup != null)
@@ -649,7 +656,7 @@ namespace InControl
 		{
 			get
 			{
-				return KeyCombo.Detect( true ).Count > 0;
+				return KeyCombo.Detect( true ).IncludeCount > 0;
 			}
 		}
 

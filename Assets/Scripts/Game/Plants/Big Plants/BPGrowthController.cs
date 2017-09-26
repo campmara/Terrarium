@@ -371,7 +371,23 @@ public class BPGrowthController : PlantController
 
 		if( !obj )
 		{
-			obj = _droppingItems[Random.Range( 0, _droppingItems.Count)];
+			if(_droppingItems.Count > 1)
+			{
+				float seedOdds = Random.value;
+				if(seedOdds > 0.25f)
+				{
+					obj = _droppingItems[0];
+				}
+				else
+				{
+					obj = _droppingItems[Random.Range(1, _droppingItems.Count)];
+				}				
+			}
+			else
+			{
+				obj = _droppingItems[0];
+			}
+			
 		}
 
 		// check to see that it's not already super close to something

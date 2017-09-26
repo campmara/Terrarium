@@ -61,11 +61,12 @@ namespace InControl
 		/// <returns>The current version of InControl.</returns>
 		public static VersionInfo InControlVersion()
 		{
-			return new VersionInfo() {
+			return new VersionInfo()
+			{
 				Major = 1,
 				Minor = 6,
-				Patch = 10,
-				Build = 8798
+				Patch = 15,
+				Build = 9080
 			};
 		}
 
@@ -75,16 +76,41 @@ namespace InControl
 		/// the current version of Unity.
 		/// </summary>
 		/// <returns>The current version of Unity.</returns>
-		internal static VersionInfo UnityVersion()
+		public static VersionInfo UnityVersion()
 		{
 			var match = Regex.Match( Application.unityVersion, @"^(\d+)\.(\d+)\.(\d+)" );
 			var build = 0;
-			return new VersionInfo() {
+			return new VersionInfo()
+			{
 				Major = Convert.ToInt32( match.Groups[1].Value ),
 				Minor = Convert.ToInt32( match.Groups[2].Value ),
 				Patch = Convert.ToInt32( match.Groups[3].Value ),
 				Build = build
 			};
+		}
+
+
+		/// <summary>
+		/// Generates the minimum possible version number.
+		/// </summary>
+		public static VersionInfo Min
+		{
+			get
+			{
+				return new VersionInfo( int.MinValue, int.MinValue, int.MinValue, int.MinValue );
+			}
+		}
+
+
+		/// <summary>
+		/// Generates the maximum possible version number.
+		/// </summary>
+		public static VersionInfo Max
+		{
+			get
+			{
+				return new VersionInfo( int.MaxValue, int.MaxValue, int.MaxValue, int.MaxValue );
+			}
 		}
 
 

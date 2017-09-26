@@ -20,7 +20,7 @@
 				return null;
 			}
 
-			if (detectFound.Count > 0)
+			if (detectFound.IncludeCount > 0)
 			{
 				if (!detectFound.IsPressed)
 				{
@@ -34,7 +34,7 @@
 			}
 
 			var keyCombo = KeyCombo.Detect( listenOptions.IncludeModifiersAsFirstClassKeys );
-			if (keyCombo.Count > 0)
+			if (keyCombo.IncludeCount > 0)
 			{
 				if (detectPhase == 1)
 				{

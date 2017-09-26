@@ -57,6 +57,20 @@
 
 
 		/// <summary>
+		/// Gets the class of device this binding source currently represents.
+		/// </summary>
+		/// <value>The class of the device.</value>
+		public abstract InputDeviceClass DeviceClass { get; }
+
+
+		/// <summary>
+		/// Gets the style of device this binding source currently represents.
+		/// </summary>
+		/// <value>The style of the device.</value>
+		public abstract InputDeviceStyle DeviceStyle { get; }
+
+
+		/// <summary>
 		/// Determines whether the specified binding sources are equal.
 		/// </summary>
 		/// <param name="a">The first binding source to compare.</param>
@@ -124,7 +138,7 @@
 		#region Internal
 
 		internal abstract void Save( BinaryWriter writer );
-		internal abstract void Load( BinaryReader reader );
+		internal abstract void Load( BinaryReader reader, UInt16 dataFormatVersion );
 		internal PlayerAction BoundTo { get; set; }
 
 

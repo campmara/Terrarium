@@ -59,10 +59,24 @@ namespace InControl
 		public ulong LastInputTypeChangedTick;
 
 		/// <summary>
+		/// The <see cref="InputDeviceClass"/> of the binding source that last provided input to this action set.
+		/// </summary>
+		public InputDeviceClass LastDeviceClass = InputDeviceClass.Unknown;
+
+		/// <summary>
+		/// The <see cref="InputDeviceStyle"/> of the binding source that last provided input to this action set.
+		/// </summary>
+		public InputDeviceStyle LastDeviceStyle = InputDeviceStyle.Unknown;
+
+		/// <summary>
 		/// Whether this action set should produce input. Default: <c>true</c>
 		/// </summary>
 		public bool Enabled { get; set; }
 
+		/// <summary>
+		/// The prevent input to all actions while any action in the set is listening for a binding.
+		/// </summary>
+		public bool PreventInputWhileListeningForBinding { get; set; }
 
 		/// <summary>
 		/// This property can be used to store whatever arbitrary game data you want on this action set.
@@ -81,6 +95,7 @@ namespace InControl
 		protected PlayerActionSet()
 		{
 			Enabled = true;
+			PreventInputWhileListeningForBinding = true;
 			Device = null;
 			IncludeDevices = new List<InputDevice>();
 			ExcludeDevices = new List<InputDevice>();
@@ -203,6 +218,8 @@ namespace InControl
 
 			var lastInputType = LastInputType;
 			var lastInputTypeChangedTick = LastInputTypeChangedTick;
+			var lastDeviceClass = LastDeviceClass;
+			var lastDeviceStyle = LastDeviceStyle;
 
 			var actionsCount = actions.Count;
 			for (var i = 0; i < actionsCount; i++)
@@ -221,6 +238,8 @@ namespace InControl
 				{
 					lastInputType = action.LastInputType;
 					lastInputTypeChangedTick = action.LastInputTypeChangedTick;
+					lastDeviceClass = action.LastDeviceClass;
+					lastDeviceStyle = action.LastDeviceStyle;
 				}
 			}
 
@@ -242,6 +261,8 @@ namespace InControl
 
 				LastInputType = lastInputType;
 				LastInputTypeChangedTick = lastInputTypeChangedTick;
+				LastDeviceClass = lastDeviceClass;
+				LastDeviceStyle = lastDeviceStyle;
 
 				if (OnLastInputTypeChanged != null && triggerEvent)
 				{
@@ -354,6 +375,18 @@ namespace InControl
 
 
 		/// <summary>
+		/// Query whether any action in this set is currently listening for a new binding.
+		/// </summary>
+		public bool IsListeningForBinding
+		{
+			get
+			{
+				return listenWithAction != null;
+			}
+		}
+
+
+		/// <summary>
 		/// Configures how in an action in this set listens for new bindings when the action does not
 		/// explicitly define its own listen options.
 		/// </summary>
@@ -386,6 +419,9 @@ namespace InControl
 		}
 
 
+		const UInt16 currentDataFormatVersion = 2;
+
+
 		/// <summary>
 		/// Returns the state of this action set and all bindings encoded into a string
 		/// that you can save somewhere.
@@ -404,7 +440,7 @@ namespace InControl
 					writer.Write( (byte) 'D' );
 
 					// Write version.
-					writer.Write( (UInt16) 1 );
+					writer.Write( currentDataFormatVersion );
 
 					// Write actions.
 					var actionCount = actions.Count;
@@ -421,7 +457,7 @@ namespace InControl
 
 
 		/// <summary>
-		/// Load a state returned by calling Dump() at a prior time.
+		/// Load a state returned by calling Save() at a prior time.
 		/// </summary>
 		/// <param name="data">The data string.</param>
 		public void Load( string data )
@@ -442,9 +478,10 @@ namespace InControl
 							throw new Exception( "Unknown data format." );
 						}
 
-						if (reader.ReadUInt16() != 1)
+						var dataFormatVersion = reader.ReadUInt16();
+						if (dataFormatVersion < 1 || dataFormatVersion > currentDataFormatVersion)
 						{
-							throw new Exception( "Unknown data version." );
+							throw new Exception( "Unknown data format version: " + dataFormatVersion );
 						}
 
 						var actionCount = reader.ReadInt32();
@@ -453,7 +490,7 @@ namespace InControl
 							PlayerAction action;
 							if (actionsByName.TryGetValue( reader.ReadString(), out action ))
 							{
-								action.Load( reader );
+								action.Load( reader, dataFormatVersion );
 							}
 						}
 					}
@@ -467,3 +504,4 @@ namespace InControl
 		}
 	}
 }
+

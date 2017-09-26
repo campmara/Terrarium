@@ -360,7 +360,7 @@ namespace InControl
 
 		bool AnyCommandControlIsPressed()
 		{
-			for (var i = (int) InputControlType.Back; i <= (int) InputControlType.Power; i++)
+			for (var i = (int) InputControlType.Back; i <= (int) InputControlType.Minus; i++)
 			{
 				var control = ControlsByTarget[i];
 				if (control != null && control.IsPressed)

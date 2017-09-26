@@ -34,8 +34,8 @@ namespace InControl
 			Sensitivity = 1.0f;
 			LowerDeadZone = 0.2f;
 			UpperDeadZone = 0.9f;
-			MinUnityVersion = new VersionInfo( 3, 0, 0, 0 );
-			MaxUnityVersion = new VersionInfo( 9, 0, 0, 0 );
+			MinUnityVersion = VersionInfo.Min;
+			MaxUnityVersion = VersionInfo.Max;
 		}
 
 
@@ -235,7 +235,8 @@ namespace InControl
 
 		protected static InputControlMapping LeftStickLeftMapping( InputControlSource analog )
 		{
-			return new InputControlMapping {
+			return new InputControlMapping
+			{
 				Handle = "Left Stick Left",
 				Target = InputControlType.LeftStickLeft,
 				Source = analog,
@@ -246,7 +247,8 @@ namespace InControl
 
 		protected static InputControlMapping LeftStickRightMapping( InputControlSource analog )
 		{
-			return new InputControlMapping {
+			return new InputControlMapping
+			{
 				Handle = "Left Stick Right",
 				Target = InputControlType.LeftStickRight,
 				Source = analog,
@@ -257,7 +259,8 @@ namespace InControl
 
 		protected static InputControlMapping LeftStickUpMapping( InputControlSource analog )
 		{
-			return new InputControlMapping {
+			return new InputControlMapping
+			{
 				Handle = "Left Stick Up",
 				Target = InputControlType.LeftStickUp,
 				Source = analog,
@@ -268,7 +271,8 @@ namespace InControl
 
 		protected static InputControlMapping LeftStickDownMapping( InputControlSource analog )
 		{
-			return new InputControlMapping {
+			return new InputControlMapping
+			{
 				Handle = "Left Stick Down",
 				Target = InputControlType.LeftStickDown,
 				Source = analog,
@@ -279,7 +283,8 @@ namespace InControl
 
 		protected static InputControlMapping RightStickLeftMapping( InputControlSource analog )
 		{
-			return new InputControlMapping {
+			return new InputControlMapping
+			{
 				Handle = "Right Stick Left",
 				Target = InputControlType.RightStickLeft,
 				Source = analog,
@@ -290,7 +295,8 @@ namespace InControl
 
 		protected static InputControlMapping RightStickRightMapping( InputControlSource analog )
 		{
-			return new InputControlMapping {
+			return new InputControlMapping
+			{
 				Handle = "Right Stick Right",
 				Target = InputControlType.RightStickRight,
 				Source = analog,
@@ -301,7 +307,8 @@ namespace InControl
 
 		protected static InputControlMapping RightStickUpMapping( InputControlSource analog )
 		{
-			return new InputControlMapping {
+			return new InputControlMapping
+			{
 				Handle = "Right Stick Up",
 				Target = InputControlType.RightStickUp,
 				Source = analog,
@@ -312,7 +319,8 @@ namespace InControl
 
 		protected static InputControlMapping RightStickDownMapping( InputControlSource analog )
 		{
-			return new InputControlMapping {
+			return new InputControlMapping
+			{
 				Handle = "Right Stick Down",
 				Target = InputControlType.RightStickDown,
 				Source = analog,
@@ -323,7 +331,8 @@ namespace InControl
 
 		protected static InputControlMapping LeftTriggerMapping( InputControlSource analog )
 		{
-			return new InputControlMapping {
+			return new InputControlMapping
+			{
 				Handle = "Left Trigger",
 				Target = InputControlType.LeftTrigger,
 				Source = analog,
@@ -335,7 +344,8 @@ namespace InControl
 
 		protected static InputControlMapping RightTriggerMapping( InputControlSource analog )
 		{
-			return new InputControlMapping {
+			return new InputControlMapping
+			{
 				Handle = "Right Trigger",
 				Target = InputControlType.RightTrigger,
 				Source = analog,
@@ -347,7 +357,8 @@ namespace InControl
 
 		protected static InputControlMapping DPadLeftMapping( InputControlSource analog )
 		{
-			return new InputControlMapping {
+			return new InputControlMapping
+			{
 				Handle = "DPad Left",
 				Target = InputControlType.DPadLeft,
 				Source = analog,
@@ -358,7 +369,8 @@ namespace InControl
 
 		protected static InputControlMapping DPadRightMapping( InputControlSource analog )
 		{
-			return new InputControlMapping {
+			return new InputControlMapping
+			{
 				Handle = "DPad Right",
 				Target = InputControlType.DPadRight,
 				Source = analog,
@@ -369,7 +381,8 @@ namespace InControl
 
 		protected static InputControlMapping DPadUpMapping( InputControlSource analog )
 		{
-			return new InputControlMapping {
+			return new InputControlMapping
+			{
 				Handle = "DPad Up",
 				Target = InputControlType.DPadUp,
 				Source = analog,
@@ -380,7 +393,8 @@ namespace InControl
 
 		protected static InputControlMapping DPadDownMapping( InputControlSource analog )
 		{
-			return new InputControlMapping {
+			return new InputControlMapping
+			{
 				Handle = "DPad Down",
 				Target = InputControlType.DPadDown,
 				Source = analog,
@@ -391,7 +405,8 @@ namespace InControl
 
 		protected static InputControlMapping DPadUpMapping2( InputControlSource analog )
 		{
-			return new InputControlMapping {
+			return new InputControlMapping
+			{
 				Handle = "DPad Up",
 				Target = InputControlType.DPadUp,
 				Source = analog,
@@ -402,7 +417,8 @@ namespace InControl
 
 		protected static InputControlMapping DPadDownMapping2( InputControlSource analog )
 		{
-			return new InputControlMapping {
+			return new InputControlMapping
+			{
 				Handle = "DPad Down",
 				Target = InputControlType.DPadDown,
 				Source = analog,

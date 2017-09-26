@@ -23,7 +23,11 @@ public class CarryState : RollerState
 		_currHugWidth = 0.0f;
      	_currHugState = 0.0f;
 
-        _bigPlantPickupable = RollerParent.CurrentHeldObject.GetComponent<BigPlantPickupable>();
+		if(RollerParent.CurrentHeldObject != null)
+		{
+			_bigPlantPickupable = RollerParent.CurrentHeldObject.GetComponent<BigPlantPickupable>();
+		}
+        
 
 		if( _bigPlantPickupable != null )
 		{
@@ -156,7 +160,11 @@ public class CarryState : RollerState
                 _roller.ChangeState(P_ControlState.RITUAL);
             }
         }
-    }
+		else
+		{
+			_roller.ChangeState(P_ControlState.WALKING);
+		}
+	}
 
     public override void HandleFixedInput( InputCollection input )
 	{
