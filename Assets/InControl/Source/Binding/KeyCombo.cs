@@ -10,67 +10,157 @@
 	/// </summary>
 	public struct KeyCombo
 	{
-		int size;
-		ulong data;
+		int includeSize;
+		ulong includeData;
+
+		int excludeSize;
+		ulong excludeData;
 
 
 		public KeyCombo( params Key[] keys )
 		{
-			data = 0;
-			size = 0;
+			includeData = 0;
+			includeSize = 0;
+			excludeData = 0;
+			excludeSize = 0;
 			for (var i = 0; i < keys.Length; i++)
 			{
-				Add( keys[i] );
+				AddInclude( keys[i] );
 			}
 		}
 
 
-		void AddInt( int key )
+		void AddIncludeInt( int key )
 		{
-			if (size == 8)
+			if (includeSize == 8)
 			{
 				return;
 			}
 
-			data = data | (((ulong) key & 0xFF) << (size * 8));
-			size = size + 1;
+			includeData = includeData | (((ulong) key & 0xFF) << (includeSize * 8));
+			includeSize = includeSize + 1;
 		}
 
 
-		int GetInt( int index )
+		int GetIncludeInt( int index )
 		{
-			return (int) ((data >> (index * 8)) & 0xFF);
+			return (int) ((includeData >> (index * 8)) & 0xFF);
 		}
 
 
+		[Obsolete( "Use KeyCombo.AddInclude instead." )]
 		public void Add( Key key )
 		{
-			AddInt( (int) key );
+			AddInclude( key );
 		}
 
 
+		[Obsolete( "Use KeyCombo.GetInclude instead." )]
 		public Key Get( int index )
 		{
-			if (index < 0 || index >= size)
+			return GetInclude( index );
+		}
+
+
+		public void AddInclude( Key key )
+		{
+			AddIncludeInt( (int) key );
+		}
+
+
+		public Key GetInclude( int index )
+		{
+			if (index < 0 || index >= includeSize)
 			{
-				throw new IndexOutOfRangeException( "Index " + index + " is out of the range 0.." + size );
+				throw new IndexOutOfRangeException( "Index " + index + " is out of the range 0.." + includeSize );
 			}
-			return (Key) GetInt( index );
+			return (Key) GetIncludeInt( index );
+		}
+
+
+		void AddExcludeInt( int key )
+		{
+			if (excludeSize == 8)
+			{
+				return;
+			}
+
+			excludeData = excludeData | (((ulong) key & 0xFF) << (excludeSize * 8));
+			excludeSize = excludeSize + 1;
+		}
+
+
+		int GetExcludeInt( int index )
+		{
+			return (int) ((excludeData >> (index * 8)) & 0xFF);
+		}
+
+
+		public void AddExclude( Key key )
+		{
+			AddExcludeInt( (int) key );
+		}
+
+
+		public Key GetExclude( int index )
+		{
+			if (index < 0 || index >= excludeSize)
+			{
+				throw new IndexOutOfRangeException( "Index " + index + " is out of the range 0.." + excludeSize );
+			}
+			return (Key) GetExcludeInt( index );
+		}
+
+
+		public static KeyCombo With( params Key[] keys )
+		{
+			return new KeyCombo( keys );
+		}
+
+
+		public KeyCombo AndNot( params Key[] keys )
+		{
+			for (var i = 0; i < keys.Length; i++)
+			{
+				AddExclude( keys[i] );
+			}
+			return this;
 		}
 
 
 		public void Clear()
 		{
-			data = 0;
-			size = 0;
+			includeData = 0;
+			includeSize = 0;
+			excludeData = 0;
+			excludeSize = 0;
 		}
 
 
+		[Obsolete( "Use KeyCombo.IncludeCount instead." )]
 		public int Count
 		{
 			get
 			{
-				return size;
+				return includeSize;
+			}
+		}
+
+
+		public int IncludeCount
+		{
+			get
+			{
+				return includeSize;
+			}
+		}
+
+
+		public int ExcludeCount
+		{
+			get
+			{
+				return excludeSize;
 			}
 		}
 
@@ -79,19 +169,28 @@
 		{
 			get
 			{
-				if (size == 0)
+				if (includeSize == 0)
 				{
 					return false;
 				}
 
-				var isPressed = true;
-				for (var i = 0; i < size; i++)
+				var includePressed = true;
+				for (var i = 0; i < includeSize; i++)
 				{
-					var key = GetInt( i );
-					isPressed = isPressed && KeyInfo.KeyList[key].IsPressed;
+					var key = GetIncludeInt( i );
+					includePressed = includePressed && KeyInfo.KeyList[key].IsPressed;
 				}
 
-				return isPressed;
+				for (var i = 0; i < excludeSize; i++)
+				{
+					var key = GetExcludeInt( i );
+					if (KeyInfo.KeyList[key].IsPressed)
+					{
+						return false;
+					}
+				}
+
+				return includePressed;
 			}
 		}
 
@@ -106,7 +205,7 @@
 				{
 					if (KeyInfo.KeyList[i].IsPressed)
 					{
-						keyCombo.AddInt( i );
+						keyCombo.AddIncludeInt( i );
 						return keyCombo;
 					}
 				}
@@ -117,7 +216,7 @@
 				{
 					if (KeyInfo.KeyList[i].IsPressed)
 					{
-						keyCombo.AddInt( i );
+						keyCombo.AddIncludeInt( i );
 					}
 				}
 			}
@@ -126,7 +225,7 @@
 			{
 				if (KeyInfo.KeyList[i].IsPressed)
 				{
-					keyCombo.AddInt( i );
+					keyCombo.AddIncludeInt( i );
 					return keyCombo;
 				}
 			}
@@ -140,16 +239,16 @@
 		public override string ToString()
 		{
 			string value;
-			if (!cachedStrings.TryGetValue( data, out value ))
+			if (!cachedStrings.TryGetValue( includeData, out value ))
 			{
 				value = "";
-				for (var i = 0; i < size; i++)
+				for (var i = 0; i < includeSize; i++)
 				{
 					if (i != 0)
 					{
 						value += " ";
 					}
-					var key = GetInt( i );
+					var key = GetIncludeInt( i );
 					value += KeyInfo.KeyList[key].Name;
 				}
 			}
@@ -159,13 +258,13 @@
 
 		public static bool operator ==( KeyCombo a, KeyCombo b )
 		{
-			return a.data == b.data;
+			return a.includeData == b.includeData && a.excludeData == b.excludeData;
 		}
 
 
 		public static bool operator !=( KeyCombo a, KeyCombo b )
 		{
-			return a.data != b.data;
+			return a.includeData != b.includeData || a.excludeData != b.excludeData;
 		}
 
 
@@ -174,7 +273,7 @@
 			if (other is KeyCombo)
 			{
 				var keyCode = (KeyCombo) other;
-				return data == keyCode.data;
+				return includeData == keyCode.includeData && excludeData == keyCode.excludeData;
 			}
 
 			return false;
@@ -183,21 +282,41 @@
 
 		public override int GetHashCode()
 		{
-			return data.GetHashCode();
+			int hash = 17;
+			hash = hash * 31 + includeData.GetHashCode();
+			hash = hash * 31 + excludeData.GetHashCode();
+			return hash;
 		}
 
 
-		internal void Load( BinaryReader reader )
+		internal void Load( BinaryReader reader, UInt16 dataFormatVersion )
 		{
-			size = reader.ReadInt32();
-			data = reader.ReadUInt64();
+			if (dataFormatVersion == 1)
+			{
+				includeSize = reader.ReadInt32();
+				includeData = reader.ReadUInt64();
+				return;
+			}
+
+			if (dataFormatVersion == 2)
+			{
+				includeSize = reader.ReadInt32();
+				includeData = reader.ReadUInt64();
+				excludeSize = reader.ReadInt32();
+				excludeData = reader.ReadUInt64();
+				return;
+			}
+
+			throw new InControlException( "Unknown data format version: " + dataFormatVersion );
 		}
 
 
 		internal void Save( BinaryWriter writer )
 		{
-			writer.Write( size );
-			writer.Write( data );
+			writer.Write( includeSize );
+			writer.Write( includeData );
+			writer.Write( excludeSize );
+			writer.Write( excludeData );
 		}
 	}
 }

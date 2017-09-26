@@ -21,10 +21,10 @@ namespace InControl
 		[PostProcessBuild]
 		public static void OnPostProcessBuild( BuildTarget buildTarget, string buildPath )
 		{
-#if UNITY_5
+#if UNITY_5 || UNITY_5_6_OR_NEWER
 			if (buildTarget == BuildTarget.iOS)
 #else
-			if (buildTarget == BuildTarget.iOS)
+			if (buildTarget == BuildTarget.iPhone)
 #endif
 			{
 				var projPath = PBXProject.GetPBXProjectPath( buildPath );

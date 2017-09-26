@@ -696,6 +696,8 @@ MonoBehaviour:
   _curStage: 0
   _droppingItems:
   - {fileID: 1261253386730094, guid: bc1c0a0bd8a10a14d966be28e3d9fcb1, type: 2}
+  - {fileID: 1631419253260572, guid: e7e4ccc23b3b8416c994f33a1840c8c6, type: 2}
+  - {fileID: 1356359172527236, guid: bbfef1f81afcefc438cf9d537e7f0931, type: 2}
   _punishObject: {fileID: 100000, guid: c1301e808bb5eb24f81f878cfcf8bcb3, type: 3}
   _coverSpawnerPrefab: {fileID: 1581055790355646, guid: 35a19a2c0c79e41f88b49cfde262634d,
     type: 2}

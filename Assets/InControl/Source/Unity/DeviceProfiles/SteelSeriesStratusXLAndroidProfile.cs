@@ -4,7 +4,7 @@ namespace InControl
 	[AutoDiscover]
 	public class SteelSeriesStratusXLAndroidProfile : UnityInputDeviceProfile
 	{
-		// WARNING: Couldn't find the back button
+		// NOTE: Back button is not supported.
 		//
 		public SteelSeriesStratusXLAndroidProfile()
 		{

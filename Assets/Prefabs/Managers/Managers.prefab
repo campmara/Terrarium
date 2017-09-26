@@ -546,10 +546,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bc4639188bf4436957d68db54e48e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LrgTotalPlantsRange: {x: 15, y: 35}
-  MedTotalPlantsRange: {x: 5, y: 50}
-  MedSpawnRadRange: {x: 3, y: 4.5}
-  MedNumPerPlant: {x: 4, y: 6}
+  LrgTotalPlantsRange: {x: 25, y: 50}
+  MedTotalPlantsRange: {x: 25, y: 100}
+  MedSpawnRadRange: {x: 2, y: 7}
+  MedNumPerPlant: {x: 10, y: 30}
   _pointSeed: {fileID: 1631419253260572, guid: e7e4ccc23b3b8416c994f33a1840c8c6, type: 2}
   _floweringSeed: {fileID: 1356359172527236, guid: bbfef1f81afcefc438cf9d537e7f0931,
     type: 2}
@@ -6996,7 +6996,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 5617e55cf46bd4971beb99b4e97e9786, type: 3}
     - {fileID: 8300000, guid: 2893cb221a72a428b96061d697189ddd, type: 3}
     - {fileID: 8300000, guid: fe03c30646ed6d542aa0352b423031d7, type: 3}
-    - {fileID: 8300000, guid: 0e9cf40b489e94560bfd2f6ab0d5a8e5, type: 3}
+    - {fileID: 8300000, guid: d9392e74b3250e44a924f2635ead70c7, type: 3}
     - {fileID: 8300000, guid: 8511f9e2a34804fec8b7fd9e54c5dff5, type: 3}
     _mixerGroup: {fileID: 243730844136138892, guid: 30f3aa683f5543d469208f1bb641c945,
       type: 2}

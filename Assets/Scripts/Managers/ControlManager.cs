@@ -157,7 +157,10 @@ public class ControlManager : SingletonBehaviour<ControlManager>
 		_screenHeight = Camera.main.pixelHeight;
 		_screenDiagonal = Mathf.Sqrt( ( ( _screenWidth * _screenWidth ) + ( _screenHeight * _screenHeight ) ) );
 
-		this.gameObject.AddComponent<InControlManager>();
+		if(this.gameObject.GetComponent<InControlManager>() == null)
+		{
+			this.gameObject.AddComponent<InControlManager>();
+		}
 
 		#if (UNITY_EDITOR || UNITY_STANDALONE)
 		SetupControlsStandalone();

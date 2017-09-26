@@ -1,5 +1,6 @@
 ﻿namespace InControl
 {
+	using System;
 	using System.IO;
 	using UnityEngine;
 
@@ -39,12 +40,12 @@
 
 
 		public override string Name
-		{ 
+		{
 			get
 			{
 				if (BoundTo == null)
 				{
-//					Debug.LogWarning( "Cannot query property 'Name' for unbound BindingSource." );
+					// Debug.LogWarning( "Cannot query property 'Name' for unbound BindingSource." );
 					return "";
 				}
 				else
@@ -79,12 +80,12 @@
 
 
 		public override string DeviceName
-		{ 
+		{
 			get
 			{
 				if (BoundTo == null)
 				{
-//					Debug.LogWarning( "Cannot query property 'DeviceName' for unbound BindingSource." );
+					// Debug.LogWarning( "Cannot query property 'DeviceName' for unbound BindingSource." );
 					return "";
 				}
 				else
@@ -97,6 +98,24 @@
 
 					return device.Name;
 				}
+			}
+		}
+
+
+		public override InputDeviceClass DeviceClass
+		{
+			get
+			{
+				return InputDeviceClass.Controller;
+			}
+		}
+
+
+		public override InputDeviceStyle DeviceStyle
+		{
+			get
+			{
+				return InputDeviceStyle.Unknown;
 			}
 		}
 
@@ -151,7 +170,7 @@
 
 
 		internal override bool IsValid
-		{ 
+		{
 			get
 			{
 				if (BoundTo == null)
@@ -168,7 +187,7 @@
 		}
 
 
-		internal override void Load( BinaryReader reader )
+		internal override void Load( BinaryReader reader, UInt16 dataFormatVersion )
 		{
 			// Have to do this because it's a struct property? Weird.
 			var temp = new UnknownDeviceControl();
@@ -179,7 +198,7 @@
 
 		internal override void Save( BinaryWriter writer )
 		{
-			Control.Save( writer );	
+			Control.Save( writer );
 		}
 	}
 }

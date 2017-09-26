@@ -1,5 +1,6 @@
 namespace InControl
 {
+	using System;
 	using System.IO;
 
 
@@ -38,7 +39,7 @@ namespace InControl
 
 
 		public override string Name
-		{ 
+		{
 			get
 			{
 				return Control.ToString();
@@ -47,10 +48,28 @@ namespace InControl
 
 
 		public override string DeviceName
-		{ 
+		{
 			get
 			{
 				return "Keyboard";
+			}
+		}
+
+
+		public override InputDeviceClass DeviceClass
+		{
+			get
+			{
+				return InputDeviceClass.Keyboard;
+			}
+		}
+
+
+		public override InputDeviceStyle DeviceStyle
+		{
+			get
+			{
+				return InputDeviceStyle.Unknown;
 			}
 		}
 
@@ -104,11 +123,11 @@ namespace InControl
 		}
 
 
-		internal override void Load( BinaryReader reader )
+		internal override void Load( BinaryReader reader, UInt16 dataFormatVersion )
 		{
 			// Have to do this because it's a struct property? Weird.
 			var temp = new KeyCombo();
-			temp.Load( reader );
+			temp.Load( reader, dataFormatVersion );
 			Control = temp;
 		}
 

@@ -540,6 +540,12 @@ public class RollerController : ControllerBase
 		HandlePondReturn();
 	}
 
+	public void HandleRockDropCollision()
+	{
+		_collidedWithObject = true;
+		HandlePondReturn();
+	}
+
     public float GetArmInterpTotal()
     {
         return _ik.RightArm.ArmReachInterp + _ik.LeftArm.ArmReachInterp;

@@ -149,6 +149,21 @@ namespace InControl
 		}
 
 
+		protected void SubmitButtonValue( ButtonTarget target, float value, ulong updateTick, float deltaTime )
+		{
+			if (TouchManager.Device == null || target == ButtonTarget.None)
+			{
+				return;
+			}
+
+			var control = TouchManager.Device.GetControl( (InputControlType) target );
+			if (control != null && control != InputControl.Null)
+			{
+				control.UpdateWithValue( value, updateTick, deltaTime );
+			}
+		}
+
+
 		protected void CommitButton( ButtonTarget target )
 		{
 			if (TouchManager.Device == null || target == ButtonTarget.None)
