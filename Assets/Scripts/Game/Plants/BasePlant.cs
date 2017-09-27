@@ -8,9 +8,6 @@ public class BasePlant : MonoBehaviour
 	protected float _outerSpawnRadius = 2.5f;
 	public float OuterRadius { get { return _outerSpawnRadius; } set { _outerSpawnRadius = value;} }
 
-	protected float _spawnHeight = 8.0f;
-	public float SpawnHeight { get { return _spawnHeight; } set { _spawnHeight = value;} }
-
 	public enum PlantType : int 
 	{
 		NONE = -1,

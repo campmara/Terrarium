@@ -4,6 +4,14 @@ namespace InControl
 	[AutoDiscover]
 	public class AppleTVRemoteProfile : UnityInputDeviceProfile
 	{
+		// Naming of this file/class is important. It needs to come before the
+		// controller profile alphabetically.
+		//
+		// Also take note of these docs:
+		// https://docs.unity3d.com/Manual/tvOS.html
+		// https://docs.unity3d.com/ScriptReference/Apple.TV.Remote.html
+		// Specifically, the UnityEngine.Apple.TV.Remote.allowExitToHome flag		
+		//
 		public AppleTVRemoteProfile()
 		{
 			Name = "Apple TV Remote";

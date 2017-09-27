@@ -26,7 +26,6 @@ public class SPGrowthController : PlantController
 		float innerRad = GetComponent<BoxCollider>().bounds.size.x;
 		_myPlant.InnerRadius = innerRad * transform.localScale.x;
 		_myPlant.OuterRadius = 2.5f;
-		_myPlant.SpawnHeight = .1f;
 	}
 
 	public override void StartState()

@@ -42,6 +42,7 @@ namespace InControl
 				"XBOX 360 For Windows (Controller)",
 				"XEOX Gamepad (Controller)",
 				"XEQX Gamepad SL-6556-BK",
+				"Controller (<BETOP GAME FOR WINDOWS>)"
 			};
 
 			LastResortRegex = "360|xbox|catz";

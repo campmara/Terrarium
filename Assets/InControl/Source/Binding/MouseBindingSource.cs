@@ -58,15 +58,32 @@
 		}
 
 
-		public override float GetValue( InputDevice inputDevice )
+
+		internal static bool NegativeScrollWheelIsActive( float threshold )
 		{
-			var button = buttonTable[(int) Control];
+			var value = Mathf.Min( Input.GetAxisRaw( "mouse z" ) * ScaleZ, 0.0f );
+			return value < -threshold;
+		}
+
+
+
+		internal static bool PositiveScrollWheelIsActive( float threshold )
+		{
+			var value = Mathf.Max( 0.0f, Input.GetAxisRaw( "mouse z" ) * ScaleZ );
+			return value > threshold;
+		}
+
+
+
+		internal static float GetValue( Mouse mouseControl )
+		{
+			var button = buttonTable[(int) mouseControl];
 			if (button >= 0)
 			{
 				return SafeGetMouseButton( button ) ? 1.0f : 0.0f;
 			}
 
-			switch (Control)
+			switch (mouseControl)
 			{
 			case Mouse.NegativeX:
 				return -Mathf.Min( Input.GetAxisRaw( "mouse x" ) * ScaleX, 0.0f );
@@ -85,6 +102,12 @@
 			}
 
 			return 0.0f;
+		}
+
+
+		public override float GetValue( InputDevice inputDevice )
+		{
+			return GetValue( Control );
 		}
 
 
@@ -108,6 +131,24 @@
 			get
 			{
 				return "Mouse";
+			}
+		}
+
+
+		public override InputDeviceClass DeviceClass
+		{
+			get
+			{
+				return InputDeviceClass.Mouse;
+			}
+		}
+
+
+		public override InputDeviceStyle DeviceStyle
+		{
+			get
+			{
+				return InputDeviceStyle.Unknown;
 			}
 		}
 
@@ -167,7 +208,7 @@
 		}
 
 
-		internal override void Load( BinaryReader reader )
+		internal override void Load( BinaryReader reader, UInt16 dataFormatVersion )
 		{
 			Control = (Mouse) reader.ReadInt32();
 		}

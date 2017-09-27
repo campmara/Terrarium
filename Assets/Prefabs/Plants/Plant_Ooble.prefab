@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 114170922959859224}
   - component: {fileID: 114200811514322636}
   - component: {fileID: 54902105817733658}
-  - component: {fileID: 114070943557684118}
   - component: {fileID: 114350352912883960}
   m_Layer: 0
   m_Name: Plant_Ooble
@@ -72,22 +71,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4, y: 4, z: 4}
   m_Center: {x: 0, y: 1.5, z: 0}
---- !u!114 &114070943557684118
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1511553597785770}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa4028037c4a24a9baaf379447133c50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _carryable: 0
-  _grabbed: 0
-  _grabberBurdenInterp: 0
-  _tugUpParticle: {fileID: 1727087997097078, guid: 0103d30c7c7cd4068a4d277c17befd51,
-    type: 2}
 --- !u!114 &114170922959859224
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -101,7 +84,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _type: 5
   _deathDuration: 0
-  _DeathDurationRange: {x: 5, y: 8}
+  _DeathDurationRange: {x: 500, y: 560}
   _DeathTimer: 0
   _baseDecayRate: 1
   _curDecayRate: 0

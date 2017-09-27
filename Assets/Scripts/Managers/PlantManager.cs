@@ -4,12 +4,13 @@ using UnityEngine;
 public class PlantManager : SingletonBehaviour<PlantManager>
 {
 	// ******* BIG PLANTS *********** ( per species )
-	public Vector2 LrgTotalPlantsRange = new Vector2( 3, 12 );
+	MinMax LrgPlantsPerSpecies = new MinMax( 5, 7 );
+	private int MaxLargePlants = 21;
 	
 	// ******** MEDIUM PLANTS *********	( per all )
-	public Vector2 MedTotalPlantsRange = new Vector2( 0, 25 );
-	public Vector2 MedSpawnRadRange = new Vector2( 3f, 4.5f );
-	public  Vector2 MedNumPerPlant = new Vector2( 4, 6 );
+	MinMax MedTotalPlantsRange = new MinMax( 0f, 25f);
+	MinMax MedSpawnRadRange = new MinMax( 3.5f, 5.5f );
+	[HideInInspector] public MinMax MedNumPerPlant = new MinMax( 1, 3 );
 
 	// ******* UPDATE THESE FOR NEW BIG PLANTS *************
 	[SerializeField] GameObject _pointSeed = null;
@@ -37,7 +38,7 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 
 	public void RequestSpawnMini( BPGrowthController plant, float timeUntil )
 	{
-		if( _mediumPlants.Count < MedTotalPlantsRange.y )
+		if( _mediumPlants.Count < MedTotalPlantsRange.Max )
 		{
 			SpawnMiniPlantEvent spawnEvent = new SpawnMiniPlantEvent( plant, timeUntil );
 			TimeManager.instance.AddEvent( spawnEvent );
@@ -46,7 +47,7 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 
 	public void RequestDropFruit( BPGrowthController plant, float timeUntil )
 	{
-		if( GetTotalLargePlants() < LrgTotalPlantsRange.y )
+		if( GetTotalLargePlants() < MaxLargePlants )
 		{
 	    	DropFruitEvent dropGameEvent = new DropFruitEvent( plant, timeUntil );
 			TimeManager.instance.AddEvent( dropGameEvent );
@@ -103,7 +104,7 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 	{
 		if( plant )
 		{
-			if( plant.MyPlantType == BasePlant.PlantType.FLOWERING )
+			if( plant.MyPlantType == BasePlant.PlantType.FLOWERING && _floweringPlants.Contains( plant ) )
 			{
 				_floweringPlants.Remove(plant);
 
@@ -112,7 +113,7 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 					DropSeed( plant.transform.position, BasePlant.PlantType.FLOWERING );
 				}
 			}
-			else if( plant.MyPlantType == BasePlant.PlantType.POINT )
+			else if( plant.MyPlantType == BasePlant.PlantType.POINT && _pointPlants.Contains( plant ) )
 			{
 				_pointPlants.Remove(plant);
 				
@@ -121,7 +122,7 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 					DropSeed( plant.transform.position, BasePlant.PlantType.POINT );
 				}
 			}
-			else if( plant.MyPlantType == BasePlant.PlantType.HUPPET )
+			else if( plant.MyPlantType == BasePlant.PlantType.HUPPET && _huppetPlants.Contains( plant ))
 			{
 				_huppetPlants.Remove(plant);
 				
@@ -137,15 +138,18 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 
 	public void SpawnMini( BPGrowthController plant, float waitTime )
 	{
-		//based on type, spawn some sort of mini
-		GameObject newPlant = SpawnNonClippingPlant( plant );
-		if( newPlant )
-		{			
-			_mediumPlants.Add( newPlant.GetComponent<BasePlant>() );
-			plant.SpawnedMediums = plant.SpawnedMediums + 1;
-		}
+		if( plant )
+		{
+			//based on type, spawn some sort of mini
+			GameObject newPlant = SpawnNonClippingPlant( plant );
+			if( newPlant )
+			{			
+				_mediumPlants.Add( newPlant.GetComponent<BasePlant>() );
+				plant.SpawnedMediums += 1;	
+			}
 		
-		plant.SpawnPlant();
+			plant.SpawnPlant();
+		}
 	}
 
 	public void GrowPlants()
@@ -235,9 +239,22 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 	
 	Vector3 GetRandomSpawnPoint( BPGrowthController plant, GameObject spawn )
 	{
-		Vector2 randomPoint = plant.GetRandomPoint();//GetRandomPoint( plant.InnerRadius, plant.OuterRadius );
+		Vector2 randomPoint = Random.insideUnitCircle;
+		float inner = 1.0f;
+		float outer = 2.0f;
+
+		if( plant.SpawnState == BPGrowthController.SpawningState.MediumSpawning )
+		{
+			inner = PlantManager.instance.MedSpawnRadRange.Min;
+			outer = PlantManager.instance.MedSpawnRadRange.Max;
+		}
+		
+		float xRand = Random.Range( inner, outer );
+		float yRand = Random.Range( inner, outer );
+		randomPoint = new Vector2( Mathf.Sign( randomPoint.x ) * xRand +  randomPoint.x, randomPoint.y + yRand * Mathf.Sign( randomPoint.y ) );
+	
 		Vector3 pos = plant.transform.position;
-		Vector3 spawnPoint = new Vector3( pos.x + randomPoint.x, .2f/*plant.SpawnHeight*/, pos.z + randomPoint.y );
+		Vector3 spawnPoint = new Vector3( pos.x + randomPoint.x, .2f, pos.z + randomPoint.y );
 
 		return new Vector3( spawnPoint.x, .05f, spawnPoint.z );
 	}
@@ -259,16 +276,15 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		bool result = false;
 		if( _plantType == BasePlant.PlantType.FLOWERING )
 		{
-			 result = _floweringPlants.Count >= LrgTotalPlantsRange.x;
-
+			 result = _floweringPlants.Count >= LrgPlantsPerSpecies.Min;
 		}
 		else if( _plantType == BasePlant.PlantType.POINT )
 		{
-			result = _pointPlants.Count >= LrgTotalPlantsRange.x;			
+			result = _pointPlants.Count >= LrgPlantsPerSpecies.Min;			
 		}
 		else if( _plantType == BasePlant.PlantType.HUPPET )
 		{
-			result = _huppetPlants.Count >= LrgTotalPlantsRange.x;			
+			result = _huppetPlants.Count >= LrgPlantsPerSpecies.Min;			
 		}
 
 		return result;

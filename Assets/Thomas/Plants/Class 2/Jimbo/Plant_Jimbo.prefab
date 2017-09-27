@@ -83,6 +83,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa4028037c4a24a9baaf379447133c50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _grabTransform: {fileID: 0}
   _carryable: 0
   _grabbed: 0
   _grabberBurdenInterp: 0
@@ -103,6 +104,7 @@ MonoBehaviour:
   _baseGrowthRate: 0.5
   _scaleRange: {x: 0.4, y: 0.8}
   _leaf: {fileID: 1603129105692732, guid: 35357fe0389327648a5ba4df62026463, type: 2}
+  _closeness: 1.5
 --- !u!114 &114927685744623308
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -176,7 +178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _type: 7
   _deathDuration: 0
-  _DeathDurationRange: {x: 80, y: 100}
+  _DeathDurationRange: {x: 500, y: 560}
   _DeathTimer: 0
   _baseDecayRate: 1
   _curDecayRate: 0
