@@ -31,7 +31,7 @@ public class BPGrowthController : PlantController
 	[SerializeField] GrowthStage _curStage = GrowthStage.Seed;
 	public GrowthStage CurStage { get { return _curStage; } }
 
-	float [] _neededDistance = new float[] { 4.0f, 5.0f, 6.5f, 10.0f }; // how much room each stage need to grow, first element doesnt matter
+	float [] _neededDistance = new float[] { 4.0f, 5.0f, 6.5f, 8.0f }; // how much room each stage need to grow, first element doesnt matter
 	float [] _spawnRadii = new float[] { 3.5f, 4.5f, 5.0f, 5.5f };  
 	bool _stemDoneGrowing = false;
 	float _origScale = 1.0f;
@@ -268,17 +268,25 @@ public class BPGrowthController : PlantController
 	{   		
 		if( _curStage < GrowthStage.Final )
 		{
-			if( _curStage == GrowthStage.Sapling )
+			//plant that are growing along well should drop items at this point
+			if( _curStage == GrowthStage.Sprout )
+			{
+				SpawnPlant();
+			}
+			else if( _curStage == GrowthStage.GrowingSprout )
+			{
+				SpawnAmbientCreature();
+			}
+			else if( _curStage == GrowthStage.Sapling )
 			{
 				PlantManager.instance.RequestDropFruit( this, _timeBetweenFruitDrops );
-				SpawnAmbientCreature();
-				SpawnPlant();
 			}
 
 			_curStage += 1;
 		}
 		else
 		{
+			StopState();
 			_stemDoneGrowing = true;
 		}
 
@@ -288,13 +296,16 @@ public class BPGrowthController : PlantController
 
 	public override void StopState()
 	{
- 		if( SpawnState == SpawningState.NotSpawning && _curStage >= GrowthStage.GrowingSprout )
+		// if the plant didn't get far enough growing to spawn stuff, have it spawn stuff
+ 		if( SpawnState == SpawningState.NotSpawning && _curStage <= GrowthStage.Sapling )
 		{
 			if( _spawnedMediums == 0 )
 			{
 				SpawnPlant();
-				PlantManager.instance.RequestDropFruit( this, _timeBetweenFruitDrops );
+				SpawnAmbientCreature();
 			}
+
+			PlantManager.instance.RequestDropFruit( this, _timeBetweenFruitDrops );
 		}
 			
 		CustomStopGrowth();
@@ -510,11 +521,11 @@ public class BPGrowthController : PlantController
 	{
 		if( _myPlant.MyPlantType == BasePlant.PlantType.FLOWERING )
 		{
-			_seedDropForce = new MinMax( 370f, 550f );
+			_seedDropForce = new MinMax( 420f, 550f );
 		}
 		else if( _myPlant.MyPlantType == BasePlant.PlantType.POINT )
 		{
-			_seedDropForce = new MinMax( 370f, 550f );
+			_seedDropForce = new MinMax( 420f, 550f );
 		}
 		else
 		{

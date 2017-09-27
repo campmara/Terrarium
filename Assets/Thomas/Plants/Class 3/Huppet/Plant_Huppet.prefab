@@ -703,8 +703,8 @@ MonoBehaviour:
   _coverSpawnerPrefab: {fileID: 1581055790355646, guid: 35a19a2c0c79e41f88b49cfde262634d,
     type: 2}
   _mediumSpawnables:
-  - {fileID: 1828649999934992, guid: 0a4c118ad13097e439eed01481354918, type: 2}
   - {fileID: 1511553597785770, guid: 74abe3b4e1ebd400bb46ee00726eaf31, type: 2}
+  - {fileID: 1828649999934992, guid: 0a4c118ad13097e439eed01481354918, type: 2}
   SpawnState: 0
   _bStemRoot: {fileID: 4173664491776004}
   _leafPrefab: {fileID: 1686325247703568, guid: 499ae0c489ed78d47bd6b7af70ffbc46,

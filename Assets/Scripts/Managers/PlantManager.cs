@@ -138,15 +138,18 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 
 	public void SpawnMini( BPGrowthController plant, float waitTime )
 	{
-		//based on type, spawn some sort of mini
-		GameObject newPlant = SpawnNonClippingPlant( plant );
-		if( newPlant )
-		{			
-			_mediumPlants.Add( newPlant.GetComponent<BasePlant>() );
-			plant.SpawnedMediums += 1;
-		}
+		if( plant )
+		{
+			//based on type, spawn some sort of mini
+			GameObject newPlant = SpawnNonClippingPlant( plant );
+			if( newPlant )
+			{			
+				_mediumPlants.Add( newPlant.GetComponent<BasePlant>() );
+				plant.SpawnedMediums += 1;	
+			}
 		
-		plant.SpawnPlant();
+			plant.SpawnPlant();
+		}
 	}
 
 	public void GrowPlants()
@@ -274,7 +277,6 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		if( _plantType == BasePlant.PlantType.FLOWERING )
 		{
 			 result = _floweringPlants.Count >= LrgPlantsPerSpecies.Min;
-
 		}
 		else if( _plantType == BasePlant.PlantType.POINT )
 		{
