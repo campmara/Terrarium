@@ -10,7 +10,7 @@ public class SunBehaviour : MonoBehaviour
 
 	int _colorChangesPerCycle = 3;
 	int _curCycle = 1;
-	float _moveSpeed = .0005f;
+	float _moveSpeed = .0008f;
 	float _curTime = 0.0f;  
 	float _curXRot = 45.0f;
 	float _curYRot = 0.0f;

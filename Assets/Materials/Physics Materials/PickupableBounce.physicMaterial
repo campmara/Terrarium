@@ -8,6 +8,6 @@ PhysicMaterial:
   m_Name: PickupableBounce
   dynamicFriction: 1
   staticFriction: 1
-  bounciness: 0.35
+  bounciness: 0.65
   frictionCombine: 0
   bounceCombine: 3
