@@ -691,7 +691,7 @@ MonoBehaviour:
   _scaleMultiplierRange: {x: 5, y: 7}
   _scaleRatios:
   - {x: 1, y: 1}
-  _wateredGrowthRate: 0.0045
+  _wateredGrowthRate: 0.075
   _curPercentAnimated: 0
   _curStage: 0
   _heighestLeaf: {fileID: 4431319440739180}
