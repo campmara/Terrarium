@@ -174,8 +174,6 @@ public class RollerState : MonoBehaviour
 			}
 		    _roller.CurrentHeldObject.DropSelf();
 			_roller.CurrentHeldObject = null;
-
-			AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_ACTIONFX, 0 );
 		}
 		
 	}

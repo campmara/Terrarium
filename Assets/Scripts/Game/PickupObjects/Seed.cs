@@ -107,6 +107,9 @@ public class Seed : Pickupable
 			GroundManager.instance.EmitDirtParticles(plantPos);
 			PlantManager.instance.DestroySeed( this, _moundType, true );
 			_sinkTween = null;
+
+			// seed planting sound
+			AudioManager.instance.PlayClipAtIndex( AudioManager.AudioControllerNames.PLAYER_ACTIONFX, 0 );
 		}
 	}
 
