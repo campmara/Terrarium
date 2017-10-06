@@ -16,6 +16,8 @@ public class BPGrowthController : PlantController
 	[SerializeField] protected List<Vector2> _scaleRatios = new List<Vector2>(){ Vector2.one };
 	[SerializeField] protected float _wateredGrowthRate = 0.0f;
 	protected float _growthRate = 0.0f;
+	protected Coroutine _changeGrowthRateRoutine = null;
+	private const float GROWTHRATE_CHANGESPEED = 0.75f;
 	protected float _animEndTime = 0.0f;
 	[SerializeField, ReadOnly]protected float _curPercentAnimated = 0.0f;
     public float CurPercentAnimated { get { return _curPercentAnimated; } }
@@ -463,7 +465,34 @@ public class BPGrowthController : PlantController
 
 	public override void WaterPlant()
 	{
-		ChangeGrowthRate( _wateredGrowthRate );
+		if(_changeGrowthRateRoutine != null)
+		{
+			StopCoroutine(_changeGrowthRateRoutine);
+			_changeGrowthRateRoutine = null;
+		}
+
+		_changeGrowthRateRoutine = StartCoroutine(ChangeGrowthRateRoutine(GROWTHRATE_CHANGESPEED, _wateredGrowthRate));
+	}
+
+	IEnumerator ChangeGrowthRateRoutine(float ChangeSpeed, float NewGrowthRate)
+	{
+		if(ChangeSpeed > 0.0f)
+		{
+			float timer = 0.0f;
+			float startRate = _growthRate;
+			while(timer < ChangeSpeed)
+			{
+				timer += Time.deltaTime;
+
+				ChangeGrowthRate(Mathf.Lerp( startRate, NewGrowthRate, timer / ChangeSpeed));
+
+				yield return 0;
+			}
+		}
+		else
+		{
+			ChangeGrowthRate(NewGrowthRate);
+		}
 	}
 
 	public override void TouchPlant(){}
@@ -482,7 +511,7 @@ public class BPGrowthController : PlantController
 
 	void ChangeGrowthRate( float newRate )
 	{
-		_growthRate += newRate;
+		_growthRate = newRate;
 		_plantAnim.speed = _growthRate;
 
 		foreach( Animator child in _childAnimators )
@@ -500,7 +529,16 @@ public class BPGrowthController : PlantController
 		_myPlant.OuterRadius = _spawnRadii[ (int)_curStage ]; // this is a greater value to manage how big things grow
 		GetSetMeshRadius();
 
-		_growthRate = _baseGrowthRate;
+		if(_growthRate != _baseGrowthRate)
+		{
+			if(_changeGrowthRateRoutine != null)
+			{
+				StopCoroutine(_changeGrowthRateRoutine);
+				_changeGrowthRateRoutine = null;
+			}
+			_changeGrowthRateRoutine = StartCoroutine(ChangeGrowthRateRoutine(GROWTHRATE_CHANGESPEED, _baseGrowthRate));
+		}
+
 		_plantAnim.speed = _growthRate;
 	}
 

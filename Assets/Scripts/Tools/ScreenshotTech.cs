@@ -9,6 +9,8 @@ public class ScreenshotTech : MonoBehaviour {
 	bool _postToTwitter = false;
 	Coroutine screenshotRoutine = null;
 
+	WWW imageWWW = null;
+
 	Coroutine _screenshotRoutine = null;
 	const float SCREENSHOT_TIMER = 30.0f;
 	const string SCREENSHOT_INDEXSAVEKEY = "ScreenshotIndex";
@@ -74,8 +76,6 @@ public class ScreenshotTech : MonoBehaviour {
 		input = ControlManager.instance.getInput();
 		if ( input.ShareButton.WasPressed )
         {
-			HandleScreenShot( 4, false );
-
 			if( _useOverlay )   // Only does overlay routine if active 
             {
                 if (_overlayScreenshotRoutine == null)
@@ -83,8 +83,11 @@ public class ScreenshotTech : MonoBehaviour {
                     _overlayScreenshotRoutine = StartCoroutine( CaptureOverlayRoutine() );
                 }
             }
-				            
-        }
+			else
+			{
+				HandleScreenShot(4, false);
+			}
+		}
         else if ( Input.GetKeyDown( KeyCode.Alpha9 ) )
         {
             if (_screenshotRoutine != null)
@@ -128,8 +131,8 @@ public class ScreenshotTech : MonoBehaviour {
 
 		ScreenCapture.CaptureScreenshot(screenshotPath, screenshotDetail);
 
+//#if UNITY_EDITOR
 #if !UNITY_EDITOR
-
 		if(_postToTwitter)
 		{
 			PostScreenshotToTwitter(screenshotPath);
@@ -143,7 +146,6 @@ public class ScreenshotTech : MonoBehaviour {
 
 		//StartCoroutine( CaptureOverlayRoutine() );
 		HandleScreenShot( 4, false );
-		HandleScreenShot( 2, false );
 
 		_screenshotRoutine = StartCoroutine( DelayedCaptureScreenshot() );
 	}
@@ -173,7 +175,7 @@ public class ScreenshotTech : MonoBehaviour {
 
 		HandleScreenShot( screenshotDetail );
 
-        if( _overlayDisableDelay > 0.0f )
+		if( _overlayDisableDelay > 0.0f )
         {
             yield return new WaitForSeconds( _overlayDisableDelay );
         }
@@ -230,10 +232,10 @@ public class ScreenshotTech : MonoBehaviour {
 		const string CONSUMER_SECRET = "rdFCiJQy3hdZq1A6XwvZY3LT81bbC7MmHfxnCfwDgeEXXhY03v";
 		const string ACCESS_TOKEN = "896068741221556224-gQy4VbHnoAPKh8bqomfKEKSG8wZMwa3";
 		const string ACCESS_SECRET = "nv0VhAFiQN9Pb7w7O3Qi15B4pSOEk3n4Ktsei787dbSIC";
-		const string tweetText = "Greetings From #ThatBloomingFeeling & #BitBashChicago";
+		const string tweetText = "Greetings From #ThatBloomingFeeling!";
 
 		//UnityEngine.Debug.Log("Screenshot location=" + Application.persistentDataPath + "/Screenshot.png");
-		Texture2D screenshotImage = new Texture2D(1920, 1080);
+		Texture2D screenshotImage = new Texture2D(5120, 2880);
 		string imageUri = "";
 #if UNITY_STANDALONE_WIN
 		imageUri = "file:///" + screenshotPath;
@@ -243,16 +245,23 @@ public class ScreenshotTech : MonoBehaviour {
 
 		yield return new WaitUntil(() => File.Exists(screenshotPath));
 
-		WWW imageWWW = new WWW(imageUri);
+		imageWWW = new WWW(imageUri);
 
 		yield return imageWWW;
 		yield return new WaitUntil(() => imageWWW.isDone);
-		
-		imageWWW.LoadImageIntoTexture(screenshotImage);
 
+		yield return StartCoroutine(LoadImageIntoTextureRoutine(screenshotImage));
+		
 		yield return StartCoroutine(Twitter.API.PostTweet(screenshotImage.EncodeToPNG(), tweetText, CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_SECRET, ScreenshotSuccess));
 
 		screenshotRoutine = null;
+	}
+
+	IEnumerator LoadImageIntoTextureRoutine(Texture2D image)
+	{
+		imageWWW.LoadImageIntoTexture(image);
+		
+		yield return 0;
 	}
 
 	void ScreenshotSuccess(bool success)
