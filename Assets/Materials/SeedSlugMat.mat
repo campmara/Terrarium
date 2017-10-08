@@ -11,6 +11,7 @@ Material:
   m_ShaderKeywords: _WINDENABLED_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
@@ -69,14 +70,14 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Hardness: 0.5
+    - _Hardness: 0.135
     - _ImprintAmount: 1
     - _MainNoiseHeight: 0
     - _MainNoiseScale: 1
-    - _MeltAmount: 0.566
+    - _MeltAmount: 0.42
     - _MeltCurve: 1
-    - _MeltDistance: 1.25
-    - _MeltY: -5
+    - _MeltDistance: 0.7
+    - _MeltY: 0
     - _Metallic: 0
     - _Middle: 0.5
     - _Mode: 0
@@ -102,9 +103,9 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color1: {r: 1, g: 1, b: 1, a: 1}
     - _Color2: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorBot: {r: 0.8518058, g: 1, b: 1, a: 1}
-    - _ColorMid: {r: 0.8542658, g: 0.9734019, b: 1, a: 1}
-    - _ColorTop: {r: 0.8567258, g: 0.9468038, b: 1, a: 1}
+    - _ColorBot: {r: 0.44852942, g: 0.41504893, b: 0.34299308, a: 1}
+    - _ColorMid: {r: 0.82264197, g: 0.9264706, b: 0.34742647, a: 1}
+    - _ColorTop: {r: 1, g: 0.99168354, b: 0.6985294, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _NoiseOffset: {r: 0, g: 0, b: 0, a: 0}
     - _Position: {r: 0, g: 0, b: 0, a: 0}

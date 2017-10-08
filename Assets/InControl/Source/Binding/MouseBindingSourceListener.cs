@@ -2,6 +2,8 @@
 {
 	public class MouseBindingSourceListener : BindingSourceListener
 	{
+		public static float ScrollWheelThreshold = 0.001f;
+
 		Mouse detectFound;
 		int detectPhase;
 
@@ -15,14 +17,9 @@
 
 		public BindingSource Listen( BindingListenOptions listenOptions, InputDevice device )
 		{
-			if (!listenOptions.IncludeMouseButtons)
-			{
-				return null;
-			}
-
 			if (detectFound != Mouse.None)
 			{
-				if (!MouseBindingSource.ButtonIsPressed( detectFound ))
+				if (!IsPressed( detectFound ))
 				{
 					if (detectPhase == 2)
 					{
@@ -33,7 +30,7 @@
 				}
 			}
 
-			var control = ListenForControl();
+			var control = ListenForControl( listenOptions );
 			if (control != Mouse.None)
 			{
 				if (detectPhase == 1)
@@ -54,15 +51,46 @@
 		}
 
 
-		Mouse ListenForControl()
+		bool IsPressed( Mouse control )
 		{
-			for (var control = Mouse.None; control <= Mouse.Button9; control++)
+			switch (control)
 			{
-				if (MouseBindingSource.ButtonIsPressed( control ))
+			case Mouse.NegativeScrollWheel:
+				return MouseBindingSource.NegativeScrollWheelIsActive( ScrollWheelThreshold );
+			case Mouse.PositiveScrollWheel:
+				return MouseBindingSource.PositiveScrollWheelIsActive( ScrollWheelThreshold );
+			default:
+				return MouseBindingSource.ButtonIsPressed( control );
+			}
+		}
+
+
+		Mouse ListenForControl( BindingListenOptions listenOptions )
+		{
+			if (listenOptions.IncludeMouseButtons)
+			{
+				for (var control = Mouse.None; control <= Mouse.Button9; control++)
 				{
-					return control;
+					if (MouseBindingSource.ButtonIsPressed( control ))
+					{
+						return control;
+					}
 				}
 			}
+
+			if (listenOptions.IncludeMouseScrollWheel)
+			{
+				if (MouseBindingSource.NegativeScrollWheelIsActive( ScrollWheelThreshold ))
+				{
+					return Mouse.NegativeScrollWheel;
+				}
+
+				if (MouseBindingSource.PositiveScrollWheelIsActive( ScrollWheelThreshold ))
+				{
+					return Mouse.PositiveScrollWheel;
+				}
+			}
+
 			return Mouse.None;
 		}
 	}

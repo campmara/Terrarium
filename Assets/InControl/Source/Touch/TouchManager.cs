@@ -131,7 +131,7 @@ namespace InControl
 
 		void Setup()
 		{
-			UpdateScreenSize( new Vector2( Screen.width, Screen.height ) );
+			UpdateScreenSize( GetCurrentScreenSize() );
 
 			CreateDevice();
 			CreateTouches();
@@ -159,14 +159,14 @@ namespace InControl
 		IEnumerator UpdateScreenSizeAtEndOfFrame()
 		{
 			yield return new WaitForEndOfFrame();
-			UpdateScreenSize( new Vector2( Screen.width, Screen.height ) );
+			UpdateScreenSize( GetCurrentScreenSize() );
 			yield return null;
 		}
 
 
 		void Update()
 		{
-			var currentScreenSize = new Vector2( Screen.width, Screen.height );
+			var currentScreenSize = GetCurrentScreenSize();
 
 			if (!isReady)
 			{
@@ -191,6 +191,18 @@ namespace InControl
 				OnSetup = null;
 			}
 		}
+
+
+#if UNITY_EDITOR
+		void OnGUI()
+		{
+			var currentScreenSize = GetCurrentScreenSize();
+			if (screenSize != currentScreenSize)
+			{
+				UpdateScreenSize( currentScreenSize );
+			}
+		}
+#endif
 
 
 		void CreateDevice()
@@ -277,6 +289,11 @@ namespace InControl
 
 		void UpdateScreenSize( Vector2 currentScreenSize )
 		{
+			// Somehow the camera's projection matrix doesn't always update correctly on
+			// resolution changes. This seems to cause it to recalculate properly.
+			touchCamera.rect = new Rect( 0, 0, 0.99f, 1 );
+			touchCamera.rect = new Rect( 0, 0, 1, 1 );
+
 			screenSize = currentScreenSize;
 			halfScreenSize = screenSize / 2.0f;
 
@@ -461,10 +478,8 @@ namespace InControl
 			{
 				return touchCamera.ScreenToWorldPoint( new Vector3( point.x, point.y, -touchCamera.transform.position.z ) );
 			}
-			else
-			{
-				return Vector3.zero;
-			}
+
+			return Vector3.zero;
 		}
 
 
@@ -474,10 +489,8 @@ namespace InControl
 			{
 				return touchCamera.ViewportToWorldPoint( new Vector3( point.x, point.y, -touchCamera.transform.position.z ) );
 			}
-			else
-			{
-				return Vector3.zero;
-			}
+
+			return Vector3.zero;
 		}
 
 
@@ -487,10 +500,19 @@ namespace InControl
 			{
 				return touchCamera.ScreenToViewportPoint( new Vector3( point.x, point.y, -touchCamera.transform.position.z ) );
 			}
-			else
+
+			return Vector3.zero;
+		}
+
+
+		Vector2 GetCurrentScreenSize()
+		{
+			if (TouchCameraIsValid())
 			{
-				return Vector3.zero;
+				return new Vector2( touchCamera.pixelWidth, touchCamera.pixelHeight );
 			}
+
+			return new Vector2( Screen.width, Screen.height );
 		}
 
 

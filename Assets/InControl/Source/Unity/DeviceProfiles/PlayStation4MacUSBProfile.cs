@@ -17,7 +17,8 @@ namespace InControl
 			};
 
 			JoystickNames = new[] {
-				"Sony Computer Entertainment Wireless Controller"
+				"Sony Computer Entertainment Wireless Controller",
+				"Sony Interactive Entertainment Wireless Controller"
 			};
 
 			ButtonMappings = new[] {

@@ -40,7 +40,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1356359172527236}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 3.3}
+  m_LocalPosition: {x: -16.972038, y: 2.4621186, z: -5.682266}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children: []
   m_Father: {fileID: 0}
@@ -128,11 +128,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dddceb5e1637b4cd08027a2203db480e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _grabTransform: {fileID: 0}
   _carryable: 1
   _grabbed: 0
-  _assetKey: -1
+  _grabberBurdenInterp: 0
   _moundPrefab: {fileID: 1037556617624174, guid: 35fbf4ec3e610419aa354f7eecbeebe8,
     type: 2}
+  PlantData: {fileID: 0}
+  _sinkSpeedRange: {x: 18, y: 25}
 --- !u!114 &114408767732348020
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -155,7 +158,7 @@ CapsuleCollider:
   m_Material: {fileID: 13400000, guid: dd6c8ca07494f4932ad112653aa024bc, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.05
-  m_Height: 0.18
+  m_Radius: 0.04
+  m_Height: 0.15
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}

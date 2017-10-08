@@ -50,10 +50,20 @@ namespace InControl
 			type = (TouchType) 0;
 			altitudeAngle = 0.0f;
 			azimuthAngle = 0.0f;
-			maximumPossiblePressure = 0.0f;
+			maximumPossiblePressure = 1.0f;
 			pressure = 0.0f;
 			radius = 0.0f;
 			radiusVariance = 0.0f;
+		}
+
+
+		public float normalizedPressure
+		{
+			get
+			{
+				// Return at least a tiny value otherwise pressure can be zero.
+				return Mathf.Clamp( pressure / maximumPossiblePressure, 0.001f, 1.0f );
+			}
 		}
 
 
@@ -124,6 +134,8 @@ namespace InControl
 			if (Input.GetMouseButtonDown( 0 ))
 			{
 				phase = TouchPhase.Began;
+				pressure = 1.0f;
+				maximumPossiblePressure = 1.0f;
 
 				tapCount = 1;
 				type = TouchType.Mouse;
@@ -141,6 +153,8 @@ namespace InControl
 			if (Input.GetMouseButtonUp( 0 ))
 			{
 				phase = TouchPhase.Ended;
+				pressure = 0.0f;
+				maximumPossiblePressure = 1.0f;
 
 				tapCount = 1;
 				type = TouchType.Mouse;
@@ -158,6 +172,8 @@ namespace InControl
 			if (Input.GetMouseButton( 0 ))
 			{
 				phase = TouchPhase.Moved;
+				pressure = 1.0f;
+				maximumPossiblePressure = 1.0f;
 
 				tapCount = 1;
 				type = TouchType.Mouse;

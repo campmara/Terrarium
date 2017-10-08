@@ -20,6 +20,7 @@ public class PickupState : RollerState
 		if( !_roller.CurrentHeldObject.Carryable )
 		{
 			_roller.CurrentHeldObject.OnPickup( this.transform );
+			_roller.RB.isKinematic = true;
 
             TransitionToCarrying();
 		}
@@ -42,6 +43,11 @@ public class PickupState : RollerState
 	public override void Exit( P_ControlState nextState )
 	{
 		Debug.Log("[RollerState] EXIT PICKUP STATE");
+
+		if(_roller.RB.isKinematic)
+		{
+			_roller.RB.isKinematic = false;
+		}
 
         switch ( nextState )
         {

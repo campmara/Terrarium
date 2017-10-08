@@ -313,7 +313,14 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	{
 		if(Mathf.Abs( _camInputVals.y ) < ZOOM_Y_DEADZONE)
 		{
-			_zoomInterp = Mathf.Clamp01( _zoomInterp + (SITTING_ZOOMOUTSPEED * Time.fixedDeltaTime) );
+			if(_zoomInterp <= 0.45f)
+			{
+				_zoomInterp = Mathf.Clamp(_zoomInterp + (SITTING_ZOOMOUTSPEED * Time.fixedDeltaTime), 0.0f, 0.45f);
+			}
+			else
+			{
+				_zoomInterp = Mathf.Clamp01(_zoomInterp + (SITTING_ZOOMOUTSPEED * Time.fixedDeltaTime));
+			}
 		}
 
 		// Calculate Camera Positioning

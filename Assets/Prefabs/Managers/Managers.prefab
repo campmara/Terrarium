@@ -546,10 +546,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bc4639188bf4436957d68db54e48e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LrgTotalPlantsRange: {x: 15, y: 35}
-  MedTotalPlantsRange: {x: 5, y: 50}
-  MedSpawnRadRange: {x: 3, y: 4.5}
-  MedNumPerPlant: {x: 4, y: 6}
   _pointSeed: {fileID: 1631419253260572, guid: e7e4ccc23b3b8416c994f33a1840c8c6, type: 2}
   _floweringSeed: {fileID: 1356359172527236, guid: bbfef1f81afcefc438cf9d537e7f0931,
     type: 2}
@@ -778,33 +774,33 @@ MonoBehaviour:
       m_NumAlphaKeys: 2
     slugGradient:
       serializedVersion: 2
-      key0: {r: 0.7647059, g: 1, b: 0.96105474, a: 1}
-      key1: {r: 0.7647059, g: 0.8344828, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 0.84705883, g: 0.7882353, b: 0.019607844, a: 1}
+      key1: {r: 0.5529412, g: 0.62352943, b: 0.34509805, a: 1}
+      key2: {r: 0.39607844, g: 0.26666668, b: 0.26666668, a: 1}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 0
-      ctime1: 65535
-      ctime2: 0
+      ctime0: 21843
+      ctime1: 43686
+      ctime2: 65535
       ctime3: 0
       ctime4: 0
       ctime5: 0
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
-      atime2: 0
+      atime1: 32768
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
-      m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
+      m_Mode: 1
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 3
     introTextGradient:
       serializedVersion: 2
       key0: {r: 0.8161765, g: 0.68638283, b: 0.5221129, a: 1}
@@ -1776,33 +1772,33 @@ MonoBehaviour:
       m_NumAlphaKeys: 3
     slugGradient:
       serializedVersion: 2
-      key0: {r: 0.7647059, g: 1, b: 0.96105474, a: 1}
-      key1: {r: 0.7647059, g: 1, b: 0.82474643, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 0.84705883, g: 0.7882353, b: 0.019607844, a: 1}
+      key1: {r: 0.5529412, g: 0.62352943, b: 0.34509805, a: 1}
+      key2: {r: 0.39607844, g: 0.26666668, b: 0.26666668, a: 1}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 0
-      ctime1: 65535
-      ctime2: 0
+      ctime0: 21843
+      ctime1: 43686
+      ctime2: 65535
       ctime3: 0
       ctime4: 0
       ctime5: 0
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
-      atime2: 0
+      atime1: 32768
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
-      m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
+      m_Mode: 1
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 3
     introTextGradient:
       serializedVersion: 2
       key0: {r: 0.8161765, g: 0.68638283, b: 0.5221129, a: 1}
@@ -2774,8 +2770,8 @@ MonoBehaviour:
       m_NumAlphaKeys: 2
     slugGradient:
       serializedVersion: 2
-      key0: {r: 0.7647059, g: 1, b: 0.96105474, a: 1}
-      key1: {r: 0.7058823, g: 0.86612576, b: 1, a: 1}
+      key0: {r: 0.8088235, g: 0.7851987, b: 0.59472317, a: 1}
+      key1: {r: 0.8235294, g: 0.70242214, b: 0.52076125, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -3772,17 +3768,17 @@ MonoBehaviour:
       m_NumAlphaKeys: 2
     slugGradient:
       serializedVersion: 2
-      key0: {r: 0.8455882, g: 0.8455882, b: 0.7647599, a: 1}
-      key1: {r: 0.82083285, g: 0.86764705, b: 0.68901384, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 0.50735295, g: 0.31336504, b: 0.46186614, a: 1}
+      key1: {r: 0.4725689, g: 0.31336504, b: 0.50735295, a: 1}
+      key2: {r: 0.024333319, g: 0.021788487, b: 0.09558821, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 65535
-      ctime2: 0
+      ctime1: 32003
+      ctime2: 65150
       ctime3: 0
       ctime4: 0
       ctime5: 0
@@ -3797,7 +3793,7 @@ MonoBehaviour:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_NumColorKeys: 2
+      m_NumColorKeys: 3
       m_NumAlphaKeys: 2
     introTextGradient:
       serializedVersion: 2
@@ -4770,17 +4766,17 @@ MonoBehaviour:
       m_NumAlphaKeys: 2
     slugGradient:
       serializedVersion: 2
-      key0: {r: 0.8567258, g: 0.9468038, b: 1, a: 1}
-      key1: {r: 0.8518058, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 1, g: 0.99168354, b: 0.6985294, a: 1}
+      key1: {r: 0.82264197, g: 0.9264706, b: 0.34742647, a: 1}
+      key2: {r: 0.44852942, g: 0.41504893, b: 0.34299308, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 0
-      ctime1: 65535
-      ctime2: 0
+      ctime0: 21627
+      ctime1: 43253
+      ctime2: 65535
       ctime3: 0
       ctime4: 0
       ctime5: 0
@@ -4794,8 +4790,8 @@ MonoBehaviour:
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
-      m_NumColorKeys: 2
+      m_Mode: 1
+      m_NumColorKeys: 3
       m_NumAlphaKeys: 2
     introTextGradient:
       serializedVersion: 2
@@ -5768,17 +5764,17 @@ MonoBehaviour:
       m_NumAlphaKeys: 3
     slugGradient:
       serializedVersion: 2
-      key0: {r: 0.6714965, g: 0.6903526, b: 0.8455882, a: 1}
-      key1: {r: 0.73513, g: 0.6714965, b: 0.8455882, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 0.875, g: 0.5597427, b: 0.6445361, a: 1}
+      key1: {r: 0.4357513, g: 0.30995893, b: 0.46323532, a: 1}
+      key2: {r: 0.024333319, g: 0.021788487, b: 0.09558821, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 65535
-      ctime2: 0
+      ctime1: 32003
+      ctime2: 65150
       ctime3: 0
       ctime4: 0
       ctime5: 0
@@ -5793,7 +5789,7 @@ MonoBehaviour:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_NumColorKeys: 2
+      m_NumColorKeys: 3
       m_NumAlphaKeys: 2
     introTextGradient:
       serializedVersion: 2
@@ -6996,7 +6992,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 5617e55cf46bd4971beb99b4e97e9786, type: 3}
     - {fileID: 8300000, guid: 2893cb221a72a428b96061d697189ddd, type: 3}
     - {fileID: 8300000, guid: fe03c30646ed6d542aa0352b423031d7, type: 3}
-    - {fileID: 8300000, guid: 0e9cf40b489e94560bfd2f6ab0d5a8e5, type: 3}
+    - {fileID: 8300000, guid: d9392e74b3250e44a924f2635ead70c7, type: 3}
     - {fileID: 8300000, guid: 8511f9e2a34804fec8b7fd9e54c5dff5, type: 3}
     _mixerGroup: {fileID: 243730844136138892, guid: 30f3aa683f5543d469208f1bb641c945,
       type: 2}
@@ -7308,8 +7304,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 35.175003}
-  m_SizeDelta: {x: 375.3, y: 375.3}
+  m_AnchoredPosition: {x: 0, y: 28.95}
+  m_SizeDelta: {x: 278.1, y: 278.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224767995825337992
 RectTransform:

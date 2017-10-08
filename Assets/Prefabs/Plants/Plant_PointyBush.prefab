@@ -70,7 +70,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.4, y: 0.4, z: 0.4}
+  m_Size: {x: 0.6, y: 0.6, z: 0.6}
   m_Center: {x: 0, y: 0.11, z: 0}
 --- !u!114 &114054241163341406
 MonoBehaviour:
@@ -145,7 +145,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _type: 4
   _deathDuration: 0
-  _DeathDurationRange: {x: 200, y: 220}
+  _DeathDurationRange: {x: 500, y: 560}
   _DeathTimer: 0
   _baseDecayRate: 1
   _curDecayRate: 0
@@ -175,6 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa4028037c4a24a9baaf379447133c50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _grabTransform: {fileID: 0}
   _carryable: 0
   _grabbed: 0
   _grabberBurdenInterp: 0
