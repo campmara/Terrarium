@@ -205,7 +205,7 @@ public class AmplifyOcclusionBase : MonoBehaviour
 		bool changed =
 			( prevScreenWidth != m_camera.pixelWidth ) ||
 			( prevScreenHeight != m_camera.pixelHeight ) ||
-			( prevHDR != m_camera.hdr ) ||
+			( prevHDR != m_camera.allowHDR ) ||
 			( prevApplyMethod != ApplyMethod ) ||
 			( prevSampleCount != SampleCount ) ||
 			( prevPerPixelNormals != PerPixelNormals ) ||
@@ -227,7 +227,7 @@ public class AmplifyOcclusionBase : MonoBehaviour
 	{
 		prevScreenWidth = m_camera.pixelWidth;
 		prevScreenHeight = m_camera.pixelHeight;
-		prevHDR = m_camera.hdr;
+		prevHDR = m_camera.allowHDR;
 		prevApplyMethod = ApplyMethod;
 		prevSampleCount = SampleCount;
 		prevPerPixelNormals = PerPixelNormals;
@@ -858,7 +858,7 @@ public class AmplifyOcclusionBase : MonoBehaviour
 		}
 		else
 		{
-			bool logTarget = ( !m_camera.hdr && gbufferSource );
+			bool logTarget = ( !m_camera.allowHDR && gbufferSource );
 			stage = ( ApplyMethod == ApplicationMethod.Deferred ) ? CameraEvent.BeforeReflections : stage;
 
 			cb = CommandBuffer_AllocateRegister( stage );
@@ -875,7 +875,7 @@ public class AmplifyOcclusionBase : MonoBehaviour
 	{
 		m_target.fullWidth = m_camera.pixelWidth;
 		m_target.fullHeight = m_camera.pixelHeight;
-		m_target.format = m_camera.hdr ? RenderTextureFormat.ARGBHalf : RenderTextureFormat.ARGB32;
+		m_target.format = m_camera.allowHDR ? RenderTextureFormat.ARGBHalf : RenderTextureFormat.ARGB32;
 
 		m_target.width = CacheAware ? ( m_target.fullWidth + 3 ) & ~3 : m_target.fullWidth;
 		m_target.height = CacheAware ? ( m_target.fullHeight + 3 ) & ~3 : m_target.fullHeight;
