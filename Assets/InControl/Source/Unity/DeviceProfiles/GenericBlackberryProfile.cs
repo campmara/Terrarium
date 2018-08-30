@@ -9,6 +9,8 @@ namespace InControl
 			Name = "Generic Gamepad";
 			Meta = "Generic Gamepad on BlackBerry";
 
+			DeviceClass = InputDeviceClass.Controller;
+
 			IncludePlatforms = new[] {
 				"Blackberry",
 			};

@@ -31,7 +31,7 @@ public class BuildOSX : BuildPlatform
         if (architectures == null || architectures.Length == 0)
         {
             architectures = new BuildArchitecture[] { 
-                new BuildArchitecture(BuildTarget.StandaloneOSXUniversal, "OSX Universal", true),
+                new BuildArchitecture(BuildTarget.StandaloneOSX, "OSX Universal", true),
                 new BuildArchitecture(BuildTarget.StandaloneOSXIntel, "OSX Intel", false),
                 new BuildArchitecture(BuildTarget.StandaloneOSXIntel64, "OSX Intel64", false)
             };

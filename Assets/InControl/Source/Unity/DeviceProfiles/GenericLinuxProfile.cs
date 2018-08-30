@@ -9,6 +9,8 @@
 			Name = "Generic Controller";
 			Meta = "Generic Controller on Linux";
 
+			DeviceClass = InputDeviceClass.Controller;
+
 			IncludePlatforms = new[] {
 				"Linux"
 			};
