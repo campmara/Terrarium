@@ -66,10 +66,10 @@ public class GameManager : MonoBehaviour
 	}
 
 	void Update()
-	{		
-		if( _state == GameState.NONE )
+	{
+		InputCollection input = ControlManager.instance.getInput();
+		if ( _state == GameState.NONE )
         {
-            InputCollection input = ControlManager.instance.getInput();
 
             if (input.LeftStickX.Value > RollerConstants.instance.IdleMaxMag ||
             input.LeftStickY.Value > RollerConstants.instance.IdleMaxMag ||
@@ -82,6 +82,12 @@ public class GameManager : MonoBehaviour
             }
 
         }
+		else if(_state == GameState.MAIN && input.StartButton.WasPressed)
+		{
+			PausePanel pausePanel = UIManager.GetPanelOfType<PausePanel>();
+			pausePanel.TogglePause();
+		}
+
 		// rly hacky Restart gdi
 		if( Input.GetKey(KeyCode.Alpha0) )
 		{
