@@ -30,7 +30,7 @@ public class FlyingSquirrel : MonoBehaviour
 
 	private void Update()
 	{
-		euler.z = Mathf.Sin(1f * Time.time) * 10f;
+		euler.z = Mathf.Sin(1f * Time.time) * 4;
 
 		transform.eulerAngles = euler;
 	}

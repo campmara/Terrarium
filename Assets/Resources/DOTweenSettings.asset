@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -15,6 +15,7 @@ MonoBehaviour:
   timeScale: 1
   useSmoothDeltaTime: 0
   maxSmoothUnscaledTime: 0.15
+  rewindCallbackMode: 0
   showUnityEditorReport: 0
   logBehaviour: 2
   drawGizmos: 1
@@ -28,3 +29,14 @@ MonoBehaviour:
   defaultAutoKill: 1
   defaultLoopType: 0
   storeSettingsLocation: 0
+  modules:
+    showPanel: 0
+    audioEnabled: 1
+    physicsEnabled: 1
+    physics2DEnabled: 1
+    spriteEnabled: 1
+    uiEnabled: 1
+    textMeshProEnabled: 0
+    tk2DEnabled: 0
+  showPlayingTweens: 0
+  showPausedTweens: 0

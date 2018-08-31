@@ -297,7 +297,7 @@ namespace InControl
 				for (var i = 0; i < deviceCount; i++)
 				{
 					var device = InputManager.Devices[i];
-					if (device != foundDevice && device.LastChangedAfter( foundDevice ))
+					if (device != foundDevice && device.LastInputAfter( foundDevice ) && !device.Passive)
 					{
 						if (hasExcludeDevices && ExcludeDevices.Contains( device ))
 						{
@@ -339,7 +339,14 @@ namespace InControl
 		}
 
 
-		internal bool HasBinding( BindingSource binding )
+		/// <summary>
+		/// Searches all the bindings on all the actions on this set to see if any
+		/// match the provided binding object.
+		/// </summary>
+		/// <returns><c>true</c>, if a matching binding is found on any action on
+		/// this set, <c>false</c> otherwise.</returns>
+		/// <param name="binding">The BindingSource template to search for.</param>
+		public bool HasBinding( BindingSource binding )
 		{
 			if (binding == null)
 			{
@@ -359,7 +366,12 @@ namespace InControl
 		}
 
 
-		internal void RemoveBinding( BindingSource binding )
+		/// <summary>
+		/// Searches all the bindings on all the actions on this set to see if any
+		/// match the provided binding object and, if found, removes it.
+		/// </summary>
+		/// <param name="binding">The BindingSource template to search for.</param>
+		public void RemoveBinding( BindingSource binding )
 		{
 			if (binding == null)
 			{
@@ -369,7 +381,7 @@ namespace InControl
 			var actionsCount = actions.Count;
 			for (var i = 0; i < actionsCount; i++)
 			{
-				actions[i].FindAndRemoveBinding( binding );
+				actions[i].RemoveBinding( binding );
 			}
 		}
 

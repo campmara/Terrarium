@@ -9,6 +9,9 @@ namespace InControl
 			Name = "Xbox 360 Controller";
 			Meta = "Xbox 360 Controller on Windows";
 
+			DeviceClass = InputDeviceClass.Controller;
+			DeviceStyle = InputDeviceStyle.Xbox360;
+
 			IncludePlatforms = new[] {
 				"Windows"
 			};
@@ -42,7 +45,8 @@ namespace InControl
 				"XBOX 360 For Windows (Controller)",
 				"XEOX Gamepad (Controller)",
 				"XEQX Gamepad SL-6556-BK",
-				"Controller (<BETOP GAME FOR WINDOWS>)"
+				"Controller (<BETOP GAME FOR WINDOWS>)",
+				"Controller (Inno GamePad..)"
 			};
 
 			LastResortRegex = "360|xbox|catz";
