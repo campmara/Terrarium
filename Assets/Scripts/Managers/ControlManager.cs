@@ -98,6 +98,7 @@ public class InputCollection : PlayerActionSet
 
 		ShareButton.AddDefaultBinding( InputControlType.Share );
 		StartButton.AddDefaultBinding( InputControlType.Start);
+		StartButton.AddDefaultBinding(InputControlType.Options);
 
 		// Keyboard Controls
 		AButton.AddDefaultBinding(Key.F);
@@ -124,8 +125,8 @@ public class InputCollection : PlayerActionSet
         LeftStickButton.AddDefaultBinding( Key.T );
         RightStickButton.AddDefaultBinding( Key.Tab );
 
-		ShareButton.AddDefaultBinding( Key.O );
-		StartButton.AddDefaultBinding(Key.P);
+		ShareButton.AddDefaultBinding( Key.P );
+		StartButton.AddDefaultBinding(Key.Escape);
 
         LeftTrigger.Sensitivity = 0.0025f;
 		RightTrigger.Sensitivity = 0.0025f;
