@@ -136,7 +136,7 @@ public class Seed : Pickupable
 			Vector3 endPos = transform.position + ( Vector3.down * 0.36f );
 			float sinkTime = Random.Range( _sinkSpeedRange.Min, _sinkSpeedRange.Max );
 
-			_sinkTween = transform.DOMove( endPos, sinkTime ).OnComplete( EndSelfPlant );
+			_sinkTween = transform.DOMove( endPos, sinkTime ).OnComplete( EndSelfPlant ).SetUpdate(UpdateType.Normal, true);
 			_rigidbody.freezeRotation = true;
 		}
 	}

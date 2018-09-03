@@ -82,11 +82,6 @@ public class GameManager : MonoBehaviour
             }
 
         }
-		else if(_state == GameState.MAIN && input.StartButton.WasPressed)
-		{
-			PausePanel pausePanel = UIManager.GetPanelOfType<PausePanel>();
-			pausePanel.TogglePause();
-		}
 
 		// rly hacky Restart gdi
 		if( Input.GetKey(KeyCode.Alpha0) )

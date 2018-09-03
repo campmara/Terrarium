@@ -6944,6 +6944,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _disableOnLoad: 0
+  _restartFadeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.41924217
+      value: 0.04329858
+      inSlope: 0.2420755
+      outSlope: 0.2420755
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.04409979
+    - serializedVersion: 3
+      time: 1.5506058
+      value: 1
+      inSlope: 1.8922889
+      outSlope: 1.8922889
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.029871827
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &114713646535146666
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7478,8 +7511,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 29.85}
-  m_SizeDelta: {x: 318.6, y: 318.6}
+  m_AnchoredPosition: {x: 0, y: 41.325}
+  m_SizeDelta: {x: 440.55, y: 440.55}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224695045040618544
 RectTransform:

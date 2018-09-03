@@ -4812,66 +4812,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 481149927}
   m_Mesh: {fileID: 4300000, guid: b129ad4cff27d1a4cbdddaa52475a9d1, type: 3}
---- !u!1 &486423863
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 486423865}
-  - component: {fileID: 486423864}
-  m_Layer: 0
-  m_Name: CameraManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &486423864
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 486423863}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96cc9982fff0046e581aab2724999a28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _mainCam: {fileID: 0}
-  _focusTransform: {fileID: 0}
-  _lookVertOffsetCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  _zoomInterpCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  _fovCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
---- !u!4 &486423865
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 486423863}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 17
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &493286578
 GameObject:
   m_ObjectHideFlags: 0
@@ -7524,6 +7464,21 @@ Prefab:
       propertyPath: m_RootOrder
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 114804556110679380, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
+        type: 2}
+      propertyPath: _ground
+      value: 
+      objectReference: {fileID: 416182352}
+    - target: {fileID: 114804556110679380, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
+        type: 2}
+      propertyPath: _mask
+      value: 
+      objectReference: {fileID: 1017378814}
+    - target: {fileID: 114536147130075368, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
+        type: 2}
+      propertyPath: _pond
+      value: 
+      objectReference: {fileID: 2028772720}
     - target: {fileID: 114374224506587848, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
         type: 2}
       propertyPath: groundSplatDecal
@@ -7539,36 +7494,6 @@ Prefab:
       propertyPath: _cappParticleSystem
       value: 
       objectReference: {fileID: 1937323159}
-    - target: {fileID: 114536147130075368, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
-        type: 2}
-      propertyPath: _pond
-      value: 
-      objectReference: {fileID: 2028772720}
-    - target: {fileID: 114804556110679380, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
-        type: 2}
-      propertyPath: _ground
-      value: 
-      objectReference: {fileID: 416182352}
-    - target: {fileID: 114804556110679380, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
-        type: 2}
-      propertyPath: _mask
-      value: 
-      objectReference: {fileID: 1017378814}
-    - target: {fileID: 224607749853083918, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: 29.85
-      objectReference: {fileID: 0}
-    - target: {fileID: 224607749853083918, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
-        type: 2}
-      propertyPath: m_SizeDelta.x
-      value: 318.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 224607749853083918, guid: 17e7204e7259943eaa4ae4fd5f6f0e54,
-        type: 2}
-      propertyPath: m_SizeDelta.y
-      value: 318.6
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 17e7204e7259943eaa4ae4fd5f6f0e54, type: 2}
   m_IsPrefabAsset: 0
