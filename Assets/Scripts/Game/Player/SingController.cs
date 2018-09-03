@@ -68,7 +68,7 @@ public class SingController : MonoBehaviour {
 
     IEnumerator ClipSwitchRoutine()
     {
-        yield return new WaitForSeconds( Random.Range( _voiceChangeWaitRange.x, _voiceChangeWaitRange.y) );
+        yield return new WaitForSecondsRealtime( Random.Range( _voiceChangeWaitRange.x, _voiceChangeWaitRange.y) );
 
         if( Random.value > 0.75f && _numVoices > 0 )
         {

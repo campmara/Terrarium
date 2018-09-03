@@ -65,7 +65,7 @@ public class MoundGrowthController : PlantController
 	{
 		if( _curTime < _timerDuration )
 		{
-			_curTime += Time.deltaTime * _germinationRate;
+			_curTime += Time.unscaledDeltaTime * _germinationRate;
 			float percentVal = 	_curTime / _timerDuration;
 			
 			_scaleInterp = Mathf.Lerp( _sproutGrowthRange.x, _sproutGrowthRange.y, percentVal );

@@ -299,7 +299,7 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 
 		yield return volTween.WaitForCompletion();
 
-		yield return new WaitForSeconds(1.5f);
+		yield return new WaitForSecondsRealtime(1.5f);
 
 		_musicTimeState = newTimeState;
 		SetClipAtIndex( AudioControllerNames.MUSIC, (int)_musicTimeState ); 
@@ -447,7 +447,7 @@ public class AudioManager : SingletonBehaviour<AudioManager> {
 
 		yield return new WaitUntil( () => !_audioControllerList[(int) AudioControllerNames.SUBTLE_MUSIC].Source.isPlaying &&
 			!_audioControllerList[(int) AudioControllerNames.FULL_MUSIC].Source.isPlaying ); 
-		yield return new WaitForSeconds( 15f );
+		yield return new WaitForSecondsRealtime( 15f );
 
 		_musicReady = true;
 		_musicRoutine = null; 

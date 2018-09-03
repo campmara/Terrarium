@@ -49,7 +49,7 @@ public class TrunkGroundCover : MonoBehaviour
 		{
 			SpawnGrass( GetPointAroundTrunk(), true );
 			_curTrunkSpawns++;
-			yield return new WaitForSeconds( _timeBetweenSpawns );
+			yield return new WaitForSecondsRealtime( _timeBetweenSpawns );
 		}
 
 		StartCoroutine( SpawnSurroundingGroundCover() );
@@ -64,7 +64,7 @@ public class TrunkGroundCover : MonoBehaviour
 			SpawnGrass( pos, false );
 			_curSurroundingSpawns++;
 
-			yield return new WaitForSeconds( _timeBetweenSpawns );
+			yield return new WaitForSecondsRealtime( _timeBetweenSpawns );
 		}
 
 		yield return null;

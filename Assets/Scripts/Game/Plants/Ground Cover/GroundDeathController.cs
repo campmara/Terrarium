@@ -53,7 +53,7 @@ public class GroundDeathController : PlantController
 		if( _myPlant.DeathTimer < _myPlant.DeathDuration )
 		{
 			FadeColor();
-			_myPlant.DeathTimer += Time.deltaTime * _myPlant.CurDecayRate;
+			_myPlant.DeathTimer += Time.unscaledDeltaTime * _myPlant.CurDecayRate;
 		}
 		else
 		{
@@ -140,7 +140,7 @@ public class GroundDeathController : PlantController
 
 		while( timer < transitionTime )
 		{
-			timer +=  Time.deltaTime;
+			timer +=  Time.unscaledDeltaTime;
 
 			_interpColors[0] = Colorx.Slerp( topColor, newGradient.Evaluate(0.0f), timer / transitionTime );
 			_interpColors[1] = Colorx.Slerp( midColor, newGradient.Evaluate(0.5f), timer / transitionTime );

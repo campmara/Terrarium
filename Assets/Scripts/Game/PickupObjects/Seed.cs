@@ -47,7 +47,7 @@ public class Seed : Pickupable
 			}
 			else
 			{
-				_timeSinceLastPickup += Time.deltaTime;
+				_timeSinceLastPickup += Time.unscaledDeltaTime;
 			}
 		}
 	}
@@ -56,7 +56,7 @@ public class Seed : Pickupable
     {
 		if( !_grabbed )
 		{
-			_rigidbody.AddForce( WeatherManager.instance.WindForce * WIND_FORCESCALAR * Time.deltaTime );	
+			_rigidbody.AddForce( WeatherManager.instance.WindForce * WIND_FORCESCALAR * Time.unscaledDeltaTime);	
 		}
     }
 
@@ -136,7 +136,7 @@ public class Seed : Pickupable
 			Vector3 endPos = transform.position + ( Vector3.down * 0.36f );
 			float sinkTime = Random.Range( _sinkSpeedRange.Min, _sinkSpeedRange.Max );
 
-			_sinkTween = transform.DOMove( endPos, sinkTime ).OnComplete( EndSelfPlant );
+			_sinkTween = transform.DOMove( endPos, sinkTime ).OnComplete( EndSelfPlant ).SetUpdate(UpdateType.Normal, true);
 			_rigidbody.freezeRotation = true;
 		}
 	}

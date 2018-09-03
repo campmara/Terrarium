@@ -36,7 +36,7 @@ public class Bubble : MonoBehaviour
 	{
 		if (_state == State.WAITING || _state == State.NULLMAX) return;
 
-		_timer += Time.deltaTime;
+		_timer += Time.unscaledDeltaTime;
 
 		_scaleFactor = Mathf.Lerp(0f, _growthSize, _timer / _growthTime);
 		SetScale(_scaleFactor);

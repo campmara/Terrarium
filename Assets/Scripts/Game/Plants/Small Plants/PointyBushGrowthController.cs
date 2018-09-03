@@ -91,7 +91,7 @@ public class PointyBushGrowthController : SPGrowthController {
         while (timer < moveTime)
         {
             focusTransform.localScale = Vector3.Lerp(startScale, endScale, Mathf.SmoothStep(0, 1, timer / moveTime));
-            timer += Time.deltaTime;
+            timer += Time.unscaledDeltaTime;
             yield return 0;
         }
 
@@ -101,7 +101,7 @@ public class PointyBushGrowthController : SPGrowthController {
     IEnumerator WaitAndStart(Animator anim, float waitTime)
     {
         anim.enabled = false;
-        yield return new WaitForSeconds(waitTime);
+        yield return new WaitForSecondsRealtime(waitTime);
         anim.enabled = true;
         anim.Play(0);
     }

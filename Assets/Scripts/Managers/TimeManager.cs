@@ -63,7 +63,7 @@ public class TimeManager : SingletonBehaviour<TimeManager>
 			ProcessQueue();
 			PlantManager.instance.GrowPlants();
 
-			_curTime += Time.deltaTime;
+			_curTime += Time.unscaledDeltaTime;
 		}
 
 		// Handle Minute Callback

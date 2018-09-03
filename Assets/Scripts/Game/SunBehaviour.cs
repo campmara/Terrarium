@@ -24,7 +24,7 @@ public class SunBehaviour : MonoBehaviour
 
 	void MoveSun()
 	{
-		_curTime += Time.deltaTime * _moveSpeed;
+		_curTime += Time.unscaledDeltaTime * _moveSpeed;
 
 		if(  Mathf.Abs( _curTime - ( 1.0f / _colorChangesPerCycle ) * _curCycle ) < .1f )
 		{

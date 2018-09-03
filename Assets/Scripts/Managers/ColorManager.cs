@@ -240,7 +240,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 
 		while ( timer < duration )
 		{
-			timer += Time.deltaTime;
+			timer += Time.unscaledDeltaTime;
 
 			//groundcolor
 			Shader.SetGlobalColor("_GroundColorPrimary", Colorx.Slerp( prevPalette.groundColorPrimary, _activePalette.groundColorPrimary, timer / duration ) );
@@ -301,7 +301,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 
 		while( timer < transitionTime )
 		{
-			timer += Time.deltaTime;
+			timer += Time.unscaledDeltaTime;
 
 			objectMaterial.SetColor("_ColorTop", Colorx.Slerp( topColor, gradient.Evaluate(0f), timer / transitionTime ) );
 			objectMaterial.SetColor("_ColorMid", Colorx.Slerp( midColor, gradient.Evaluate(.5f), timer / transitionTime ) );
@@ -324,7 +324,7 @@ public class ColorManager : SingletonBehaviour<ColorManager> {
 
 		while( timer < duration )
 		{
-			timer += Time.deltaTime;
+			timer += Time.unscaledDeltaTime;
 
 			SetNewGlobalShaderValues( prevPalette.plantColors, _activePalette.plantColors, timer / duration );
 

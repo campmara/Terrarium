@@ -134,7 +134,7 @@ public class BPDeathController : PlantController
 
 	protected virtual void HandleRepair()
 	{
-		_repairTimer += Time.deltaTime;
+		_repairTimer += Time.unscaledDeltaTime;
 
 		//_dissolveValue = Mathf.Lerp(_dissolveReturnValue, 0f, _repairTimer / REPAIR_TIME);
 		//UpdateDissolveEffect();
@@ -153,7 +153,7 @@ public class BPDeathController : PlantController
 		if (_readyToDie) return;
 
 		// Increment the decay timer.
-		_myPlant.DeathTimer += Time.deltaTime * _myPlant.CurDecayRate;
+		_myPlant.DeathTimer += Time.unscaledDeltaTime * _myPlant.CurDecayRate;
 
 		// Handle the dissolve effect.
 		//_dissolveValue = Mathf.Lerp(0f, 1f, _deathTimer / _deathTime);
@@ -183,7 +183,7 @@ public class BPDeathController : PlantController
 
 	private IEnumerator BubbleSpawnRoutine()
 	{
-		yield return new WaitForSeconds(_currentSpawnRate);
+		yield return new WaitForSecondsRealtime(_currentSpawnRate);
 
 		Bloop();
 
@@ -263,7 +263,7 @@ public class BPDeathController : PlantController
 		for (int i = 0; i < numIterations; i++)
 		{
 			DropBubbles(numToDrop);
-			yield return new WaitForSeconds(waitTime);
+			yield return new WaitForSecondsRealtime(waitTime);
 		}
 
 		// Drop the rest of the bubbles.

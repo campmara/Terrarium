@@ -209,7 +209,7 @@ public class BPGrowthController : PlantController
 			}
 			else
 			{
-				_summonTimer += Time.deltaTime;
+				_summonTimer += Time.unscaledDeltaTime;
 			}
 		} 
 	}
@@ -482,7 +482,7 @@ public class BPGrowthController : PlantController
 			float startRate = _growthRate;
 			while(timer < ChangeSpeed)
 			{
-				timer += Time.deltaTime;
+				timer += Time.unscaledDeltaTime;
 
 				ChangeGrowthRate(Mathf.Lerp( startRate, NewGrowthRate, timer / ChangeSpeed));
 

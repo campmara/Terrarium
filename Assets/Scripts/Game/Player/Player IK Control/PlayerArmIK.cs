@@ -73,7 +73,7 @@ public class PlayerArmIK : MonoBehaviour {
 
 	private float _ambientReachTimer = 0.0f;
 	private const float AMBIENTREACH_MINTIME = 0.25f;
-	private const float AMBIENTREACH_MAXTIME = 1.25f;
+	private const float AMBIENTREACH_MAXTIME = 5.0f;
 
     private const float AMBIENTREACH_SPEED = 2.25f;
 

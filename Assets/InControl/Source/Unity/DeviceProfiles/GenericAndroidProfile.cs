@@ -9,6 +9,8 @@ namespace InControl
 			Name = "Generic Controller";
 			Meta = "Generic Controller on Android";
 
+			DeviceClass = InputDeviceClass.Controller;
+
 			IncludePlatforms = new[] {
 				"Android",
 			};

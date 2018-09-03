@@ -76,7 +76,7 @@ public class ScreenshotTech : MonoBehaviour {
 		input = ControlManager.instance.getInput();
 		if ( input.ShareButton.WasPressed )
         {
-			if( _useOverlay )   // Only does overlay routine if active 
+			if( _useOverlay && !PausePanel.Paused )   // Only does overlay routine if active 
             {
                 if (_overlayScreenshotRoutine == null)
                 {
@@ -142,7 +142,7 @@ public class ScreenshotTech : MonoBehaviour {
 
 	IEnumerator DelayedCaptureScreenshot()
 	{
-		yield return new WaitForSeconds( SCREENSHOT_TIMER );
+		yield return new WaitForSecondsRealtime( SCREENSHOT_TIMER );
 
 		//StartCoroutine( CaptureOverlayRoutine() );
 		HandleScreenShot( 4, false );
@@ -177,7 +177,7 @@ public class ScreenshotTech : MonoBehaviour {
 
 		if( _overlayDisableDelay > 0.0f )
         {
-            yield return new WaitForSeconds( _overlayDisableDelay );
+            yield return new WaitForSecondsRealtime( _overlayDisableDelay );
         }
         else
         {

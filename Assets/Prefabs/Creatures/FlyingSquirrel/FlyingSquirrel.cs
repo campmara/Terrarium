@@ -30,7 +30,7 @@ public class FlyingSquirrel : MonoBehaviour
 
 	private void Update()
 	{
-		euler.z = Mathf.Sin(1f * Time.time) * 10f;
+		euler.z = Mathf.Sin(1f * Time.time) * 4;
 
 		transform.eulerAngles = euler;
 	}
@@ -51,13 +51,13 @@ public class FlyingSquirrel : MonoBehaviour
 
 		while (timer < FLY_TIME)
 		{
-			timer += Time.deltaTime;
+			timer += Time.unscaledDeltaTime;
 
 			transform.position = Vector3.Lerp(startPos, endPos, timer / FLY_TIME );
 			yield return null;
 		}
 
-		yield return new WaitForSeconds(Random.Range( _flyWaitRange.x, _flyWaitRange.y ) );
+		yield return new WaitForSecondsRealtime(Random.Range( _flyWaitRange.x, _flyWaitRange.y ) );
 
 		StartCoroutine(FlyRoutine());
 	}

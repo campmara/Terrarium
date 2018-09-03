@@ -66,10 +66,10 @@ public class GameManager : MonoBehaviour
 	}
 
 	void Update()
-	{		
-		if( _state == GameState.NONE )
+	{
+		InputCollection input = ControlManager.instance.getInput();
+		if ( _state == GameState.NONE )
         {
-            InputCollection input = ControlManager.instance.getInput();
 
             if (input.LeftStickX.Value > RollerConstants.instance.IdleMaxMag ||
             input.LeftStickY.Value > RollerConstants.instance.IdleMaxMag ||
@@ -82,6 +82,7 @@ public class GameManager : MonoBehaviour
             }
 
         }
+
 		// rly hacky Restart gdi
 		if( Input.GetKey(KeyCode.Alpha0) )
 		{

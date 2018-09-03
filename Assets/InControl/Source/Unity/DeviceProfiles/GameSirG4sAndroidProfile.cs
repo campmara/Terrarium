@@ -9,6 +9,8 @@ namespace InControl
 			Name = "GameSir G4s";
 			Meta = "GameSir G4s on Android";
 
+			DeviceClass = InputDeviceClass.Controller;
+
 			IncludePlatforms = new[] {
 				"Android",
 			};

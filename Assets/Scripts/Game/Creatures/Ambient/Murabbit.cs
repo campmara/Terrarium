@@ -69,7 +69,7 @@ public class Murabbit : MonoBehaviour
 
 		// RETURN TIME HANDLING
 
-		returnTimer += Time.deltaTime;
+		returnTimer += Time.unscaledDeltaTime;
 		if (returnTimer >= returnTime)
 		{
 			SetState(State.BURROW);
@@ -133,7 +133,7 @@ public class Murabbit : MonoBehaviour
         //transform.LookAt(jumpPos);
 
         transform.DORotateQuaternion( Quaternion.LookRotation( ( jumpPos - transform.position ).normalized ), HOP_DURATION * 0.6f );
-        hopTween = transform.DOJump(jumpPos, Random.Range(1.5f, 3f), 1, HOP_DURATION).OnComplete(() => SetState(State.HOP));
+        hopTween = transform.DOJump(jumpPos, Random.Range(1.5f, 3f), 1, HOP_DURATION).OnComplete(() => SetState(State.HOP)).SetUpdate(UpdateType.Normal, true);
 	}
 
 	/*
@@ -147,7 +147,7 @@ public class Murabbit : MonoBehaviour
 
 	private void HandleIdle()
 	{
-		idleTimer += Time.deltaTime;
+		idleTimer += Time.unscaledDeltaTime;
 
 		if (idleTimer >= idleTime)
 		{
@@ -176,7 +176,7 @@ public class Murabbit : MonoBehaviour
 
         transform.DORotateQuaternion( Quaternion.LookRotation( ( jumpPos - transform.position ).normalized ), HOP_DURATION * 0.6f );
 		hopTween = transform.DOJump(jumpPos, Random.Range(0.5f, 1.25f), 1, HOP_DURATION)
-			.OnComplete(() => SetState(State.IDLE));
+			.OnComplete(() => SetState(State.IDLE)).SetUpdate(UpdateType.Normal, true);
 
         PlayHopSound();
 	}
@@ -207,7 +207,7 @@ public class Murabbit : MonoBehaviour
 
         transform.DORotateQuaternion( Quaternion.LookRotation( ( jumpPos - transform.position ).normalized ), HOP_DURATION * 0.6f );
         escapeTween = transform.DOJump(jumpPos, Random.Range(0.5f, 1.25f), 1, HOP_DURATION)
-			.OnComplete(() => SetState(State.ESCAPE_CHECK));
+			.OnComplete(() => SetState(State.ESCAPE_CHECK)).SetUpdate(UpdateType.Normal, true);
 
         PlayHopSound();
     }
@@ -256,7 +256,7 @@ public class Murabbit : MonoBehaviour
 
         transform.DORotateQuaternion( Quaternion.LookRotation( ( jumpPos - transform.position ).normalized ), HOP_DURATION * 0.6f );
         followTween = transform.DOJump(jumpPos, Random.Range(0.5f, 1.25f), 1, HOP_DURATION)
-			.OnComplete(() => SetState(State.FOLLOW_CHECK));
+			.OnComplete(() => SetState(State.FOLLOW_CHECK)).SetUpdate(UpdateType.Normal, true);
 
         PlayHopSound();
     }
@@ -322,7 +322,7 @@ public class Murabbit : MonoBehaviour
         transform.DORotateQuaternion( Quaternion.LookRotation( ( spawnerPos - transform.position ).normalized ), HOP_DURATION * 0.6f );
         burrowTween = transform.DOJump(spawnerPos, Random.Range(0.5f, 1.25f), numJumps, HOP_DURATION * (float)numJumps)
 			.OnComplete(() => transform.DOScale(0f, 1f)
-			.OnComplete(() => data.spawner.OnRabbitReturn(this)));
+			.OnComplete(() => data.spawner.OnRabbitReturn(this))).SetUpdate(UpdateType.Normal, true);
 
         PlayHopSound();
 
