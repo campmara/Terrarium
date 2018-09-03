@@ -144,12 +144,9 @@ public class WalkingState : RollerState
                 }
             }
 
-            if (_roller.IK.ArmsIdle)
-            {
-                if (_reachCoroutine == null)
-                {
-                    _reachCoroutine = StartCoroutine( ReachWaitRoutine() );
-                }
+			if (_roller.IK.ArmsIdle && _reachCoroutine == null)
+			{
+				_reachCoroutine = StartCoroutine( ReachWaitRoutine() );
             }
 
             // Update how far the arms are reaching
