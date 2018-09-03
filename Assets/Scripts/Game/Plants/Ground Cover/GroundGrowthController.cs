@@ -39,7 +39,7 @@ public class GroundGrowthController : PlantController
 		}
 		else
 		{
-			_curTimer += Time.deltaTime;
+			_curTimer += Time.unscaledDeltaTime;
 		}
 	}
 

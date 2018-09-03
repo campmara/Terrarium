@@ -107,7 +107,7 @@ public class GroundPlantGrowthController : SPGrowthController
 		while( timer < moveTime )
 		{
 			focusTransform.localScale = Vector3.Lerp( startScale, endScale, Mathf.SmoothStep( 0, 1, timer / moveTime ) );
-			timer += Time.deltaTime;
+			timer += Time.unscaledDeltaTime;
 			yield return 0;
 		}
 
@@ -117,7 +117,7 @@ public class GroundPlantGrowthController : SPGrowthController
 	IEnumerator WaitAndStart( Animator anim, float waitTime )
 	{
 		anim.enabled = false;
-		yield return new WaitForSeconds( waitTime );
+		yield return new WaitForSecondsRealtime( waitTime );
 		anim.enabled = true;
 		anim.Play(0);
 	}
@@ -178,11 +178,11 @@ public class GroundPlantGrowthController : SPGrowthController
 		}
 		
 		_curFruit.transform.DOScale( 0.0f, .5f );
-		yield return new WaitForSeconds( closeTime );
+		yield return new WaitForSecondsRealtime( closeTime );
 
 		PlayerManager.instance.Player.GetComponent<RollerController>().MakeDroopyExplode();
 
-		yield return new WaitForSeconds( .001f );
+		yield return new WaitForSecondsRealtime( .001f );
 
 		// cycle all through the guys
 		foreach( Animator plant in _childAnimators )
@@ -192,7 +192,7 @@ public class GroundPlantGrowthController : SPGrowthController
 		}
 
 		_curFruit.transform.DOScale( fruitScale, 7.0f );
-		yield return new WaitForSeconds( openTime );
+		yield return new WaitForSecondsRealtime( openTime );
 		_closingLeaves = false;
 	}
 

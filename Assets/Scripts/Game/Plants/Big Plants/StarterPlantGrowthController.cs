@@ -55,7 +55,7 @@ public class StarterPlantGrowthController : BPGrowthController
 			leafAnim = SetupLeaf( i );
 		}
 
-		yield return new WaitForSeconds( _timeBetweenLeafSpawns );
+		yield return new WaitForSecondsRealtime( _timeBetweenLeafSpawns );
 
 		_curChildSpawned++;
 		_leafSpawnRoutine = null;

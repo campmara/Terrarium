@@ -230,7 +230,10 @@ public class RollerController : ControllerBase
 
 	protected override void HandleInput()
 	{
-        _currentState.HandleInput( _input );
+		if(!PausePanel.Paused)
+		{
+			_currentState.HandleInput( _input );
+		}
 	}
 
     protected override void HandleFixedInput()

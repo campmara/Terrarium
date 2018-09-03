@@ -47,7 +47,7 @@ public class Seed : Pickupable
 			}
 			else
 			{
-				_timeSinceLastPickup += Time.deltaTime;
+				_timeSinceLastPickup += Time.unscaledDeltaTime;
 			}
 		}
 	}
@@ -56,7 +56,7 @@ public class Seed : Pickupable
     {
 		if( !_grabbed )
 		{
-			_rigidbody.AddForce( WeatherManager.instance.WindForce * WIND_FORCESCALAR * Time.deltaTime );	
+			_rigidbody.AddForce( WeatherManager.instance.WindForce * WIND_FORCESCALAR * Time.unscaledDeltaTime);	
 		}
     }
 

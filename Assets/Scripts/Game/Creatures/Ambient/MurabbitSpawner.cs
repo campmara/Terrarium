@@ -83,7 +83,7 @@ public class MurabbitSpawner : MonoBehaviour
 
 	private void HandleCountdown()
 	{
-		spawnTimer += Time.deltaTime;
+		spawnTimer += Time.unscaledDeltaTime;
 
 		if (spawnTimer >= countdownTime)
 		{
@@ -133,7 +133,7 @@ public class MurabbitSpawner : MonoBehaviour
 
 			// WAIT
 			// WE WAS JUST HANGIN
-			yield return new WaitForSeconds(Random.Range(0.25f, 2f));
+			yield return new WaitForSecondsRealtime(Random.Range(0.25f, 2f));
 		}
 	}
 

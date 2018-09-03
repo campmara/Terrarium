@@ -68,13 +68,13 @@ public class SeedSlug : MonoBehaviour
         UpdateMovement();
 		UpdateSeedPos();
 
-        transform.position = Vector3.Lerp( this.transform.position, _moveDest, 10.0f * Time.deltaTime );
+        transform.position = Vector3.Lerp( this.transform.position, _moveDest, 10.0f * Time.unscaledDeltaTime);
 	}
 
     void UpdateMovement()
     {
-		_animTimer += Time.deltaTime * _animator.speed;
-		_moveTimer += Time.deltaTime * ( _moveAnimCurve.Evaluate( _animTimer ) * _currMoveSpeedScalar );
+		_animTimer += Time.unscaledDeltaTime * _animator.speed;
+		_moveTimer += Time.unscaledDeltaTime * ( _moveAnimCurve.Evaluate( _animTimer ) * _currMoveSpeedScalar );
 
         _moveDest = Vector3.Lerp( _startPos, _endPos, _moveTimer / _moveTime );
 
@@ -85,7 +85,7 @@ public class SeedSlug : MonoBehaviour
 
 		if( _moveAnimCurve.Evaluate( _animTimer ) > TURN_MINSPEED )
 		{
-			this.transform.rotation = Quaternion.Slerp( this.transform.rotation, Quaternion.LookRotation( _moveDest - this.transform.position ), 20.0f * Time.deltaTime );	
+			this.transform.rotation = Quaternion.Slerp( this.transform.rotation, Quaternion.LookRotation( _moveDest - this.transform.position ), 20.0f * Time.unscaledDeltaTime);	
 		}        
 
         this.transform.position = _moveDest;

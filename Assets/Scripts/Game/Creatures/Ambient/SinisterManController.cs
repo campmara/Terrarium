@@ -48,7 +48,7 @@ public class SinisterManController : MonoBehaviour {
         if( _walkTween != null )
         {
 			_walkElapsed = _walkTween.ElapsedPercentage();
-			this.transform.Rotate( 0.0f, -_rotateSpeed * _rotateJumpCurve.Evaluate( _walkElapsed ) * Time.deltaTime, 0.0f );
+			this.transform.Rotate( 0.0f, -_rotateSpeed * _rotateJumpCurve.Evaluate( _walkElapsed ) * Time.unscaledDeltaTime, 0.0f );
 			for( int i = 0; i < _sinisterSkinnedMeshArray.Length; ++i )
 			{
 				_sinisterSkinnedMeshArray[i].SetBlendShapeWeight(0, _skinnedTailUpCurve.Evaluate( _walkElapsed ) );
@@ -57,7 +57,7 @@ public class SinisterManController : MonoBehaviour {
         }
 		else
 		{
-			this.transform.Rotate( 0.0f, -_baseRotateSpeed * Time.deltaTime, 0.0f );
+			this.transform.Rotate( 0.0f, -_baseRotateSpeed * Time.unscaledDeltaTime, 0.0f );
 		}
         
         foreach( Transform t in _sinisterManTransforms )
@@ -70,7 +70,7 @@ public class SinisterManController : MonoBehaviour {
     
     IEnumerator DelayedWalkTween()
     {
-		yield return new WaitForSeconds( Random.Range( _walkWaitTimeRange.x, _walkWaitTimeRange.y ) );
+		yield return new WaitForSecondsRealtime( Random.Range( _walkWaitTimeRange.x, _walkWaitTimeRange.y ) );
 
         StartWalkTween();
 

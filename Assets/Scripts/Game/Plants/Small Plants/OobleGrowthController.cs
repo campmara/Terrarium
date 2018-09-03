@@ -99,7 +99,7 @@ public class OobleGrowthController : SPGrowthController
         while (timer < moveTime)
         {
             focusTransform.localScale = Vector3.Lerp(startScale, endScale, Mathf.SmoothStep(0, 1, timer / moveTime));
-            timer += Time.deltaTime;
+            timer += Time.unscaledDeltaTime;
             yield return 0;
         }
 

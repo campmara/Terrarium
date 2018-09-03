@@ -153,7 +153,7 @@ public class RabbitMound : MonoBehaviour
                 {
                     if( currRabbitData.HopWaitTimer < RABBIT_HOPWAIT )
                     {
-                        currRabbitData.HopWaitTimer += Time.deltaTime;
+                        currRabbitData.HopWaitTimer += Time.unscaledDeltaTime;
 
                         CheckRabbitSurroundings( currRabbitData );
                     }
@@ -169,7 +169,7 @@ public class RabbitMound : MonoBehaviour
 				{
 					if( currRabbitData.HopWaitTimer < RABBIT_EVADEWAIT )
 					{
-						currRabbitData.HopWaitTimer += Time.deltaTime;
+						currRabbitData.HopWaitTimer += Time.unscaledDeltaTime;
 					}
 					else
 					{
@@ -244,7 +244,7 @@ public class RabbitMound : MonoBehaviour
 
     IEnumerator RabbitIdleRoutine( RabbitData rabbit )
     {
-        yield return new WaitForSeconds( UnityEngine.Random.Range( RABBIT_IDLETIME_MIN, RABBIT_IDLETIME_MAX ) );
+        yield return new WaitForSecondsRealtime( UnityEngine.Random.Range( RABBIT_IDLETIME_MIN, RABBIT_IDLETIME_MAX ) );
 
         ChangeRabbitState( rabbit, RabbitState.WALKING );
 
@@ -280,7 +280,7 @@ public class RabbitMound : MonoBehaviour
 
         if( newRabbit != null )
         {
-            yield return new WaitForSeconds( newRabbit.SpawnTime );
+            yield return new WaitForSecondsRealtime( newRabbit.SpawnTime );
 
             SpawnRabbit( newRabbit );
 

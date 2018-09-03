@@ -277,11 +277,11 @@ public class CameraManager : SingletonBehaviour<CameraManager>
                 {
                     if(_camInputVals.x > ZOOM_X_DEADZONE)
                     {
-                        _currRotSpeed = Mathf.Clamp( _currRotSpeed + ( ROT_ACCEL * Time.deltaTime ), 0.0f, _camInputVals.x );
+                        _currRotSpeed = Mathf.Clamp( _currRotSpeed + ( ROT_ACCEL * Time.unscaledDeltaTime ), 0.0f, _camInputVals.x );
                     }
                     else if ( _camInputVals.x < -ZOOM_X_DEADZONE )
                     {
-                        _currRotSpeed = Mathf.Clamp( _currRotSpeed + ( -ROT_ACCEL * Time.deltaTime ), _camInputVals.x, 0.0f );
+                        _currRotSpeed = Mathf.Clamp( _currRotSpeed + ( -ROT_ACCEL * Time.unscaledDeltaTime ), _camInputVals.x, 0.0f );
                     }                   
                 }
                 else
@@ -389,7 +389,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	{
 		PlayerManager.instance.Player.ControlManager.SetActiveController<InactiveController>();
 
-        yield return new WaitForSeconds( RollerConstants.instance.RitualCompleteWait );
+        yield return new WaitForSecondsRealtime( RollerConstants.instance.RitualCompleteWait );
 
         Vector3 pondPos = PondManager.instance.Pond.transform.position + ( Vector3.up * Mathf.Lerp( CAMLOOK_VERTICALOFFSET_MAX, CAMLOOK_VERTICALOFFSET_MIN, _lookVertOffsetCurve.Evaluate( _zoomInterpCurve.Evaluate( ZOOM_RESETINTERP ) ) ) );
         Vector3 desiredPos = ( Vector3.forward * Mathf.Lerp( zoomXRange.x, zoomXRange.y, _zoomInterpCurve.Evaluate( ZOOM_RESETINTERP ) ) ) + ( Vector3.up * Mathf.Lerp( zoomYRange.x, zoomYRange.y, _zoomInterpCurve.Evaluate( ZOOM_RESETINTERP ) ) );
@@ -420,7 +420,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 	{
 		PlayerManager.instance.Player.ControlManager.SetActiveController<InactiveController>();
 
-		yield return new WaitForSeconds( INTRO_PAN_PREWAIT_TIME );
+		yield return new WaitForSecondsRealtime( INTRO_PAN_PREWAIT_TIME );
 
 		Vector3 pondPos = PondManager.instance.Pond.transform.position + ( Vector3.up * Mathf.Lerp( CAMLOOK_VERTICALOFFSET_MAX, CAMLOOK_VERTICALOFFSET_MIN, _lookVertOffsetCurve.Evaluate( _zoomInterpCurve.Evaluate( ZOOM_RESETINTERP ) ) ) );
 		Vector3 desiredPos = ( Vector3.forward * Mathf.Lerp( zoomXRange.x, zoomXRange.y, _zoomInterpCurve.Evaluate( ZOOM_RESETINTERP ) ) ) + ( Vector3.up * Mathf.Lerp( zoomYRange.x, zoomYRange.y, _zoomInterpCurve.Evaluate( ZOOM_RESETINTERP ) ) );

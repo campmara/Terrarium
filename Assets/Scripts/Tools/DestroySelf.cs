@@ -12,7 +12,7 @@ public class DestroySelf : MonoBehaviour
 
 	IEnumerator DelayedDestroySelf()
 	{
-		yield return new WaitForSeconds(_delayTime);
+		yield return new WaitForSecondsRealtime(_delayTime);
 		Destroy(this.gameObject);
 	}
 }

@@ -79,8 +79,8 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
 
 	void Update()
 	{
-		_waveTime += Time.deltaTime * Mathf.Lerp( WAVESPEED_MIN, WAVESPEED_MAX, _windInterp );
-        _waveTimeVec += Time.deltaTime * Mathf.Lerp(WAVESPEED_MIN, WAVESPEED_MAX, _windInterp) * _waveDir;
+		_waveTime += Time.unscaledDeltaTime * Mathf.Lerp( WAVESPEED_MIN, WAVESPEED_MAX, _windInterp );
+        _waveTimeVec += Time.unscaledDeltaTime * Mathf.Lerp(WAVESPEED_MIN, WAVESPEED_MAX, _windInterp) * _waveDir;
 
         Shader.SetGlobalFloat( "_WaveTime", _waveTime );
         //wavetime vec should be the only time variable
@@ -121,7 +121,7 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
 
 		while ( timer < duration )
 		{
-			timer += Time.deltaTime;
+			timer += Time.unscaledDeltaTime;
 
 			_windInterp = Mathf.Lerp( startInterp, endInterp, timer / duration );
 
@@ -145,13 +145,13 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
         // subsequently starts the cycle over based on which it is in
         if( isTrough )
         {
-            yield return new WaitForSeconds( Random.Range( WINDTROUGH_WAITMIN, WINDTROUGH_WAITMAX ) );
+            yield return new WaitForSecondsRealtime( Random.Range( WINDTROUGH_WAITMIN, WINDTROUGH_WAITMAX ) );
 
             HandleWindEnterPeak();
         }
         else
         {
-            yield return new WaitForSeconds( Random.Range( WINDPEAK_WAITMIN, WINDPEAK_WAITMAX ) );
+            yield return new WaitForSecondsRealtime( Random.Range( WINDPEAK_WAITMIN, WINDPEAK_WAITMAX ) );
 
             HandleWindEnterTrough();
         }
@@ -178,7 +178,7 @@ public class WeatherManager : SingletonBehaviour<WeatherManager> {
 
         while( timer < duration )
         {
-            timer += Time.deltaTime;
+            timer += Time.unscaledDeltaTime;
 
             _waveDir = Vector3.Slerp( startDir, endDir, timer / duration );
 

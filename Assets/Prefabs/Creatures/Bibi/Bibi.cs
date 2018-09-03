@@ -291,7 +291,7 @@ public class Bibi : Singable
 
 	private void HandleUnderground()
 	{
-		sleepTimer += Time.deltaTime;
+		sleepTimer += Time.unscaledDeltaTime;
 
 		if (sleepTimer >= AWAKE_TIME)
 		{
@@ -313,7 +313,7 @@ public class Bibi : Singable
 			Vector3 moveDirection = diff.normalized;
 			//moveDirection.x += (Mathf.Sin(Time.deltaTime) * 1.5f);
 
-			_rigidbody.MovePosition(transform.position + (moveDirection * MOVE_SPEED * Time.deltaTime));
+			_rigidbody.MovePosition(transform.position + (moveDirection * MOVE_SPEED * Time.unscaledDeltaTime));
 
 			Vector3 targetLook = transform.position + moveDirection;
 			transform.LookAt(targetLook);
@@ -328,7 +328,7 @@ public class Bibi : Singable
 
 	private void HandleSleeping()
 	{
-		sleepTimer += Time.deltaTime;
+		sleepTimer += Time.unscaledDeltaTime;
 
 		if (sleepTimer >= SLEEP_TIME)
 		{

@@ -112,7 +112,7 @@ public class ButterflyCloud : AmbientCreature {
             // Move toward idle position if no focus transform
             if ( ( this.transform.position - _idlePosition ).magnitude > IDLE_MINDIST )
             {
-                transform.position = Vector3.Lerp( transform.position, _idlePosition, PLAYER_APPROACHSPEED * Time.deltaTime );
+                transform.position = Vector3.Lerp( transform.position, _idlePosition, PLAYER_APPROACHSPEED * Time.unscaledDeltaTime);
             }
         }
 
@@ -125,7 +125,7 @@ public class ButterflyCloud : AmbientCreature {
 
 			if ( ( this.transform.position - _idlePosition ).magnitude < PLAYER_CHECKRADIUS )
             {
-                this.transform.position += _focusDir.normalized * PLAYER_APPROACHSPEED * Time.deltaTime;
+                this.transform.position += _focusDir.normalized * PLAYER_APPROACHSPEED * Time.unscaledDeltaTime;
             }
             else
             {
@@ -142,19 +142,19 @@ public class ButterflyCloud : AmbientCreature {
 		foreach( ButterflyData bData in _butterflyList )
 		{
             // Pivot around parent
-            bData._parentOffset = Quaternion.Euler( bData._pivotDir * Time.deltaTime ) * bData._parentOffset;
+            bData._parentOffset = Quaternion.Euler( bData._pivotDir * Time.unscaledDeltaTime) * bData._parentOffset;
 			bData._parentOffset.y = Mathf.Clamp( bData._parentOffset.y, YOFFSET_MIN, YOFFSET_MAX );	// Clamp 
 
             // Adjust the Target Positions for each butterfly
             bData._targetPosition = this.transform.position + bData._parentOffset;
 
             // And move the butterflies towards their target pos
-            bData._butterflyTransform.position = Vector3.MoveTowards( bData._butterflyTransform.position, bData._targetPosition, bData._moveSpeed * Time.deltaTime );
+            bData._butterflyTransform.position = Vector3.MoveTowards( bData._butterflyTransform.position, bData._targetPosition, bData._moveSpeed * Time.unscaledDeltaTime);
 
             // Look at whatever the swarm is focused on
             if( _focusTrans != null)
             {
-                bData._butterflyTransform.rotation = Quaternion.Slerp( bData._butterflyTransform.rotation, Quaternion.LookRotation( ( _focusTrans.position - bData._butterflyTransform.position ).normalized, Vector3.up ), FOCUS_LOOKATSPEED * Time.deltaTime );
+                bData._butterflyTransform.rotation = Quaternion.Slerp( bData._butterflyTransform.rotation, Quaternion.LookRotation( ( _focusTrans.position - bData._butterflyTransform.position ).normalized, Vector3.up ), FOCUS_LOOKATSPEED * Time.unscaledDeltaTime);
             }            
 		}
 	}
@@ -190,7 +190,7 @@ public class ButterflyCloud : AmbientCreature {
 
 	IEnumerator DelayedStartAnim( Animator anim )
 	{
-		yield return new WaitForSeconds( Random.Range( 0.1f, 0.75f ) );
+		yield return new WaitForSecondsRealtime( Random.Range( 0.1f, 0.75f ) );
 
 		// This was deprecated in 5.6 and doesn't work. Using StartPlayback for now but I have no idea if it actually works.
 		//anim.SetTime(0.0f);
@@ -227,7 +227,7 @@ public class ButterflyCloud : AmbientCreature {
 
         while ( timer < transitionTime )
         {
-            timer += Time.deltaTime;
+            timer += Time.unscaledDeltaTime;
 
             foreach (ButterflyData b in _butterflyList )
             {

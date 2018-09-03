@@ -84,7 +84,7 @@ public class FaceManager : MonoBehaviour
 
     private IEnumerator BlinkRoutine(float delay)
     {
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSecondsRealtime(delay);
 
         float timer = 0.0f;
         float blinkProgress = 0.0f;
@@ -96,7 +96,7 @@ public class FaceManager : MonoBehaviour
             SetRightEyeBlendValues(_blinkEyeData, blinkProgress);
             SetLeftEyeBlendValues(_blinkEyeData, blinkProgress);
 
-            timer += Time.deltaTime;
+            timer += Time.unscaledDeltaTime;
 
             yield return 0;
         }
@@ -124,7 +124,7 @@ public class FaceManager : MonoBehaviour
             _leftEyeSkinnedMesh.SetBlendShapeWeight(5, Mathf.Lerp(_blinkEyeData.SadBlendValue, _currFacePose.LeftEyePose.SadBlendValue, blinkProgress));
             _leftEyeSkinnedMesh.SetBlendShapeWeight(6, Mathf.Lerp(_blinkEyeData.HappyBlendValue, _currFacePose.LeftEyePose.HappyBlendValue, blinkProgress));
 
-            timer += Time.deltaTime;
+            timer += Time.unscaledDeltaTime;
 
             yield return 0;
         }
@@ -153,7 +153,7 @@ public class FaceManager : MonoBehaviour
 
     IEnumerator DelayedDefaultExpression(float waitTime)
     {
-        yield return new WaitForSeconds(waitTime);
+        yield return new WaitForSecondsRealtime(waitTime);
 
         BeginIdleReturnTransition();
 
@@ -205,7 +205,7 @@ public class FaceManager : MonoBehaviour
 
     IEnumerator DelayedTransitionRoutine(string poseName, float delayTime, bool returnToIdle)
     {
-        yield return new WaitForSeconds(delayTime);
+        yield return new WaitForSecondsRealtime(delayTime);
 
         if(this.gameObject.activeInHierarchy)
         {
@@ -282,7 +282,7 @@ public class FaceManager : MonoBehaviour
             SetLeftEyeBlendValues(newPose.LeftEyePose, mouthTransProgress);
             SetMouthBlendValues(newPose.MouthPose, mouthTransProgress);
 
-            timer += Time.deltaTime;
+            timer += Time.unscaledDeltaTime;
 
             yield return 0;
         }
