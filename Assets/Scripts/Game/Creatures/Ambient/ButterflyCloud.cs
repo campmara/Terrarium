@@ -63,15 +63,19 @@ public class ButterflyCloud : AmbientCreature {
     const float PLAYER_CHECKRADIUS = 9.0f;     // How big of a radius Butteflies check    
     const float PLAYER_APPROACHSPEED = 0.1f;    // How quickly butterflies chase
     const float FOCUS_LOOKATSPEED = 1.0f;
+	int _playerLayerMask;
 
-    // Use this for initialization
-    void Awake ()
+	// Use this for initialization
+	void Awake ()
     {
         ColorManager.ExecutePaletteChange += HandlePaletteChange;
 
         _idlePosition = transform.position;
-        
-        SpawnCreatures();
+
+		_playerLayerMask = LayerMask.NameToLayer("Player");
+
+
+		SpawnCreatures();
 	}
 
     public override void InitializeCreature( Vector3 startPos )
@@ -89,11 +93,10 @@ public class ButterflyCloud : AmbientCreature {
 
     private void FixedUpdate()
     {
-
         if (_focusTrans == null)
         {
             // Check if an object of interest is within radius 
-            Collider[] colArr = Physics.OverlapSphere( _idlePosition, PLAYER_CHECKRADIUS );
+            Collider[] colArr = Physics.OverlapSphere( _idlePosition, PLAYER_CHECKRADIUS, _playerLayerMask );
 
             if (colArr.Length > 0)
             {
@@ -110,7 +113,7 @@ public class ButterflyCloud : AmbientCreature {
             }
 
             // Move toward idle position if no focus transform
-            if ( ( this.transform.position - _idlePosition ).magnitude > IDLE_MINDIST )
+            if ( ( this.transform.position - _idlePosition ).magnitude > IDLE_MINDIST && _focusTrans == null)
             {
                 transform.position = Vector3.Lerp( transform.position, _idlePosition, PLAYER_APPROACHSPEED * Time.unscaledDeltaTime);
             }

@@ -136,7 +136,11 @@ public class SeedSlug : MonoBehaviour
 	{
         if ( _carriedObject != null )
         {
-            _carriedObject.GetComponent<Seed>().DestroyThisSeed();
+			Seed carriedSeed = _carriedObject.GetComponent<Seed>();
+			if(carriedSeed != null)
+			{
+				carriedSeed.DestroyThisSeed();
+			}
             _carriedObject = null;
         }
 		GameObject newSeed = Instantiate( SelectSeed(), this.transform ) as GameObject;

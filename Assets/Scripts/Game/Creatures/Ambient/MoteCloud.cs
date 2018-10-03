@@ -13,13 +13,16 @@ public class MoteCloud : AmbientCreature
 	float _focusDistance = 0.0f;
 	int index = 0;
 	const float PLAYER_CHECKRADIUS = 10.0f;
+	int _playerLayerMask;
 
 	const float SPAWN_YPOSITION = 5.0f;
+
 
 	// Use this for initialization
 	void Awake () 
 	{
 		_particleSystem = this.GetComponent<ParticleSystem>();
+		_playerLayerMask = LayerMask.NameToLayer("Player");
 	}
 
 	public override void InitializeCreature (Vector3 startPos)
@@ -42,7 +45,7 @@ public class MoteCloud : AmbientCreature
 		}
 		else
 		{
-			Collider[] colArr = Physics.OverlapSphere( this.transform.position, PLAYER_CHECKRADIUS );
+			Collider[] colArr = Physics.OverlapSphere( this.transform.position, PLAYER_CHECKRADIUS, _playerLayerMask );
 
 			if ( colArr.Length > 0 )
 			{
