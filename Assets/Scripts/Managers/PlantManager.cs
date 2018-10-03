@@ -4,13 +4,13 @@ using UnityEngine;
 public class PlantManager : SingletonBehaviour<PlantManager>
 {
 	// ******* BIG PLANTS *********** ( per species )
-	MinMax LrgPlantsPerSpecies = new MinMax( 5, 7 );
-	private int MaxLargePlants = 21;
+	MinMax LrgPlantsPerSpecies = new MinMax( 5, 10 );
+	private int MaxLargePlants = 50;
 	
 	// ******** MEDIUM PLANTS *********	( per all )
 	MinMax MedTotalPlantsRange = new MinMax( 0f, 25f);
 	MinMax MedSpawnRadRange = new MinMax( 3.5f, 5.5f );
-	[HideInInspector] public MinMax MedNumPerPlant = new MinMax( 1, 3 );
+	[HideInInspector] public MinMax MedNumPerPlant = new MinMax( 3, 50 );
 
 	// ******* UPDATE THESE FOR NEW BIG PLANTS *************
 	[SerializeField] GameObject _pointSeed = null;
@@ -276,15 +276,15 @@ public class PlantManager : SingletonBehaviour<PlantManager>
 		bool result = false;
 		if( _plantType == BasePlant.PlantType.FLOWERING )
 		{
-			 result = _floweringPlants.Count >= LrgPlantsPerSpecies.Min;
+			 result = _floweringPlants.Count >= LrgPlantsPerSpecies.Max;
 		}
 		else if( _plantType == BasePlant.PlantType.POINT )
 		{
-			result = _pointPlants.Count >= LrgPlantsPerSpecies.Min;			
+			result = _pointPlants.Count >= LrgPlantsPerSpecies.Max;			
 		}
 		else if( _plantType == BasePlant.PlantType.HUPPET )
 		{
-			result = _huppetPlants.Count >= LrgPlantsPerSpecies.Min;			
+			result = _huppetPlants.Count >= LrgPlantsPerSpecies.Max;			
 		}
 
 		return result;
