@@ -51,17 +51,14 @@ namespace InControl
 		List<Touch> activeTouches;
 		ReadOnlyCollection<Touch> readOnlyActiveTouches;
 
-		Vector2 lastMousePosition;
 		bool isReady;
 
 #pragma warning disable 414
-		Touch mouseTouch;
+		readonly Touch[] mouseTouches = new Touch[3];
 #pragma warning restore 414
 
 
-		protected TouchManager()
-		{
-		}
+		protected TouchManager() {}
 
 
 		void OnEnable()
@@ -146,7 +143,12 @@ namespace InControl
 		void Reset()
 		{
 			device = null;
-			mouseTouch = null;
+
+			for (var i = 0; i < 3; i++)
+			{
+				mouseTouches[i] = null;
+			}
+
 			cachedTouches = null;
 			activeTouches = null;
 			readOnlyActiveTouches = null;
@@ -229,7 +231,7 @@ namespace InControl
 			device.AddControl( InputControlType.LeftBumper, "LeftBumper" );
 			device.AddControl( InputControlType.RightBumper, "RightBumper" );
 
-			for (var control = InputControlType.Action1; control <= InputControlType.Action4; control++)
+			for (var control = InputControlType.Action1; control <= InputControlType.Action12; control++)
 			{
 				device.AddControl( control, control.ToString() );
 			}
@@ -291,6 +293,7 @@ namespace InControl
 			// Somehow the camera's projection matrix doesn't always update correctly on
 			// resolution changes. This seems to cause it to recalculate properly.
 			touchCamera.rect = new Rect( 0, 0, 0.99f, 1 );
+			// ReSharper disable once Unity.InefficientPropertyAccess
 			touchCamera.rect = new Rect( 0, 0, 1, 1 );
 
 			screenSize = currentScreenSize;
@@ -321,8 +324,11 @@ namespace InControl
 		{
 			cachedTouches = new TouchPool();
 
-			mouseTouch = new Touch();
-			mouseTouch.fingerId = Touch.FingerID_Mouse;
+			for (var i = 0; i < 3; i++)
+			{
+				mouseTouches[i] = new Touch();
+				mouseTouches[i].fingerId = Touch.FingerID_Mouse;
+			}
 
 			activeTouches = new List<Touch>( 32 );
 			readOnlyActiveTouches = new ReadOnlyCollection<Touch>( activeTouches );
@@ -335,9 +341,12 @@ namespace InControl
 			cachedTouches.FreeEndedTouches();
 
 #if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBPLAYER || UNITY_WEBGL || UNITY_WSA
-			if (mouseTouch.SetWithMouseData( updateTick, deltaTime ))
+			for (var i = 0; i < 3; i++)
 			{
-				activeTouches.Add( mouseTouch );
+				if (mouseTouches[i].SetWithMouseData( i, updateTick, deltaTime ))
+				{
+					activeTouches.Add( mouseTouches[i] );
+				}
 			}
 #endif
 
@@ -440,6 +449,12 @@ namespace InControl
 					case TouchPhase.Canceled:
 						SendTouchEnded( touch );
 						break;
+
+					case TouchPhase.Stationary:
+						break;
+
+					default:
+						throw new ArgumentOutOfRangeException();
 				}
 			}
 		}

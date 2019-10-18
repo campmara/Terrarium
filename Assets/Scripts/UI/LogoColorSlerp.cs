@@ -52,7 +52,11 @@ public class LogoColorSlerp : MonoBehaviour {
 
 	void OnValidate()
 	{
-		_rawImage.rectTransform.sizeDelta = new Vector2( Camera.main.pixelWidth * _scaleScreenPercentage, Camera.main.pixelWidth * _scaleScreenPercentage );
-		_rawImage.rectTransform.anchoredPosition = new Vector2( 0.0f, _posScreenPercentage * Camera.main.pixelHeight );
+		if(_rawImage && Camera.main)
+		{
+			_rawImage.rectTransform.sizeDelta = new Vector2(Camera.main.pixelWidth * _scaleScreenPercentage, Camera.main.pixelWidth * _scaleScreenPercentage);
+			_rawImage.rectTransform.anchoredPosition = new Vector2(0.0f, _posScreenPercentage * Camera.main.pixelHeight);
+		}
+
 	}
 }

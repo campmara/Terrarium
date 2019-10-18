@@ -19,7 +19,6 @@ namespace TouchExample
 		{
 			// Use last device which provided input.
 			var inputDevice = InputManager.ActiveDevice;
-			Debug.Log( inputDevice.Name );
 
 			// Disable and hide touch controls if we use a controller.
 			// If "Enable Controls On Touch" is ticked in Touch Manager inspector,
@@ -72,7 +71,17 @@ namespace TouchExample
 			for (var i = 0; i < touchCount; i++)
 			{
 				var touch = TouchManager.GetTouch( i );
-				GUI.Label( new Rect( 10, y, 500, y + 15.0f ), "" + i + ": fingerId = " + touch.fingerId + ", phase = " + touch.phase.ToString() + ", position = " + touch.position );
+				var text = "" + i + ": fingerId = " + touch.fingerId;
+				text = text + ", phase = " + touch.phase;
+				text = text + ", startPosition = " + touch.startPosition;
+				text = text + ", position = " + touch.position;
+
+				if (touch.IsMouse)
+				{
+					text = text + ", mouseButton = " + touch.mouseButton;
+				}
+
+				GUI.Label( new Rect( 10, y, Screen.width, y + 15.0f ), text );
 				y += 20.0f;
 			}
 		}

@@ -4,8 +4,9 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: Ground Crater Mesh
   m_Shader: {fileID: 4800000, guid: cade45a53f884bf41800371fc8f89e84, type: 3}
   m_ShaderKeywords: _EMISSION
@@ -82,5 +83,5 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.41911763, g: 0.39446366, b: 0.39446366, a: 0}
+    - _Color: {r: 0.6397059, g: 0.6397059, b: 0.6397059, a: 0}
     - first: {r: 0, g: 1, b: 0, a: 0}
